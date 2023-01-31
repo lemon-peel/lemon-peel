@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { triggerEvent } from '@lemon-peel/utils';
 import { EVENT_CODE } from '@lemon-peel/constants';
 import SubMenu from './submenu';

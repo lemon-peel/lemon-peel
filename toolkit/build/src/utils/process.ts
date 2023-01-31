@@ -1,9 +1,9 @@
-import { spawn } from 'child_process';
+import { spawn } from 'node:child_process';
 import chalk from 'chalk';
 import consola from 'consola';
-import { projRoot } from '@lemon-peel/build-utils';
+import { lpRoot } from '@lemon-peel/build-utils';
 
-export const run = async (command: string, cwd: string = projRoot) =>
+export const run = async (command: string, cwd: string = lpRoot) =>
   new Promise<void>((resolve, reject) => {
     const [cmd, ...args] = command.split(' ');
     consola.info(`run: ${chalk.green(`${cmd} ${args.join(' ')}`)}`);

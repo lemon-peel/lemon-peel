@@ -1,10 +1,5 @@
 import { isNil } from 'lodash-unified';
-import {
-  buildProps,
-  definePropType,
-  isArray,
-  mutable,
-} from '@lemon-peel/utils';
+import { buildProps, definePropType, isArray, mutable } from '@lemon-peel/utils';
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
 
 import type { ExtractPropTypes, h as H, VNode } from 'vue';
@@ -15,7 +10,7 @@ export type TransferDirection = 'left' | 'right';
 
 export type TransferDataItem = Record<string, any>;
 
-export type renderContent = (
+export type RenderContent = (
   h: typeof H,
   option: TransferDataItem
 ) => VNode | VNode[];
@@ -67,7 +62,7 @@ export const transferProps = buildProps({
     default: () => [],
   },
   renderContent: {
-    type: definePropType<renderContent>(Function),
+    type: definePropType<RenderContent>(Function),
   },
   modelValue: {
     type: definePropType<TransferKey[]>(Array),

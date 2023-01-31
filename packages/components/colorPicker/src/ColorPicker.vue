@@ -180,9 +180,9 @@ const currentColor = computed(() => {
 });
 
 const buttonAriaLabel = computed<string | undefined>(() => {
-  return !isLabeledByFormItem.value
-    ? props.label || t('el.colorpicker.defaultLabel')
-    : undefined;
+  return isLabeledByFormItem.value
+    ? undefined
+    : props.label || t('el.colorpicker.defaultLabel');
 });
 
 const buttonAriaLabelledby = computed<string | undefined>(() => {

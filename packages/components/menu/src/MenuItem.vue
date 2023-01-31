@@ -31,11 +31,10 @@
       <slot />
       <slot name="title" />
     </template>
-    </lp-tooltip></li>
+  </li>
 </template>
 
 <script lang="ts">
-// @ts-nocheck
 import {
   computed,
   defineComponent,

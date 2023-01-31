@@ -180,6 +180,8 @@ const firstButtonLabel = computed<string>(() => {
   return props.range ? props.rangeStartLabel || t('el.slider.defaultRangeStartLabel') : groupLabel.value;
 });
 
+const { firstValue, secondValue, sliderSize } = toRefs(initData);
+
 const firstValueText = computed<string>(() => {
   return props.formatValueText
     ? props.formatValueText(firstValue.value)
@@ -216,8 +218,6 @@ const precision = computed(() => {
 });
 
 const { sliderWrapper } = useLifecycle(props, initData, resetSize);
-
-const { firstValue, secondValue, sliderSize } = toRefs(initData);
 
 const updateDragging = (value: boolean) => {
   initData.dragging = value;

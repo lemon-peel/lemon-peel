@@ -1,2 +1,2 @@
 
-export { default } from './table-column';
+export { default } from './tableColumn';

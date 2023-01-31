@@ -1,8 +1,8 @@
-// @ts-nocheck
+
 import { describe, expect, it, vi } from 'vitest';
 import triggerEvent from '@lemon-peel/test-utils/trigger-event';
-import LpTable from '../src/table.vue';
-import LpTableColumn from '../src/table-column';
+import LpTable from '../src/Table.vue';
+import LpTableColumn from '../src/tableColumn';
 import { doubleWait, getTestData, mount } from './table-test-common';
 
 vi.mock('lodash-unified', async () => {
@@ -57,7 +57,7 @@ describe('table column', () => {
       const ths = wrapper
         .findAll('thead th')
         .map(node => node.text())
-        .filter(o => o);
+        .filter(Boolean);
 
       expect(ths).toEqual(['啊哈哈哈', '啊啦啦啦']);
       wrapper.unmount();
@@ -69,7 +69,7 @@ describe('table column', () => {
       const ths = wrapper
         .findAll('.el-table__header-wrapper col')
         .map(node => node.attributes('width'))
-        .filter(o => o);
+        .filter(Boolean);
       expect(ths).toContain('123');
       expect(ths).toContain('102');
       expect(ths).toContain('39');
@@ -1334,7 +1334,7 @@ describe('table column', () => {
       });
       await doubleWait();
       wrapper.vm.$refs.table.toggleAllSelection();
-      expect(result.every(item => item)).toBeTruthy();
+      expect(result.every(Boolean)).toBeTruthy();
       wrapper.unmount();
     });
   });

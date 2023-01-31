@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { markRaw } from 'vue';
 import { mount } from '@vue/test-utils';
 import { afterEach, describe, expect, it, test, vi } from 'vitest';
@@ -252,8 +251,8 @@ describe('MessageBox', () => {
     test('reject', async () => {
       let msgAction = '';
       MessageBox.confirm('此操作将永久删除该文件, 是否继续?', '提示').catch(
-        action => {
-          msgAction = action;
+        error => {
+          msgAction = error;
         },
       );
       await rAF();
@@ -302,7 +301,7 @@ describe('MessageBox', () => {
 
     it('should append to HtmlElement provided', () => {
       const htmlElement = document.createElement('div');
-      document.body.appendChild(htmlElement);
+      document.body.append(htmlElement);
       MessageBox({
         title: 'append to test',
         message: 'append to test',
@@ -315,7 +314,7 @@ describe('MessageBox', () => {
     it('should append to selector provided', () => {
       const htmlElement = document.createElement('div');
       htmlElement.className = 'custom-html-element';
-      document.body.appendChild(htmlElement);
+      document.body.append(htmlElement);
       MessageBox({
         title: 'append to test',
         message: 'append to test',

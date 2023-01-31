@@ -6,7 +6,7 @@ import {
   getFixedColumnsClass,
 } from '../util';
 import { TABLE_INJECTION_KEY } from '../tokens';
-import type { TableColumnCtx } from '../table-column/defaults';
+import type { TableColumnCtx } from '../tableColumn/defaults';
 import type { TableHeaderProps } from './index';
 
 function useStyle<T>(props: TableHeaderProps<T>) {
@@ -105,7 +105,7 @@ function useStyle<T>(props: TableHeaderProps<T>) {
 
     classes.push(ns.e('cell'));
 
-    return classes.filter(className => Boolean(className)).join(' ');
+    return classes.filter(Boolean).join(' ');
   };
 
   return {

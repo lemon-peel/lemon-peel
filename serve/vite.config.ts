@@ -13,7 +13,7 @@ import AutoImport from 'unplugin-auto-import/vite';
 import checker from 'vite-plugin-checker';
 import eslint from 'vite-plugin-eslint';
 
-import { mainPackage, mainPkg, getPackageDependencies, pkgRoot, projRoot } from '@lemon-peel/build-utils';
+import { mainPackage, mainPkg, getPackageDependencies, pkgRoot, lpRoot } from '@lemon-peel/build-utils';
 
 import type { Plugin } from 'vite';
 import './vite.init';
@@ -130,7 +130,7 @@ export default defineConfig(async ({ mode }) => {
   dependencies = dependencies.filter(dep => !dep.startsWith('@types/')); // exclude dts deps
   const optimizeDeps = (
     await glob(['dayjs/(locale|plugin)/*.js'], {
-      cwd: path.resolve(projRoot, 'node_modules'),
+      cwd: path.resolve(lpRoot, 'node_modules'),
     })
   ).map(dep => dep.replace(/\.js$/, ''));
 
@@ -160,7 +160,7 @@ export default defineConfig(async ({ mode }) => {
       }) as any,
       // vite.config.ts
       AutoImport({
-        include: [/\.[tj]sx?$/],
+        include: [/\.[jt]sx?$/],
         vueTemplate: true,
         imports: [
           'vue',

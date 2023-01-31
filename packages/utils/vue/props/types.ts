@@ -1,6 +1,6 @@
-import type { lpPropKey as lpPropertyKey } from './runtime';
 import type { ExtractPropTypes, PropType } from 'vue';
 import type { IfNever, UnknownToNever, WritableArray } from './util';
+import type { lpPropKey } from './runtime';
 
 type Value<T> = T[keyof T];
 
@@ -46,9 +46,9 @@ ExtractPropType<{
  * EpPropMergeType<StringConstructor, '1', 1> =>  1 | "1" // ignores StringConstructor
  * EpPropMergeType<StringConstructor, never, number> =>  string | number
  */
-export type LpPropMergeType<Type, Value_, Validator> =
-  | IfNever<UnknownToNever<Value_>, ResolvePropType<Type>, never>
-  | UnknownToNever<Value_>
+export type LpPropMergeType<Type, Val, Validator> =
+  | IfNever<UnknownToNever<Val>, ResolvePropType<Type>, never>
+  | UnknownToNever<Val>
   | UnknownToNever<Validator>;
 
 /**
@@ -127,13 +127,13 @@ export type LpProp<Type, Default, Required> = {
   readonly type: PropType<Type>;
   readonly required: [Required] extends [true] ? true : false;
   readonly validator: ((value: unknown) => boolean) | undefined;
-  [lpPropertyKey]: true;
+  [lpPropKey]: true;
 } & IfNever<Default, unknown, { readonly default: Default }>;
 
 /**
  * Determine if it is `EpProp`
  */
-export type IfEpProp<T, Y, N> = T extends { [lpPropertyKey]: true } ? Y : N;
+export type IfLpProp<T, Y, N> = T extends { [lpPropKey]: true } ? Y : N;
 
 /**
  * Converting input to output.

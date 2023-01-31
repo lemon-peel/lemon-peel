@@ -288,9 +288,10 @@ export default defineComponent({
           focusNode(firstNode);
           break;
         }
-        case EVENT_CODE.enter:
+        case EVENT_CODE.enter: {
           checkNode(target);
           break;
+        }
       }
     };
 

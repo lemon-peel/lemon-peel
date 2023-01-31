@@ -1,24 +1,25 @@
-// @ts-nocheck
 import { getCurrentInstance, ref, toRefs, unref, watch } from 'vue';
 import { hasOwn } from '@lemon-peel/utils';
-import {
-  getColumnById,
-  getColumnByKey,
-  getKeysMap,
-  getRowIdentity,
-  orderBy,
-  toggleRowStatus,
-} from '../util';
+import { getColumnById, getColumnByKey, getKeysMap, getRowIdentity, orderBy, toggleRowStatus } from '../util';
 import useExpand from './expand';
 import useCurrent from './current';
 import useTree from './tree';
 
 import type { Ref } from 'vue';
-import type { TableColumnCtx } from '../table-column/defaults';
+import type { TableColumnCtx } from '../tableColumn/defaults';
 import type { Table, TableRefs } from '../table/defaults';
 import type { StoreFilter } from './index';
+import type { SortMethod, SortBy } from './../util';
 
-const sortData = (data, states) => {
+const sortData = <T>(data: T[], states: {
+  sortProp: string;
+  sortOrder: string | number;
+  sortingColumn?: {
+    sortable?: string;
+    sortMethod: SortMethod;
+    sortBy: SortBy<T>;
+  };
+}) => {
   const sortingColumn = states.sortingColumn;
   if (!sortingColumn || typeof sortingColumn.sortable === 'string') {
     return data;
@@ -32,8 +33,8 @@ const sortData = (data, states) => {
   );
 };
 
-const doFlattenColumns = columns => {
-  const result = [];
+const doFlattenColumns = <T extends object>(columns: TableColumnCtx<T>[]) => {
+  const result: TableColumnCtx<T>[] = [];
   columns.forEach(column => {
     if (column.children) {
       // eslint-disable-next-line prefer-spread
@@ -45,14 +46,14 @@ const doFlattenColumns = columns => {
   return result;
 };
 
-function useWatcher<T>() {
+function useWatcher<T extends object>() {
   const instance = getCurrentInstance() as Table<T>;
   const { size: tableSize } = toRefs(instance.proxy?.$props as any);
-  const rowKey: Ref<string> = ref(null);
+  const rowKey: Ref<string | null> = ref(null);
   const data: Ref<T[]> = ref([]);
-  const _data: Ref<T[]> = ref([]);
+  const dataTmp: Ref<T[]> = ref([]);
   const isComplex = ref(false);
-  const _columns: Ref<TableColumnCtx<T>[]> = ref([]);
+  const columnsTmp: Ref<TableColumnCtx<T>[]> = ref([]);
   const originColumns: Ref<TableColumnCtx<T>[]> = ref([]);
   const columns: Ref<TableColumnCtx<T>[]> = ref([]);
   const fixedColumns: Ref<TableColumnCtx<T>[]> = ref([]);
@@ -67,22 +68,13 @@ function useWatcher<T>() {
   const selection: Ref<T[]> = ref([]);
   const reserveSelection = ref(false);
   const selectOnIndeterminate = ref(false);
-  const selectable: Ref<(row: T, index: number) => boolean> = ref(null);
+  const selectable: Ref<((row: T, index: number) => boolean) | null> = ref(null);
   const filters: Ref<StoreFilter> = ref({});
   const filteredData = ref(null);
   const sortingColumn = ref(null);
   const sortProp = ref(null);
   const sortOrder = ref(null);
   const hoverRow = ref(null);
-
-  watch(data, () => instance.state && scheduleLayout(false), {
-    deep: true,
-  });
-
-  // 检查 rowKey 是否存在
-  const assertRowKey = () => {
-    if (!rowKey.value) throw new Error('[LpTable] prop row-key is required');
-  };
 
   // 更新 fixed
   const updateChildFixed = (column: TableColumnCtx<T>) => {
@@ -94,30 +86,30 @@ function useWatcher<T>() {
 
   // 更新列
   const updateColumns = () => {
-    _columns.value.forEach(column => {
+    columnsTmp.value.forEach(column => {
       updateChildFixed(column);
     });
-    fixedColumns.value = _columns.value.filter(
+    fixedColumns.value = columnsTmp.value.filter(
       column => column.fixed === true || column.fixed === 'left',
     );
-    rightFixedColumns.value = _columns.value.filter(
+    rightFixedColumns.value = columnsTmp.value.filter(
       column => column.fixed === 'right',
     );
     if (
       fixedColumns.value.length > 0 &&
-      _columns.value[0] &&
-      _columns.value[0].type === 'selection' &&
-      !_columns.value[0].fixed
+      columnsTmp.value[0] &&
+      columnsTmp.value[0].type === 'selection' &&
+      !columnsTmp.value[0].fixed
     ) {
-      _columns.value[0].fixed = true;
-      fixedColumns.value.unshift(_columns.value[0]);
+      columnsTmp.value[0].fixed = true;
+      fixedColumns.value.unshift(columnsTmp.value[0]);
     }
 
-    const notFixedColumns = _columns.value.filter(column => !column.fixed);
-    originColumns.value = []
-      .concat(fixedColumns.value)
+    const notFixedColumns = columnsTmp.value.filter(column => !column.fixed);
+    originColumns.value = [fixedColumns.value].flat()
       .concat(notFixedColumns)
       .concat(rightFixedColumns.value);
+
     const leafColumns = doFlattenColumns(notFixedColumns);
     const fixedLeafColumns = doFlattenColumns(fixedColumns.value);
     const rightFixedLeafColumns = doFlattenColumns(rightFixedColumns.value);
@@ -126,8 +118,7 @@ function useWatcher<T>() {
     fixedLeafColumnsLength.value = fixedLeafColumns.length;
     rightFixedLeafColumnsLength.value = rightFixedLeafColumns.length;
 
-    columns.value = []
-      .concat(fixedLeafColumns)
+    columns.value = [fixedLeafColumns].flat()
       .concat(leafColumns)
       .concat(rightFixedLeafColumns);
     isComplex.value =
@@ -146,22 +137,31 @@ function useWatcher<T>() {
     }
   };
 
+  watch(data, () => instance.state && scheduleLayout(false), {
+    deep: true,
+  });
+
+  // 检查 rowKey 是否存在
+  const assertRowKey = () => {
+    if (!rowKey.value) throw new Error('[LpTable] prop row-key is required');
+  };
+
   // 选择
-  const isSelected = row => {
+  const isSelected = (row: T) => {
     return selection.value.includes(row);
   };
 
   const clearSelection = () => {
     isAllSelected.value = false;
     const oldSelection = selection.value;
-    if (oldSelection.length) {
+    if (oldSelection.length > 0) {
       selection.value = [];
       instance.emit('selection-change', []);
     }
   };
 
   const cleanSelection = () => {
-    let deleted;
+    let deleted: T[];
     if (rowKey.value) {
       deleted = [];
       const selectedMap = getKeysMap(selection.value, rowKey.value);
@@ -174,7 +174,7 @@ function useWatcher<T>() {
     } else {
       deleted = selection.value.filter(item => !data.value.includes(item));
     }
-    if (deleted.length) {
+    if (deleted.length > 0) {
       const newSelection = selection.value.filter(
         item => !deleted.includes(item),
       );
@@ -189,7 +189,7 @@ function useWatcher<T>() {
 
   const toggleRowSelection = (
     row: T,
-    selected = undefined,
+    selected: boolean,
     emitChange = true,
   ) => {
     const changed = toggleRowStatus(selection.value, row, selected);
@@ -203,12 +203,27 @@ function useWatcher<T>() {
     }
   };
 
-  const _toggleAllSelection = () => {
+  // gets the number of all child nodes by rowKey
+  const getChildrenCount = (rowKey: string) => {
+    if (!instance || !instance.store) return 0;
+    const { treeData } = instance.store.states;
+    let count = 0;
+    const children = treeData.value[rowKey]?.children;
+    if (children) {
+      count += children.length;
+      children.forEach(childKey => {
+        count += getChildrenCount(childKey);
+      });
+    }
+    return count;
+  };
+
+  const doToggleAllSelection = () => {
     // when only some rows are selected (but not all), select or deselect all of them
     // depending on the value of selectOnIndeterminate
     const value = selectOnIndeterminate.value
       ? !isAllSelected.value
-      : !(isAllSelected.value || selection.value.length);
+      : !(isAllSelected.value || selection.value.length > 0);
     isAllSelected.value = value;
 
     let selectionChanged = false;
@@ -263,11 +278,7 @@ function useWatcher<T>() {
       selectedMap = getKeysMap(selection.value, rowKey.value);
     }
     const isSelected = function (row) {
-      if (selectedMap) {
-        return !!selectedMap[getRowIdentity(row, rowKey.value)];
-      } else {
-        return selection.value.includes(row);
-      }
+      return selectedMap ? !!selectedMap[getRowIdentity(row, rowKey.value)] : selection.value.includes(row);
     };
     let isAllSelected_ = true;
     let selectedCount = 0;
@@ -278,34 +289,19 @@ function useWatcher<T>() {
       const item = data.value[i];
       const isRowSelectable =
         selectable.value && selectable.value.call(null, item, rowIndex);
-      if (!isSelected(item)) {
+      if (isSelected(item)) {
+        selectedCount++;
+      } else {
         if (!selectable.value || isRowSelectable) {
           isAllSelected_ = false;
           break;
         }
-      } else {
-        selectedCount++;
       }
       childrenCount += getChildrenCount(getRowIdentity(item, keyProp));
     }
 
     if (selectedCount === 0) isAllSelected_ = false;
     isAllSelected.value = isAllSelected_;
-  };
-
-  // gets the number of all child nodes by rowKey
-  const getChildrenCount = (rowKey: string) => {
-    if (!instance || !instance.store) return 0;
-    const { treeData } = instance.store.states;
-    let count = 0;
-    const children = treeData.value[rowKey]?.children;
-    if (children) {
-      count += children.length;
-      children.forEach(childKey => {
-        count += getChildrenCount(childKey);
-      });
-    }
-    return count;
   };
 
   // 过滤与排序
@@ -331,7 +327,7 @@ function useWatcher<T>() {
   };
 
   const execFilter = () => {
-    let sourceData = unref(_data);
+    let sourceData = unref(dataTmp);
     Object.keys(filters.value).forEach(columnId => {
       const values = filters.value[columnId];
       if (!values || values.length === 0) return;
@@ -362,7 +358,7 @@ function useWatcher<T>() {
   };
 
   // 根据 filters 与 sort 去过滤 data
-  const execQuery = (ignore = undefined) => {
+  const execQuery = ignore => {
     if (!(ignore && ignore.filter)) {
       execFilter();
     }
@@ -375,7 +371,7 @@ function useWatcher<T>() {
     const panels = Object.assign({}, tableHeaderRef.filterPanels);
 
     const keys = Object.keys(panels);
-    if (!keys.length) return;
+    if (keys.length === 0) return;
 
     if (typeof columnKeys === 'string') {
       columnKeys = [columnKeys];
@@ -427,6 +423,7 @@ function useWatcher<T>() {
       silent: true,
     });
   };
+
   const {
     setExpandRowKeys,
     toggleRowExpansion,
@@ -437,6 +434,7 @@ function useWatcher<T>() {
     data,
     rowKey,
   });
+
   const {
     updateTreeExpandKeys,
     toggleTreeExpansion,
@@ -447,6 +445,7 @@ function useWatcher<T>() {
     data,
     rowKey,
   });
+
   const {
     updateCurrentRowData,
     updateCurrentRow,
@@ -456,6 +455,7 @@ function useWatcher<T>() {
     data,
     rowKey,
   });
+
   // 适配层，expand-row-keys 在 Expand 与 TreeTable 中都有使用
   const setExpandRowKeysAdapter = (val: string[]) => {
     // 这里会触发额外的计算，但为了兼容性，暂时这么做
@@ -482,7 +482,7 @@ function useWatcher<T>() {
     cleanSelection,
     getSelectionRows,
     toggleRowSelection,
-    _toggleAllSelection,
+    _toggleAllSelection: doToggleAllSelection,
     toggleAllSelection: null,
     updateSelectionByRowKey,
     updateAllSelected,
@@ -507,9 +507,9 @@ function useWatcher<T>() {
       tableSize,
       rowKey,
       data,
-      _data,
+      _data: dataTmp,
       isComplex,
-      _columns,
+      _columns: columnsTmp,
       originColumns,
       columns,
       fixedColumns,

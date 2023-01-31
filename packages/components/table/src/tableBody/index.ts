@@ -1,19 +1,11 @@
-// @ts-nocheck
-import {
-  defineComponent,
-  getCurrentInstance,
-  h,
-  inject,
-  onUnmounted,
-  watch,
-} from 'vue';
+import { defineComponent, getCurrentInstance, h, inject, onUnmounted, watch } from 'vue';
 import { isClient } from '@vueuse/core';
 import { addClass, removeClass } from '@lemon-peel/utils';
 import { useNamespace } from '@lemon-peel/hooks';
-import useLayoutObserver from '../layout-observer';
+import useLayoutObserver from '../layoutObserver';
 import { removePopper } from '../util';
 import { TABLE_INJECTION_KEY } from '../tokens';
-import useRender from './render-helper';
+import useRender from './renderHelper';
 import defaultProps from './defaults';
 
 import type { VNode } from 'vue';

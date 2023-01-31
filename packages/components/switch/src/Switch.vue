@@ -28,14 +28,14 @@
       <span v-if="!inactiveIcon && inactiveText" :aria-hidden="checked">{{
         inactiveText
       }}</span>
-      </lp-icon></span>
+    </span>
     <span ref="core" :class="ns.e('core')" :style="coreStyle">
       <div v-if="inlinePrompt" :class="ns.e('inner')">
         <template v-if="activeIcon || inactiveIcon">
           <lp-icon :class="ns.is('icon')">
             <component :is="checked ? activeIcon : inactiveIcon" />
           </lp-icon>
-          </lp-icon></template>
+        </template>
         <template v-else-if="activeText || inactiveText">
           <span :class="ns.is('text')" :aria-hidden="!checked">
             {{ checked ? activeText : inactiveText }}
@@ -44,7 +44,7 @@
       </div>
       <div :class="ns.e('action')">
         <lp-icon v-if="loading" :class="ns.is('loading')"><loading /></lp-icon>
-        </lp-icon></div>
+      </div>
     </span>
     <span
       v-if="!inlinePrompt && (activeIcon || activeText)"
@@ -58,19 +58,12 @@
       <span v-if="!activeIcon && activeText" :aria-hidden="!checked">{{
         activeText
       }}</span>
-      </lp-icon></span>
+    </span>
   </div>
 </template>
 
 <script lang="ts" setup>
-import {
-  computed,
-  getCurrentInstance,
-  nextTick,
-  onMounted,
-  ref,
-  watch,
-} from 'vue';
+import { computed, getCurrentInstance, nextTick, onMounted, ref, watch } from 'vue';
 import { isPromise } from '@vue/shared';
 import { addUnit, debugWarn, isBoolean, throwError } from '@lemon-peel/utils';
 import LpIcon from '@lemon-peel/components/icon';
@@ -114,6 +107,11 @@ const isControlled = ref(props.modelValue !== false);
 const input = ref<HTMLInputElement>();
 const core = ref<HTMLSpanElement>();
 
+const actualValue = computed(() => {
+  return isControlled.value ? props.modelValue : props.value;
+});
+const checked = computed(() => actualValue.value === props.activeValue);
+
 const switchKls = computed(() => [
   ns.b(),
   ns.m(switchSize.value),
@@ -138,12 +136,6 @@ watch(
     isControlled.value = false;
   },
 );
-
-const actualValue = computed(() => {
-  return isControlled.value ? props.modelValue : props.value;
-});
-
-const checked = computed(() => actualValue.value === props.activeValue);
 
 if (![props.activeValue, props.inactiveValue].includes(actualValue.value)) {
   emit(UPDATE_MODEL_EVENT, props.inactiveValue);

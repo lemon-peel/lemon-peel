@@ -1,4 +1,4 @@
-// @ts-nocheck
+
 import { nextTick, reactive, ref } from 'vue';
 import { mount } from '@vue/test-utils';
 import {
@@ -426,7 +426,7 @@ describe('Form', () => {
       .vm as FormItemInstance;
     const addressField = wrapper.findComponent({ ref: 'address' })
       .vm as FormItemInstance;
-    await form.validate().catch(() => undefined);
+    await form.validate().catch(() => {});
     await nextTick();
     expect(nameField.validateMessage).toBe('Please input name');
     expect(addressField.validateMessage).toBe('Please input address');
@@ -511,7 +511,7 @@ describe('Form', () => {
       return (vm.$refs.formRef as FormInstance)
         .validate()
         .then(() => ({ valid: true, fields: undefined }))
-        .catch(fields => ({ valid: false, fields }));
+        .catch(error => ({ valid: false, fields: error }));
     }
 
     let res = await validate();
@@ -556,7 +556,7 @@ describe('Form', () => {
 
     await (wrapper.vm.$refs.formRef as FormInstance)
       .validate()
-      .catch(() => undefined);
+      .catch(() => {});
     const ageField = wrapper.findComponent({ ref: 'age' });
     expect(ageField.classes('is-success')).toBe(true);
     expect(ageField.classes()).toContain('is-success');

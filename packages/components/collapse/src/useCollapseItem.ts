@@ -18,10 +18,10 @@ export const useCollapseItem = (props: CollapseItemProps) => {
 
   const handleFocus = () => {
     setTimeout(() => {
-      if (!isClick.value) {
-        focusing.value = true;
-      } else {
+      if (isClick.value) {
         isClick.value = false;
+      } else {
+        focusing.value = true;
       }
     }, 50);
   };

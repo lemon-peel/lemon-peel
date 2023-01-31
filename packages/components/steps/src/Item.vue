@@ -36,7 +36,7 @@
           <div v-else-if="!isSimple" :class="ns.e('icon-inner')">
             {{ index + 1 }}
           </div>
-          </lp-icon></lp-icon></lp-icon></slot>
+        </slot>
       </div>
     </div>
     <!-- title & description -->
@@ -53,22 +53,15 @@
 </template>
 
 <script lang="ts" setup>
-import {
-  computed,
-  getCurrentInstance,
-  inject,
-  onBeforeUnmount,
-  onMounted,
-  reactive,
-  ref,
-  watch,
-} from 'vue';
+import { computed, getCurrentInstance, inject, onBeforeUnmount, onMounted, reactive, ref, watch } from 'vue';
 import { useNamespace } from '@lemon-peel/hooks';
 import { LpIcon } from '@lemon-peel/components/icon';
 import { Check, Close } from '@element-plus/icons-vue';
-import { stepProps } from './Item.vue';
+
+import { stepProps } from './item';
 
 import type { CSSProperties, Ref } from 'vue';
+import type { StepItemState } from './item';
 
 export interface IStepsProps {
   space: number | string;
@@ -78,13 +71,6 @@ export interface IStepsProps {
   simple: boolean;
   finishStatus: string;
   processStatus: string;
-}
-
-export interface StepItemState {
-  uid: number | undefined;
-  currentStatus: string;
-  setIndex: (val: number) => void;
-  calcProgress: (status: string) => void;
 }
 
 export interface IStepsInject {
@@ -103,6 +89,23 @@ const lineStyle = ref({});
 const internalStatus = ref('');
 const parent = inject('LpSteps') as IStepsInject;
 const currentInstance = getCurrentInstance();
+
+const prevStatus = computed(() => {
+  const prevStep = parent.steps.value[index.value - 1];
+  return prevStep ? prevStep.currentStatus : 'wait';
+});
+
+const updateStatus = (activeIndex: number) => {
+  if (activeIndex > index.value) {
+    internalStatus.value = parent.props.finishStatus;
+  } else if (activeIndex === index.value && prevStatus.value !== 'error') {
+    internalStatus.value = parent.props.processStatus;
+  } else {
+    internalStatus.value = 'wait';
+  }
+  const prevChild = parent.steps.value[index.value - 1];
+  if (prevChild) prevChild.calcProgress(internalStatus.value);
+};
 
 onMounted(() => {
   watch(
@@ -126,11 +129,6 @@ onBeforeUnmount(() => {
 
 const currentStatus = computed(() => {
   return props.status || internalStatus.value;
-});
-
-const prevStatus = computed(() => {
-  const prevStep = parent.steps.value[index.value - 1];
-  return prevStep ? prevStep.currentStatus : 'wait';
 });
 
 const isCenter = computed(() => {
@@ -158,19 +156,17 @@ const space = computed(() => {
 });
 
 const style = computed(() => {
-  const style: CSSProperties = {
+  const styleObj: CSSProperties = {
     flexBasis:
       typeof space.value === 'number'
         ? `${space.value}px`
-        : space.value
-          ? space.value
-          : `${100 / (stepsCount.value - (isCenter.value ? 0 : 1))}%`,
+        : space.value ?? `${100 / (stepsCount.value - (isCenter.value ? 0 : 1))}%`,
   };
-  if (isVertical.value) return style;
+  if (isVertical.value) return styleObj;
   if (isLast.value) {
-    style.maxWidth = `${100 / stepsCount.value}%`;
+    styleObj.maxWidth = `${100 / stepsCount.value}%`;
   }
-  return style;
+  return styleObj;
 });
 
 const setIndex = (val: number) => {
@@ -179,29 +175,17 @@ const setIndex = (val: number) => {
 
 const calcProgress = (status: string) => {
   let step = 100;
-  const style: CSSProperties = {};
-  style.transitionDelay = `${150 * index.value}ms`;
+  const styleObj: CSSProperties = {};
+  styleObj.transitionDelay = `${150 * index.value}ms`;
   if (status === parent.props.processStatus) {
     step = 0;
   } else if (status === 'wait') {
     step = 0;
-    style.transitionDelay = `${-150 * index.value}ms`;
+    styleObj.transitionDelay = `${-150 * index.value}ms`;
   }
-  style.borderWidth = step && !isSimple.value ? '1px' : 0;
-  style[parent.props.direction === 'vertical' ? 'height' : 'width'] = `${step}%`;
-  lineStyle.value = style;
-};
-
-const updateStatus = (activeIndex: number) => {
-  if (activeIndex > index.value) {
-    internalStatus.value = parent.props.finishStatus;
-  } else if (activeIndex === index.value && prevStatus.value !== 'error') {
-    internalStatus.value = parent.props.processStatus;
-  } else {
-    internalStatus.value = 'wait';
-  }
-  const prevChild = parent.steps.value[index.value - 1];
-  if (prevChild) prevChild.calcProgress(internalStatus.value);
+  styleObj.borderWidth = step && !isSimple.value ? '1px' : 0;
+  styleObj[parent.props.direction === 'vertical' ? 'height' : 'width'] = `${step}%`;
+  lineStyle.value = styleObj;
 };
 
 const stepItemState = reactive({

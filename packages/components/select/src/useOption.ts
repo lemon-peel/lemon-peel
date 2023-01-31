@@ -22,18 +22,16 @@ export function useOption(props: Readonly<ExtractPropTypes<typeof optionProps>>,
   });
 
   const isEqual = (a: unknown, b: unknown) => {
-    if (!isObject.value) {
-      return a === b;
-    } else {
+    if (isObject.value) {
       const { valueKey } = select.props;
       return get(a, valueKey) === get(b, valueKey);
+    } else {
+      return a === b;
     }
   };
 
   const contains = (arr: any[] = [], target?: any) => {
-    if (!isObject.value) {
-      return arr && arr.includes(target);
-    } else {
+    if (isObject.value) {
       const valueKey = select.props.valueKey;
       return (
         arr &&
@@ -41,11 +39,13 @@ export function useOption(props: Readonly<ExtractPropTypes<typeof optionProps>>,
           return toRaw(get(item, valueKey)) === get(target, valueKey);
         })
       );
+    } else {
+      return arr && arr.includes(target);
     }
   };
 
   const itemSelected = computed(() => {
-    return !select.props.multiple ? isEqual(props.value, select.props.modelValue) : contains(select.props.modelValue as unknown[], props.value);
+    return select.props.multiple ? contains(select.props.modelValue as unknown[], props.value) : isEqual(props.value, select.props.modelValue);
   });
 
   const limitReached = computed(() => {

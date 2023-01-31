@@ -1,12 +1,12 @@
-import path from 'path';
-import { copyFile, mkdir } from 'fs/promises';
+import path from 'node:path';
+import { copyFile, mkdir } from 'node:fs/promises';
 import { copy } from 'fs-extra';
 import { parallel, series } from 'gulp';
 import {
   buildOutput,
   epOutput,
   epPackage,
-  projRoot,
+  lpRoot,
 } from '@lemon-peel/build-utils';
 import { buildConfig, run, runTask, withTaskName } from './src';
 import type { TaskFunction } from 'gulp';
@@ -16,11 +16,11 @@ export const copyFiles = () =>
   Promise.all([
     copyFile(epPackage, path.join(epOutput, 'package.json')),
     copyFile(
-      path.resolve(projRoot, 'README.md'),
+      path.resolve(lpRoot, 'README.md'),
       path.resolve(epOutput, 'README.md'),
     ),
     copyFile(
-      path.resolve(projRoot, 'global.d.ts'),
+      path.resolve(lpRoot, 'global.d.ts'),
       path.resolve(epOutput, 'global.d.ts'),
     ),
   ]);

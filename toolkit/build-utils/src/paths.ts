@@ -1,7 +1,7 @@
-import { resolve } from 'path';
+import { resolve } from 'node:path';
 
-export const projRoot = resolve(__dirname, '..', '..', '..');
-export const pkgRoot = resolve(projRoot, 'packages');
+export const lpRoot = resolve(__dirname, '..', '..', '..');
+export const pkgRoot = resolve(lpRoot, 'packages');
 export const compRoot = resolve(pkgRoot, 'components');
 export const themeRoot = resolve(pkgRoot, 'theme-chalk');
 export const hookRoot = resolve(pkgRoot, 'hooks');
@@ -9,19 +9,19 @@ export const localeRoot = resolve(pkgRoot, 'locale');
 export const directiveRoot = resolve(pkgRoot, 'directives');
 export const mainPkg = resolve(pkgRoot, 'main');
 export const utilRoot = resolve(pkgRoot, 'utils');
-export const buildRoot = resolve(projRoot, 'internal', 'build');
+export const buildRoot = resolve(lpRoot, 'internal', 'build');
 
 // Docs
 export const docsDirName = 'docs';
-export const docRoot = resolve(projRoot, docsDirName);
+export const docRoot = resolve(lpRoot, docsDirName);
 export const vpRoot = resolve(docRoot, '.vitepress');
 
 /** `/dist` */
-export const buildOutput = resolve(projRoot, 'dist');
+export const buildOutput = resolve(lpRoot, 'dist');
 /** `/dist/lemon-peel` */
 export const lpOutput = resolve(buildOutput, 'lemon-peel');
 
-export const projPackage = resolve(projRoot, 'package.json');
+export const projPackage = resolve(lpRoot, 'package.json');
 export const compPackage = resolve(compRoot, 'package.json');
 export const themePackage = resolve(themeRoot, 'package.json');
 export const hookPackage = resolve(hookRoot, 'package.json');

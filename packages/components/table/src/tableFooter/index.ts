@@ -1,19 +1,19 @@
-// @ts-nocheck
+
 import { defineComponent, h } from 'vue';
 import { useNamespace } from '@lemon-peel/hooks';
-import { hColgroup } from '../h-helper';
+import { hColgroup } from '../HHelper';
 import useStyle from './style-helper';
 import type { Store } from '../store';
 
 import type { PropType } from 'vue';
 import type { DefaultRow, Sort, SummaryMethod } from '../table/defaults';
 export interface TableFooter<T> {
-  fixed: string
-  store: Store<T>
-  summaryMethod: SummaryMethod<T>
-  sumText: string
-  border: boolean
-  defaultSort: Sort
+  fixed: string;
+  store: Store<T>;
+  summaryMethod: SummaryMethod<T>;
+  sumText: string;
+  border: boolean;
+  defaultSort: Sort;
 }
 
 export default defineComponent({
@@ -88,20 +88,12 @@ export default defineComponent({
           }
         });
         const precision = Math.max.apply(null, precisions);
-        if (!notNumber) {
-          sums[index] = values.reduce((prev, curr) => {
-            const value = Number(curr);
-            if (!Number.isNaN(+value)) {
-              return Number.parseFloat(
-                (prev + curr).toFixed(Math.min(precision, 20)),
-              );
-            } else {
-              return prev;
-            }
-          }, 0);
-        } else {
-          sums[index] = '';
-        }
+        sums[index] = notNumber ? '' : values.reduce((prev, curr) => {
+          const value = Number(curr);
+          return Number.isNaN(+value) ? prev : Number.parseFloat(
+            (prev + curr).toFixed(Math.min(precision, 20)),
+          );
+        }, 0);
       });
     }
     return h(
@@ -117,8 +109,8 @@ export default defineComponent({
           columns,
         }),
         h('tbody', [
-          h('tr', {}, [
-            ...columns.map((column, cellIndex) =>
+          h('tr', {},
+            columns.map((column, cellIndex) =>
               h(
                 'td',
                 {
@@ -139,7 +131,7 @@ export default defineComponent({
                 ],
               ),
             ),
-          ]),
+          ),
         ]),
       ],
     );

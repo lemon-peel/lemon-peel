@@ -59,6 +59,7 @@
     "@lemonbot.fun/eslint-config-vue": "^2.5.0",
     "@pnpm/find-workspace-packages": "^4.0.16",
     "@pnpm/types": "^8.9.0",
+    "@types/escape-html": "^1.0.2",
     "@types/gulp": "^4.0.10",
     "@types/node": "^18.11.9",
     "@types/webpack-env": "^1.18.0",

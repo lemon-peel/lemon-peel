@@ -278,12 +278,14 @@ const createGrid = ({
 
         if (isRTL(props.direction)) {
           switch (getRTLOffsetType()) {
-            case RTL_OFFSET_NAG:
+            case RTL_OFFSET_NAG: {
               scrollLeft = -scrollLeft;
               break;
-            case RTL_OFFSET_POS_DESC:
+            }
+            case RTL_OFFSET_POS_DESC: {
               scrollLeft = scrollWidth - clientWidth - scrollLeft;
               break;
+            }
           }
         }
 
@@ -575,11 +577,11 @@ const createGrid = ({
               style: unref(innerStyle),
               ref: innerRef,
             },
-            !isString(Inner)
-              ? {
+            isString(Inner)
+              ? children
+              : {
                 default: () => children,
-              }
-              : children,
+              },
           ),
         ];
       };
@@ -607,7 +609,7 @@ const createGrid = ({
                 onWheel,
                 ref: windowRef,
               },
-              !isString(Container) ? { default: () => Inner } : Inner,
+              isString(Container) ? Inner : { default: () => Inner },
             ),
             horizontalScrollbar,
             verticalScrollbar,

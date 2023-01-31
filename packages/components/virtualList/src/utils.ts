@@ -1,14 +1,4 @@
-import {
-  BACKWARD,
-  FORWARD,
-  HORIZONTAL,
-  LTR,
-  PageKey,
-  RTL,
-  RTL_OFFSET_NAG,
-  RTL_OFFSET_POS_ASC,
-  RTL_OFFSET_POS_DESC,
-} from './defaults';
+import { BACKWARD, FORWARD, HORIZONTAL, LTR, PageKey, RTL, RTL_OFFSET_NAG, RTL_OFFSET_POS_ASC, RTL_OFFSET_POS_DESC } from './defaults';
 
 import type { CSSProperties } from 'vue';
 import type { Direction, LayoutDirection, RTLOffsetType } from './types';

@@ -11,12 +11,6 @@ export const isVisible = (element: HTMLElement) => {
   return computed.position === 'fixed' ? false : element.offsetParent !== null;
 };
 
-export const obtainAllFocusableElements = (
-  element: HTMLElement,
-): HTMLElement[] => {
-  return [...element.querySelectorAll<HTMLElement>(FOCUSABLE_ELEMENT_SELECTORS)].filter((item: HTMLElement) => isFocusable(item) && isVisible(item));
-};
-
 /**
  * @desc Determine if target element is focusable
  * @param element {HTMLElement}
@@ -57,6 +51,12 @@ export const isFocusable = (element: HTMLElement): boolean => {
       return false;
     }
   }
+};
+
+export const obtainAllFocusableElements = (
+  element: HTMLElement,
+): HTMLElement[] => {
+  return [...element.querySelectorAll<HTMLElement>(FOCUSABLE_ELEMENT_SELECTORS)].filter((item: HTMLElement) => isFocusable(item) && isVisible(item));
 };
 
 /**

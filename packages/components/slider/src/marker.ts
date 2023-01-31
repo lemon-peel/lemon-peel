@@ -8,8 +8,8 @@ export const sliderMarkerProps = buildProps({
     type: definePropType<
     | string
     | {
-      style: CSSProperties
-      label: any
+      style: CSSProperties;
+      label: any;
     }
     >([String, Object]),
     default: undefined,

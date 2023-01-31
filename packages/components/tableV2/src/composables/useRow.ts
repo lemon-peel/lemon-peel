@@ -120,14 +120,14 @@ export const useRow = (
     { rowKey, height, rowIndex }: RowHeightChangedParams,
     fixedDir: FixedDirection,
   ) {
-    if (!fixedDir) {
-      mainTableHeights.value[rowKey] = height;
-    } else {
+    if (fixedDir) {
       if (fixedDir === FixedDir.RIGHT) {
         rightTableHeights.value[rowKey] = height;
       } else {
         leftTableHeights.value[rowKey] = height;
       }
+    } else {
+      mainTableHeights.value[rowKey] = height;
     }
 
     const maximumHeight = Math.max(

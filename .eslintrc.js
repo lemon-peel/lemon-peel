@@ -2,6 +2,7 @@ module.exports = {
   root: true,
   extends: ['@lemonbot.fun/eslint-config-vue'],
   rules: {
+    '@typescript-eslint/no-shadow': 0,
     'no-shadow': 0,
     'import/no-extraneous-dependencies': 0,
     'no-param-reassign': 0,
@@ -10,6 +11,7 @@ module.exports = {
     'vue/prefer-import-from-vue': 0,
     'unicorn/prefer-top-level-await': 0,
     'unicorn/no-array-callback-reference': 0,
+    'unicorn/no-array-for-each': 0,
     'unicorn/no-array-reduce': 0,
     'unicorn/no-nested-ternary': 0,
     'unicorn/no-null': 0,

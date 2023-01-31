@@ -98,12 +98,14 @@ const rightPanel = ref<TransferPanelInstance>();
 
 const clearQuery = (which: TransferDirection) => {
   switch (which) {
-    case 'left':
+    case 'left': {
       leftPanel.value!.query = '';
       break;
-    case 'right':
+    }
+    case 'right': {
       rightPanel.value!.query = '';
       break;
+    }
   }
 };
 

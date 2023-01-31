@@ -3,8 +3,8 @@ import LpCheckbox from '@lemon-peel/components/checkbox';
 import { isString } from '@lemon-peel/utils';
 import { cellStarts } from '../config';
 import { compose, mergeOptions } from '../util';
-import useWatcher from './watcher-helper';
-import useRender from './render-helper';
+import useWatcher from './watcherHelper';
+import useRender from './renderHelper';
 import defaultProps from './defaults';
 import type { TableColumn, TableColumnCtx as TableColumnContext } from './defaults';
 

@@ -48,9 +48,9 @@ const classes = computed(() => {
     } else if (isObject(props[size])) {
       for (const [property, sizeProperty] of Object.entries(props[size])) {
         list.push(
-          property !== 'span'
-            ? ns.b(`${size}-${property}-${sizeProperty}`)
-            : ns.b(`${size}-${sizeProperty}`),
+          property === 'span'
+            ? ns.b(`${size}-${sizeProperty}`)
+            : ns.b(`${size}-${property}-${sizeProperty}`),
         );
       }
     }

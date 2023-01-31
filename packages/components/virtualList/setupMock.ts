@@ -1,5 +1,5 @@
-// @ts-nocheck
-import defineGetter from '@lemon-peel/test-utils/define-getter';
+
+import defineGetter from '@lemon-peel/test-utils/defineGetter';
 
 export default () => {
   const clientWidth = defineGetter(

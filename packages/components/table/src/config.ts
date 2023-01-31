@@ -1,4 +1,4 @@
-// @ts-nocheck
+
 import { h } from 'vue';
 import LpCheckbox from '@lemon-peel/components/checkbox';
 import { LpIcon } from '@lemon-peel/components/icon';
@@ -6,7 +6,7 @@ import { ArrowRight, Loading } from '@element-plus/icons-vue';
 import { getProp } from '@lemon-peel/utils';
 
 import type { VNode } from 'vue';
-import type { TableColumnCtx } from './table-column/defaults';
+import type { TableColumnCtx } from './tableColumn/defaults';
 import type { Store } from './store';
 import type { TreeNode } from './table/defaults';
 
@@ -66,10 +66,10 @@ export const cellForced = {
       store,
       $index,
     }: {
-      row: T
-      column: TableColumnCtx<T>
-      store: Store<T>
-      $index: string
+      row: T;
+      column: TableColumnCtx<T>;
+      store: Store<T>;
+      $index: string;
     }) {
       return h(LpCheckbox, {
         disabled: column.selectable
@@ -94,8 +94,8 @@ export const cellForced = {
       column,
       $index,
     }: {
-      column: TableColumnCtx<T>
-      $index: number
+      column: TableColumnCtx<T>;
+      $index: number;
     }) {
       let i = $index + 1;
       const index = column.index;
@@ -118,9 +118,9 @@ export const cellForced = {
       store,
       expanded,
     }: {
-      row: T
-      store: Store<T>
-      expanded: boolean
+      row: T;
+      store: Store<T>;
+      expanded: boolean;
     }) {
       const { ns } = store;
       const classes = [ns.e('expand-icon')];
@@ -160,9 +160,9 @@ export function defaultRenderCell<T>({
   column,
   $index,
 }: {
-  row: T
-  column: TableColumnCtx<T>
-  $index: number
+  row: T;
+  column: TableColumnCtx<T>;
+  $index: number;
 }) {
   const property = column.property;
   const value = property && getProp(row, property).value;
@@ -178,9 +178,9 @@ export function treeCellPrefix<T>(
     treeNode,
     store,
   }: {
-    row: T
-    treeNode: TreeNode
-    store: Store<T>
+    row: T;
+    treeNode: TreeNode;
+    store: Store<T>;
   },
   createPlacehoder = false,
 ) {

@@ -5,22 +5,13 @@ import { hasOwn } from '../../objects';
 import { isObject } from '../../types';
 
 import type { PropType } from 'vue';
-import type {
-  LpProp as LpProperty,
-  LpPropConvert as LpPropertyConvert,
-  LpPropFinalized as LpPropertyFinalized,
-  LpPropInput as LpPropertyInput,
-  LpPropMergeType as LpPropertyMergeType,
-  IfEpProp as IfEpProperty,
-  IfNativePropType as IfNativePropertyType,
-  NativePropType as NativePropertyType,
-} from './types';
+import type { LpProp, LpPropConvert, LpPropFinalized, LpPropInput, LpPropMergeType, IfLpProp, IfNativePropType, NativePropType } from './types';
 
 export const lpPropKey = '__lpPropKey';
 
 export const definePropType = <T>(value: any): PropType<T> => value;
 
-export const isLpProp = (value: unknown): value is LpProperty<any, any, any> =>
+export const isLpProp = (value: unknown): value is LpProp<any, any, any> =>
   isObject(value) && !!(value as any)[lpPropKey];
 
 /**
@@ -47,12 +38,12 @@ export const buildProp = <
   Type = never,
   Value = never,
   Validator = never,
-  Default extends LpPropertyMergeType<Type, Value, Validator> = never,
+  Default extends LpPropMergeType<Type, Value, Validator> = never,
   Required extends boolean = false,
 >(
-    property: LpPropertyInput<Type, Value, Validator, Default, Required>,
+    property: LpPropInput<Type, Value, Validator, Default, Required>,
     key?: string,
-  ): LpPropertyFinalized<Type, Value, Validator, Default, Required> => {
+  ): LpPropFinalized<Type, Value, Validator, Default, Required> => {
   // filter native prop type and nested prop, e.g `null`, `undefined` (from `buildProps`)
   if (!isObject(property) || isLpProp(property)) return property as any;
 
@@ -103,16 +94,16 @@ export const buildProps = <
   Properties extends Record<
   string,
   | { [lpPropKey]: true }
-  | NativePropertyType
-  | LpPropertyInput<any, any, any, any, any>
+  | NativePropType
+  | LpPropInput<any, any, any, any, any>
   >,
 >(
     properties: Properties,
   ): {
-    [K in keyof Properties]: IfEpProperty<
+    [K in keyof Properties]: IfLpProp<
     Properties[K],
     Properties[K],
-    IfNativePropertyType<Properties[K], Properties[K], LpPropertyConvert<Properties[K]>>
+    IfNativePropType<Properties[K], Properties[K], LpPropConvert<Properties[K]>>
     >
   } =>
     fromPairs(

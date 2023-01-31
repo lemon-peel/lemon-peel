@@ -1,11 +1,11 @@
-// @ts-nocheck
+
 import { nextTick } from 'vue';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import LpCheckbox from '@lemon-peel/components/checkbox';
 import triggerEvent from '@lemon-peel/test-utils/trigger-event';
 import { rAF } from '@lemon-peel/test-utils/tick';
-import LpTable from '../src/table.vue';
-import LpTableColumn from '../src/table-column';
+import LpTable from '../src/Table.vue';
+import LpTableColumn from '../src/tableColumn';
 import { doubleWait, getTestData, mount } from './table-test-common';
 import type { VueWrapper } from '@vue/test-utils';
 import type { ComponentPublicInstance } from 'vue';
@@ -46,7 +46,7 @@ describe('Table.vue', () => {
     it('head', async () => {
       await doubleWait();
       const ths = wrapper.findAll('thead th');
-      expect(ths.map(node => node.text()).filter(o => o)).toEqual([
+      expect(ths.map(node => node.text()).filter(Boolean)).toEqual([
         '片名',
         '发行日期',
         '导演',
@@ -347,7 +347,7 @@ describe('Table.vue', () => {
       await doubleWait();
       const filter = document.body.querySelector('.el-table-filter');
       expect(filter).not.toBeUndefined();
-      filter.parentNode.removeChild(filter);
+      filter.remove();
     });
 
     it('click filter', async () => {
@@ -373,7 +373,7 @@ describe('Table.vue', () => {
       expect(
         wrapper.findAll('.el-table__body-wrapper tbody tr').length,
       ).toEqual(3);
-      filter.parentNode.removeChild(filter);
+      filter.remove();
     });
 
     it('clear filter', async () => {
@@ -401,7 +401,7 @@ describe('Table.vue', () => {
       expect(
         wrapper.findAll('.el-table__body-wrapper tbody tr').length,
       ).toEqual(5);
-      filter.parentNode.removeChild(filter);
+      filter.remove();
     });
 
     it('click reset', async () => {
@@ -425,7 +425,7 @@ describe('Table.vue', () => {
       expect([
         ...filter.querySelector('.el-table-filter__bottom button').classList,
       ]).toContain('is-disabled');
-      filter.parentNode.removeChild(filter);
+      filter.remove();
       wrapper.unmount();
     });
   });

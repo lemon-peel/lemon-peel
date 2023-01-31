@@ -8,13 +8,13 @@ export const isInContainer = (
 
   const elementRect = element.getBoundingClientRect();
 
-  let containerRect: Pick<DOMRect, 'top' | 'bottom' | 'left' | 'right'>;
-  containerRect = container instanceof Element ? container.getBoundingClientRect() : {
-    top: 0,
-    right: window.innerWidth,
-    bottom: window.innerHeight,
-    left: 0,
-  };
+  const containerRect: Pick<DOMRect, 'top' | 'bottom' | 'left' | 'right'>
+    = container instanceof Element ? container.getBoundingClientRect() : {
+      top: 0,
+      right: window.innerWidth,
+      bottom: window.innerHeight,
+      left: 0,
+    };
   return (
     elementRect.top < containerRect.bottom &&
     elementRect.bottom > containerRect.top &&

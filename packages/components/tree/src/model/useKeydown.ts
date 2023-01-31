@@ -57,9 +57,9 @@ export function useKeydown({ el$ }: UseKeydownOption, store: Ref<TreeStore>) {
         nextIndex =
           currentIndex === -1
             ? 0
-            : (currentIndex !== 0
-              ? currentIndex - 1
-              : treeItems.value.length - 1);
+            : (currentIndex === 0
+              ? treeItems.value.length - 1
+              : currentIndex - 1);
         const startIndex = nextIndex;
         while (true) {
           if (

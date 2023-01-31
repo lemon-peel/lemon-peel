@@ -72,17 +72,7 @@ export default defineComponent({
         const container = currentTarget as HTMLElement;
         const [first, last] = getEdges(container);
         const isTabbable = first && last;
-        if (!isTabbable) {
-          if (currentFocusingElement === container) {
-            const focusoutPreventedEvent = createFocusOutPreventedEvent({
-              focusReason: focusReason.value,
-            });
-            emit('focusout-prevented', focusoutPreventedEvent);
-            if (!focusoutPreventedEvent.defaultPrevented) {
-              e.preventDefault();
-            }
-          }
-        } else {
+        if (isTabbable) {
           if (!shiftKey && currentFocusingElement === last) {
             const focusoutPreventedEvent = createFocusOutPreventedEvent({
               focusReason: focusReason.value,
@@ -103,6 +93,16 @@ export default defineComponent({
             if (!focusoutPreventedEvent.defaultPrevented) {
               e.preventDefault();
               if (loop) tryFocus(last, true);
+            }
+          }
+        } else {
+          if (currentFocusingElement === container) {
+            const focusoutPreventedEvent = createFocusOutPreventedEvent({
+              focusReason: focusReason.value,
+            });
+            emit('focusout-prevented', focusoutPreventedEvent);
+            if (!focusoutPreventedEvent.defaultPrevented) {
+              e.preventDefault();
             }
           }
         }

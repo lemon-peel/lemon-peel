@@ -23,15 +23,19 @@ function findFirstLegitChild(node: VNode[] | undefined): VNode | null {
      */
     if (isObject(child)) {
       switch (child.type) {
-        case Comment:
+        case Comment: {
           continue;
+        }
         case Text:
-        case 'svg':
+        case 'svg': {
           return wrapTextContent(child);
-        case Fragment:
+        }
+        case Fragment: {
           return findFirstLegitChild(child.children as VNode[]);
-        default:
+        }
+        default: {
           return child;
+        }
       }
     }
     return wrapTextContent(child);

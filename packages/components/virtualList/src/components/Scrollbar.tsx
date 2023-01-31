@@ -1,15 +1,5 @@
-// @ts-nocheck
-import {
-  computed,
-  defineComponent,
-  h,
-  onBeforeUnmount,
-  reactive,
-  ref,
-  unref,
-  watch,
-  withModifiers,
-} from 'vue';
+
+import { computed, defineComponent, onBeforeUnmount, reactive, ref, unref, watch, withModifiers } from 'vue';
 import { BAR_MAP } from '@lemon-peel/components/scrollbar';
 import { cAF, rAF } from '@lemon-peel/utils';
 
@@ -38,7 +28,12 @@ const ScrollBar = defineComponent({
     let onselectstartStore: null | typeof document.onselectstart = null;
 
     // data
-    const state = reactive({
+    const state = reactive<{
+      isDragging: boolean;
+      traveled: number;
+      X?: number;
+      Y?: number;
+    }>({
       isDragging: false,
       traveled: 0,
     });
@@ -108,55 +103,9 @@ const ScrollBar = defineComponent({
       Math.floor(props.clientSize! - thumbSize.value - unref(GAP)),
     );
 
-    const attachEvents = () => {
-      window.addEventListener('mousemove', onMouseMove);
-      window.addEventListener('mouseup', onMouseUp);
-
-      const thumbEl = unref(thumbRef);
-
-      if (!thumbEl) return;
-
-      onselectstartStore = document.onselectstart;
-      document.addEventListener('selectstart', () => false);
-
-      thumbEl.addEventListener('touchmove', onMouseMove);
-      thumbEl.addEventListener('touchend', onMouseUp);
-    };
-
-    const detachEvents = () => {
-      window.removeEventListener('mousemove', onMouseMove);
-      window.removeEventListener('mouseup', onMouseUp);
-
-      document.addEventListener('selectstart', onselectstartStore);
-      onselectstartStore = null;
-
-      const thumbEl = unref(thumbRef);
-      if (!thumbEl) return;
-
-      thumbEl.removeEventListener('touchmove', onMouseMove);
-      thumbEl.removeEventListener('touchend', onMouseUp);
-    };
-
-    const onThumbMouseDown = (e: Event) => {
-      e.stopImmediatePropagation();
-      if (
-        (e as KeyboardEvent).ctrlKey ||
-        [1, 2].includes((e as MouseEvent).button)
-      ) {
-        return;
-      }
-
-      state.isDragging = true;
-      state[bar.value.axis] =
-        e.currentTarget![bar.value.offset] -
-        (e[bar.value.client] -
-          (e.currentTarget as HTMLElement).getBoundingClientRect()[
-            bar.value.direction
-          ]);
-
-      emit('start-move');
-      attachEvents();
-    };
+    // eslint-disable-next-line prefer-const
+    let detachEvents: () => void;
+    let attachEvents: () => void;
 
     const onMouseUp = () => {
       state.isDragging = false;
@@ -165,7 +114,7 @@ const ScrollBar = defineComponent({
       detachEvents();
     };
 
-    const onMouseMove = (e: Event) => {
+    const onMouseMove = (e: MouseEvent | TouchEvent) => {
       const { isDragging } = state;
       if (!isDragging) return;
       if (!thumbRef.value || !trackRef.value) return;
@@ -177,9 +126,11 @@ const ScrollBar = defineComponent({
       // using the current track's offset top/left - the current pointer's clientY/clientX
       // to get the relative position of the pointer to the track.
       const offset =
-        (trackRef.value.getBoundingClientRect()[bar.value.direction] -
-          e[bar.value.client]) *
-        -1;
+        (
+          trackRef.value.getBoundingClientRect()[bar.value.direction] -
+           (e.hasOwnProperty('touches') ? (e as TouchEvent).touches[0][bar.value.client] : (e as MouseEvent)[bar.value.client])
+        )
+         * -1;
 
       // find where the thumb was clicked on.
       const thumbClickPosition = thumbRef.value[bar.value.offset] - prevPage;
@@ -214,6 +165,57 @@ const ScrollBar = defineComponent({
         );
         emit('scroll', distance, totalSteps.value);
       });
+    };
+
+    // eslint-disable-next-line prefer-const
+    attachEvents = () => {
+      window.addEventListener('mousemove', onMouseMove);
+      window.addEventListener('mouseup', onMouseUp);
+
+      const thumbEl = unref(thumbRef);
+
+      if (!thumbEl) return;
+
+      onselectstartStore = document.onselectstart;
+      document.addEventListener('selectstart', () => false);
+
+      thumbEl.addEventListener('touchmove', onMouseMove);
+      thumbEl.addEventListener('touchend', onMouseUp);
+    };
+
+    detachEvents = () => {
+      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('mouseup', onMouseUp);
+
+      document.addEventListener('selectstart', onselectstartStore!);
+      onselectstartStore = null;
+
+      const thumbEl = unref(thumbRef);
+      if (!thumbEl) return;
+
+      thumbEl.removeEventListener('touchmove', onMouseMove);
+      thumbEl.removeEventListener('touchend', onMouseUp);
+    };
+
+    const onThumbMouseDown = (e: MouseEvent | TouchEvent) => {
+      e.stopImmediatePropagation();
+      if (
+        e.ctrlKey ||
+        [1, 2].includes((e as MouseEvent).button)
+      ) {
+        return;
+      }
+
+      state.isDragging = true;
+      state[bar.value.axis] =
+        (e.currentTarget as HTMLElement)[bar.value.offset] -
+        ( (e.hasOwnProperty('touches') ? (e as TouchEvent).touches[0][bar.value.client] : (e as MouseEvent)[bar.value.client]) -
+          (e.currentTarget as HTMLElement).getBoundingClientRect()[
+            bar.value.direction
+          ]);
+
+      emit('start-move');
+      attachEvents();
     };
 
     const clickTrackHandler = (e: MouseEvent) => {
@@ -251,31 +253,17 @@ const ScrollBar = defineComponent({
     });
 
     return () => {
-      return h(
-        'div',
-        {
-          role: 'presentation',
-          ref: trackRef,
-          class: [
-            nsVirtualScrollbar.b(),
-            props.class,
-            (props.alwaysOn || state.isDragging) && 'always-on',
-          ],
-          style: trackStyle.value,
-          onMousedown: withModifiers(clickTrackHandler, ['stop', 'prevent']),
-          onTouchstartPrevent: onThumbMouseDown,
-        },
-        h(
-          'div',
-          {
-            ref: thumbRef,
-            class: nsScrollbar.e('thumb'),
-            style: thumbStyle.value,
-            onMousedown: onThumbMouseDown,
-          },
-          [],
-        ),
-      );
+      return <div role="presentation"
+        ref={trackRef} class={[
+          nsVirtualScrollbar.b(),
+          props.class,
+          (props.alwaysOn || state.isDragging) && 'always-on',
+        ]}
+        style={trackStyle.value}
+        onMousedown={withModifiers(clickTrackHandler, ['stop', 'prevent'])}
+        onTouchstartPrevent={onThumbMouseDown}>
+        <div ref={thumbRef} class={nsScrollbar.e('thumb')} style={thumbStyle.value} onMousedown={onThumbMouseDown}></div>
+      </div>;
     };
   },
 });

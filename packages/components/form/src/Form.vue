@@ -53,7 +53,7 @@ const removeField: FormContext['removeField'] = field => {
 };
 
 const resetFields: FormContext['resetFields'] = (props = []) => {
-  if (!props.model) {
+  if (!allProps.model) {
     debugWarn(COMPONENT_NAME, 'model is required for resetFields to work.');
     return;
   }
@@ -83,20 +83,16 @@ const obtainValidateFields = (props: Arrayable<FormItemProp>) => {
   return filteredFields;
 };
 
-const validate = async (
-  callback?: FormValidateCallback,
-): FormValidationResult => validateField(undefined, callback);
-
 const doValidateField = async (
   props: Arrayable<FormItemProp> = [],
 ): Promise<boolean> => {
   if (!isValidatable.value) return false;
 
-  const fields = obtainValidateFields(props);
-  if (fields.length === 0) return true;
+  const validFields = obtainValidateFields(props);
+  if (validFields.length === 0) return true;
 
   let validationErrors: ValidateFieldsError = {};
-  for (const field of fields) {
+  for (const field of validFields) {
     try {
       await field.validate('');
     } catch (error) {
@@ -109,6 +105,13 @@ const doValidateField = async (
 
   if (Object.keys(validationErrors).length === 0) return true;
   throw validationErrors;
+};
+
+const scrollToField = (property: FormItemProp) => {
+  const field = filterFields(fields, property)[0];
+  if (field) {
+    field.$el?.scrollIntoView();
+  }
 };
 
 const validateField: FormContext['validateField'] = async (
@@ -136,12 +139,9 @@ const validateField: FormContext['validateField'] = async (
   }
 };
 
-const scrollToField = (property: FormItemProp) => {
-  const field = filterFields(fields, property)[0];
-  if (field) {
-    field.$el?.scrollIntoView();
-  }
-};
+const validate = async (
+  callback?: FormValidateCallback,
+): FormValidationResult => validateField(undefined, callback);
 
 watch(
   () => allProps.rules,

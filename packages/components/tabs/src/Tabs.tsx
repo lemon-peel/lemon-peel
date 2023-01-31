@@ -214,9 +214,9 @@ export default defineComponent({
             },
           ]}
         >
-          {...props.tabPosition !== 'bottom'
-            ? [header, panels]
-            : [panels, header]}
+          {...props.tabPosition === 'bottom'
+            ? [panels, header]
+            : [header, panels]}
         </div>
       );
     };

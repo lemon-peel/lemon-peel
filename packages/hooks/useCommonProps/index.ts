@@ -2,8 +2,10 @@ import { computed, inject, ref, unref } from 'vue';
 import { formContextKey, formItemContextKey } from '@lemon-peel/tokens';
 import { buildProp } from '@lemon-peel/utils';
 import { componentSizes } from '@lemon-peel/constants';
-import { useProp as useProperty } from '../useProp';
+
+import { useProp } from '../useProp';
 import { useGlobalConfig } from '../useGlobalConfig';
+
 import type { ComponentSize } from '@lemon-peel/constants';
 import type { MaybeRef } from '@vueuse/core';
 
@@ -19,7 +21,7 @@ export const useSize = (
 ) => {
   const emptyReference = ref(undefined);
 
-  const size = ignore.prop ? emptyReference : useProperty<ComponentSize>('size');
+  const size = ignore.prop ? emptyReference : useProp<ComponentSize>('size');
   const globalConfig = ignore.global ? emptyReference : useGlobalConfig('size');
   const form = ignore.form
     ? { size: undefined }
@@ -40,7 +42,7 @@ export const useSize = (
 };
 
 export const useDisabled = (fallback?: MaybeRef<boolean | undefined>) => {
-  const disabled = useProperty<boolean>('disabled');
+  const disabled = useProp<boolean>('disabled');
   const form = inject(formContextKey);
   return computed(
     () => disabled.value || unref(fallback) || form?.disabled || false,

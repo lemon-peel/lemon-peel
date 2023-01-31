@@ -1,12 +1,12 @@
-// @ts-nocheck
+
 import { isRef, nextTick, ref } from 'vue';
 import { isClient } from '@vueuse/core';
 import { hasOwn } from '@lemon-peel/utils';
 import { parseHeight } from './util';
 import type { Ref } from 'vue';
 
-import type { TableColumnCtx } from './table-column/defaults';
-import type { TableHeader } from './table-header';
+import type { TableColumnCtx } from './tableColumn/defaults';
+import type { TableHeader } from './tableHeader';
 import type { Table } from './table/defaults';
 import type { Store } from './store';
 class TableLayout<T> {
@@ -210,11 +210,7 @@ class TableLayout<T> {
       this.table.state.resizeState.value.width = this.bodyWidth.value;
     } else {
       flattenColumns.forEach(column => {
-        if (!column.width && !column.minWidth) {
-          column.realWidth = 80;
-        } else {
-          column.realWidth = Number(column.width || column.minWidth);
-        }
+        column.realWidth = !column.width && !column.minWidth ? 80 : Number(column.width || column.minWidth);
         bodyMinWidth += column.realWidth;
       });
       this.scrollX.value = bodyMinWidth > bodyWidth;
@@ -260,14 +256,17 @@ class TableLayout<T> {
     const observers = this.observers;
     observers.forEach(observer => {
       switch (event) {
-        case 'columns':
+        case 'columns': {
           observer.state?.onColumnsChange(this);
           break;
-        case 'scrollable':
+        }
+        case 'scrollable': {
           observer.state?.onScrollableChange(this);
           break;
-        default:
+        }
+        default: {
           throw new Error(`Table Layout don't have event ${event}.`);
+        }
       }
     });
   }

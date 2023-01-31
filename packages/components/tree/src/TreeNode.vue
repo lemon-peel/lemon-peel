@@ -114,7 +114,10 @@ const props  = defineProps({
     default: () => ({}),
   },
   accordion: Boolean,
-  renderContent: Function,
+  renderContent: {
+    type: Function,
+    default: undefined,
+  },
   renderAfterExpand: Boolean,
   showCheckbox: {
     type: Boolean,

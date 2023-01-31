@@ -1,10 +1,10 @@
-// @ts-nocheck
 import { computed, h, inject } from 'vue';
 import { useNamespace } from '@lemon-peel/hooks';
+
 import { getRowIdentity } from '../util';
 import { TABLE_INJECTION_KEY } from '../tokens';
 import useEvents from './events-helper';
-import useStyles from './styles-helper';
+import useStyles from './stylesHelper';
 import type { TableBodyProps } from './defaults';
 import type { RenderRowData, TableProps, TreeNode } from '../table/defaults';
 
@@ -177,7 +177,7 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
         // Use a two dimensional array avoid modifying $index
         return [[tr]];
       }
-    } else if (Object.keys(treeData.value).length) {
+    } else if (Object.keys(treeData.value).length > 0) {
       assertRowKey();
       // TreeTable 时，rowKey 必须由用户设定，不使用 getKeyOfRow 计算
       // 在调用 rowRender 函数时，仍然会计算 rowKey，不太好的操作
@@ -192,7 +192,7 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
         };
         if (typeof cur.lazy === 'boolean') {
           if (typeof cur.loaded === 'boolean' && cur.loaded) {
-            treeRowData.noLazyChildren = !(cur.children && cur.children.length);
+            treeRowData.noLazyChildren = !(cur.children && cur.children.length > 0);
           }
           treeRowData.loading = cur.loading;
         }
@@ -203,7 +203,7 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
         // currentRow 记录的是 index，所以还需主动增加 TreeTable 的 index
         let i = 0;
         const traverse = (children, parent) => {
-          if (!(children && children.length && parent)) return;
+          if (!(children && children.length > 0 && parent)) return;
           children.forEach(node => {
             // 父节点的 display 状态影响子节点的显示状态
             const innerTreeRowData = {
@@ -229,7 +229,7 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
               if (typeof cur.lazy === 'boolean') {
                 if (typeof cur.loaded === 'boolean' && cur.loaded) {
                   innerTreeRowData.noLazyChildren = !(
-                    cur.children && cur.children.length
+                    cur.children && cur.children.length > 0
                   );
                 }
                 innerTreeRowData.loading = cur.loading;
@@ -253,7 +253,7 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
       }
       return tmp;
     } else {
-      return rowRender(row, $index, undefined);
+      return rowRender(row, $index);
     }
   };
 

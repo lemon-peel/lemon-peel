@@ -6,5 +6,5 @@
 defineOptions({
   name: 'LpCollectionItem',
   inheritAttrs: false,
-})
+});
 </script>

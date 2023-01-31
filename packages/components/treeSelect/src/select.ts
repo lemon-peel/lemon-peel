@@ -1,4 +1,4 @@
-// @ts-nocheck
+
 import { computed, nextTick, toRefs } from 'vue';
 import { pick } from 'lodash-unified';
 import LpSelect from '@lemon-peel/components/select';

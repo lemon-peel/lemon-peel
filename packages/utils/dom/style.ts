@@ -52,8 +52,7 @@ export const setStyle = (
   if (!element || !styleName) return;
 
   if (isObject(styleName)) {
-    for (const [property, value_] of entriesOf(styleName)) setStyle(element, property, value_)
-    ;
+    for (const [property, val] of entriesOf(styleName)) setStyle(element, property, val);
   } else {
     const key: any = camelize(styleName);
     element.style[key] = value as any;

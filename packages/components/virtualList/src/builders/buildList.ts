@@ -1,36 +1,13 @@
-// @ts-nocheck
-import {
-  computed,
-  defineComponent,
-  getCurrentInstance,
-  h,
-  nextTick,
-  onMounted,
-  onUpdated,
-  ref,
-  resolveDynamicComponent,
-  unref,
-} from 'vue';
+import { computed, defineComponent, getCurrentInstance, h, nextTick, onMounted, onUpdated, ref, resolveDynamicComponent, unref } from 'vue';
 import { isClient } from '@vueuse/core';
 import { hasOwn, isNumber, isString } from '@lemon-peel/utils';
 import { useNamespace } from '@lemon-peel/hooks';
 import { useCache } from '../hooks/useCache';
 import useWheel from '../hooks/useWheel';
-import Scrollbar from '../components/scrollbar';
+import Scrollbar from '../components/Scrollbar';
 import { getRTLOffsetType, getScrollDir, isHorizontal } from '../utils';
 import { virtualizedListProps } from '../props';
-import {
-  AUTO_ALIGNMENT,
-  BACKWARD,
-  FORWARD,
-  HORIZONTAL,
-  ITEM_RENDER_EVT,
-  RTL,
-  RTL_OFFSET_NAG,
-  RTL_OFFSET_POS_ASC,
-  RTL_OFFSET_POS_DESC,
-  SCROLL_EVT,
-} from '../defaults';
+import { AUTO_ALIGNMENT, BACKWARD, FORWARD, HORIZONTAL, ITEM_RENDER_EVT, RTL, RTL_OFFSET_NAG, RTL_OFFSET_POS_ASC, RTL_OFFSET_POS_DESC, SCROLL_EVT } from '../defaults';
 
 import type { CSSProperties, Slot, VNode, VNodeChild } from 'vue';
 import type { Alignment, ListConstructorProps } from '../types';
@@ -117,12 +94,12 @@ const createList = ({
         getEstimatedTotalSize(props, unref(dynamicSizeCache)),
       );
 
-      const _isHorizontal = computed(() => isHorizontal(props.layout));
+      const beHorizontal = computed(() => isHorizontal(props.layout));
 
       const windowStyle = computed(() => [
         {
           position: 'relative',
-          [`overflow-${_isHorizontal.value ? 'x' : 'y'}`]: 'scroll',
+          [`overflow-${beHorizontal.value ? 'x' : 'y'}`]: 'scroll',
           WebkitOverflowScrolling: 'touch',
           willChange: 'transform',
         },
@@ -136,7 +113,7 @@ const createList = ({
 
       const innerStyle = computed(() => {
         const size = unref(estimatedTotalSize);
-        const horizontal = unref(_isHorizontal);
+        const horizontal = unref(beHorizontal);
         return {
           height: horizontal ? '100%' : `${size}px`,
           pointerEvents: unref(states).isScrolling ? 'none' : undefined,
@@ -145,8 +122,37 @@ const createList = ({
       });
 
       const clientSize = computed(() =>
-        _isHorizontal.value ? props.width : props.height,
+        beHorizontal.value ? props.width : props.height,
       );
+
+      // TODO:
+      // perf optimization here, reset isScrolling with debounce.
+
+      const resetIsScrolling = () => {
+        // timer = null
+
+        states.value.isScrolling = false;
+        nextTick(() => {
+          getItemStyleCache.value(-1, null, null);
+        });
+      };
+
+      const scrollTo = (offset: number) => {
+        offset = Math.max(offset, 0);
+
+        if (offset === unref(states).scrollOffset) {
+          return;
+        }
+
+        states.value = {
+          ...unref(states),
+          scrollOffset: offset,
+          scrollDir: getScrollDir(unref(states).scrollOffset, offset),
+          updateRequested: true,
+        };
+
+        nextTick(resetIsScrolling);
+      };
 
       // methods
       const { onWheel } = useWheel(
@@ -188,8 +194,8 @@ const createList = ({
       const scrollVertically = (e: Event) => {
         const { clientHeight, scrollHeight, scrollTop } =
           e.currentTarget as HTMLElement;
-        const _states = unref(states);
-        if (_states.scrollOffset === scrollTop) {
+        const stateObj = unref(states);
+        if (stateObj.scrollOffset === scrollTop) {
           return;
         }
 
@@ -199,9 +205,9 @@ const createList = ({
         );
 
         states.value = {
-          ..._states,
+          ...stateObj,
           isScrolling: true,
-          scrollDir: getScrollDir(_states.scrollOffset, scrollOffset),
+          scrollDir: getScrollDir(stateObj.scrollOffset, scrollOffset),
           scrollOffset,
           updateRequested: false,
         };
@@ -212,9 +218,9 @@ const createList = ({
       const scrollHorizontally = (e: Event) => {
         const { clientWidth, scrollLeft, scrollWidth } =
           e.currentTarget as HTMLElement;
-        const _states = unref(states);
+        const stateObj = unref(states);
 
-        if (_states.scrollOffset === scrollLeft) {
+        if (stateObj.scrollOffset === scrollLeft) {
           return;
         }
 
@@ -245,9 +251,9 @@ const createList = ({
         );
 
         states.value = {
-          ..._states,
+          ...stateObj,
           isScrolling: true,
-          scrollDir: getScrollDir(_states.scrollOffset, scrollOffset),
+          scrollDir: getScrollDir(stateObj.scrollOffset, scrollOffset),
           scrollOffset,
           updateRequested: false,
         };
@@ -256,7 +262,7 @@ const createList = ({
       };
 
       const onScroll = (e: Event) => {
-        unref(_isHorizontal) ? scrollHorizontally(e) : scrollVertically(e);
+        unref(beHorizontal) ? scrollHorizontally(e) : scrollVertically(e);
         emitEvents();
       };
 
@@ -271,23 +277,6 @@ const createList = ({
             offset,
           ),
         );
-      };
-
-      const scrollTo = (offset: number) => {
-        offset = Math.max(offset, 0);
-
-        if (offset === unref(states).scrollOffset) {
-          return;
-        }
-
-        states.value = {
-          ...unref(states),
-          scrollOffset: offset,
-          scrollDir: getScrollDir(unref(states).scrollOffset, offset),
-          updateRequested: true,
-        };
-
-        nextTick(resetIsScrolling);
       };
 
       const scrollToItem = (
@@ -323,7 +312,7 @@ const createList = ({
         } else {
           const offset = getItemOffset(props, idx, unref(dynamicSizeCache));
           const size = getItemSize(props, idx, unref(dynamicSizeCache));
-          const horizontal = unref(_isHorizontal);
+          const horizontal = unref(beHorizontal);
 
           const isRtl = direction === RTL;
           const offsetHorizontal = horizontal ? offset : 0;
@@ -331,25 +320,13 @@ const createList = ({
             position: 'absolute',
             left: isRtl ? undefined : `${offsetHorizontal}px`,
             right: isRtl ? `${offsetHorizontal}px` : undefined,
-            top: !horizontal ? `${offset}px` : 0,
-            height: !horizontal ? `${size}px` : '100%',
+            top: horizontal ? 0 : `${offset}px`,
+            height: horizontal ? '100%' : `${size}px`,
             width: horizontal ? `${size}px` : '100%',
           };
         }
 
         return style;
-      };
-
-      // TODO:
-      // perf optimization here, reset isScrolling with debounce.
-
-      const resetIsScrolling = () => {
-        // timer = null
-
-        states.value.isScrolling = false;
-        nextTick(() => {
-          getItemStyleCache.value(-1, null, null);
-        });
       };
 
       const resetScrollTop = () => {
@@ -365,7 +342,7 @@ const createList = ({
         const { initScrollOffset } = props;
         const windowElement = unref(windowRef);
         if (isNumber(initScrollOffset) && windowElement) {
-          if (unref(_isHorizontal)) {
+          if (unref(beHorizontal)) {
             windowElement.scrollLeft = initScrollOffset;
           } else {
             windowElement.scrollTop = initScrollOffset;
@@ -494,11 +471,11 @@ const createList = ({
             style: innerStyle,
             ref: 'innerRef',
           },
-          !isString(Inner)
-            ? {
+          isString(Inner)
+            ? children
+            : {
               default: () => children,
-            }
-            : children,
+            },
         ),
       ];
 
@@ -523,7 +500,7 @@ const createList = ({
           ref: 'windowRef',
           key: 0,
         },
-        !isString(Container) ? { default: () => [InnerNode] } : [InnerNode],
+        isString(Container) ? [InnerNode] : { default: () => [InnerNode] },
       );
 
       return h(

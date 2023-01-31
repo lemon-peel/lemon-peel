@@ -1,5 +1,5 @@
-import path from 'path';
-import { existsSync } from 'fs';
+import path from 'node:path';
+import { existsSync } from 'node:fs';
 import glob from 'fast-glob';
 import { Octokit } from 'octokit';
 import consola from 'consola';
@@ -8,7 +8,7 @@ import { chunk, mapValues, uniqBy } from 'lodash-es';
 import {
   ensureDir,
   errorAndExit,
-  projRoot,
+  lpRoot,
   writeJson,
 } from '@lemon-peel/build-utils';
 import {
@@ -18,42 +18,42 @@ import {
 } from '@lemon-peel/build-constants';
 
 interface FetchOption {
-  key: string
-  path: string
-  after?: string
+  key: string;
+  path: string;
+  after?: string;
 }
 
 interface ApiResult {
   pageInfo: {
-    hasNextPage: boolean
-    endCursor: string
-  }
+    hasNextPage: boolean;
+    endCursor: string;
+  };
   nodes: Array<{
-    oid: string
+    oid: string;
     author: {
-      avatarUrl: string
-      date: string
-      email: string
-      name: string
+      avatarUrl: string;
+      date: string;
+      email: string;
+      name: string;
       user?: {
-        login: string
-      }
-    }
-  }>
+        login: string;
+      };
+    };
+  }>;
 }
 
 interface ApiResponse {
   repository: {
-    object: Record<`path${number}`, ApiResult>
-  }
+    object: Record<`path${number}`, ApiResult>;
+  };
 }
 
 interface ContributorInfo {
-  login: string
-  name: string
-  email: string
-  avatar: string
-  count: number
+  login: string;
+  name: string;
+  email: string;
+  avatar: string;
+  count: number;
 }
 
 const fetchCommits = async (
@@ -156,7 +156,7 @@ async function getContributors() {
   if (!process.env.GITHUB_TOKEN) throw new Error('GITHUB_TOKEN is empty');
 
   const components = await glob('*', {
-    cwd: path.resolve(projRoot, 'packages/components'),
+    cwd: path.resolve(lpRoot, 'packages/components'),
     onlyDirectories: true,
   });
   let contributors: Record<string, ContributorInfo[]> = {};
@@ -189,8 +189,8 @@ async function main() {
     if (existsSync(pathDest)) return;
     contributors = {};
   } else {
-    contributors = await getContributors().catch(err => {
-      errorAndExit(err);
+    contributors = await getContributors().catch(error => {
+      errorAndExit(error);
     });
   }
 

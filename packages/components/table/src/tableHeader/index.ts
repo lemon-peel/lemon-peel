@@ -1,36 +1,31 @@
-// @ts-nocheck
-import {
-  defineComponent,
-  getCurrentInstance,
-  h,
-  inject,
-  nextTick,
-  onMounted,
-  ref,
-} from 'vue';
+
+import { defineComponent, getCurrentInstance, h, inject, nextTick, onMounted, ref } from 'vue';
 import LpCheckbox from '@lemon-peel/components/checkbox';
 import { useNamespace } from '@lemon-peel/hooks';
-import FilterPanel from '../filter-panel.vue';
-import useLayoutObserver from '../layout-observer';
+import FilterPanel from '../FilterPanel.vue';
+import useLayoutObserver from '../layoutObserver';
 import { TABLE_INJECTION_KEY } from '../tokens';
-import useEvent from './event-helper';
+import useEvent from './eventHelper';
 import useStyle from './style.helper';
-import useUtils from './utils-helper';
+import useUtils from './utilsHelper';
+
 import type { ComponentInternalInstance, PropType, Ref } from 'vue';
 import type { DefaultRow, Sort } from '../table/defaults';
 import type { Store } from '../store';
+
 export interface TableHeader extends ComponentInternalInstance {
   state: {
-    onColumnsChange
-    onScrollableChange
-  }
-  filterPanels: Ref<unknown>
+    onColumnsChange;
+    onScrollableChange;
+  };
+  filterPanels: Ref<unknown>;
 }
+
 export interface TableHeaderProps<T> {
-  fixed: string
-  store: Store<T>
-  border: boolean
-  defaultSort: Sort
+  fixed: string;
+  store: Store<T>;
+  border: boolean;
+  defaultSort: Sort;
 }
 
 export default defineComponent({

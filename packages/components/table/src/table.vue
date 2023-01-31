@@ -13,7 +13,7 @@
         [ns.m('scrollable-y')]: layout.scrollY.value,
         [ns.m('enable-row-hover')]: !store.states.isComplex.value,
         [ns.m('enable-row-transition')]:
-          (store.states.data.value || []).length !== 0 &&
+          (store.states.data.value || []).length > 0 &&
           (store.states.data.value || []).length < 100,
         'has-footer': showSummary,
       },
@@ -115,7 +115,7 @@
             <slot name="append" />
           </div>
         </lp-scrollbar>
-        </lp-scrollbar></div>
+      </div>
       <div
         v-if="showSummary"
         v-show="!isEmpty"
@@ -143,23 +143,22 @@
 </template>
 
 <script lang="ts">
-// @ts-nocheck
 import { computed, defineComponent, getCurrentInstance, provide } from 'vue';
 import { debounce } from 'lodash-unified';
 import { Mousewheel } from '@lemon-peel/directives';
 import { useLocale, useNamespace } from '@lemon-peel/hooks';
 import LpScrollbar from '@lemon-peel/components/scrollbar';
 import { createStore } from './store/helper';
-import TableLayout from './table-layout';
-import TableHeader from './table-header';
-import TableBody from './table-body';
-import TableFooter from './table-footer';
-import useUtils from './table/utils-helper';
-import useStyle from './table/style-helper';
+import TableLayout from './tableLayout';
+import TableHeader from './tableHeader';
+import TableBody from './tableBody';
+import TableFooter from './tableFooter';
+import useUtils from './table/utilsHelper';
+import useStyle from './table/styleHelper';
 import defaultProps from './table/defaults';
 import { TABLE_INJECTION_KEY } from './tokens';
-import { hColgroup } from './h-helper';
-import { useScrollbar } from './composables/use-scrollbar';
+import { hColgroup } from './HHelper';
+import { useScrollbar } from './composables/useScrollbar';
 
 import type { Table } from './table/defaults';
 

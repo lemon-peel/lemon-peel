@@ -1,8 +1,8 @@
-// @ts-nocheck
+
 import { nextTick } from 'vue';
 import { NOOP } from '@vue/shared';
 import { describe, expect, test, vi } from 'vitest';
-import { makeMountFunc } from '@element-plus/test-utils/make-mount';
+import { makeMountFunc } from '@lemon-peel/test-utils/make-mount';
 import Tree from '../src/Tree.vue';
 import type {
   FilterMethod,

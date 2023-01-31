@@ -2,7 +2,8 @@ import { nextTick } from 'vue';
 import { mount } from '@vue/test-utils';
 import { describe, expect, test } from 'vitest';
 import makeScroll from '@lemon-peel/test-utils/make-scroll';
-import defineGetter from '@lemon-peel/test-utils/define-getter';
+import defineGetter from '@lemon-peel/test-utils/defineGetter';
+
 import Scrollbar from '../src/Scrollbar.vue';
 
 describe('ScrollBar', () => {
@@ -235,7 +236,7 @@ describe('ScrollBar', () => {
 
   test('should render min-size props', async () => {
     const outerHeight = 204;
-    const innerHeight = 10000;
+    const innerHeight = 10_000;
     const wrapper = mount(() => (
       <Scrollbar style={`height: ${outerHeight}px;`}>
         <div style={`height: ${innerHeight}px;`}></div>

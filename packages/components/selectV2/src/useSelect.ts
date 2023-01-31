@@ -1,4 +1,4 @@
-// @ts-nocheck
+
 import { computed, nextTick, onMounted, reactive, ref, watch } from 'vue';
 import { isArray, isFunction, isObject } from '@vue/shared';
 import { get, isEqual, isNil, debounce as lodashDebounce } from 'lodash-unified';
@@ -463,11 +463,11 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   const handleFocus = (event: FocusEvent) => {
     const focused = states.isComposing;
     states.isComposing = true;
-    if (!states.softFocus) {
+    if (states.softFocus) {
+      states.softFocus = false;
+    } else {
       // If already in the focus state, shouldn't trigger event
       if (!focused) emit('focus', event);
-    } else {
-      states.softFocus = false;
     }
   };
 

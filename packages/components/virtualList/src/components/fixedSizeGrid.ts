@@ -53,10 +53,12 @@ const FixedSizeGrid = createGrid({
     }
 
     switch (alignment) {
-      case START_ALIGNMENT:
+      case START_ALIGNMENT: {
         return maxOffset;
-      case END_ALIGNMENT:
+      }
+      case END_ALIGNMENT: {
         return minOffset;
+      }
       case CENTERED_ALIGNMENT: {
         const middleOffset = Math.round(minOffset + (maxOffset - minOffset) / 2);
         if (middleOffset < Math.ceil(width / 2)) {
@@ -68,7 +70,7 @@ const FixedSizeGrid = createGrid({
         }
       }
       // case AUTO_ALIGNMENT:
-      default:
+      default: {
         if (scrollLeft >= minOffset && scrollLeft <= maxOffset) {
           return scrollLeft;
         } else if (minOffset > maxOffset) {
@@ -78,6 +80,7 @@ const FixedSizeGrid = createGrid({
         } else {
           return maxOffset;
         }
+      }
     }
   },
 
@@ -105,10 +108,12 @@ const FixedSizeGrid = createGrid({
     }
 
     switch (align) {
-      case START_ALIGNMENT:
+      case START_ALIGNMENT: {
         return maxOffset;
-      case END_ALIGNMENT:
+      }
+      case END_ALIGNMENT: {
         return minOffset;
+      }
       case CENTERED_ALIGNMENT: {
         const middleOffset = Math.round(minOffset + (maxOffset - minOffset) / 2);
         if (middleOffset < Math.ceil(height / 2)) {
@@ -120,7 +125,7 @@ const FixedSizeGrid = createGrid({
         }
       }
       // case AUTO_ALIGNMENT:
-      default:
+      default: {
         if (scrollTop >= minOffset && scrollTop <= maxOffset) {
           return scrollTop;
         } else if (minOffset > maxOffset) {
@@ -130,6 +135,7 @@ const FixedSizeGrid = createGrid({
         } else {
           return maxOffset;
         }
+      }
     }
   },
 

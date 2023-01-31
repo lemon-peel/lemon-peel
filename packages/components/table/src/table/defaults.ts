@@ -1,45 +1,39 @@
-// @ts-nocheck
-import type {
-  CSSProperties,
-  ComponentInternalInstance,
-  PropType,
-  Ref,
-  VNode,
-} from 'vue';
+import type { CSSProperties, ComponentInternalInstance, PropType, Ref, VNode } from 'vue';
 import type { Nullable } from '@lemon-peel/utils';
+
 import type { Store } from '../store';
-import type { TableColumnCtx } from '../table-column/defaults';
-import type TableLayout from '../table-layout';
+import type { TableColumnCtx } from '../tableColumn/defaults';
+import type TableLayout from '../tableLayout';
 
 export type DefaultRow = any;
 
 interface TableRefs {
-  tableWrapper: HTMLElement
-  headerWrapper: HTMLElement
-  footerWrapper: HTMLElement
-  fixedBodyWrapper: HTMLElement
-  rightFixedBodyWrapper: HTMLElement
-  bodyWrapper: HTMLElement
-  [key: string]: any
+  tableWrapper: HTMLElement;
+  headerWrapper: HTMLElement;
+  footerWrapper: HTMLElement;
+  fixedBodyWrapper: HTMLElement;
+  rightFixedBodyWrapper: HTMLElement;
+  bodyWrapper: HTMLElement;
+  [key: string]: any;
 }
 
 interface TableState {
-  isGroup: Ref<boolean>
+  isGroup: Ref<boolean>;
   resizeState: Ref<{
-    width: any
-    height: any
-  }>
-  doLayout: () => void
-  debouncedUpdateLayout: () => void
+    width: any;
+    height: any;
+  }>;
+  doLayout: () => void;
+  debouncedUpdateLayout: () => void;
 }
 
 type HoverState<T> = Nullable<{
-  cell: HTMLElement
-  column: TableColumnCtx<T>
-  row: T
+  cell: HTMLElement;
+  column: TableColumnCtx<T>;
+  row: T;
 }>;
 
-type RIS<T> = { row: T; $index: number; store: Store<T>; expanded: boolean };
+type RIS<T> = { row: T, $index: number, store: Store<T>, expanded: boolean };
 
 type RenderExpanded<T> = ({
   row,
@@ -49,128 +43,128 @@ type RenderExpanded<T> = ({
 }: RIS<T>) => VNode;
 
 type SummaryMethod<T> = (data: {
-  columns: TableColumnCtx<T>[]
-  data: T[]
+  columns: TableColumnCtx<T>[];
+  data: T[];
 }) => string[];
 
-interface Table<T> extends ComponentInternalInstance {
-  $ready: boolean
-  hoverState?: HoverState<T>
-  renderExpanded: RenderExpanded<T>
-  store: Store<T>
-  layout: TableLayout<T>
-  refs: TableRefs
-  tableId: string
-  state: TableState
+interface Table<T extends object> extends ComponentInternalInstance {
+  $ready: boolean;
+  hoverState?: HoverState<T>;
+  renderExpanded: RenderExpanded<T>;
+  store: Store<T>;
+  layout: TableLayout<T>;
+  refs: TableRefs;
+  tableId: string;
+  state: TableState;
 }
 
-type ColumnCls<T> = string | ((data: { row: T; rowIndex: number }) => string);
+type ColumnCls<T> = string | ((data: { row: T, rowIndex: number }) => string);
 type ColumnStyle<T> =
   | CSSProperties
-  | ((data: { row: T; rowIndex: number }) => CSSProperties);
+  | ((data: { row: T, rowIndex: number }) => CSSProperties);
 type CellCls<T> =
   | string
   | ((data: {
-    row: T
-    rowIndex: number
-    column: TableColumnCtx<T>
-    columnIndex: number
+    row: T;
+    rowIndex: number;
+    column: TableColumnCtx<T>;
+    columnIndex: number;
   }) => string);
 type CellStyle<T> =
   | CSSProperties
   | ((data: {
-    row: T
-    rowIndex: number
-    column: TableColumnCtx<T>
-    columnIndex: number
+    row: T;
+    rowIndex: number;
+    column: TableColumnCtx<T>;
+    columnIndex: number;
   }) => CSSProperties);
 type Layout = 'fixed' | 'auto';
 interface TableProps<T> {
-  data: T[]
-  size?: string
-  width?: string | number
-  height?: string | number
-  maxHeight?: string | number
-  fit?: boolean
-  stripe?: boolean
-  border?: boolean
-  rowKey?: string | ((row: T) => string)
-  context?: Table<T>
-  showHeader?: boolean
-  showSummary?: boolean
-  sumText?: string
-  summaryMethod?: SummaryMethod<T>
-  rowClassName?: ColumnCls<T>
-  rowStyle?: ColumnStyle<T>
-  cellClassName?: CellCls<T>
-  cellStyle?: CellStyle<T>
-  headerRowClassName?: ColumnCls<T>
-  headerRowStyle?: ColumnStyle<T>
-  headerCellClassName?: CellCls<T>
-  headerCellStyle?: CellStyle<T>
-  highlightCurrentRow?: boolean
-  currentRowKey?: string | number
-  emptyText?: string
-  expandRowKeys?: any[]
-  defaultExpandAll?: boolean
-  defaultSort?: Sort
-  tooltipEffect?: string
+  data: T[];
+  size?: string;
+  width?: string | number;
+  height?: string | number;
+  maxHeight?: string | number;
+  fit?: boolean;
+  stripe?: boolean;
+  border?: boolean;
+  rowKey?: string | ((row: T) => string);
+  context?: Table<T>;
+  showHeader?: boolean;
+  showSummary?: boolean;
+  sumText?: string;
+  summaryMethod?: SummaryMethod<T>;
+  rowClassName?: ColumnCls<T>;
+  rowStyle?: ColumnStyle<T>;
+  cellClassName?: CellCls<T>;
+  cellStyle?: CellStyle<T>;
+  headerRowClassName?: ColumnCls<T>;
+  headerRowStyle?: ColumnStyle<T>;
+  headerCellClassName?: CellCls<T>;
+  headerCellStyle?: CellStyle<T>;
+  highlightCurrentRow?: boolean;
+  currentRowKey?: string | number;
+  emptyText?: string;
+  expandRowKeys?: any[];
+  defaultExpandAll?: boolean;
+  defaultSort?: Sort;
+  tooltipEffect?: string;
   spanMethod?: (data: {
-    row: T
-    rowIndex: number
-    column: TableColumnCtx<T>
-    columnIndex: number
+    row: T;
+    rowIndex: number;
+    column: TableColumnCtx<T>;
+    columnIndex: number;
   }) =>
   | number[]
   | {
-    rowspan: number
-    colspan: number
+    rowspan: number;
+    colspan: number;
   }
-  | undefined
-  selectOnIndeterminate?: boolean
-  indent?: number
+  | undefined;
+  selectOnIndeterminate?: boolean;
+  indent?: number;
   treeProps?: {
-    hasChildren?: string
-    children?: string
-  }
-  lazy?: boolean
-  load?: (row: T, treeNode: TreeNode, resolve: (data: T[]) => void) => void
-  className?: string
-  style?: CSSProperties
-  tableLayout: Layout
-  flexible: boolean
+    hasChildren?: string;
+    children?: string;
+  };
+  lazy?: boolean;
+  load?: (row: T, treeNode: TreeNode, resolve: (data: T[]) => void) => void;
+  className?: string;
+  style?: CSSProperties;
+  tableLayout: Layout;
+  flexible: boolean;
 }
 
 interface Sort {
-  prop: string
-  order: 'ascending' | 'descending'
-  init?: any
-  silent?: any
+  prop: string;
+  order: 'ascending' | 'descending';
+  init?: any;
+  silent?: any;
 }
 
 interface Filter<T> {
-  column: TableColumnCtx<T>
-  values: string[]
-  silent: any
+  column: TableColumnCtx<T>;
+  values: string[];
+  silent: any;
 }
 
 interface TreeNode {
-  expanded?: boolean
-  loading?: boolean
-  noLazyChildren?: boolean
-  indent?: number
-  level?: number
-  display?: boolean
+  expanded?: boolean;
+  loading?: boolean;
+  noLazyChildren?: boolean;
+  indent?: number;
+  level?: number;
+  display?: boolean;
 }
 
 interface RenderRowData<T> {
-  store: Store<T>
-  _self: Table<T>
-  column: TableColumnCtx<T>
-  row: T
-  $index: number
-  treeNode?: TreeNode
-  expanded: boolean
+  store: Store<T>;
+  _self: Table<T>;
+  column: TableColumnCtx<T>;
+  row: T;
+  $index: number;
+  treeNode?: TreeNode;
+  expanded: boolean;
 }
 
 export default {

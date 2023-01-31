@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { computed, inject, ref } from 'vue';
 import { addClass, generateId } from '@lemon-peel/utils';
 import { EVENT_CODE } from '@lemon-peel/constants';

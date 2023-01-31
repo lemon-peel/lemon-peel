@@ -1,22 +1,16 @@
-import process from 'process';
-import path from 'path';
-import { mkdir, readFile, writeFile } from 'fs/promises';
+import process from 'node:process';
+import path from 'node:path';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import consola from 'consola';
 import * as vueCompiler from 'vue/compiler-sfc';
 import glob from 'fast-glob';
 import chalk from 'chalk';
 import { Project } from 'ts-morph';
-import {
-  buildOutput,
-  epRoot,
-  excludeFiles,
-  pkgRoot,
-  projRoot,
-} from '@lemon-peel/build-utils';
+import { buildOutput, excludeFiles, pkgRoot, lpRoot } from '@lemon-peel/build-utils';
 import { pathRewriter } from '../utils';
 import type { CompilerOptions, SourceFile } from 'ts-morph';
 
-const TSCONFIG_PATH = path.resolve(projRoot, 'tsconfig.web.json');
+const TSCONFIG_PATH = path.resolve(lpRoot, 'tsconfig.web.json');
 const outDir = path.resolve(buildOutput, 'types');
 
 /**
@@ -26,7 +20,7 @@ export const generateTypesDefinitions = async () => {
   const compilerOptions: CompilerOptions = {
     emitDeclarationOnly: true,
     outDir,
-    baseUrl: projRoot,
+    baseUrl: lpRoot,
     preserveSymlinks: true,
     skipLibCheck: true,
     noImplicitAny: false,
@@ -87,7 +81,7 @@ export const generateTypesDefinitions = async () => {
 };
 
 async function addSourceFiles(project: Project) {
-  project.addSourceFileAtPath(path.resolve(projRoot, 'typings/env.d.ts'));
+  project.addSourceFileAtPath(path.resolve(lpRoot, 'typings/env.d.ts'));
 
   const globSourceFile = '**/*.{js?(x),ts?(x),vue}';
   const filePaths = excludeFiles(

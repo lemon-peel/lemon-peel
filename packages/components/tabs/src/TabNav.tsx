@@ -1,26 +1,7 @@
-import {
-  computed,
-  defineComponent,
-  getCurrentInstance,
-  inject,
-  nextTick,
-  onMounted,
-  onUpdated,
-  ref,
-  watch,
-} from 'vue';
-import {
-  useDocumentVisibility,
-  useResizeObserver,
-  useWindowFocus,
-} from '@vueuse/core';
-import {
-  buildProps,
-  capitalize,
-  definePropType,
-  mutable,
-  throwError,
-} from '@lemon-peel/utils';
+/* eslint-disable unicorn/prefer-ternary */
+import { computed, defineComponent, getCurrentInstance, inject, nextTick, onMounted, onUpdated, ref, watch } from 'vue';
+import { useDocumentVisibility, useResizeObserver, useWindowFocus } from '@vueuse/core';
+import { buildProps, capitalize, definePropType, mutable, throwError } from '@lemon-peel/utils';
 import { EVENT_CODE } from '@lemon-peel/constants';
 import { LpIcon } from '@lemon-peel/components/icon';
 import { ArrowLeft, ArrowRight, Close } from '@element-plus/icons-vue';
@@ -186,11 +167,11 @@ const TabNav = defineComponent({
       const currentOffset = navOffset.value;
 
       if (containerSize < navSize) {
-        const currentOffset = navOffset.value;
+        const offset = navOffset.value;
         scrollable.value = scrollable.value || {};
-        scrollable.value.prev = currentOffset;
-        scrollable.value.next = currentOffset + containerSize < navSize;
-        if (navSize - currentOffset < containerSize) {
+        scrollable.value.prev = offset;
+        scrollable.value.next = offset + containerSize < navSize;
+        if (navSize - offset < containerSize) {
           navOffset.value = navSize - containerSize;
         }
       } else {
@@ -199,6 +180,10 @@ const TabNav = defineComponent({
           navOffset.value = 0;
         }
       }
+    };
+
+    const setFocus = () => {
+      if (focusable.value) isFocus.value = true;
     };
 
     const changeTab = (e: KeyboardEvent) => {
@@ -236,20 +221,18 @@ const TabNav = defineComponent({
       setFocus();
     };
 
-    const setFocus = () => {
-      if (focusable.value) isFocus.value = true;
-    };
     const removeFocus = () => (isFocus.value = false);
 
-    watch(visibility, visibility => {
-      if (visibility === 'hidden') {
+    watch(visibility, val => {
+      if (val === 'hidden') {
         focusable.value = false;
-      } else if (visibility === 'visible') {
+      } else if (val === 'visible') {
         setTimeout(() => (focusable.value = true), 50);
       }
     });
-    watch(focused, focused => {
-      if (focused) {
+
+    watch(focused, val => {
+      if (val) {
         setTimeout(() => (focusable.value = true), 50);
       } else {
         focusable.value = false;
@@ -387,7 +370,7 @@ const TabNav = defineComponent({
               onKeydown={changeTab}
             >
               {...[
-                !props.type ? <TabBar tabs={[...props.panes]} /> : null,
+                props.type ? null : <TabBar tabs={[...props.panes]} />,
                 tabs,
               ]}
             </div>

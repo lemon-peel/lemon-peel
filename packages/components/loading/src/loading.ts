@@ -37,11 +37,11 @@ export function createLoadingComponent(options: LoadingOptionsResolved) {
       let loadingNumber: number | string | null =
         target.getAttribute('loading-number');
       loadingNumber = Number.parseInt(loadingNumber as any) - 1;
-      if (!loadingNumber) {
+      if (loadingNumber) {
+        target.setAttribute('loading-number', loadingNumber.toString());
+      } else {
         removeClass(target, ns.bm('parent', 'relative'));
         target.removeAttribute('loading-number');
-      } else {
-        target.setAttribute('loading-number', loadingNumber.toString());
       }
       removeClass(target, ns.bm('parent', 'hidden'));
     }

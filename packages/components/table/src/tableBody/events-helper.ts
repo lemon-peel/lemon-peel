@@ -1,10 +1,10 @@
-// @ts-nocheck
+
 import { h, inject, ref } from 'vue';
 import { debounce } from 'lodash-unified';
 import { getStyle, hasClass } from '@lemon-peel/utils';
 import { createTablePopper, getCell, getColumnByCell } from '../util';
 import { TABLE_INJECTION_KEY } from '../tokens';
-import type { TableColumnCtx } from '../table-column/defaults';
+import type { TableColumnCtx } from '../tableColumn/defaults';
 import type { TableBodyProps } from './defaults';
 
 function useEvents<T>(props: Partial<TableBodyProps<T>>) {
@@ -79,7 +79,7 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
     if (
       !(
         hasClass(cellChild, `${namespace}-tooltip`) &&
-        cellChild.childNodes.length
+        cellChild.childNodes.length > 0
       )
     ) {
       return;

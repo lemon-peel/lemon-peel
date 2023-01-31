@@ -15,9 +15,8 @@
 </template>
 
 <script lang="ts">
-// @ts-nocheck
-import { defineComponent } from 'vue'
-import { useNamespace } from '@element-plus/hooks'
+import { defineComponent } from 'vue';
+import { useNamespace } from '@element-plus/hooks';
 
 export default defineComponent({
   props: {
@@ -29,10 +28,10 @@ export default defineComponent({
     height: Number,
   },
   setup() {
-    const ns = useNamespace('select')
+    const ns = useNamespace('select');
     return {
       ns,
-    }
+    };
   },
-})
+});
 </script>

@@ -1,4 +1,4 @@
-import path from 'path';
+import path from 'node:path';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import { rollup } from 'rollup';
 import commonjs from '@rollup/plugin-commonjs';
@@ -9,20 +9,11 @@ import esbuild, { minify as minifyPlugin } from 'rollup-plugin-esbuild';
 import { parallel } from 'gulp';
 import glob from 'fast-glob';
 import { camelCase, upperFirst } from 'lodash';
-import {
-  PKG_BRAND_NAME,
-  PKG_CAMELCASE_LOCAL_NAME,
-  PKG_CAMELCASE_NAME,
-} from '@lemon-peel/build-constants';
+import { PKG_BRAND_NAME, PKG_CAMELCASE_LOCAL_NAME, PKG_CAMELCASE_NAME } from '@lemon-peel/build-constants';
 import { epOutput, epRoot, localeRoot } from '@lemon-peel/build-utils';
 import { version } from '../../../../packages/lemon-peel/version';
 import { ElementPlusAlias } from '../plugins/lemon-peel-alias';
-import {
-  formatBundleFilename,
-  generateExternal,
-  withTaskName,
-  writeBundles,
-} from '../utils';
+import { formatBundleFilename, generateExternal, withTaskName, writeBundles } from '../utils';
 import { target } from '../build-info';
 import type { Plugin } from 'rollup';
 

@@ -150,13 +150,13 @@ export default defineComponent({
           // If so, meaning user want to have pageSize controlled himself/herself from component
           // Thus page size listener is required
           // users are account for page size change
-          if (!isAbsent(props.pageSize)) {
+          if (isAbsent(props.pageSize)) {
+            // (else block just for explaination)
+            // else page size is controlled by el-pagination internally
+          } else {
             if (!hasPageSizeListener) {
               return false;
             }
-          } else {
-            // (else block just for explaination)
-            // else page size is controlled by el-pagination internally
           }
         }
       }
@@ -317,10 +317,10 @@ export default defineComponent({
           haveRightWrapper = true;
           continue;
         }
-        if (!haveRightWrapper) {
-          rootChildren.push(TEMPLATE_MAP[c]);
-        } else {
+        if (haveRightWrapper) {
           rightWrapperChildren.push(TEMPLATE_MAP[c]);
+        } else {
+          rootChildren.push(TEMPLATE_MAP[c]);
         }
       }
 

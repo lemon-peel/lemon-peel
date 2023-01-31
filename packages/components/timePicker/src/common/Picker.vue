@@ -10,7 +10,7 @@
     teleported
     :transition="`${nsDate.namespace.value}-zoom-in-top`"
     :popper-class="[`${nsDate.namespace.value}-picker__popper`, popperClass]"
-    :popper-options="elPopperOptions"
+    :popper-options="lpPopperOptions"
     :fallback-placements="['bottom', 'top', 'right', 'left']"
     :gpu-acceleration="false"
     :stop-popper-mouse-event="false"
@@ -213,7 +213,7 @@ const nsInput = useNamespace('input');
 const nsRange = useNamespace('range');
 
 const { form, formItem } = useFormItem();
-const elPopperOptions = inject('LpPopperOptions', {} as Options);
+const lpPopperOptions = inject('LpPopperOptions', {} as Options);
 
 const refPopper = ref<TooltipInstance>();
 const inputRef = ref<HTMLElement | ComponentPublicInstance>();
@@ -223,21 +223,8 @@ const valueOnOpen = ref<TimePickerDefaultProps['modelValue'] | null>(null);
 
 let hasJustTabExitedInput = false;
 let ignoreFocusEvent = false;
+const userInput = ref<UserInput>(null);
 
-watch(pickerVisible, val => {
-  if (!val) {
-    userInput.value = null;
-    nextTick(() => {
-      emitChange(props.modelValue);
-    });
-  } else {
-    nextTick(() => {
-      if (val) {
-        valueOnOpen.value = props.modelValue;
-      }
-    });
-  }
-});
 const emitChange = (
   val: TimePickerDefaultProps['modelValue'] | null,
   isClear?: boolean,
@@ -249,6 +236,22 @@ const emitChange = (
       formItem?.validate('change').catch(error => debugWarn(error));
   }
 };
+
+watch(pickerVisible, val => {
+  if (val) {
+    nextTick(() => {
+      if (val) {
+        valueOnOpen.value = props.modelValue;
+      }
+    });
+  } else {
+    userInput.value = null;
+    nextTick(() => {
+      emitChange(props.modelValue);
+    });
+  }
+});
+
 const emitInput = (input: SingleOrRange<DateModelType | Dayjs> | null) => {
   if (!valueEquals(props.modelValue, input)) {
     let formatted;
@@ -266,27 +269,44 @@ const emitKeydown = (e: KeyboardEvent) => {
   emit('keydown', e);
 };
 
+const isRangeInput = computed(() => {
+  return props.type.includes('range');
+});
+
 const refInput = computed<HTMLInputElement[]>(() => {
   if (inputRef.value) {
-    const _r = isRangeInput.value
+    const el = isRangeInput.value
       ? inputRef.value
       : (inputRef.value as any as ComponentPublicInstance).$el;
-    return [..._r.querySelectorAll('input')];
+    return [...el.querySelectorAll('input')];
   }
   return [];
 });
 
 const setSelectionRange = (start: number, end: number, pos?: 'min' | 'max') => {
-  const _inputs = refInput.value;
-  if (_inputs.length === 0) return;
+  const inputVal = refInput.value;
+  if (inputVal.length === 0) return;
   if (!pos || pos === 'min') {
-    _inputs[0].setSelectionRange(start, end);
-    _inputs[0].focus();
+    inputVal[0].setSelectionRange(start, end);
+    inputVal[0].focus();
   } else if (pos === 'max') {
-    _inputs[1].setSelectionRange(start, end);
-    _inputs[1].focus();
+    inputVal[1].setSelectionRange(start, end);
+    inputVal[1].focus();
   }
 };
+
+const focus = (focusStartInput = true, isIgnoreFocusEvent = false) => {
+  ignoreFocusEvent = isIgnoreFocusEvent;
+  const [leftInput, rightInput] = unref(refInput);
+  let input = leftInput;
+  if (!focusStartInput && isRangeInput.value) {
+    input = rightInput;
+  }
+  if (input) {
+    input.focus();
+  }
+};
+
 const focusOnInputBox = () => {
   focus(true, true);
   nextTick(() => {
@@ -339,17 +359,10 @@ const handleClose = () => {
   pickerVisible.value = false;
 };
 
-const focus = (focusStartInput = true, isIgnoreFocusEvent = false) => {
-  ignoreFocusEvent = isIgnoreFocusEvent;
-  const [leftInput, rightInput] = unref(refInput);
-  let input = leftInput;
-  if (!focusStartInput && isRangeInput.value) {
-    input = rightInput;
-  }
-  if (input) {
-    input.focus();
-  }
-};
+
+const pickerDisabled = computed(() => {
+  return props.disabled || form?.disabled;
+});
 
 const handleFocusInput = (e?: FocusEvent) => {
   if (
@@ -368,35 +381,23 @@ let currentHandleBlurDeferCallback:
 | (() => Promise<void> | undefined)
 | undefined;
 
-// Check if document.activeElement is inside popper or any input before popper close
-const handleBlurInput = (e?: FocusEvent) => {
-  const handleBlurDefer = async () => {
-    setTimeout(() => {
-      if (currentHandleBlurDeferCallback === handleBlurDefer) {
-        if (
-          !(
-            refPopper.value?.isFocusInsideContent() && !hasJustTabExitedInput
-          ) &&
-          refInput.value.filter(input => {
-            return input.contains(document.activeElement);
-          }).length === 0
-        ) {
-          handleChange();
-          pickerVisible.value = false;
-          emit('blur', e);
-          props.validateEvent &&
-            formItem?.validate('blur').catch(error => debugWarn(error));
-        }
-        hasJustTabExitedInput = false;
-      }
-    }, 0);
-  };
-  currentHandleBlurDeferCallback = handleBlurDefer;
-  handleBlurDefer();
+const pickerOptions = ref<Partial<PickerOptions>>({});
+
+const parseUserInputToDayjs = (value: UserInput) => {
+  if (!value) return null;
+  return pickerOptions.value.parseUserInput!(value);
 };
 
-const pickerDisabled = computed(() => {
-  return props.disabled || form?.disabled;
+const formatDayjsToString = (value: DayOrDays) => {
+  if (!value) return null;
+  return pickerOptions.value.formatToString!(value);
+};
+
+const valueIsEmpty = computed(() => {
+  const { modelValue } = props;
+  return (
+    !modelValue || (isArray(modelValue) && modelValue.filter(Boolean).length === 0)
+  );
 });
 
 const parsedValue = computed(() => {
@@ -430,6 +431,9 @@ const parsedValue = computed(() => {
   return dayOrDays!;
 });
 
+const isTimePicker = computed(() => props.type.startsWith('time'));
+const isDatesPicker = computed(() => props.type === 'dates');
+
 const displayValue = computed<UserInput>(() => {
   if (!pickerOptions.value.panelReady) return '';
   const formattedValue = formatDayjsToString(parsedValue.value);
@@ -451,11 +455,57 @@ const displayValue = computed<UserInput>(() => {
   return '';
 });
 
+const isValidValue = (value: DayOrDays) => {
+  return pickerOptions.value.isValidValue!(value);
+};
+
+const handleChange = () => {
+  if (userInput.value) {
+    const value = parseUserInputToDayjs(displayValue.value);
+    if (value && isValidValue(value)) {
+      emitInput(
+        (isArray(value)
+          ? value.map(_ => _.toDate())
+          : value.toDate()) as DateOrDates,
+      );
+      userInput.value = null;
+    }
+  }
+  if (userInput.value === '') {
+    emitInput(null);
+    emitChange(null);
+    userInput.value = null;
+  }
+};
+
+// Check if document.activeElement is inside popper or any input before popper close
+const handleBlurInput = (e?: FocusEvent) => {
+  const handleBlurDefer = async () => {
+    setTimeout(() => {
+      if (currentHandleBlurDeferCallback === handleBlurDefer) {
+        if (
+          !(
+            refPopper.value?.isFocusInsideContent() && !hasJustTabExitedInput
+          ) &&
+          refInput.value.filter(input => {
+            return input.contains(document.activeElement);
+          }).length === 0
+        ) {
+          handleChange();
+          pickerVisible.value = false;
+          emit('blur', e);
+          props.validateEvent &&
+            formItem?.validate('blur').catch(error => debugWarn(error));
+        }
+        hasJustTabExitedInput = false;
+      }
+    }, 0);
+  };
+  currentHandleBlurDeferCallback = handleBlurDefer;
+  handleBlurDefer();
+};
+
 const isTimeLikePicker = computed(() => props.type.includes('time'));
-
-const isTimePicker = computed(() => props.type.startsWith('time'));
-
-const isDatesPicker = computed(() => props.type === 'dates');
 
 const triggerIcon = computed(
   () => props.prefixIcon || (isTimeLikePicker.value ? Clock : Calendar),
@@ -475,13 +525,6 @@ const onClearIconClick = (event: MouseEvent) => {
     pickerOptions.value.handleClear && pickerOptions.value.handleClear();
   }
 };
-
-const valueIsEmpty = computed(() => {
-  const { modelValue } = props;
-  return (
-    !modelValue || (isArray(modelValue) && modelValue.filter(Boolean).length === 0)
-  );
-});
 
 const onMouseDownInput = async (event: MouseEvent) => {
   if (props.readonly || pickerDisabled.value) return;
@@ -510,9 +553,6 @@ const onTouchStartInput = (event: TouchEvent) => {
     pickerVisible.value = true;
   }
 };
-const isRangeInput = computed(() => {
-  return props.type.includes('range');
-});
 
 const pickerSize = useSize();
 
@@ -538,41 +578,6 @@ onClickOutside(actualInputRef, (e: PointerEvent) => {
     return;
   pickerVisible.value = false;
 });
-
-const userInput = ref<UserInput>(null);
-
-const handleChange = () => {
-  if (userInput.value) {
-    const value = parseUserInputToDayjs(displayValue.value);
-    if (value && isValidValue(value)) {
-      emitInput(
-        (isArray(value)
-          ? value.map(_ => _.toDate())
-          : value.toDate()) as DateOrDates,
-      );
-      userInput.value = null;
-    }
-  }
-  if (userInput.value === '') {
-    emitInput(null);
-    emitChange(null);
-    userInput.value = null;
-  }
-};
-
-const parseUserInputToDayjs = (value: UserInput) => {
-  if (!value) return null;
-  return pickerOptions.value.parseUserInput!(value);
-};
-
-const formatDayjsToString = (value: DayOrDays) => {
-  if (!value) return null;
-  return pickerOptions.value.formatToString!(value);
-};
-
-const isValidValue = (value: DayOrDays) => {
-  return pickerOptions.value.isValidValue!(value);
-};
 
 const handleKeydownInput = async (event: KeyboardEvent) => {
   if (props.readonly || pickerDisabled.value) return;
@@ -683,7 +688,6 @@ const handleEndChange = () => {
   }
 };
 
-const pickerOptions = ref<Partial<PickerOptions>>({});
 const onSetPickerOption = <T extends keyof PickerOptions>(
   e: [T, PickerOptions[T]],
 ) => {

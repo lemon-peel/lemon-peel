@@ -27,12 +27,12 @@ const on = {
 
   enter(element: RendererElement) {
     element.dataset.oldOverflow = element.style.overflow;
-    if (element.scrollHeight !== 0) {
-      element.style.maxHeight = `${element.scrollHeight}px`;
+    if (element.scrollHeight === 0) {
+      element.style.maxHeight = 0;
       element.style.paddingTop = element.dataset.oldPaddingTop;
       element.style.paddingBottom = element.dataset.oldPaddingBottom;
     } else {
-      element.style.maxHeight = 0;
+      element.style.maxHeight = `${element.scrollHeight}px`;
       element.style.paddingTop = element.dataset.oldPaddingTop;
       element.style.paddingBottom = element.dataset.oldPaddingBottom;
     }

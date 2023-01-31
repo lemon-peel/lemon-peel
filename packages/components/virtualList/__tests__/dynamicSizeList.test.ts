@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { nextTick } from 'vue';
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest';
 import makeMount from '@lemon-peel/test-utils/make-mount';
@@ -238,10 +237,10 @@ describe('<dynamic-size-list />', () => {
             },
           },
         });
-      } catch (e) {
+      } catch (error) {
         expect(errorHandler).toHaveBeenCalled();
-        expect(e).toBeInstanceOf(Error);
-        expect(e.message).toContain('itemSize is required as function');
+        expect(error).toBeInstanceOf(Error);
+        expect(error.message).toContain('itemSize is required as function');
       }
     });
   });

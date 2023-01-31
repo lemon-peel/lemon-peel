@@ -1,4 +1,4 @@
-import path from 'path';
+import path from 'node:path';
 import {
   arrayToRegExp,
   getTypeSymbol,
@@ -11,7 +11,7 @@ import {
   epOutput,
   epPackage,
   getPackageManifest,
-  projRoot,
+  lpRoot,
 } from '@lemon-peel/build-utils';
 
 import type { TaskFunction } from 'gulp';
@@ -28,7 +28,7 @@ const typeMap = {
 };
 
 const reComponentName: ReComponentName = title =>
-  `el-${hyphenate(title).replace(/[ ]+/g, '-')}`;
+  `el-${hyphenate(title).replace(/ +/g, '-')}`;
 
 const reDocUrl: ReDocUrl = (fileName, header) => {
   const docs = 'https://lemon-peel.org/en-US/component/';
@@ -57,44 +57,50 @@ const reAttribute: ReAttribute = (value, key) => {
   if (key === 'Name' && /^(-|—)$/.test(str)) {
     return 'default';
   } else if (str === '' || /^(-|—)$/.test(str)) {
-    return undefined;
+    return;
   } else if (key === 'Name' && /v-model:(.+)/.test(str)) {
     const _str = str.match(/v-model:(.+)/);
     return _str ? _str[1] : undefined;
   } else if (key === 'Name' && /v-model/.test(str)) {
     return 'model-value';
-  } else if (key === 'Name') {
-    return str
-      .replaceAll(/\s*[\\*]\s*/g, '')
-      .replaceAll(/\s*<.*>\s*/g, '')
-      .replaceAll(/\s*\(.*\)\s*/g, '')
-      .replaceAll(/\B([A-Z])/g, '-$1')
-      .toLowerCase();
-  } else if (key === 'Type') {
-    return str
-      .replaceAll(/\bfunction(\(.*\))?(:\s*\w+)?\b/gi, 'Function')
-      .replaceAll(/\bdate\b/g, 'Date')
-      .replaceAll(/\([^)]*\)(?!\s*=>)/g, '')
-      .replaceAll(/(<[^>]*>|\{[^}]*}|\([^)]*\))/g, item => {
-        return item.replaceAll(/(\/|\|)/g, '=_0!');
-      })
-      .replaceAll(/(\b\w+)\s*\|/g, '$1 /')
-      .replaceAll(/\|\s*(\b\w+)/g, '/ $1')
-      .replaceAll(/=_0!/g, '|');
-  } else if (key === 'Accepted Values') {
-    return /\[.+\]\(.+\)/.test(str) || /^\*$/.test(str)
-      ? undefined
-      : str.replaceAll(/`/g, '').replaceAll(/\([^)]*\)(?!\s*=>)/g, '');
-  } else if (key === 'Subtags') {
-    return str
-      ? `el-${str
-        .replaceAll(/\s*\/\s*/g, '/el-')
+  } else switch (key) {
+    case 'Name': {
+      return str
+        .replaceAll(/\s*[*\\]\s*/g, '')
+        .replaceAll(/\s*<.*>\s*/g, '')
+        .replaceAll(/\s*\(.*\)\s*/g, '')
         .replaceAll(/\B([A-Z])/g, '-$1')
-        .replaceAll(/\s+/g, '-')
-        .toLowerCase()}`
-      : undefined;
-  } else {
-    return str;
+        .toLowerCase();
+    }
+    case 'Type': {
+      return str
+        .replaceAll(/\bfunction(\(.*\))?(:\s*\w+)?\b/gi, 'Function')
+        .replaceAll(/\bdate\b/g, 'Date')
+        .replaceAll(/\([^)]*\)(?!\s*=>)/g, '')
+        .replaceAll(/(<[^>]*>|{[^}]*}|\([^)]*\))/g, item => {
+          return item.replaceAll(/(\/|\|)/g, '=_0!');
+        })
+        .replaceAll(/(\b\w+)\s*\|/g, '$1 /')
+        .replaceAll(/\|\s*(\b\w+)/g, '/ $1')
+        .replaceAll(/=_0!/g, '|');
+    }
+    case 'Accepted Values': {
+      return /\[.+]\(.+\)/.test(str) || /^\*$/.test(str)
+        ? undefined
+        : str.replaceAll(/`/g, '').replaceAll(/\([^)]*\)(?!\s*=>)/g, '');
+    }
+    case 'Subtags': {
+      return str
+        ? `el-${str
+          .replaceAll(/\s*\/\s*/g, '/el-')
+          .replaceAll(/\B([A-Z])/g, '-$1')
+          .replaceAll(/\s+/g, '-')
+          .toLowerCase()}`
+        : undefined;
+    }
+    default: {
+      return str;
+    }
   }
 };
 
@@ -110,7 +116,7 @@ const reWebTypesType: ReWebTypesType = type => {
 };
 
 const findModule = (type: string): string | undefined => {
-  let result: string | undefined = undefined;
+  let result: string | undefined;
 
   for (const key in typeMap) {
     const regExp = arrayToRegExp(typeMap[key as keyof typeof typeMap]);
@@ -139,7 +145,7 @@ export const buildHelper: TaskFunction = done => {
     name: name!,
     version: _version,
     entry: `${path.resolve(
-      projRoot,
+      lpRoot,
       'docs/en-US/component',
     )}/!(datetime-picker|message-box|message).md`,
     outDir: epOutput,

@@ -1,20 +1,11 @@
-// @ts-nocheck
-import {
-  computed,
-  nextTick,
-  onMounted,
-  ref,
-  unref,
-  watch,
-  watchEffect,
-} from 'vue';
+import { computed, nextTick, onMounted, ref, unref, watch, watchEffect } from 'vue';
 import { useEventListener, useResizeObserver } from '@vueuse/core';
 import { useSize } from '@lemon-peel/hooks';
 
 import type { Table, TableProps } from './defaults';
 import type { Store } from '../store';
-import type TableLayout from '../table-layout';
-import type { TableColumnCtx } from '../table-column/defaults';
+import type TableLayout from '../tableLayout';
+import type { TableColumnCtx } from '../tableColumn/defaults';
 
 function useStyle<T>(
   props: TableProps<T>,
@@ -29,9 +20,9 @@ function useStyle<T>(
     resizeProxyVisible.value = visible;
   };
   const resizeState = ref<{
-    width: null | number
-    height: null | number
-    headerHeight: null | number
+    width: null | number;
+    height: null | number;
+    headerHeight: null | number;
   }>({
     width: null,
     height: null,
@@ -137,7 +128,7 @@ function useStyle<T>(
 
     // init filters
     store.states.columns.value.forEach((column: TableColumnCtx<T>) => {
-      if (column.filteredValue && column.filteredValue.length) {
+      if (column.filteredValue && column.filteredValue.length > 0) {
         table.store.commit('filterChange', {
           column,
           values: column.filteredValue,
@@ -266,7 +257,7 @@ function useStyle<T>(
   });
 
   const emptyBlockStyle = computed(() => {
-    if (props.data && props.data.length) return null;
+    if (props.data && props.data.length > 0) return null;
     let height = '100%';
     if (props.height && bodyScrollHeight.value) {
       height = `${bodyScrollHeight.value}px`;
@@ -281,16 +272,16 @@ function useStyle<T>(
   const tableInnerStyle = computed(() => {
     if (props.height) {
       return {
-        height: !Number.isNaN(Number(props.height))
-          ? `${props.height}px`
-          : props.height,
+        height: Number.isNaN(Number(props.height))
+          ? props.height
+          : `${props.height}px`,
       };
     }
     if (props.maxHeight) {
       return {
-        maxHeight: !Number.isNaN(Number(props.maxHeight))
-          ? `${props.maxHeight}px`
-          : props.maxHeight,
+        maxHeight: Number.isNaN(Number(props.maxHeight))
+          ? props.maxHeight
+          : `${props.maxHeight}px`,
       };
     }
     return {};
@@ -303,7 +294,13 @@ function useStyle<T>(
       };
     }
     if (props.maxHeight) {
-      if (!Number.isNaN(Number(props.maxHeight))) {
+      if (Number.isNaN(Number(props.maxHeight))) {
+        return {
+          maxHeight: `calc(${props.maxHeight} - ${
+            headerScrollHeight.value + footerScrollHeight.value
+          }px)`,
+        };
+      } else {
         const maxHeight = props.maxHeight;
         const reachMaxHeight = tableScrollHeight.value >= Number(maxHeight);
         if (reachMaxHeight) {
@@ -315,12 +312,6 @@ function useStyle<T>(
             }px`,
           };
         }
-      } else {
-        return {
-          maxHeight: `calc(${props.maxHeight} - ${
-            headerScrollHeight.value + footerScrollHeight.value
-          }px)`,
-        };
       }
     }
 

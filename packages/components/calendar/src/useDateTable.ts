@@ -83,12 +83,15 @@ export const useDateTable = (
 
   const getFormattedDate = (day: number, type: CalendarDateCellType): Dayjs => {
     switch (type) {
-      case 'prev':
+      case 'prev': {
         return props.date.startOf('month').subtract(1, 'month').date(day);
-      case 'next':
+      }
+      case 'next': {
         return props.date.startOf('month').add(1, 'month').date(day);
-      case 'current':
+      }
+      case 'current': {
         return props.date.date(day);
+      }
     }
   };
 

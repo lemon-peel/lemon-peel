@@ -109,7 +109,9 @@ const getPrecision = (value: number | null | undefined) => {
 
 const numPrecision = computed(() => {
   const stepPrecision = getPrecision(props.step);
-  if (!isUndefined(props.precision)) {
+  if (isUndefined(props.precision)) {
+    return Math.max(getPrecision(props.modelValue), stepPrecision);
+  } else {
     if (stepPrecision > props.precision) {
       debugWarn(
         'InputNumber',
@@ -117,8 +119,6 @@ const numPrecision = computed(() => {
       );
     }
     return props.precision;
-  } else {
-    return Math.max(getPrecision(props.modelValue), stepPrecision);
   }
 });
 
@@ -237,7 +237,7 @@ const handleInput = (value: string) => {
   emit(INPUT_EVENT, value === '' ? null : Number(value));
 };
 const handleInputChange = (value: string) => {
-  const newVal = value !== '' ? Number(value) : '';
+  const newVal = value === '' ? '' : Number(value);
   if ((isNumber(newVal) && !Number.isNaN(newVal)) || value === '') {
     setCurrentValue(newVal);
   }

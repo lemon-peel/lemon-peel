@@ -1,4 +1,4 @@
-// @ts-nocheck
+
 import { defineComponent, h, inject } from 'vue';
 import { addUnit, getNormalizedProps } from '@lemon-peel/utils';
 import { useNamespace } from '@lemon-peel/hooks';
@@ -51,7 +51,7 @@ export default defineComponent({
     const ns = useNamespace('descriptions');
 
     switch (this.type) {
-      case 'label':
+      case 'label': {
         return h(
           this.tag,
           {
@@ -68,7 +68,8 @@ export default defineComponent({
           },
           label,
         );
-      case 'content':
+      }
+      case 'content': {
         return h(
           this.tag,
           {
@@ -85,7 +86,8 @@ export default defineComponent({
           },
           content,
         );
-      default:
+      }
+      default: {
         return h(
           'td',
           {
@@ -110,6 +112,7 @@ export default defineComponent({
             ),
           ],
         );
+      }
     }
   },
 });

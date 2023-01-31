@@ -1,22 +1,22 @@
-// @ts-nocheck
-import type { PropType } from 'vue'
-import type { Store } from '../store'
+
+import type { PropType } from 'vue';
+import type { Store } from '../store';
 import type {
   ColumnCls,
   ColumnStyle,
   DefaultRow,
   Table,
-} from '../table/defaults'
+} from '../table/defaults';
 
 interface TableBodyProps<T> {
-  store: Store<T>
-  stripe?: boolean
-  context: Table<T>
-  rowClassName: ColumnCls<T>
-  rowStyle: ColumnStyle<T>
-  fixed: string
-  highlight: boolean
-  tooltipEffect: string
+  store: Store<T>;
+  stripe?: boolean;
+  context: Table<T>;
+  rowClassName: ColumnCls<T>;
+  rowStyle: ColumnStyle<T>;
+  fixed: string;
+  highlight: boolean;
+  tooltipEffect: string;
 }
 
 const defaultProps = {
@@ -31,17 +31,17 @@ const defaultProps = {
     type: Object as PropType<TableBodyProps<DefaultRow>['context']>,
   },
   rowClassName: [String, Function] as PropType<
-    TableBodyProps<DefaultRow>['rowClassName']
+  TableBodyProps<DefaultRow>['rowClassName']
   >,
   rowStyle: [Object, Function] as PropType<
-    TableBodyProps<DefaultRow>['rowStyle']
+  TableBodyProps<DefaultRow>['rowStyle']
   >,
   fixed: {
     type: String,
     default: '',
   },
   highlight: Boolean,
-}
+};
 
-export { TableBodyProps }
-export default defaultProps
+export { TableBodyProps };
+export default defaultProps;

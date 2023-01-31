@@ -1,13 +1,5 @@
-// @ts-nocheck
-import {
-  Comment,
-  computed,
-  getCurrentInstance,
-  h,
-  ref,
-  unref,
-  watchEffect,
-} from 'vue';
+
+import { Comment, computed, getCurrentInstance, h, ref, unref, watchEffect } from 'vue';
 import { debugWarn } from '@lemon-peel/utils';
 import { useNamespace } from '@lemon-peel/hooks';
 import {

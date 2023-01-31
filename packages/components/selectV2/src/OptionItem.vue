@@ -19,23 +19,22 @@
 </template>
 
 <script lang="ts">
-// @ts-nocheck
-import { defineComponent } from 'vue'
-import { useNamespace } from '@element-plus/hooks'
-import { useOption } from './useOption'
-import { optionProps } from './defaults'
+import { defineComponent } from 'vue';
+import { useNamespace } from '@element-plus/hooks';
+import { useOption } from './useOption';
+import { optionProps } from './defaults';
 
 export default defineComponent({
   props: optionProps,
   emits: ['select', 'hover'],
   setup(props, { emit }) {
-    const ns = useNamespace('select')
-    const { hoverItem, selectOptionClick } = useOption(props, { emit })
+    const ns = useNamespace('select');
+    const { hoverItem, selectOptionClick } = useOption(props, { emit });
     return {
       ns,
       hoverItem,
       selectOptionClick,
-    }
+    };
   },
-})
+});
 </script>

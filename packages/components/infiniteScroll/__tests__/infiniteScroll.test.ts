@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { nextTick, ref } from 'vue';
 import { mount } from '@vue/test-utils';
 import {
@@ -10,7 +9,7 @@ import {
   test,
   vi,
 } from 'vitest';
-import defineGetter from '@lemon-peel/test-utils/define-getter';
+import defineGetter from '@lemon-peel/test-utils/defineGetter';
 import makeScroll from '@lemon-peel/test-utils/make-scroll';
 import tick from '@lemon-peel/test-utils/tick';
 import InfiniteScroll, { DEFAULT_DELAY, SCOPE } from '../src';
@@ -100,7 +99,7 @@ afterAll(() => {
 
 afterEach(() => {
   const app = document.querySelector('[data-v-app]');
-  document.body.removeChild(app);
+  app.remove();
 });
 
 describe('InfiniteScroll', () => {

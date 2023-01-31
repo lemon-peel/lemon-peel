@@ -1,10 +1,9 @@
-// @ts-nocheck
 import { getCurrentInstance, inject, ref } from 'vue';
 import { isClient } from '@vueuse/core';
 import { addClass, hasClass, removeClass } from '@lemon-peel/utils';
 import { TABLE_INJECTION_KEY } from '../tokens';
 import type { TableHeaderProps } from './index';
-import type { TableColumnCtx } from '../table-column/defaults';
+import type { TableColumnCtx } from '../tableColumn/defaults';
 
 function useEvent<T>(props: TableHeaderProps<T>, emit) {
   const instance = getCurrentInstance();
@@ -55,12 +54,12 @@ function useEvent<T>(props: TableHeaderProps<T>, emit) {
       const resizeProxy = table?.refs.resizeProxy as HTMLElement;
       resizeProxy.style.left = `${(dragState.value as any).startLeft}px`;
 
-      document.onselectstart = function () {
+      document.addEventListener('selectstart', function () {
         return false;
-      };
-      document.ondragstart = function () {
+      });
+      document.addEventListener('dragstart', function () {
         return false;
-      };
+      });
 
       const handleMouseMove = (event: MouseEvent) => {
         const deltaLeft =
@@ -155,11 +154,9 @@ function useEvent<T>(props: TableHeaderProps<T>, emit) {
 
     const target = (event.target as HTMLElement)?.closest('th');
 
-    if (target) {
-      if (hasClass(target, 'noclick')) {
-        removeClass(target, 'noclick');
-        return;
-      }
+    if (target && hasClass(target, 'noclick')) {
+      removeClass(target, 'noclick');
+      return;
     }
 
     if (!column.sortable) return;
@@ -179,11 +176,7 @@ function useEvent<T>(props: TableHeaderProps<T>, emit) {
       states.sortingColumn.value = column;
       sortProp = column.property;
     }
-    if (!order) {
-      sortOrder = column.order = null;
-    } else {
-      sortOrder = column.order = order;
-    }
+    sortOrder = column.order = order ? order : null;
 
     states.sortProp.value = sortProp;
     states.sortOrder.value = sortOrder;

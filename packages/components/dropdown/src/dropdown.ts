@@ -10,15 +10,15 @@ import type { ComponentInternalInstance, ComputedRef } from 'vue';
 import type { Nullable } from '@lemon-peel/utils';
 
 export interface ILpDropdownInstance {
-  instance?: ComponentInternalInstance
-  dropdownSize?: ComputedRef<string>
-  handleClick?: () => void
-  commandHandler?: (...arg: any[]) => void
-  show?: () => void
-  hide?: () => void
-  trigger?: ComputedRef<string>
-  hideOnClick?: ComputedRef<boolean>
-  triggerElm?: ComputedRef<Nullable<HTMLButtonElement>>
+  instance?: ComponentInternalInstance;
+  dropdownSize?: ComputedRef<string>;
+  handleClick?: () => void;
+  commandHandler?: (...arg: any[]) => void;
+  show?: () => void;
+  hide?: () => void;
+  trigger?: ComputedRef<string>;
+  hideOnClick?: ComputedRef<boolean>;
+  triggerElm?: ComputedRef<Nullable<HTMLButtonElement>>;
 }
 
 export const dropdownProps = buildProps({

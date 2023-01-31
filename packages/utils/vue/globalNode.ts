@@ -1,7 +1,7 @@
 import { isClient } from '@vueuse/core';
 
 const globalNodes: HTMLElement[] = [];
-let target: HTMLElement = !isClient ? (undefined as any) : document.body;
+let target: HTMLElement = isClient ? document.body : (undefined as any);
 
 export function createGlobalNode(id?: string) {
   const element = document.createElement('div');

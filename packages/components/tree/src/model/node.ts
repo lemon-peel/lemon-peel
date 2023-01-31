@@ -58,7 +58,7 @@ const getPropertyFromData = function (node: Node, prop: string): any {
     return config(data, node);
   } else if (typeof config === 'string') {
     return data[config];
-  } else if (typeof config === 'undefined') {
+  } else if (config === undefined) {
     const dataProp = data[prop];
     return dataProp === undefined ? '' : dataProp;
   }
@@ -138,7 +138,7 @@ class Node {
     store.registerNode(this);
 
     const props = store.props;
-    if (props && typeof props.isLeaf !== 'undefined') {
+    if (props && props.isLeaf !== undefined) {
       const isLeaf = getPropertyFromData(this, 'isLeaf');
       if (typeof isLeaf === 'boolean') {
         this.isLeafByUser = isLeaf;
@@ -257,7 +257,7 @@ class Node {
       if (!batch) {
         const children = this.getChildren(true);
         if (!children.includes(child.data)) {
-          if (typeof index === 'undefined' || index < 0) {
+          if (index === undefined || index < 0) {
             children.push(child.data);
           } else {
             children.splice(index, 0, child.data);
@@ -276,7 +276,7 @@ class Node {
 
     (child as Node).level = this.level + 1;
 
-    if (typeof index === 'undefined' || index < 0) {
+    if (index === undefined || index < 0) {
       this.childNodes.push(child as Node);
     } else {
       this.childNodes.splice(index, 0, child as Node);
@@ -395,7 +395,7 @@ class Node {
     if (
       this.store.lazy === true &&
       this.loaded !== true &&
-      typeof this.isLeafByUser !== 'undefined'
+      this.isLeafByUser !== undefined
     ) {
       this.isLeaf = this.isLeafByUser;
       return;

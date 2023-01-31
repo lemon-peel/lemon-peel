@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { cAF, isFirefox, rAF } from '@lemon-peel/utils';
 import { HORIZONTAL, VERTICAL } from '../defaults';
 
@@ -11,9 +10,9 @@ const LayoutKeys = {
 };
 
 interface ListWheelState {
-  atStartEdge: ComputedRef<boolean> // exclusive to reachEnd
-  atEndEdge: ComputedRef<boolean>
-  layout: ComputedRef<LayoutDirection>
+  atStartEdge: ComputedRef<boolean>; // exclusive to reachEnd
+  atEndEdge: ComputedRef<boolean>;
+  layout: ComputedRef<LayoutDirection>;
 }
 
 type ListWheelHandler = (offset: number) => void;

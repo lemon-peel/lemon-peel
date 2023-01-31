@@ -81,13 +81,13 @@
           <arrow-up v-if="column.filterOpened" />
           <arrow-down v-else />
         </lp-icon>
-        </lp-icon></span>
+      </span>
     </template>
   </lp-tooltip>
-  </lp-tooltip></template>
+</template>
 
 <script lang="ts">
-// @ts-nocheck
+
 import { computed, defineComponent, getCurrentInstance, ref, watch } from 'vue';
 import LpCheckbox from '@lemon-peel/components/checkbox';
 import { LpIcon } from '@lemon-peel/components/icon';

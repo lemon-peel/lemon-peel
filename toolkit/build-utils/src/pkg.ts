@@ -1,12 +1,12 @@
 import findWorkspacePackages from '@pnpm/find-workspace-packages';
-import { projRoot } from './paths';
+import { lpRoot } from './paths';
 
 import type { ProjectManifest } from '@pnpm/types';
 
-export const getWorkspacePackages = () => findWorkspacePackages(projRoot);
+export const getWorkspacePackages = () => findWorkspacePackages(lpRoot);
 
-export async function getWorkspaceNames(dir = projRoot) {
-  const pkgs = await findWorkspacePackages(projRoot);
+export async function getWorkspaceNames(dir = lpRoot) {
+  const pkgs = await findWorkspacePackages(lpRoot);
   return pkgs
     .filter(pkg => pkg.dir.startsWith(dir))
     .map(pkg => pkg.manifest.name)

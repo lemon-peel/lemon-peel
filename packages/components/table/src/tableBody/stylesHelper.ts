@@ -1,4 +1,4 @@
-// @ts-nocheck
+
 import { inject } from 'vue';
 import { useNamespace } from '@lemon-peel/hooks';
 import {
@@ -7,7 +7,7 @@ import {
   getFixedColumnsClass,
 } from '../util';
 import { TABLE_INJECTION_KEY } from '../tokens';
-import type { TableColumnCtx } from '../table-column/defaults';
+import type { TableColumnCtx } from '../tableColumn/defaults';
 import type { TableBodyProps } from './defaults';
 
 function useStyles<T>(props: Partial<TableBodyProps<T>>) {
@@ -107,7 +107,7 @@ function useStyles<T>(props: Partial<TableBodyProps<T>>) {
       );
     }
     classes.push(ns.e('cell'));
-    return classes.filter(className => Boolean(className)).join(' ');
+    return classes.filter(Boolean).join(' ');
   };
   const getSpan = (
     row: T,

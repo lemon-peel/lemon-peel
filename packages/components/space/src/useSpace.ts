@@ -52,8 +52,7 @@ export function useSpace(props: SpaceProps) {
       horizontalSize.value = h;
       verticalSize.value = v;
     } else {
-      let value: number;
-      value = isNumber(size) ? size : SIZE_MAP[size || 'small'] || SIZE_MAP.small;
+      const value: number = isNumber(size) ? size : SIZE_MAP[size || 'small'] || SIZE_MAP.small;
 
       if ((wrap || fill) && dir === 'horizontal') {
         horizontalSize.value = verticalSize.value = value;

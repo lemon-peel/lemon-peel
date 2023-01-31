@@ -1,5 +1,6 @@
 import type { PropType } from 'vue';
 import { buildProps } from '@lemon-peel/utils';
+import type Option from './Option.vue';
 
 export const optionProps = buildProps({
   value: {

@@ -82,11 +82,11 @@ const addClassList = (
   const ns = useNamespace('loading');
 
   if (
-    !['absolute', 'fixed', 'sticky'].includes(instance.originalPosition.value)
+    ['absolute', 'fixed', 'sticky'].includes(instance.originalPosition.value)
   ) {
-    addClass(parent, ns.bm('parent', 'relative'));
-  } else {
     removeClass(parent, ns.bm('parent', 'relative'));
+  } else {
+    addClass(parent, ns.bm('parent', 'relative'));
   }
   if (options.fullscreen && options.lock) {
     addClass(parent, ns.bm('parent', 'hidden'));
@@ -128,7 +128,7 @@ export const Loading = function (options: LoadingOptions = {}): LoadingInstance 
    */
   let loadingNumber: string | null =
     resolved.parent.getAttribute('loading-number');
-  loadingNumber = !loadingNumber ? '1' : `${Number.parseInt(loadingNumber) + 1}`;
+  loadingNumber = loadingNumber ? `${Number.parseInt(loadingNumber) + 1}` : '1';
   resolved.parent.setAttribute('loading-number', loadingNumber);
 
   resolved.parent.append(instance.$el);

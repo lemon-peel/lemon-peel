@@ -1,7 +1,7 @@
 import { nextTick, ref } from 'vue';
 import { mount } from '@vue/test-utils';
 import { afterEach, describe, expect, test, vi } from 'vitest';
-import defineGetter from '@lemon-peel/test-utils/define-getter';
+import defineGetter from '@lemon-peel/test-utils/defineGetter';
 import { LpFormItem as FormItem } from '@lemon-peel/components/form';
 import Input from '../src/Input.vue';
 import type { CSSProperties } from 'vue';

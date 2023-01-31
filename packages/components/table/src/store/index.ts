@@ -1,15 +1,15 @@
-// @ts-nocheck
-import { getCurrentInstance, nextTick, unref } from 'vue';
+
+import { nextTick, unref } from 'vue';
 import { useNamespace } from '@lemon-peel/hooks';
 import useWatcher from './watcher';
 
 import type { Ref } from 'vue';
-import type { TableColumnCtx } from '../table-column/defaults';
-import type { Filter, Sort, Table } from '../table/defaults';
+import type { TableColumnCtx } from '../tableColumn/defaults';
+import type { Filter, Sort } from '../table/defaults';
 
-interface WatcherPropsData<T> {
-  data: Ref<T[]>
-  rowKey: Ref<string>
+export interface WatcherPropsData<T> {
+  data: Ref<T[]>;
+  rowKey: Ref<string>;
 }
 
 function replaceColumn<T>(
@@ -36,8 +36,7 @@ function sortColumn<T>(array: TableColumnCtx<T>[]) {
   array.sort((cur, pre) => cur.no - pre.no);
 }
 
-function useStore<T>() {
-  const instance = getCurrentInstance() as Table<T>;
+function useStore<T extends object>() {
   const watcher = useWatcher<T>();
   const ns = useNamespace('table');
   type StoreStates = typeof watcher.states;
@@ -77,15 +76,15 @@ function useStore<T>() {
     ) {
       const array = unref(states._columns);
       let newColumns = [];
-      if (!parent) {
-        array.push(column);
-        newColumns = array;
-      } else {
+      if (parent) {
         if (parent && !parent.children) {
           parent.children = [];
         }
-        parent.children.push(column);
+        parent.children!.push(column);
         newColumns = replaceColumn(array, parent);
+      } else {
+        array.push(column);
+        newColumns = array;
       }
       sortColumn(newColumns);
       states._columns.value = newColumns;
@@ -106,11 +105,11 @@ function useStore<T>() {
     ) {
       const array = unref(states._columns) || [];
       if (parent) {
-        parent.children.splice(
+        parent.children?.splice(
           parent.children.findIndex(item => item.id === column.id),
           1,
         );
-        if (parent.children.length === 0) {
+        if (parent.children?.length === 0) {
           delete parent.children;
         }
         states._columns.value = replaceColumn(array, parent);
@@ -146,9 +145,9 @@ function useStore<T>() {
       // 修复 pr https://github.com/ElemeFE/element/pull/15012 导致的 bug
       // https://github.com/element-plus/element-plus/pull/4640
       const { sortingColumn, sortProp, sortOrder } = states;
-      const columnValue = unref(sortingColumn),
-        propValue = unref(sortProp),
-        orderValue = unref(sortOrder);
+      const columnValue = unref(sortingColumn);
+      const propValue = unref(sortProp);
+      const orderValue = unref(sortOrder);
       if (orderValue === null) {
         states.sortingColumn.value = null;
         states.sortProp.value = null;
@@ -195,6 +194,7 @@ function useStore<T>() {
       instance.store.updateCurrentRow(row);
     },
   };
+
   const commit = function (name: keyof typeof mutations, ...args) {
     const mutations = instance.store.mutations;
     if (mutations[name]) {
@@ -203,9 +203,11 @@ function useStore<T>() {
       throw new Error(`Action not found: ${name}`);
     }
   };
+
   const updateTableScrollY = function () {
     nextTick(() => instance.layout.updateScrollY.apply(instance.layout));
   };
+
   return {
     ns,
     ...watcher,
@@ -217,10 +219,4 @@ function useStore<T>() {
 
 export default useStore;
 
-class HelperStore<T> {
-  Return = useStore<T>();
-}
-
-type StoreFilter = Record<string, string[]>;
-type Store<T> = HelperStore<T>['Return'];
-export type { WatcherPropsData, Store, StoreFilter };
+export type StoreFilter = Record<string, string[]>;

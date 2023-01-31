@@ -68,14 +68,18 @@ const props = defineProps({
   defaultCheckedKeys: { type: Array as PropType<TreeComponentProps['defaultCheckedKeys']>, default: () => [] },
   defaultExpandedKeys: { type:  Array as PropType<TreeComponentProps['defaultExpandedKeys']>, default: () => [] },
   currentNodeKey: { type: [String, Number] as PropType<string | number>, default: () => '' },
-  renderContent: Function,
+  renderContent: { type: Function, default: void 0 },
   showCheckbox: { type: Boolean, default: false },
-  draggable: {
-    type: Boolean,
-    default: false,
-  },
-  allowDrag: Function,
-  allowDrop: Function,
+  draggable: { type: Boolean, default: false },
+  allowDrag: { type: Function, default: void 0 },
+  allowDrop: { type: Function, default: void 0 },
+  lazy: { type: Boolean, default: false },
+  highlightCurrent: Boolean,
+  load: { type: Function as PropType<TreeComponentProps['load']>, default: void 0 },
+  filterNodeMethod: { type: Function as PropType<TreeComponentProps['filterNodeMethod']>, default: void 0 },
+  accordion: Boolean,
+  indent: { type: Number, default: 18 },
+  icon: { type: iconPropType, default: void 0 },
   props: {
     type: Object as PropType<TreeComponentProps['props']>,
     default: () => ({
@@ -83,23 +87,6 @@ const props = defineProps({
       label: 'label',
       disabled: 'disabled',
     }),
-  },
-  lazy: {
-    type: Boolean,
-    default: false,
-  },
-  highlightCurrent: Boolean,
-  load: Function as PropType<TreeComponentProps['load']>,
-  filterNodeMethod: Function as PropType<
-  TreeComponentProps['filterNodeMethod']
-  >,
-  accordion: Boolean,
-  indent: {
-    type: Number,
-    default: 18,
-  },
-  icon: {
-    type: iconPropType,
   },
 });
 

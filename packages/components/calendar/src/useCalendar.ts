@@ -142,10 +142,10 @@ export const useCalendar = (
   });
 
   date = computed(() => {
-    return !props.modelValue ? (
+    return props.modelValue ? dayjs(props.modelValue).locale(lang.value) : (
       realSelectedDay.value ||
         (validatedRange.value.length > 0 ? validatedRange.value[0][0] : now)
-    ) : dayjs(props.modelValue).locale(lang.value);
+    );
   });
 
   const previousMonthDayjs = computed(() => date.value.subtract(1, 'month').date(1));

@@ -14,7 +14,7 @@ export default defineComponent({
     },
     renderContent: {
       type: Function,
-      required: true,
+      default: undefined,
     },
   },
   setup(props) {

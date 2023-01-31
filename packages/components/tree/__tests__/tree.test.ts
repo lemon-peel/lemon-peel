@@ -1,8 +1,9 @@
-// @ts-nocheck
+
 import { nextTick } from 'vue';
 import { mount } from '@vue/test-utils';
 import { describe, expect, test, vi } from 'vitest';
-import defineGetter from '@element-plus/test-utils/define-getter';
+import defineGetter from '@lemon-peel/test-utils/defineGetter';
+
 import Tree from '../src/Tree.vue';
 import type Node from '../src/model/node';
 

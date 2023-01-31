@@ -572,10 +572,10 @@ export default defineComponent({
         passed.then(calculateSuggestions).catch(() => {
           /* prevent log error */
         });
-      } else if (passed !== false) {
-        calculateSuggestions();
-      } else {
+      } else if (passed === false) {
         hideSuggestionPanel();
+      } else {
+        calculateSuggestions();
       }
     }, props.debounce);
 
@@ -602,24 +602,28 @@ export default defineComponent({
       if (isOnComposition.value) return;
 
       switch (e.code) {
-        case EVENT_CODE.enter:
+        case EVENT_CODE.enter: {
           togglePopperVisible();
           break;
-        case EVENT_CODE.down:
+        }
+        case EVENT_CODE.down: {
           togglePopperVisible(true);
           nextTick(focusFirstNode);
           e.preventDefault();
           break;
-        case EVENT_CODE.esc:
+        }
+        case EVENT_CODE.esc: {
           if (popperVisible.value === true) {
             e.preventDefault();
             e.stopPropagation();
             togglePopperVisible(false);
           }
           break;
-        case EVENT_CODE.tab:
+        }
+        case EVENT_CODE.tab: {
           togglePopperVisible(false);
           break;
+        }
       }
     };
 
@@ -659,9 +663,10 @@ export default defineComponent({
           );
           break;
         }
-        case EVENT_CODE.enter:
+        case EVENT_CODE.enter: {
           target.click();
           break;
+        }
       }
     };
 

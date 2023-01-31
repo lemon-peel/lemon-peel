@@ -13,22 +13,20 @@
 import { defineComponent, getCurrentInstance, inject, onMounted, provide, reactive, ref, toRaw, toRefs, watch } from 'vue';
 import { useNamespace } from '@lemon-peel/hooks';
 import { selectGroupKey, selectKey } from './token';
+
 import type { OptionInstance } from './option';
+import type { Component, VNode } from 'vue';
 
 export default defineComponent({
-  name: 'ElOptionGroup',
-  componentName: 'ElOptionGroup',
+  name: 'LpOptionGroup',
   props: {
-    label: String,
-    disabled: {
-      type: Boolean,
-      default: false,
-    },
+    label: { type: String, default: undefined },
+    disabled: { type: Boolean, default: false },
   },
   setup(props) {
     const ns = useNamespace('select');
     const visible = ref(true);
-    const instance = getCurrentInstance();
+    const instance = getCurrentInstance()!;
     const children = ref<OptionInstance[]>([]);
 
     provide(
@@ -41,23 +39,24 @@ export default defineComponent({
     const select = inject(selectKey)!;
 
     // get all instances of options
-    const flattedChildren = node => {
-      const children: OptionInstance[] = [];
+    const flattedChildren = (node: VNode) => {
+      const list: OptionInstance[] = [];
       if (Array.isArray(node.children)) {
-        for (const child of node.children) {
-          if (
-            child.type &&
-            child.type.name === 'ElOption' &&
-            child.component &&
-            child.component.proxy
+        for (const child of (node.children as Array<VNode>)) {
+          if ( child
+            && child.type
+            && (child.type as Component).name === 'LpOption'
+            && child.component
+            && child.component.proxy
           ) {
-            children.push(child.component.proxy as any);
+            list.push(child.component.proxy as any);
           } else if (child.children?.length) {
-            children.push(...flattedChildren(child));
+            list.push(...flattedChildren(child));
           }
         }
       }
-      return children;
+
+      return list;
     };
 
     onMounted(() => {

@@ -55,7 +55,7 @@ export const useFormItemInputId = (
     idUnwatch = watch(
       [toRef(properties, 'id'), disableIdGeneration] as any,
       ([id, disableGeneration]: [string, boolean]) => {
-        const newId = id ?? (!disableGeneration ? useId().value : undefined);
+        const newId = id ?? (disableGeneration ? undefined : useId().value);
         if (newId !== inputId.value) {
           if (formItemContext?.removeInputId) {
             inputId.value && formItemContext.removeInputId(inputId.value);

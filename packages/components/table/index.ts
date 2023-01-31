@@ -1,5 +1,5 @@
 import { withInstall, withNoopInstall } from '@lemon-peel/utils';
-import Table from './src/table.vue';
+import Table from './src/Table.vue';
 import TableColumn from './src/tableColumn';
 
 export const LpTable = withInstall(Table, {

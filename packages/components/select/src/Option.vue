@@ -75,6 +75,7 @@ defineExpose({
   currentLabel,
   value: props.value,
   isDisabled,
+  visible,
   created: true,
 });
 </script>

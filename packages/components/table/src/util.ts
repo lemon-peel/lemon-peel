@@ -1,15 +1,11 @@
-// @ts-nocheck
 import { createPopper } from '@popperjs/core';
 import { flatMap, get } from 'lodash-unified';
 import escapeHtml from 'escape-html';
 import { hasOwn, isArray, isBoolean, throwError } from '@lemon-peel/utils';
 import { useZIndex } from '@lemon-peel/hooks';
-import type {
-  IPopperOptions,
-  PopperInstance,
-} from '@lemon-peel/components/popper';
+import type { PopperInstance } from '@lemon-peel/components/popper';
 import type { Nullable } from '@lemon-peel/utils';
-import type { TableColumnCtx } from './table-column/defaults';
+import type { TableColumnCtx } from './tableColumn/defaults';
 
 export const getCell = function (event: Event) {
   return (event.target as HTMLElement)?.closest('td');
@@ -19,17 +15,20 @@ const isObject = function (obj: unknown): boolean {
   return obj !== null && typeof obj === 'object';
 };
 
+export type SortMethod = (a: any, b: any) => void;
+export type SortBy<T> = string | (string | ((a: T, b: T, array?: T[]) => number))[];
+
 export const orderBy = function <T>(
   array: T[],
   sortKey: string,
   reverse: string | number,
-  sortMethod,
-  sortBy: string | (string | ((a: T, b: T, array?: T[]) => number))[],
+  sortMethod?: SortMethod,
+  sortBy?: string | (string | ((a: T, b: T, array?: T[]) => number))[],
 ) {
   if (
     !sortKey &&
     !sortMethod &&
-    (!sortBy || (Array.isArray(sortBy) && !sortBy.length))
+    (!sortBy || (Array.isArray(sortBy) && sortBy.length === 0))
   ) {
     return array;
   }
@@ -40,25 +39,20 @@ export const orderBy = function <T>(
   }
   const getKey = sortMethod
     ? null
-    : function (value, index) {
+    : function (value: any, index: number) {
       if (sortBy) {
         if (!Array.isArray(sortBy)) {
           sortBy = [sortBy];
         }
         return sortBy.map(by => {
-          if (typeof by === 'string') {
-            return get(value, by);
-          } else {
-            return by(value, index, array);
-          }
+          return typeof by === 'string' ? get(value, by) : by(value, index, array);
         });
       }
-      if (sortKey !== '$key') {
-        if (isObject(value) && '$value' in value) value = value.$value;
-      }
+      if (sortKey !== '$key' && isObject(value) && '$value' in value) value = value.$value;
       return [isObject(value) ? get(value, sortKey) : value];
     };
-  const compare = function (a, b) {
+
+  const compare = (a: any, b: any) => {
     if (sortMethod) {
       return sortMethod(a.value, b.value);
     }
@@ -72,6 +66,7 @@ export const orderBy = function <T>(
     }
     return 0;
   };
+
   return array
     .map((value, index) => {
       return {
@@ -93,7 +88,7 @@ export const orderBy = function <T>(
 
 export const getColumnById = function <T>(
   table: {
-    columns: TableColumnCtx<T>[]
+    columns: TableColumnCtx<T>[];
   },
   columnId: string,
 ): null | TableColumnCtx<T> {
@@ -108,7 +103,7 @@ export const getColumnById = function <T>(
 
 export const getColumnByKey = function <T>(
   table: {
-    columns: TableColumnCtx<T>[]
+    columns: TableColumnCtx<T>[];
   },
   columnKey: string,
 ): TableColumnCtx<T> {
@@ -127,7 +122,7 @@ export const getColumnByKey = function <T>(
 
 export const getColumnByCell = function <T>(
   table: {
-    columns: TableColumnCtx<T>[]
+    columns: TableColumnCtx<T>[];
   },
   cell: HTMLElement,
   namespace: string,
@@ -141,30 +136,31 @@ export const getColumnByCell = function <T>(
   return null;
 };
 
-export const getRowIdentity = <T>(
+export const getRowIdentity = <T extends Record<string, any>>(
   row: T,
-  rowKey: string | ((row: T) => any),
+  rowKey: string | ((row: T) => string),
 ): string => {
   if (!row) throw new Error('Row is required when get row identity');
-  if (typeof rowKey === 'string') {
-    if (!rowKey.includes('.')) {
-      return `${row[rowKey]}`;
-    }
-    const key = rowKey.split('.');
-    let current = row;
-    for (const element of key) {
-      current = current[element];
-    }
-    return `${current}`;
-  } else if (typeof rowKey === 'function') {
+
+  if (typeof rowKey === 'function') {
     return rowKey.call(null, row);
   }
+
+  if (!rowKey.includes('.')) {
+    return `${row[rowKey]}`;
+  }
+  const key = rowKey.split('.');
+  let current = row;
+  for (const element of key) {
+    current = current[element];
+  }
+  return `${current}`;
 };
 
 export const getKeysMap = function <T>(
   array: T[],
   rowKey: string,
-): Record<string, { row: T; index: number }> {
+): Record<string, { row: T, index: number }> {
   const arrayMap = {}
   ;(array || []).forEach((row, index) => {
     arrayMap[getRowIdentity(row, rowKey)] = { row, index };
@@ -181,7 +177,7 @@ export function mergeOptions<T, K>(defaults: T, config: K): T & K {
   for (key in config) {
     if (hasOwn(config as unknown as Record<string, any>, key)) {
       const value = config[key];
-      if (typeof value !== 'undefined') {
+      if (value !== undefined) {
         options[key] = value;
       }
     }
@@ -216,11 +212,7 @@ export function parseHeight(height: number | string) {
     return height;
   }
   if (typeof height === 'string') {
-    if (/^\d+(?:px)?$/.test(height)) {
-      return Number.parseInt(height, 10);
-    } else {
-      return height;
-    }
+    return /^\d+(?:px)?$/.test(height) ? Number.parseInt(height, 10) : height;
   }
   return null;
 }
@@ -275,13 +267,8 @@ export function toggleRowStatus<T>(
   return changed;
 }
 
-export function walkTreeNode(
-  root,
-  cb,
-  childrenKey = 'children',
-  lazyKey = 'hasChildren',
-) {
-  const isNil = array => !(Array.isArray(array) && array.length);
+export function walkTreeNode<T extends object>( root: T[], cb, childrenKey = 'children', lazyKey = 'hasChildren' ) {
+  const isNil = array => !(Array.isArray(array) && array.length > 0);
 
   function _walker(parent, children, level) {
     cb(parent, children, level);
@@ -354,7 +341,7 @@ export function createTablePopper(
   let popperInstance: Nullable<PopperInstance> = null;
   const content = renderContent();
   const arrow = renderArrow();
-  content.appendChild(arrow);
+  content.append(arrow);
   popperInstance = createPopper(trigger, content, {
     strategy: 'absolute',
     modifiers: [
@@ -381,11 +368,7 @@ export function createTablePopper(
 }
 
 function getCurrentColumns<T>(column: TableColumnCtx<T>): TableColumnCtx<T>[] {
-  if (column.children) {
-    return flatMap(column.children, getCurrentColumns);
-  } else {
-    return [column];
-  }
+  return column.children ? flatMap(column.children, getCurrentColumns) : [column];
 }
 
 function getColSpan<T>(colSpan: number, column: TableColumnCtx<T>) {
@@ -413,12 +396,13 @@ export const isFixedColumn = <T>(
   }
   let fixedLayout;
   switch (fixed) {
-    case 'left':
+    case 'left': {
       if (after < store.states.fixedLeafColumnsLength.value) {
         fixedLayout = 'left';
       }
       break;
-    case 'right':
+    }
+    case 'right': {
       if (
         start >=
         columns.length - store.states.rightFixedLeafColumnsLength.value
@@ -426,7 +410,8 @@ export const isFixedColumn = <T>(
         fixedLayout = 'right';
       }
       break;
-    default:
+    }
+    default: {
       if (after < store.states.fixedLeafColumnsLength.value) {
         fixedLayout = 'left';
       } else if (
@@ -435,6 +420,7 @@ export const isFixedColumn = <T>(
       ) {
         fixedLayout = 'right';
       }
+    }
   }
   return fixedLayout
     ? {

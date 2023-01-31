@@ -40,11 +40,11 @@ export const useTeleport = (
   };
 
   const renderTeleport = () => {
-    return appendToBody.value !== true
-      ? contentRenderer()
-      : (isTeleportVisible.value
+    return appendToBody.value === true
+      ? (isTeleportVisible.value
         ? [h(Teleport, { to: $element }, contentRenderer())]
-        : undefined);
+        : undefined)
+      : contentRenderer();
   };
 
   onUnmounted(hideTeleport);

@@ -1,6 +1,7 @@
-// @ts-nocheck
+
 import { computed, unref } from 'vue';
 import { isObject } from '@lemon-peel/utils';
+
 import { SortOrder, oppositeOrderMap } from '../constants';
 import { placeholderSign } from '../private';
 import { calcColumnStyle } from './utils';
