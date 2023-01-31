@@ -1,0 +1,23 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "allowJs": true,
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    "types": [
+      "unplugin-vue-macros/macros-global"
+    ]
+  },
+  "include": [
+    "packages",
+    "typings/components.d.ts",
+    "typings/env.d.ts",
+    "unplugin-vue-macros/macros-global",
+
+    // serve
+    "serve/auto-imports.d.ts",
+    "serve/env.d.ts",
+    "serve/main.ts",
+    "serve/src/**/*",
+    "serve/types/**/*"
+  ]
+}

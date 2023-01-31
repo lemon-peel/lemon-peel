@@ -1,0 +1,6 @@
+{
+  "name": "@lemon-peel/constants",
+  "private": true,
+  "license": "MIT",
+  "main": "index.ts"
+}

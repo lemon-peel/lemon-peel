@@ -1,0 +1,20 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "composite": true,
+    "lib": ["ESNext"],
+    "types": ["node"],
+    "esModuleInterop": false,
+    "skipLibCheck": true,
+    "resolveJsonModule": true
+  },
+  "include": [
+    "toolkit/**/*",
+    "toolkit/**/*.json",
+    "scripts/**/*",
+    "packages/theme-chalk/*",
+    "packages/lemon-peel/version.ts",
+    "packages/lemon-peel/package.json"
+  ],
+  "exclude": ["**/__tests__/**", "**/tests/**", "**/dist"]
+}
