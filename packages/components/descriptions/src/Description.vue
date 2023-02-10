@@ -25,13 +25,15 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, provide, useSlots } from 'vue';
+import { computed, provide, useSlots, isVNode } from 'vue';
 import { flattedChildren } from '@lemon-peel/utils';
 import { useNamespace, useSize } from '@lemon-peel/hooks';
 
 import { descriptionsKey } from './token';
 import { descriptionProps } from './description';
 import LpDescriptionsRow from './DescriptionsRow.vue';
+
+import type { Component, VNode } from 'vue';
 
 defineOptions({
   name: 'LpDescriptions',
@@ -49,7 +51,7 @@ provide(descriptionsKey, props);
 
 const descriptionKls = computed(() => [ns.b(), ns.m(descriptionsSize.value)]);
 
-const filledNode = (node, span, count, isLast = false) => {
+const filledNode = (node: VNode, span: number, count: number, isLast = false) => {
   if (!node.props) {
     node.props = {};
   }
@@ -64,16 +66,17 @@ const filledNode = (node, span, count, isLast = false) => {
 };
 
 const getRows = () => {
-  const children = flattedChildren(slots.default?.()).filter(
-    node => node?.type?.name === 'LpDescriptionsItem',
-  );
+  const children = flattedChildren(slots.default!()).filter(
+    node => isVNode(node) && (node.type as Component).name === 'LpDescriptionsItem',
+  ) as VNode[];
+
   const rows = [];
   let temporary = [];
   let count = props.column;
   let totalSpan = 0; // all spans number of item
 
   for (const [index, node] of children.entries()) {
-    const span = node.props?.span || 1;
+    const span = node.props!.span || 1;
 
     if (index < children.length - 1) {
       totalSpan += span > count ? count : span;

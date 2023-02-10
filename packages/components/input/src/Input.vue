@@ -154,17 +154,7 @@
 </template>
 
 <script lang="ts" setup>
-import {
-  computed,
-  nextTick,
-  onMounted,
-  ref,
-  shallowRef,
-  toRef,
-  useAttrs as useRawAttributes,
-  useSlots,
-  watch,
-} from 'vue';
+import { computed, nextTick, onMounted, ref, shallowRef, toRef, useAttrs as useRawAttrs, useSlots, watch } from 'vue';
 import { isClient, useResizeObserver } from '@vueuse/core';
 import { isNil } from 'lodash-unified';
 import { LpIcon } from '@lemon-peel/components/icon';
@@ -187,22 +177,22 @@ defineOptions({
 const props = defineProps(inputProps);
 const emit = defineEmits(inputEmits);
 
-const rawAttributes = useRawAttributes();
+const rawAttrs = useRawAttrs();
 const slots = useSlots();
 
-const containerAttributes = computed(() => {
+const containerAttrs = computed(() => {
   const comboBoxAttributes: Record<string, unknown> = {};
   if (props.containerRole === 'combobox') {
-    comboBoxAttributes['aria-haspopup'] = rawAttributes['aria-haspopup'];
-    comboBoxAttributes['aria-owns'] = rawAttributes['aria-owns'];
-    comboBoxAttributes['aria-expanded'] = rawAttributes['aria-expanded'];
+    comboBoxAttributes['aria-haspopup'] = rawAttrs['aria-haspopup'];
+    comboBoxAttributes['aria-owns'] = rawAttrs['aria-owns'];
+    comboBoxAttributes['aria-expanded'] = rawAttrs['aria-expanded'];
   }
   return comboBoxAttributes;
 });
 
-const attributes = useAttrs({
+const attrs = useAttrs({
   excludeKeys: computed<string[]>(() => {
-    return Object.keys(containerAttributes.value);
+    return Object.keys(containerAttrs.value);
   }),
 });
 const { form, formItem } = useFormItem();
@@ -224,7 +214,7 @@ const passwordVisible = ref(false);
 const countStyle = ref<StyleValue>();
 const textareaCalcStyle = shallowRef(props.inputStyle);
 
-const _ref = computed(() => input.value || textarea.value);
+const valRef = computed(() => input.value || textarea.value);
 
 const needStatusIcon = computed(() => form?.statusIcon ?? false);
 const validateState = computed(() => formItem?.validateState || '');
@@ -235,7 +225,7 @@ const passwordIcon = computed(() =>
   passwordVisible.value ? IconView : IconHide,
 );
 const containerStyle = computed<StyleValue>(() => [
-  rawAttributes.style as StyleValue,
+  rawAttrs.style as StyleValue,
   props.inputStyle,
 ]);
 const textareaStyle = computed<StyleValue>(() => [
@@ -265,7 +255,7 @@ const showPwdVisible = computed(
 const isWordLimitVisible = computed(
   () =>
     props.showWordLimit &&
-    !!attributes.value.maxlength &&
+    !!attrs.value.maxlength &&
     (props.type === 'text' || props.type === 'textarea') &&
     !inputDisabled.value &&
     !props.readonly &&
@@ -276,7 +266,7 @@ const inputExceed = computed(
   () =>
     // show exceed style if length of initial value greater then maxlength
     !!isWordLimitVisible.value &&
-    textLength.value > Number(attributes.value.maxlength),
+    textLength.value > Number(attrs.value.maxlength),
 );
 const suffixVisible = computed(
   () =>
@@ -319,7 +309,7 @@ const resizeTextarea = () => {
 };
 
 const setNativeInputValue = () => {
-  const input = _ref.value;
+  const input = valRef.value;
   if (!input || input.value === nativeInputValue.value) return;
   input.value = nativeInputValue.value;
 };
@@ -379,18 +369,18 @@ const handleCompositionEnd = (event: CompositionEvent) => {
   }
 };
 
+const focus = async () => {
+  // see: https://github.com/ElemeFE/element/issues/18573
+  await nextTick();
+  valRef.value?.focus();
+};
+
 const handlePasswordVisible = () => {
   passwordVisible.value = !passwordVisible.value;
   focus();
 };
 
-const focus = async () => {
-  // see: https://github.com/ElemeFE/element/issues/18573
-  await nextTick();
-  _ref.value?.focus();
-};
-
-const blur = () => _ref.value?.blur();
+const blur = () => valRef.value?.blur();
 
 const handleFocus = (event: FocusEvent) => {
   focused.value = true;
@@ -420,7 +410,7 @@ const handleKeydown = (event_: KeyboardEvent) => {
 };
 
 const select = () => {
-  _ref.value?.select();
+  valRef.value?.select();
 };
 
 const clear = () => {
@@ -474,7 +464,7 @@ defineExpose({
   /** @description HTML textarea element */
   textarea,
   /** @description HTML element, input or textarea */
-  ref: _ref,
+  ref: valRef,
   /** @description style of textarea. */
   textareaStyle,
 

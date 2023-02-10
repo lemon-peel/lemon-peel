@@ -22,9 +22,7 @@
       @node-expand="handleNodeExpand"
     />
     <div v-if="isEmpty" :class="ns.e('empty-block')">
-      <span :class="ns.e('empty-text')">{{
-        emptyText ?? t('el.tree.emptyText')
-      }}</span>
+      <span :class="ns.e('empty-text')">{{ emptyText ?? t('el.tree.emptyText') }}</span>
     </div>
     <div
       v-show="dragState.showDropIndicator"
@@ -33,6 +31,7 @@
     />
   </div>
 </template>
+
 <script lang="ts" setup>
 import { computed, getCurrentInstance, provide, ref, watch, useSlots } from 'vue';
 import { iconPropType } from '@lemon-peel/utils';
@@ -40,71 +39,24 @@ import { useLocale, useNamespace } from '@lemon-peel/hooks';
 import { formItemContextKey } from '@lemon-peel/tokens';
 import TreeStore from './model/treeStore';
 import { getNodeKey as getNodeKeyUtil, handleCurrentChange } from './model/util';
-import LpTreeNode from './TreeNode.vue';
 import { useNodeExpandEventBroadcast } from './model/useNodeExpandEventBroadcast';
 import { useDragNodeHandler } from './model/useDragNode';
 import { useKeydown } from './model/useKeydown';
-import type Node from './model/node';
+import { treeEmits, treeProps } from './tree';
+import { rootTreeKey } from './tokens';
+import LpTreeNode from './TreeNode.vue';
 
+import type Node from './model/node';
 import type { ComponentInternalInstance, PropType, SetupContext } from 'vue';
 import type { Nullable } from '@lemon-peel/utils';
-import type { TreeComponentProps, TreeData, TreeKey, TreeNodeData } from './tree.type';
+import type { TreeData, TreeKey, TreeNodeData } from './tree';
 
 defineOptions({
   name: 'LpTree',
 });
 
-const props = defineProps({
-  data: { type: Array as PropType<TreeNodeData[]>, default: () => [] },
-  emptyText: { type: String, default: undefined },
-  renderAfterExpand: { type: Boolean, default: true },
-  nodeKey: { type: String, default: '' },
-  checkStrictly: Boolean,
-  defaultExpandAll: Boolean,
-  expandOnClickNode: { type: Boolean, default: true },
-  checkOnClickNode: Boolean,
-  checkDescendants: { type: Boolean, default: false },
-  autoExpandParent: { type: Boolean, default: true },
-  defaultCheckedKeys: { type: Array as PropType<TreeComponentProps['defaultCheckedKeys']>, default: () => [] },
-  defaultExpandedKeys: { type:  Array as PropType<TreeComponentProps['defaultExpandedKeys']>, default: () => [] },
-  currentNodeKey: { type: [String, Number] as PropType<string | number>, default: () => '' },
-  renderContent: { type: Function, default: void 0 },
-  showCheckbox: { type: Boolean, default: false },
-  draggable: { type: Boolean, default: false },
-  allowDrag: { type: Function, default: void 0 },
-  allowDrop: { type: Function, default: void 0 },
-  lazy: { type: Boolean, default: false },
-  highlightCurrent: Boolean,
-  load: { type: Function as PropType<TreeComponentProps['load']>, default: void 0 },
-  filterNodeMethod: { type: Function as PropType<TreeComponentProps['filterNodeMethod']>, default: void 0 },
-  accordion: Boolean,
-  indent: { type: Number, default: 18 },
-  icon: { type: iconPropType, default: void 0 },
-  props: {
-    type: Object as PropType<TreeComponentProps['props']>,
-    default: () => ({
-      children: 'children',
-      label: 'label',
-      disabled: 'disabled',
-    }),
-  },
-});
-
-const emit = defineEmits([
-  'check-change',
-  'current-change',
-  'node-click',
-  'node-contextmenu',
-  'node-collapse',
-  'node-expand',
-  'check',
-  'node-drag-start',
-  'node-drag-end',
-  'node-drop',
-  'node-drag-leave',
-  'node-drag-enter',
-  'node-drag-over',
-]);
+const props = defineProps(treeProps);
+const emit = defineEmits(treeEmits);
 
 const slots = useSlots();
 
@@ -128,8 +80,6 @@ const store = shallowRef<TreeStore>(
     filterNodeMethod: props.filterNodeMethod!,
   }),
 );
-
-store.value.initialize();
 
 const root = ref<Node>(store.value.root);
 const currentNode = ref<Node>();
@@ -331,23 +281,37 @@ const updateKeyChildren = (key: TreeKey, data: TreeData) => {
   store.value.updateChildren(key, data);
 };
 
-provide('RootTree', {
-  ctx: {
-    emit,
-  },
+
+provide(rootTreeKey, {
+  ctx: { emit, slots: useSlots() },
   props,
   store,
   root,
   currentNode,
-  instance: getCurrentInstance(),
-} as any);
+  instance: getCurrentInstance()!,
+});
 
 // eslint-disable-next-line unicorn/no-useless-undefined
 provide(formItemContextKey, undefined);
 
 defineExpose({
-  getCurrentKey,
-  setCheckedKeys,
+  filter,
   updateKeyChildren,
+  getCheckedNodes,
+  setCheckedNodes,
+  getCheckedKeys,
+  setCheckedKeys,
+  setChecked,
+  getHalfCheckedNodes,
+  getHalfCheckedKeys,
+  getCurrentKey,
+  getCurrentNode,
+  setCurrentKey,
+  setCurrentNode,
+  getNode,
+  remove,
+  append,
+  insertBefore,
+  insertAfter,
 });
 </script>

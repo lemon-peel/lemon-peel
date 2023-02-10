@@ -95,14 +95,14 @@ export type IfNativePropType<T, Y, N> = [T] extends [NativePropType] ? Y : N;
  */
 export type LpPropInput<
   Type,
-  Value_,
+  Val,
   Validator,
-  Default extends LpPropMergeType<Type, Value_, Validator>,
+  Default extends LpPropMergeType<Type, Val, Validator>,
   Required extends boolean,
 > = {
   type?: Type;
   required?: Required;
-  values?: readonly Value_[];
+  values?: readonly Val[];
   validator?: ((value: any) => value is Validator) | ((value: any) => boolean);
   default?: EpPropInputDefault<Required, Default>;
 };

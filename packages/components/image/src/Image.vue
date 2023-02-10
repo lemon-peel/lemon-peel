@@ -66,21 +66,21 @@ let previousOverflow = '';
 
 const { t } = useLocale();
 const ns = useNamespace('image');
-const rawAttributes = useRawAttributes();
-const attributes = useAttrs();
+const rawAttrs = useRawAttributes();
+const attrs = useAttrs();
 
-const imageSource = ref<string | undefined>();
+const imageSrc = ref<string | undefined>();
 const hasLoadError = ref(false);
 const isLoading = ref(true);
 const showViewer = ref(false);
 const container = ref<HTMLElement>();
-const _scrollContainer = ref<HTMLElement | Window>();
+const scrollIn = ref<HTMLElement | Window>();
 
 const supportLoading = isClient && 'loading' in HTMLImageElement.prototype;
 let stopScrollListener: (() => void) | undefined;
 let stopWheelListener: (() => void) | undefined;
 
-const containerStyle = computed(() => rawAttributes.style as StyleValue);
+const containerStyle = computed(() => rawAttrs.style as StyleValue);
 
 const imageStyle = computed<CSSProperties>(() => {
   const { fit } = props;
@@ -115,7 +115,7 @@ const loadImage = () => {
   // reset status
   isLoading.value = true;
   hasLoadError.value = false;
-  imageSource.value = props.src;
+  imageSrc.value = props.src;
 };
 
 function handleLoad(event: Event) {
@@ -131,13 +131,21 @@ function handleError(event: Event) {
 }
 
 function handleLazyLoad() {
-  if (isInContainer(container.value, _scrollContainer.value)) {
+  if (isInContainer(container.value, scrollIn.value)) {
     loadImage();
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define
     removeLazyLoadListener();
   }
 }
 
 const lazyLoadHandler = useThrottleFn(handleLazyLoad, 200);
+
+function removeLazyLoadListener() {
+  if (!isClient || !scrollIn.value || !lazyLoadHandler) return;
+
+  stopScrollListener?.();
+  scrollIn.value = undefined;
+}
 
 async function addLazyLoadListener() {
   if (!isClient) return;
@@ -146,29 +154,22 @@ async function addLazyLoadListener() {
 
   const { scrollContainer } = props;
   if (isElement(scrollContainer)) {
-    _scrollContainer.value = scrollContainer;
+    scrollIn.value = scrollContainer;
   } else if (isString(scrollContainer) && scrollContainer !== '') {
-    _scrollContainer.value =
+    scrollIn.value =
       document.querySelector<HTMLElement>(scrollContainer) ?? undefined;
   } else if (container.value) {
-    _scrollContainer.value = getScrollContainer(container.value);
+    scrollIn.value = getScrollContainer(container.value);
   }
 
-  if (_scrollContainer.value) {
+  if (scrollIn.value) {
     stopScrollListener = useEventListener(
-      _scrollContainer,
+      scrollIn,
       'scroll',
       lazyLoadHandler,
     );
     setTimeout(() => handleLazyLoad(), 100);
   }
-}
-
-function removeLazyLoadListener() {
-  if (!isClient || !_scrollContainer.value || !lazyLoadHandler) return;
-
-  stopScrollListener?.();
-  _scrollContainer.value = undefined;
 }
 
 function wheelHandler(e: WheelEvent) {

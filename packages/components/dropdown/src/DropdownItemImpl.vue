@@ -45,16 +45,14 @@ export default defineComponent({
   setup(_, { emit }) {
     const ns = useNamespace('dropdown');
 
-    const { role: menuRole } = inject(DROPDOWN_INJECTION_KEY, undefined)!;
+    const { role: menuRole } = inject(DROPDOWN_INJECTION_KEY)!;
 
     const { collectionItemRef: dropdownCollectionItemRef } = inject(
       DROPDOWN_COLLECTION_ITEM_INJECTION_KEY,
-      undefined,
     )!;
 
     const { collectionItemRef: rovingFocusCollectionItemRef } = inject(
       ROVING_FOCUS_ITEM_COLLECTION_INJECTION_KEY,
-      undefined,
     )!;
 
     const {
@@ -63,7 +61,7 @@ export default defineComponent({
       handleFocus,
       handleKeydown: handleItemKeydown,
       handleMousedown,
-    } = inject(ROVING_FOCUS_GROUP_ITEM_INJECTION_KEY, undefined)!;
+    } = inject(ROVING_FOCUS_GROUP_ITEM_INJECTION_KEY)!;
 
     const itemRef = composeRefs(
       dropdownCollectionItemRef,

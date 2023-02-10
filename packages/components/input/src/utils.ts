@@ -1,6 +1,6 @@
 import { isNumber } from '@lemon-peel/utils';
 
-let hiddenTextarea: HTMLTextAreaElement | undefined = undefined;
+let hiddenTextarea: HTMLTextAreaElement | undefined;
 
 const HIDDEN_STYLE = `
   height:0 !important;
@@ -31,15 +31,15 @@ const CONTEXT_STYLE = [
 ];
 
 type NodeStyle = {
-  contextStyle: string
-  boxSizing: string
-  paddingSize: number
-  borderSize: number
+  contextStyle: string;
+  boxSizing: string;
+  paddingSize: number;
+  borderSize: number;
 };
 
 type TextAreaHeight = {
-  height: string
-  minHeight?: string
+  height: string;
+  minHeight?: string;
 };
 
 function calculateNodeStyling(targetElement: Element): NodeStyle {
@@ -69,7 +69,7 @@ export function calcTextareaHeight(
 ): TextAreaHeight {
   if (!hiddenTextarea) {
     hiddenTextarea = document.createElement('textarea');
-    document.body.appendChild(hiddenTextarea);
+    document.body.append(hiddenTextarea);
   }
 
   const { paddingSize, borderSize, boxSizing, contextStyle } =

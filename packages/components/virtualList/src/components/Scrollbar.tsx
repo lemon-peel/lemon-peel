@@ -209,7 +209,7 @@ const ScrollBar = defineComponent({
       state.isDragging = true;
       state[bar.value.axis] =
         (e.currentTarget as HTMLElement)[bar.value.offset] -
-        ( (e.hasOwnProperty('touches') ? (e as TouchEvent).touches[0][bar.value.client] : (e as MouseEvent)[bar.value.client]) -
+        ((e.hasOwnProperty('touches') ? (e as TouchEvent).touches[0][bar.value.client] : (e as MouseEvent)[bar.value.client]) -
           (e.currentTarget as HTMLElement).getBoundingClientRect()[
             bar.value.direction
           ]);

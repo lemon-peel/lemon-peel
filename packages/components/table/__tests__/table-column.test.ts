@@ -1,7 +1,7 @@
 
 import { describe, expect, it, vi } from 'vitest';
 import triggerEvent from '@lemon-peel/test-utils/trigger-event';
-import LpTable from '../src/Table.vue';
+import LpTable from '../src/table/Table.vue';
 import LpTableColumn from '../src/tableColumn';
 import { doubleWait, getTestData, mount } from './table-test-common';
 

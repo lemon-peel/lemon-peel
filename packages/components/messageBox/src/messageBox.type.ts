@@ -1,7 +1,7 @@
 import type { AppContext, CSSProperties, Component, VNode } from 'vue';
 import type { ComponentSize } from '@lemon-peel/constants';
 
-type MessageType = '' | 'success' | 'warning' | 'info' | 'error';
+type MessageType = 'success' | 'warning' | 'info' | 'error';
 
 export type Action = 'confirm' | 'close' | 'cancel';
 export type MessageBoxType = '' | 'prompt' | 'alert' | 'confirm';
@@ -17,18 +17,18 @@ export interface MessageBoxInputValidator {
 
 export declare interface MessageBoxState {
   autofocus: boolean;
-  title: string;
-  message: string;
-  type: MessageType;
+  title?: string;
+  message: string | null;
+  type: MessageType | null;
   icon: string | Component;
   customClass: string;
   customStyle: CSSProperties;
   showInput: boolean;
-  inputValue: string;
+  inputValue: string | null;
   inputPlaceholder: string;
   inputType: string;
-  inputPattern: RegExp;
-  inputValidator: MessageBoxInputValidator;
+  inputPattern: RegExp | null;
+  inputValidator: MessageBoxInputValidator | null;
   inputErrorMessage: string;
   showConfirmButton: boolean;
   showCancelButton: boolean;

@@ -108,22 +108,22 @@ export const useSlide = (
     return buttonRef;
   };
 
+  const emitUpdate = (val: Arrayable<number>) => {
+    emit(UPDATE_MODEL_EVENT, val);
+    emit(INPUT_EVENT, val);
+  };
+
   const setFirstValue = (firstValue: number | undefined) => {
     initData.firstValue = firstValue!;
-    _emit(props.range ? [minValue.value, maxValue.value] : firstValue!);
+    emitUpdate(props.range ? [minValue.value, maxValue.value] : firstValue!);
   };
 
   const setSecondValue = (secondValue: number) => {
     initData.secondValue = secondValue;
 
     if (props.range) {
-      _emit([minValue.value, maxValue.value]);
+      emitUpdate([minValue.value, maxValue.value]);
     }
-  };
-
-  const _emit = (val: Arrayable<number>) => {
-    emit(UPDATE_MODEL_EVENT, val);
-    emit(INPUT_EVENT, val);
   };
 
   const emitChange = async () => {

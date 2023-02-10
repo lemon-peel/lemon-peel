@@ -1,29 +1,11 @@
-import {
-  computed,
-  defineComponent,
-  getCurrentInstance,
-  h,
-  nextTick,
-  onMounted,
-  provide,
-  reactive,
-  ref,
-  watch,
-  watchEffect,
-} from 'vue';
+import { computed, defineComponent, getCurrentInstance, h, nextTick, onMounted, provide, reactive, ref, watch, watchEffect } from 'vue';
 import { useResizeObserver } from '@vueuse/core';
 import LpIcon from '@lemon-peel/components/icon';
 import { More } from '@element-plus/icons-vue';
-import {
-  buildProps,
-  definePropType,
-  flattedChildren,
-  isObject,
-  isString,
-  mutable,
-} from '@lemon-peel/utils';
+import { buildProps, definePropType, flattedChildren, isObject, isString, mutable } from '@lemon-peel/utils';
 import { useNamespace } from '@lemon-peel/hooks';
-import Menubar from './utils/menu-bar';
+
+import Menubar from './utils/menuBar';
 import LpMenuCollapseTransition from './MenuCollapseTransition.vue';
 import LpSubMenu from './SubMenu';
 import { useMenuCssVar as useMenuCssVariable } from './useMenuCssVar';
@@ -125,6 +107,19 @@ export default defineComponent({
       );
     });
 
+    const openMenu: MenuProvider['openMenu'] = (index, indexPath) => {
+      if (openedMenus.value.includes(index)) return;
+      // 将不在该菜单路径下的其余菜单收起
+      // collapse all menu that are not under current menu item
+      if (props.uniqueOpened) {
+        openedMenus.value = openedMenus.value.filter((index: string) =>
+          indexPath.includes(index),
+        );
+      }
+      openedMenus.value.push(index);
+      emit('open', index, indexPath);
+    };
+
     // methods
     const initMenu = () => {
       const activeItem = activeIndex.value && items.value[activeIndex.value];
@@ -140,23 +135,10 @@ export default defineComponent({
       }
     };
 
-    const openMenu: MenuProvider['openMenu'] = (index, indexPath) => {
-      if (openedMenus.value.includes(index)) return;
-      // 将不在该菜单路径下的其余菜单收起
-      // collapse all menu that are not under current menu item
-      if (props.uniqueOpened) {
-        openedMenus.value = openedMenus.value.filter((index: string) =>
-          indexPath.includes(index),
-        );
-      }
-      openedMenus.value.push(index);
-      emit('open', index, indexPath);
-    };
-
     const closeMenu: MenuProvider['closeMenu'] = (index, indexPath) => {
-      const index_ = openedMenus.value.indexOf(index);
-      if (index_ !== -1) {
-        openedMenus.value.splice(index_, 1);
+      const i = openedMenus.value.indexOf(index);
+      if (i !== -1) {
+        openedMenus.value.splice(i, 1);
       }
       emit('close', index, indexPath);
     };
@@ -342,7 +324,8 @@ export default defineComponent({
     {
       const open = (index: string) => {
         const { indexPath } = subMenus.value[index];
-        for (const index_ of indexPath) openMenu(index_, indexPath);
+        for (const index of indexPath)
+          openMenu(index, indexPath);
       };
       expose({
         open,

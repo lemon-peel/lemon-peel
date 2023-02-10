@@ -62,11 +62,11 @@
               <template v-if="$slots.footer" #footer>
                 <slot name="footer" />
               </template>
-              </lp-dialog-content>
-              </lp-focus-trap>
-            </lp-dialog-content></lp-focus-trap></div>
-        </lp-overlay>
-      </lp-overlay></transition>
+            </lp-dialog-content>
+          </lp-focus-trap>
+        </div>
+      </lp-overlay>
+    </transition>
   </teleport>
 </template>
 
@@ -75,10 +75,10 @@ import { computed, provide, ref, useSlots } from 'vue';
 import { LpOverlay } from '@lemon-peel/components/overlay';
 import { useDeprecated, useNamespace, useSameTarget } from '@lemon-peel/hooks';
 import { dialogInjectionKey } from '@lemon-peel/tokens';
-import LpFocusTrap from '@lemon-peel/components/focus-trap';
+import LpFocusTrap from '@lemon-peel/components/focusTrap';
 import LpDialogContent from './DialogContent.vue';
-import { dialogEmits, dialogProps } from './Dialog.vue';
-import { useDialog } from './useDialog;
+import { dialogEmits, dialogProps } from './dialog';
+import { useDialog } from './useDialog';
 
 defineOptions({
   name: 'LpDialog',
@@ -91,7 +91,7 @@ const slots = useSlots();
 
 useDeprecated(
   {
-    scope: 'el-dialog',
+    scope: 'lp-dialog',
     from: 'the title slot',
     replacement: 'the header slot',
     version: '3.0.0',
@@ -102,7 +102,7 @@ useDeprecated(
 
 useDeprecated(
   {
-    scope: 'el-dialog',
+    scope: 'lp-dialog',
     from: 'custom-class',
     replacement: 'class',
     version: '2.3.0',

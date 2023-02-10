@@ -8,9 +8,9 @@ export const useMonthRangeHeader = ({
   leftDate,
   rightDate,
 }: {
-  unlinkPanels: ToRef<boolean>
-  leftDate: Ref<Dayjs>
-  rightDate: Ref<Dayjs>
+  unlinkPanels: ToRef<boolean>;
+  leftDate: Ref<Dayjs>;
+  rightDate: Ref<Dayjs>;
 }) => {
   const { t } = useLocale();
   const leftPrevYear = () => {

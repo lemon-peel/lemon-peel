@@ -104,12 +104,9 @@ import dayjs from 'dayjs';
 import LpIcon from '@lemon-peel/components/icon';
 import { useLocale } from '@lemon-peel/hooks';
 import { DArrowLeft, DArrowRight } from '@element-plus/icons-vue';
-import {
-  panelMonthRangeEmits,
-  panelMonthRangeProps,
-} from '../props/panelMonthRange
-import { useMonthRangeHeader } from '../composables/use-month-range-header';
-import { useRangePicker } from '../composables/use-range-picker';
+import { panelMonthRangeEmits, panelMonthRangeProps } from '../props/panelMonthRange';
+import { useMonthRangeHeader } from '../composables/useMonthRangeJeader';
+import { useRangePicker } from '../composables/useRangePicker';
 import MonthTable from './BasicMonthTable.vue';
 
 import type { Dayjs } from 'dayjs';
@@ -128,6 +125,20 @@ const { shortcuts, disabledDate, format } = pickerBase.props;
 const defaultValue = toRef(pickerBase.props, 'defaultValue');
 const leftDate = ref(dayjs().locale(lang.value));
 const rightDate = ref(dayjs().locale(lang.value).add(1, unit));
+
+function onParsedValueChanged(
+  minDate: Dayjs | undefined,
+  maxDate: Dayjs | undefined,
+) {
+  if (props.unlinkPanels && maxDate) {
+    const minDateYear = minDate?.year() || 0;
+    const maxDateYear = maxDate.year();
+    rightDate.value =
+      minDateYear === maxDateYear ? maxDate.add(1, unit) : maxDate;
+  } else {
+    rightDate.value = leftDate.value.add(1, unit);
+  }
+}
 
 const {
   minDate,
@@ -179,13 +190,13 @@ const handleRangePick = (val: RangePickValue, close = true) => {
   // const minDate_ = modifyWithTimeString(val.minDate, defaultTime[0])
   // const maxDate_ = modifyWithTimeString(val.maxDate, defaultTime[1])
   // todo
-  const minDate_ = val.minDate;
-  const maxDate_ = val.maxDate;
-  if (maxDate.value === maxDate_ && minDate.value === minDate_) {
+  const min = val.minDate;
+  const max = val.maxDate;
+  if (maxDate.value === max && minDate.value === min) {
     return;
   }
-  maxDate.value = maxDate_;
-  minDate.value = minDate_;
+  maxDate.value = max;
+  minDate.value = min;
 
   if (!close) return;
   handleRangeConfirm();
@@ -194,20 +205,6 @@ const handleRangePick = (val: RangePickValue, close = true) => {
 const formatToString = (days: Dayjs[]) => {
   return days.map(day => day.format(format));
 };
-
-function onParsedValueChanged(
-  minDate: Dayjs | undefined,
-  maxDate: Dayjs | undefined,
-) {
-  if (props.unlinkPanels && maxDate) {
-    const minDateYear = minDate?.year() || 0;
-    const maxDateYear = maxDate.year();
-    rightDate.value =
-      minDateYear === maxDateYear ? maxDate.add(1, unit) : maxDate;
-  } else {
-    rightDate.value = leftDate.value.add(1, unit);
-  }
-}
 
 emit('set-picker-option', ['formatToString', formatToString]);
 </script>

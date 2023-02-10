@@ -1,2 +1,2 @@
-export { OnlyChild as LpOnlyChild } from './src/only-child';
-export * from './src/only-child';
+export { OnlyChild as LpOnlyChild } from './src/onlyChild';
+export * from './src/onlyChild';

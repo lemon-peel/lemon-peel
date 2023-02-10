@@ -25,7 +25,7 @@
 <script lang="ts" setup>
 import { inject } from 'vue';
 
-import LpDescriptionsCell from './descriptionsCell';
+import LpDescriptionsCell from './DescriptionsCell';
 import { descriptionsKey } from './token';
 import { descriptionsRowProps } from './descriptionsRow';
 

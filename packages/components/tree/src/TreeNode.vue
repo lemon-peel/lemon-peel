@@ -42,7 +42,7 @@
       >
         <component :is="tree.props.icon || CaretRight" />
       </el-icon>
-      <el-checkbox
+      <lp-checkbox
         v-if="showCheckbox"
         :model-value="node.checked"
         :indeterminate="node.indeterminate"
@@ -58,7 +58,7 @@
       </el-icon>
       <node-content :node="node" :render-content="renderContent" />
     </div>
-    <el-collapse-transition>
+    <lp-collapse-transition>
       <div
         v-if="!renderAfterExpand || childNodeRendered"
         v-show="expanded"
@@ -66,7 +66,7 @@
         role="group"
         :aria-expanded="expanded"
       >
-        <el-tree-node
+        <lp-tree-node
           v-for="child in node.childNodes"
           :key="getNodeKey(child)"
           :render-content="renderContent"
@@ -78,37 +78,37 @@
           @node-expand="handleChildNodeExpand"
         />
       </div>
-    </el-collapse-transition>
+    </lp-collapse-transition>
   </div>
 </template>
+
 <script lang="ts" setup>
 import { defineComponent, getCurrentInstance, inject, nextTick, provide, ref, watch } from 'vue';
 import { isFunction, isString } from '@vue/shared';
 import LpCollapseTransition from '@lemon-peel/components/collapseTransition';
-import LpCheckbox from '@lemon-peel/components/checkbox';
 import { LpIcon } from '@lemon-peel/components/icon';
 import { CaretRight, Loading } from '@element-plus/icons-vue';
 import { debugWarn } from '@lemon-peel/utils';
 import { useNamespace } from '@lemon-peel/hooks';
-import NodeContent from './TreeNodeContent.vue';
+import LpCheckbox from '@lemon-peel/components/checkbox';
+
 import { getNodeKey as getNodeKeyUtil, handleCurrentChange } from './model/util';
 import { useNodeExpandEventBroadcast } from './model/useNodeExpandEventBroadcast';
 import { dragEventsKey } from './model/useDragNode';
+import { rootTreeKey } from './tokens';
+import NodeContent from './TreeNodeContent.vue';
 import Node from './model/node';
 
 import type { ComponentInternalInstance, PropType } from 'vue';
 import type { Nullable } from '@lemon-peel/utils';
-import type { RootTreeType, TreeNodeData, TreeOptionProps } from './tree.type';
+import type { TreeNodeData, TreeOptionProps } from './tree';
 
 defineOptions({
   name: 'LpTreeNode',
 });
 
 const props  = defineProps({
-  node: {
-    type: Node,
-    default: () => ({}),
-  },
+  node: { type: Node, default: () => ({}) },
   props: {
     type: Object as PropType<TreeOptionProps>,
     default: () => ({}),
@@ -129,14 +129,14 @@ const emit = defineEmits(['node-expand']);
 
 const ns = useNamespace('tree');
 const { broadcastExpanded } = useNodeExpandEventBroadcast(props);
-const tree = inject<RootTreeType>('RootTree')!;
+const tree = inject(rootTreeKey)!;
 const expanded = ref(false);
 const childNodeRendered = ref(false);
 const oldChecked = ref<boolean>(false);
 const oldIndeterminate = ref<boolean>(false);
 const node$ = ref<HTMLElement>();
 const dragEvents = inject(dragEventsKey)!;
-const instance = getCurrentInstance();
+const instance = getCurrentInstance()!;
 
 provide('NodeInstance', instance);
 if (!tree) {
@@ -225,7 +225,7 @@ const handleExpandIconClick = () => {
   }
 };
 
-const handleCheckChange = (value: any, ev: { target: { checked: boolean } } ) => {
+const handleCheckChange = (value: any, ev: { target: { checked: boolean } }) => {
   props.node.setChecked(ev.target.checked, !tree.props.checkStrictly);
   nextTick(() => {
     const store = tree.store.value;
@@ -297,4 +297,8 @@ const handleDragEnd = (event: DragEvent) => {
   if (!tree.props.draggable) return;
   dragEvents.treeNodeDragEnd(event);
 };
+
+defineExpose({
+  handleExpandIconClick,
+});
 </script>

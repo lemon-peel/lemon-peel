@@ -77,7 +77,7 @@
 import { computed, ref, watchEffect } from 'vue';
 import { DArrowLeft, DArrowRight, MoreFilled } from '@element-plus/icons-vue';
 import { useNamespace } from '@lemon-peel/hooks';
-import { paginationPagerProps } from './pager.vue';
+import { paginationPagerProps } from './pager';
 defineOptions({
   name: 'LpPaginationPager',
 });
@@ -128,7 +128,9 @@ const pagers = computed(() => {
   }
   return array;
 });
+
 const tabindex = computed(() => (props.disabled ? -1 : 0));
+
 watchEffect(() => {
   const halfPagerCount = (props.pagerCount - 1) / 2;
   showPrevMore.value = false;
@@ -142,6 +144,7 @@ watchEffect(() => {
     }
   }
 });
+
 function onMouseEnter(forward = false) {
   if (props.disabled) return;
   if (forward) {
@@ -150,6 +153,7 @@ function onMouseEnter(forward = false) {
     quickNextHover.value = true;
   }
 }
+
 function onFocus(forward = false) {
   if (forward) {
     quickPrevFocus.value = true;
@@ -157,23 +161,7 @@ function onFocus(forward = false) {
     quickNextFocus.value = true;
   }
 }
-function onEnter(e: UIEvent) {
-  const target = e.target as HTMLElement;
-  if (
-    target.tagName.toLowerCase() === 'li' &&
-    [...target.classList].includes('number')
-  ) {
-    const newPage = Number(target.textContent);
-    if (newPage !== props.currentPage) {
-      emit('change', newPage);
-    }
-  } else if (
-    target.tagName.toLowerCase() === 'li' &&
-    [...target.classList].includes('more')
-  ) {
-    onPagerClick(e);
-  }
-}
+
 function onPagerClick(event: UIEvent) {
   const target = event.target as HTMLElement;
   if (target.tagName.toLowerCase() === 'ul' || props.disabled) {
@@ -200,6 +188,24 @@ function onPagerClick(event: UIEvent) {
   }
   if (newPage !== currentPage) {
     emit('change', newPage);
+  }
+}
+
+function onEnter(e: UIEvent) {
+  const target = e.target as HTMLElement;
+  if (
+    target.tagName.toLowerCase() === 'li' &&
+    [...target.classList].includes('number')
+  ) {
+    const newPage = Number(target.textContent);
+    if (newPage !== props.currentPage) {
+      emit('change', newPage);
+    }
+  } else if (
+    target.tagName.toLowerCase() === 'li' &&
+    [...target.classList].includes('more')
+  ) {
+    onPagerClick(e);
   }
 }
 </script>

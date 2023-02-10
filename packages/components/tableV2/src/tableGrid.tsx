@@ -33,15 +33,15 @@ const useTableGrid = (props: TableV2GridProps) => {
     return (fixedData?.length || 0) * (rowHeight as number);
   });
 
-  const headerHeight = computed(() => sum(props.headerHeight));
+  const headerHeightRef = computed(() => sum(props.headerHeight));
 
   const gridHeight = computed(() => {
     const { height } = props;
-    return Math.max(0, height - unref(headerHeight) - unref(fixedRowHeight));
+    return Math.max(0, height - unref(headerHeightRef) - unref(fixedRowHeight));
   });
 
   const hasHeader = computed(() => {
-    return unref(headerHeight) + unref(fixedRowHeight) > 0;
+    return unref(headerHeightRef) + unref(fixedRowHeight) > 0;
   });
 
   const itemKey: GridItemKeyGetter = ({ data, rowIndex }) =>
@@ -106,7 +106,7 @@ const useTableGrid = (props: TableV2GridProps) => {
     fixedRowHeight,
     gridHeight,
     hasHeader,
-    headerHeight,
+    headerHeightRef,
     headerRef,
     totalHeight,
 
@@ -131,7 +131,7 @@ const TableGrid = defineComponent({
       gridHeight,
       hasHeader,
       headerRef,
-      headerHeight,
+      headerHeightRef,
       totalHeight,
 
       forceUpdate,
@@ -195,7 +195,7 @@ const TableGrid = defineComponent({
 
       const isDynamicRowEnabled = isNumber(estimatedRowHeight);
       const Grid = isDynamicRowEnabled ? DynamicSizeGrid : FixedSizeGrid;
-      const _headerHeight = unref(headerHeight);
+      const headerHeight = unref(headerHeightRef);
 
       return (
         <div role="table" class={[ns.e('table'), props.class]} style={style}>
@@ -247,7 +247,7 @@ const TableGrid = defineComponent({
               rowWidth={headerWidth}
               rowHeight={rowHeight}
               width={width}
-              height={Math.min(_headerHeight + unref(fixedRowHeight), height)}
+              height={Math.min(headerHeight + unref(fixedRowHeight), height)}
             >
               {{
                 dynamic: slots.header,

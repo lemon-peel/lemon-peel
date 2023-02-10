@@ -44,7 +44,7 @@
           cellpadding="0"
           cellspacing="0"
         >
-          <hColgroup
+          <h-col-group
             :columns="store.states.columns.value"
             :table-layout="tableLayout"
           />
@@ -75,7 +75,7 @@
               tableLayout,
             }"
           >
-            <hColgroup
+            <h-col-group
               :columns="store.states.columns.value"
               :table-layout="tableLayout"
             />
@@ -142,177 +142,112 @@
   </div>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, getCurrentInstance, provide } from 'vue';
+<script lang="ts" setup>
+import { computed, defineEmits, getCurrentInstance, provide } from 'vue';
 import { debounce } from 'lodash-unified';
-import { Mousewheel } from '@lemon-peel/directives';
+import { Mousewheel as vMousewheel } from '@lemon-peel/directives';
 import { useLocale, useNamespace } from '@lemon-peel/hooks';
 import LpScrollbar from '@lemon-peel/components/scrollbar';
-import { createStore } from './store/helper';
-import TableLayout from './tableLayout';
-import TableHeader from './tableHeader';
-import TableBody from './tableBody';
-import TableFooter from './tableFooter';
-import useUtils from './table/utilsHelper';
-import useStyle from './table/styleHelper';
-import defaultProps from './table/defaults';
-import { TABLE_INJECTION_KEY } from './tokens';
-import { hColgroup } from './HHelper';
-import { useScrollbar } from './composables/useScrollbar';
+import { createStore } from '../store/helper';
+import TableLayout from '../tableLayout';
+import TableHeader from '../tableHeader';
+import TableBody from '../tableBody';
+import TableFooter from '../tableFooter';
+import useUtils from './utilsHelper';
+import useStyle from './styleHelper';
+import { tableProps, tableEmits } from './defaults';
 
-import type { Table } from './table/defaults';
+import { TABLE_INJECTION_KEY } from '../tokens';
+import { HColGroup } from '../HHelper';
+import { useScrollbar } from '../composables/useScrollbar';
 
-let tableIdSeed = 1;
-export default defineComponent({
+import type { TableExpose } from './defaults';
+
+const tableIdSeed = 1;
+
+defineOptions({
   name: 'LpTable',
-  directives: {
-    Mousewheel,
-  },
-  components: {
-    TableHeader,
-    TableBody,
-    TableFooter,
-    LpScrollbar,
-    hColgroup,
-  },
-  props: defaultProps,
-  emits: [
-    'select',
-    'select-all',
-    'selection-change',
-    'cell-mouse-enter',
-    'cell-mouse-leave',
-    'cell-contextmenu',
-    'cell-click',
-    'cell-dblclick',
-    'row-click',
-    'row-contextmenu',
-    'row-dblclick',
-    'header-click',
-    'header-contextmenu',
-    'sort-change',
-    'filter-change',
-    'current-change',
-    'header-dragend',
-    'expand-change',
-  ],
-  setup(props) {
-    type Row = typeof props.data[number];
-    const { t } = useLocale();
-    const ns = useNamespace('table');
-    const table = getCurrentInstance() as Table<Row>;
-    provide(TABLE_INJECTION_KEY, table);
-    const store = createStore<Row>(table, props);
-    table.store = store;
-    const layout = new TableLayout<Row>({
-      store: table.store,
-      table,
-      fit: props.fit,
-      showHeader: props.showHeader,
-    });
-    table.layout = layout;
+});
 
-    const isEmpty = computed(() => (store.states.data.value || []).length === 0);
+const porps = defineProps(tableProps);
+const emit = defineEmits(tableEmits);
 
-    /**
+const { t } = useLocale();
+const ns = useNamespace('table');
+const table = getCurrentInstance()!;
+provide(TABLE_INJECTION_KEY, table);
+
+const store = createStore(table, props);
+
+const layout = new TableLayout({
+  store: table.store,
+  table,
+  fit: props.fit,
+  showHeader: props.showHeader,
+});
+
+const isEmpty = computed(() => (store.states.data.value || []).length === 0);
+
+/**
      * open functions
      */
-    const {
-      setCurrentRow,
-      getSelectionRows,
-      toggleRowSelection,
-      clearSelection,
-      clearFilter,
-      toggleAllSelection,
-      toggleRowExpansion,
-      clearSort,
-      sort,
-    } = useUtils<Row>(store);
-    const {
-      isHidden,
-      renderExpanded,
-      setDragVisible,
-      isGroup,
-      handleMouseLeave,
-      handleHeaderFooterMousewheel,
-      tableSize,
-      emptyBlockStyle,
-      handleFixedMousewheel,
-      resizeProxyVisible,
-      bodyWidth,
-      resizeState,
-      doLayout,
-      tableBodyStyles,
-      tableLayout,
-      scrollbarViewStyle,
-      tableInnerStyle,
-      scrollbarStyle,
-    } = useStyle<Row>(props, layout, store, table);
+const {
+  setCurrentRow,
+  getSelectionRows,
+  toggleRowSelection,
+  clearSelection,
+  clearFilter,
+  toggleAllSelection,
+  toggleRowExpansion,
+  clearSort,
+  sort,
+} = useUtils(store);
 
-    const { scrollBarRef, scrollTo, setScrollLeft, setScrollTop } =
+const {
+  isHidden,
+  renderExpanded,
+  setDragVisible,
+  isGroup,
+  handleMouseLeave,
+  handleHeaderFooterMousewheel,
+  tableSize,
+  emptyBlockStyle,
+  handleFixedMousewheel,
+  resizeProxyVisible,
+  bodyWidth,
+  resizeState,
+  doLayout,
+  tableBodyStyles,
+  tableLayout,
+  scrollbarViewStyle,
+  tableInnerStyle,
+  scrollbarStyle,
+} = useStyle(props, layout, store, table);
+
+const { scrollBarRef, scrollTo, setScrollLeft, setScrollTop } =
       useScrollbar();
 
-    const debouncedUpdateLayout = debounce(doLayout, 50);
+const debouncedUpdateLayout = debounce(doLayout, 50);
 
-    const tableId = `${ns.namespace.value}-table_${tableIdSeed++}`;
-    table.tableId = tableId;
-    table.state = {
-      isGroup,
-      resizeState,
-      doLayout,
-      debouncedUpdateLayout,
-    };
-    const computedSumText = computed(
-      () => props.sumText || t('el.table.sumText'),
-    );
+const computedSumText = computed(
+  () => props.sumText || t('el.table.sumText'),
+);
 
-    const computedEmptyText = computed(() => {
-      return props.emptyText || t('el.table.emptyText');
-    });
-
-    return {
-      ns,
-      layout,
-      store,
-      handleHeaderFooterMousewheel,
-      handleMouseLeave,
-      tableId,
-      tableSize,
-      isHidden,
-      isEmpty,
-      renderExpanded,
-      resizeProxyVisible,
-      resizeState,
-      isGroup,
-      bodyWidth,
-      tableBodyStyles,
-      emptyBlockStyle,
-      debouncedUpdateLayout,
-      handleFixedMousewheel,
-      setCurrentRow,
-      getSelectionRows,
-      toggleRowSelection,
-      clearSelection,
-      clearFilter,
-      toggleAllSelection,
-      toggleRowExpansion,
-      clearSort,
-      doLayout,
-      sort,
-      t,
-      setDragVisible,
-      context: table,
-      computedSumText,
-      computedEmptyText,
-      tableLayout,
-      scrollbarViewStyle,
-      tableInnerStyle,
-      scrollbarStyle,
-      scrollBarRef,
-      scrollTo,
-      setScrollLeft,
-      setScrollTop,
-    };
-  },
+const computedEmptyText = computed(() => {
+  return props.emptyText || t('el.table.emptyText');
 });
+
+const tableId = `${ns.namespace.value}-table_${tableIdSeed++}`;
+
+defineExpose({
+  tableId,
+  layout,
+  $ready: false,
+  state: {
+    isGroup,
+    resizeState,
+    doLayout,
+    debouncedUpdateLayout,
+  },
+} satisfies TableExpose);
 </script>

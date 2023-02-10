@@ -31,6 +31,7 @@ export const getDefaultValue = (
   let start: Dayjs;
 
   if (isArray(defaultValue)) {
+    // eslint-disable-next-line prefer-const
     let [left, right] = defaultValue.map(d => dayjs(d).locale(lang));
     if (!unlinkPanels) {
       right = left.add(1, unit);

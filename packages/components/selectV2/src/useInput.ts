@@ -1,7 +1,7 @@
 
 import { ref } from 'vue';
 import { isFunction } from '@vue/shared';
-import { isKorean } from '@element-plus/utils';
+import { isKorean } from '@lemon-peel/utils';
 
 export function useInput(handleInput: (event: InputEvent) => void) {
   const isComposing = ref(false);
@@ -10,7 +10,7 @@ export function useInput(handleInput: (event: InputEvent) => void) {
     isComposing.value = true;
   };
 
-  const handleCompositionUpdate = event => {
+  const handleCompositionUpdate = (event: Event) => {
     const text = event.target.value;
     const lastCharacter = text[text.length - 1] || '';
     isComposing.value = !isKorean(lastCharacter);

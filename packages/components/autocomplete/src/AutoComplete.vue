@@ -96,7 +96,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, nextTick, onMounted, ref, useAttrs as useRawAttributes } from 'vue';
+import { computed, nextTick, onMounted, ref, useAttrs as useRawAttrs } from 'vue';
 import { debounce } from 'lodash-unified';
 import { onClickOutside } from '@vueuse/core';
 import { useAttrs, useDisabled, useNamespace } from '@lemon-peel/hooks';
@@ -118,8 +118,8 @@ defineOptions({
 const props = defineProps(autocompleteProps);
 const emit = defineEmits(autocompleteEmits);
 
-const attributes = useAttrs();
-const rawAttributes = useRawAttributes();
+const attrs = useAttrs();
+const rawAttrs = useRawAttrs();
 const disabled = useDisabled();
 const ns = useNamespace('autocomplete');
 
@@ -138,7 +138,7 @@ const suggestionDisabled = ref(false);
 const loading = ref(false);
 
 const listboxId = computed(() => ns.b(String(generateId())));
-const styles = computed(() => rawAttributes.style as StyleValue);
+const styles = computed(() => rawAttrs.style as StyleValue);
 
 const suggestionVisible = computed(() => {
   const isValidData = suggestions.value.length > 0;

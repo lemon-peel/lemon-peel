@@ -70,8 +70,8 @@ function getValueFromMap<T>(
   const matchedKeys = Object.keys(map)
     .map(key => +key)
     .filter(key => {
-      const value_ = map[key];
-      const excluded = isExcludedObject(value_) ? value_.excluded : false;
+      const val = map[key];
+      const excluded = isExcludedObject(val) ? val.excluded : false;
       return excluded ? value < key : value <= key;
     })
     .sort((a, b) => a - b);
@@ -100,6 +100,20 @@ const pointerAtLeftHalf = ref(true);
 
 const rateClasses = computed(() => [ns.b(), ns.m(rateSize.value)]);
 const rateDisabled = computed(() => properties.disabled || formContext?.disabled);
+const colorMap = computed(() =>
+  isArray(properties.colors)
+    ? {
+      [properties.lowThreshold]: properties.colors[0],
+      [properties.highThreshold]: { value: properties.colors[1], excluded: true },
+      [properties.max]: properties.colors[2],
+    }
+    : properties.colors,
+);
+const activeColor = computed(() => {
+  const color = getValueFromMap(currentValue.value, colorMap.value);
+  // {value: '', excluded: true} returned
+  return isObject(color) ? '' : color;
+});
 const rateStyles = computed(() => {
   return ns.cssVarBlock({
     'void-color': properties.voidColor,
@@ -123,20 +137,7 @@ const text = computed(() => {
 const valueDecimal = computed(
   () => properties.modelValue * 100 - Math.floor(properties.modelValue) * 100,
 );
-const colorMap = computed(() =>
-  isArray(properties.colors)
-    ? {
-      [properties.lowThreshold]: properties.colors[0],
-      [properties.highThreshold]: { value: properties.colors[1], excluded: true },
-      [properties.max]: properties.colors[2],
-    }
-    : properties.colors,
-);
-const activeColor = computed(() => {
-  const color = getValueFromMap(currentValue.value, colorMap.value);
-  // {value: '', excluded: true} returned
-  return isObject(color) ? '' : color;
-});
+
 const decimalStyle = computed(() => {
   let width = '';
   if (rateDisabled.value) {
@@ -222,22 +223,22 @@ function handleKey(e: KeyboardEvent) {
   if (rateDisabled.value) {
     return;
   }
-  let _currentValue = currentValue.value;
+  let currentVal = currentValue.value;
   const code = e.code;
   if (code === EVENT_CODE.up || code === EVENT_CODE.right) {
-    _currentValue += properties.allowHalf ? 0.5 : 1;
+    currentVal += properties.allowHalf ? 0.5 : 1;
     e.stopPropagation();
     e.preventDefault();
   } else if (code === EVENT_CODE.left || code === EVENT_CODE.down) {
-    _currentValue -= properties.allowHalf ? 0.5 : 1;
+    currentVal -= properties.allowHalf ? 0.5 : 1;
     e.stopPropagation();
     e.preventDefault();
   }
-  _currentValue = _currentValue < 0 ? 0 : _currentValue;
-  _currentValue = _currentValue > properties.max ? properties.max : _currentValue;
-  emit(UPDATE_MODEL_EVENT, _currentValue);
-  emit('change', _currentValue);
-  return _currentValue;
+  currentVal = currentVal < 0 ? 0 : currentVal;
+  currentVal = currentVal > properties.max ? properties.max : currentVal;
+  emit(UPDATE_MODEL_EVENT, currentVal);
+  emit('change', currentVal);
+  return currentVal;
 }
 
 function setCurrentValue(value: number, event: MouseEvent) {

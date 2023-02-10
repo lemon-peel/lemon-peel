@@ -1,16 +1,16 @@
-import { inject, onBeforeUnmount, onMounted, provide, ref, unref } from 'vue';
-import Collection from './collection.vue';
-import CollectionItem from './collection-item.vue';
+import { inject, onBeforeUnmount, onMounted, provide, ref, unref, shallowRef } from 'vue';
+import Collection from './Collection.vue';
+import CollectionItem from './CollectionItem.vue';
 
-import type { InjectionKey } from 'vue';
+import type { Component, InjectionKey } from 'vue';
 import type { SetupContext } from '@vue/runtime-core';
 import type { LpCollectionInjectionContext, LpCollectionItemInjectionContext } from './tokens';
 
-export const COLLECTION_ITEM_SIGN = `data-el-collection-item`;
+export const COLLECTION_ITEM_SIGN = `data-lp-collection-item`;
 
 // Make sure the first letter of name is capitalized
 export const createCollectionWithScope = (name: string) => {
-  const COLLECTION_NAME = `El${name}Collection`;
+  const COLLECTION_NAME = `Lp${name}Collection`;
   const COLLECTION_ITEM_NAME = `${COLLECTION_NAME}Item`;
   const COLLECTION_INJECTION_KEY: InjectionKey<LpCollectionInjectionContext> =
     Symbol(COLLECTION_NAME);
@@ -48,7 +48,7 @@ export const createCollectionWithScope = (name: string) => {
     ...CollectionItem,
     name: COLLECTION_ITEM_NAME,
     setup(_: unknown, { attrs }: SetupContext) {
-      const collectionItemRef = ref<HTMLElement | null>(null);
+      const collectionItemRef = shallowRef<HTMLElement | null>(null);
       const collectionInjection = inject(COLLECTION_INJECTION_KEY)!;
 
       provide(COLLECTION_ITEM_INJECTION_KEY, {
@@ -56,7 +56,7 @@ export const createCollectionWithScope = (name: string) => {
       });
 
       onMounted(() => {
-        const collectionItemEl = unref(collectionItemRef);
+        const collectionItemEl = collectionItemRef.value;
         if (collectionItemEl) {
           collectionInjection.itemMap.set(collectionItemEl, {
             ref: collectionItemEl,
@@ -75,7 +75,7 @@ export const createCollectionWithScope = (name: string) => {
   return {
     COLLECTION_INJECTION_KEY,
     COLLECTION_ITEM_INJECTION_KEY,
-    LpCollection,
-    LpCollectionItem,
+    LpCollection: LpCollection as Component,
+    LpCollectionItem: LpCollectionItem as Component,
   };
 };

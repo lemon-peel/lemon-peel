@@ -19,7 +19,7 @@
         <lp-focus-trap
           loop
           :trapped="visible"
-          :focus-trap-el="rootRef"
+          :focus-trap-el="rootRef!"
           :focus-start-el="focusStartRef"
           @release-requested="onCloseRequested"
         >
@@ -46,9 +46,9 @@
                   :class="[ns.e('status'), typeClass]"
                 >
                   <component :is="iconComponent" />
-                  </lp-icon>
-                  <span>{{ title }}</span>
-                </lp-icon></div>
+                </lp-icon>
+                <span>{{ title }}</span>
+              </div>
               <button
                 v-if="showClose"
                 type="button"
@@ -63,8 +63,8 @@
               >
                 <lp-icon :class="ns.e('close')">
                   <close />
-                  </lp-icon>
-                </lp-icon></button>
+                </lp-icon>
+              </button>
             </div>
             <div :id="contentId" :class="ns.e('content')">
               <div :class="ns.e('container')">
@@ -73,25 +73,25 @@
                   :class="[ns.e('status'), typeClass]"
                 >
                   <component :is="iconComponent" />
-                  </lp-icon>
-                  <div v-if="hasMessage" :class="ns.e('message')">
-                    <slot>
-                      <component
-                        :is="showInput ? 'label' : 'p'"
-                        v-if="!dangerouslyUseHTMLString"
-                        :for="showInput ? inputId : undefined"
-                      >
-                        {{ !dangerouslyUseHTMLString ? message : '' }}
-                      </component>
-                      <component
-                        :is="showInput ? 'label' : 'p'"
-                        v-else
-                        :for="showInput ? inputId : undefined"
-                        v-html="message"
-                      />
-                    </slot>
-                  </div>
-                </lp-icon></div>
+                </lp-icon>
+                <div v-if="hasMessage" :class="ns.e('message')">
+                  <slot>
+                    <component
+                      :is="showInput ? 'label' : 'p'"
+                      v-if="!dangerouslyUseHTMLString"
+                      :for="showInput ? inputId : undefined"
+                    >
+                      {{ !dangerouslyUseHTMLString ? message : '' }}
+                    </component>
+                    <component
+                      :is="showInput ? 'label' : 'p'"
+                      v-else
+                      :for="showInput ? inputId : undefined"
+                      v-html="message"
+                    />
+                  </slot>
+                </div>
+              </div>
               <div v-show="showInput" :class="ns.e('input')">
                 <lp-input
                   :id="inputId"
@@ -124,25 +124,25 @@
                 @keydown.prevent.enter="handleAction('cancel')"
               >
                 {{ cancelButtonText || t('el.messagebox.cancel') }}
-                </lp-button>
-                <lp-button
-                  v-show="showConfirmButton"
-                  ref="confirmRef"
-                  type="primary"
-                  :loading="confirmButtonLoading"
-                  :class="[confirmButtonClasses]"
-                  :round="roundButton"
-                  :disabled="confirmButtonDisabled"
-                  :size="btnSize"
-                  @click="handleAction('confirm')"
-                  @keydown.prevent.enter="handleAction('confirm')"
-                >
-                  {{ confirmButtonText || t('el.messagebox.confirm') }}
-                  </lp-button>
-                </lp-button></lp-button></div>
+              </lp-button>
+              <lp-button
+                v-show="showConfirmButton"
+                ref="confirmRef"
+                type="primary"
+                :loading="confirmButtonLoading"
+                :class="[confirmButtonClasses]"
+                :round="roundButton"
+                :disabled="confirmButtonDisabled"
+                :size="btnSize"
+                @click="handleAction('confirm')"
+                @keydown.prevent.enter="handleAction('confirm')"
+              >
+                {{ confirmButtonText || t('el.messagebox.confirm') }}
+              </lp-button>
+            </div>
           </div>
-          </lp-focus-trap>
-        </lp-focus-trap></div>
+        </lp-focus-trap>
+      </div>
     </lp-overlay>
   </transition>
 </template>
@@ -158,9 +158,9 @@ import { TypeComponents, TypeComponentsMap, isValidComponentSize } from '@lemon-
 import { LpIcon } from '@lemon-peel/components/icon';
 import LpFocusTrap from '@lemon-peel/components/focusTrap';
 
-import type { ComponentPublicInstance, PropType } from 'vue';
+import type { Component, ComponentPublicInstance, PropType, ToRefs  } from 'vue';
 import type { ComponentSize } from '@lemon-peel/constants';
-import type { Action, MessageBoxState, MessageBoxType } from './messageBox.type;
+import type { Action, MessageBoxState, MessageBoxType } from './messageBox.type';
 
 export default defineComponent({
   name: 'LpMessageBox',
@@ -180,6 +180,7 @@ export default defineComponent({
     buttonSize: {
       type: String as PropType<ComponentSize>,
       validator: isValidComponentSize,
+      default: 'default',
     },
     modal: {
       type: Boolean,
@@ -253,7 +254,7 @@ export default defineComponent({
       modalClass: '',
       showCancelButton: false,
       showConfirmButton: true,
-      type: '',
+      type: null,
       title: undefined,
       showInput: false,
       action: '' as Action,
@@ -270,7 +271,7 @@ export default defineComponent({
 
     const typeClass = computed(() => {
       const type = state.type;
-      return { [ns.bm('icon', type)]: type && TypeComponentsMap[type] };
+      return { [ns.bm('icon', type || '')]: type && TypeComponentsMap[type] };
     });
 
     const contentId = useId();
@@ -281,112 +282,18 @@ export default defineComponent({
       { prop: true, form: true, formItem: true },
     );
 
-    const iconComponent = computed(
-      () => state.icon || TypeComponentsMap[state.type] || '',
+    const iconComponent = computed<string | Component>(
+      () => state.icon || (state.type ? TypeComponentsMap[state.type] : ''),
     );
+
     const hasMessage = computed(() => !!state.message);
     const rootRef = ref<HTMLElement>();
     const headerRef = ref<HTMLElement>();
     const focusStartRef = ref<HTMLElement>();
-    const inputRef = ref<ComponentPublicInstance>();
+    const inputRef = ref<ComponentPublicInstance>(null as any);
     const confirmRef = ref<ComponentPublicInstance>();
 
     const confirmButtonClasses = computed(() => state.confirmButtonClass);
-
-    watch(
-      () => state.inputValue,
-      async val => {
-        await nextTick();
-        if (props.boxType === 'prompt' && val !== null) {
-          validate();
-        }
-      },
-      { immediate: true },
-    );
-
-    watch(
-      () => visible.value,
-      val => {
-        if (val) {
-          if (props.boxType !== 'prompt') {
-            if (state.autofocus) {
-              focusStartRef.value = confirmRef.value?.$el ?? rootRef.value;
-            } else {
-              focusStartRef.value = rootRef.value;
-            }
-          }
-          state.zIndex = nextZIndex();
-        }
-        if (props.boxType !== 'prompt') return;
-        if (val) {
-          nextTick().then(() => {
-            if (inputRef.value && inputRef.value.$el) {
-              if (state.autofocus) {
-                focusStartRef.value = getInputElement() ?? rootRef.value;
-              } else {
-                focusStartRef.value = rootRef.value;
-              }
-            }
-          });
-        } else {
-          state.editorErrorMessage = '';
-          state.validateError = false;
-        }
-      },
-    );
-
-    const draggable = computed(() => props.draggable);
-    useDraggable(rootRef, headerRef, draggable);
-
-    onMounted(async () => {
-      await nextTick();
-      if (props.closeOnHashChange) {
-        window.addEventListener('hashchange', doClose);
-      }
-    });
-
-    onBeforeUnmount(() => {
-      if (props.closeOnHashChange) {
-        window.removeEventListener('hashchange', doClose);
-      }
-    });
-
-    function doClose() {
-      if (!visible.value) return;
-      visible.value = false;
-      nextTick(() => {
-        if (state.action) emit('action', state.action);
-      });
-    }
-
-    const handleWrapperClick = () => {
-      if (props.closeOnClickModal) {
-        handleAction(state.distinguishCancelAndClose ? 'close' : 'cancel');
-      }
-    };
-
-    const overlayEvent = useSameTarget(handleWrapperClick);
-
-    const handleInputEnter = (e: KeyboardEvent) => {
-      if (state.inputType !== 'textarea') {
-        e.preventDefault();
-        return handleAction('confirm');
-      }
-    };
-
-    const handleAction = (action: Action) => {
-      if (props.boxType === 'prompt' && action === 'confirm' && !validate()) {
-        return;
-      }
-
-      state.action = action;
-
-      if (state.beforeClose) {
-        state.beforeClose?.(action, state, doClose);
-      } else {
-        doClose();
-      }
-    };
 
     const validate = () => {
       if (props.boxType === 'prompt') {
@@ -399,7 +306,7 @@ export default defineComponent({
         }
         const inputValidator = state.inputValidator;
         if (typeof inputValidator === 'function') {
-          const validateResult = inputValidator(state.inputValue);
+          const validateResult = inputValidator(state.inputValue || '');
           if (validateResult === false) {
             state.editorErrorMessage =
               state.inputErrorMessage || t('el.messagebox.error');
@@ -418,9 +325,97 @@ export default defineComponent({
       return true;
     };
 
+    watch(
+      () => state.inputValue,
+      async val => {
+        await nextTick();
+        if (props.boxType === 'prompt' && val !== null) {
+          validate();
+        }
+      },
+      { immediate: true },
+    );
+
     const getInputElement = () => {
       const inputRefs = inputRef.value.$refs;
       return (inputRefs.input || inputRefs.textarea) as HTMLElement;
+    };
+
+    watch(
+      () => visible.value,
+      val => {
+        if (val) {
+          if (props.boxType !== 'prompt') {
+            focusStartRef.value = state.autofocus ? confirmRef.value?.$el ?? rootRef.value : rootRef.value;
+          }
+          state.zIndex = nextZIndex();
+        }
+        if (props.boxType !== 'prompt') return;
+        if (val) {
+          nextTick().then(() => {
+            if (inputRef.value && inputRef.value.$el) {
+              focusStartRef.value = state.autofocus ? getInputElement() ?? rootRef.value : rootRef.value;
+            }
+          });
+        } else {
+          state.editorErrorMessage = '';
+          state.validateError = false;
+        }
+      },
+    );
+
+    const draggable = computed(() => props.draggable);
+    useDraggable(rootRef, headerRef, draggable);
+
+
+    function doClose() {
+      if (!visible.value) return;
+      visible.value = false;
+      nextTick(() => {
+        if (state.action) emit('action', state.action);
+      });
+    }
+
+    onMounted(async () => {
+      await nextTick();
+      if (props.closeOnHashChange) {
+        window.addEventListener('hashchange', doClose);
+      }
+    });
+
+    onBeforeUnmount(() => {
+      if (props.closeOnHashChange) {
+        window.removeEventListener('hashchange', doClose);
+      }
+    });
+
+    const handleAction = (action: Action) => {
+      if (props.boxType === 'prompt' && action === 'confirm' && !validate()) {
+        return;
+      }
+
+      state.action = action;
+
+      if (state.beforeClose) {
+        state.beforeClose?.(action, state, doClose);
+      } else {
+        doClose();
+      }
+    };
+
+    const handleWrapperClick = () => {
+      if (props.closeOnClickModal) {
+        handleAction(state.distinguishCancelAndClose ? 'close' : 'cancel');
+      }
+    };
+
+    const overlayEvent = useSameTarget(handleWrapperClick);
+
+    const handleInputEnter = (e: KeyboardEvent) => {
+      if (state.inputType !== 'textarea') {
+        e.preventDefault();
+        return handleAction('confirm');
+      }
     };
 
     const handleClose = () => {
@@ -447,8 +442,8 @@ export default defineComponent({
     // restore to prev active element.
     useRestoreActive(visible);
 
-    return {
-      ...toRefs(state),
+    const refs = toRefs(state);
+    const otherProps = {
       ns,
       overlayEvent,
       visible,
@@ -472,6 +467,11 @@ export default defineComponent({
       handleAction,
       t,
     };
+
+    return {
+      ...refs,
+      ...otherProps,
+    } as (ToRefs<MessageBoxState> & typeof otherProps);
   },
 });
 </script>

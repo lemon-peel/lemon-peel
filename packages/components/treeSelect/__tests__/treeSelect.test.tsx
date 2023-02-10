@@ -1,7 +1,7 @@
 import { nextTick, ref } from 'vue';
 import { mount } from '@vue/test-utils';
 import { describe, expect, test, vi } from 'vitest';
-import TreeSelect from '../src/TreeSelect.vue';
+import TreeSelect from '../src/TreeSelect.tsx';
 
 import type { RenderFunction } from 'vue';
 import type { VueWrapper } from '@vue/test-utils';
@@ -12,8 +12,8 @@ const createComponent = ({
   slots = {},
   props = {},
 }: {
-  slots?: Record<string, any>
-  props?: typeof TreeSelect['props']
+  slots?: Record<string, any>;
+  props?: typeof TreeSelect['props'];
 } = {}) => {
   const wrapperRef = ref<InstanceType<typeof TreeSelect>>();
   const value = props.modelValue || ref('');

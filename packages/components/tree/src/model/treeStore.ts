@@ -2,50 +2,40 @@ import { hasOwn, isObject } from '@lemon-peel/utils';
 import { getNodeKey } from './util';
 import Node from './node';
 
-import type {
-  FilterNodeMethodFunction,
-  FilterValue,
-  LoadFunction,
-  TreeData,
-  TreeKey,
-  TreeNodeData,
-  TreeOptionProps,
-  TreeStoreNodesMap,
-  TreeStoreOptions,
-} from '../tree.type';
+import type { FilterNodeMethodFunction, FilterValue, LoadFunction, TreeData, TreeKey, TreeNodeData, TreeOptionProps, TreeStoreNodesMap, TreeStoreOptions } from '../tree';
 
 export default class TreeStore {
-  currentNode: Node;
+  currentNode: Node | null;
 
-  currentNodeKey: TreeKey;
+  currentNodeKey: TreeKey | null;
 
   nodesMap: TreeStoreNodesMap;
 
   root: Node;
 
-  data: TreeData;
+  data!: TreeData;
 
-  lazy: boolean;
+  lazy!: boolean;
 
-  load: LoadFunction;
+  load!: LoadFunction | null;
 
-  filterNodeMethod: FilterNodeMethodFunction;
+  filterNodeMethod!: FilterNodeMethodFunction;
 
-  key: TreeKey;
+  key!: TreeKey;
 
-  defaultCheckedKeys: TreeKey[];
+  defaultCheckedKeys!: TreeKey[];
 
-  checkStrictly: boolean;
+  checkStrictly!: boolean;
 
-  defaultExpandedKeys: TreeKey[];
+  defaultExpandedKeys!: TreeKey[];
 
-  autoExpandParent: boolean;
+  autoExpandParent!: boolean;
 
-  defaultExpandAll: boolean;
+  defaultExpandAll!: boolean;
 
-  checkDescendants: boolean;
+  checkDescendants!: boolean;
 
-  props: TreeOptionProps;
+  props!: TreeOptionProps;
 
   constructor(options: TreeStoreOptions) {
     this.currentNode = null;
@@ -58,14 +48,11 @@ export default class TreeStore {
     }
 
     this.nodesMap = {};
-  }
 
-  initialize() {
     this.root = new Node({
       data: this.data,
       store: this,
     });
-    this.root.initialize();
 
     if (this.lazy && this.load) {
       const loadFn = this.load;
@@ -129,12 +116,12 @@ export default class TreeStore {
 
   insertBefore(data: TreeNodeData, refData: TreeKey | TreeNodeData): void {
     const refNode = this.getNode(refData);
-    refNode.parent.insertBefore({ data }, refNode);
+    refNode.parent?.insertBefore({ data }, refNode);
   }
 
   insertAfter(data: TreeNodeData, refData: TreeKey | TreeNodeData): void {
     const refNode = this.getNode(refData);
-    refNode.parent.insertAfter({ data }, refNode);
+    refNode.parent?.insertAfter({ data }, refNode);
   }
 
   remove(data: TreeNodeData | Node): void {
@@ -291,7 +278,7 @@ export default class TreeStore {
 
   _setCheckedKeys(
     key: TreeKey,
-    leafOnly = false,
+    leafOnly: boolean,
     checkedKeys: { [key: string]: boolean },
   ): void {
     const allNodes = this._getAllNodes().sort((a, b) => b.level - a.level);
@@ -337,10 +324,10 @@ export default class TreeStore {
     }
   }
 
-  setCheckedNodes(array: Node[], leafOnly = false): void {
+  setCheckedNodes(arr: TreeNodeData[], leafOnly = false): void {
     const key = this.key;
-    const checkedKeys = {};
-    for (const item of array) {
+    const checkedKeys: Record<string, boolean> = {};
+    for (const item of arr) {
       checkedKeys[(item || {})[key]] = true;
     }
 
@@ -350,7 +337,7 @@ export default class TreeStore {
   setCheckedKeys(keys: TreeKey[], leafOnly = false): void {
     this.defaultCheckedKeys = keys;
     const key = this.key;
-    const checkedKeys = {};
+    const checkedKeys: Record<string, boolean> = {};
     for (const key of keys) {
       checkedKeys[key] = true;
     }
@@ -380,7 +367,7 @@ export default class TreeStore {
   }
 
   getCurrentNode(): Node {
-    return this.currentNode;
+    return this.currentNode!;
   }
 
   setCurrentNode(currentNode: Node): void {
@@ -392,12 +379,12 @@ export default class TreeStore {
     this.currentNode.isCurrent = true;
   }
 
-  setUserCurrentNode(node: Node, shouldAutoExpandParent = true): void {
+  setUserCurrentNode(node: TreeNodeData, shouldAutoExpandParent = true): void {
     const key = node[this.key];
     const currNode = this.nodesMap[key];
     this.setCurrentNode(currNode);
-    if (shouldAutoExpandParent && this.currentNode.level > 1) {
-      this.currentNode.parent.expand(null, true);
+    if (shouldAutoExpandParent && this.currentNode!.level > 1) {
+      this.currentNode!.parent?.expand(null, true);
     }
   }
 
@@ -407,11 +394,12 @@ export default class TreeStore {
       this.currentNode = null;
       return;
     }
+
     const node = this.getNode(key);
     if (node) {
       this.setCurrentNode(node);
-      if (shouldAutoExpandParent && this.currentNode.level > 1) {
-        this.currentNode.parent.expand(null, true);
+      if (shouldAutoExpandParent && this.currentNode!.level > 1) {
+        this.currentNode!.parent?.expand(null, true);
       }
     }
   }

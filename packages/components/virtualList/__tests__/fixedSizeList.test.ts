@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { nextTick } from 'vue';
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest';
 import makeMount from '@lemon-peel/test-utils/make-mount';
@@ -369,8 +368,8 @@ describe('<fixed-size-list />', () => {
           },
         })
         ;(wrapper.vm.$refs.listRef as ListRef).scrollToItem(10);
-      } catch (e) {
-        expect(e).toBeInstanceOf(Error);
+      } catch (error) {
+        expect(error).toBeInstanceOf(Error);
       }
 
       expect(console.warn).toHaveBeenCalled()

@@ -96,10 +96,10 @@ export const triggerEvent = function (
   } else {
     eventName = 'HTMLEvents';
   }
-  const event_ = document.createEvent(eventName);
+  const evt = document.createEvent(eventName);
 
-  event_.initEvent(name, ...options);
-  elm.dispatchEvent(event_);
+  evt.initEvent(name, ...options);
+  elm.dispatchEvent(evt);
   return elm;
 };
 

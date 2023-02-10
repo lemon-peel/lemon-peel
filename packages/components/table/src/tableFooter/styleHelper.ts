@@ -1,10 +1,8 @@
 import { useNamespace } from '@lemon-peel/hooks';
-import {
-  ensurePosition,
-  getFixedColumnOffset,
-  getFixedColumnsClass,
-} from '../util';
-import useMapState from './mapState-helper';
+
+import { ensurePosition, getFixedColumnOffset, getFixedColumnsClass } from '../util';
+import useMapState from './mapStateHelper';
+
 import type { TableColumnCtx } from '../tableColumn/defaults';
 import type { TableFooter } from './index';
 

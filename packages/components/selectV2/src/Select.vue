@@ -7,7 +7,7 @@
     @mouseenter="states.comboBoxHovering = true"
     @mouseleave="states.comboBoxHovering = false"
   >
-    <el-tooltip
+    <lp-tooltip
       ref="popper"
       :visible="dropdownMenuVisible"
       :teleported="teleported"
@@ -42,7 +42,7 @@
           <div v-if="multiple" :class="nsSelectV2.e('selection')">
             <template v-if="collapseTags && modelValue.length > 0">
               <div :class="nsSelectV2.e('selected-item')">
-                <el-tag
+                <lp-tag
                   :closable="
                     !selectDisabled && !states.cachedOptions[0]?.disable
                   "
@@ -57,15 +57,15 @@
                       maxWidth: `${tagMaxWidth}px`,
                     }"
                   >{{ states.cachedOptions[0]?.label }}</span>
-                </el-tag>
-                <el-tag
+                </lp-tag>
+                <lp-tag
                   v-if="modelValue.length > 1"
                   :closable="false"
                   :size="collapseTagSize"
                   type="info"
                   disable-transitions
                 >
-                  <el-tooltip
+                  <lp-tooltip
                     v-if="collapseTagsTooltip"
                     :disabled="dropdownMenuVisible"
                     :fallback-placements="['bottom', 'top', 'right', 'left']"
@@ -109,7 +109,7 @@
                         </div>
                       </div>
                     </template>
-                  </el-tooltip>
+                  </lp-tooltip>
                   <span
                     v-else
                     :class="nsSelectV2.e('tags-text')"
@@ -117,7 +117,7 @@
                       maxWidth: `${tagMaxWidth}px`,
                     }"
                   >+ {{ modelValue.length - 1 }}</span>
-                </el-tag>
+                </lp-tag>
               </div>
             </template>
 
@@ -127,7 +127,7 @@
                 :key="idx"
                 :class="nsSelectV2.e('selected-item')"
               >
-                <el-tag
+                <lp-tag
                   :key="getValueKey(selected)"
                   :closable="!selectDisabled && !selected.disabled"
                   :size="collapseTagSize"
@@ -141,7 +141,7 @@
                       maxWidth: `${tagMaxWidth}px`,
                     }"
                   >{{ getLabel(selected) }}</span>
-                </el-tag>
+                </lp-tag>
               </div>
             </template>
             <div
@@ -175,7 +175,7 @@
                 @update:modelValue="onUpdateInputValue"
                 @focus="handleFocus"
                 @blur="handleBlur"
-                @input="onInput"
+                @input="(onInput as any)"
                 @compositionstart="handleCompositionStart"
                 @compositionupdate="handleCompositionUpdate"
                 @compositionend="handleCompositionEnd"
@@ -224,7 +224,7 @@
                 @compositionend="handleCompositionEnd"
                 @focus="handleFocus"
                 @blur="handleBlur"
-                @input="onInput"
+                @input="(onInput as any)"
                 @keydown.up.stop.prevent="onKeyboardNavigate('backward')"
                 @keydown.down.stop.prevent="onKeyboardNavigate('forward')"
                 @keydown.enter.stop.prevent="onKeyboardSelect"
@@ -280,7 +280,7 @@
         </div>
       </template>
       <template #content>
-        <el-select-menu
+        <lp-select-menu
           ref="menuRef"
           :data="filteredOptions"
           :width="popperSize"
@@ -297,9 +297,9 @@
               </p>
             </slot>
           </template>
-        </el-select-menu>
+        </lp-select-menu>
       </template>
-    </el-tooltip>
+    </lp-tooltip>
   </div>
 </template>
 
@@ -310,11 +310,12 @@ import { ClickOutside } from '@lemon-peel/directives';
 import LpTooltip from '@lemon-peel/components/tooltip';
 import LpTag from '@lemon-peel/components/tag';
 import LpIcon from '@lemon-peel/components/icon';
-import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
-import LpSelectMenu from './SelectDropdown';
-import useSelect from './useSelect';
+
 import { selectV2InjectionKey } from './token';
+import { selectEmits } from './select';
 import { selectProps } from './defaults';
+import LpSelectMenu from './SelectDropdown.vue';
+import useSelect from './useSelect';
 
 const vClickOutside = ClickOutside;
 
@@ -323,15 +324,7 @@ defineOptions({
 });
 
 const props = defineProps(selectProps);
-const emit = defineEmits([
-  UPDATE_MODEL_EVENT,
-  CHANGE_EVENT,
-  'remove-tag',
-  'clear',
-  'visible-change',
-  'focus',
-  'blur',
-]);
+const emit = defineEmits(selectEmits);
 
 const modelValue = computed(() => {
   const { modelValue: rawModelValue, multiple } = props;
@@ -372,7 +365,6 @@ const {
 
   // refs items exports
   calculatorRef,
-  controlRef,
   inputRef,
   menuRef,
   popper,

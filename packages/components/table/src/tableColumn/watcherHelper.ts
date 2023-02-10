@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { getCurrentInstance, watch } from 'vue';
 import { hasOwn } from '@lemon-peel/utils';
 import { parseMinWidth, parseWidth } from '../util';

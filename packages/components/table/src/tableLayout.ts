@@ -7,9 +7,10 @@ import type { Ref } from 'vue';
 
 import type { TableColumnCtx } from './tableColumn/defaults';
 import type { TableHeader } from './tableHeader';
-import type { Table } from './table/defaults';
+import type { Table, DefaultRow } from './table/defaults';
 import type { Store } from './store';
-class TableLayout<T> {
+
+class TableLayout<T = DefaultRow> {
   observers: TableHeader[];
 
   table: Table<T>;

@@ -14,7 +14,7 @@ export const useWatch = (
   emit: SetupContext<SliderEmits>['emit'],
   elFormItem: FormItemContext,
 ) => {
-  const _emit = (val: Arrayable<number>) => {
+  const emitUpdate = (val: Arrayable<number>) => {
     emit(UPDATE_MODEL_EVENT, val);
     emit(INPUT_EVENT, val);
   };
@@ -33,13 +33,13 @@ export const useWatch = (
     const val = props.modelValue;
     if (props.range && Array.isArray(val)) {
       if (val[1] < props.min) {
-        _emit([props.min, props.min]);
+        emitUpdate([props.min, props.min]);
       } else if (val[0] > props.max) {
-        _emit([props.max, props.max]);
+        emitUpdate([props.max, props.max]);
       } else if (val[0] < props.min) {
-        _emit([props.min, val[1]]);
+        emitUpdate([props.min, val[1]]);
       } else if (val[1] > props.max) {
-        _emit([val[0], props.max]);
+        emitUpdate([val[0], props.max]);
       } else {
         initData.firstValue = val[0];
         initData.secondValue = val[1];
@@ -52,9 +52,9 @@ export const useWatch = (
       }
     } else if (!props.range && typeof val === 'number' && !Number.isNaN(val)) {
       if (val < props.min) {
-        _emit(props.min);
+        emitUpdate(props.min);
       } else if (val > props.max) {
-        _emit(props.max);
+        emitUpdate(props.max);
       } else {
         initData.firstValue = val;
         if (valueChanged()) {

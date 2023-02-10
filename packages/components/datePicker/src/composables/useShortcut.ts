@@ -8,9 +8,9 @@ import type { RangePickerSharedEmits } from '../props/shared';
 
 // FIXME: extract this to `date-picker.ts`
 export type Shortcut = {
-  text: string
-  value: [Date, Date] | (() => [Date, Date])
-  onClick?: (ctx: Omit<SetupContext<RangePickerSharedEmits>, 'expose'>) => void
+  text: string;
+  value: [Date, Date] | (() => [Date, Date]);
+  onClick?: (ctx: Omit<SetupContext<RangePickerSharedEmits>, 'expose'>) => void;
 };
 
 export const useShortcut = (lang: ReturnType<typeof useLocale>['lang']) => {

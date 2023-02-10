@@ -4,7 +4,7 @@ import { NODE_KEY, markNodeData } from './util';
 import type TreeStore from './treeStore';
 
 import type { Nullable } from '@lemon-peel/utils';
-import type { FakeNode, TreeKey, TreeNodeChildState, TreeNodeData, TreeNodeLoadedDefaultProps, TreeNodeOptions } from '../tree.type';
+import type { FakeNode, LoadFunction, TreeKey, TreeNodeChildState, TreeNodeData, TreeNodeLoadedDefaultProps, TreeNodeOptions, TreeOptionProps } from '../tree';
 
 export const getChildState = (node: Node[]): TreeNodeChildState => {
   let all = true;
@@ -49,7 +49,7 @@ const reInitChecked = function (node: Node): void {
   }
 };
 
-const getPropertyFromData = function (node: Node, prop: string): any {
+function getPropertyFromData(node: Node, prop: keyof TreeOptionProps): any {
   const props = node.store.props;
   const data = node.data || {};
   const config = props[prop];
@@ -62,7 +62,7 @@ const getPropertyFromData = function (node: Node, prop: string): any {
     const dataProp = data[prop];
     return dataProp === undefined ? '' : dataProp;
   }
-};
+}
 
 let nodeIdSeed = 0;
 
@@ -79,17 +79,17 @@ class Node {
 
   expanded: boolean;
 
-  parent: Node;
+  parent: Node | null;
 
   visible: boolean;
 
   isCurrent: boolean;
 
-  store: TreeStore;
+  store!: TreeStore;
 
-  isLeafByUser: boolean;
+  isLeafByUser!: boolean;
 
-  isLeaf: boolean;
+  isLeaf!: boolean;
 
   canFocus: boolean;
 
@@ -103,10 +103,10 @@ class Node {
 
   constructor(options: TreeNodeOptions) {
     this.id = nodeIdSeed++;
-    this.text = null;
+    this.text = '';
     this.checked = false;
     this.indeterminate = false;
-    this.data = null;
+    this.data = {};
     this.expanded = false;
     this.parent = null;
     this.visible = true;
@@ -126,8 +126,10 @@ class Node {
     this.loading = false;
 
     if (this.parent) {
-      this.level = this.parent.level + 1;
+      this.level = (this.parent as Node).level + 1;
     }
+
+    this.initialize();
   }
 
   initialize() {
@@ -163,7 +165,7 @@ class Node {
     const defaultExpandedKeys = store.defaultExpandedKeys;
     const key = store.key;
 
-    if (key && defaultExpandedKeys && defaultExpandedKeys.includes(this.key)) {
+    if (key && defaultExpandedKeys && defaultExpandedKeys.includes(this.key as any)) {
       this.expand(null, store.autoExpandParent);
     }
 
@@ -186,15 +188,14 @@ class Node {
   }
 
   setData(data: TreeNodeData): void {
-    if (!Array.isArray(data)) {
-      markNodeData(this, data);
-    }
+    if (!Array.isArray(data)) markNodeData(this, data);
 
     this.data = data;
     this.childNodes = [];
 
-    let children;
-    children = this.level === 0 && Array.isArray(this.data) ? this.data : getPropertyFromData(this, 'children') || [];
+    const children = this.level === 0 && Array.isArray(this.data)
+      ? this.data
+      : getPropertyFromData(this, 'children') || [];
 
     for (let i = 0, j = children.length; i < j; i++) {
       this.insertChild({ data: children[i] });
@@ -207,8 +208,7 @@ class Node {
 
   get key(): TreeKey {
     const nodeKey = this.store.key;
-    if (this.data) return this.data[nodeKey];
-    return null;
+    return this.data[nodeKey];
   }
 
   get disabled(): boolean {
@@ -255,7 +255,7 @@ class Node {
 
     if (!(child instanceof Node)) {
       if (!batch) {
-        const children = this.getChildren(true);
+        const children = this.getChildren(true)!;
         if (!children.includes(child.data)) {
           if (index === undefined || index < 0) {
             children.push(child.data);
@@ -321,7 +321,7 @@ class Node {
   }
 
   removeChildByData(data: TreeNodeData): void {
-    let targetNode: Node = null;
+    let targetNode: Node | null = null;
 
     for (let i = 0; i < this.childNodes.length; i++) {
       if (this.childNodes[i].data === data) {
@@ -335,11 +335,11 @@ class Node {
     }
   }
 
-  expand(callback?: () => void, expandParent?: boolean): void {
+  expand(callback?: (() => void) | null, expandParent?: boolean): void {
     const done = (): void => {
       if (expandParent) {
         let parent = this.parent;
-        while (parent.level > 0) {
+        while (parent && parent.level > 0) {
           parent.expanded = true;
           parent = parent.parent;
         }
@@ -388,7 +388,7 @@ class Node {
   }
 
   shouldLoadData(): boolean {
-    return this.store.lazy === true && this.store.load && !this.loaded;
+    return this.store.lazy === true && !!(this.store.load) && !this.loaded;
   }
 
   updateLeafState(): void {
@@ -472,7 +472,7 @@ class Node {
     }
   }
 
-  getChildren(forceInit = false): TreeNodeData | TreeNodeData[] {
+  getChildren(forceInit = false): (TreeNodeData | TreeNodeData[]) | null {
     // this is data
     if (this.level === 0) return this.data;
     const data = this.data;
@@ -499,7 +499,7 @@ class Node {
     const newData = (this.getChildren() || []) as TreeNodeData[];
     const oldData = this.childNodes.map(node => node.data);
 
-    const newDataMap = {};
+    const newDataMap: Record<string, any> = {};
     const newNodes = [];
 
     for (const [index, item] of newData.entries()) {
@@ -527,7 +527,7 @@ class Node {
   }
 
   loadData(
-    callback: (node: Node) => void,
+    callback: (node?: TreeNodeData) => void,
     defaultProps: TreeNodeLoadedDefaultProps = {},
   ) {
     if (
@@ -538,7 +538,7 @@ class Node {
     ) {
       this.loading = true;
 
-      const resolve = children => {
+      const resolve: Parameters<LoadFunction>[1] = children => {
         this.childNodes = [];
 
         this.doCreateChildren(children, defaultProps);

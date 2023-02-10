@@ -1,6 +1,6 @@
 import { triggerEvent } from '@lemon-peel/utils';
 import { EVENT_CODE } from '@lemon-peel/constants';
-import type MenuItem from './menu-item';
+import type MenuItem from './menuItem';
 
 class SubMenu {
   public subMenuItems: NodeList;

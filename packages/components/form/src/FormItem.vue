@@ -37,44 +37,21 @@
 </template>
 
 <script lang="ts" setup>
-import {
-  computed,
-  inject,
-  nextTick,
-  onBeforeUnmount,
-  onMounted,
-  provide,
-  reactive,
-  ref,
-  toRefs,
-  useSlots,
-  watch,
-} from 'vue';
+import { computed, inject, nextTick, onBeforeUnmount, onMounted, provide, reactive, ref, toRefs, useSlots, watch } from 'vue';
 import AsyncValidator from 'async-validator';
 import { clone } from 'lodash-unified';
 import { refDebounced } from '@vueuse/core';
-import {
-  addUnit,
-  ensureArray,
-  getProp,
-  isBoolean,
-  isFunction,
-  isString,
-} from '@lemon-peel/utils';
+import { addUnit, ensureArray, getProp, isBoolean, isFunction, isString } from '@lemon-peel/utils';
 import { formContextKey, formItemContextKey } from '@lemon-peel/tokens';
 import { useId, useNamespace, useSize } from '@lemon-peel/hooks';
-import { formItemProps } from './FormItem.vue';
-import FormLabelWrap from './FormLabelWrappp
+import { formItemProps } from './formItem';
+import FormLabelWrap from './FormLabelWrap';
 
 import type { CSSProperties } from 'vue';
 import type { RuleItem } from 'async-validator';
-import type {
-  FormItemContext,
-  FormItemRule,
-  FormValidateFailure,
-} from '@lemon-peel/tokens';
+import type { FormItemContext, FormItemRule, FormValidateFailure } from '@lemon-peel/tokens';
 import type { Arrayable } from '@lemon-peel/utils';
-import type { FormItemValidateState } from './FormItem.vue';
+import type { FormItemValidateState } from './formItem';
 
 defineOptions({
   name: 'LpFormItem',
@@ -82,10 +59,10 @@ defineOptions({
 const props = defineProps(formItemProps);
 const slots = useSlots();
 
-const formContext = inject(formContextKey, undefined);
-const parentFormItemContext = inject(formItemContextKey, undefined);
+const formContext = inject(formContextKey);
+const parentFormItemContext = inject(formItemContextKey);
 
-const _size = useSize(undefined, { formItem: false });
+const size = useSize(undefined, { formItem: false });
 const ns = useNamespace('form-item');
 
 const labelId = useId().value;
@@ -96,7 +73,7 @@ const validateStateDebounced = refDebounced(validateState, 100);
 const validateMessage = ref('');
 const formItemRef = ref<HTMLDivElement>();
 // special inline value.
-let initialValue: any = undefined;
+let initialValue: any;
 let isResettingField = false;
 
 const labelStyle = computed<CSSProperties>(() => {
@@ -109,6 +86,7 @@ const labelStyle = computed<CSSProperties>(() => {
   return {};
 });
 
+const isNested = !!parentFormItemContext;
 const contentStyle = computed<CSSProperties>(() => {
   if (formContext?.labelPosition === 'top' || formContext?.inline) {
     return {};
@@ -123,60 +101,6 @@ const contentStyle = computed<CSSProperties>(() => {
   return {};
 });
 
-const formItemClasses = computed(() => [
-  ns.b(),
-  ns.m(_size.value),
-  ns.is('error', validateState.value === 'error'),
-  ns.is('validating', validateState.value === 'validating'),
-  ns.is('success', validateState.value === 'success'),
-  ns.is('required', isRequired.value || props.required),
-  ns.is('no-asterisk', formContext?.hideRequiredAsterisk),
-  formContext?.requireAsteriskPosition === 'right'
-    ? 'asterisk-right'
-    : 'asterisk-left',
-  { [ns.m('feedback')]: formContext?.statusIcon },
-]);
-
-const _inlineMessage = computed(() =>
-  isBoolean(props.inlineMessage)
-    ? props.inlineMessage
-    : formContext?.inlineMessage || false,
-);
-
-const validateClasses = computed(() => [
-  ns.e('error'),
-  { [ns.em('error', 'inline')]: _inlineMessage.value },
-]);
-
-const propString = computed(() => {
-  if (!props.prop) return '';
-  return isString(props.prop) ? props.prop : props.prop.join('.');
-});
-
-const hasLabel = computed<boolean>(() => {
-  return !!(props.label || slots.label);
-});
-
-const labelFor = computed<string | undefined>(() => {
-  return props.for || inputIds.value.length === 1
-    ? inputIds.value[0]
-    : undefined;
-});
-
-const isGroup = computed<boolean>(() => {
-  return !labelFor.value && hasLabel.value;
-});
-
-const isNested = !!parentFormItemContext;
-
-const fieldValue = computed(() => {
-  const model = formContext?.model;
-  if (!model || !props.prop) {
-    return;
-  }
-  return getProp(model, props.prop).value;
-});
-
 const normalizedRules = computed(() => {
   const { required } = props;
 
@@ -188,12 +112,12 @@ const normalizedRules = computed(() => {
 
   const formRules = formContext?.rules;
   if (formRules && props.prop) {
-    const _rules = getProp<Arrayable<FormItemRule> | undefined>(
+    const list = getProp<Arrayable<FormItemRule> | undefined>(
       formRules,
       props.prop,
     ).value;
-    if (_rules) {
-      rules.push(...ensureArray(_rules));
+    if (list) {
+      rules.push(...ensureArray(list));
     }
   }
 
@@ -215,6 +139,62 @@ const normalizedRules = computed(() => {
   return rules;
 });
 
+const isRequired = computed(() =>
+  normalizedRules.value.some(rule => rule.required),
+);
+
+const formItemClasses = computed(() => [
+  ns.b(),
+  ns.m(size.value),
+  ns.is('error', validateState.value === 'error'),
+  ns.is('validating', validateState.value === 'validating'),
+  ns.is('success', validateState.value === 'success'),
+  ns.is('required', isRequired.value || props.required),
+  ns.is('no-asterisk', formContext?.hideRequiredAsterisk),
+  formContext?.requireAsteriskPosition === 'right'
+    ? 'asterisk-right'
+    : 'asterisk-left',
+  { [ns.m('feedback')]: formContext?.statusIcon },
+]);
+
+const inlineMsg = computed(() =>
+  isBoolean(props.inlineMessage)
+    ? props.inlineMessage
+    : formContext?.inlineMessage || false,
+);
+
+const validateClasses = computed(() => [
+  ns.e('error'),
+  { [ns.em('error', 'inline')]: inlineMsg.value },
+]);
+
+const propString = computed(() => {
+  if (!props.prop) return '';
+  return isString(props.prop) ? props.prop : props.prop.join('.');
+});
+
+const hasLabel = computed<boolean>(() => {
+  return !!(props.label || slots.label);
+});
+
+const labelFor = computed<string | undefined>(() => {
+  return props.for || inputIds.value.length === 1
+    ? inputIds.value[0]
+    : undefined;
+});
+
+const isGroup = computed<boolean>(() => {
+  return !labelFor.value && hasLabel.value;
+});
+
+const fieldValue = computed(() => {
+  const model = formContext?.model;
+  if (!model || !props.prop) {
+    return;
+  }
+  return getProp(model, props.prop).value;
+});
+
 const validateEnabled = computed(() => normalizedRules.value.length > 0);
 
 const getFilteredRule = (trigger: string) => {
@@ -223,21 +203,13 @@ const getFilteredRule = (trigger: string) => {
     rules
       .filter(rule => {
         if (!rule.trigger || !trigger) return true;
-        if (Array.isArray(rule.trigger)) {
-          return rule.trigger.includes(trigger);
-        } else {
-          return rule.trigger === trigger;
-        }
+        return Array.isArray(rule.trigger) ? rule.trigger.includes(trigger) : rule.trigger === trigger;
       })
       // exclude trigger
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       .map(({ trigger, ...rule }): RuleItem => rule)
   );
 };
-
-const isRequired = computed(() =>
-  normalizedRules.value.some(rule => rule.required),
-);
 
 const shouldShowError = computed(
   () =>
@@ -284,9 +256,9 @@ const doValidate = async (rules: RuleItem[]): Promise<true> => {
       onValidationSucceeded();
       return true as const;
     })
-    .catch((err: FormValidateFailure) => {
-      onValidationFailed(err as FormValidateFailure);
-      return Promise.reject(err);
+    .catch((error: FormValidateFailure) => {
+      onValidationFailed(error as FormValidateFailure);
+      throw error;
     });
 };
 
@@ -315,8 +287,8 @@ const validate: FormItemContext['validate'] = async (trigger, callback) => {
       callback?.(true);
       return true as const;
     })
-    .catch((err: FormValidateFailure) => {
-      const { fields } = err;
+    .catch((error: FormValidateFailure) => {
+      const { fields } = error;
       callback?.(false, fields);
       return hasCallback ? false : Promise.reject(fields);
     });
@@ -372,7 +344,7 @@ watch(
 const context: FormItemContext = reactive({
   ...toRefs(props),
   $el: formItemRef,
-  size: _size,
+  size,
   validateState,
   labelId,
   inputIds,
@@ -400,7 +372,7 @@ onBeforeUnmount(() => {
 
 defineExpose({
   /** @description form item size */
-  size: _size,
+  size,
   /** @description validation message */
   validateMessage,
   /** @description validation state */

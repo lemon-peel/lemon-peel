@@ -37,8 +37,8 @@ export default defineComponent({
   props: dropdownItemProps,
   emits: ['pointermove', 'pointerleave', 'click'],
   setup(props, { emit, attrs }) {
-    const { elDropdown } = useDropdown();
-    const _instance = getCurrentInstance();
+    const { lpDropdown } = useDropdown();
+    const inc = getCurrentInstance();
     const itemRef = ref<HTMLElement | null>(null);
     const textContent = computed(() => unref(itemRef)?.textContent ?? '');
     const { onItemEnter, onItemLeave } = inject(
@@ -85,10 +85,10 @@ export default defineComponent({
           e.stopImmediatePropagation();
           return;
         }
-        if (elDropdown?.hideOnClick?.value) {
-          elDropdown.handleClick?.();
+        if (lpDropdown?.hideOnClick?.value) {
+          lpDropdown.handleClick?.();
         }
-        elDropdown.commandHandler?.(props.command, _instance, e);
+        lpDropdown.commandHandler?.(props.command, inc, e);
       },
     );
 

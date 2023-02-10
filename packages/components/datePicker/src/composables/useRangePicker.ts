@@ -3,7 +3,7 @@ import { isArray } from '@lemon-peel/utils';
 import { ROOT_PICKER_INJECTION_KEY } from '@lemon-peel/tokens';
 import { useLocale, useNamespace } from '@lemon-peel/hooks';
 import { getDefaultValue, isValidRange } from '../utils';
-import { useShortcut } from './use-shortcut';
+import { useShortcut } from './useShortcut';
 
 import type { Ref } from 'vue';
 import type { Dayjs } from 'dayjs';
@@ -14,11 +14,11 @@ type UseRangePickerProps = {
   onParsedValueChanged: (
     minDate: Dayjs | undefined,
     maxDate: Dayjs | undefined
-  ) => void
-  defaultValue: Ref<DefaultValue>
-  leftDate: Ref<Dayjs>
-  rightDate: Ref<Dayjs>
-  unit: 'month' | 'year'
+  ) => void;
+  defaultValue: Ref<DefaultValue>;
+  leftDate: Ref<Dayjs>;
+  rightDate: Ref<Dayjs>;
+  unit: 'month' | 'year';
 };
 
 export const useRangePicker = (
@@ -50,11 +50,11 @@ export const useRangePicker = (
   };
 
   const handleRangeConfirm = (visible = false) => {
-    const _minDate = unref(minDate);
-    const _maxDate = unref(maxDate);
+    const min = unref(minDate);
+    const max = unref(maxDate);
 
-    if (isValidRange([_minDate, _maxDate])) {
-      emit('pick', [_minDate, _maxDate], visible);
+    if (isValidRange([min, max])) {
+      emit('pick', [min, max], visible);
     }
   };
 

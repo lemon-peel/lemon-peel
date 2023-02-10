@@ -1,24 +1,20 @@
-import { computed, nextTick, onMounted, ref, unref, watch, watchEffect } from 'vue';
+import { computed, defineExpose, nextTick, onMounted, ref, unref, watch, watchEffect } from 'vue';
 import { useEventListener, useResizeObserver } from '@vueuse/core';
 import { useSize } from '@lemon-peel/hooks';
 
-import type { Table, TableProps } from './defaults';
-import type { Store } from '../store';
+import type { TableProps, DefaultRow, TableVM } from './defaults';
 import type TableLayout from '../tableLayout';
 import type { TableColumnCtx } from '../tableColumn/defaults';
 
-function useStyle<T>(
-  props: TableProps<T>,
-  layout: TableLayout<T>,
-  store: Store<T>,
-  table: Table<T>,
-) {
+function useStyle<T = DefaultRow>(props: TableProps<T>, layout: TableLayout<T>, table: TableVM) {
   const isHidden = ref(false);
   const renderExpanded = ref(null);
   const resizeProxyVisible = ref(false);
+
   const setDragVisible = (visible: boolean) => {
     resizeProxyVisible.value = visible;
   };
+
   const resizeState = ref<{
     width: null | number;
     height: null | number;
@@ -28,11 +24,13 @@ function useStyle<T>(
     height: null,
     headerHeight: null,
   });
+
   const isGroup = ref(false);
   const scrollbarViewStyle = {
     display: 'inline-block',
     verticalAlign: 'middle',
   };
+
   const tableWidth = ref();
   const tableScrollHeight = ref(0);
   const bodyScrollHeight = ref(0);
@@ -42,9 +40,11 @@ function useStyle<T>(
   watchEffect(() => {
     layout.setHeight(props.height);
   });
+
   watchEffect(() => {
     layout.setMaxHeight(props.maxHeight);
   });
+
   watch(
     () => [props.currentRowKey, store.states.rowKey],
     ([currentRowKey, rowKey]) => {
@@ -55,6 +55,7 @@ function useStyle<T>(
       immediate: true,
     },
   );
+
   watch(
     () => props.data,
     data => {
@@ -105,6 +106,7 @@ function useStyle<T>(
     layout.updateColumnsWidth();
     requestAnimationFrame(syncPosition);
   };
+
   onMounted(async () => {
     await nextTick();
     store.updateColumns();
@@ -136,8 +138,13 @@ function useStyle<T>(
         });
       }
     });
+
+    defineExpose({
+      $ready: true,
+    });
     table.$ready = true;
   });
+
   const setScrollClassByEl = (el: HTMLElement, className: string) => {
     if (!el) return;
     const classList = Array.from(el.classList).filter(
@@ -146,14 +153,17 @@ function useStyle<T>(
     classList.push(layout.scrollX.value ? className : 'is-scrolling-none');
     el.className = classList.join(' ');
   };
+
   const setScrollClass = (className: string) => {
     const { tableWrapper } = table.refs;
     setScrollClassByEl(tableWrapper, className);
   };
+
   const hasScrollClass = (className: string) => {
     const { tableWrapper } = table.refs;
     return !!(tableWrapper && tableWrapper.classList.contains(className));
   };
+
   const syncPosition = function () {
     if (!table.refs.scrollBarRef) return;
     if (!layout.scrollX.value) {
@@ -197,6 +207,7 @@ function useStyle<T>(
       table.refs?.scrollBarRef?.update();
     });
   };
+
   const resizeListener = () => {
     const el = table.vnode.el;
     if (!table.$ready || !el) return;

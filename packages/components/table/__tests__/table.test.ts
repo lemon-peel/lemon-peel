@@ -4,7 +4,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import LpCheckbox from '@lemon-peel/components/checkbox';
 import triggerEvent from '@lemon-peel/test-utils/trigger-event';
 import { rAF } from '@lemon-peel/test-utils/tick';
-import LpTable from '../src/Table.vue';
+import LpTable from '../src/table/Table.vue';
 import LpTableColumn from '../src/tableColumn';
 import { doubleWait, getTestData, mount } from './table-test-common';
 import type { VueWrapper } from '@vue/test-utils';

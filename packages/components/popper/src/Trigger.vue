@@ -34,22 +34,22 @@ const { role, triggerRef } = inject(POPPER_INJECTION_KEY)!;
 
 useForwardRef(triggerRef);
 
-const ariaHaspopup = computed<string | undefined>(() => {
+const ariaHaspopup = computed<string | null>(() => {
   if (role && role.value !== 'tooltip') {
     return role.value;
   }
-  return;
+  return null;
 });
 
 const ariaControls = computed<string | undefined>(() => {
   return ariaHaspopup.value ? props.id : undefined;
 });
 
-const ariaDescribedby = computed<string | undefined>(() => {
+const ariaDescribedby = computed<string | null>(() => {
   if (role && role.value === 'tooltip') {
-    return props.open && props.id ? props.id : undefined;
+    return props.open && props.id ? props.id : null;
   }
-  return;
+  return null;
 });
 
 const ariaExpanded = computed<string | undefined>(() => {

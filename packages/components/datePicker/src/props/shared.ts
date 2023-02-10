@@ -8,8 +8,8 @@ import type { DatePickType } from '@lemon-peel/constants';
 const selectionModes = ['date', 'dates', 'year', 'month', 'week', 'range'];
 
 export type RangeState = {
-  endDate: null | Dayjs
-  selecting: boolean
+  endDate: null | Dayjs;
+  selecting: boolean;
 };
 
 export const datePickerSharedProps = buildProps({

@@ -2,24 +2,11 @@ import { computed, getCurrentInstance, onBeforeMount, onMounted, onUnmounted, on
 
 import type { TableHeader } from './tableHeader';
 import type TableLayout from './tableLayout';
-import type { Table } from './table/defaults';
+import type { Table, DefaultRow } from './table/defaults';
+import type { TableColumnCtx } from './tableColumn/defaults';
 
-function useLayoutObserver<T>(root: Table<T>) {
+function useLayoutObserver<T = DefaultRow>(root: Table<T>) {
   const instance = getCurrentInstance() as TableHeader;
-  onBeforeMount(() => {
-    tableLayout.value.addObserver(instance);
-  });
-  onMounted(() => {
-    onColumnsChange(tableLayout.value);
-    onScrollableChange(tableLayout.value);
-  });
-  onUpdated(() => {
-    onColumnsChange(tableLayout.value);
-    onScrollableChange(tableLayout.value);
-  });
-  onUnmounted(() => {
-    tableLayout.value.removeObserver(instance);
-  });
   const tableLayout = computed(() => {
     const layout = root.layout as TableLayout<T>;
     if (!layout) {
@@ -27,11 +14,12 @@ function useLayoutObserver<T>(root: Table<T>) {
     }
     return layout;
   });
+
   const onColumnsChange = (layout: TableLayout<T>) => {
     const cols = root.vnode.el?.querySelectorAll('colgroup > col') || [];
     if (cols.length === 0) return;
     const flattenColumns = layout.getFlattenColumns();
-    const columnsMap = {};
+    const columnsMap: Record<string, TableColumnCtx<T>> = {};
     flattenColumns.forEach(column => {
       columnsMap[column.id] = column;
     });
@@ -59,6 +47,24 @@ function useLayoutObserver<T>(root: Table<T>) {
       th.style.display = layout.scrollY.value ? '' : 'none';
     }
   };
+
+  onBeforeMount(() => {
+    tableLayout.value.addObserver(instance);
+  });
+
+  onMounted(() => {
+    onColumnsChange(tableLayout.value);
+    onScrollableChange(tableLayout.value);
+  });
+
+  onUpdated(() => {
+    onColumnsChange(tableLayout.value);
+    onScrollableChange(tableLayout.value);
+  });
+
+  onUnmounted(() => {
+    tableLayout.value.removeObserver(instance);
+  });
 
   return {
     tableLayout: tableLayout.value,

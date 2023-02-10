@@ -2,7 +2,7 @@ import { createVNode, render } from 'vue';
 import { isClient } from '@vueuse/core';
 import { debugWarn, hasOwn, isElement, isFunction, isObject, isString, isUndefined, isVNode } from '@lemon-peel/utils';
 
-import MessageBoxConstructor from './index.vue';
+import MessageBoxConstructor from './Index.vue';
 
 import type { AppContext, ComponentPublicInstance, VNode } from 'vue';
 import type { Action, Callback, LpMessageBoxOptions, LpMessageBoxShortcutMethod, ILpMessageBox, MessageBoxData, MessageBoxState } from './messageBox.type';

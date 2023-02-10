@@ -20,7 +20,10 @@ export default defineComponent({
   props: {
     loop: Boolean,
     trapped: Boolean,
-    focusTrapEl: Object as PropType<HTMLElement>,
+    focusTrapEl: {
+      type: Object as PropType<HTMLElement>,
+      required: true,
+    },
     focusStartEl: {
       type: [Object, String] as PropType<'container' | 'first' | HTMLElement>,
       default: 'first',
@@ -124,24 +127,6 @@ export default defineComponent({
       { immediate: true },
     );
 
-    watch([forwardRef], ([forwardRef_], [oldForwardReference]) => {
-      if (forwardRef_) {
-        forwardRef_.addEventListener('keydown', onKeydown);
-        forwardRef_.addEventListener('focusin', onFocusIn);
-        forwardRef_.addEventListener('focusout', onFocusOut);
-      }
-      if (oldForwardReference) {
-        oldForwardReference.removeEventListener('keydown', onKeydown);
-        oldForwardReference.removeEventListener('focusin', onFocusIn);
-        oldForwardReference.removeEventListener('focusout', onFocusOut);
-      }
-    });
-
-    const trapOnFocus = (e: Event) => {
-      emit(ON_TRAP_FOCUS_EVT, e);
-    };
-    const releaseOnFocus = (e: Event) => emit(ON_RELEASE_FOCUS_EVT, e);
-
     const onFocusIn = (e: FocusEvent) => {
       const trapContainer = unref(forwardRef);
       if (!trapContainer) return;
@@ -199,6 +184,24 @@ export default defineComponent({
         if (!isFocusedInTrap) emit('focusout', e);
       }
     };
+
+    watch([forwardRef], ([forwardRef_], [oldForwardReference]) => {
+      if (forwardRef_) {
+        forwardRef_.addEventListener('keydown', onKeydown);
+        forwardRef_.addEventListener('focusin', onFocusIn);
+        forwardRef_.addEventListener('focusout', onFocusOut);
+      }
+      if (oldForwardReference) {
+        oldForwardReference.removeEventListener('keydown', onKeydown);
+        oldForwardReference.removeEventListener('focusin', onFocusIn);
+        oldForwardReference.removeEventListener('focusout', onFocusOut);
+      }
+    });
+
+    const trapOnFocus = (e: Event) => {
+      emit(ON_TRAP_FOCUS_EVT, e);
+    };
+    const releaseOnFocus = (e: Event) => emit(ON_RELEASE_FOCUS_EVT, e);
 
     async function startTrap() {
       // Wait for forwardRef to resolve

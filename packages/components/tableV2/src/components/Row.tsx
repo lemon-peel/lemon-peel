@@ -10,17 +10,13 @@ import type { RowEventHandlers, TableV2RowProps } from '../row';
 type CustomizedCellsType = VNode<
 RendererNode,
 RendererElement,
-{
-  [key: string]: any;
-}
+{ [key: string]: any }
 >[];
 
 type DefaultCellsType = VNode<
 RendererNode,
 RendererElement,
-{
-  [key: string]: any;
-}
+{ [key: string]: any }
 >[][];
 
 type ColumnCellsType = DefaultCellsType | CustomizedCellsType;
@@ -193,13 +189,12 @@ const TableV2Row = defineComponent({
 
       if (unref(measurable)) {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { height, ...exceptHeightStyle } = style || {};
-        const _measured = unref(measured);
+        const { ...exceptHeightStyle } = style || {};
         return (
           <div
             ref={rowRef}
             class={properties.class}
-            style={_measured ? style : exceptHeightStyle}
+            style={measured.value ? style : exceptHeightStyle}
             {...attrs}
             {...unref(eventHandlers)}
           >

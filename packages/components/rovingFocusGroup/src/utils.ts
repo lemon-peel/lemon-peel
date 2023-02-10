@@ -39,12 +39,12 @@ export const getFocusIntent = (
     orientation === 'vertical' &&
     [EVENT_CODE.left, EVENT_CODE.right].includes(key)
   )
-    return undefined;
+    return;
   if (
     orientation === 'horizontal' &&
     [EVENT_CODE.up, EVENT_CODE.down].includes(key)
   )
-    return undefined;
+    return;
   return MAP_KEY_TO_FOCUS_INTENT[key];
 };
 

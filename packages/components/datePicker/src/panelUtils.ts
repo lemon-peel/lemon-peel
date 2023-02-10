@@ -1,6 +1,7 @@
-import DatePickPanel from './datePickerCom/panelDatePick.vue';
-import DateRangePickPanel from './datePickerCom/panelDateRange.vue';
-import MonthRangePickPanel from './datePickerCom/panelMonthRange.vue';
+import DatePickPanel from './datePickerCom/PanelDatePick.vue';
+import DateRangePickPanel from './datePickerCom/PanelDateRange.vue';
+import MonthRangePickPanel from './datePickerCom/PanelMonthRange.vue';
+
 import type { IDatePickerType } from './datePicker.type';
 
 export const getPanel = function (type: IDatePickerType) {

@@ -66,6 +66,11 @@ export const useDialog = (
     emit('close');
   }
 
+  function doOpen() {
+    if (!isClient) return;
+    visible.value = true;
+  }
+
   function open() {
     closeTimer?.();
     openTimer?.();
@@ -75,6 +80,10 @@ export const useDialog = (
     } else {
       doOpen();
     }
+  }
+
+  function doClose() {
+    visible.value = false;
   }
 
   function close() {
@@ -106,15 +115,6 @@ export const useDialog = (
     if (props.closeOnClickModal) {
       handleClose();
     }
-  }
-
-  function doOpen() {
-    if (!isClient) return;
-    visible.value = true;
-  }
-
-  function doClose() {
-    visible.value = false;
   }
 
   function onOpenAutoFocus() {

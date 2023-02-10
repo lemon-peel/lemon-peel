@@ -80,14 +80,14 @@ export const buildProp = <
       }
       : undefined;
 
-  const epProperty: any = {
+  const lpProp: any = {
     type,
     required: !!required,
     validator: validate,
     [lpPropKey]: true,
   };
-  if (hasOwn(property, 'default')) epProperty.default = defaultValue;
-  return epProperty;
+  if (hasOwn(property, 'default')) lpProp.default = defaultValue;
+  return lpProp;
 };
 
 export const buildProps = <

@@ -1,4 +1,5 @@
-import CollapseTransition from './src/collapse-transition.vue';
+import CollapseTransition from './src/CollapseTransition.vue';
+
 import type { App } from 'vue';
 import type { SFCWithInstall } from '@lemon-peel/utils';
 

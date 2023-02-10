@@ -9,7 +9,7 @@ import type { Placement } from '@lemon-peel/components/popper';
 import type { ComponentInternalInstance, ComputedRef } from 'vue';
 import type { Nullable } from '@lemon-peel/utils';
 
-export interface ILpDropdownInstance {
+export interface LpDropdownInstance {
   instance?: ComponentInternalInstance;
   dropdownSize?: ComputedRef<string>;
   handleClick?: () => void;

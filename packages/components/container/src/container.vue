@@ -15,6 +15,7 @@ defineOptions({
 const props = defineProps({
   direction: {
     type: String,
+    default: 'vertical',
   },
 });
 const slots = useSlots();

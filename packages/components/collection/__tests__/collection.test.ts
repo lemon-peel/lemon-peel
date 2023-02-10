@@ -3,7 +3,7 @@ import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it } from 'vitest'
 import TestCollection, {
   CollectionChildComponent as ChildComponent,
-} from '../test-helper'
+} from '../testHelper'
 
 import type { ComponentPublicInstance } from 'vue'
 import type { LpCollectionInjectionContext } from '../src/tokens'

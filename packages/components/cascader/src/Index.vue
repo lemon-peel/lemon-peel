@@ -32,7 +32,7 @@
           $attrs.class,
         ]"
         v-bind="$attrs"
-        @click="() => togglePopperVisible(readonly ? undefined : true)"
+        @click="() => togglePopperVisible(isMutable ? undefined : true)"
         @keydown="handleKeyDown"
         @mouseenter="inputHover = true"
         @mouseleave="inputHover = false"
@@ -41,7 +41,7 @@
           ref="input"
           v-model="inputValue"
           :placeholder="currentPlaceholder"
-          :readonly="readonly"
+          :readonly="isMutable"
           :disabled="isDisabled"
           :validate-event="false"
           :size="realSize"
@@ -355,7 +355,7 @@ export default defineComponent({
       ['small'].includes(realSize.value) ? 'small' : 'default',
     );
     const multiple = computed(() => !!props.props.multiple);
-    const readonly = computed(() => !props.filterable || multiple.value);
+    const isMutable = computed(() => !props.filterable || multiple.value);
     const searchKeyword = computed(() =>
       multiple.value ? searchInputValue.value : inputValue.value,
     );
@@ -513,13 +513,13 @@ export default defineComponent({
     };
 
     const focusFirstNode = () => {
-      let firstNode!: HTMLElement;
-
-      firstNode = filtering.value && suggestionPanel.value ? suggestionPanel.value.$el.querySelector(
-        `.${nsCascader.e('suggestion-item')}`,
-      ) : panel.value?.$el.querySelector(
-        `.${nsCascader.b('node')}[tabindex="-1"]`,
-      );
+      const firstNode: HTMLElement = filtering.value && suggestionPanel.value
+        ? suggestionPanel.value.$el.querySelector(
+          `.${nsCascader.e('suggestion-item')}`,
+        )
+        : panel.value?.$el.querySelector(
+          `.${nsCascader.b('node')}[tabindex="-1"]`,
+        );
 
       if (firstNode) {
         firstNode.focus();
@@ -736,7 +736,7 @@ export default defineComponent({
       realSize,
       tagSize,
       multiple,
-      readonly,
+      isMutable,
       clearBtnVisible: clearButtonVisible,
 
       nsCascader,

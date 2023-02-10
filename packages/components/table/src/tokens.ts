@@ -1,5 +1,4 @@
 import type { InjectionKey } from 'vue';
-import type { DefaultRow, Table } from './table/defaults';
+import type LpTable from './table/Table.vue';
 
-export const TABLE_INJECTION_KEY: InjectionKey<Table<DefaultRow>> =
-  Symbol('LpTable');
+export const TABLE_INJECTION_KEY: InjectionKey<InstanceType<typeof LpTable>> = Symbol('LpTable');

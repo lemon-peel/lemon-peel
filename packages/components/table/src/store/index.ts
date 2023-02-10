@@ -12,7 +12,7 @@ export interface WatcherPropsData<T> {
   rowKey: Ref<string>;
 }
 
-function replaceColumn<T>(
+function replaceColumn<T extends object>(
   array: TableColumnCtx<T>[],
   column: TableColumnCtx<T>,
 ) {
@@ -26,7 +26,7 @@ function replaceColumn<T>(
   });
 }
 
-function sortColumn<T>(array: TableColumnCtx<T>[]) {
+function sortColumn<T extends object>(array: TableColumnCtx<T>[]) {
   array.forEach(item => {
     item.no = item.getColumnIndex?.();
     if (item.children?.length) {

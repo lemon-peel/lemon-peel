@@ -1,13 +1,13 @@
-import type { CSSProperties, ComponentInternalInstance, PropType, Ref, VNode } from 'vue';
-import type { Nullable } from '@lemon-peel/utils';
+
+import type { CSSProperties, ComponentInternalInstance, PropType, Ref, SetupContext, VNode } from 'vue';
 
 import type { Store } from '../store';
 import type { TableColumnCtx } from '../tableColumn/defaults';
 import type TableLayout from '../tableLayout';
 
-export type DefaultRow = any;
+export type DefaultRow = Record<string, any>;
 
-interface TableRefs {
+export interface TableRefs {
   tableWrapper: HTMLElement;
   headerWrapper: HTMLElement;
   footerWrapper: HTMLElement;
@@ -27,41 +27,36 @@ interface TableState {
   debouncedUpdateLayout: () => void;
 }
 
-type HoverState<T> = Nullable<{
+type HoverState<T> = ({
   cell: HTMLElement;
   column: TableColumnCtx<T>;
   row: T;
-}>;
+}) | null;
 
 type RIS<T> = { row: T, $index: number, store: Store<T>, expanded: boolean };
 
-type RenderExpanded<T> = ({
-  row,
-  $index,
-  store,
-  expanded: boolean,
-}: RIS<T>) => VNode;
+type RenderExpanded<T> = (ris: RIS<T>) => VNode;
 
-type SummaryMethod<T> = (data: {
-  columns: TableColumnCtx<T>[];
-  data: T[];
-}) => string[];
+export type SummaryMethod<T = DefaultRow> = (data: { columns: TableColumnCtx<T>[], data: T[] }) => string[];
 
-interface Table<T extends object> extends ComponentInternalInstance {
+export type TableExpose<T = DefaultRow> = {
   $ready: boolean;
   hoverState?: HoverState<T>;
   renderExpanded: RenderExpanded<T>;
-  store: Store<T>;
   layout: TableLayout<T>;
   refs: TableRefs;
   tableId: string;
   state: TableState;
-}
+};
 
-type ColumnCls<T> = string | ((data: { row: T, rowIndex: number }) => string);
-type ColumnStyle<T> =
+export type TableVM = ComponentInternalInstance & TableExpose;
+
+export type ColumnCls<T> = string | ((data: { row: T, rowIndex: number }) => string);
+
+export type ColumnStyle<T> =
   | CSSProperties
   | ((data: { row: T, rowIndex: number }) => CSSProperties);
+
 type CellCls<T> =
   | string
   | ((data: {
@@ -70,6 +65,7 @@ type CellCls<T> =
     column: TableColumnCtx<T>;
     columnIndex: number;
   }) => string);
+
 type CellStyle<T> =
   | CSSProperties
   | ((data: {
@@ -78,8 +74,10 @@ type CellStyle<T> =
     column: TableColumnCtx<T>;
     columnIndex: number;
   }) => CSSProperties);
+
 type Layout = 'fixed' | 'auto';
-interface TableProps<T> {
+
+export interface TableProps<T> {
   data: T[];
   size?: string;
   width?: string | number;
@@ -135,20 +133,20 @@ interface TableProps<T> {
   flexible: boolean;
 }
 
-interface Sort {
+export interface Sort {
   prop: string;
   order: 'ascending' | 'descending';
   init?: any;
   silent?: any;
 }
 
-interface Filter<T> {
+export interface Filter<T> {
   column: TableColumnCtx<T>;
   values: string[];
   silent: any;
 }
 
-interface TreeNode {
+export interface TreeNode {
   expanded?: boolean;
   loading?: boolean;
   noLazyChildren?: boolean;
@@ -157,7 +155,7 @@ interface TreeNode {
   display?: boolean;
 }
 
-interface RenderRowData<T> {
+export interface RenderRowData<T> {
   store: Store<T>;
   _self: Table<T>;
   column: TableColumnCtx<T>;
@@ -167,7 +165,7 @@ interface RenderRowData<T> {
   expanded: boolean;
 }
 
-export default {
+export const tableProps = {
   data: {
     type: Array as PropType<DefaultRow[]>,
     default: () => [],
@@ -190,19 +188,11 @@ export default {
   showSummary: Boolean,
   sumText: String,
   summaryMethod: Function as PropType<TableProps<DefaultRow>['summaryMethod']>,
-  rowClassName: [String, Function] as PropType<
-  TableProps<DefaultRow>['rowClassName']
-  >,
+  rowClassName: [String, Function] as PropType<TableProps<DefaultRow>['rowClassName']>,
   rowStyle: [Object, Function] as PropType<TableProps<DefaultRow>['rowStyle']>,
-  cellClassName: [String, Function] as PropType<
-  TableProps<DefaultRow>['cellClassName']
-  >,
-  cellStyle: [Object, Function] as PropType<
-  TableProps<DefaultRow>['cellStyle']
-  >,
-  headerRowClassName: [String, Function] as PropType<
-  TableProps<DefaultRow>['headerRowClassName']
-  >,
+  cellClassName: [String, Function] as PropType<TableProps<DefaultRow>['cellClassName']>,
+  cellStyle: [Object, Function] as PropType<TableProps<DefaultRow>['cellStyle']>,
+  headerRowClassName: [String, Function] as PropType<TableProps<DefaultRow>['headerRowClassName']>,
   headerRowStyle: [Object, Function] as PropType<
   TableProps<DefaultRow>['headerRowStyle']
   >,
@@ -257,15 +247,26 @@ export default {
   },
   flexible: Boolean,
 };
-export type {
-  SummaryMethod,
-  Table,
-  TableProps,
-  TableRefs,
-  ColumnCls,
-  ColumnStyle,
-  TreeNode,
-  RenderRowData,
-  Sort,
-  Filter,
-};
+
+export const tableEmits = [
+  'select',
+  'select-all',
+  'selection-change',
+  'cell-mouse-enter',
+  'cell-mouse-leave',
+  'cell-contextmenu',
+  'cell-click',
+  'cell-dblclick',
+  'row-click',
+  'row-contextmenu',
+  'row-dblclick',
+  'header-click',
+  'header-contextmenu',
+  'sort-change',
+  'filter-change',
+  'current-change',
+  'header-dragend',
+  'expand-change',
+];
+
+export type TableEmit = SetupContext<typeof tableEmits>['emit'];

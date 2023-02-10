@@ -8,10 +8,10 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, inject, onMounted, ref } from 'vue'
-import { useResizeObserver } from '@vueuse/core'
-import { useNamespace } from '@element-plus/hooks'
-import { selectKey } from './token'
+import { computed, defineComponent, inject, onMounted, ref } from 'vue';
+import { useResizeObserver } from '@vueuse/core';
+import { useNamespace } from '@lemon-peel/hooks';
+import { selectKey } from './token';
 
 export default defineComponent({
   name: 'ElSelectDropdown',
@@ -19,25 +19,25 @@ export default defineComponent({
   componentName: 'ElSelectDropdown',
 
   setup() {
-    const select = inject(selectKey)!
-    const ns = useNamespace('select')
+    const select = inject(selectKey)!;
+    const ns = useNamespace('select');
 
     // computed
-    const popperClass = computed(() => select.props.popperClass)
-    const isMultiple = computed(() => select.props.multiple)
-    const isFitInputWidth = computed(() => select.props.fitInputWidth)
-    const minWidth = ref('')
+    const popperClass = computed(() => select.props.popperClass);
+    const isMultiple = computed(() => select.props.multiple);
+    const isFitInputWidth = computed(() => select.props.fitInputWidth);
+    const minWidth = ref('');
 
     function updateMinWidth() {
-      minWidth.value = `${select.selectWrapper?.offsetWidth}px`
+      minWidth.value = `${select.selectWrapper?.offsetWidth}px`;
     }
 
     onMounted(() => {
       // TODO: updatePopper
       // popper.value.update()
-      updateMinWidth()
-      useResizeObserver(select.selectWrapper, updateMinWidth)
-    })
+      updateMinWidth();
+      useResizeObserver(select.selectWrapper, updateMinWidth);
+    });
 
     return {
       ns,
@@ -45,7 +45,7 @@ export default defineComponent({
       popperClass,
       isMultiple,
       isFitInputWidth,
-    }
+    };
   },
-})
+});
 </script>

@@ -72,7 +72,7 @@ import type { PropType } from 'vue';
 import type { default as CascaderNode } from './node';
 
 import { CASCADER_PANEL_INJECTION_KEY } from './types';
-import NodeContent from './nodeContent';
+import NodeContent from './NodeContent';
 
 export default defineComponent({
   name: 'LpCascaderNode',
@@ -86,11 +86,8 @@ export default defineComponent({
     ArrowRight,
   },
   props: {
-    node: {
-      type: Object as PropType<CascaderNode>,
-      required: true,
-    },
-    menuId: String,
+    node: { type: Object as PropType<CascaderNode>, required: true },
+    menuId: { type: String, required: true },
   },
   emits: ['expand'],
   setup(props, { emit }) {

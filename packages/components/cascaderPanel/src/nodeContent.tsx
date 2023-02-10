@@ -1,5 +1,5 @@
 
-import { defineComponent, getCurrentInstance, h } from 'vue';
+import { defineComponent, getCurrentInstance } from 'vue';
 import { useNamespace } from '@lemon-peel/hooks';
 import type CascaderNode from './Node.vue';
 export default defineComponent({
@@ -11,13 +11,8 @@ export default defineComponent({
     const { data, label } = node;
     const { renderLabelFn } = panel;
 
-    return () => (<span class={ns.e('label')}></span>);
-  },
-  render() {
-    return h(
-      'span',
-      { class: ns.e('label') },
-      renderLabelFn ? renderLabelFn({ node, data }) : label,
-    );
+    return () => (<span class={ns.e('label')}>
+      {renderLabelFn ? renderLabelFn({ node, data }) : label}
+      </span>);
   },
 });

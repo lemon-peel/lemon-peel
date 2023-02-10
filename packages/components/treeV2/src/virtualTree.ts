@@ -1,21 +1,8 @@
-import {
-  buildProps,
-  definePropType,
-  iconPropType,
-  mutable,
-} from '@element-plus/utils';
-import type { CheckboxValueType } from '@element-plus/components/checkbox';
+import { buildProps, definePropType, iconPropType, mutable } from '@lemon-peel/utils';
+import type { CheckboxValueType } from '@lemon-peel/components/checkbox';
 import type { InjectionKey } from 'vue';
-import type { TreeNodeData } from '@element-plus/components/tree/src/tree.type';
-import type {
-  CheckedInfo,
-  FilterMethod,
-  TreeContext,
-  TreeData,
-  TreeKey,
-  TreeNode,
-  TreeOptionProps,
-} from './types';
+import type { TreeNodeData } from '@lemon-peel/components/tree/src/tree.type';
+import type { CheckedInfo, FilterMethod, TreeContext, TreeData, TreeKey, TreeNode, TreeOptionProps } from './types';
 
 // constants
 export const ROOT_TREE_INJECTION_KEY: InjectionKey<TreeContext> = Symbol();

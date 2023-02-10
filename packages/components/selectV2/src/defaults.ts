@@ -7,6 +7,8 @@ import type { ComponentSize } from '@lemon-peel/constants';
 import type { OptionType } from './select.types';
 import type { Options, Placement } from '@lemon-peel/components/popper';
 
+export type ModelValue = any[] | string | number | boolean | Record<string, any> | any;
+
 export const selectProps = {
   allowCreate: Boolean,
   autocomplete: {
@@ -48,9 +50,7 @@ export const selectProps = {
   loading: Boolean,
   loadingText: String,
   label: String,
-  modelValue: [Array, String, Number, Boolean, Object] as PropType<
-  any[] | string | number | boolean | Record<string, any> | any
-  >,
+  modelValue: [Array, String, Number, Boolean, Object] as PropType<ModelValue>,
   multiple: Boolean,
   multipleLimit: {
     type: Number,

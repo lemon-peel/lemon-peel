@@ -2,11 +2,12 @@
 import { defineComponent, h } from 'vue';
 import { useNamespace } from '@lemon-peel/hooks';
 import { hColgroup } from '../HHelper';
-import useStyle from './style-helper';
-import type { Store } from '../store';
+import useStyle from './styleHelper';
 
 import type { PropType } from 'vue';
 import type { DefaultRow, Sort, SummaryMethod } from '../table/defaults';
+import type { Store } from '../store';
+
 export interface TableFooter<T> {
   fixed: string;
   store: Store<T>;
@@ -28,9 +29,7 @@ export default defineComponent({
       required: true,
       type: Object as PropType<TableFooter<DefaultRow>['store']>,
     },
-    summaryMethod: Function as PropType<
-    TableFooter<DefaultRow>['summaryMethod']
-    >,
+    summaryMethod: Function as PropType<TableFooter<DefaultRow>['summaryMethod']>,
     sumText: String,
     border: Boolean,
     defaultSort: {

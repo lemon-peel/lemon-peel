@@ -1,5 +1,5 @@
 import { withInstall, withNoopInstall } from '@lemon-peel/utils';
-import type { Plugin, Component } from 'vue';
+import type { SFCWithInstall } from '@lemon-peel/utils';
 
 import Select from './src/Select.vue';
 import Option from './src/Option.vue';
@@ -8,7 +8,7 @@ export const LpSelect = withNoopInstall(Select);
 export const LpOption = withNoopInstall(Option);
 export const LpOptionGroup = withNoopInstall(OptionGroup);
 
-const withInstaller: Component & Plugin = withInstall(Select, {
+const withInstaller: SFCWithInstall<typeof Select> = withInstall(Select, {
   Option,
   OptionGroup,
 });

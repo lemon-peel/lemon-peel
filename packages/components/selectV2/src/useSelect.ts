@@ -1,31 +1,24 @@
-
 import { computed, nextTick, onMounted, reactive, ref, watch } from 'vue';
 import { isArray, isFunction, isObject } from '@vue/shared';
 import { get, isEqual, isNil, debounce as lodashDebounce } from 'lodash-unified';
 import { useResizeObserver } from '@vueuse/core';
-import {
-  useFormItem,
-  useLocale,
-  useNamespace,
-  useSize,
-} from '@element-plus/hooks';
-import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants';
-import {
-  ValidateComponentsMap,
-  debugWarn,
-  escapeStringRegexp,
-} from '@element-plus/utils';
-
+import { useFormItem, useLocale, useNamespace, useSize } from '@lemon-peel/hooks';
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
+import { ValidateComponentsMap, debugWarn, escapeStringRegexp } from '@lemon-peel/utils';
 import { ArrowUp } from '@element-plus/icons-vue';
+
 import { useAllowCreate } from './useAllowCreate';
-
 import { flattenOptions } from './util';
-
 import { useInput } from './useInput';
-import type ElTooltip from '@element-plus/components/tooltip';
-import type { SelectProps } from './defaults';
-import type { CSSProperties, ExtractPropTypes } from 'vue';
+
+
+import type LpTooltip from '@lemon-peel/components/tooltip';
+import type { selectProps } from './defaults';
+import type { CSSProperties, ExtractPropTypes, Ref, SetupContext } from 'vue';
 import type { Option, OptionType } from './select.types';
+import type { selectEmits } from './select';
+import type SelectDropdown from './SelectDropdown.vue';
+
 
 const DEFAULT_INPUT_PLACEHOLDER = '';
 const MINIMUM_INPUT_WIDTH = 11;
@@ -35,7 +28,7 @@ const TAG_BASE_WIDTH = {
   small: 33,
 };
 
-const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
+const useSelect = (props: ExtractPropTypes<typeof selectProps>, emit: SetupContext<typeof selectEmits>['emit']) => {
   // inject
   const { t } = useLocale();
   const nsSelectV2 = useNamespace('select-v2');
@@ -60,7 +53,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     inputLength: 20,
     selectWidth: 200,
     initialInputHeight: 0,
-    previousQuery: null,
+    previousQuery: null as (string | null),
     previousValue: undefined,
     query: '',
     selectedLabel: '',
@@ -73,18 +66,52 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   const popperSize = ref(-1);
 
   // DOM & Component refs
-  const controlRef = ref(null);
-  const inputRef = ref(null); // el-input ref
-  const menuRef = ref(null);
-  const popper = ref<InstanceType<typeof ElTooltip> | null>(null);
-  const selectRef = ref(null);
-  const selectionRef = ref(null); // tags ref
-  const calculatorRef = ref<HTMLElement>(null);
+  const inputRef = ref<HTMLInputElement>(null as any) as Ref<HTMLInputElement>; // lp-input ref
+  const menuRef = ref<InstanceType<typeof SelectDropdown>>(null as any) as Ref<InstanceType<typeof SelectDropdown>>;
+  const popper = ref<InstanceType<typeof LpTooltip>>(null as any) as Ref<InstanceType<typeof LpTooltip>>;
+  const selectRef = ref<HTMLDivElement>(null as any) as Ref<HTMLDivElement>;
+  const selectionRef = ref<HTMLDivElement>(null as any) as Ref<HTMLDivElement>; // tags ref
+  const calculatorRef = ref<HTMLSpanElement>(null as any) as Ref<HTMLSpanElement>;
 
   // the controller of the expanded popup
   const expanded = ref(false);
 
   const selectDisabled = computed(() => props.disabled || elForm?.disabled);
+
+  const filteredOptions = computed(() => {
+    const isValidOption = (o: Option): boolean => {
+      // fill the conditions here.
+      const query = states.inputValue;
+      // when query was given, we should test on the label see whether the label contains the given query
+      const regexp = new RegExp(escapeStringRegexp(query), 'i');
+      const containsQueryString = query ? regexp.test(o.label || '') : true;
+      return containsQueryString;
+    };
+    if (props.loading) {
+      return [];
+    }
+    return flattenOptions(
+      (props.options as OptionType[])
+        .concat(states.createdOptions)
+        .map(v => {
+          if (isArray(v.options)) {
+            const filtered = v.options.filter(isValidOption);
+            if (filtered.length > 0) {
+              return {
+                ...v,
+                options: filtered,
+              };
+            }
+          } else {
+            if (props.remote || isValidOption(v as Option)) {
+              return v;
+            }
+          }
+          return null;
+        })
+        .filter(v => v !== null) as OptionType[],
+    );
+  });
 
   const popupHeight = computed(() => {
     const totalHeight = filteredOptions.value.length * 34;
@@ -118,10 +145,13 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
   const validateState = computed(() => elFormItem?.validateState || '');
   const validateIcon = computed(
-    () => ValidateComponentsMap[validateState.value],
+    () => validateState.value
+      ? ValidateComponentsMap[validateState.value]
+      : 'validating',
   );
 
   const debounce = computed(() => (props.remote ? 300 : 0));
+
 
   // filteredOptions includes flatten the data into one dimensional array.
   const emptyText = computed(() => {
@@ -141,40 +171,6 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     return null;
   });
 
-  const filteredOptions = computed(() => {
-    const isValidOption = (o: Option): boolean => {
-      // fill the conditions here.
-      const query = states.inputValue;
-      // when query was given, we should test on the label see whether the label contains the given query
-      const regexp = new RegExp(escapeStringRegexp(query), 'i');
-      const containsQueryString = query ? regexp.test(o.label || '') : true;
-      return containsQueryString;
-    };
-    if (props.loading) {
-      return [];
-    }
-    return flattenOptions(
-      (props.options as OptionType[])
-        .concat(states.createdOptions)
-        .map(v => {
-          if (isArray(v.options)) {
-            const filtered = v.options.filter(isValidOption);
-            if (filtered.length > 0) {
-              return {
-                ...v,
-                options: filtered,
-              };
-            }
-          } else {
-            if (props.remote || isValidOption(v as Option)) {
-              return v;
-            }
-          }
-          return null;
-        })
-        .filter(v => v !== null),
-    );
-  });
 
   const optionsAllDisabled = computed(() =>
     filteredOptions.value.every(option => option.disabled),
@@ -190,14 +186,12 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     const select = selectionRef.value;
     const size = collapseTagSize.value || 'default';
     const paddingLeft = select
-      ? Number.parseInt(getComputedStyle(select).paddingLeft)
+      ? Number.parseInt(getComputedStyle(select as Element).paddingLeft)
       : 0;
     const paddingRight = select
-      ? Number.parseInt(getComputedStyle(select).paddingRight)
+      ? Number.parseInt(getComputedStyle(select as Element).paddingRight)
       : 0;
-    return (
-      states.selectWidth - paddingRight - paddingLeft - TAG_BASE_WIDTH[size]
-    );
+    return (states.selectWidth - paddingRight - paddingLeft - TAG_BASE_WIDTH[size]);
   });
 
   const calculatePopperSize = () => {
@@ -225,9 +219,9 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   });
 
   const currentPlaceholder = computed(() => {
-    const _placeholder = props.placeholder || t('el.select.placeholder');
+    const str = props.placeholder || t('el.select.placeholder');
     return props.multiple || isNil(props.modelValue)
-      ? _placeholder
+      ? str
       : states.selectedLabel;
   });
 
@@ -262,6 +256,41 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     },
   });
 
+  const onUpdateInputValue = (val: string) => {
+    states.displayInputValue = val;
+    states.inputValue = val;
+  };
+
+  const resetInputHeight = () => {
+    if (props.collapseTags && !props.filterable) {
+      return;
+    }
+    return nextTick(() => {
+      if (!inputRef.value) return;
+      const selection = selectionRef.value;
+      selectRef.value.style.height = `${selection.offsetHeight}px`;
+      if (expanded.value && emptyText.value !== false) {
+        popper.value?.updatePopper?.();
+      }
+    });
+  };
+
+  const handleQueryChange = (val: string) => {
+    if (states.previousQuery === val) {
+      return;
+    }
+    states.previousQuery = val;
+    if (props.filterable && isFunction(props.filterMethod)) {
+      props.filterMethod(val);
+    } else if (
+      props.filterable &&
+      props.remote &&
+      isFunction(props.remoteMethod)
+    ) {
+      props.remoteMethod(val);
+    }
+  };
+
   // hooks
   const {
     createNewOption,
@@ -273,7 +302,38 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     handleCompositionStart,
     handleCompositionUpdate,
     handleCompositionEnd,
+  // eslint-disable-next-line @typescript-eslint/no-use-before-define
   } = useInput(e => onInput(e));
+
+  function onInputChange() {
+    if (props.filterable && states.inputValue !== states.selectedLabel) {
+      states.query = states.selectedLabel;
+    }
+    handleQueryChange(states.inputValue);
+    return nextTick(() => {
+      createNewOption(states.inputValue);
+    });
+  }
+
+  const debouncedOnInputChange = lodashDebounce(onInputChange, debounce.value);
+
+  function onInput(event: InputEvent) {
+    const value = (event.target as HTMLInputElement).value;
+    onUpdateInputValue(value);
+    if (states.displayInputValue.length > 0 && !expanded.value) {
+      expanded.value = true;
+    }
+
+    states.calculatedWidth = calculatorRef.value.getBoundingClientRect().width;
+    props.multiple && resetInputHeight();
+
+    if (props.remote) {
+      debouncedOnInputChange();
+    } else {
+      return onInputChange();
+    }
+  }
+
 
   // methods
   const focusAndUpdatePopup = () => {
@@ -292,34 +352,6 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     }
   };
 
-  const onInputChange = () => {
-    if (props.filterable && states.inputValue !== states.selectedLabel) {
-      states.query = states.selectedLabel;
-    }
-    handleQueryChange(states.inputValue);
-    return nextTick(() => {
-      createNewOption(states.inputValue);
-    });
-  };
-
-  const debouncedOnInputChange = lodashDebounce(onInputChange, debounce.value);
-
-  const handleQueryChange = (val: string) => {
-    if (states.previousQuery === val) {
-      return;
-    }
-    states.previousQuery = val;
-    if (props.filterable && isFunction(props.filterMethod)) {
-      props.filterMethod(val);
-    } else if (
-      props.filterable &&
-      props.remote &&
-      isFunction(props.remoteMethod)
-    ) {
-      props.remoteMethod(val);
-    }
-  };
-
   const emitChange = (val: any | any[]) => {
     if (!isEqual(props.modelValue, val)) {
       emit(CHANGE_EVENT, val);
@@ -332,7 +364,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     states.previousValue = val?.toString();
   };
 
-  const getValueIndex = (arr = [], value: unknown) => {
+  const getValueIndex = <T = any>(arr: T[], value: T) => {
     if (!isObject(value)) {
       return arr.indexOf(value);
     }
@@ -358,19 +390,11 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     return isObject(item) ? item.label : item;
   };
 
-  const resetInputHeight = () => {
-    if (props.collapseTags && !props.filterable) {
-      return;
+  const resetInputWidth = () => {
+    const select = selectionRef.value;
+    if (select) {
+      states.selectWidth = select.getBoundingClientRect().width;
     }
-    return nextTick(() => {
-      if (!inputRef.value) return;
-      const selection = selectionRef.value;
-
-      selectRef.value.height = selection.offsetHeight;
-      if (expanded.value && emptyText.value !== false) {
-        popper.value?.updatePopper?.();
-      }
-    });
   };
 
   const handleResize = () => {
@@ -382,11 +406,12 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     }
   };
 
-  const resetInputWidth = () => {
-    const select = selectionRef.value;
-    if (select) {
-      states.selectWidth = select.getBoundingClientRect().width;
-    }
+  const updateHoveringIndex = (idx: number) => {
+    states.hoveringIndex = idx;
+  };
+
+  const setSoftFocus = () => {
+    inputRef.value?.focus();
   };
 
   const onSelect = (option: Option, idx: number, byClick = true) => {
@@ -471,7 +496,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     }
   };
 
-  const handleBlur = (event: FocusEvent) => {
+  const handleBlur = (event?: FocusEvent) => {
     states.softFocus = false;
 
     // reset input value when blurred
@@ -507,14 +532,13 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       e.preventDefault();
       const selected = [...(props.modelValue as Array<any>)];
       selected.pop();
-      removeNewOption(states.cachedOptions.pop());
+      removeNewOption(states.cachedOptions.pop()!);
       update(selected);
     }
   };
 
   const handleClear = () => {
-    let emptyValue: string | any[];
-    emptyValue = isArray(props.modelValue) ? [] : undefined;
+    const emptyValue = isArray(props.modelValue) ? [] : undefined;
 
     states.softFocus = true;
     if (props.multiple) {
@@ -529,12 +553,11 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     return nextTick(focusAndUpdatePopup);
   };
 
-  const onUpdateInputValue = (val: string) => {
-    states.displayInputValue = val;
-    states.inputValue = val;
+  const scrollToItem = (index: number) => {
+    menuRef.value.scrollToItem(index);
   };
 
-  const onKeyboardNavigate = (direction: 'forward' | 'backward', hoveringIndex?: number) => {
+  const onKeyboardNavigate = (direction: 'forward' | 'backward', hoveringIndex?: number): any => {
     const options = filteredOptions.value;
     if (
       !['forward', 'backward'].includes(direction) ||
@@ -544,12 +567,15 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     ) {
       return;
     }
+
     if (!expanded.value) {
       return toggleMenu();
     }
+
     if (hoveringIndex === undefined) {
       hoveringIndex = states.hoveringIndex;
     }
+
     let newIndex = -1;
     if (direction === 'forward') {
       newIndex = hoveringIndex + 1;
@@ -589,37 +615,8 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     }
   };
 
-  const updateHoveringIndex = (idx: number) => {
-    states.hoveringIndex = idx;
-  };
-
   const resetHoveringIndex = () => {
     states.hoveringIndex = -1;
-  };
-
-  const setSoftFocus = () => {
-    const _input = inputRef.value;
-    if (_input) {
-      _input.focus?.();
-    }
-  };
-
-  const onInput = event => {
-    const value = event.target.value;
-    onUpdateInputValue(value);
-    if (states.displayInputValue.length > 0 && !expanded.value) {
-      expanded.value = true;
-    }
-
-    states.calculatedWidth = calculatorRef.value.getBoundingClientRect().width;
-    if (props.multiple) {
-      resetInputHeight();
-    }
-    if (props.remote) {
-      debouncedOnInputChange();
-    } else {
-      return onInputChange();
-    }
   };
 
   const handleClickOutside = () => {
@@ -635,10 +632,6 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         scrollToItem(states.hoveringIndex);
       }
     });
-  };
-
-  const scrollToItem = (index: number) => {
-    menuRef.value.scrollToItem(index);
   };
 
   const initStates = () => {
@@ -695,7 +688,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   watch(expanded, val => {
     emit('visible-change', val);
     if (val) {
-      popper.value.update?.();
+      popper.value.updatePopper();
       // the purpose of this function is to differ the blur event trigger mechanism
     } else {
       states.displayInputValue = '';
@@ -741,7 +734,8 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   onMounted(() => {
     initStates();
   });
-  useResizeObserver(selectRef, handleResize);
+
+  useResizeObserver(selectRef as any, handleResize);
 
   return {
     // data exports
@@ -770,7 +764,6 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
     // refs items exports
     calculatorRef,
-    controlRef,
     inputRef,
     menuRef,
     popper,

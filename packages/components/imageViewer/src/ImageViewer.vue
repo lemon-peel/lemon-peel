@@ -12,7 +12,7 @@
         <!-- CLOSE -->
         <span :class="[ns.e('btn'), ns.e('close')]" @click="hide">
           <lp-icon><Close /></lp-icon>
-          </lp-icon></span>
+        </span>
 
         <!-- ARROW -->
         <template v-if="!isSingle">
@@ -25,7 +25,7 @@
             @click="prev"
           >
             <lp-icon><ArrowLeft /></lp-icon>
-            </lp-icon></span>
+          </span>
           <span
             :class="[
               ns.e('btn'),
@@ -35,7 +35,7 @@
             @click="next"
           >
             <lp-icon><ArrowRight /></lp-icon>
-            </lp-icon></span>
+          </span>
         </template>
         <!-- ACTIONS -->
         <div :class="[ns.e('btn'), ns.e('actions')]">
@@ -57,7 +57,7 @@
             <lp-icon @click="handleActions('clockwise')">
               <RefreshRight />
             </lp-icon>
-            </lp-icon></lp-icon></lp-icon></lp-icon></lp-icon></div>
+          </div>
         </div>
         <!-- CANVAS -->
         <div :class="ns.e('canvas')">
@@ -81,37 +81,18 @@
 </template>
 
 <script lang="ts" setup>
-import {
-  computed,
-  effectScope,
-  markRaw,
-  nextTick,
-  onMounted,
-  ref,
-  shallowRef,
-  watch,
-} from 'vue';
+import { computed, effectScope, markRaw, nextTick, onMounted, ref, shallowRef, watch } from 'vue';
 import { isNumber, useEventListener } from '@vueuse/core';
 import { throttle } from 'lodash-unified';
 import { useLocale, useNamespace, useZIndex } from '@lemon-peel/hooks';
 import { EVENT_CODE } from '@lemon-peel/constants';
 import { isFirefox, keysOf } from '@lemon-peel/utils';
 import LpIcon from '@lemon-peel/components/icon';
-import {
-  ArrowLeft,
-  ArrowRight,
-  Close,
-  FullScreen,
-  RefreshLeft,
-  RefreshRight,
-  ScaleToOriginal,
-  ZoomIn,
-  ZoomOut,
-} from '@element-plus/icons-vue';
-import { imageViewerEmits, imageViewerProps } from './ImageViewer.vue';
+import { ArrowLeft, ArrowRight, Close, FullScreen, RefreshLeft, RefreshRight, ScaleToOriginal, ZoomIn, ZoomOut } from '@element-plus/icons-vue';
+import { imageViewerEmits, imageViewerProps } from './imageViewer';
 
 import type { CSSProperties } from 'vue';
-import type { ImageViewerAction, ImageViewerMode } from './ImageViewer.vue';
+import type { ImageViewerAction, ImageViewerMode } from './imageViewer';
 
 const modes: Record<'CONTAIN' | 'ORIGINAL', ImageViewerMode> = {
   CONTAIN: {
@@ -203,97 +184,13 @@ const computedZIndex = computed(() => {
   return isNumber(props.zIndex) ? props.zIndex : nextZIndex();
 });
 
-function hide() {
-  unregisterEventListener();
-  emit('close');
-}
-
-function registerEventListener() {
-  const keydownHandler = throttle((e: KeyboardEvent) => {
-    switch (e.code) {
-      // ESC
-      case EVENT_CODE.esc:
-        props.closeOnPressEscape && hide();
-        break;
-      // SPACE
-      case EVENT_CODE.space:
-        toggleMode();
-        break;
-      // LEFT_ARROW
-      case EVENT_CODE.left:
-        prev();
-        break;
-      // UP_ARROW
-      case EVENT_CODE.up:
-        handleActions('zoomIn');
-        break;
-      // RIGHT_ARROW
-      case EVENT_CODE.right:
-        next();
-        break;
-      // DOWN_ARROW
-      case EVENT_CODE.down:
-        handleActions('zoomOut');
-        break;
-    }
-  });
-  const mousewheelHandler = throttle(
-    (e: WheelEvent | any /* TODO: wheelDelta is deprecated */) => {
-      const delta = e.wheelDelta ? e.wheelDelta : -e.detail;
-      if (delta > 0) {
-        handleActions('zoomIn', {
-          zoomRate: 1.2,
-          enableTransition: false,
-        });
-      } else {
-        handleActions('zoomOut', {
-          zoomRate: 1.2,
-          enableTransition: false,
-        });
-      }
-    },
-  );
-
-  scopeEventListener.run(() => {
-    useEventListener(document, 'keydown', keydownHandler);
-    useEventListener(document, mousewheelEventName, mousewheelHandler);
-  });
-}
-
 function unregisterEventListener() {
   scopeEventListener.stop();
 }
 
-function handleImgLoad() {
-  loading.value = false;
-}
-
-function handleImgError(e: Event) {
-  loading.value = false
-  ;(e.target as HTMLImageElement).alt = t('el.image.error');
-}
-
-function handleMouseDown(e: MouseEvent) {
-  if (loading.value || e.button !== 0 || !wrapper.value) return;
-  transform.value.enableTransition = false;
-
-  const { offsetX, offsetY } = transform.value;
-  const startX = e.pageX;
-  const startY = e.pageY;
-
-  const dragHandler = throttle((ev: MouseEvent) => {
-    transform.value = {
-      ...transform.value,
-      offsetX: offsetX + ev.pageX - startX,
-      offsetY: offsetY + ev.pageY - startY,
-    };
-  });
-  const removeMousemove = useEventListener(document, 'mousemove', dragHandler);
-  useEventListener(document, 'mouseup', () => {
-    removeMousemove();
-  });
-
-  e.preventDefault();
+function hide() {
+  unregisterEventListener();
+  emit('close');
 }
 
 function reset() {
@@ -364,6 +261,90 @@ function handleActions(action: ImageViewerAction, options = {}) {
       break;
   }
   transform.value.enableTransition = enableTransition;
+}
+
+function registerEventListener() {
+  const keydownHandler = throttle((e: KeyboardEvent) => {
+    switch (e.code) {
+      // ESC
+      case EVENT_CODE.esc:
+        props.closeOnPressEscape && hide();
+        break;
+      // SPACE
+      case EVENT_CODE.space:
+        toggleMode();
+        break;
+      // LEFT_ARROW
+      case EVENT_CODE.left:
+        prev();
+        break;
+      // UP_ARROW
+      case EVENT_CODE.up:
+        handleActions('zoomIn');
+        break;
+      // RIGHT_ARROW
+      case EVENT_CODE.right:
+        next();
+        break;
+      // DOWN_ARROW
+      case EVENT_CODE.down:
+        handleActions('zoomOut');
+        break;
+    }
+  });
+  const mousewheelHandler = throttle(
+    (e: WheelEvent | any /* TODO: wheelDelta is deprecated */) => {
+      const delta = e.wheelDelta ?? -e.detail;
+      if (delta > 0) {
+        handleActions('zoomIn', {
+          zoomRate: 1.2,
+          enableTransition: false,
+        });
+      } else {
+        handleActions('zoomOut', {
+          zoomRate: 1.2,
+          enableTransition: false,
+        });
+      }
+    },
+  );
+
+  scopeEventListener.run(() => {
+    useEventListener(document, 'keydown', keydownHandler);
+    useEventListener(document, mousewheelEventName, mousewheelHandler);
+  });
+}
+
+function handleImgLoad() {
+  loading.value = false;
+}
+
+function handleImgError(e: Event) {
+  loading.value = false
+  ;(e.target as HTMLImageElement).alt = t('el.image.error');
+}
+
+function handleMouseDown(e: MouseEvent) {
+  if (loading.value || e.button !== 0 || !wrapper.value) return;
+  transform.value.enableTransition = false;
+
+  const { offsetX, offsetY } = transform.value;
+  const startX = e.pageX;
+  const startY = e.pageY;
+
+  const dragHandler = throttle((ev: MouseEvent) => {
+    transform.value = {
+      ...transform.value,
+      offsetX: offsetX + ev.pageX - startX,
+      offsetY: offsetY + ev.pageY - startY,
+    };
+  });
+  const removeMousemove = useEventListener(document, 'mousemove', dragHandler);
+  useEventListener(document, 'mouseup', () => {
+    removeMousemove();
+  });
+
+  e.preventDefault();
 }
 
 watch(currentImg, () => {

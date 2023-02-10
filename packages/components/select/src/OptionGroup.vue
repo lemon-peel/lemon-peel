@@ -43,7 +43,7 @@ export default defineComponent({
       const list: OptionInstance[] = [];
       if (Array.isArray(node.children)) {
         for (const child of (node.children as Array<VNode>)) {
-          if ( child
+          if (child
             && child.type
             && (child.type as Component).name === 'LpOption'
             && child.component

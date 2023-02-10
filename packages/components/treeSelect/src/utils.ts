@@ -1,4 +1,5 @@
-import type { TreeNodeData } from '@lemon-peel/components/tree/src/tree.type';
+import type { TreeNodeData } from '@lemon-peel/components/tree';
+export { type TreeNodeData } from '@lemon-peel/components/tree';
 
 export function isValidValue(val: any) {
   return val || val === 0;
@@ -26,6 +27,7 @@ export function treeFind<T extends TreeNodeData>(
   findCallback: TreeFindCallback<T>,
   getChildren: (data: T) => T[]
 ): T | undefined;
+
 export function treeFind<T extends TreeNodeData, R>(
   treeData: T[],
   findCallback: TreeFindCallback<T>,
@@ -33,6 +35,7 @@ export function treeFind<T extends TreeNodeData, R>(
   resultCallback?: TreeCallback<T, R>,
   parent?: T
 ): R | undefined;
+
 export function treeFind<T extends TreeNodeData, R>(
   treeData: T[],
   findCallback: TreeFindCallback<T>,

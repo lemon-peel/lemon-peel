@@ -30,7 +30,7 @@
               :model-value="visibleDate"
               size="small"
               :validate-event="false"
-              @input="(val) => (userInputDate = val)"
+              @input="(val: any) => (userInputDate = val)"
               @change="handleVisibleDateChange"
             />
           </span>
@@ -44,7 +44,7 @@
               size="small"
               :validate-event="false"
               @focus="onTimePickerInputFocus"
-              @input="(val) => (userInputTime = val)"
+              @input="(val: any) => (userInputTime = val)"
               @change="handleVisibleTimeChange"
             />
             <time-pick-panel
@@ -183,52 +183,29 @@
 </template>
 
 <script lang="ts" setup>
-import {
-  computed,
-  inject,
-  nextTick,
-  ref,
-  toRef,
-  useAttrs,
-  useSlots,
-  watch,
-} from 'vue';
+import { computed, inject, nextTick, ref, toRef, useAttrs, useSlots, watch } from 'vue';
 import dayjs from 'dayjs';
 import LpButton from '@lemon-peel/components/button';
 import { ClickOutside as vClickOutside } from '@lemon-peel/directives';
 import { useLocale, useNamespace } from '@lemon-peel/hooks';
 import LpInput from '@lemon-peel/components/input';
-import {
-  TimePickPanel,
-  extractDateFormat,
-  extractTimeFormat,
-} from '@lemon-peel/components/timePicker';
+import { TimePickPanel, extractDateFormat, extractTimeFormat } from '@lemon-peel/components/timePicker';
 import { LpIcon } from '@lemon-peel/components/icon';
 import { isArray, isFunction } from '@lemon-peel/utils';
 import { EVENT_CODE } from '@lemon-peel/constants';
-import {
-  ArrowLeft,
-  ArrowRight,
-  DArrowLeft,
-  DArrowRight,
-} from '@element-plus/icons-vue';
+import { ArrowLeft, ArrowRight, DArrowLeft, DArrowRight } from '@element-plus/icons-vue';
 import { TOOLTIP_INJECTION_KEY } from '@lemon-peel/tokens';
-import { panelDatePickProps } from '../props/panelDatePick
+import { panelDatePickProps } from '../props/panelDatePick';
 import DateTable from './BasicDateTable.vue';
 import MonthTable from './BasicMonthTable.vue';
 import YearTable from './BasicYearTable.vue';
 
 import type { SetupContext } from 'vue';
 import type { ConfigType, Dayjs } from 'dayjs';
-import type { PanelDatePickProps } from '../props/panelDatePick
-import type {
-  DateTableEmits,
-  DatesPickerEmits,
-  WeekPickerEmits,
-} from '../props/basicDateTable
+import type { PanelDatePickProps } from '../props/panelDatePick';
+import type { DateTableEmits, DatesPickerEmits, WeekPickerEmits } from '../props/basicDateTable';
 
 type DatePickType = PanelDatePickProps['type'];
-// todo
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const timeWithinRange = (_: ConfigType, __: any, ___: string) => true;
 const props = defineProps(panelDatePickProps);
@@ -270,6 +247,29 @@ const checkDateWithinRange = (date: ConfigType) => {
     ? timeWithinRange(date, selectableRange.value, props.format || 'HH:mm:ss')
     : true;
 };
+
+const timeFormat = computed(() => {
+  return extractTimeFormat(props.format);
+});
+
+const visibleTime = computed(() => {
+  if (userInputTime.value) return userInputTime.value;
+  if (!props.parsedValue && !defaultValue.value) return;
+  return ((props.parsedValue || innerDate.value) as Dayjs).format(
+    timeFormat.value,
+  );
+});
+
+const showTime = computed(
+  () => props.type === 'datetime' || props.type === 'datetimerange',
+);
+
+const selectionMode = computed<DatePickType>(() => {
+  const { type } = props;
+  if (['week', 'month', 'year', 'dates'].includes(type)) return type;
+  return 'date' as DatePickType;
+});
+
 const formatEmit = (emitDayjs: Dayjs) => {
   if (defaultTime && !visibleTime.value) {
     return defaultTimeD.value
@@ -280,6 +280,7 @@ const formatEmit = (emitDayjs: Dayjs) => {
   if (showTime.value) return emitDayjs.millisecond(0);
   return emitDayjs.startOf('day');
 };
+
 const emit = (value: Dayjs | Dayjs[], ...args: any[]) => {
   if (!value) {
     contextEmit('pick', value, ...args);
@@ -292,29 +293,47 @@ const emit = (value: Dayjs | Dayjs[], ...args: any[]) => {
   userInputDate.value = null;
   userInputTime.value = null;
 };
+
 const handleDatePick = (value: DateTableEmits, keepOpen?: boolean) => {
-  if (selectionMode.value === 'date') {
-    value = value as Dayjs;
-    let newDate = props.parsedValue
-      ? (props.parsedValue as Dayjs)
-        .year(value.year())
-        .month(value.month())
-        .date(value.date())
-      : value;
-    // change default time while out of selectableRange
-    if (!checkDateWithinRange(newDate)) {
-      newDate = (selectableRange.value[0][0] as Dayjs)
-        .year(value.year())
-        .month(value.month())
-        .date(value.date());
+  switch (selectionMode.value) {
+    case 'date': {
+      value = value as Dayjs;
+      let newDate = props.parsedValue
+        ? (props.parsedValue as Dayjs)
+          .year(value.year())
+          .month(value.month())
+          .date(value.date())
+        : value;
+      // change default time while out of selectableRange
+      if (!checkDateWithinRange(newDate)) {
+        newDate = (selectableRange.value[0][0] as Dayjs)
+          .year(value.year())
+          .month(value.month())
+          .date(value.date());
+      }
+      innerDate.value = newDate;
+      emit(newDate, showTime.value || keepOpen);
+
+      break;
     }
-    innerDate.value = newDate;
-    emit(newDate, showTime.value || keepOpen);
-  } else if (selectionMode.value === 'week') {
-    emit((value as WeekPickerEmits).date);
-  } else if (selectionMode.value === 'dates') {
-    emit(value as DatesPickerEmits, true); // set true to keep panel open
+    case 'week': {
+      emit((value as WeekPickerEmits).date);
+
+      break;
+    }
+    case 'dates': {
+      emit(value as DatesPickerEmits, true); // set true to keep panel open
+
+      break;
+    }
+  // No default
   }
+};
+
+const currentView = ref('date');
+
+const handlePanelChange = (mode: 'month' | 'year') => {
+  contextEmit('panel-change', innerDate.value.toDate(), mode, currentView.value);
 };
 
 const moveByMonth = (forward: boolean) => {
@@ -334,8 +353,6 @@ const moveByYear = (forward: boolean) => {
 
   handlePanelChange('year');
 };
-
-const currentView = ref('date');
 
 const yearLabel = computed(() => {
   const yearTranslation = t('el.datepicker.year');
@@ -373,12 +390,6 @@ const handleShortcutClick = (shortcut: Shortcut) => {
   }
 };
 
-const selectionMode = computed<DatePickType>(() => {
-  const { type } = props;
-  if (['week', 'month', 'year', 'dates'].includes(type)) return type;
-  return 'date' as DatePickType;
-});
-
 const keyboardMode = computed<string>(() => {
   return selectionMode.value === 'date'
     ? currentView.value
@@ -386,6 +397,89 @@ const keyboardMode = computed<string>(() => {
 });
 
 const hasShortcuts = computed(() => !!shortcuts.length);
+
+const handleKeyControl = (code: string) => {
+  type KeyControlMappingCallableOffset = (date: Date, step?: number) => number;
+  type KeyControl = {
+    [key: string]:
+    | number
+    | KeyControlMappingCallableOffset
+    | ((date: Date, step: number) => any);
+    offset: (date: Date, step: number) => any;
+  };
+  interface KeyControlMapping {
+    [key: string]: KeyControl;
+  }
+
+  const { up, down, left, right, home, end, pageUp, pageDown } = EVENT_CODE;
+  const mapping: KeyControlMapping = {
+    year: {
+      [up]: -4,
+      [down]: 4,
+      [left]: -1,
+      [right]: 1,
+      offset: (date: Date, step: number) =>
+        date.setFullYear(date.getFullYear() + step),
+    },
+    month: {
+      [up]: -4,
+      [down]: 4,
+      [left]: -1,
+      [right]: 1,
+      offset: (date: Date, step: number) =>
+        date.setMonth(date.getMonth() + step),
+    },
+    week: {
+      [up]: -1,
+      [down]: 1,
+      [left]: -1,
+      [right]: 1,
+      offset: (date: Date, step: number) =>
+        date.setDate(date.getDate() + step * 7),
+    },
+    date: {
+      [up]: -7,
+      [down]: 7,
+      [left]: -1,
+      [right]: 1,
+      [home]: (date: Date) => -date.getDay(),
+      [end]: (date: Date) => -date.getDay() + 6,
+      [pageUp]: (date: Date) =>
+        -new Date(date.getFullYear(), date.getMonth(), 0).getDate(),
+      [pageDown]: (date: Date) =>
+        new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate(),
+      offset: (date: Date, step: number) => date.setDate(date.getDate() + step),
+    },
+  };
+
+  const newDate = innerDate.value.toDate();
+  while (Math.abs(innerDate.value.diff(newDate, 'year', true)) < 1) {
+    const map = mapping[keyboardMode.value];
+    if (!map) return;
+    map.offset(
+      newDate,
+      isFunction(map[code])
+        ? (map[code] as unknown as KeyControlMappingCallableOffset)(newDate)
+        : (map[code] as number) ?? 0,
+    );
+    if (disabledDate && disabledDate(newDate)) {
+      break;
+    }
+    const result = dayjs(newDate).locale(lang.value);
+    innerDate.value = result;
+    contextEmit('pick', result, true);
+    break;
+  }
+};
+
+const handleFocusPicker = async () => {
+  if (['week', 'month', 'year', 'date'].includes(selectionMode.value)) {
+    currentViewRef.value?.focus();
+    if (selectionMode.value === 'week') {
+      handleKeyControl(EVENT_CODE.down);
+    }
+  }
+};
 
 const handleMonthPick = async (month: number) => {
   innerDate.value = innerDate.value.startOf('month').month(month);
@@ -424,13 +518,22 @@ const showPicker = async (view: 'month' | 'year') => {
   handleFocusPicker();
 };
 
-const showTime = computed(
-  () => props.type === 'datetime' || props.type === 'datetimerange',
-);
-
 const footerVisible = computed(() => {
   return showTime.value || selectionMode.value === 'dates';
 });
+
+const getDefaultValue = () => {
+  const parseDate = dayjs(defaultValue.value).locale(lang.value);
+  if (!defaultValue.value) {
+    const defaultTimeDValue = defaultTimeD.value;
+    return dayjs()
+      .hour(defaultTimeDValue.hour())
+      .minute(defaultTimeDValue.minute())
+      .second(defaultTimeDValue.second())
+      .locale(lang.value);
+  }
+  return parseDate;
+};
 
 const onConfirm = () => {
   if (selectionMode.value === 'dates') {
@@ -465,20 +568,8 @@ const changeToNow = () => {
   }
 };
 
-const timeFormat = computed(() => {
-  return extractTimeFormat(props.format);
-});
-
 const dateFormat = computed(() => {
   return extractDateFormat(props.format);
-});
-
-const visibleTime = computed(() => {
-  if (userInputTime.value) return userInputTime.value;
-  if (!props.parsedValue && !defaultValue.value) return;
-  return ((props.parsedValue || innerDate.value) as Dayjs).format(
-    timeFormat.value,
-  );
 });
 
 const visibleDate = computed(() => {
@@ -563,28 +654,6 @@ const parseUserInput = (value: Dayjs) => {
   return dayjs(value, props.format).locale(lang.value);
 };
 
-const getDefaultValue = () => {
-  const parseDate = dayjs(defaultValue.value).locale(lang.value);
-  if (!defaultValue.value) {
-    const defaultTimeDValue = defaultTimeD.value;
-    return dayjs()
-      .hour(defaultTimeDValue.hour())
-      .minute(defaultTimeDValue.minute())
-      .second(defaultTimeDValue.second())
-      .locale(lang.value);
-  }
-  return parseDate;
-};
-
-const handleFocusPicker = async () => {
-  if (['week', 'month', 'year', 'date'].includes(selectionMode.value)) {
-    currentViewRef.value?.focus();
-    if (selectionMode.value === 'week') {
-      handleKeyControl(EVENT_CODE.down);
-    }
-  }
-};
-
 const handleKeydownTable = (event: KeyboardEvent) => {
   const { code } = event;
   const validCode = [
@@ -610,84 +679,6 @@ const handleKeydownTable = (event: KeyboardEvent) => {
     event.preventDefault();
     emit(innerDate.value, false);
   }
-};
-
-const handleKeyControl = (code: string) => {
-  type KeyControlMappingCallableOffset = (date: Date, step?: number) => number;
-  type KeyControl = {
-    [key: string]:
-    | number
-    | KeyControlMappingCallableOffset
-    | ((date: Date, step: number) => any);
-    offset: (date: Date, step: number) => any;
-  };
-  interface KeyControlMapping {
-    [key: string]: KeyControl;
-  }
-
-  const { up, down, left, right, home, end, pageUp, pageDown } = EVENT_CODE;
-  const mapping: KeyControlMapping = {
-    year: {
-      [up]: -4,
-      [down]: 4,
-      [left]: -1,
-      [right]: 1,
-      offset: (date: Date, step: number) =>
-        date.setFullYear(date.getFullYear() + step),
-    },
-    month: {
-      [up]: -4,
-      [down]: 4,
-      [left]: -1,
-      [right]: 1,
-      offset: (date: Date, step: number) =>
-        date.setMonth(date.getMonth() + step),
-    },
-    week: {
-      [up]: -1,
-      [down]: 1,
-      [left]: -1,
-      [right]: 1,
-      offset: (date: Date, step: number) =>
-        date.setDate(date.getDate() + step * 7),
-    },
-    date: {
-      [up]: -7,
-      [down]: 7,
-      [left]: -1,
-      [right]: 1,
-      [home]: (date: Date) => -date.getDay(),
-      [end]: (date: Date) => -date.getDay() + 6,
-      [pageUp]: (date: Date) =>
-        -new Date(date.getFullYear(), date.getMonth(), 0).getDate(),
-      [pageDown]: (date: Date) =>
-        new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate(),
-      offset: (date: Date, step: number) => date.setDate(date.getDate() + step),
-    },
-  };
-
-  const newDate = innerDate.value.toDate();
-  while (Math.abs(innerDate.value.diff(newDate, 'year', true)) < 1) {
-    const map = mapping[keyboardMode.value];
-    if (!map) return;
-    map.offset(
-      newDate,
-      isFunction(map[code])
-        ? (map[code] as unknown as KeyControlMappingCallableOffset)(newDate)
-        : (map[code] as number) ?? 0,
-    );
-    if (disabledDate && disabledDate(newDate)) {
-      break;
-    }
-    const result = dayjs(newDate).locale(lang.value);
-    innerDate.value = result;
-    contextEmit('pick', result, true);
-    break;
-  }
-};
-
-const handlePanelChange = (mode: 'month' | 'year') => {
-  contextEmit('panel-change', innerDate.value.toDate(), mode, currentView.value);
 };
 
 watch(

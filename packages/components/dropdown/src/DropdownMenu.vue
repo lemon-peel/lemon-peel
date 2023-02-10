@@ -32,8 +32,8 @@ export default defineComponent({
   props: dropdownMenuProps,
   setup(props) {
     const ns = useNamespace('dropdown');
-    const { _elDropdownSize } = useDropdown();
-    const size = _elDropdownSize.value;
+    const { dropdownSize } = useDropdown();
+    const size = dropdownSize.value;
 
     const { focusTrapRef, onKeydown } = inject(
       FOCUS_TRAP_INJECTION_KEY,

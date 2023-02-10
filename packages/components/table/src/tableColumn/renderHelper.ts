@@ -12,11 +12,7 @@ import { parseMinWidth, parseWidth } from '../util';
 import type { ComputedRef } from 'vue';
 import type { TableColumn, TableColumnCtx } from './defaults';
 
-function useRender<T>(
-  props: TableColumnCtx<T>,
-  slots,
-  owner: ComputedRef<any>,
-) {
+function useRender<T>(props: TableColumnCtx<T>, slots, owner: ComputedRef<any>) {
   const instance = getCurrentInstance() as TableColumn<T>;
   const columnId = ref('');
   const isSubColumn = ref(false);
@@ -117,7 +113,7 @@ function useRender<T>(
     }
 
     let originRenderCell = column.renderCell;
-    // TODO: 这里的实现调整
+
     if (column.type === 'expand') {
       // 对于展开行，renderCell 不允许配置的。在上一步中已经设置过，这里需要简单封装一下。
       column.renderCell = data =>

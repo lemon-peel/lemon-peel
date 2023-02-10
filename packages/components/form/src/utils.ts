@@ -2,7 +2,7 @@ import { computed, ref } from 'vue';
 import { debugWarn, ensureArray } from '@lemon-peel/utils';
 import type { Arrayable } from '@lemon-peel/utils';
 import type { FormItemContext } from '@lemon-peel/tokens';
-import type { FormItemProp } from './FormItem.vue';
+import type { FormItemProp } from './formItem';
 
 const SCOPE = 'LpForm';
 

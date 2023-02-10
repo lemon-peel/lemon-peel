@@ -25,7 +25,7 @@ export default defineComponent({
     updateAll: Boolean,
   },
   setup(props, { slots }) {
-    const formContext = inject(formContextKey, undefined);
+    const formContext = inject(formContextKey);
     const formItemContext = inject(formItemContextKey);
     if (!formItemContext)
       throwError(

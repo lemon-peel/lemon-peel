@@ -2,66 +2,120 @@
 import { computed, nextTick, toRefs, watch } from 'vue';
 import { isEqual, pick } from 'lodash-unified';
 import { UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
-import { isFunction } from '@lemon-peel/utils';
-import LpTree from '@lemon-peel/components/tree';
-import TreeSelectOption from './treeSelectOption';
+import { buildProps, isFunction } from '@lemon-peel/utils';
+import { selectProps } from '@lemon-peel/components/select';
+import { useNamespace } from '@lemon-peel/hooks';
+import LpTree, { treeProps } from '@lemon-peel/components/tree';
+
 import { isValidArray, isValidValue, toValidArray, treeFind } from './utils';
-import type { Ref } from 'vue';
-import type LpSelect from '@lemon-peel/components/select';
+import TreeSelectOption from './treeSelectOption';
+
+import type { ExtractPropTypes, SetupContext, Ref, h as vueRender } from 'vue';
+import type { FilterNodeMethodFunction, TreeNodeContentRender, LpTreeNode, TreeKey } from '@lemon-peel/components/tree';
 import type Node from '@lemon-peel/components/tree/src/model/node';
-import type { TreeNodeData } from '@lemon-peel/components/tree/src/tree.type';
+import type LpSelect from '@lemon-peel/components/select';
+import type { TreeNodeData } from './utils';
+
+export const treeEmits = ['node-click'];
+
+export const treeSelectProps = buildProps({
+  ...selectProps,
+  ...treeProps,
+});
+
+export type TreeSelectProps = Readonly<ExtractPropTypes<typeof treeSelectProps>>;
+
+export type TreeContext = SetupContext<typeof treeEmits>;
+export type TreeRefs = {
+  select: Ref<InstanceType<typeof LpSelect>>;
+  tree: Ref<InstanceType<typeof LpTree>>;
+  key: Ref<string>;
+};
+
+export const useSelect = (
+  props: TreeSelectProps,
+  { attrs, emit }: TreeContext,
+  { tree, key }: TreeRefs,
+) => {
+
+  const ns = useNamespace('tree-select');
+
+  const filterMethod = (keyword = '') => {
+    if (props.filterMethod) props.filterMethod(keyword);
+
+    nextTick(() => {
+      // let tree node expand only, same with tree filter
+      tree.value?.filter(keyword);
+    });
+  };
+
+  return {
+    ...pick(toRefs(props), Object.keys(selectProps)),
+    ...attrs,
+    valueKey: key,
+    filterMethod,
+    popperClass: computed(() => {
+      const classes = [ns.e('popper')];
+      if (props.popperClass) classes.push(props.popperClass);
+      return classes.join(' ');
+    }),
+
+    // clear filter text when visible change
+    onVisibleChange: (visible: boolean) => {
+      emit('visible-change', visible);
+
+      if (props.filterable && visible) {
+        filterMethod();
+      }
+    },
+  };
+};
+
 
 export const useTree = (
-  props,
-  { attrs, slots, emit },
-  {
-    select,
-    tree,
-    key,
-  }: {
-    select: Ref<InstanceType<typeof LpSelect> | undefined>;
-    tree: Ref<InstanceType<typeof LpTree> | undefined>;
-    key: Ref<string>;
-  },
+  props: TreeSelectProps,
+  { attrs, emit, slots }: TreeContext,
+  { select, tree, key }: TreeRefs,
 ) => {
   watch(
     () => props.modelValue,
     () => {
       if (props.showCheckbox) {
         nextTick(() => {
-          const treeInstance = tree.value;
+          const treeIns = tree.value;
           if (
-            treeInstance &&
+            treeIns &&
             !isEqual(
-              treeInstance.getCheckedKeys(),
+              treeIns.getCheckedKeys(),
               toValidArray(props.modelValue),
             )
           ) {
-            treeInstance.setCheckedKeys(toValidArray(props.modelValue));
+            treeIns.setCheckedKeys(toValidArray(props.modelValue));
           }
         });
       }
     },
-    {
-      immediate: true,
-      deep: true,
-    },
+    { immediate: true, deep: true },
   );
 
   const propsMap = computed(() => ({
     value: key.value,
+    label: 'label',
+    children: 'children',
+    disabled: 'disabled',
+    isLeaf: 'isLeaf',
     ...props.props,
   }));
 
   const getNodeValByProp = (
     prop: 'value' | 'label' | 'children' | 'disabled' | 'isLeaf',
     data: TreeNodeData,
-  ) => {
+  ): any => {
     const propVal = propsMap.value[prop];
-    return isFunction(propVal) ? propVal(
+    return isFunction(propVal) ? (propVal(
       data,
-      tree.value?.getNode(getNodeValByProp('value', data)) as Node,
-    ) : data[propVal as string];
+      tree.value.getNode(getNodeValByProp('value', data)) as Node,
+    )) : data[propVal as string];
   };
 
   const defaultExpandedParentKeys = toValidArray(props.modelValue)
@@ -94,7 +148,7 @@ export const useTree = (
         : defaultExpandedParentKeys;
     }),
 
-    renderContent: (h, { node, data, store }) => {
+    renderContent: ((h: typeof vueRender, { node, data, store }) => {
       return h(
         TreeSelectOption,
         {
@@ -103,20 +157,22 @@ export const useTree = (
           disabled: getNodeValByProp('disabled', data),
         },
         props.renderContent
-          ? () => props.renderContent(h, { node, data, store })
+          ? () => props.renderContent!(h, { node, data, store })
           : (slots.default
-            ? () => slots.default({ node, data, store })
+            ? () => slots.default!({ node, data, store })
             : undefined),
       );
-    },
-    filterNodeMethod: (value, data, node) => {
+    }) as TreeNodeContentRender,
+
+    filterNodeMethod: ((value, data, node) => {
       if (props.filterNodeMethod)
         return props.filterNodeMethod(value, data, node);
       if (!value) return true;
       return getNodeValByProp('label', data)?.includes(value);
-    },
-    onNodeClick: (data, node, e) => {
-      attrs.onNodeClick?.(data, node, e);
+    }) as FilterNodeMethodFunction,
+
+    onNodeClick: (data: TreeNodeData, node: Node, nodeIns: InstanceType<typeof LpTreeNode>) => {
+      emit('node-click', data, node, nodeIns);
 
       // `onCheck` is trigger when `checkOnClickNode`
       if (props.showCheckbox && props.checkOnClickNode) return;
@@ -124,17 +180,26 @@ export const useTree = (
       // now `checkOnClickNode` is false, only no checkbox and `checkStrictly` or `isLeaf`
       if (!props.showCheckbox && (props.checkStrictly || node.isLeaf)) {
         if (!getNodeValByProp('disabled', data)) {
-          const option = select.value?.options.get(
+          const option = select.value.options.get(
             getNodeValByProp('value', data),
           );
-          select.value?.handleOptionSelect(option, true);
+          select.value.handleOptionSelect(option, true);
         }
       } else if (props.expandOnClickNode) {
-        e.proxy.handleExpandIconClick();
+        nodeIns.handleExpandIconClick();
       }
     },
-    onCheck: (data, params) => {
-      attrs.onCheck?.(data, params);
+
+    onCheck: (
+      data: TreeNodeData,
+      params: {
+        checkedNodes: TreeNodeData[];
+        checkedKeys: TreeKey[];
+        halfCheckedNodes: TreeNodeData[];
+        halfCheckedKeys: TreeKey[];
+      },
+    ) => {
+      emit('check', data, params);
 
       const dataValue = getNodeValByProp('value', data);
       if (props.checkStrictly) {
@@ -147,9 +212,8 @@ export const useTree = (
               ? dataValue
               : undefined),
         );
-      }
-      // only can select leaf node
-      else {
+      } else {
+        // only can select leaf node
         if (props.multiple) {
           emit(
             UPDATE_MODEL_EVENT,

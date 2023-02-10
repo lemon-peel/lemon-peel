@@ -2,18 +2,19 @@
 import type { ComponentInternalInstance, PropType, Ref, VNode } from 'vue';
 import type { DefaultRow, Table } from '../table/defaults';
 
-type CI<T> = { column: TableColumnCtx<T>, $index: number };
+
+type CI<T = DefaultRow> = { column: TableColumnCtx<T>, $index: number };
 
 type Filters = {
   text: string;
   value: string;
 }[];
 
-type FilterMethods<T> = (value, row: T, column: TableColumnCtx<T>) => void;
+type FilterMethods<T = DefaultRow> = (value: T, row: T, column: TableColumnCtx<T>) => void;
 
 type ValueOf<T> = T[keyof T];
 
-interface TableColumnCtx<T> {
+interface TableColumnCtx<T = DefaultRow> {
   id: string;
   realWidth: number;
   type: string;
@@ -39,7 +40,7 @@ interface TableColumnCtx<T> {
   formatter: (
     row: T,
     column: TableColumnCtx<T>,
-    cellValue,
+    cellValue: any,
     index: number
   ) => VNode | string;
   selectable: (row: T, index: number) => boolean;
@@ -57,7 +58,7 @@ interface TableColumnCtx<T> {
   children?: TableColumnCtx<T>[];
   level: number;
   filterable: boolean | FilterMethods<T> | Filters;
-  order: string;
+  order: 'ascending' | 'descending';
   isColumnGroup: boolean;
   isSubColumn: boolean;
   columns: TableColumnCtx<T>[];
@@ -66,7 +67,7 @@ interface TableColumnCtx<T> {
   filterOpened?: boolean;
 }
 
-interface TableColumn<T> extends ComponentInternalInstance {
+interface TableColumn<T = DefaultRow> extends ComponentInternalInstance {
   vnode: {
     vParent: TableColumn<T> | Table<T>;
   } & VNode;

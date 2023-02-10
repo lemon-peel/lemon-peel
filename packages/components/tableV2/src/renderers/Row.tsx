@@ -49,7 +49,7 @@ const RowRenderer: FunctionalComponent<RowRendererProps> = (
     rowIndex,
     style,
     isScrolling,
-    rowProps,
+    rowProps: originRowProps,
     rowClass,
     rowKey,
     rowEventHandlers,
@@ -59,13 +59,13 @@ const RowRenderer: FunctionalComponent<RowRendererProps> = (
   } = properties;
 
   const rowKls = tryCall(rowClass, { columns, rowData, rowIndex }, '');
-  const additionalProps = tryCall(rowProps, {
+  const additionalProps = tryCall(originRowProps, {
     columns,
     rowData,
     rowIndex,
   });
-  const _rowKey = rowData[rowKey];
-  const depth = depthMap[_rowKey] || 0;
+  const rowKeyVal = rowData[rowKey];
+  const depth = depthMap[rowKeyVal] || 0;
   const canExpand = Boolean(expandColumnKey);
   const isFixedRow = rowIndex < 0;
   const kls = [
@@ -73,8 +73,8 @@ const RowRenderer: FunctionalComponent<RowRendererProps> = (
     rowKls,
     {
       [ns.e(`row-depth-${depth}`)]: canExpand && rowIndex >= 0,
-      [ns.is('expanded')]: canExpand && expandedRowKeys.includes(_rowKey),
-      [ns.is('hovered')]: !isScrolling && _rowKey === hoveringRowKey,
+      [ns.is('expanded')]: canExpand && expandedRowKeys.includes(rowKeyVal),
+      [ns.is('hovered')]: !isScrolling && rowKeyVal === hoveringRowKey,
       [ns.is('fixed')]: !depth && isFixedRow,
       [ns.is('customized')]: Boolean(slots.row),
     },
@@ -82,7 +82,7 @@ const RowRenderer: FunctionalComponent<RowRendererProps> = (
 
   const onRowHover = hasFixedColumns ? onRowHovered : undefined;
 
-  const _rowProps = {
+  const rowProps = {
     ...additionalProps,
     columns,
     columnsStyles,
@@ -93,13 +93,13 @@ const RowRenderer: FunctionalComponent<RowRendererProps> = (
     isScrolling,
     rowIndex,
     rowData,
-    rowKey: _rowKey,
+    rowKey: rowKeyVal,
     rowEventHandlers,
     style,
   };
 
   return (
-    <Row {..._rowProps} onRowHover={onRowHover} onRowExpand={onRowExpanded}>
+    <Row {...rowProps} onRowHover={onRowHover} onRowExpand={onRowExpanded}>
       {slots}
     </Row>
   );

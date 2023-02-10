@@ -1,12 +1,6 @@
 import { computed, ref, shallowRef, toRef, unref, watch } from 'vue';
 import { isArray } from '@lemon-peel/utils';
-import {
-  useColumns,
-  useData,
-  useRow,
-  useScrollbar,
-  useStyles,
-} from './composables';
+import { useColumns, useData, useRow, useScrollbar, useStyles } from './composables';
 
 import type { TableV2Props } from './table';
 import type { TableGridInstance } from './tableGrid';
@@ -27,42 +21,6 @@ function useTable(props: TableV2Props) {
     onColumnSorted,
   } = useColumns(props, toRef(props, 'columns'), toRef(props, 'fixed'));
 
-  function onMaybeEndReached() {
-    const { onEndReached } = props;
-    if (!onEndReached) return;
-
-    const { scrollTop } = unref(scrollPos);
-
-    const _totalHeight = unref(rowsHeight);
-    const clientHeight = unref(windowHeight);
-
-    const heightUntilEnd =
-      _totalHeight - (scrollTop + clientHeight) + props.hScrollbarSize;
-
-    if (
-      unref(lastRenderedRowIndex) >= 0 &&
-      _totalHeight === scrollTop + unref(mainTableHeight) - unref(headerHeight)
-    ) {
-      onEndReached(heightUntilEnd);
-    }
-  }
-
-  const {
-    scrollTo,
-    scrollToLeft,
-    scrollToTop,
-    scrollToRow,
-    onScroll,
-    onVerticalScroll,
-    scrollPos,
-  } = useScrollbar(props, {
-    mainTableRef,
-    leftTableRef,
-    rightTableRef,
-
-    onMaybeEndReached,
-  });
-
   const {
     expandedRowKeys,
     hoveringRowKey,
@@ -80,7 +38,7 @@ function useTable(props: TableV2Props) {
     mainTableRef,
     leftTableRef,
     rightTableRef,
-
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define
     onMaybeEndReached,
   });
 
@@ -109,6 +67,44 @@ function useTable(props: TableV2Props) {
     fixedColumnsOnLeft,
     fixedColumnsOnRight,
   });
+
+  const {
+    scrollTo,
+    scrollToLeft,
+    scrollToTop,
+    scrollToRow,
+    onScroll,
+    onVerticalScroll,
+    scrollPos,
+  } = useScrollbar(props, {
+    mainTableRef,
+    leftTableRef,
+    rightTableRef,
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    onMaybeEndReached,
+  });
+
+
+  function onMaybeEndReached() {
+    const { onEndReached } = props;
+    if (!onEndReached) return;
+
+    const { scrollTop } = unref(scrollPos);
+
+    const totalHeight = unref(rowsHeight);
+    const clientHeight = unref(windowHeight);
+
+    const heightUntilEnd =
+      totalHeight - (scrollTop + clientHeight) + props.hScrollbarSize;
+
+    if (
+      unref(lastRenderedRowIndex) >= 0 &&
+      totalHeight === scrollTop + unref(mainTableHeight) - unref(headerHeight)
+    ) {
+      onEndReached(heightUntilEnd);
+    }
+  }
+
   // state
   const isScrolling = shallowRef(false);
 
@@ -123,7 +119,7 @@ function useTable(props: TableV2Props) {
       : noData;
   });
 
-  function getRowHeight(rowIndex: number) {
+  const getRowHeight = (rowIndex: number) => {
     const { estimatedRowHeight, rowHeight, rowKey } = props;
 
     if (!estimatedRowHeight) return rowHeight;
@@ -131,7 +127,7 @@ function useTable(props: TableV2Props) {
     return (
       unref(rowHeights)[unref(data)[rowIndex][rowKey]] || estimatedRowHeight
     );
-  }
+  };
 
   // events
 

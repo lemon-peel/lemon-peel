@@ -3,7 +3,7 @@ import { shallowMount } from '@vue/test-utils';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { debugWarn } from '@lemon-peel/utils';
 import { FORWARD_REF_INJECTION_KEY } from '@lemon-peel/hooks';
-import { OnlyChild } from '../src/only-child';
+import { OnlyChild } from '../src/onlyChild';
 import type { MountingOptions } from '@vue/test-utils';
 
 type Slot = NonNullable<NonNullable<MountingOptions<any>['slots']>['default']>;

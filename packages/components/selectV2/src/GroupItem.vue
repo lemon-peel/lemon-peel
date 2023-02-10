@@ -16,7 +16,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { useNamespace } from '@element-plus/hooks';
+import { useNamespace } from '@lemon-peel/hooks';
 
 export default defineComponent({
   props: {

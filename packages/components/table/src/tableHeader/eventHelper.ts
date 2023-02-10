@@ -2,15 +2,63 @@ import { getCurrentInstance, inject, ref } from 'vue';
 import { isClient } from '@vueuse/core';
 import { addClass, hasClass, removeClass } from '@lemon-peel/utils';
 import { TABLE_INJECTION_KEY } from '../tokens';
+
+import type { SetupContext } from 'vue';
 import type { TableHeaderProps } from './index';
 import type { TableColumnCtx } from '../tableColumn/defaults';
 
-function useEvent<T>(props: TableHeaderProps<T>, emit) {
+function useEvent(props: TableHeaderProps, emit: SetupContext['emit']) {
   const instance = getCurrentInstance();
-  const parent = inject(TABLE_INJECTION_KEY);
+  const parent = inject(TABLE_INJECTION_KEY)!;
   const handleFilterClick = (event: Event) => {
     event.stopPropagation();
     return;
+  };
+
+  const toggleOrder = ({ order, sortOrders }: TableColumnCtx) => {
+    if (!order) return sortOrders[0];
+    const index = sortOrders.indexOf(order || null);
+    return sortOrders[index > sortOrders.length - 2 ? 0 : index + 1];
+  };
+
+  const handleSortClick = (
+    event: Event,
+    column: TableColumnCtx,
+    givenOrder: string | boolean,
+  ) => {
+    event.stopPropagation();
+    const order =
+      column.order === givenOrder ? null : givenOrder || toggleOrder(column);
+
+    const target = (event.target as HTMLElement)?.closest('th');
+
+    if (target && hasClass(target, 'noclick')) {
+      removeClass(target, 'noclick');
+      return;
+    }
+
+    if (!column.sortable) return;
+
+    const states = props.store.states;
+    let sortProp = states.sortProp.value;
+    const sortingColumn = states.sortingColumn.value;
+
+    if (
+      sortingColumn !== column ||
+      (sortingColumn === column && sortingColumn.order === null)
+    ) {
+      if (sortingColumn) {
+        sortingColumn.order = null;
+      }
+      states.sortingColumn.value = column;
+      sortProp = column.property;
+    }
+    const sortOrder = column.order = order ?? undefined;
+
+    states.sortProp.value = sortProp;
+    states.sortOrder.value = sortOrder;
+
+    parent?.store.commit('changeSortCondition');
   };
 
   const handleHeaderClick = (event: Event, column: TableColumnCtx<T>) => {
@@ -137,51 +185,6 @@ function useEvent<T>(props: TableHeaderProps<T>, emit) {
   const handleMouseOut = () => {
     if (!isClient) return;
     document.body.style.cursor = '';
-  };
-  const toggleOrder = ({ order, sortOrders }) => {
-    if (order === '') return sortOrders[0];
-    const index = sortOrders.indexOf(order || null);
-    return sortOrders[index > sortOrders.length - 2 ? 0 : index + 1];
-  };
-  const handleSortClick = (
-    event: Event,
-    column: TableColumnCtx<T>,
-    givenOrder: string | boolean,
-  ) => {
-    event.stopPropagation();
-    const order =
-      column.order === givenOrder ? null : givenOrder || toggleOrder(column);
-
-    const target = (event.target as HTMLElement)?.closest('th');
-
-    if (target && hasClass(target, 'noclick')) {
-      removeClass(target, 'noclick');
-      return;
-    }
-
-    if (!column.sortable) return;
-
-    const states = props.store.states;
-    let sortProp = states.sortProp.value;
-    let sortOrder;
-    const sortingColumn = states.sortingColumn.value;
-
-    if (
-      sortingColumn !== column ||
-      (sortingColumn === column && sortingColumn.order === null)
-    ) {
-      if (sortingColumn) {
-        sortingColumn.order = null;
-      }
-      states.sortingColumn.value = column;
-      sortProp = column.property;
-    }
-    sortOrder = column.order = order ? order : null;
-
-    states.sortProp.value = sortProp;
-    states.sortOrder.value = sortOrder;
-
-    parent?.store.commit('changeSortCondition');
   };
 
   return {

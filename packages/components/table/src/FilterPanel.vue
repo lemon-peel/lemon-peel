@@ -29,7 +29,7 @@
               </lp-checkbox>
             </lp-checkbox-group>
           </lp-scrollbar>
-          </lp-checkbox></lp-checkbox-group></lp-scrollbar></div>
+        </div>
         <div :class="ns.e('bottom')">
           <button
             :class="{ [ns.is('disabled')]: filteredValue.length === 0 }"
@@ -53,7 +53,7 @@
                 filterValue === undefined || filterValue === null,
             },
           ]"
-          @click="handleSelect(null)"
+          @click="handleSelect()"
         >
           {{ t('el.table.clearFilter') }}
         </li>
@@ -86,168 +86,136 @@
   </lp-tooltip>
 </template>
 
-<script lang="ts">
-
-import { computed, defineComponent, getCurrentInstance, ref, watch } from 'vue';
+<script lang="ts" setup>
+import { computed, defineComponent, defineProps, getCurrentInstance, ref, watch } from 'vue';
 import LpCheckbox from '@lemon-peel/components/checkbox';
 import { LpIcon } from '@lemon-peel/components/icon';
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue';
-import { ClickOutside } from '@lemon-peel/directives';
+import { ClickOutside as vClickOutside } from '@lemon-peel/directives';
 import { useLocale, useNamespace } from '@lemon-peel/hooks';
-import LpTooltip from '@lemon-peel/components/tooltip';
+import type LpTooltip from '@lemon-peel/components/tooltip';
 import LpScrollbar from '@lemon-peel/components/scrollbar';
 import type { Placement } from '@lemon-peel/components/popper';
 
 import type { PropType, WritableComputedRef } from 'vue';
-import type { TableColumnCtx } from './table-column/defaults';
-import type { TableHeader } from './table-header';
-import type { Store } from './store';
+import type { TableColumnCtx } from './tableColumn/defaults';
+import type { TableHeader } from './tableHeader';
 
 const { CheckboxGroup: LpCheckboxGroup } = LpCheckbox;
 
-export default defineComponent({
-  name: 'LpTableFilterPanel',
-  components: {
-    LpCheckbox,
-    LpCheckboxGroup,
-    LpScrollbar,
-    LpTooltip,
-    LpIcon,
-    ArrowDown,
-    ArrowUp,
-  },
-  directives: { ClickOutside },
-  props: {
-    placement: {
-      type: String as PropType<Placement>,
-      default: 'bottom-start',
-    },
-    store: {
-      type: Object as PropType<Store<unknown>>,
-    },
-    column: {
-      type: Object as PropType<TableColumnCtx<unknown>>,
-    },
-    upDataColumn: {
-      type: Function,
-    },
-  },
-  setup(props) {
-    const instance = getCurrentInstance();
-    const { t } = useLocale();
-    const ns = useNamespace('table-filter');
-    const parent = instance?.parent as TableHeader;
-    if (!parent.filterPanels.value[props.column.id]) {
-      parent.filterPanels.value[props.column.id] = instance;
-    }
-    const tooltipVisible = ref(false);
-    const tooltip = ref<InstanceType<typeof LpTooltip> | null>(null);
-    const filters = computed(() => {
-      return props.column && props.column.filters;
-    });
-    const filterValue = computed({
-      get: () => (props.column?.filteredValue || [])[0],
-      set: (value: string) => {
-        if (filteredValue.value) {
-          if (typeof value !== 'undefined' && value !== null) {
-            filteredValue.value.splice(0, 1, value);
-          } else {
-            filteredValue.value.splice(0, 1);
-          }
-        }
-      },
-    });
-    const filteredValue: WritableComputedRef<unknown[]> = computed({
-      get() {
-        if (props.column) {
-          return props.column.filteredValue || [];
-        }
-        return [];
-      },
-      set(value: unknown[]) {
-        if (props.column) {
-          props.upDataColumn('filteredValue', value);
-        }
-      },
-    });
-    const multiple = computed(() => {
-      if (props.column) {
-        return props.column.filterMultiple;
-      }
-      return true;
-    });
-    const isActive = filter => {
-      return filter.value === filterValue.value;
-    };
-    const hidden = () => {
-      tooltipVisible.value = false;
-    };
-    const showFilterPanel = (e: MouseEvent) => {
-      e.stopPropagation();
-      tooltipVisible.value = !tooltipVisible.value;
-    };
-    const hideFilterPanel = () => {
-      tooltipVisible.value = false;
-    };
-    const handleConfirm = () => {
-      confirmFilter(filteredValue.value);
-      hidden();
-    };
-    const handleReset = () => {
-      filteredValue.value = [];
-      confirmFilter(filteredValue.value);
-      hidden();
-    };
-    const handleSelect = (_filterValue?: string) => {
-      filterValue.value = _filterValue;
-      if (typeof _filterValue !== 'undefined' && _filterValue !== null) {
-        confirmFilter(filteredValue.value);
+const props = defineProps({
+  placement: { type: String as PropType<Placement>, default: 'bottom-start' },
+  column: { type: Object as PropType<TableColumnCtx<unknown>>, required: true },
+  upDataColumn: { type: Function, required: true },
+});
+
+const instance = getCurrentInstance()!;
+const { t } = useLocale();
+const ns = useNamespace('table-filter');
+const parent = instance.parent as TableHeader;
+
+if (!parent.filterPanels.value[props.column.id]) {
+  parent.filterPanels.value[props.column.id] = instance;
+}
+
+const tooltipVisible = ref(false);
+const tooltip = ref<InstanceType<typeof LpTooltip> | null>(null);
+const filters = computed(() => {
+  return props.column && props.column.filters;
+});
+const filterValue = computed({
+  get: () => (props.column?.filteredValue || [])[0],
+  set: (value: string) => {
+    if (filteredValue.value) {
+      if (typeof value !== 'undefined' && value !== null) {
+        filteredValue.value.splice(0, 1, value);
       } else {
-        confirmFilter([]);
+        filteredValue.value.splice(0, 1);
       }
-      hidden();
-    };
-    const confirmFilter = (filteredValue: unknown[]) => {
-      props.store.commit('filterChange', {
-        column: props.column,
-        values: filteredValue,
-      });
-      props.store.updateAllSelected();
-    };
-    watch(
-      tooltipVisible,
-      value => {
-        // todo
-        if (props.column) {
-          props.upDataColumn('filterOpened', value);
-        }
-      },
-      {
-        immediate: true,
-      },
-    );
-
-    const popperPaneRef = computed(() => {
-      return tooltip.value?.popperRef?.contentRef;
-    });
-
-    return {
-      tooltipVisible,
-      multiple,
-      filteredValue,
-      filterValue,
-      filters,
-      handleConfirm,
-      handleReset,
-      handleSelect,
-      isActive,
-      t,
-      ns,
-      showFilterPanel,
-      hideFilterPanel,
-      popperPaneRef,
-      tooltip,
-    };
+    }
   },
+});
+const filteredValue: WritableComputedRef<unknown[]> = computed({
+  get() {
+    if (props.column) {
+      return props.column.filteredValue || [];
+    }
+    return [];
+  },
+  set(value: unknown[]) {
+    if (props.column) {
+      props.upDataColumn('filteredValue', value);
+    }
+  },
+});
+
+const multiple = computed(() => {
+  if (props.column) {
+    return props.column.filterMultiple;
+  }
+  return true;
+});
+
+const isActive = filter => {
+  return filter.value === filterValue.value;
+};
+
+const hidden = () => {
+  tooltipVisible.value = false;
+};
+
+const showFilterPanel = (e: MouseEvent) => {
+  e.stopPropagation();
+  tooltipVisible.value = !tooltipVisible.value;
+};
+
+const hideFilterPanel = () => {
+  tooltipVisible.value = false;
+};
+
+const handleConfirm = () => {
+  confirmFilter(filteredValue.value);
+  hidden();
+};
+
+const handleReset = () => {
+  filteredValue.value = [];
+  confirmFilter(filteredValue.value);
+  hidden();
+};
+
+const handleSelect = (_filterValue?: string) => {
+  filterValue.value = _filterValue;
+  if (typeof _filterValue !== 'undefined' && _filterValue !== null) {
+    confirmFilter(filteredValue.value);
+  } else {
+    confirmFilter([]);
+  }
+  hidden();
+};
+
+const confirmFilter = (filteredValue: unknown[]) => {
+  props.store.commit('filterChange', {
+    column: props.column,
+    values: filteredValue,
+  });
+  props.store.updateAllSelected();
+};
+
+watch(
+  tooltipVisible,
+  value => {
+    // todo
+    if (props.column) {
+      props.upDataColumn('filterOpened', value);
+    }
+  },
+  {
+    immediate: true,
+  },
+);
+
+const popperPaneRef = computed(() => {
+  return tooltip.value?.popperRef?.contentRef;
 });
 </script>
