@@ -1,4 +1,4 @@
-import { get } from 'lodash-unified';
+import { get } from 'lodash-es';
 import { isFunction, isObject } from '@lemon-peel/utils';
 import { ExpandIcon, TableCell } from '../components';
 import { Alignment } from '../constants';
@@ -8,7 +8,7 @@ import { componentToSlot, enforceUnit, tryCall } from '../utils';
 import type { FunctionalComponent, UnwrapNestedRefs, VNode } from 'vue';
 import type { CellRendererParams } from '../types';
 import type { TableV2RowCellRenderParam } from '../components';
-import type { UseNamespaceReturn } from '@lemon-peel/hooks';
+import type { CssNamespace } from '@lemon-peel/hooks';
 import type { UseTableReturn } from '../useTable';
 import type { TableV2Props } from '../table';
 
@@ -18,7 +18,7 @@ TableV2Props,
 'cellProps' | 'expandColumnKey' | 'indentSize' | 'iconSize' | 'rowKey'
 > &
 UnwrapNestedRefs<Pick<UseTableReturn, 'expandedRowKeys'>> & {
-  ns: UseNamespaceReturn;
+  ns: CssNamespace;
 };
 
 const CellRenderer: FunctionalComponent<CellRendererProps> = (

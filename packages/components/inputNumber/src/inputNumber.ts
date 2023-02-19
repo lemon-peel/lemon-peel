@@ -1,4 +1,4 @@
-import { isNil } from 'lodash-unified';
+import { isNil } from 'lodash-es';
 import { useSizeProp } from '@lemon-peel/hooks';
 import { buildProps, isNumber } from '@lemon-peel/utils';
 import { CHANGE_EVENT, INPUT_EVENT, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';

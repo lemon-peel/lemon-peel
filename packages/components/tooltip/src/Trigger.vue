@@ -14,8 +14,8 @@
     @keydown="onKeydown"
   >
     <slot />
-    </lp-popper-trigger>
-  </lp-popper-trigger></template>
+  </lp-popper-trigger>
+</template>
 
 <script lang="ts" setup>
 import { inject, ref, toRef, unref } from 'vue';
@@ -32,10 +32,7 @@ defineOptions({
 const props = defineProps(useTooltipTriggerProps);
 
 const ns = useNamespace('tooltip');
-const { controlled, id, open, onOpen, onClose, onToggle } = inject(
-  TOOLTIP_INJECTION_KEY,
-  undefined,
-)!;
+const { controlled, id, open, onOpen, onClose, onToggle } = inject(TOOLTIP_INJECTION_KEY)!;
 
 // TODO any is temporary, replace with `OnlyChildExpose | null` later
 const triggerRef = ref<any>(null);

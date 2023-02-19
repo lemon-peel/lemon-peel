@@ -3,12 +3,10 @@ import { computed, inject } from 'vue';
 
 import { TABLE_INJECTION_KEY } from '../tokens';
 import type { TableColumnCtx } from '../tableColumn/defaults';
-import type { TableHeaderProps } from './index';
+import type { TableHeaderProps } from './types';
 
-const getAllColumns = <T>(
-  columns: TableColumnCtx<T>[],
-): TableColumnCtx<T>[] => {
-  const result: TableColumnCtx<T>[] = [];
+function getAllColumns(columns: TableColumnCtx[]): TableColumnCtx[] {
+  const result: TableColumnCtx[] = [];
   columns.forEach(column => {
     if (column.children) {
       result.push(column);
@@ -19,13 +17,11 @@ const getAllColumns = <T>(
     }
   });
   return result;
-};
+}
 
-const convertToRows = <T>(
-  originColumns: TableColumnCtx<T>[],
-): TableColumnCtx<T>[] => {
+const convertToRows = (originColumns: TableColumnCtx[]): TableColumnCtx[][] => {
   let maxLevel = 1;
-  const traverse = (column: TableColumnCtx<T>, parent: TableColumnCtx<T>) => {
+  const traverse = (column: TableColumnCtx, parent?: TableColumnCtx) => {
     if (parent) {
       column.level = parent.level + 1;
       if (maxLevel < column.level) {
@@ -49,12 +45,12 @@ const convertToRows = <T>(
     traverse(column);
   });
 
-  const rows = [];
+  const rows: TableColumnCtx[][] = [];
   for (let i = 0; i < maxLevel; i++) {
     rows.push([]);
   }
 
-  const allColumns: TableColumnCtx<T>[] = getAllColumns(originColumns);
+  const allColumns: TableColumnCtx[] = getAllColumns(originColumns);
 
   allColumns.forEach(column => {
     if (column.children) {
@@ -69,11 +65,12 @@ const convertToRows = <T>(
   return rows;
 };
 
-function useUtils<T>(props: TableHeaderProps<T>) {
+function useUtils(props: TableHeaderProps) {
   const parent = inject(TABLE_INJECTION_KEY);
   const columnRows = computed(() => {
     return convertToRows(props.store.states.originColumns.value);
   });
+
   const isGroup = computed(() => {
     const result = columnRows.value.length > 1;
     if (result && parent) {
@@ -81,10 +78,12 @@ function useUtils<T>(props: TableHeaderProps<T>) {
     }
     return result;
   });
+
   const toggleAllSelection = (event: Event) => {
     event.stopPropagation();
     parent?.store.commit('toggleAllSelection');
   };
+
   return {
     isGroup,
     toggleAllSelection,

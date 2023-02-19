@@ -1,4 +1,7 @@
 import type { InjectionKey } from 'vue';
-import type LpTable from './table/Table.vue';
 
-export const TABLE_INJECTION_KEY: InjectionKey<InstanceType<typeof LpTable>> = Symbol('LpTable');
+import type { TableVM } from './table/defaults';
+import type { Store } from './store';
+
+export const TABLE_INJECTION_KEY: InjectionKey<TableVM> = Symbol('LpTable');
+export const STORE_INJECTION_KEY: InjectionKey<Store> = Symbol('LpTableStore');

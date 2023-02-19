@@ -2,7 +2,7 @@ import { Row } from '../components';
 import { tryCall } from '../utils';
 
 import type { FunctionalComponent, UnwrapNestedRefs } from 'vue';
-import type { UseNamespaceReturn } from '@lemon-peel/hooks';
+import type { CssNamespace } from '@lemon-peel/hooks';
 import type { UseTableReturn } from '../useTable';
 import type { TableV2Props } from '../table';
 import type { TableGridRowSlotParams } from '../tableGrid';
@@ -29,7 +29,7 @@ UseTableReturn,
 | 'columnsStyles'
 >
 > & {
-  ns: UseNamespaceReturn;
+  ns: CssNamespace;
 };
 
 const RowRenderer: FunctionalComponent<RowRendererProps> = (

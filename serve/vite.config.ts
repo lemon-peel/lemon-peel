@@ -147,6 +147,8 @@ export default defineConfig(async ({ mode }) => {
     },
     plugins: [
       checker({
+        eslint: false,
+        vueTsc: true,
         typescript: true,
       }),
       eslint({ fix: true }),

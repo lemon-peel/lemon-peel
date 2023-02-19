@@ -60,10 +60,10 @@ export default defineComponent({
         emit('mousedown', e);
       },
       e => {
-        if (!props.focusable) {
-          e.preventDefault();
-        } else {
+        if (props.focusable) {
           onItemFocus(unref(id));
+        } else {
+          e.preventDefault();
         }
       },
     );

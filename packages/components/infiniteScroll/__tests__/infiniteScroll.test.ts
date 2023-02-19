@@ -14,7 +14,7 @@ import makeScroll from '@lemon-peel/test-utils/make-scroll';
 import tick from '@lemon-peel/test-utils/tick';
 import InfiniteScroll, { DEFAULT_DELAY, SCOPE } from '../src';
 
-vi.mock('lodash-unified', () => {
+vi.mock('lodash-es', () => {
   return {
     throttle: vi.fn(fn => {
       fn.cancel = vi.fn();

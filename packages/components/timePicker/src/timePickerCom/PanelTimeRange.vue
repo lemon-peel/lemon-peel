@@ -23,9 +23,9 @@
             :am-pm-mode="amPmMode"
             :arrow-control="arrowControl"
             :spinner-date="startTime"
-            :disabled-hours="disabledHours_"
-            :disabled-minutes="disabledMinutes_"
-            :disabled-seconds="disabledSeconds_"
+            :disabled-hours="doDisabledHours"
+            :disabled-minutes="doDisabledMinutes"
+            :disabled-seconds="doDisabledSeconds"
             @change="handleMinChange"
             @set-option="onSetOption"
             @select-range="setMinSelectionRange"
@@ -51,9 +51,9 @@
             :am-pm-mode="amPmMode"
             :arrow-control="arrowControl"
             :spinner-date="endTime"
-            :disabled-hours="disabledHours_"
-            :disabled-minutes="disabledMinutes_"
-            :disabled-seconds="disabledSeconds_"
+            :disabled-hours="doDisabledHours"
+            :disabled-minutes="doDisabledMinutes"
+            :disabled-seconds="doDisabledSeconds"
             @change="handleMaxChange"
             @set-option="onSetOption"
             @select-range="setMaxSelectionRange"
@@ -84,16 +84,13 @@
 <script lang="ts" setup>
 import { computed, inject, ref, unref } from 'vue';
 import dayjs from 'dayjs';
-import { union } from 'lodash-unified';
+import { union } from 'lodash-es';
 import { useLocale, useNamespace } from '@lemon-peel/hooks';
 import { isArray } from '@lemon-peel/utils';
 import { EVENT_CODE } from '@lemon-peel/constants';
-import { panelTimeRangeProps } from '../props/panelTimeRange
-import { useTimePanel } from '../composables/use-time-panel';
-import {
-  buildAvailableTimeSlotGetter,
-  useOldValue,
-} from '../composables/use-time-picker';
+import { panelTimeRangeProps } from '../props/panelTimeRange';
+import { useTimePanel } from '../composables/useTimePanel';
+import { buildAvailableTimeSlotGetter, useOldValue } from '../composables/useTimePicker';
 import TimeSpinner from './BasicTimeSpinner.vue';
 
 import type { Dayjs } from 'dayjs';
@@ -140,11 +137,90 @@ const handleConfirm = (visible = false) => {
   emit('pick', [startTime.value, endTime.value], visible);
 };
 
+const handleChange = (start: Dayjs, end: Dayjs) => {
+  // todo getRangeAvailableTime(_date).millisecond(0)
+  emit('pick', [start, end], true);
+};
+
 const handleMinChange = (date: Dayjs) => {
   handleChange(date.millisecond(0), endTime.value);
 };
+
 const handleMaxChange = (date: Dayjs) => {
   handleChange(startTime.value, date.millisecond(0));
+};
+
+const doDisabledHours = (role: string, compare?: Dayjs) => {
+  const defaultDisable = disabledHours ? disabledHours(role) : [];
+  const isStart = role === 'start';
+  const compareDate = compare || (isStart ? endTime.value : startTime.value);
+  const compareHour = compareDate.hour();
+  const nextDisable = isStart
+    ? makeSelectRange(compareHour + 1, 23)
+    : makeSelectRange(0, compareHour - 1);
+  return union(defaultDisable, nextDisable);
+};
+
+const doDisabledMinutes = (hour: number, role: string, compare?: Dayjs) => {
+  const defaultDisable = disabledMinutes ? disabledMinutes(hour, role) : [];
+  const isStart = role === 'start';
+  const compareDate = compare || (isStart ? endTime.value : startTime.value);
+  const compareHour = compareDate.hour();
+  if (hour !== compareHour) {
+    return defaultDisable;
+  }
+  const compareMinute = compareDate.minute();
+  const nextDisable = isStart
+    ? makeSelectRange(compareMinute + 1, 59)
+    : makeSelectRange(0, compareMinute - 1);
+  return union(defaultDisable, nextDisable);
+};
+
+const doDisabledSeconds = (
+  hour: number,
+  minute: number,
+  role: string,
+  compare?: Dayjs,
+) => {
+  const defaultDisable = disabledSeconds
+    ? disabledSeconds(hour, minute, role)
+    : [];
+  const isStart = role === 'start';
+  const compareDate = compare || (isStart ? endTime.value : startTime.value);
+  const compareHour = compareDate.hour();
+  const compareMinute = compareDate.minute();
+  if (hour !== compareHour || minute !== compareMinute) {
+    return defaultDisable;
+  }
+  const compareSecond = compareDate.second();
+  const nextDisable = isStart
+    ? makeSelectRange(compareSecond + 1, 59)
+    : makeSelectRange(0, compareSecond - 1);
+  return union(defaultDisable, nextDisable);
+};
+
+const { getAvailableHours, getAvailableMinutes, getAvailableSeconds } =
+  buildAvailableTimeSlotGetter(
+    doDisabledHours,
+    doDisabledMinutes,
+    doDisabledSeconds,
+  );
+
+const {
+  timePickerOptions,
+  getAvailableTime,
+  onSetOption,
+} = useTimePanel({
+  getAvailableHours,
+  getAvailableMinutes,
+  getAvailableSeconds,
+});
+
+const getRangeAvailableTime = ([start, end]: Array<Dayjs>) => {
+  return [
+    getAvailableTime(start, 'start', true, end),
+    getAvailableTime(end, 'end', false, start),
+  ] as const;
 };
 
 const isValidValue = (_date: Dayjs[]) => {
@@ -153,10 +229,6 @@ const isValidValue = (_date: Dayjs[]) => {
   return parsedDate[0].isSame(result[0]) && parsedDate[1].isSame(result[1]);
 };
 
-const handleChange = (start: Dayjs, end: Dayjs) => {
-  // todo getRangeAvailableTime(_date).millisecond(0)
-  emit('pick', [start, end], true);
-};
 const btnConfirmDisabled = computed(() => {
   return startTime.value > endTime.value;
 });
@@ -170,8 +242,8 @@ const setMinSelectionRange = (start: number, end: number) => {
 const offset = computed(() => (showSeconds.value ? 11 : 8));
 const setMaxSelectionRange = (start: number, end: number) => {
   emit('select-range', start, end, 'max');
-  const _offset = unref(offset);
-  selectionRange.value = [start + _offset, end + _offset];
+  const num = unref(offset);
+  selectionRange.value = [start + num, end + num];
 };
 
 const changeSelectionRange = (step: number) => {
@@ -209,78 +281,6 @@ const handleKeydown = (event: KeyboardEvent) => {
     return;
   }
 };
-
-const disabledHours_ = (role: string, compare?: Dayjs) => {
-  const defaultDisable = disabledHours ? disabledHours(role) : [];
-  const isStart = role === 'start';
-  const compareDate = compare || (isStart ? endTime.value : startTime.value);
-  const compareHour = compareDate.hour();
-  const nextDisable = isStart
-    ? makeSelectRange(compareHour + 1, 23)
-    : makeSelectRange(0, compareHour - 1);
-  return union(defaultDisable, nextDisable);
-};
-const disabledMinutes_ = (hour: number, role: string, compare?: Dayjs) => {
-  const defaultDisable = disabledMinutes ? disabledMinutes(hour, role) : [];
-  const isStart = role === 'start';
-  const compareDate = compare || (isStart ? endTime.value : startTime.value);
-  const compareHour = compareDate.hour();
-  if (hour !== compareHour) {
-    return defaultDisable;
-  }
-  const compareMinute = compareDate.minute();
-  const nextDisable = isStart
-    ? makeSelectRange(compareMinute + 1, 59)
-    : makeSelectRange(0, compareMinute - 1);
-  return union(defaultDisable, nextDisable);
-};
-const disabledSeconds_ = (
-  hour: number,
-  minute: number,
-  role: string,
-  compare?: Dayjs,
-) => {
-  const defaultDisable = disabledSeconds
-    ? disabledSeconds(hour, minute, role)
-    : [];
-  const isStart = role === 'start';
-  const compareDate = compare || (isStart ? endTime.value : startTime.value);
-  const compareHour = compareDate.hour();
-  const compareMinute = compareDate.minute();
-  if (hour !== compareHour || minute !== compareMinute) {
-    return defaultDisable;
-  }
-  const compareSecond = compareDate.second();
-  const nextDisable = isStart
-    ? makeSelectRange(compareSecond + 1, 59)
-    : makeSelectRange(0, compareSecond - 1);
-  return union(defaultDisable, nextDisable);
-};
-
-const getRangeAvailableTime = ([start, end]: Array<Dayjs>) => {
-  return [
-    getAvailableTime(start, 'start', true, end),
-    getAvailableTime(end, 'end', false, start),
-  ] as const;
-};
-
-const { getAvailableHours, getAvailableMinutes, getAvailableSeconds } =
-  buildAvailableTimeSlotGetter(
-    disabledHours_,
-    disabledMinutes_,
-    disabledSeconds_,
-  );
-
-const {
-  timePickerOptions,
-
-  getAvailableTime,
-  onSetOption,
-} = useTimePanel({
-  getAvailableHours,
-  getAvailableMinutes,
-  getAvailableSeconds,
-});
 
 const parseUserInput = (days: Dayjs[] | Dayjs) => {
   if (!days) return null;

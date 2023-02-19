@@ -2,7 +2,7 @@ import type { Nullable } from './../../../utils/typescript';
 
 import { computed, nextTick, reactive, ref, shallowRef, toRaw, triggerRef, watch } from 'vue';
 import { isObject, toRawType } from '@vue/shared';
-import { get, isEqual, debounce as lodashDebounce } from 'lodash-unified';
+import { get, isEqual, debounce as lodashDebounce } from 'lodash-es';
 import { isClient } from '@vueuse/core';
 import { CHANGE_EVENT, EVENT_CODE, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
 import { debugWarn, getComponentSize, isFunction, isKorean, isNumber, isString, scrollIntoView } from '@lemon-peel/utils';
@@ -345,7 +345,9 @@ export const useSelect = (props: Readonly<ExtractPropTypes<typeof selectProps>>,
   };
 
   const setSelected = () => {
-    if (!props.multiple) {
+    if (props.multiple) {
+      states.selectedLabel = '';
+    } else {
       const option = getOption(props.modelValue);
       if (option.created) {
         states.createdLabel = option.value!;
@@ -357,8 +359,6 @@ export const useSelect = (props: Readonly<ExtractPropTypes<typeof selectProps>>,
       states.selected = option;
       if (props.filterable) states.query = states.selectedLabel;
       return;
-    } else {
-      states.selectedLabel = '';
     }
     const result: any[] = [];
     if (Array.isArray(props.modelValue)) {
@@ -404,11 +404,7 @@ export const useSelect = (props: Readonly<ExtractPropTypes<typeof selectProps>>,
   const resetHoverIndex = () => {
     setTimeout(() => {
       const valueKey = props.valueKey;
-      if (!props.multiple) {
-        states.hoverIndex = optionsArray.value.findIndex(item => {
-          return getValueKey(item) === getValueKey(states.selected);
-        });
-      } else {
+      if (props.multiple) {
         states.hoverIndex = states.selected.length > 0 ? Math.min.apply(
           null,
           states.selected.map((selected: SelectOptionProxy) => {
@@ -417,6 +413,10 @@ export const useSelect = (props: Readonly<ExtractPropTypes<typeof selectProps>>,
             });
           }),
         ) : -1;
+      } else {
+        states.hoverIndex = optionsArray.value.findIndex(item => {
+          return getValueKey(item) === getValueKey(states.selected);
+        });
       }
     }, 300);
   };
@@ -424,7 +424,29 @@ export const useSelect = (props: Readonly<ExtractPropTypes<typeof selectProps>>,
   watch(
     () => states.visible,
     val => {
-      if (!val) {
+      if (val) {
+        tooltipRef.value?.updatePopper?.();
+
+        if (props.filterable) {
+          states.filteredOptionsCount = states.optionsCount;
+          states.query = props.remote ? '' : states.selectedLabel;
+          if (props.multiple) {
+            input.value?.focus();
+          } else {
+            if (states.selectedLabel) {
+              states.currentPlaceholder = `${states.selectedLabel}`;
+              states.selectedLabel = '';
+            }
+          }
+          handleQueryChange(states.query);
+          if (!props.multiple && !props.remote) {
+            queryChange.value.query = '';
+
+            triggerRef(queryChange);
+            triggerRef(groupQueryChange);
+          }
+        }
+      } else {
         if (props.filterable) {
           if (isFunction(props.filterMethod)) {
             props.filterMethod('');
@@ -461,28 +483,6 @@ export const useSelect = (props: Readonly<ExtractPropTypes<typeof selectProps>>,
 
           if (props.filterable) {
             states.currentPlaceholder = states.cachedPlaceHolder;
-          }
-        }
-      } else {
-        tooltipRef.value?.updatePopper?.();
-
-        if (props.filterable) {
-          states.filteredOptionsCount = states.optionsCount;
-          states.query = props.remote ? '' : states.selectedLabel;
-          if (props.multiple) {
-            input.value?.focus();
-          } else {
-            if (states.selectedLabel) {
-              states.currentPlaceholder = `${states.selectedLabel}`;
-              states.selectedLabel = '';
-            }
-          }
-          handleQueryChange(states.query);
-          if (!props.multiple && !props.remote) {
-            queryChange.value.query = '';
-
-            triggerRef(queryChange);
-            triggerRef(groupQueryChange);
           }
         }
       }
@@ -716,7 +716,9 @@ export const useSelect = (props: Readonly<ExtractPropTypes<typeof selectProps>>,
   };
 
   const handleFocus = (event: FocusEvent) => {
-    if (!states.softFocus) {
+    if (states.softFocus) {
+      states.softFocus = false;
+    } else {
       if (props.automaticDropdown || props.filterable) {
         if (props.filterable && !states.visible) {
           states.menuVisibleOnFocus = true;
@@ -724,8 +726,6 @@ export const useSelect = (props: Readonly<ExtractPropTypes<typeof selectProps>>,
         states.visible = true;
       }
       emit.emit('focus', event);
-    } else {
-      states.softFocus = false;
     }
   };
 
@@ -781,12 +781,12 @@ export const useSelect = (props: Readonly<ExtractPropTypes<typeof selectProps>>,
   };
 
   const selectOption = () => {
-    if (!states.visible) {
-      toggleMenu();
-    } else {
+    if (states.visible) {
       if (optionsArray.value[states.hoverIndex]) {
         handleOptionSelect(optionsArray.value[states.hoverIndex]);
       }
+    } else {
+      toggleMenu();
     }
   };
 

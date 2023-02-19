@@ -1,4 +1,4 @@
-import { get, set } from 'lodash-unified';
+import { get, set } from 'lodash-es';
 import type { Entries } from 'type-fest';
 import type { Arrayable } from './index';
 
@@ -21,3 +21,13 @@ export const getProp = <T = any>(
   };
 };
 
+export function lazyProxy<T extends () => any>(getter: T) {
+  let ins: ReturnType<T> | null = null;
+  const proxy = new Proxy<ReturnType<T>>({} as any, {
+    get(_, p: string | symbol) {
+      if (!ins) ins = getter();
+      return Reflect.get(ins!, p);
+    },
+  });
+  return proxy;
+}

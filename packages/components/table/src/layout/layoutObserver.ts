@@ -1,21 +1,20 @@
 import { computed, getCurrentInstance, onBeforeMount, onMounted, onUnmounted, onUpdated } from 'vue';
 
-import type { TableHeader } from './tableHeader';
-import type TableLayout from './tableLayout';
-import type { Table, DefaultRow } from './table/defaults';
-import type { TableColumnCtx } from './tableColumn/defaults';
+import type TableLayout from './TableLayout';
+import type { TableVM } from '../table/defaults';
+import type { TableColumnCtx } from '../tableColumn/defaults';
 
-function useLayoutObserver<T = DefaultRow>(root: Table<T>) {
-  const instance = getCurrentInstance() as TableHeader;
+function useLayoutObserver(root: TableVM) {
+  const instance = getCurrentInstance()!;
   const tableLayout = computed(() => {
-    const layout = root.layout as TableLayout<T>;
+    const layout = root.layout as TableLayout;
     if (!layout) {
       throw new Error('Can not find table layout.');
     }
     return layout;
   });
 
-  const onColumnsChange = (layout: TableLayout<T>) => {
+  const onColumnsChange = (layout: TableLayout) => {
     const cols = root.vnode.el?.querySelectorAll('colgroup > col') || [];
     if (cols.length === 0) return;
     const flattenColumns = layout.getFlattenColumns();
@@ -23,6 +22,7 @@ function useLayoutObserver<T = DefaultRow>(root: Table<T>) {
     flattenColumns.forEach(column => {
       columnsMap[column.id] = column;
     });
+
     for (let i = 0, j = cols.length; i < j; i++) {
       const col = cols[i];
       const name = col.getAttribute('name');
@@ -33,7 +33,7 @@ function useLayoutObserver<T = DefaultRow>(root: Table<T>) {
     }
   };
 
-  const onScrollableChange = (layout: TableLayout<T>) => {
+  const onScrollableChange = (layout: TableLayout) => {
     const cols =
       root.vnode.el?.querySelectorAll('colgroup > col[name=gutter]') || [];
     for (let i = 0, j = cols.length; i < j; i++) {

@@ -1,5 +1,5 @@
 import { computed, inject, ref, toRaw } from 'vue';
-import { isEqual } from 'lodash-unified';
+import { isEqual } from 'lodash-es';
 import { useSize } from '@lemon-peel/hooks';
 import { isArray, isBoolean, isObject } from '@lemon-peel/utils';
 import { checkboxGroupContextKey } from '@lemon-peel/tokens';

@@ -26,7 +26,7 @@
 <script lang="ts" setup>
 import { computed, inject, onBeforeUnmount, onMounted, provide, ref, unref, watch } from 'vue';
 import { NOOP } from '@vue/shared';
-import { isNil } from 'lodash-unified';
+import { isNil } from 'lodash-es';
 import { createPopper } from '@popperjs/core';
 import { useNamespace, useZIndex } from '@lemon-peel/hooks';
 import { POPPER_CONTENT_INJECTION_KEY, POPPER_INJECTION_KEY, formItemContextKey } from '@lemon-peel/tokens';

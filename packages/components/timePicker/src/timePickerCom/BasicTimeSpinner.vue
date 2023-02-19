@@ -31,8 +31,8 @@
             {{ ('0' + key).slice(-2) }}
           </template>
         </li>
-        </lp-scrollbar>
-      </lp-scrollbar></template>
+      </lp-scrollbar>
+    </template>
     <template v-if="arrowControl">
       <div
         v-for="item in spinnerItems"
@@ -45,50 +45,52 @@
           :class="['arrow-up', ns.be('spinner', 'arrow')]"
         >
           <arrow-up />
-          </lp-icon>
-          <lp-icon
-            v-repeat-click="onIncrement"
-            :class="['arrow-down', ns.be('spinner', 'arrow')]"
+        </lp-icon>
+        <lp-icon
+          v-repeat-click="onIncrement"
+          :class="['arrow-down', ns.be('spinner', 'arrow')]"
+        >
+          <arrow-down />
+        </lp-icon>
+        <ul :class="ns.be('spinner', 'list')">
+          <li
+            v-for="(time, key) in arrowControlTimeList[item]"
+            :key="key"
+            :class="[
+              ns.be('spinner', 'item'),
+              ns.is('active', time === timePartials[item]),
+              ns.is('disabled', timeList[item][time!]),
+            ]"
           >
-            <arrow-down />
-            </lp-icon>
-            <ul :class="ns.be('spinner', 'list')">
-              <li
-                v-for="(time, key) in arrowControlTimeList[item]"
-                :key="key"
-                :class="[
-                  ns.be('spinner', 'item'),
-                  ns.is('active', time === timePartials[item]),
-                  ns.is('disabled', timeList[item][time!]),
-                ]"
-              >
-                <template v-if="typeof time === 'number'">
-                  <template v-if="item === 'hours'">
-                    {{ ('0' + (amPmMode ? time % 12 || 12 : time)).slice(-2)
-                    }}{{ getAmPmFlag(time) }}
-                  </template>
-                  <template v-else>
-                    {{ ('0' + time).slice(-2) }}
-                  </template>
-                </template>
-              </li>
-            </ul>
-          </lp-icon></lp-icon></div>
+            <template v-if="typeof time === 'number'">
+              <template v-if="item === 'hours'">
+                {{ ('0' + (amPmMode ? time % 12 || 12 : time)).slice(-2)
+                }}{{ getAmPmFlag(time) }}
+              </template>
+              <template v-else>
+                {{ ('0' + time).slice(-2) }}
+              </template>
+            </template>
+          </li>
+        </ul>
+      </div>
     </template>
   </div>
 </template>
+
 <script lang="ts" setup>
 import { computed, nextTick, onMounted, ref, unref, watch } from 'vue';
-import { debounce } from 'lodash-unified';
+import { debounce } from 'lodash-es';
 import { vRepeatClick } from '@lemon-peel/directives';
-import LpScrollbar from '@lemon-peel/components/scrollbar';
-import LpIcon from '@lemon-peel/components/icon';
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue';
 import { useNamespace } from '@lemon-peel/hooks';
+import LpScrollbar from '@lemon-peel/components/scrollbar';
+import LpIcon from '@lemon-peel/components/icon';
+
+import { basicTimeSpinnerProps } from '../props/basicTimeSpinner';
+import { getTimeLists } from '../composables/useTimePicker';
 import { timeUnits } from '../constants';
 import { buildTimeList } from '../utils';
-import { basicTimeSpinnerProps } from '../props/basicTimeSpinner
-import { getTimeLists } from '../composables/use-time-picker';
 
 import type { Ref } from 'vue';
 import type { ScrollbarInstance } from '@lemon-peel/components/scrollbar';
@@ -151,6 +153,29 @@ const arrowControlTimeList = computed<Record<TimeUnit, TimeList>>(() => {
   };
 });
 
+const getScrollbarElement = (el: HTMLElement) =>
+  el.querySelector(`.${ns.namespace.value}-scrollbar__wrap`) as HTMLElement;
+
+const typeItemHeight = (type: TimeUnit): number => {
+  const scrollbar = unref(listRefsMap[type]);
+  return scrollbar?.$el.querySelector('li').offsetHeight || 0;
+};
+
+const adjustSpinner = (type: TimeUnit, value: number) => {
+  if (props.arrowControl) return;
+  const scrollbar = unref(listRefsMap[type]);
+  if (scrollbar && scrollbar.$el) {
+    getScrollbarElement(scrollbar.$el).scrollTop = Math.max(
+      0,
+      value * typeItemHeight(type),
+    );
+  }
+};
+
+const adjustCurrentSpinner = (type: TimeUnit) => {
+  adjustSpinner(type, unref(timePartials)[type]);
+};
+
 const debouncedResetScroll = debounce(type => {
   isScrolling = false;
   adjustCurrentSpinner(type);
@@ -170,15 +195,18 @@ const emitSelectRange = (type: TimeUnit) => {
   let range;
 
   switch (type) {
-    case 'hours':
+    case 'hours': {
       range = [0, 2];
       break;
-    case 'minutes':
+    }
+    case 'minutes': {
       range = [3, 5];
       break;
-    case 'seconds':
+    }
+    case 'seconds': {
       range = [6, 8];
       break;
+    }
   }
   const [left, right] = range;
 
@@ -186,56 +214,10 @@ const emitSelectRange = (type: TimeUnit) => {
   currentScrollbar.value = type;
 };
 
-const adjustCurrentSpinner = (type: TimeUnit) => {
-  adjustSpinner(type, unref(timePartials)[type]);
-};
-
 const adjustSpinners = () => {
   adjustCurrentSpinner('hours');
   adjustCurrentSpinner('minutes');
   adjustCurrentSpinner('seconds');
-};
-
-const getScrollbarElement = (el: HTMLElement) =>
-  el.querySelector(`.${ns.namespace.value}-scrollbar__wrap`) as HTMLElement;
-
-const adjustSpinner = (type: TimeUnit, value: number) => {
-  if (props.arrowControl) return;
-  const scrollbar = unref(listRefsMap[type]);
-  if (scrollbar && scrollbar.$el) {
-    getScrollbarElement(scrollbar.$el).scrollTop = Math.max(
-      0,
-      value * typeItemHeight(type),
-    );
-  }
-};
-
-const typeItemHeight = (type: TimeUnit): number => {
-  const scrollbar = unref(listRefsMap[type]);
-  return scrollbar?.$el.querySelector('li').offsetHeight || 0;
-};
-
-const onIncrement = () => {
-  scrollDown(1);
-};
-
-const onDecrement = () => {
-  scrollDown(-1);
-};
-
-const scrollDown = (step: number) => {
-  if (!currentScrollbar.value) {
-    emitSelectRange('hours');
-  }
-
-  const label = currentScrollbar.value!;
-  const now = unref(timePartials)[label];
-  const total = currentScrollbar.value === 'hours' ? 24 : 60;
-  const next = findNextUnDisabled(label, now, step, total);
-
-  modifyDateField(label, next);
-  adjustSpinner(label, next);
-  nextTick(() => emitSelectRange(label));
 };
 
 const findNextUnDisabled = (
@@ -261,28 +243,58 @@ const modifyDateField = (type: TimeUnit, value: number) => {
 
   let changeTo;
   switch (type) {
-    case 'hours':
+    case 'hours': {
       changeTo = props.spinnerDate.hour(value).minute(minutes).second(seconds);
       break;
-    case 'minutes':
+    }
+    case 'minutes': {
       changeTo = props.spinnerDate.hour(hours).minute(value).second(seconds);
       break;
-    case 'seconds':
+    }
+    case 'seconds': {
       changeTo = props.spinnerDate.hour(hours).minute(minutes).second(value);
       break;
+    }
   }
   emit('change', changeTo);
 };
 
+const scrollDown = (step: number) => {
+  if (!currentScrollbar.value) {
+    emitSelectRange('hours');
+  }
+
+  const label = currentScrollbar.value!;
+  const now = unref(timePartials)[label];
+  const total = currentScrollbar.value === 'hours' ? 24 : 60;
+  const next = findNextUnDisabled(label, now, step, total);
+
+  modifyDateField(label, next);
+  adjustSpinner(label, next);
+  nextTick(() => emitSelectRange(label));
+};
+
+const onIncrement = () => {
+  scrollDown(1);
+};
+
+const onDecrement = () => {
+  scrollDown(-1);
+};
+
 const handleClick = (
   type: TimeUnit,
-  { value, disabled }: { value: number; disabled: boolean },
+  { value, disabled }: { value: number, disabled: boolean },
 ) => {
   if (!disabled) {
     modifyDateField(type, value);
     emitSelectRange(type);
     adjustSpinner(type, value);
   }
+};
+
+const scrollBarHeight = (type: TimeUnit) => {
+  return unref(listRefsMap[type])!.$el.offsetHeight;
 };
 
 const handleScroll = (type: TimeUnit) => {
@@ -300,19 +312,15 @@ const handleScroll = (type: TimeUnit) => {
   modifyDateField(type, value);
 };
 
-const scrollBarHeight = (type: TimeUnit) => {
-  return unref(listRefsMap[type])!.$el.offsetHeight;
-};
-
 const bindScrollEvent = () => {
   const bindFunction = (type: TimeUnit) => {
     const scrollbar = unref(listRefsMap[type]);
     if (scrollbar && scrollbar.$el) {
-      getScrollbarElement(scrollbar.$el).onscroll = () => {
+      getScrollbarElement(scrollbar.$el).addEventListener('scroll', () => {
         // TODO: scroll is emitted when set scrollTop programmatically
         // should find better solutions in the future!
         handleScroll(type);
-      };
+      });
     }
   };
   bindFunction('hours');

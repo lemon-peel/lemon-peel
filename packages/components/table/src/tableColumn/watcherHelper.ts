@@ -1,52 +1,56 @@
-import { getCurrentInstance, watch } from 'vue';
+import { inject, watch } from 'vue';
 import { hasOwn } from '@lemon-peel/utils';
 import { parseMinWidth, parseWidth } from '../util';
 
-import type { ComputedRef } from 'vue';
-import type { TableColumn, TableColumnCtx, ValueOf } from './defaults';
+import { STORE_INJECTION_KEY } from '../tokens';
 
-function getAllAliases(props, aliases) {
-  return props.reduce((prev, cur) => {
-    prev[cur] = cur;
-    return prev;
+import type { Ref } from 'vue';
+import type { TableColumnCtx, TableColumnProps, ValueOf } from './defaults';
+import type { TableVM } from '../table/defaults';
+
+function getAllAliases(props: string[], aliases: Record<string, string>) {
+  return props.reduce((pre, cur) => {
+    pre[cur] = cur;
+    return pre;
   }, aliases);
 }
-function useWatcher<T>(
-  owner: ComputedRef<any>,
-  props_: Partial<TableColumnCtx<T>>,
-) {
-  const instance = getCurrentInstance() as TableColumn<T>;
+
+function useWatcher(owner: TableVM, props: TableColumnProps, columnConfig: Ref<TableColumnCtx>) {
+  const store = inject(STORE_INJECTION_KEY)!;
+
   const registerComplexWatchers = () => {
-    const props = ['fixed'];
     const aliases = {
       realWidth: 'width',
       realMinWidth: 'minWidth',
-    };
-    const allAliases = getAllAliases(props, aliases);
-    Object.keys(allAliases).forEach(key => {
-      const columnKey = aliases[key];
-      if (hasOwn(props_, columnKey)) {
+    } as const;
+
+    Object.entries(aliases)
+      .forEach(([key, alias]) => {
+        if (!hasOwn(props, alias)) return;
         watch(
-          () => props_[columnKey],
+          () => props[alias],
           newVal => {
-            let value: ValueOf<TableColumnCtx<T>> = newVal;
-            if (columnKey === 'width' && key === 'realWidth') {
+            let value: ValueOf<TableColumnCtx> = newVal;
+            if (alias === 'width' && key === 'realWidth') {
               value = parseWidth(newVal);
             }
-            if (columnKey === 'minWidth' && key === 'realMinWidth') {
+
+            if (alias === 'minWidth' && key === 'realMinWidth') {
               value = parseMinWidth(newVal);
             }
-            instance.columnConfig.value[columnKey as any] = value;
-            instance.columnConfig.value[key] = value;
-            const updateColumns = columnKey === 'fixed';
-            owner.value.store.scheduleLayout(updateColumns);
+
+            columnConfig.value[alias as 'width'] = value;
+            columnConfig.value[key as 'minWidth'] = value;
+
+            const updateColumns = alias === 'fixed';
+            store.watcher.scheduleLayout(updateColumns);
           },
         );
-      }
-    });
+      });
   };
+
   const registerNormalWatchers = () => {
-    const props = [
+    const keys = [
       'label',
       'filters',
       'filterMultiple',
@@ -57,19 +61,21 @@ function useWatcher<T>(
       'labelClassName',
       'showOverflowTooltip',
     ];
-    const aliases = {
+
+    const aliases: Record<string, string> = {
       property: 'prop',
       align: 'realAlign',
       headerAlign: 'realHeaderAlign',
     };
-    const allAliases = getAllAliases(props, aliases);
+
+    const allAliases = getAllAliases(keys, aliases);
     Object.keys(allAliases).forEach(key => {
       const columnKey = aliases[key];
-      if (hasOwn(props_, columnKey)) {
+      if (hasOwn(props, columnKey)) {
         watch(
-          () => props_[columnKey],
+          () => props[columnKey],
           newVal => {
-            instance.columnConfig.value[key] = newVal;
+            columnConfig.value[key as keyof TableColumnCtx] = newVal;
           },
         );
       }

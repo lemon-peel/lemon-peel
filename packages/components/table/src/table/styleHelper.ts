@@ -1,12 +1,14 @@
-import { computed, defineExpose, nextTick, onMounted, ref, unref, watch, watchEffect } from 'vue';
+import { computed, nextTick, onMounted, ref, unref, watch, watchEffect } from 'vue';
 import { useEventListener, useResizeObserver } from '@vueuse/core';
 import { useSize } from '@lemon-peel/hooks';
 
-import type { TableProps, DefaultRow, TableVM } from './defaults';
-import type TableLayout from '../tableLayout';
+// import type { NormalizedWheelEvent } from 'normalize-wheel-es';
+import type { TableProps, TableVM } from './defaults';
 import type { TableColumnCtx } from '../tableColumn/defaults';
+import type { Store } from '../store/index';
+import type TableLayout from '../layout/TableLayout';
 
-function useStyle<T = DefaultRow>(props: TableProps<T>, layout: TableLayout<T>, table: TableVM) {
+function useStyle(props: TableProps, layout: TableLayout, store: Store, table: TableVM) {
   const isHidden = ref(false);
   const renderExpanded = ref(null);
   const resizeProxyVisible = ref(false);
@@ -38,28 +40,26 @@ function useStyle<T = DefaultRow>(props: TableProps<T>, layout: TableLayout<T>, 
   const footerScrollHeight = ref(0);
 
   watchEffect(() => {
-    layout.setHeight(props.height);
+    layout.setHeight(props.height!);
   });
 
   watchEffect(() => {
-    layout.setMaxHeight(props.maxHeight);
+    layout.setMaxHeight(props.maxHeight!);
   });
 
   watch(
-    () => [props.currentRowKey, store.states.rowKey],
+    () => [props.currentRowKey, props.rowKey],
     ([currentRowKey, rowKey]) => {
       if (!unref(rowKey) || !unref(currentRowKey)) return;
-      store.setCurrentRowKey(`${currentRowKey}`);
+      store.current.setCurrentRowKey(`${currentRowKey}`);
     },
-    {
-      immediate: true,
-    },
+    { immediate: true },
   );
 
   watch(
     () => props.data,
     data => {
-      table.store.commit('setData', data);
+      store.commit('setData', data);
     },
     {
       immediate: true,
@@ -68,16 +68,16 @@ function useStyle<T = DefaultRow>(props: TableProps<T>, layout: TableLayout<T>, 
   );
   watchEffect(() => {
     if (props.expandRowKeys) {
-      store.setExpandRowKeysAdapter(props.expandRowKeys);
+      store.watcher.setExpandRowKeysAdapter(props.expandRowKeys);
     }
   });
 
   const handleMouseLeave = () => {
-    table.store.commit('setHoverRow', null);
+    store.commit('setHoverRow', null);
     if (table.hoverState) table.hoverState = null;
   };
 
-  const handleHeaderFooterMousewheel = (event, data) => {
+  const handleHeaderFooterMousewheel = (event: WheelEvent, data: { pixelX: number, pixelY: number }) => {
     const { pixelX, pixelY } = data;
     if (Math.abs(pixelX) >= Math.abs(pixelY)) {
       table.refs.bodyWrapper.scrollLeft += data.pixelX / 5;
@@ -104,12 +104,15 @@ function useStyle<T = DefaultRow>(props: TableProps<T>, layout: TableLayout<T>, 
       layout.updateElsHeight();
     }
     layout.updateColumnsWidth();
+
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define
     requestAnimationFrame(syncPosition);
   };
 
   onMounted(async () => {
     await nextTick();
-    store.updateColumns();
+    store.watcher.updateColumns();
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define
     bindEvents();
     requestAnimationFrame(doLayout);
 
@@ -129,9 +132,9 @@ function useStyle<T = DefaultRow>(props: TableProps<T>, layout: TableLayout<T>, 
     };
 
     // init filters
-    store.states.columns.value.forEach((column: TableColumnCtx<T>) => {
+    store.states.columns.value.forEach((column: TableColumnCtx) => {
       if (column.filteredValue && column.filteredValue.length > 0) {
-        table.store.commit('filterChange', {
+        store.commit('filterChange', {
           column,
           values: column.filteredValue,
           silent: true,
@@ -139,9 +142,6 @@ function useStyle<T = DefaultRow>(props: TableProps<T>, layout: TableLayout<T>, 
       }
     });
 
-    defineExpose({
-      $ready: true,
-    });
     table.$ready = true;
   });
 
@@ -164,7 +164,7 @@ function useStyle<T = DefaultRow>(props: TableProps<T>, layout: TableLayout<T>, 
     return !!(tableWrapper && tableWrapper.classList.contains(className));
   };
 
-  const syncPosition = function () {
+  function syncPosition() {
     if (!table.refs.scrollBarRef) return;
     if (!layout.scrollX.value) {
       const scrollingNoneClass = 'is-scrolling-none';
@@ -187,26 +187,7 @@ function useStyle<T = DefaultRow>(props: TableProps<T>, layout: TableLayout<T>, 
     } else {
       setScrollClass('is-scrolling-middle');
     }
-  };
-
-  const bindEvents = () => {
-    if (!table.refs.scrollBarRef) return;
-    if (table.refs.scrollBarRef.wrap$) {
-      useEventListener(table.refs.scrollBarRef.wrap$, 'scroll', syncPosition, {
-        passive: true,
-      });
-    }
-    if (props.fit) {
-      useResizeObserver(table.vnode.el as HTMLElement, resizeListener);
-    } else {
-      useEventListener(window, 'resize', resizeListener);
-    }
-
-    useResizeObserver(table.refs.bodyWrapper, () => {
-      resizeListener();
-      table.refs?.scrollBarRef?.update();
-    });
-  };
+  }
 
   const resizeListener = () => {
     const el = table.vnode.el;
@@ -254,11 +235,32 @@ function useStyle<T = DefaultRow>(props: TableProps<T>, layout: TableLayout<T>, 
       doLayout();
     }
   };
+
+  function bindEvents() {
+    if (!table.refs.scrollBarRef) return;
+    if (table.refs.scrollBarRef.wrap$) {
+      useEventListener(table.refs.scrollBarRef.wrap$, 'scroll', syncPosition, {
+        passive: true,
+      });
+    }
+
+    if (props.fit) {
+      useResizeObserver(table.vnode.el as HTMLElement, resizeListener);
+    } else {
+      useEventListener(window, 'resize', resizeListener);
+    }
+
+    useResizeObserver(table.refs.bodyWrapper, () => {
+      resizeListener();
+      table.refs?.scrollBarRef?.update();
+    });
+  }
+
   const tableSize = useSize();
   const bodyWidth = computed(() => {
-    const { bodyWidth: bodyWidth_, scrollY, gutterWidth } = layout;
-    return bodyWidth_.value
-      ? `${(bodyWidth_.value as number) - (scrollY.value ? gutterWidth : 0)}px`
+    const { bodyWidth: bodyWidthNum, scrollY, gutterWidth } = layout;
+    return bodyWidthNum.value
+      ? `${(bodyWidthNum.value as number) - (scrollY.value ? gutterWidth : 0)}px`
       : '';
   });
 
@@ -268,7 +270,7 @@ function useStyle<T = DefaultRow>(props: TableProps<T>, layout: TableLayout<T>, 
   });
 
   const emptyBlockStyle = computed(() => {
-    if (props.data && props.data.length > 0) return null;
+    if (props.data && props.data.length > 0) return;
     let height = '100%';
     if (props.height && bodyScrollHeight.value) {
       height = `${bodyScrollHeight.value}px`;
@@ -332,7 +334,7 @@ function useStyle<T = DefaultRow>(props: TableProps<T>, layout: TableLayout<T>, 
   /**
    * fix layout
    */
-  const handleFixedMousewheel = (event, data) => {
+  const handleFixedMousewheel = (event: WheelEvent, data: any) => {
     const bodyWrapper = table.refs.bodyWrapper;
     if (Math.abs(data.spinY) > 0) {
       const currentScrollTop = bodyWrapper.scrollTop;
@@ -356,11 +358,11 @@ function useStyle<T = DefaultRow>(props: TableProps<T>, layout: TableLayout<T>, 
     renderExpanded,
     setDragVisible,
     isGroup,
+    handleFixedMousewheel,
     handleMouseLeave,
     handleHeaderFooterMousewheel,
     tableSize,
     emptyBlockStyle,
-    handleFixedMousewheel,
     resizeProxyVisible,
     bodyWidth,
     resizeState,

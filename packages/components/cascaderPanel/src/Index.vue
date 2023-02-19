@@ -15,7 +15,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, nextTick, onBeforeUpdate, onMounted, provide, reactive, ref, VNode, watch } from 'vue';
-import { cloneDeep, flattenDeep, isEqual } from 'lodash-unified';
+import { cloneDeep, flattenDeep, isEqual } from 'lodash-es';
 import { isClient } from '@vueuse/core';
 import { castArray, focusNode, getSibling, isEmpty, scrollIntoView, unique } from '@lemon-peel/utils';
 import { CHANGE_EVENT, EVENT_CODE, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';

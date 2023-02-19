@@ -15,14 +15,14 @@ export const basicDateTableProps = buildProps({
 
 export type BasicDateTableProps = ExtractPropTypes<typeof basicDateTableProps>;
 
-export type RangePickerEmits = { minDate: Dayjs; maxDate: null };
+export type RangePickerEmits = { minDate: Dayjs, maxDate: null };
 export type DatePickerEmits = Dayjs;
 export type DatesPickerEmits = Dayjs[];
 export type WeekPickerEmits = {
-  year: number
-  week: number
-  value: string
-  date: Dayjs
+  year: number;
+  week: number;
+  value: string;
+  date: Dayjs;
 };
 
 export type DateTableEmits =

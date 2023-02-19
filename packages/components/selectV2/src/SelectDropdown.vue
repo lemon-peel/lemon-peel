@@ -25,8 +25,8 @@
 
 <script lang="tsx" setup>
 import type { FunctionalComponent } from 'vue';
-import { computed, defineComponent, defineExpose, inject, ref, unref, useSlots, watch } from 'vue';
-import { get } from 'lodash-unified';
+import { computed, inject, ref, unref, useSlots, watch } from 'vue';
+import { get } from 'lodash-es';
 import { isObject, isUndefined } from '@lemon-peel/utils';
 import { DynamicSizeList, FixedSizeList } from '@lemon-peel/components/virtualList';
 import { useNamespace } from '@lemon-peel/hooks';
@@ -101,11 +101,11 @@ const contains = (arr: Array<any>, target: any) => {
 };
 
 const isEqual = (selected: unknown, target: unknown) => {
-  if (!isObject(target)) {
-    return selected === target;
-  } else {
+  if (isObject(target)) {
     const { valueKey } = select.props;
     return get(selected, valueKey) === get(target, valueKey);
+  } else {
+    return selected === target;
   }
 };
 

@@ -1,79 +1,51 @@
-
-import { isRef, nextTick, ref } from 'vue';
+import { nextTick, ref } from 'vue';
 import { isClient } from '@vueuse/core';
-import { hasOwn } from '@lemon-peel/utils';
-import { parseHeight } from './util';
-import type { Ref } from 'vue';
+import { parseHeight } from '../util';
 
-import type { TableColumnCtx } from './tableColumn/defaults';
-import type { TableHeader } from './tableHeader';
-import type { Table, DefaultRow } from './table/defaults';
-import type { Store } from './store';
+import type { Store } from '../store';
 
-class TableLayout<T = DefaultRow> {
-  observers: TableHeader[];
+import type { TableHeaderInstance } from '../tableHeader';
+import type { TableVM } from '../table/defaults';
+import type { TableColumnCtx } from '../tableColumn/defaults';
 
-  table: Table<T>;
 
-  store: Store<T>;
+class TableLayout {
+  observers: TableHeaderInstance[] = [];
 
-  columns: TableColumnCtx<T>[];
+  columns: TableColumnCtx[] = [];
+
+  height = ref<number | null>(null);
+
+  scrollX = ref<boolean>(false);
+
+  scrollY = ref<boolean>(false);
+
+  bodyWidth = ref<number | null>(null);
+
+  fixedWidth = ref<number | null>(null);
+
+  rightFixedWidth = ref<number | null>(null);
+
+  gutterWidth = 0;
+
+  table: TableVM;
+
+  store: Store;
 
   fit: boolean;
 
   showHeader: boolean;
 
-  height: Ref<null | number>;
-
-  scrollX: Ref<boolean>;
-
-  scrollY: Ref<boolean>;
-
-  bodyWidth: Ref<null | number>;
-
-  fixedWidth: Ref<null | number>;
-
-  rightFixedWidth: Ref<null | number>;
-
-  tableHeight: Ref<null | number>;
-
-  headerHeight: Ref<null | number>; // Table Header Height
-
-  appendHeight: Ref<null | number>; // Append Slot Height
-
-  footerHeight: Ref<null | number>; // Table Footer Height
-
-  gutterWidth: number;
-
-  constructor(options: Record<string, any>) {
-    this.observers = [];
-    this.table = null;
-    this.store = null;
-    this.columns = [];
-    this.fit = true;
-    this.showHeader = true;
-    this.height = ref(null);
-    this.scrollX = ref(false);
-    this.scrollY = ref(false);
-    this.bodyWidth = ref(null);
-    this.fixedWidth = ref(null);
-    this.rightFixedWidth = ref(null);
-    this.gutterWidth = 0;
-    for (const name in options) {
-      if (hasOwn(options, name)) {
-        if (isRef(this[name])) {
-          this[name as string].value = options[name];
-        } else {
-          this[name as string] = options[name];
-        }
-      }
-    }
-    if (!this.table) {
-      throw new Error('Table is required for Table Layout');
-    }
-    if (!this.store) {
-      throw new Error('Store is required for Table Layout');
-    }
+  constructor(options: {
+    table: TableVM;
+    store: Store;
+    fit: boolean;
+    showHeader: boolean;
+  }) {
+    this.table = options.table;
+    this.store = options.store;
+    this.fit = options.fit;
+    this.showHeader = options.showHeader;
   }
 
   updateScrollY() {
@@ -95,10 +67,10 @@ class TableLayout<T = DefaultRow> {
     return false;
   }
 
-  setHeight(value: string | number, prop = 'height') {
+  setHeight(value: string | number | null, prop = 'height'): any {
     if (!isClient) return;
-    const el = this.table.vnode.el;
-    value = parseHeight(value);
+    const el = this.table.vnode.el!;
+    value = parseHeight(value!);
     this.height.value = Number(value);
 
     if (!el && (value || value === 0))
@@ -117,10 +89,10 @@ class TableLayout<T = DefaultRow> {
     this.setHeight(value, 'max-height');
   }
 
-  getFlattenColumns(): TableColumnCtx<T>[] {
-    const flattenColumns = [];
+  getFlattenColumns(): TableColumnCtx[] {
+    const flattenColumns: TableColumnCtx[] = [];
     const columns = this.table.store.states.columns.value;
-    columns.forEach(column => {
+    columns.forEach((column: TableColumnCtx) => {
       if (column.isColumnGroup) {
         // eslint-disable-next-line prefer-spread
         flattenColumns.push.apply(flattenColumns, column.columns);
@@ -137,14 +109,15 @@ class TableLayout<T = DefaultRow> {
     this.notifyObservers('scrollable');
   }
 
-  headerDisplayNone(elm: HTMLElement) {
-    if (!elm) return true;
-    let headerChild = elm;
+  // eslint-disable-next-line class-methods-use-this
+  headerDisplayNone(el: HTMLElement) {
+    if (!el) return true;
+    let headerChild = el;
     while (headerChild.tagName !== 'DIV') {
       if (getComputedStyle(headerChild).display === 'none') {
         return true;
       }
-      headerChild = headerChild.parentElement;
+      headerChild = headerChild.parentElement!;
     }
     return false;
   }
@@ -152,7 +125,7 @@ class TableLayout<T = DefaultRow> {
   updateColumnsWidth() {
     if (!isClient) return;
     const fit = this.fit;
-    const bodyWidth = this.table.vnode.el.clientWidth;
+    const bodyWidth = this.table.vnode.el!.clientWidth;
     let bodyMinWidth = 0;
 
     const flattenColumns = this.getFlattenColumns();
@@ -242,11 +215,11 @@ class TableLayout<T = DefaultRow> {
     this.notifyObservers('columns');
   }
 
-  addObserver(observer: TableHeader) {
+  addObserver(observer: TableHeaderInstance) {
     this.observers.push(observer);
   }
 
-  removeObserver(observer: TableHeader) {
+  removeObserver(observer: TableHeaderInstance) {
     const index = this.observers.indexOf(observer);
     if (index !== -1) {
       this.observers.splice(index, 1);

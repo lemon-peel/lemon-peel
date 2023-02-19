@@ -62,9 +62,9 @@ function useColumns(
   });
 
   const columnsStyles = computed(() => {
-    const _columns = unref(columns);
+    const arr = unref(columns);
 
-    return _columns.reduce<Record<Column<any>['key'], CSSProperties>>(
+    return arr.reduce<Record<Column<any>['key'], CSSProperties>>(
       (style, column) => {
         style[column.key] = calcColumnStyle(column, unref(fixed), props.fixed);
         return style;

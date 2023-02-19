@@ -7,7 +7,7 @@ import {
 } from '../util';
 import { TABLE_INJECTION_KEY } from '../tokens';
 import type { TableColumnCtx } from '../tableColumn/defaults';
-import type { TableHeaderProps } from './index';
+import type { TableHeaderProps } from './TableHeader.vue';
 
 function useStyle<T>(props: TableHeaderProps<T>) {
   const parent = inject(TABLE_INJECTION_KEY);

@@ -83,7 +83,7 @@
 <script lang="ts" setup>
 import { computed, effectScope, markRaw, nextTick, onMounted, ref, shallowRef, watch } from 'vue';
 import { isNumber, useEventListener } from '@vueuse/core';
-import { throttle } from 'lodash-unified';
+import { throttle } from 'lodash-es';
 import { useLocale, useNamespace, useZIndex } from '@lemon-peel/hooks';
 import { EVENT_CODE } from '@lemon-peel/constants';
 import { isFirefox, keysOf } from '@lemon-peel/utils';
@@ -157,17 +157,20 @@ const imgStyle = computed(() => {
 
   switch (deg % 360) {
     case 90:
-    case -270:
+    case -270: {
       [translateX, translateY] = [translateY, -translateX];
       break;
+    }
     case 180:
-    case -180:
+    case -180: {
       [translateX, translateY] = [-translateX, -translateY];
       break;
+    }
     case 270:
-    case -90:
+    case -90: {
       [translateX, translateY] = [-translateY, translateX];
       break;
+    }
   }
 
   const style: CSSProperties = {
@@ -239,26 +242,30 @@ function handleActions(action: ImageViewerAction, options = {}) {
     ...options,
   };
   switch (action) {
-    case 'zoomOut':
+    case 'zoomOut': {
       if (transform.value.scale > 0.2) {
         transform.value.scale = Number.parseFloat(
           (transform.value.scale / zoomRate).toFixed(3),
         );
       }
       break;
-    case 'zoomIn':
+    }
+    case 'zoomIn': {
       if (transform.value.scale < 7) {
         transform.value.scale = Number.parseFloat(
           (transform.value.scale * zoomRate).toFixed(3),
         );
       }
       break;
-    case 'clockwise':
+    }
+    case 'clockwise': {
       transform.value.deg += rotateDeg;
       break;
-    case 'anticlockwise':
+    }
+    case 'anticlockwise': {
       transform.value.deg -= rotateDeg;
       break;
+    }
   }
   transform.value.enableTransition = enableTransition;
 }
@@ -267,29 +274,35 @@ function registerEventListener() {
   const keydownHandler = throttle((e: KeyboardEvent) => {
     switch (e.code) {
       // ESC
-      case EVENT_CODE.esc:
+      case EVENT_CODE.esc: {
         props.closeOnPressEscape && hide();
         break;
+      }
       // SPACE
-      case EVENT_CODE.space:
+      case EVENT_CODE.space: {
         toggleMode();
         break;
+      }
       // LEFT_ARROW
-      case EVENT_CODE.left:
+      case EVENT_CODE.left: {
         prev();
         break;
+      }
       // UP_ARROW
-      case EVENT_CODE.up:
+      case EVENT_CODE.up: {
         handleActions('zoomIn');
         break;
+      }
       // RIGHT_ARROW
-      case EVENT_CODE.right:
+      case EVENT_CODE.right: {
         next();
         break;
+      }
       // DOWN_ARROW
-      case EVENT_CODE.down:
+      case EVENT_CODE.down: {
         handleActions('zoomOut');
         break;
+      }
     }
   });
   const mousewheelHandler = throttle(

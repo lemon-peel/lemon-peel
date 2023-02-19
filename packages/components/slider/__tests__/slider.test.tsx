@@ -6,9 +6,9 @@ import { LpFormItem } from '@lemon-peel/components/form';
 import Slider from '../src/Slider.vue';
 import type { SliderProps } from '../src/slider';
 
-vi.mock('lodash-unified', async () => {
+vi.mock('lodash-es', async () => {
   return {
-    ...((await vi.importActual('lodash-unified')) as Record<string, any>),
+    ...((await vi.importActual('lodash-es')) as Record<string, any>),
     debounce: vi.fn(fn => {
       fn.cancel = vi.fn();
       fn.flush = vi.fn();

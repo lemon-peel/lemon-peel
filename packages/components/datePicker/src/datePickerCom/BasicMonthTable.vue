@@ -36,17 +36,17 @@ import dayjs from 'dayjs';
 import { useLocale, useNamespace } from '@lemon-peel/hooks';
 import { rangeArr } from '@lemon-peel/components/timePicker';
 import { castArray, hasClass } from '@lemon-peel/utils';
-import { basicMonthTableProps } from '../props/basicMonthTable
+import { basicMonthTableProps } from '../props/basicMonthTable';
 
 type MonthCell = {
-  column: number
-  row: number
-  disabled: boolean
-  start: boolean
-  end: boolean
-  text: number
-  type: 'normal' | 'today'
-  inRange: boolean
+  column: number;
+  row: number;
+  disabled: boolean;
+  start: boolean;
+  end: boolean;
+  text: number;
+  type: 'normal' | 'today';
+  inRange: boolean;
 };
 
 const datesInMonth = (year: number, month: number, lang: string) => {
@@ -224,16 +224,16 @@ const handleMonthTableClick = (event: MouseEvent | KeyboardEvent) => {
   const month = row * 4 + column;
   const newDate = props.date.startOf('year').month(month);
   if (props.selectionMode === 'range') {
-    if (!props.rangeState.selecting) {
-      emit('pick', { minDate: newDate, maxDate: null });
-      emit('select', true);
-    } else {
+    if (props.rangeState.selecting) {
       if (props.minDate && newDate >= props.minDate) {
         emit('pick', { minDate: props.minDate, maxDate: newDate });
       } else {
         emit('pick', { minDate: newDate, maxDate: props.minDate });
       }
       emit('select', false);
+    } else {
+      emit('pick', { minDate: newDate, maxDate: null });
+      emit('select', true);
     }
   } else {
     emit('pick', month);

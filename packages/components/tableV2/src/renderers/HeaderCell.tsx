@@ -5,7 +5,7 @@ import { placeholderSign } from '../private';
 import { componentToSlot, enforceUnit, tryCall } from '../utils';
 
 import type { FunctionalComponent, UnwrapNestedRefs } from 'vue';
-import type { UseNamespaceReturn } from '@lemon-peel/hooks';
+import type { CssNamespace } from '@lemon-peel/hooks';
 import type { TableV2HeaderRowCellRendererParams } from '../components';
 import type { UseTableReturn } from '../useTable';
 import type { TableV2Props as TableV2Props } from '../table';
@@ -14,7 +14,7 @@ import type { TableV2HeaderCell } from '../headerCell';
 export type HeaderCellRendererProps = TableV2HeaderRowCellRendererParams &
 UnwrapNestedRefs<Pick<UseTableReturn, 'onColumnSorted'>> &
 Pick<TableV2Props, 'sortBy' | 'sortState' | 'headerCellProps'> & {
-  ns: UseNamespaceReturn;
+  ns: CssNamespace;
 };
 
 const HeaderCellRenderer: FunctionalComponent<HeaderCellRendererProps> = (

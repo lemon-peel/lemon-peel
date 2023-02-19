@@ -99,22 +99,22 @@ import type { Placement } from '@lemon-peel/components/popper';
 
 import type { PropType, WritableComputedRef } from 'vue';
 import type { TableColumnCtx } from './tableColumn/defaults';
-import type { TableHeader } from './tableHeader';
+import type { TableHeaderInstance } from './tableHeader';
 
 const { CheckboxGroup: LpCheckboxGroup } = LpCheckbox;
 
 const props = defineProps({
   placement: { type: String as PropType<Placement>, default: 'bottom-start' },
-  column: { type: Object as PropType<TableColumnCtx<unknown>>, required: true },
+  column: { type: Object as PropType<TableColumnCtx>, required: true },
   upDataColumn: { type: Function, required: true },
 });
 
 const instance = getCurrentInstance()!;
 const { t } = useLocale();
 const ns = useNamespace('table-filter');
-const parent = instance.parent as TableHeader;
+const parent = instance.parent as unknown as TableHeaderInstance;
 
-if (!parent.filterPanels.value[props.column.id]) {
+if (!parent.filterPanels[props.column.id]) {
   parent.filterPanels.value[props.column.id] = instance;
 }
 
@@ -127,7 +127,7 @@ const filterValue = computed({
   get: () => (props.column?.filteredValue || [])[0],
   set: (value: string) => {
     if (filteredValue.value) {
-      if (typeof value !== 'undefined' && value !== null) {
+      if (value !== undefined && value !== null) {
         filteredValue.value.splice(0, 1, value);
       } else {
         filteredValue.value.splice(0, 1);
@@ -186,7 +186,7 @@ const handleReset = () => {
 
 const handleSelect = (_filterValue?: string) => {
   filterValue.value = _filterValue;
-  if (typeof _filterValue !== 'undefined' && _filterValue !== null) {
+  if (_filterValue !== undefined && _filterValue !== null) {
     confirmFilter(filteredValue.value);
   } else {
     confirmFilter([]);

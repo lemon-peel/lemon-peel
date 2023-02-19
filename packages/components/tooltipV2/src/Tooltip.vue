@@ -40,7 +40,7 @@
 
 <script setup lang="ts">
 import { reactive, toRefs } from 'vue';
-import { pick } from 'lodash-unified';
+import { pick } from 'lodash-es';
 
 import { tooltipV2ArrowProps } from './arrow';
 import { tooltipV2ContentProps } from './content';

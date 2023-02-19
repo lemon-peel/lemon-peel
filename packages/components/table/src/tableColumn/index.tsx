@@ -1,14 +1,17 @@
-import { Fragment, computed, defineComponent, getCurrentInstance, h, onBeforeMount, onBeforeUnmount, onMounted, ref } from 'vue';
+import { Fragment, defineComponent, getCurrentInstance, isVNode, onBeforeMount, onBeforeUnmount, onMounted, ref, inject } from 'vue';
 import LpCheckbox from '@lemon-peel/components/checkbox';
 import { isString } from '@lemon-peel/utils';
-import { cellStarts } from '../config';
+
 import { compose, mergeOptions } from '../util';
+import { tableColumnProps } from './defaults';
+import { cellStarts } from '../config';
 import useWatcher from './watcherHelper';
 import useRender from './renderHelper';
-import defaultProps from './defaults';
-import type { TableColumn, TableColumnCtx as TableColumnContext } from './defaults';
 
-import type { DefaultRow } from '../table/defaults';
+import type { Component } from 'vue';
+import type { TableColumn, TableColumnCtx } from './defaults';
+import { STORE_INJECTION_KEY, TABLE_INJECTION_KEY } from '../tokens';
+
 
 let columnIdSeed = 1;
 
@@ -17,22 +20,18 @@ export default defineComponent({
   components: {
     LpCheckbox,
   },
-  props: defaultProps,
-  setup(props, { slots }) {
-    const instance = getCurrentInstance() as TableColumn<DefaultRow>;
-    const columnConfig = ref<Partial<TableColumnContext<DefaultRow>>>({});
-    const owner = computed(() => {
-      let parent = instance.parent as any;
-      while (parent && !parent.tableId) {
-        parent = parent.parent;
-      }
-      return parent;
-    });
+  props: tableColumnProps,
+  setup(props, { expose, slots }) {
+    const instance = getCurrentInstance() as TableColumn;
+    const columnConfig = ref<Partial<TableColumnCtx>>({});
+    const table = inject(TABLE_INJECTION_KEY)!;
+    const store = inject(STORE_INJECTION_KEY)!;
 
-    const { registerNormalWatchers, registerComplexWatchers } = useWatcher(
-      owner,
-      props,
-    );
+    const {
+      registerNormalWatchers,
+      registerComplexWatchers,
+    } = useWatcher(table, props, columnConfig);
+
     const {
       columnId,
       isSubColumn,
@@ -44,19 +43,18 @@ export default defineComponent({
       getPropsData,
       getColumnLpIndex,
       realAlign,
-    } = useRender(props as unknown as TableColumnContext<unknown>, slots, owner);
+    } = useRender(table, props, slots);
 
     const parent = columnOrTableParent.value;
-    columnId.value = `${
-      parent.tableId || parent.columnId
-    }_column_${columnIdSeed++}`;
+    columnId.value = `${parent.tableId || parent.columnId}_column_${columnIdSeed++}`;
+
     onBeforeMount(() => {
-      isSubColumn.value = owner.value !== parent;
+      isSubColumn.value = table !== parent;
 
       const type = props.type || 'default';
       const sortable = props.sortable === '' ? true : props.sortable;
       const defaults = {
-        ...cellStarts[type],
+        ...cellStarts[type as keyof typeof cellStarts],
         id: columnId.value,
         type,
         property: props.prop || props.property,
@@ -79,7 +77,7 @@ export default defineComponent({
         rawColumnKey: instance.vnode.key,
       };
 
-      const basicProps = [
+      let column = getPropsData([
         'columnKey',
         'label',
         'className',
@@ -89,19 +87,17 @@ export default defineComponent({
         'formatter',
         'fixed',
         'resizable',
-      ];
-      const sortProps = ['sortMethod', 'sortBy', 'sortOrders'];
-      const selectProps = ['selectable', 'reserveSelection'];
-      const filterProps = [
+      ],
+      ['sortMethod', 'sortBy', 'sortOrders'],
+      ['selectable', 'reserveSelection'],
+      [
         'filterMethod',
         'filters',
         'filterMultiple',
         'filterOpened',
         'filteredValue',
         'filterPlacement',
-      ];
-
-      let column = getPropsData(basicProps, sortProps, selectProps, filterProps);
+      ]);
 
       column = mergeOptions(defaults, column);
       // 注意 compose 中函数执行的顺序是从右到左
@@ -110,13 +106,15 @@ export default defineComponent({
         setColumnWidth,
         setColumnForcedProps,
       );
-      column = chains(column);
+
+      column = chains(column as TableColumnCtx);
       columnConfig.value = column;
 
       // 注册 watcher
       registerNormalWatchers();
       registerComplexWatchers();
     });
+
     onMounted(() => {
       const parent = columnOrTableParent.value;
       const children = isSubColumn.value
@@ -127,36 +125,43 @@ export default defineComponent({
       columnConfig.value.getColumnIndex = getColumnIndex;
       const columnIndex = getColumnIndex();
       columnIndex > -1 &&
-        owner.value.store.commit(
+        store.commit(
           'insertColumn',
           columnConfig.value,
           isSubColumn.value ? parent.columnConfig.value : null,
         );
     });
+
     onBeforeUnmount(() => {
-      owner.value.store.commit(
+      store.commit(
         'removeColumn',
         columnConfig.value,
         isSubColumn.value ? parent.columnConfig.value : null,
       );
     });
-    instance.columnId = columnId.value;
 
+    expose({
+      columnId,
+      columnConfig,
+    });
+
+    instance.columnId = columnId.value;
     instance.columnConfig = columnConfig;
-    return;
-  },
-  render() {
-    try {
-      const renderDefault = this.$slots.default?.({
-        row: {},
-        column: {},
-        $index: -1,
-      });
-      const children = [];
-      if (Array.isArray(renderDefault)) {
+
+    return () => {
+      try {
+        const renderDefault = slots.default!({
+          row: {},
+          column: {},
+          rowIndex: -1,
+        });
+
+        if (!Array.isArray(renderDefault)) return <div />;
+
+        const children = [];
         for (const childNode of renderDefault) {
           if (
-            childNode.type?.name === 'LpTableColumn' ||
+            (childNode.type as Component).name === 'LpTableColumn' ||
             childNode.shapeFlag & 2
           ) {
             children.push(childNode);
@@ -166,17 +171,17 @@ export default defineComponent({
           ) {
             for (const vnode of childNode.children) {
               // No rendering when vnode is dynamic slot or text
-              if (vnode?.patchFlag !== 1024 && !isString(vnode?.children)) {
+              if (isVNode(vnode) && vnode?.patchFlag !== 1024 && !isString(vnode?.children)) {
                 children.push(vnode);
               }
             }
           }
         }
+
+        return <div>{children}</div>;
+      } catch {
+        return <div></div>;
       }
-      const vnode = h('div', children);
-      return vnode;
-    } catch {
-      return h('div', []);
-    }
+    };
   },
 });

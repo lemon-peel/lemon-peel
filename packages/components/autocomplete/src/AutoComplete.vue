@@ -97,7 +97,7 @@
 
 <script lang="ts" setup>
 import { computed, nextTick, onMounted, ref, useAttrs as useRawAttrs } from 'vue';
-import { debounce } from 'lodash-unified';
+import { debounce } from 'lodash-es';
 import { onClickOutside } from '@vueuse/core';
 import { useAttrs, useDisabled, useNamespace } from '@lemon-peel/hooks';
 import { generateId, isArray, throwError } from '@lemon-peel/utils';

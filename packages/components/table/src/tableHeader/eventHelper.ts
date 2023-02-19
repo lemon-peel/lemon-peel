@@ -1,14 +1,16 @@
+/* eslint-disable unicorn/prefer-add-event-listener */
 import { getCurrentInstance, inject, ref } from 'vue';
 import { isClient } from '@vueuse/core';
 import { addClass, hasClass, removeClass } from '@lemon-peel/utils';
-import { TABLE_INJECTION_KEY } from '../tokens';
+import { STORE_INJECTION_KEY, TABLE_INJECTION_KEY } from '../tokens';
 
 import type { SetupContext } from 'vue';
-import type { TableHeaderProps } from './index';
+import type { TableHeaderProps, tableHeaderEmits } from './types';
 import type { TableColumnCtx } from '../tableColumn/defaults';
 
-function useEvent(props: TableHeaderProps, emit: SetupContext['emit']) {
-  const instance = getCurrentInstance();
+function useEvent(props: TableHeaderProps, emit: SetupContext<typeof tableHeaderEmits>['emit']) {
+  const store = inject(STORE_INJECTION_KEY)!;
+  const instance = getCurrentInstance()!;
   const parent = inject(TABLE_INJECTION_KEY)!;
   const handleFilterClick = (event: Event) => {
     event.stopPropagation();
@@ -24,7 +26,7 @@ function useEvent(props: TableHeaderProps, emit: SetupContext['emit']) {
   const handleSortClick = (
     event: Event,
     column: TableColumnCtx,
-    givenOrder: string | boolean,
+    givenOrder?:  'ascending' | 'descending' | false,
   ) => {
     event.stopPropagation();
     const order =
@@ -39,7 +41,7 @@ function useEvent(props: TableHeaderProps, emit: SetupContext['emit']) {
 
     if (!column.sortable) return;
 
-    const states = props.store.states;
+    const states = store.states;
     let sortProp = states.sortProp.value;
     const sortingColumn = states.sortingColumn.value;
 
@@ -53,15 +55,16 @@ function useEvent(props: TableHeaderProps, emit: SetupContext['emit']) {
       states.sortingColumn.value = column;
       sortProp = column.property;
     }
-    const sortOrder = column.order = order ?? undefined;
+
+    const sortOrder = column.order = order ?? null;
 
     states.sortProp.value = sortProp;
     states.sortOrder.value = sortOrder;
 
-    parent?.store.commit('changeSortCondition');
+    store.commit('changeSortCondition');
   };
 
-  const handleHeaderClick = (event: Event, column: TableColumnCtx<T>) => {
+  const handleHeaderClick = (event: Event, column: TableColumnCtx) => {
     if (!column.filters && column.sortable) {
       handleSortClick(event, column, false);
     } else if (column.filterable && !column.sortable) {
@@ -70,13 +73,13 @@ function useEvent(props: TableHeaderProps, emit: SetupContext['emit']) {
     parent?.emit('header-click', column, event);
   };
 
-  const handleHeaderContextMenu = (event: Event, column: TableColumnCtx<T>) => {
+  const handleHeaderContextMenu = (event: Event, column: TableColumnCtx) => {
     parent?.emit('header-contextmenu', column, event);
   };
-  const draggingColumn = ref(null);
+  const draggingColumn = ref<TableColumnCtx | null>(null);
   const dragging = ref(false);
   const dragState = ref({});
-  const handleMouseDown = (event: MouseEvent, column: TableColumnCtx<T>) => {
+  const handleMouseDown = (event: MouseEvent, column: TableColumnCtx) => {
     if (!isClient) return;
     if (column.children && column.children.length > 0) return;
     /* istanbul ignore if */
@@ -85,9 +88,9 @@ function useEvent(props: TableHeaderProps, emit: SetupContext['emit']) {
 
       const table = parent;
       emit('set-drag-visible', true);
-      const tableEl = table?.vnode.el;
+      const tableEl = table.vnode.el!;
       const tableLeft = tableEl.getBoundingClientRect().left;
-      const columnEl = instance.vnode.el.querySelector(`th.${column.id}`);
+      const columnEl = instance.vnode.el!.querySelector(`th.${column.id}`);
       const columnRect = columnEl.getBoundingClientRect();
       const minLeft = columnRect.left - tableLeft + 30;
 
@@ -131,7 +134,7 @@ function useEvent(props: TableHeaderProps, emit: SetupContext['emit']) {
             event,
           );
           requestAnimationFrame(() => {
-            props.store.scheduleLayout(false, true);
+            store.watcher.scheduleLayout(false, true);
           });
           document.body.style.cursor = '';
           dragging.value = false;
@@ -155,10 +158,10 @@ function useEvent(props: TableHeaderProps, emit: SetupContext['emit']) {
     }
   };
 
-  const handleMouseMove = (event: MouseEvent, column: TableColumnCtx<T>) => {
+  const handleMouseMove = (event: MouseEvent, column: TableColumnCtx) => {
     if (column.children && column.children.length > 0) return;
 
-    const target = (event.target as HTMLElement)?.closest('th');
+    const target = (event.target as HTMLElement).closest('th')!;
 
     if (!column || !column.resizable) return;
 
@@ -171,6 +174,7 @@ function useEvent(props: TableHeaderProps, emit: SetupContext['emit']) {
         if (hasClass(target, 'is-sortable')) {
           target.style.cursor = 'col-resize';
         }
+
         draggingColumn.value = column;
       } else if (!dragging.value) {
         bodyStyle.cursor = '';

@@ -10,4 +10,4 @@ export const castArray = <T>(array: Many<T>): T[] => {
 
 // TODO: remove import alias
 // avoid naming conflicts
-export { castArray as ensureArray } from 'lodash-unified';
+export { castArray as ensureArray } from 'lodash-es';

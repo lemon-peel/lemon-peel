@@ -2,16 +2,8 @@ import { ref, watch } from 'vue';
 import { makeList } from '../utils';
 
 import type { Dayjs } from 'dayjs';
-import type {
-  GetDisabledHoursState,
-  GetDisabledMinutesState,
-  GetDisabledSecondsState,
-} from '../types';
-import type {
-  GetDisabledHours,
-  GetDisabledMinutes,
-  GetDisabledSeconds,
-} from '../props/shared';
+import type { GetDisabledHoursState, GetDisabledMinutesState, GetDisabledSecondsState } from '../types';
+import type { GetDisabledHours, GetDisabledMinutes, GetDisabledSeconds } from '../props/shared';
 
 const makeAvailableArr = (disabledList: boolean[]): number[] => {
   const trueOrNumber = (isDisabled: boolean, index: number) =>

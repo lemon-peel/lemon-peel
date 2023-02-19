@@ -3,11 +3,11 @@ import { describe, expect, it, vi } from 'vitest';
 import triggerEvent from '@lemon-peel/test-utils/trigger-event';
 import LpTable from '../src/table/Table.vue';
 import LpTableColumn from '../src/tableColumn';
-import { doubleWait, getTestData, mount } from './table-test-common';
+import { doubleWait, getTestData, mount } from './tableTestCommon';
 
-vi.mock('lodash-unified', async () => {
+vi.mock('lodash-es', async () => {
   return {
-    ...((await vi.importActual('lodash-unified')) as Record<string, any>),
+    ...((await vi.importActual('lodash-es')) as Record<string, any>),
     debounce: vi.fn(fn => {
       fn.cancel = vi.fn();
       fn.flush = vi.fn();

@@ -1,69 +1,63 @@
+import type { DefaultRow } from './../table/defaults';
 
-import { h, inject, ref } from 'vue';
-import { debounce } from 'lodash-unified';
+import { inject } from 'vue';
+import { debounce } from 'lodash-es';
 import { getStyle, hasClass } from '@lemon-peel/utils';
 import { createTablePopper, getCell, getColumnByCell } from '../util';
-import { TABLE_INJECTION_KEY } from '../tokens';
-import type { TableColumnCtx } from '../tableColumn/defaults';
-import type { TableBodyProps } from './defaults';
+import { STORE_INJECTION_KEY, TABLE_INJECTION_KEY } from '../tokens';
 
-function useEvents<T>(props: Partial<TableBodyProps<T>>) {
-  const parent = inject(TABLE_INJECTION_KEY);
-  const tooltipContent = ref('');
-  const tooltipTrigger = ref(h('div'));
-  const handleEvent = (event: Event, row: T, name: string) => {
-    const table = parent;
+import type { TableColumnCtx } from '../tableColumn/defaults';
+
+function useEvents() {
+  const table = inject(TABLE_INJECTION_KEY)!;
+  const store = inject(STORE_INJECTION_KEY)!;
+
+  const handleEvent = (event: Event, row: DefaultRow, name: string) => {
     const cell = getCell(event);
-    let column: TableColumnCtx<T>;
-    const namespace = table?.vnode.el?.dataset.prefix;
+    let column: TableColumnCtx | null = null;
+    const namespace = table.vnode.el?.dataset.prefix;
     if (cell) {
-      column = getColumnByCell(
-        {
-          columns: props.store.states.columns.value,
-        },
-        cell,
-        namespace,
-      );
+      column = getColumnByCell(store.states.columns.value, cell, namespace);
+
       if (column) {
-        table?.emit(`cell-${name}`, row, column, cell, event);
+        table.emit(`cell-${name}`, row, column, cell, event);
       }
     }
-    table?.emit(`row-${name}`, row, column, event);
+    table.emit(`row-${name}`, row, column, event);
   };
-  const handleDoubleClick = (event: Event, row: T) => {
+
+  const handleDoubleClick = (event: Event, row: DefaultRow) => {
     handleEvent(event, row, 'dblclick');
   };
-  const handleClick = (event: Event, row: T) => {
-    props.store.commit('setCurrentRow', row);
+
+  const handleClick = (event: Event, row: DefaultRow) => {
+    store.commit('setCurrentRow', row);
     handleEvent(event, row, 'click');
   };
-  const handleContextMenu = (event: Event, row: T) => {
+
+  const handleContextMenu = (event: Event, row: DefaultRow) => {
     handleEvent(event, row, 'contextmenu');
   };
+
   const handleMouseEnter = debounce((index: number) => {
-    props.store.commit('setHoverRow', index);
+    store.commit('setHoverRow', index);
   }, 30);
+
   const handleMouseLeave = debounce(() => {
-    props.store.commit('setHoverRow', null);
+    store.commit('setHoverRow', null);
   }, 30);
+
   const handleCellMouseEnter = (
     event: MouseEvent,
-    row: T,
-    tooltipEffect: string,
+    row: DefaultRow,
+    tooltipEffect?: string,
   ) => {
-    const table = parent;
-    const cell = getCell(event);
-    const namespace = table?.vnode.el?.dataset.prefix;
+    const cell = getCell(event)!;
+    const namespace = table.vnode.el?.dataset.prefix;
     if (cell) {
-      const column = getColumnByCell(
-        {
-          columns: props.store.states.columns.value,
-        },
-        cell,
-        namespace,
-      );
+      const column = getColumnByCell(store.states.columns.value, cell, namespace)!;
       const hoverState = (table.hoverState = { cell, column, row });
-      table?.emit(
+      table.emit(
         'cell-mouse-enter',
         hoverState.row,
         hoverState.column,
@@ -98,23 +92,20 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
       cellChild.scrollWidth > cellChild.offsetWidth
     ) {
       createTablePopper(
-        parent?.refs.tableWrapper,
+        table.refs.tableWrapper,
         cell,
-        cell.innerText || cell.textContent,
-        {
-          placement: 'top',
-          strategy: 'fixed',
-        },
+        cell.textContent || '',
+        { placement: 'top', strategy: 'fixed' },
         tooltipEffect,
       );
     }
   };
-  const handleCellMouseLeave = event => {
+  const handleCellMouseLeave = (event: MouseEvent) => {
     const cell = getCell(event);
     if (!cell) return;
 
-    const oldHoverState = parent?.hoverState;
-    parent?.emit(
+    const oldHoverState = table.hoverState;
+    table.emit(
       'cell-mouse-leave',
       oldHoverState?.row,
       oldHoverState?.column,
@@ -131,8 +122,6 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
     handleMouseLeave,
     handleCellMouseEnter,
     handleCellMouseLeave,
-    tooltipContent,
-    tooltipTrigger,
   };
 }
 

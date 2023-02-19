@@ -20,12 +20,15 @@ const getDirectionAwareKey = (key: string, dir?: Direction) => {
   if (dir !== 'rtl') return key;
 
   switch (key) {
-    case EVENT_CODE.right:
+    case EVENT_CODE.right: {
       return EVENT_CODE.left;
-    case EVENT_CODE.left:
+    }
+    case EVENT_CODE.left: {
       return EVENT_CODE.right;
-    default:
+    }
+    default: {
       return key;
+    }
   }
 };
 

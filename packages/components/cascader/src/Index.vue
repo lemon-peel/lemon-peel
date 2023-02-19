@@ -195,7 +195,7 @@
 <script lang="ts">
 import { computed, defineComponent, nextTick, onMounted, ref, VNode, watch } from 'vue';
 import { isPromise } from '@vue/shared';
-import { cloneDeep, debounce } from 'lodash-unified';
+import { cloneDeep, debounce } from 'lodash-es';
 
 import { isClient, useCssVar, useResizeObserver } from '@vueuse/core';
 import LpCascaderPanel, { CommonProps } from '@lemon-peel/components/cascaderPanel';

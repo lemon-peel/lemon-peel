@@ -96,4 +96,4 @@ export const useNamespace = (block: string) => {
   };
 };
 
-export type UseNamespaceReturn = ReturnType<typeof useNamespace>;
+export type CssNamespace = ReturnType<typeof useNamespace>;

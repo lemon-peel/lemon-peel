@@ -39,7 +39,7 @@
 <script lang="ts" setup>
 import { computed, inject, nextTick, onBeforeUnmount, onMounted, provide, reactive, ref, toRefs, useSlots, watch } from 'vue';
 import AsyncValidator from 'async-validator';
-import { clone } from 'lodash-unified';
+import { clone } from 'lodash-es';
 import { refDebounced } from '@vueuse/core';
 import { addUnit, ensureArray, getProp, isBoolean, isFunction, isString } from '@lemon-peel/utils';
 import { formContextKey, formItemContextKey } from '@lemon-peel/tokens';

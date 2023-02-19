@@ -47,15 +47,15 @@
 <script lang="ts" setup>
 import { computed, nextTick, ref, unref, watch } from 'vue';
 import dayjs from 'dayjs';
-import { flatten } from 'lodash-unified';
+import { flatten } from 'lodash-es';
 import { useLocale, useNamespace } from '@lemon-peel/hooks';
 import { castArray } from '@lemon-peel/utils';
-import { basicDateTableProps } from '../props/basicDateTable
+import { basicDateTableProps } from '../props/basicDateTable';
 import { buildPickerTable } from '../utils';
-import LpDatePickerCell from './BasicCellRenderr
+import LpDatePickerCell from './BasicCellRender';
 
 import type { Dayjs } from 'dayjs';
-import type { DateCell } from '../datePicker.type;
+import type { DateCell } from '../datePicker.type';
 
 const props = defineProps(basicDateTableProps);
 const emit = defineEmits(['changerange', 'pick', 'select']);
@@ -98,12 +98,6 @@ const WEEKS = computed(() => {
   );
 });
 
-const hasCurrent = computed<boolean>(() => {
-  return flatten(rows.value).some(row => {
-    return row.isCurrent;
-  });
-});
-
 const days = computed(() => {
   const startOfMonth = props.date.startOf('month');
   const startOfMonthDay = startOfMonth.day() || 7; // day of first day
@@ -118,27 +112,12 @@ const days = computed(() => {
   };
 });
 
-const selectedDate = computed(() => {
-  return props.selectionMode === 'dates'
-    ? (castArray(props.parsedValue) as Dayjs[])
-    : ([] as Dayjs[]);
-});
-
 // Return value indicates should the counter be incremented
 const setDateText = (
   cell: DateCell,
-  {
-    count,
-    rowIndex,
-    columnIndex,
-  }: {
-    count: number
-    rowIndex: number
-    columnIndex: number
-  },
+  { count, rowIndex, columnIndex }: { count: number, rowIndex: number, columnIndex: number },
 ): boolean => {
-  const { startOfMonthDay, dateCountOfMonth, dateCountOfLastMonth } =
-    unref(days);
+  const { startOfMonthDay, dateCountOfMonth, dateCountOfLastMonth } = unref(days);
   const offset = unref(offsetDay);
   if (rowIndex >= 0 && rowIndex <= 1) {
     const numberOfDaysFromPreviousMonth =
@@ -169,23 +148,41 @@ const setDateText = (
   return false;
 };
 
+const selectedDate = computed(() => {
+  return props.selectionMode === 'dates'
+    ? (castArray(props.parsedValue) as Dayjs[])
+    : ([] as Dayjs[]);
+});
+
+const isNormalDay = (type = '') => {
+  return ['normal', 'today'].includes(type);
+};
+
+const cellMatchesDate = (cell: DateCell, date: Dayjs) => {
+  if (!date) return false;
+  return dayjs(date)
+    .locale(lang.value)
+    .isSame(props.date.date(Number(cell.text)), 'day');
+};
+
+const isCurrent = (cell: DateCell): boolean => {
+  return (
+    props.selectionMode === 'date' &&
+    isNormalDay(cell.type) &&
+    cellMatchesDate(cell, props.parsedValue as Dayjs)
+  );
+};
+
 const setCellMetadata = (
   cell: DateCell,
-  {
-    columnIndex,
-    rowIndex,
-  }: {
-    columnIndex: number
-    rowIndex: number
-  },
+  { columnIndex, rowIndex }: { columnIndex: number, rowIndex: number },
   count: number,
 ) => {
   const { disabledDate, cellClassName } = props;
-  const _selectedDate = unref(selectedDate);
   const shouldIncrement = setDateText(cell, { count, rowIndex, columnIndex });
 
   const cellDate = cell.dayjs!.toDate();
-  cell.selected = _selectedDate.find(
+  cell.selected = selectedDate.value.find(
     d => d.valueOf() === cell.dayjs!.valueOf(),
   );
   cell.isSelected = !!cell.selected;
@@ -193,6 +190,28 @@ const setCellMetadata = (
   cell.disabled = disabledDate?.(cellDate);
   cell.customClass = cellClassName?.(cellDate);
   return shouldIncrement;
+};
+
+const isWeekActive = (cell: DateCell) => {
+  if (props.selectionMode !== 'week') return false;
+  let newDate = props.date.startOf('day');
+
+  if (cell.type === 'prev-month') {
+    newDate = newDate.subtract(1, 'month');
+  }
+
+  if (cell.type === 'next-month') {
+    newDate = newDate.add(1, 'month');
+  }
+
+  newDate = newDate.date(Number.parseInt(cell.text as any, 10));
+
+  if (props.parsedValue && !Array.isArray(props.parsedValue)) {
+    const dayOffset = ((props.parsedValue.day() - firstDayOfWeek + 7) % 7) - 1;
+    const weekDate = props.parsedValue.subtract(dayOffset, 'day');
+    return weekDate.isSame(newDate, 'day');
+  }
+  return false;
 };
 
 const setRowMetadata = (row: DateCell[]) => {
@@ -210,14 +229,14 @@ const rows = computed(() => {
   const { minDate, maxDate, rangeState, showWeekNumber } = props;
 
   const offset = offsetDay.value;
-  const rows_ = tableRows.value;
+  const val = tableRows.value;
   const dateUnit = 'day';
   let count = 1;
 
   if (showWeekNumber) {
     for (let rowIndex = 0; rowIndex < 6; rowIndex++) {
-      if (!rows_[rowIndex][0]) {
-        rows_[rowIndex][0] = {
+      if (!val[rowIndex][0]) {
+        val[rowIndex][0] = {
           type: 'week',
           text: startDate.value.add(rowIndex * 7 + 1, dateUnit).week(),
         };
@@ -225,7 +244,7 @@ const rows = computed(() => {
     }
   }
 
-  buildPickerTable({ row: 6, column: 7 }, rows_, {
+  buildPickerTable({ row: 6, column: 7 }, val, {
     startDate: minDate,
     columnIndexOffset: showWeekNumber ? 1 : 0,
     nextEndDate:
@@ -246,7 +265,13 @@ const rows = computed(() => {
     setRowMetadata,
   });
 
-  return rows_;
+  return val;
+});
+
+const hasCurrent = computed<boolean>(() => {
+  return flatten(rows.value).some(row => {
+    return row.isCurrent;
+  });
 });
 
 watch(
@@ -261,25 +286,6 @@ watch(
 
 const focus = async () => {
   currentCellRef.value?.focus();
-};
-
-const isNormalDay = (type = '') => {
-  return ['normal', 'today'].includes(type);
-};
-
-const isCurrent = (cell: DateCell): boolean => {
-  return (
-    props.selectionMode === 'date' &&
-    isNormalDay(cell.type) &&
-    cellMatchesDate(cell, props.parsedValue as Dayjs)
-  );
-};
-
-const cellMatchesDate = (cell: DateCell, date: Dayjs) => {
-  if (!date) return false;
-  return dayjs(date)
-    .locale(lang.value)
-    .isSame(props.date.date(Number(cell.text)), 'day');
 };
 
 const getCellClasses = (cell: DateCell) => {
@@ -370,23 +376,6 @@ const isSelectedCell = (cell: DateCell) => {
   );
 };
 
-const handleFocus = (event: FocusEvent) => {
-  if (focusWithClick || hasCurrent.value || props.selectionMode !== 'date')
-    return;
-  handlePickDate(event, true);
-};
-
-const handleMouseDown = (event: MouseEvent) => {
-  const target = (event.target as HTMLElement).closest('td');
-  if (!target) return;
-  focusWithClick = true;
-};
-
-const handleMouseUp = (event: MouseEvent) => {
-  const target = (event.target as HTMLElement).closest('td');
-  if (!target) return;
-  focusWithClick = false;
-};
 
 const handlePickDate = (
   event: FocusEvent | MouseEvent,
@@ -404,59 +393,69 @@ const handlePickDate = (
 
   const newDate = getDateOfCell(row, column);
 
-  if (props.selectionMode === 'range') {
-    if (!props.rangeState.selecting || !props.minDate) {
-      emit('pick', { minDate: newDate, maxDate: null });
-      emit('select', true);
-    } else {
-      if (newDate >= props.minDate) {
-        emit('pick', { minDate: props.minDate, maxDate: newDate });
+  switch (props.selectionMode) {
+    case 'range': {
+      if (!props.rangeState.selecting || !props.minDate) {
+        emit('pick', { minDate: newDate, maxDate: null });
+        emit('select', true);
       } else {
-        emit('pick', { minDate: newDate, maxDate: props.minDate });
+        if (newDate >= props.minDate) {
+          emit('pick', { minDate: props.minDate, maxDate: newDate });
+        } else {
+          emit('pick', { minDate: newDate, maxDate: props.minDate });
+        }
+        emit('select', false);
       }
-      emit('select', false);
+
+      break;
     }
-  } else if (props.selectionMode === 'date') {
-    emit('pick', newDate, isKeyboardMovement);
-  } else if (props.selectionMode === 'week') {
-    const weekNumber = newDate.week();
-    const value = `${newDate.year()}w${weekNumber}`;
-    emit('pick', {
-      year: newDate.year(),
-      week: weekNumber,
-      value,
-      date: newDate.startOf('week'),
-    });
-  } else if (props.selectionMode === 'dates') {
-    const newValue = cell.selected
-      ? castArray(props.parsedValue).filter(
-        d => d?.valueOf() !== newDate.valueOf(),
-      )
-      : castArray(props.parsedValue).concat([newDate]);
-    emit('pick', newValue);
+    case 'date': {
+      emit('pick', newDate, isKeyboardMovement);
+
+      break;
+    }
+    case 'week': {
+      const weekNumber = newDate.week();
+      const value = `${newDate.year()}w${weekNumber}`;
+      emit('pick', {
+        year: newDate.year(),
+        week: weekNumber,
+        value,
+        date: newDate.startOf('week'),
+      });
+
+      break;
+    }
+    case 'dates': {
+      const newValue = cell.selected
+        ? castArray(props.parsedValue).filter(
+          d => d?.valueOf() !== newDate.valueOf(),
+        )
+        : castArray(props.parsedValue).concat([newDate]);
+      emit('pick', newValue);
+
+      break;
+    }
+  // No default
   }
 };
 
-const isWeekActive = (cell: DateCell) => {
-  if (props.selectionMode !== 'week') return false;
-  let newDate = props.date.startOf('day');
+const handleFocus = (event: FocusEvent) => {
+  if (focusWithClick || hasCurrent.value || props.selectionMode !== 'date')
+    return;
+  handlePickDate(event, true);
+};
 
-  if (cell.type === 'prev-month') {
-    newDate = newDate.subtract(1, 'month');
-  }
+const handleMouseDown = (event: MouseEvent) => {
+  const target = (event.target as HTMLElement).closest('td');
+  if (!target) return;
+  focusWithClick = true;
+};
 
-  if (cell.type === 'next-month') {
-    newDate = newDate.add(1, 'month');
-  }
-
-  newDate = newDate.date(Number.parseInt(cell.text as any, 10));
-
-  if (props.parsedValue && !Array.isArray(props.parsedValue)) {
-    const dayOffset = ((props.parsedValue.day() - firstDayOfWeek + 7) % 7) - 1;
-    const weekDate = props.parsedValue.subtract(dayOffset, 'day');
-    return weekDate.isSame(newDate, 'day');
-  }
-  return false;
+const handleMouseUp = (event: MouseEvent) => {
+  const target = (event.target as HTMLElement).closest('td');
+  if (!target) return;
+  focusWithClick = false;
 };
 
 defineExpose({

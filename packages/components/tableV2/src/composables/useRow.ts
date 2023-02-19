@@ -1,5 +1,5 @@
 import { computed, getCurrentInstance, ref, shallowRef, unref, watch } from 'vue';
-import { debounce } from 'lodash-unified';
+import { debounce } from 'lodash-es';
 import { isNumber } from '@lemon-peel/utils';
 import { FixedDir } from '../constants';
 

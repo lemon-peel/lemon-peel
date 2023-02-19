@@ -5,10 +5,7 @@ export const useScrollbar = () => {
   const scrollBarRef = ref();
 
   const scrollTo = (options: ScrollToOptions | number, yCoord?: number) => {
-    const scrollbar = scrollBarRef.value;
-    if (scrollbar) {
-      scrollbar.scrollTo(options, yCoord);
-    }
+    scrollBarRef.value?.scrollTo(options, yCoord);
   };
 
   const setScrollPosition = (position: 'Top' | 'Left', offset?: number) => {

@@ -40,8 +40,8 @@
         <template v-if="!destroyed">
           <slot />
         </template>
-        </lp-popper-content>
-      </lp-popper-content></transition>
+      </lp-popper-content>
+    </transition>
   </teleport>
 </template>
 
@@ -73,7 +73,7 @@ const {
   onHide,
   onBeforeShow,
   onBeforeHide,
-} = inject(TOOLTIP_INJECTION_KEY, undefined)!;
+} = inject(TOOLTIP_INJECTION_KEY)!;
 const persistentRef = computed(() => {
   // For testing, we would always want the content to be rendered
   // to the DOM, so we need to return true here.
@@ -129,7 +129,7 @@ const onBeforeLeave = () => {
 };
 
 let stopHandle: ReturnType<typeof onClickOutside>;
-  
+
 const onAfterShow = () => {
   onShow();
   stopHandle = onClickOutside(

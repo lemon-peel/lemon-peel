@@ -20,7 +20,7 @@
 
 <script lang="ts" setup>
 import { computed, ref, watch } from 'vue';
-import { isEqual } from 'lodash-unified';
+import { isEqual } from 'lodash-es';
 import { LpOption, LpSelect } from '@lemon-peel/components/select';
 import { useLocale, useNamespace } from '@lemon-peel/hooks';
 import { usePagination } from '../usePagination';

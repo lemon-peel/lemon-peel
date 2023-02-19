@@ -6,15 +6,15 @@ import triggerEvent from '@lemon-peel/test-utils/trigger-event';
 import { rAF } from '@lemon-peel/test-utils/tick';
 import LpTable from '../src/table/Table.vue';
 import LpTableColumn from '../src/tableColumn';
-import { doubleWait, getTestData, mount } from './table-test-common';
+import { doubleWait, getTestData, mount } from './tableTestCommon';
 import type { VueWrapper } from '@vue/test-utils';
 import type { ComponentPublicInstance } from 'vue';
 
 const { CheckboxGroup: LpCheckboxGroup } = LpCheckbox;
 
-vi.mock('lodash-unified', async () => {
+vi.mock('lodash-es', async () => {
   return {
-    ...((await vi.importActual('lodash-unified')) as Record<string, any>),
+    ...((await vi.importActual('lodash-es')) as Record<string, any>),
     debounce: vi.fn(fn => {
       fn.cancel = vi.fn();
       fn.flush = vi.fn();

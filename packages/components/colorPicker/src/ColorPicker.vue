@@ -103,7 +103,7 @@
 
 <script lang="ts" setup>
 import { computed, nextTick, onMounted, provide, reactive, ref, watch } from 'vue';
-import { debounce } from 'lodash-unified';
+import { debounce } from 'lodash-es';
 import { LpButton } from '@lemon-peel/components/button';
 import { LpIcon } from '@lemon-peel/components/icon';
 import { ClickOutside as vClickOutside } from '@lemon-peel/directives';

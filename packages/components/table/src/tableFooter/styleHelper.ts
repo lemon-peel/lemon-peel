@@ -1,23 +1,57 @@
+import { computed, inject } from 'vue';
 import { useNamespace } from '@lemon-peel/hooks';
 
 import { ensurePosition, getFixedColumnOffset, getFixedColumnsClass } from '../util';
-import useMapState from './mapStateHelper';
+import { STORE_INJECTION_KEY } from '../tokens';
 
 import type { TableColumnCtx } from '../tableColumn/defaults';
-import type { TableFooter } from './index';
+import type { Store } from '../store';
 
-function useStyle<T>(props: TableFooter<T>) {
+function useMapState() {
+  const store = inject(STORE_INJECTION_KEY)!;
+
+  const leftFixedLeafCount = computed(() => {
+    return store.states.fixedLeafColumnsLength.value;
+  });
+
+  const rightFixedLeafCount = computed(() => {
+    return store.states.rightFixedColumns.value.length;
+  });
+
+  const columnsCount = computed(() => {
+    return store.states.columns.value.length;
+  });
+
+  const leftFixedCount = computed(() => {
+    return store.states.fixedColumns.value.length;
+  });
+
+  const rightFixedCount = computed(() => {
+    return store.states.rightFixedColumns.value.length;
+  });
+
+  return {
+    leftFixedLeafCount,
+    rightFixedLeafCount,
+    columnsCount,
+    leftFixedCount,
+    rightFixedCount,
+    columns: store.states.columns,
+  };
+}
+
+function useStyle(store: Store) {
   const { columns } = useMapState();
   const ns = useNamespace('table');
 
-  const getCellClasses = (columns: TableColumnCtx<T>[], cellIndex: number) => {
+  const getCellClasses = (columns: TableColumnCtx[], cellIndex: number) => {
     const column = columns[cellIndex];
     const classes = [
       ns.e('cell'),
       column.id,
       column.align,
       column.labelClassName,
-      ...getFixedColumnsClass(ns.b(), cellIndex, column.fixed, props.store),
+      ...getFixedColumnsClass(ns.b(), cellIndex, column.fixed, store),
     ];
     if (column.className) {
       classes.push(column.className);
@@ -28,12 +62,13 @@ function useStyle<T>(props: TableFooter<T>) {
     return classes;
   };
 
-  const getCellStyles = (column: TableColumnCtx<T>, cellIndex: number) => {
+  const getCellStyles = (column: TableColumnCtx, cellIndex: number) => {
     const fixedStyle = getFixedColumnOffset(
       cellIndex,
       column.fixed,
-      props.store,
+      store,
     );
+
     ensurePosition(fixedStyle, 'left');
     ensurePosition(fixedStyle, 'right');
     return fixedStyle;

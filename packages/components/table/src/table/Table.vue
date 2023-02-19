@@ -88,7 +88,6 @@
               @set-drag-visible="setDragVisible"
             />
             <table-body
-              :context="context"
               :highlight="highlightCurrentRow"
               :row-class-name="rowClassName"
               :tooltip-effect="tooltipEffect"
@@ -143,45 +142,44 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, defineEmits, getCurrentInstance, provide } from 'vue';
-import { debounce } from 'lodash-unified';
+import { computed, getCurrentInstance, nextTick, provide } from 'vue';
 import { Mousewheel as vMousewheel } from '@lemon-peel/directives';
 import { useLocale, useNamespace } from '@lemon-peel/hooks';
+import { debounce } from 'lodash-es';
 import LpScrollbar from '@lemon-peel/components/scrollbar';
-import { createStore } from '../store/helper';
-import TableLayout from '../tableLayout';
-import TableHeader from '../tableHeader';
+
+import { tableProps, tableEmits } from './defaults';
+import TableLayout from '../layout/TableLayout';
+import TableHeader from '../tableHeader/TableHeader.vue';
 import TableBody from '../tableBody';
 import TableFooter from '../tableFooter';
+import HColGroup from '../HColGroup.vue';
 import useUtils from './utilsHelper';
 import useStyle from './styleHelper';
-import { tableProps, tableEmits } from './defaults';
 
-import { TABLE_INJECTION_KEY } from '../tokens';
-import { HColGroup } from '../HHelper';
 import { useScrollbar } from '../composables/useScrollbar';
+import { TABLE_INJECTION_KEY } from '../tokens';
 
-import type { TableExpose } from './defaults';
+import type { TableVM } from './defaults';
+import useStore from '../store';
 
-const tableIdSeed = 1;
+let tableIdSeed = 1;
 
-defineOptions({
-  name: 'LpTable',
-});
+defineOptions({ name: 'LpTable' });
 
-const porps = defineProps(tableProps);
+const props = defineProps(tableProps);
 const emit = defineEmits(tableEmits);
 
 const { t } = useLocale();
 const ns = useNamespace('table');
-const table = getCurrentInstance()!;
-provide(TABLE_INJECTION_KEY, table);
+const vm = getCurrentInstance()! as TableVM;
+provide(TABLE_INJECTION_KEY, vm);
 
-const store = createStore(table, props);
+const store = useStore(vm);
 
 const layout = new TableLayout({
-  store: table.store,
-  table,
+  table: vm,
+  store,
   fit: props.fit,
   showHeader: props.showHeader,
 });
@@ -210,9 +208,9 @@ const {
   isGroup,
   handleMouseLeave,
   handleHeaderFooterMousewheel,
+  handleFixedMousewheel,
   tableSize,
   emptyBlockStyle,
-  handleFixedMousewheel,
   resizeProxyVisible,
   bodyWidth,
   resizeState,
@@ -222,7 +220,7 @@ const {
   scrollbarViewStyle,
   tableInnerStyle,
   scrollbarStyle,
-} = useStyle(props, layout, store, table);
+} = useStyle(props, layout, store, vm);
 
 const { scrollBarRef, scrollTo, setScrollLeft, setScrollTop } =
       useScrollbar();
@@ -239,9 +237,24 @@ const computedEmptyText = computed(() => {
 
 const tableId = `${ns.namespace.value}-table_${tableIdSeed++}`;
 
+vm.tableId = tableId;
+vm.state = {
+  isGroup,
+  resizeState,
+  doLayout,
+  debouncedUpdateLayout,
+};
+
+const updateTableScrollY = () => {
+  nextTick(() => layout.updateScrollY.apply(layout));
+};
+
+onBeforeUnmount(() => {
+  store.clear();
+});
+
 defineExpose({
-  tableId,
-  layout,
+  updateTableScrollY,
   $ready: false,
   state: {
     isGroup,
@@ -249,5 +262,46 @@ defineExpose({
     doLayout,
     debouncedUpdateLayout,
   },
-} satisfies TableExpose);
+
+  layout,
+  store,
+  handleHeaderFooterMousewheel,
+  handleMouseLeave,
+  tableId,
+  tableSize,
+  isHidden,
+  isEmpty,
+  renderExpanded,
+  resizeProxyVisible,
+  resizeState,
+  isGroup,
+  bodyWidth,
+  tableBodyStyles,
+  emptyBlockStyle,
+  debouncedUpdateLayout,
+  handleFixedMousewheel,
+  setCurrentRow,
+  getSelectionRows,
+  toggleRowSelection,
+  clearSelection,
+  clearFilter,
+  toggleAllSelection,
+  toggleRowExpansion,
+  clearSort,
+  doLayout,
+  sort,
+  t,
+  setDragVisible,
+  context: vm,
+  computedSumText,
+  computedEmptyText,
+  tableLayout,
+  scrollbarViewStyle,
+  tableInnerStyle,
+  scrollbarStyle,
+  scrollBarRef,
+  scrollTo,
+  setScrollLeft,
+  setScrollTop,
+});
 </script>

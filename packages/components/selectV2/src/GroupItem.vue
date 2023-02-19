@@ -18,14 +18,13 @@
 import { defineComponent } from 'vue';
 import { useNamespace } from '@lemon-peel/hooks';
 
+import type { CSSProperties, PropType } from 'vue';
+
 export default defineComponent({
   props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-    style: Object,
-    height: Number,
+    item: { type: Object, required: true },
+    style: { type: Object as PropType<CSSProperties>, default: () => ({}) },
+    height: { type: Number, required: true },
   },
   setup() {
     const ns = useNamespace('select');

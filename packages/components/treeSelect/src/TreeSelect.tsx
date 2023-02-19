@@ -1,6 +1,6 @@
 
 import { computed, defineComponent, onMounted, reactive, ref } from 'vue';
-import { pick } from 'lodash-unified';
+import { pick } from 'lodash-es';
 import { unrefs } from '@lemon-peel/utils';
 import LpSelect from '@lemon-peel/components/select';
 import LpTree from '@lemon-peel/components/tree';

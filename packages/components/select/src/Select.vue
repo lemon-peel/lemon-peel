@@ -256,7 +256,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, defineExpose, nextTick, onMounted, provide, reactive, toRefs, unref } from 'vue';
+import { computed, nextTick, onMounted, provide, reactive, toRefs, unref } from 'vue';
 import { useResizeObserver } from '@vueuse/core';
 import { ClickOutside } from '@lemon-peel/directives';
 import { useFocus, useLocale, useNamespace } from '@lemon-peel/hooks';

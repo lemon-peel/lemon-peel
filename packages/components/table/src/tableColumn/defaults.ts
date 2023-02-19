@@ -1,34 +1,39 @@
 
-import type { ComponentInternalInstance, PropType, Ref, VNode } from 'vue';
-import type { DefaultRow, Table } from '../table/defaults';
+import { buildProps } from '@lemon-peel/utils';
 
+import type { ExtractPropTypes, ComponentInternalInstance, PropType, Ref, VNode, VNodeChild } from 'vue';
+import type { RenderHeaderData, RenderRowData } from '../table/defaults';
+import type { DefaultRow, TableVM } from '../table/defaults';
+import type { SortBy } from '../util';
 
-type CI<T = DefaultRow> = { column: TableColumnCtx<T>, $index: number };
-
-type Filters = {
+export type Filters = {
   text: string;
   value: string;
 }[];
 
-type FilterMethods<T = DefaultRow> = (value: T, row: T, column: TableColumnCtx<T>) => void;
+export type FilterMethods = (value: any, row: DefaultRow, column: TableColumnCtx) => void;
 
-type ValueOf<T> = T[keyof T];
+export type ValueOf<T> = T[keyof T];
 
-interface TableColumnCtx<T = DefaultRow> {
+export interface TableColumnCtx {
   id: string;
-  realWidth: number;
+
   type: string;
   label: string;
   className: string;
   labelClassName: string;
   property: string;
   prop: string;
-  width: string | number;
+
+  width?: string | number;
+  realWidth: number | null;
   minWidth: string | number;
-  renderHeader: (data: CI<T>) => VNode;
+  realMinWidth: string | number;
+
+  renderHeader: (data: RenderHeaderData) => VNodeChild;
   sortable: boolean | string;
-  sortMethod: (a: T, b: T) => number;
-  sortBy: string | ((row: T, index: number) => string) | string[];
+  sortMethod: (a: DefaultRow, b: DefaultRow) => number;
+  sortBy: SortBy;
   resizable: boolean;
   columnKey: string;
   rawColumnKey: string;
@@ -37,109 +42,81 @@ interface TableColumnCtx<T = DefaultRow> {
   showTooltipWhenOverflow: boolean;
   showOverflowTooltip: boolean;
   fixed: boolean | string;
-  formatter: (
-    row: T,
-    column: TableColumnCtx<T>,
-    cellValue: any,
-    index: number
-  ) => VNode | string;
-  selectable: (row: T, index: number) => boolean;
+  formatter: (row: DefaultRow, column: TableColumnCtx, cellValue: any, index: number) => VNode | string;
+  selectable: (row: DefaultRow, index: number) => boolean;
   reserveSelection: boolean;
-  filterMethod: FilterMethods<T>;
+  filterMethod: FilterMethods;
   filteredValue: string[];
   filters: Filters;
   filterPlacement: string;
   filterMultiple: boolean;
   index: number | ((index: number) => number);
   sortOrders: ('ascending' | 'descending' | null)[];
-  renderCell: (data: any) => void;
+  renderCell: (data: RenderRowData) => VNodeChild;
   colSpan: number;
   rowSpan: number;
-  children?: TableColumnCtx<T>[];
+  children?: TableColumnCtx[];
   level: number;
-  filterable: boolean | FilterMethods<T> | Filters;
-  order: 'ascending' | 'descending';
+  filterable: boolean | FilterMethods | Filters;
+  order: 'ascending' | 'descending' | null;
   isColumnGroup: boolean;
   isSubColumn: boolean;
-  columns: TableColumnCtx<T>[];
+  columns: TableColumnCtx[];
   getColumnIndex: () => number;
   no: number;
   filterOpened?: boolean;
 }
 
-interface TableColumn<T = DefaultRow> extends ComponentInternalInstance {
+export interface TableColumn extends ComponentInternalInstance {
   vnode: {
-    vParent: TableColumn<T> | Table<T>;
+    vParent: TableColumn | TableVM;
   } & VNode;
-  vParent: TableColumn<T> | Table<T>;
+  vParent: TableColumn | TableVM;
   columnId: string;
-  columnConfig: Ref<Partial<TableColumnCtx<T>>>;
+  columnConfig: Ref<Partial<TableColumnCtx>>;
 }
 
-export type { Filters, FilterMethods, TableColumnCtx, TableColumn, ValueOf };
-
-export default {
-  type: {
-    type: String,
-    default: 'default',
-  },
+export const tableColumnProps = buildProps({
+  type: { type: String, default: 'default' },
   label: String,
   className: String,
   labelClassName: String,
   property: String,
   prop: String,
-  width: {
-    type: [String, Number],
-    default: '',
-  },
-  minWidth: {
-    type: [String, Number],
-    default: '',
-  },
-  renderHeader: Function as PropType<
-  TableColumnCtx<DefaultRow>['renderHeader']
-  >,
-  sortable: {
-    type: [Boolean, String],
-    default: false,
-  },
-  sortMethod: Function as PropType<TableColumnCtx<DefaultRow>['sortMethod']>,
-  sortBy: [String, Function, Array] as PropType<
-  TableColumnCtx<DefaultRow>['sortBy']
-  >,
-  resizable: {
-    type: Boolean,
-    default: true,
-  },
+  width: { type: [String, Number], default: '' },
+  minWidth: { type: [String, Number], default: '' },
+  renderHeader: { type: Function as PropType<TableColumnCtx['renderHeader']> },
+  sortable: { type: [Boolean, String], default: false },
+  sortMethod: { type: Function as PropType<TableColumnCtx['sortMethod']> },
+  sortBy: { type: [String, Function, Array] as PropType<TableColumnCtx['sortBy']> },
+  resizable: { type: Boolean, default: true },
   columnKey: String,
   align: String,
   headerAlign: String,
   showTooltipWhenOverflow: Boolean,
   showOverflowTooltip: Boolean,
-  fixed: [Boolean, String],
-  formatter: Function as PropType<TableColumnCtx<DefaultRow>['formatter']>,
-  selectable: Function as PropType<TableColumnCtx<DefaultRow>['selectable']>,
+  fixed: { type: [Boolean, String] },
+  formatter: { type: Function as PropType<TableColumnCtx['formatter']> },
+  selectable: { type: Function as PropType<TableColumnCtx['selectable']> },
   reserveSelection: Boolean,
-  filterMethod: Function as PropType<
-  TableColumnCtx<DefaultRow>['filterMethod']
-  >,
-  filteredValue: Array as PropType<TableColumnCtx<DefaultRow>['filteredValue']>,
-  filters: Array as PropType<TableColumnCtx<DefaultRow>['filters']>,
+  filterMethod: { type: Function as PropType<TableColumnCtx['filterMethod']> },
+  filteredValue: { type: Array as PropType<TableColumnCtx['filteredValue']> },
+  filters: { type: Array as PropType<TableColumnCtx['filters']> },
   filterPlacement: String,
-  filterMultiple: {
-    type: Boolean,
-    default: true,
-  },
-  index: [Number, Function] as PropType<TableColumnCtx<DefaultRow>['index']>,
+  filterOpened: Boolean,
+  filterMultiple: { type: Boolean, default: true },
+  index: { type: [Number, Function] as PropType<TableColumnCtx['index']> },
   sortOrders: {
-    type: Array as PropType<TableColumnCtx<DefaultRow>['sortOrders']>,
+    type: Array as PropType<TableColumnCtx['sortOrders']>,
     default: () => {
       return ['ascending', 'descending', null];
     },
-    validator: (val: TableColumnCtx<unknown>['sortOrders']) => {
-      return val.every((order: string) =>
+    validator: (val: TableColumnCtx['sortOrders']) => {
+      return val.every((order: any) =>
         ['ascending', 'descending', null].includes(order),
       );
     },
   },
-};
+});
+
+export type TableColumnProps = Readonly<ExtractPropTypes<typeof tableColumnProps>>;

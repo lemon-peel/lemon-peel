@@ -33,30 +33,33 @@ export const useStyles = (
     () => unref(bodyWidth) + (props.fixed ? props.vScrollbarSize : 0),
   );
 
+  const fixedRowsHeight = computed(() => {
+    return (props.fixedData?.length || 0) * props.rowHeight;
+  });
+
+  const rowsHeight = computed(() => {
+    const { rowHeight, estimatedRowHeight } = props;
+    const d = unref(data);
+    if (isNumber(estimatedRowHeight)) {
+      return d.length * estimatedRowHeight;
+    }
+
+    return d.length * rowHeight;
+  });
+
+  const headerHeight = computed(() => sum(props.headerHeight));
+
   const mainTableHeight = computed(() => {
     const { height = 0, maxHeight = 0, footerHeight, hScrollbarSize } = props;
 
     if (maxHeight > 0) {
-      const _fixedRowsHeight = unref(fixedRowsHeight);
-      const _rowsHeight = unref(rowsHeight);
-      const _headerHeight = unref(headerHeight);
       const total =
-        _headerHeight + _fixedRowsHeight + _rowsHeight + hScrollbarSize;
+      headerHeight.value + fixedRowsHeight.value + rowsHeight.value + hScrollbarSize;
 
       return Math.min(total, maxHeight - footerHeight);
     }
 
     return height - footerHeight;
-  });
-
-  const rowsHeight = computed(() => {
-    const { rowHeight, estimatedRowHeight } = props;
-    const _data = unref(data);
-    if (isNumber(estimatedRowHeight)) {
-      return _data.length * estimatedRowHeight;
-    }
-
-    return _data.length * rowHeight;
   });
 
   const fixedTableHeight = computed(() => {
@@ -79,12 +82,6 @@ export const useStyles = (
   const rightTableWidth = computed(() =>
     sum(unref(fixedColumnsOnRight).map(mapColumn)),
   );
-
-  const headerHeight = computed(() => sum(props.headerHeight));
-
-  const fixedRowsHeight = computed(() => {
-    return (props.fixedData?.length || 0) * props.rowHeight;
-  });
 
   const windowHeight = computed(() => {
     return unref(mainTableHeight) - unref(headerHeight) - unref(fixedRowsHeight);

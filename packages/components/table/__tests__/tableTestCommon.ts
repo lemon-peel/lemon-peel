@@ -1,27 +1,27 @@
-import { nextTick } from 'vue'
-import { mount as _mount } from '@vue/test-utils'
-import { vi } from 'vitest'
+import { nextTick } from 'vue';
+import { mount as _mount } from '@vue/test-utils';
+import { vi } from 'vitest';
 
-vi.mock('lodash-unified', async () => {
+vi.mock('lodash-es', async () => {
   return {
-    ...((await vi.importActual('lodash-unified')) as Record<string, any>),
-    debounce: vi.fn((fn) => {
-      fn.cancel = vi.fn()
-      fn.flush = vi.fn()
-      return fn
+    ...((await vi.importActual('lodash-es')) as Record<string, any>),
+    debounce: vi.fn(fn => {
+      fn.cancel = vi.fn();
+      fn.flush = vi.fn();
+      return fn;
     }),
-  }
-})
+  };
+});
 
 export async function doubleWait() {
-  await nextTick()
-  await nextTick()
+  await nextTick();
+  await nextTick();
 }
 
 export const mount = (opt: any) =>
   _mount<any>(opt, {
     attachTo: 'body',
-  })
+  });
 
 export function getTestData() {
   return [
@@ -60,5 +60,5 @@ export function getTestData() {
       director: 'Andrew Stanton',
       runtime: 100,
     },
-  ]
+  ];
 }

@@ -438,21 +438,21 @@ const leftPrevMonth = () => {
 };
 
 const rightNextYear = () => {
-  if (!props.unlinkPanels) {
+  if (props.unlinkPanels) {
+    rightDate.value = rightDate.value.add(1, 'year');
+  } else {
     leftDate.value = leftDate.value.add(1, 'year');
     rightDate.value = leftDate.value.add(1, 'month');
-  } else {
-    rightDate.value = rightDate.value.add(1, 'year');
   }
   handlePanelChange('year');
 };
 
 const rightNextMonth = () => {
-  if (!props.unlinkPanels) {
+  if (props.unlinkPanels) {
+    rightDate.value = rightDate.value.add(1, 'month');
+  } else {
     leftDate.value = leftDate.value.add(1, 'month');
     rightDate.value = leftDate.value.add(1, 'month');
-  } else {
-    rightDate.value = rightDate.value.add(1, 'month');
   }
   handlePanelChange('month');
 };

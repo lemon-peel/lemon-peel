@@ -1,21 +1,19 @@
+import type { DefaultRow } from './../table/defaults';
 
 import { inject } from 'vue';
 import { useNamespace } from '@lemon-peel/hooks';
-import {
-  ensurePosition,
-  getFixedColumnOffset,
-  getFixedColumnsClass,
-} from '../util';
-import { TABLE_INJECTION_KEY } from '../tokens';
+import { ensurePosition, getFixedColumnOffset, getFixedColumnsClass } from '../util';
+import { STORE_INJECTION_KEY, TABLE_INJECTION_KEY } from '../tokens';
 import type { TableColumnCtx } from '../tableColumn/defaults';
 import type { TableBodyProps } from './defaults';
 
-function useStyles<T>(props: Partial<TableBodyProps<T>>) {
-  const parent = inject(TABLE_INJECTION_KEY);
+function useStyles(props: TableBodyProps) {
+  const table = inject(TABLE_INJECTION_KEY)!;
+  const store = inject(STORE_INJECTION_KEY)!;
   const ns = useNamespace('table');
 
-  const getRowStyle = (row: T, rowIndex: number) => {
-    const rowStyle = parent?.props.rowStyle;
+  const getRowStyle = (row: DefaultRow, rowIndex: number) => {
+    const rowStyle = table.props.rowStyle;
     if (typeof rowStyle === 'function') {
       return rowStyle.call(null, {
         row,
@@ -25,11 +23,11 @@ function useStyles<T>(props: Partial<TableBodyProps<T>>) {
     return rowStyle || null;
   };
 
-  const getRowClass = (row: T, rowIndex: number) => {
+  const getRowClass = (row: DefaultRow, rowIndex: number) => {
     const classes = [ns.e('row')];
     if (
-      parent?.props.highlightCurrentRow &&
-      row === props.store.states.currentRow.value
+      table.props.highlightCurrentRow &&
+      row === store.states.currentRow.value
     ) {
       classes.push('current-row');
     }
@@ -37,7 +35,8 @@ function useStyles<T>(props: Partial<TableBodyProps<T>>) {
     if (props.stripe && rowIndex % 2 === 1) {
       classes.push(ns.em('row', 'striped'));
     }
-    const rowClassName = parent?.props.rowClassName;
+
+    const rowClassName = table.props.rowClassName;
     if (typeof rowClassName === 'string') {
       classes.push(rowClassName);
     } else if (typeof rowClassName === 'function') {
@@ -54,10 +53,10 @@ function useStyles<T>(props: Partial<TableBodyProps<T>>) {
   const getCellStyle = (
     rowIndex: number,
     columnIndex: number,
-    row: T,
-    column: TableColumnCtx<T>,
+    row: DefaultRow,
+    column: TableColumnCtx,
   ) => {
-    const cellStyle = parent?.props.cellStyle;
+    const cellStyle = table.props.cellStyle;
     let cellStyles = cellStyle ?? {};
     if (typeof cellStyle === 'function') {
       cellStyles = cellStyle.call(null, {
@@ -67,11 +66,13 @@ function useStyles<T>(props: Partial<TableBodyProps<T>>) {
         column,
       });
     }
+
     const fixedStyle = getFixedColumnOffset(
       columnIndex,
-      props?.fixed,
-      props.store,
+      props.fixed,
+      store,
     );
+
     ensurePosition(fixedStyle, 'left');
     ensurePosition(fixedStyle, 'right');
     return Object.assign({}, cellStyles, fixedStyle);
@@ -80,20 +81,21 @@ function useStyles<T>(props: Partial<TableBodyProps<T>>) {
   const getCellClass = (
     rowIndex: number,
     columnIndex: number,
-    row: T,
-    column: TableColumnCtx<T>,
+    row: DefaultRow,
+    column: TableColumnCtx,
     offset: number,
   ) => {
     const fixedClasses = getFixedColumnsClass(
       ns.b(),
       columnIndex,
       props?.fixed,
-      props.store,
+      store,
       undefined,
       offset,
     );
+
     const classes = [column.id, column.align, column.className, ...fixedClasses];
-    const cellClassName = parent?.props.cellClassName;
+    const cellClassName = table.props.cellClassName;
     if (typeof cellClassName === 'string') {
       classes.push(cellClassName);
     } else if (typeof cellClassName === 'function') {
@@ -109,15 +111,16 @@ function useStyles<T>(props: Partial<TableBodyProps<T>>) {
     classes.push(ns.e('cell'));
     return classes.filter(Boolean).join(' ');
   };
+
   const getSpan = (
-    row: T,
-    column: TableColumnCtx<T>,
+    row: DefaultRow,
+    column: TableColumnCtx,
     rowIndex: number,
     columnIndex: number,
   ) => {
     let rowspan = 1;
     let colspan = 1;
-    const fn = parent?.props.spanMethod;
+    const fn = table.props.spanMethod;
     if (typeof fn === 'function') {
       const result = fn({
         row,
@@ -135,20 +138,21 @@ function useStyles<T>(props: Partial<TableBodyProps<T>>) {
     }
     return { rowspan, colspan };
   };
+
   const getColspanRealWidth = (
-    columns: TableColumnCtx<T>[],
+    columns: TableColumnCtx[],
     colspan: number,
     index: number,
   ): number => {
     if (colspan < 1) {
-      return columns[index].realWidth;
+      return columns[index].realWidth!;
     }
+
     const widthArr = columns
       .map(({ realWidth, width }) => realWidth || width)
       .slice(index, index + colspan);
-    return Number(
-      widthArr.reduce((acc, width) => Number(acc) + Number(width), -1),
-    );
+
+    return Number(widthArr.reduce((acc, width) => Number(acc) + Number(width), -1));
   };
 
   return {

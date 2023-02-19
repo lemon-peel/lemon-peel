@@ -2,13 +2,13 @@ import { HeaderRow } from '../components';
 import { tryCall } from '../utils';
 
 import type { FunctionalComponent } from 'vue';
-import type { UseNamespaceReturn } from '@lemon-peel/hooks';
+import type { CssNamespace } from '@lemon-peel/hooks';
 import type { TableV2HeaderRendererParams } from '../components';
 import type { TableV2Props } from '../table';
 
 type HeaderRendererProps = TableV2HeaderRendererParams &
 Pick<TableV2Props, 'headerClass' | 'headerProps'> & {
-  ns: UseNamespaceReturn;
+  ns: CssNamespace;
 };
 
 const HeaderRenderer: FunctionalComponent<HeaderRendererProps> = (

@@ -1,6 +1,6 @@
 import type { CSSProperties, ComputedRef } from 'vue';
 import { computed, getCurrentInstance } from 'vue';
-import { memoize } from 'lodash-unified';
+import { memoize } from 'lodash-es';
 import memoOne from 'memoize-one';
 
 import type { VirtualizedProps } from '../props';

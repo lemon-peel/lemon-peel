@@ -36,7 +36,7 @@ import dayjs from 'dayjs';
 import { useLocale, useNamespace } from '@lemon-peel/hooks';
 import { rangeArr } from '@lemon-peel/components/timePicker';
 import { castArray, hasClass } from '@lemon-peel/utils';
-import { basicYearTableProps } from '../props/basicYearTable
+import { basicYearTableProps } from '../props/basicYearTable';
 
 const datesInYear = (year: number, lang: string) => {
   const firstDay = dayjs(String(year)).locale(lang).startOf('year');
@@ -91,8 +91,7 @@ const handleYearTableClick = (event: MouseEvent | KeyboardEvent) => {
   const target = clickTarget.closest('td');
   if (target && target.textContent) {
     if (hasClass(target, 'disabled')) return;
-    const year = target.textContent || target.innerText;
-    emit('pick', Number(year));
+    emit('pick', Number(target.textContent));
   }
 };
 

@@ -1,39 +1,39 @@
 
-import type { DefaultRow } from './defaults';
 import type { Store } from '../store';
+import type { DefaultRow } from './defaults';
 
-function useUtils<T = DefaultRow>(store: Store<T>) {
-  const setCurrentRow = (row: T) => {
+function useUtils(store: Store) {
+  const setCurrentRow = (row: DefaultRow) => {
     store.commit('setCurrentRow', row);
   };
 
   const getSelectionRows = () => {
-    return store.getSelectionRows();
+    return store.watcher.getSelectionRows();
   };
 
-  const toggleRowSelection = (row: T, selected: boolean) => {
-    store.toggleRowSelection(row, selected, false);
-    store.updateAllSelected();
+  const toggleRowSelection = (row: DefaultRow, selected: boolean) => {
+    store.watcher.toggleRowSelection(row, selected, false);
+    store.watcher.updateAllSelected();
   };
 
   const clearSelection = () => {
-    store.clearSelection();
+    store.watcher.clearSelection();
   };
 
   const clearFilter = (columnKeys: string[]) => {
-    store.clearFilter(columnKeys);
+    store.watcher.clearFilter(columnKeys);
   };
 
   const toggleAllSelection = () => {
     store.commit('toggleAllSelection');
   };
 
-  const toggleRowExpansion = (row: T, expanded?: boolean) => {
-    store.toggleRowExpansionAdapter(row, expanded);
+  const toggleRowExpansion = (row: DefaultRow, expanded?: boolean) => {
+    store.watcher.toggleRowExpansionAdapter(row, expanded);
   };
 
   const clearSort = () => {
-    store.clearSort();
+    store.watcher.clearSort();
   };
 
   const sort = (prop: string, order: string) => {

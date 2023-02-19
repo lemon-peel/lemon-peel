@@ -1,5 +1,5 @@
 import { warn } from 'vue';
-import { fromPairs } from 'lodash-unified';
+import { fromPairs } from 'lodash-es';
 
 import { hasOwn } from '../../objects';
 import { isObject } from '../../types';
