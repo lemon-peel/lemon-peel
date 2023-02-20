@@ -1,6 +1,6 @@
-import { buildProps, definePropType, generateId } from '@lemon-peel/utils';
-import type { ExtractPropTypes } from 'vue';
-import type { CollapseActiveName } from './Collapse.vue';
+import { buildProps, generateId } from '@lemon-peel/utils';
+import type { ExtractPropTypes, PropType } from 'vue';
+import type { CollapseActiveName } from './collapse';
 
 export const collapseItemProps = buildProps({
   title: {
@@ -8,7 +8,7 @@ export const collapseItemProps = buildProps({
     default: '',
   },
   name: {
-    type: definePropType<CollapseActiveName>([String, Number]),
+    type: [String, Number] as PropType<CollapseActiveName>,
     default: () => generateId(),
   },
   disabled: Boolean,

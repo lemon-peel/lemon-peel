@@ -1,33 +1,34 @@
-import { buildProps, definePropType } from '@lemon-peel/utils';
+import { buildProps } from '@lemon-peel/utils';
 
+import type { PropType } from 'vue';
 import type { Measurable } from '@lemon-peel/tokens';
 import type Trigger from './Trigger.vue';
 
 export const popperTriggerProps = buildProps({
   virtualRef: {
-    type: definePropType<Measurable>(Object),
+    type: Object as PropType<Measurable>,
   },
   virtualTriggering: Boolean,
   onMouseenter: {
-    type: definePropType<(e: Event) => void>(Function),
+    type: Function as PropType<(e: Event) => void>,
   },
   onMouseleave: {
-    type: definePropType<(e: Event) => void>(Function),
+    type: Function as PropType<(e: Event) => void>,
   },
   onClick: {
-    type: definePropType<(e: Event) => void>(Function),
+    type: Function as PropType<(e: Event) => void>,
   },
   onKeydown: {
-    type: definePropType<(e: Event) => void>(Function),
+    type: Function as PropType<(e: Event) => void>,
   },
   onFocus: {
-    type: definePropType<(e: Event) => void>(Function),
+    type: Function as PropType<(e: Event) => void>,
   },
   onBlur: {
-    type: definePropType<(e: Event) => void>(Function),
+    type: Function as PropType<(e: Event) => void>,
   },
   onContextmenu: {
-    type: definePropType<(e: Event) => void>(Function),
+    type: Function as PropType<(e: Event) => void>,
   },
   id: String,
   open: Boolean,

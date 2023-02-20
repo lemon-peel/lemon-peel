@@ -1,4 +1,4 @@
-import { buildProps, definePropType } from '@lemon-peel/utils';
+import { buildProps } from '@lemon-peel/utils';
 import { CircleClose, Clock } from '@element-plus/icons-vue';
 import { useSizeProp } from '@lemon-peel/hooks';
 import type TimeSelect from './timeSelect.vue';
@@ -41,11 +41,11 @@ export const timeSelectProps = buildProps({
   maxTime: String,
   name: String,
   prefixIcon: {
-    type: definePropType<string | Component>([String, Object]),
+    type: [String, Object] as PropType<string | Component>,
     default: () => Clock,
   },
   clearIcon: {
-    type: definePropType<string | Component>([String, Object]),
+    type: [String, Object] as PropType<string | Component>,
     default: () => CircleClose,
   },
 } as const);

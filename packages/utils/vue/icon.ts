@@ -1,13 +1,8 @@
 import { CircleCheck, CircleClose, CircleCloseFilled, Close, InfoFilled, Loading, SuccessFilled, WarningFilled } from '@element-plus/icons-vue';
-import { definePropType } from './props';
 
-import type { Component } from 'vue';
+import type { Component, PropType } from 'vue';
 
-export const iconPropType = definePropType<string | Component>([
-  String,
-  Object,
-  Function,
-]);
+export const iconPropType = [String, Object, Function] as PropType<string | Component>;
 
 export const CloseComponents = {
   Close,

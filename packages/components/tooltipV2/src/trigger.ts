@@ -1,9 +1,9 @@
-import { buildProps, definePropType } from '@lemon-peel/utils';
+import { buildProps } from '@lemon-peel/utils';
 
-import type { ExtractPropTypes } from 'vue';
+import type { ExtractPropTypes, PropType } from 'vue';
 
 const EventHandler = {
-  type: definePropType<(e: Event) => boolean | void>(Function),
+  type: Function as PropType<(e: Event) => boolean | void>,
 } as const;
 
 export const tooltipV2TriggerProps = buildProps({

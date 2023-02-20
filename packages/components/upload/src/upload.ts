@@ -1,5 +1,5 @@
 import { NOOP } from '@vue/shared';
-import { buildProps, definePropType, mutable } from '@lemon-peel/utils';
+import { buildProps, mutable } from '@lemon-peel/utils';
 import { ajaxUpload } from './ajax';
 
 import type { UploadAjaxError } from './ajax';
@@ -84,7 +84,7 @@ export const uploadBaseProps = buildProps({
     default: '#',
   },
   headers: {
-    type: definePropType<Headers | Record<string, any>>(Object),
+    type: Object as PropType<Headers | Record<string, any>>,
   },
   method: {
     type: String,
@@ -120,7 +120,7 @@ export const uploadBaseProps = buildProps({
     default: 'select',
   },
   fileList: {
-    type: definePropType<UploadUserFile[]>(Array),
+    type: Array as PropType<UploadUserFile[]>,
     default: () => mutable([] as const),
   },
   autoUpload: {
@@ -133,7 +133,7 @@ export const uploadBaseProps = buildProps({
     default: 'text',
   },
   httpRequest: {
-    type: definePropType<UploadRequestHandler>(Function),
+    type: Function as PropType<UploadRequestHandler>,
     default: ajaxUpload,
   },
   disabled: Boolean,
@@ -143,38 +143,38 @@ export const uploadBaseProps = buildProps({
 export const uploadProps = buildProps({
   ...uploadBaseProps,
   beforeUpload: {
-    type: definePropType<UploadHooks['beforeUpload']>(Function),
+    type: Function as PropType<UploadHooks['beforeUpload']>,
     default: NOOP,
   },
   beforeRemove: {
-    type: definePropType<UploadHooks['beforeRemove']>(Function),
+    type: Function as PropType<UploadHooks['beforeRemove']>,
   },
   onRemove: {
-    type: definePropType<UploadHooks['onRemove']>(Function),
+    type: Function as PropType<UploadHooks['onRemove']>,
     default: NOOP,
   },
   onChange: {
-    type: definePropType<UploadHooks['onChange']>(Function),
+    type: Function as PropType<UploadHooks['onChange']>,
     default: NOOP,
   },
   onPreview: {
-    type: definePropType<UploadHooks['onPreview']>(Function),
+    type: Function as PropType<UploadHooks['onPreview']>,
     default: NOOP,
   },
   onSuccess: {
-    type: definePropType<UploadHooks['onSuccess']>(Function),
+    type: Function as PropType<UploadHooks['onSuccess']>,
     default: NOOP,
   },
   onProgress: {
-    type: definePropType<UploadHooks['onProgress']>(Function),
+    type: Function as PropType<UploadHooks['onProgress']>,
     default: NOOP,
   },
   onError: {
-    type: definePropType<UploadHooks['onError']>(Function),
+    type: Function as PropType<UploadHooks['onError']>,
     default: NOOP,
   },
   onExceed: {
-    type: definePropType<UploadHooks['onExceed']>(Function),
+    type: Function as PropType<UploadHooks['onExceed']>,
     default: NOOP,
   },
 } as const);

@@ -1,5 +1,5 @@
-import { buildProps, definePropType, mutable } from '@lemon-peel/utils';
-import type { ExtractPropTypes } from 'vue';
+import { buildProps, mutable } from '@lemon-peel/utils';
+import type { ExtractPropTypes, PropType } from 'vue';
 import type Col from './Col.vue';
 
 export type ColSizeObject = {
@@ -11,44 +11,29 @@ export type ColSizeObject = {
 export type ColSize = number | ColSizeObject;
 
 export const colProps = buildProps({
-  tag: {
-    type: String,
-    default: 'div',
-  },
-  span: {
-    type: Number,
-    default: 24,
-  },
-  offset: {
-    type: Number,
-    default: 0,
-  },
-  pull: {
-    type: Number,
-    default: 0,
-  },
-  push: {
-    type: Number,
-    default: 0,
-  },
+  tag: { type: String, default: 'div' },
+  span: { type: Number, default: 24 },
+  offset: { type: Number, default: 0 },
+  pull: { type: Number, default: 0 },
+  push: { type: Number, default: 0 },
   xs: {
-    type: definePropType<ColSize>([Number, Object]),
+    type: [Number, Object] as PropType<ColSize>,
     default: () => mutable({} as const),
   },
   sm: {
-    type: definePropType<ColSize>([Number, Object]),
+    type: [Number, Object] as PropType<ColSize>,
     default: () => mutable({} as const),
   },
   md: {
-    type: definePropType<ColSize>([Number, Object]),
+    type: [Number, Object] as PropType<ColSize>,
     default: () => mutable({} as const),
   },
   lg: {
-    type: definePropType<ColSize>([Number, Object]),
+    type: [Number, Object] as PropType<ColSize>,
     default: () => mutable({} as const),
   },
   xl: {
-    type: definePropType<ColSize>([Number, Object]),
+    type: [Number, Object] as PropType<ColSize>,
     default: () => mutable({} as const),
   },
 } as const);

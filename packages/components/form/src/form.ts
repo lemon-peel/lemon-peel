@@ -1,13 +1,13 @@
 import { componentSizes } from '@lemon-peel/constants';
-import { buildProps, definePropType, isArray, isBoolean, isString } from '@lemon-peel/utils';
+import { buildProps, isArray, isBoolean, isString } from '@lemon-peel/utils';
 
-import type { ExtractPropTypes } from 'vue';
+import type { ExtractPropTypes, PropType } from 'vue';
 import type { FormItemProp } from './formItem';
 import type { FormRules } from '@lemon-peel/tokens';
 
 export const formProps = buildProps({
   model: Object,
-  rules: { type: definePropType<FormRules>(Object) },
+  rules: { type: Object as PropType<FormRules> },
   labelPosition: { type: String, values: ['left', 'right', 'top'], default: 'right' },
   requireAsteriskPosition: { type: String, values: ['left', 'right'], default: 'left' },
   labelWidth: { type: [String, Number], default: '' },

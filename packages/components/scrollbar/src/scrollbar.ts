@@ -1,4 +1,4 @@
-import { buildProps, definePropType, isNumber } from '@lemon-peel/utils';
+import { buildProps, isNumber } from '@lemon-peel/utils';
 import type { ExtractPropTypes, StyleValue } from 'vue';
 import type Scrollbar from './Scrollbar.vue';
 
@@ -13,7 +13,7 @@ export const scrollbarProps = buildProps({
   },
   native: Boolean,
   wrapStyle: {
-    type: definePropType<StyleValue>([String, Object, Array]),
+    type: [String, Object, Array] as PropType<StyleValue>,
     default: '',
   },
   wrapClass: {

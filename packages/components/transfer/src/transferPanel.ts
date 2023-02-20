@@ -1,27 +1,23 @@
-import { buildProps, definePropType } from '@lemon-peel/utils';
-import { transferCheckedChangeFn, transferProps } from './Transfer.vue';
+import { buildProps } from '@lemon-peel/utils';
+import { transferCheckedChangeFn, transferProps } from './transfer';
 
-import type { ExtractPropTypes, VNode } from 'vue';
-import type { TransferDataItem, TransferKey } from './Transfer.vue';
+import type { ExtractPropTypes, PropType, VNode } from 'vue';
+import type { TransferDataItem, TransferKey } from './transfer';
 import type TransferPanel from './TransferPanel.vue';
 
 export interface TransferPanelState {
-  checked: TransferKey[]
-  allChecked: boolean
-  query: string
-  inputHover: boolean
-  checkChangeByUser: boolean
+  checked: TransferKey[];
+  allChecked: boolean;
+  query: string;
+  inputHover: boolean;
+  checkChangeByUser: boolean;
 }
 
 export const CHECKED_CHANGE_EVENT = 'checked-change';
 
 export const transferPanelProps = buildProps({
   data: transferProps.data,
-  optionRender: {
-    type: definePropType<(option: TransferDataItem) => VNode | VNode[]>(
-      Function,
-    ),
-  },
+  optionRender: { type: Function as PropType<(option: TransferDataItem) => VNode | VNode[]> },
   placeholder: String,
   title: String,
   filterable: Boolean,

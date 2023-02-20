@@ -1,4 +1,4 @@
-import { buildProps, definePropType } from '@lemon-peel/utils';
+import { buildProps } from '@lemon-peel/utils';
 import { column } from './common';
 
 import type { ExtractPropTypes, StyleValue } from 'vue';
@@ -6,15 +6,15 @@ import type { ExtractPropTypes, StyleValue } from 'vue';
 export const tableV2CellProps = buildProps({
   class: String,
   cellData: {
-    type: definePropType<any>([String, Boolean, Number, Object]),
+    type: [String, Boolean, Number, Object] as PropType<any>,
   },
   column,
   columnIndex: Number,
   style: {
-    type: definePropType<StyleValue>([String, Array, Object]),
+    type: [String, Array, Object] as PropType<StyleValue>,
   },
   rowData: {
-    type: definePropType<any>(Object),
+    type: Object as PropType<any>,
   },
   rowIndex: Number,
 } as const);

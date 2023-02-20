@@ -1,14 +1,14 @@
 /* eslint-disable unicorn/prefer-ternary */
 import { computed, defineComponent, getCurrentInstance, inject, nextTick, onMounted, onUpdated, ref, watch } from 'vue';
 import { useDocumentVisibility, useResizeObserver, useWindowFocus } from '@vueuse/core';
-import { buildProps, capitalize, definePropType, mutable, throwError } from '@lemon-peel/utils';
+import { buildProps, capitalize, mutable, throwError } from '@lemon-peel/utils';
 import { EVENT_CODE } from '@lemon-peel/constants';
 import { LpIcon } from '@lemon-peel/components/icon';
 import { ArrowLeft, ArrowRight, Close } from '@element-plus/icons-vue';
 import { tabsRootContextKey } from '@lemon-peel/tokens';
 import { useNamespace } from '@lemon-peel/hooks';
 import TabBar from './TabBar.vue';
-import type { CSSProperties, ExtractPropTypes } from 'vue';
+import type { CSSProperties, ExtractPropTypes, PropType } from 'vue';
 import type { TabsPaneContext } from '@lemon-peel/tokens';
 import type { TabPaneName } from './Tabs';
 
@@ -19,19 +19,12 @@ interface Scrollable {
 
 export const tabNavProps = buildProps({
   panes: {
-    type: definePropType<TabsPaneContext[]>(Array),
+    type: Array as PropType<TabsPaneContext[]>,
     default: () => mutable([] as const),
   },
-  currentName: {
-    type: [String, Number],
-    default: '',
-  },
+  currentName: { type: [String, Number], default: '' },
   editable: Boolean,
-  type: {
-    type: String,
-    values: ['card', 'border-card', ''],
-    default: '',
-  },
+  type: { type: String, values: ['card', 'border-card', ''], default: '' },
   stretch: Boolean,
 } as const);
 

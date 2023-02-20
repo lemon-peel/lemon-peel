@@ -1,19 +1,19 @@
 import { computed, getCurrentInstance, onMounted, watch } from 'vue';
 import { isFunction } from '@vue/shared';
 import { isClient } from '@vueuse/core';
-import { buildProp, definePropType, isBoolean } from '@lemon-peel/utils';
+import { buildProp, isBoolean } from '@lemon-peel/utils';
 import type { ExtractPropType } from '@lemon-peel/utils';
 import type { RouteLocationNormalizedLoaded } from 'vue-router';
 
-import type { ComponentPublicInstance, ExtractPropTypes, Ref } from 'vue';
+import type { ComponentPublicInstance, ExtractPropTypes, Ref, PropType } from 'vue';
 
 const modelProperty = buildProp({
-  type: definePropType<boolean | null>(Boolean),
+  type: Boolean as PropType<boolean | null>,
   default: null,
 } as const);
 
 const modelEvent = buildProp({
-  type: definePropType<(value: boolean) => void>(Function),
+  type: Function as PropType<(value: boolean) => void>,
 } as const);
 
 export type UseModelTogglePropsRaw<T extends string> = {

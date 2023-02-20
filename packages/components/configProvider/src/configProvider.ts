@@ -1,8 +1,8 @@
 import { defineComponent, renderSlot, watch } from 'vue';
-import { buildProps, definePropType } from '@lemon-peel/utils';
+import { buildProps } from '@lemon-peel/utils';
 import { provideGlobalConfig, useSizeProp } from '@lemon-peel/hooks';
 
-import type { ExtractPropTypes } from 'vue';
+import type { ExtractPropTypes, PropType } from 'vue';
 import type { ExperimentalFeatures } from '@lemon-peel/tokens';
 import type { Language } from '@lemon-peel/locale';
 import type { ButtonConfigContext } from '@lemon-peel/components/button';
@@ -12,42 +12,19 @@ export const messageConfig: MessageConfigContext = {};
 
 export const configProviderProps = buildProps({
   // Controlling if the users want a11y features.
-  a11y: {
-    type: Boolean,
-    default: true,
-  },
-
-  locale: {
-    type: definePropType<Language>(Object),
-  },
-
+  a11y: { type: Boolean, default: true },
+  locale: { type: Object as PropType<Language> },
   size: useSizeProp,
-
-  button: {
-    type: definePropType<ButtonConfigContext>(Object),
-  },
-
-  experimentalFeatures: {
-    type: definePropType<ExperimentalFeatures>(Object),
-  },
+  button: { type: Object as PropType<ButtonConfigContext> },
+  experimentalFeatures: { type: Object as PropType<ExperimentalFeatures> },
 
   // Controls if we should handle keyboard navigation
-  keyboardNavigation: {
-    type: Boolean,
-    default: true,
-  },
-
-  message: {
-    type: definePropType<MessageConfigContext>(Object),
-  },
-
+  keyboardNavigation: { type: Boolean, default: true },
+  message: { type: Object as PropType<MessageConfigContext> },
   zIndex: Number,
+  namespace: { type: String, default: 'el' },
+});
 
-  namespace: {
-    type: String,
-    default: 'el',
-  },
-} as const);
 export type ConfigProviderProps = ExtractPropTypes<typeof configProviderProps>;
 
 const ConfigProvider = defineComponent({

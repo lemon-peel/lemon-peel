@@ -1,7 +1,9 @@
+
+export type Mutable<T> = { -readonly [P in keyof T]: T[P] };
+
 export const mutable = <T extends readonly any[] | Record<string, unknown>>(
   value: T,
 ) => value as Mutable<typeof value>;
-export type Mutable<T> = { -readonly [P in keyof T]: T[P] };
 
 export type HTMLElementCustomized<T> = HTMLElement & T;
 

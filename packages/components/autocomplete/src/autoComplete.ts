@@ -1,10 +1,10 @@
 // eslint-disable-next-line vue/prefer-import-from-vue
 import { NOOP } from '@vue/shared';
-import { buildProps, definePropType, isObject, isString } from '@lemon-peel/utils';
+import { buildProps, isObject, isString } from '@lemon-peel/utils';
 import { useTooltipContentProps } from '@lemon-peel/components/tooltip';
 import { CHANGE_EVENT, INPUT_EVENT, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
 
-import type { ExtractPropTypes } from 'vue';
+import type { ExtractPropTypes, PropType } from 'vue';
 import type Autocomplete from './AutoComplete.vue';
 import type { Placement } from '@lemon-peel/components/popper';
 import type { Awaitable } from '@lemon-peel/utils';
@@ -22,20 +22,20 @@ export type AutocompleteFetchSuggestions =
   | AutocompleteData;
 
 export const autocompleteProps = buildProps({
-  valueKey: {
-    type: String,
-    default: 'value',
-  },
-  modelValue: {
-    type: [String, Number],
-    default: '',
-  },
-  debounce: {
-    type: Number,
-    default: 300,
-  },
+  valueKey: { type: String, default: 'value' },
+  modelValue: { type: [String, Number], default: '' },
+  debounce: { type: Number, default: 300 },
+  fetchSuggestions: { type: [Function, Array] as PropType<AutocompleteFetchSuggestions>, default: NOOP },
+  popperClass: { type: String, default: '' },
+  triggerOnFocus: { type: Boolean, default: true },
+  selectWhenUnmatched: { type: Boolean, default: false },
+  hideLoading: { type: Boolean, default: false },
+  label: { type: String, required: true },
+  teleported: useTooltipContentProps.teleported,
+  highlightFirstItem: { type: Boolean, default: false },
+  fitInputWidth: { type: Boolean, default: false },
   placement: {
-    type: definePropType<Placement>(String),
+    type: String as PropType<Placement>,
     values: [
       'top',
       'top-start',
@@ -46,39 +46,7 @@ export const autocompleteProps = buildProps({
     ],
     default: 'bottom-start',
   },
-  fetchSuggestions: {
-    type: definePropType<AutocompleteFetchSuggestions>([Function, Array]),
-    default: NOOP,
-  },
-  popperClass: {
-    type: String,
-    default: '',
-  },
-  triggerOnFocus: {
-    type: Boolean,
-    default: true,
-  },
-  selectWhenUnmatched: {
-    type: Boolean,
-    default: false,
-  },
-  hideLoading: {
-    type: Boolean,
-    default: false,
-  },
-  label: {
-    type: String,
-  },
-  teleported: useTooltipContentProps.teleported,
-  highlightFirstItem: {
-    type: Boolean,
-    default: false,
-  },
-  fitInputWidth: {
-    type: Boolean,
-    default: false,
-  },
-} as const);
+});
 export type AutocompleteProps = ExtractPropTypes<typeof autocompleteProps>;
 
 export const autocompleteEmits = {

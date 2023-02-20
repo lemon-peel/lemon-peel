@@ -1,4 +1,4 @@
-import { buildProps, definePropType, isBoolean } from '@lemon-peel/utils';
+import { buildProps, isBoolean } from '@lemon-peel/utils';
 import { UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
 import { dialogContentProps } from './dialogContent';
 
@@ -14,7 +14,7 @@ export const dialogProps = buildProps({
     default: false,
   },
   beforeClose: {
-    type: definePropType<DialogBeforeCloseFn>(Function),
+    type: Function as PropType<DialogBeforeCloseFn>,
   },
   destroyOnClose: {
     type: Boolean,

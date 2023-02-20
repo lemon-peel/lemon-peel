@@ -1,16 +1,15 @@
 import {
   buildProp,
   buildProps,
-  definePropType,
   mutable,
 } from '@lemon-peel/utils';
 import { VERTICAL } from './defaults';
 
-import type { ExtractPropTypes, StyleValue } from 'vue';
+import type { ExtractPropTypes, PropType, StyleValue } from 'vue';
 import type { GridItemKeyGetter, ItemSize } from './types';
 
 const itemSize = buildProp({
-  type: definePropType<number | ItemSize>([Number, Function]),
+  type: [Number, Function] as PropType<number | ItemSize>,
   required: true,
 } as const);
 
@@ -46,58 +45,20 @@ const layout = buildProp({
 } as const);
 
 export const virtualizedProps = buildProps({
-  className: {
-    type: String,
-    default: '',
-  },
-
-  containerElement: {
-    type: definePropType<string | Element>([String, Object]),
-    default: 'div',
-  },
-
-  data: {
-    type: definePropType<any[]>(Array),
-    default: () => mutable([] as const),
-  },
-
+  className: { type: String, default: '' },
+  containerElement: { type: [String, Object] as PropType<string | Element>, default: 'div' },
+  data: { type: Array as PropType<any[]>, default: () => mutable([] as const) },
   /**
    * @description controls the horizontal direction.
    */
   direction,
-
-  height: {
-    type: [String, Number],
-    required: true,
-  },
-
-  innerElement: {
-    type: [String, Object],
-    default: 'div',
-  },
-
-  style: {
-    type: definePropType<StyleValue>([Object, String, Array]),
-  },
-
-  useIsScrolling: {
-    type: Boolean,
-    default: false,
-  },
-
-  width: {
-    type: [Number, String],
-    required: false,
-  },
-
-  perfMode: {
-    type: Boolean,
-    default: true,
-  },
-  scrollbarAlwaysOn: {
-    type: Boolean,
-    default: false,
-  },
+  height: { type: [String, Number], required: true },
+  innerElement: { type: [String, Object], default: 'div' },
+  style: { type: [Object, String, Array] as PropType<StyleValue> },
+  useIsScrolling: { type: Boolean, default: false },
+  width: { type: [Number, String], required: false },
+  perfMode: { type: Boolean, default: true },
+  scrollbarAlwaysOn: { type: Boolean, default: false },
 } as const);
 
 export const virtualizedListProps = buildProps({
@@ -141,7 +102,7 @@ export const virtualizedGridProps = buildProps({
   initScrollLeft: initScrollOffset,
   initScrollTop: initScrollOffset,
   itemKey: {
-    type: definePropType<GridItemKeyGetter>(Function),
+    type: Function as PropType<GridItemKeyGetter>,
     default: ({
       columnIndex,
       rowIndex,
@@ -166,22 +127,12 @@ export const virtualizedScrollbarProps = buildProps({
   class: String,
   layout,
   total,
-  ratio: {
-    type: Number,
-    required: true,
-  },
-  clientSize: {
-    type: Number,
-    required: true,
-  },
-  scrollFrom: {
-    type: Number,
-    required: true,
-  },
+  ratio: { type: Number, required: true },
+  clientSize: { type: Number, required: true },
+  scrollFrom: { type: Number, required: true },
   scrollbarSize,
   startGap,
   endGap,
-
   visible: Boolean,
 } as const);
 

@@ -1,5 +1,5 @@
 import { NOOP } from '@vue/shared';
-import { buildProps, definePropType, mutable } from '@lemon-peel/utils';
+import { buildProps, mutable } from '@lemon-peel/utils';
 import { uploadListTypes } from './Upload.vue';
 import type { ExtractPropTypes } from 'vue';
 import type { UploadFile, UploadFiles, UploadHooks } from './Upload.vue';
@@ -7,7 +7,7 @@ import type UploadList from './UploadList.vue';
 
 export const uploadListProps = buildProps({
   files: {
-    type: definePropType<UploadFiles>(Array),
+    type: Array as PropType<UploadFiles>,
     default: () => mutable([]),
   },
   disabled: {
@@ -15,7 +15,7 @@ export const uploadListProps = buildProps({
     default: false,
   },
   handlePreview: {
-    type: definePropType<UploadHooks['onPreview']>(Function),
+    type: Function as PropType<UploadHooks['onPreview']>,
     default: NOOP,
   },
   listType: {

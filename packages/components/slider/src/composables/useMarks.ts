@@ -1,6 +1,6 @@
 import { computed } from 'vue';
 import type { SliderProps } from '../slider';
-import type { SliderMarkerProps } from '../marker';
+import type { SliderMarkerProps } from '../Marker';
 
 export interface Mark extends SliderMarkerProps {
   point: number;

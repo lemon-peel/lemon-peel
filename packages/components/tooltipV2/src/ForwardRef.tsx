@@ -1,12 +1,12 @@
 import { Fragment, defineComponent, ref } from 'vue';
-import { buildProps, composeRefs, definePropType, ensureOnlyChild } from '@lemon-peel/utils';
+import { buildProps, composeRefs, ensureOnlyChild } from '@lemon-peel/utils';
 
-import type { ExtractPropTypes, VNodeArrayChildren } from 'vue';
+import type { ExtractPropTypes, VNodeArrayChildren, PropType } from 'vue';
 
 export type RefSetter = (el: HTMLElement | null) => void;
 
 export const forwardRefProps = buildProps({
-  setRef: { type: definePropType<RefSetter>(Function), required: true },
+  setRef: { type: Function as PropType<RefSetter>, required: true },
   onlyChild: Boolean,
 } as const);
 

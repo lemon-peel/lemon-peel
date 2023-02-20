@@ -1,12 +1,10 @@
-import { buildProps, definePropType } from '@lemon-peel/utils';
+import { buildProps } from '@lemon-peel/utils';
 
-import type { ExtractPropTypes } from 'vue';
+import type { ExtractPropTypes, PropType } from 'vue';
 import type { DateCell } from '../datePicker.type';
 
 export const basicCellProps = buildProps({
-  cell: {
-    type: definePropType<DateCell>(Object),
-  },
-} as const);
+  cell: { type: Object as PropType<DateCell> },
+});
 
 export type BasicCellProps = ExtractPropTypes<typeof basicCellProps>;

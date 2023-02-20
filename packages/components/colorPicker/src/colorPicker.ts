@@ -1,5 +1,5 @@
 import { isNil } from 'lodash-es';
-import { buildProps, definePropType, isString } from '@lemon-peel/utils';
+import { buildProps, isString } from '@lemon-peel/utils';
 import { useSizeProp } from '@lemon-peel/hooks';
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
 
@@ -26,7 +26,7 @@ export const colorPickerProps = buildProps({
     default: 0,
   },
   predefine: {
-    type: definePropType<string[]>(Array),
+    type: Array as PropType<string[]>,
   },
   validateEvent: {
     type: Boolean,

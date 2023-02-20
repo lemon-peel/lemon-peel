@@ -1,11 +1,6 @@
-import {
-  buildProps,
-  definePropType,
-  isArray,
-  isDate,
-} from '@lemon-peel/utils';
+import { buildProps, isArray, isDate } from '@lemon-peel/utils';
 import { INPUT_EVENT, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
-import type { ExtractPropTypes } from 'vue';
+import type { ExtractPropTypes, PropType } from 'vue';
 
 export type CalendarDateType =
   | 'prev-month'
@@ -18,14 +13,9 @@ const isValidRange = (range: unknown): range is [Date, Date] =>
   isArray(range) && range.length === 2 && range.every(item => isDate(item));
 
 export const calendarProps = buildProps({
-  modelValue: {
-    type: Date,
-  },
-  range: {
-    type: definePropType<[Date, Date]>(Array),
-    validator: isValidRange,
-  },
-} as const);
+  modelValue: { type: Date },
+  range: { type: Array as unknown as PropType<[Date, Date]>, validator: isValidRange },
+});
 export type CalendarProps = ExtractPropTypes<typeof calendarProps>;
 
 export const calendarEmits = {

@@ -74,6 +74,7 @@
     "consola": "^2.15.3",
     "csstype": "^2.6.20",
     "eslint": "^8.30.0",
+    "expect-type": "^0.15.0",
     "fast-glob": "^3.2.12",
     "gulp": "^4.0.2",
     "pinia": "^2.0",

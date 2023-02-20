@@ -1,6 +1,5 @@
 import {
   buildProps,
-  definePropType,
   isNumber,
   mutable,
 } from '@lemon-peel/utils';
@@ -16,7 +15,7 @@ export type ImageViewerAction =
 
 export const imageViewerProps = buildProps({
   urlList: {
-    type: definePropType<string[]>(Array),
+    type: Array as PropType<string[]>,
     default: () => mutable([] as const),
   },
   zIndex: {

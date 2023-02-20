@@ -1,9 +1,9 @@
-import { buildProps, definePropType } from '@lemon-peel/utils';
+import { buildProps } from '@lemon-peel/utils';
 import type { StyleValue } from 'vue';
 
 export const visualHiddenProps = buildProps({
   style: {
-    type: definePropType<StyleValue>([String, Object, Array]),
+    type: [String, Object, Array] as PropType<StyleValue>,
     default: () => ({}),
   },
 } as const);

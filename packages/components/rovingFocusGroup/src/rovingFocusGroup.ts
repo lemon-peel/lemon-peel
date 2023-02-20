@@ -1,24 +1,16 @@
-import { buildProps, definePropType } from '@lemon-peel/utils';
+import { buildProps } from '@lemon-peel/utils';
 import { createCollectionWithScope } from '@lemon-peel/components/collection';
-import type { ExtractPropTypes, HTMLAttributes, StyleValue } from 'vue';
+import type { ExtractPropTypes, HTMLAttributes, PropType, StyleValue } from 'vue';
 
 export const rovingFocusGroupProps = buildProps({
-  style: { type: definePropType<StyleValue>([String, Array, Object]) },
-  currentTabId: {
-    type: definePropType<string | null>(String),
-  },
+  style: { type: [String, Array, Object] as PropType<StyleValue> },
+  currentTabId: { type: String as PropType<string | null> },
   defaultCurrentTabId: String,
   loop: Boolean,
-  dir: {
-    type: String, // left for direction support
-    values: ['ltr', 'rtl'],
-    default: 'ltr',
-  },
-  orientation: {
-    // left for orientation support
-    type: definePropType<HTMLAttributes['aria-orientation']>(String),
-  },
-
+  // left for direction support
+  dir: { type: String, values: ['ltr', 'rtl'], default: 'ltr' },
+  // left for orientation support
+  orientation: { type: String as PropType<HTMLAttributes['aria-orientation']> },
   onBlur: Function,
   onFocus: Function,
   onMousedown: Function,

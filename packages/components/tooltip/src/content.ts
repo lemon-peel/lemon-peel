@@ -1,4 +1,4 @@
-import { buildProps, definePropType } from '@lemon-peel/utils';
+import { buildProps } from '@lemon-peel/utils';
 import { popperContentProps } from '@lemon-peel/components/popper';
 import { POPPER_CONTAINER_SELECTOR, useDelayedToggleProps, useNamespace } from '@lemon-peel/hooks';
 import type { ExtractPropTypes } from 'vue';
@@ -9,7 +9,7 @@ export const useTooltipContentProps = buildProps({
   ...useDelayedToggleProps,
   ...popperContentProps,
   appendTo: {
-    type: definePropType<string | HTMLElement>([String, Object]),
+    type: [String, Object] as PropType<string | HTMLElement>,
     default: POPPER_CONTAINER_SELECTOR,
   },
   content: {
@@ -27,7 +27,7 @@ export const useTooltipContentProps = buildProps({
   // [name]: { type: Boolean, default: null }
   // so we need to declare that again for type checking.
   visible: {
-    type: definePropType<boolean | null>(Boolean),
+    type: Boolean as PropType<boolean | null>,
     default: null,
   },
   transition: {

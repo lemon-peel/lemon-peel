@@ -1,4 +1,4 @@
-import { buildProps, definePropType } from '@lemon-peel/utils';
+import { buildProps } from '@lemon-peel/utils';
 import { virtualizedGridProps, virtualizedListProps } from '@lemon-peel/components/virtualList';
 import { classType, columns, dataType, fixedDataType, requiredNumber, styleType } from './common';
 import { tableV2HeaderProps } from './header';
@@ -49,7 +49,7 @@ export const tableV2GridProps = buildProps({
   containerStyle: styleType,
 
   getRowHeight: {
-    type: definePropType<ItemSize>(Function),
+    type: Function as PropType<ItemSize>,
     required: true,
   },
   rowKey: tableV2RowProps.rowKey,
@@ -58,10 +58,10 @@ export const tableV2GridProps = buildProps({
    * Event handlers
    */
   onRowsRendered: {
-    type: definePropType<(params: OnRowRenderedParams) => void>(Function),
+    type: Function as PropType<(params: OnRowRenderedParams) => void>,
   },
   onScroll: {
-    type: definePropType<(...args: any[]) => void>(Function),
+    type: Function as PropType<(...args: any[]) => void>,
   },
 } as const);
 

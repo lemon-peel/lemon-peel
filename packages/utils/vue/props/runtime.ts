@@ -4,12 +4,9 @@ import { fromPairs } from 'lodash-es';
 import { hasOwn } from '../../objects';
 import { isObject } from '../../types';
 
-import type { PropType } from 'vue';
 import type { LpProp, LpPropConvert, LpPropFinalized, LpPropInput, LpPropMergeType, IfLpProp, IfNativePropType, NativePropType } from './types';
 
 export const lpPropKey = '__lpPropKey';
-
-export const definePropType = <T>(value: any): PropType<T> => value;
 
 export const isLpProp = (value: unknown): value is LpProp<any, any, any> =>
   isObject(value) && !!(value as any)[lpPropKey];
@@ -34,16 +31,17 @@ export const isLpProp = (value: unknown): value is LpProp<any, any, any> =>
   } as const)
   @link see more: https://github.com/element-plus/element-plus/pull/3341
  */
-export const buildProp = <
+export function buildProp<
   Type = never,
   Value = never,
   Validator = never,
   Default extends LpPropMergeType<Type, Value, Validator> = never,
   Required extends boolean = false,
 >(
-    property: LpPropInput<Type, Value, Validator, Default, Required>,
-    key?: string,
-  ): LpPropFinalized<Type, Value, Validator, Default, Required> => {
+  property: LpPropInput<Type, Value, Validator, Default, Required>,
+  key?: string,
+): LpPropFinalized<Type, Value, Validator, Default, Required> {
+
   // filter native prop type and nested prop, e.g `null`, `undefined` (from `buildProps`)
   if (!isObject(property) || isLpProp(property)) return property as any;
 
@@ -88,27 +86,20 @@ export const buildProp = <
   };
   if (hasOwn(property, 'default')) lpProp.default = defaultValue;
   return lpProp;
-};
+}
 
-export const buildProps = <
-  Properties extends Record<
-  string,
-  | { [lpPropKey]: true }
-  | NativePropType
-  | LpPropInput<any, any, any, any, any>
-  >,
+export function buildProps<
+  Properties extends Record<string, { [lpPropKey]: true } | NativePropType | LpPropInput<any, any, any, any, any>>,
 >(
-    properties: Properties,
-  ): {
-    [K in keyof Properties]: IfLpProp<
-    Properties[K],
-    Properties[K],
-    IfNativePropType<Properties[K], Properties[K], LpPropConvert<Properties[K]>>
-    >
-  } =>
-    fromPairs(
-      Object.entries(properties).map(([key, option]) => [
-        key,
-        buildProp(option as any, key),
-      ]),
-    ) as any;
+  properties: Properties,
+): {
+    [K in keyof Properties]: IfLpProp<Properties[K], Properties[K], IfNativePropType<Properties[K], Properties[K], LpPropConvert<Properties[K]>>>
+  } {
+
+  return fromPairs(
+    Object.entries(properties).map(([key, option]) => [
+      key,
+      buildProp(option as any, key),
+    ]),
+  ) as any;
+}

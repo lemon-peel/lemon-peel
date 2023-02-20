@@ -2,7 +2,7 @@ import { computed, defineComponent, getCurrentInstance, h, nextTick, onMounted, 
 import { useResizeObserver } from '@vueuse/core';
 import LpIcon from '@lemon-peel/components/icon';
 import { More } from '@element-plus/icons-vue';
-import { buildProps, definePropType, flattedChildren, isObject, isString, mutable } from '@lemon-peel/utils';
+import { buildProps, flattedChildren, isObject, isString, mutable } from '@lemon-peel/utils';
 import { useNamespace } from '@lemon-peel/hooks';
 
 import Menubar from './utils/menuBar';
@@ -26,7 +26,7 @@ export const menuProps = buildProps({
     default: '',
   },
   defaultOpeneds: {
-    type: definePropType<string[]>(Array),
+    type: Array as PropType<string[]>,
     default: () => mutable([] as const),
   },
   uniqueOpened: Boolean,

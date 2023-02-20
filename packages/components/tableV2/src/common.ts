@@ -1,4 +1,4 @@
-import { definePropType, mutable } from '@lemon-peel/utils';
+import { mutable } from '@lemon-peel/utils';
 
 import type { CSSProperties } from 'vue';
 import type { Column, KeyType } from './types';
@@ -12,16 +12,16 @@ export type AnyColumn = Column<any>;
 export const classType = String;
 
 export const columns = {
-  type: definePropType<AnyColumn[]>(Array),
+  type: Array as PropType<AnyColumn[]>,
   required: true,
 } as const;
 
 export const column = {
-  type: definePropType<AnyColumn>(Object),
+  type: Object as PropType<AnyColumn>,
 } as const;
 
 export const fixedDataType = {
-  type: definePropType<any[]>(Array),
+  type: Array as PropType<any[]>,
 } as const;
 
 export const dataType = {
@@ -32,7 +32,7 @@ export const dataType = {
 export const expandColumnKey = String;
 
 export const expandKeys = {
-  type: definePropType<KeyType[]>(Array),
+  type: Array as PropType<KeyType[]>,
   default: () => mutable([]),
 } as const;
 
@@ -42,7 +42,7 @@ export const requiredNumber = {
 } as const;
 
 export const rowKey = {
-  type: definePropType<KeyType>([String, Number, Symbol]),
+  type: [String, Number, Symbol] as PropType<KeyType>,
   default: 'id',
 } as const;
 
@@ -51,5 +51,5 @@ export const rowKey = {
  * so we only use `CSSProperties` as the acceptable value here.
  */
 export const styleType = {
-  type: definePropType<CSSProperties>(Object),
+  type: Object as PropType<CSSProperties>,
 };

@@ -1,30 +1,21 @@
-import { buildProps, definePropType, isBoolean, isNumber } from '@lemon-peel/utils';
+import { buildProps, isBoolean, isNumber } from '@lemon-peel/utils';
 import { CHANGE_EVENT } from '@lemon-peel/constants';
-import type { ExtractPropTypes } from 'vue';
+import type { ExtractPropTypes, PropType } from 'vue';
 import type { ZIndexProperty } from 'csstype';
 
 export const affixProps = buildProps({
   /**
    * @description affix element zIndex value
    * */
-  zIndex: {
-    type: definePropType<ZIndexProperty>([Number, String]),
-    default: 100,
-  },
+  zIndex: { type: [Number, String] as PropType<ZIndexProperty>, default: 100 },
   /**
    * @description target container. (CSS selector)
    */
-  target: {
-    type: String,
-    default: '',
-  },
+  target: { type: String, default: '' },
   /**
    * @description offset distance
    * */
-  offset: {
-    type: Number,
-    default: 0,
-  },
+  offset: { type: Number, default: 0 },
   /**
    * @description position of affix
    * */
@@ -35,7 +26,7 @@ export const affixProps = buildProps({
   },
 } as const);
 
-export type AffixProps = ExtractPropTypes<typeof affixProps>;
+export type AffixProps = Readonly<ExtractPropTypes<typeof affixProps>>;
 
 export const affixEmits = {
   scroll: ({ scrollTop, fixed }: { scrollTop: number, fixed: boolean }) =>

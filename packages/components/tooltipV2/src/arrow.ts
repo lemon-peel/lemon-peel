@@ -1,27 +1,18 @@
-import { buildProps, definePropType } from '@lemon-peel/utils';
+import { buildProps } from '@lemon-peel/utils';
 import { tooltipV2Sides } from './common';
 
-import type { CSSProperties, ExtractPropTypes } from 'vue';
+import type { CSSProperties, ExtractPropTypes, PropType } from 'vue';
 import type { TooltipV2Sides } from './common';
 
 export const tooltipV2ArrowProps = buildProps({
-  width: {
-    type: Number,
-    default: 10,
-  },
-  height: {
-    type: Number,
-    default: 10,
-  },
-  style: {
-    type: definePropType<CSSProperties | null>(Object),
-    default: null,
-  },
+  width: { type: Number, default: 10 },
+  height: { type: Number, default: 10 },
+  style: { type: Object as PropType<CSSProperties | null>, default: null },
 } as const);
 
 export const tooltipV2ArrowSpecialProps = buildProps({
   side: {
-    type: definePropType<TooltipV2Sides>(String),
+    type: String as PropType<TooltipV2Sides>,
     values: tooltipV2Sides,
     required: true,
   },

@@ -1,25 +1,17 @@
-import { buildProps, definePropType, mutable } from '@lemon-peel/utils';
+import { buildProps, mutable } from '@lemon-peel/utils';
 import { componentSizes } from '@lemon-peel/constants';
-import type { ExtractPropTypes } from 'vue';
+import type { ExtractPropTypes, PropType } from 'vue';
 import type Sizes from './sizes.vue';
 
 export const paginationSizesProps = buildProps({
-  pageSize: {
-    type: Number,
-    required: true,
-  },
+  pageSize: { type: Number, required: true },
   pageSizes: {
-    type: definePropType<number[]>(Array),
+    type: Array as PropType<number[]>,
     default: () => mutable([10, 20, 30, 40, 50, 100] as const),
   },
-  popperClass: {
-    type: String,
-  },
+  popperClass: { type: String },
   disabled: Boolean,
-  size: {
-    type: String,
-    values: componentSizes,
-  },
+  size: { type: String, values: componentSizes },
 } as const);
 
 export type PaginationSizesProps = ExtractPropTypes<typeof paginationSizesProps>;

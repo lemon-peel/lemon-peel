@@ -1,7 +1,7 @@
-import { buildProps, definePropType, isArray } from '@lemon-peel/utils';
+import { buildProps, isArray } from '@lemon-peel/utils';
 import { datePickTypes } from '@lemon-peel/constants';
 
-import type { ExtractPropTypes } from 'vue';
+import type { ExtractPropTypes, PropType } from 'vue';
 import type { Dayjs } from 'dayjs';
 import type { DatePickType } from '@lemon-peel/constants';
 
@@ -14,23 +14,23 @@ export type RangeState = {
 
 export const datePickerSharedProps = buildProps({
   disabledDate: {
-    type: definePropType<(date: Date) => boolean>(Function),
+    type: Function as PropType<(date: Date) => boolean>,
   },
   date: {
-    type: definePropType<Dayjs>(Object),
+    type: Object as PropType<Dayjs>,
     required: true,
   },
   minDate: {
-    type: definePropType<Dayjs | null>(Object),
+    type: Object as PropType<Dayjs | null>,
   },
   maxDate: {
-    type: definePropType<Dayjs | null>(Object),
+    type: Object as PropType<Dayjs | null>,
   },
   parsedValue: {
-    type: definePropType<Dayjs | Dayjs[]>([Object, Array]),
+    type: [Object, Array] as PropType<Dayjs | Dayjs[]>,
   },
   rangeState: {
-    type: definePropType<RangeState>(Object),
+    type: Object as PropType<RangeState>,
     default: () => ({
       endDate: null,
       selecting: false,
@@ -40,7 +40,7 @@ export const datePickerSharedProps = buildProps({
 
 export const panelSharedProps = buildProps({
   type: {
-    type: definePropType<DatePickType>(String),
+    type: String as PropType<DatePickType>,
     required: true,
     values: datePickTypes,
   },
@@ -49,7 +49,7 @@ export const panelSharedProps = buildProps({
 export const panelRangeSharedProps = buildProps({
   unlinkPanels: Boolean,
   parsedValue: {
-    type: definePropType<Dayjs[]>(Array),
+    type: Array as PropType<Dayjs[]>,
   },
 } as const);
 

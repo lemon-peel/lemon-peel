@@ -1,12 +1,12 @@
 import { createTextVNode, createVNode, defineComponent, isVNode, renderSlot } from 'vue';
 import { isString } from '@vue/shared';
-import { PatchFlags, buildProps, definePropType, isArray, isFragment, isNumber, isValidElementNode } from '@lemon-peel/utils';
+import { PatchFlags, buildProps, isArray, isFragment, isNumber, isValidElementNode } from '@lemon-peel/utils';
 import { componentSizes } from '@lemon-peel/constants';
 
 import Item from './item';
 import { useSpace } from './useSpace';
 
-import type { ExtractPropTypes, StyleValue, VNode, VNodeArrayChildren, VNodeChild } from 'vue';
+import type { ExtractPropTypes, StyleValue, VNode, VNodeArrayChildren, VNodeChild, PropType } from 'vue';
 import type { Arrayable } from '@lemon-peel/utils';
 import type { AlignItemsProperty } from 'csstype';
 
@@ -16,32 +16,12 @@ export const spaceProps = buildProps({
     values: ['horizontal', 'vertical'],
     default: 'horizontal',
   },
-
-  class: {
-    type: definePropType<Arrayable<Record<string, boolean> | string>>([
-      String,
-      Object,
-      Array,
-    ]),
-    default: '',
-  },
-
-  style: {
-    type: definePropType<StyleValue>([String, Array, Object]),
-    default: '',
-  },
-
-  alignment: {
-    type: definePropType<AlignItemsProperty>(String),
-    default: 'center',
-  },
-
-  prefixCls: {
-    type: String,
-  },
-
+  class: { type: [String, Object, Array] as PropType<Arrayable<Record<string, boolean> | string>>, default: '' },
+  style: { type: [String, Array, Object] as PropType<StyleValue>, default: '' },
+  alignment: { type: String as PropType<AlignItemsProperty>, default: 'center' },
+  prefixCls: { type: String },
   spacer: {
-    type: definePropType<VNodeChild>([Object, String, Number, Array]),
+    type: [Object, String, Number, Array] as PropType<VNodeChild>,
     default: null,
     validator: (value: unknown) => isVNode(value) || isNumber(value) || isString(value),
   },

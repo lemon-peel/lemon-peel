@@ -1,6 +1,6 @@
 import { computed, defineComponent, getCurrentInstance, h, provide, ref, watch } from 'vue';
 import { ArrowLeft, ArrowRight } from '@element-plus/icons-vue';
-import { buildProps, debugWarn, definePropType, iconPropType, mutable } from '@lemon-peel/utils';
+import { buildProps, debugWarn, iconPropType, mutable } from '@lemon-peel/utils';
 import { useLocale, useNamespace } from '@lemon-peel/hooks';
 import { elPaginationKey } from '@lemon-peel/tokens';
 
@@ -11,7 +11,7 @@ import Jumper from './components/jumper.vue';
 import Total from './components/total.vue';
 import Pager from './components/pager.vue';
 
-import type { ExtractPropTypes, VNode } from 'vue';
+import type { ExtractPropTypes, VNode, PropType } from 'vue';
 
 /**
  * It it user's responsibility to guarantee that the value of props.total... is number
@@ -57,34 +57,20 @@ export const paginationProps = buildProps({
     ).join(', '),
   },
   pageSizes: {
-    type: definePropType<number[]>(Array),
+    type: Array as PropType<number[]>,
     default: () => mutable([10, 20, 30, 40, 50, 100] as const),
   },
-  popperClass: {
-    type: String,
-    default: '',
-  },
-  prevText: {
-    type: String,
-    default: '',
-  },
-  prevIcon: {
-    type: iconPropType,
-    default: () => ArrowLeft,
-  },
-  nextText: {
-    type: String,
-    default: '',
-  },
-  nextIcon: {
-    type: iconPropType,
-    default: () => ArrowRight,
-  },
+  popperClass: { type: String, default: '' },
+  prevText: { type: String, default: '' },
+  prevIcon: { type: iconPropType, default: () => ArrowLeft },
+  nextText: { type: String, default: '' },
+  nextIcon: { type: iconPropType, default: () => ArrowRight },
   small: Boolean,
   background: Boolean,
   disabled: Boolean,
   hideOnSinglePage: Boolean,
-} as const);
+});
+
 export type PaginationProps = ExtractPropTypes<typeof paginationProps>;
 
 export const paginationEmits = {

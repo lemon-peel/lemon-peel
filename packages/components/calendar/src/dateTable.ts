@@ -1,6 +1,6 @@
-import { buildProps, definePropType, isObject } from '@lemon-peel/utils';
+import { buildProps, isObject } from '@lemon-peel/utils';
 import { rangeArr } from '@lemon-peel/components/timePicker';
-import type { ExtractPropTypes } from 'vue';
+import type { ExtractPropTypes, PropType } from 'vue';
 import type { Dayjs } from 'dayjs';
 
 export type CalendarDateCellType = 'next' | 'prev' | 'current';
@@ -26,23 +26,16 @@ export const toNestedArr = (days: CalendarDateCell[]) =>
   });
 
 export const dateTableProps = buildProps({
-  selectedDay: {
-    type: definePropType<Dayjs>(Object),
-  },
-  range: {
-    type: definePropType<[Dayjs, Dayjs]>(Array),
-  },
-  date: {
-    type: definePropType<Dayjs>(Object),
-    required: true,
-  },
-  hideHeader: {
-    type: Boolean,
-  },
-} as const);
+  selectedDay: { type: Object as PropType<Dayjs> },
+  range: { type: Array as unknown as PropType<[Dayjs, Dayjs]> },
+  date: { type: Object as PropType<Dayjs>, required: true },
+  hideHeader: { type: Boolean },
+});
+
 export type DateTableProps = ExtractPropTypes<typeof dateTableProps>;
 
 export const dateTableEmits = {
   pick: (value: Dayjs) => isObject(value),
 };
+
 export type DateTableEmits = typeof dateTableEmits;

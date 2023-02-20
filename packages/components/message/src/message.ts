@@ -1,6 +1,6 @@
 import { isClient } from '@vueuse/core';
-import { buildProps, definePropType, iconPropType, mutable } from '@lemon-peel/utils';
-import type { AppContext, ExtractPropTypes, VNode } from 'vue';
+import { buildProps, iconPropType, mutable } from '@lemon-peel/utils';
+import type { AppContext, ExtractPropTypes, PropType, VNode } from 'vue';
 import type { Mutable } from '@lemon-peel/utils';
 import type MessageConstructor from './Message.vue';
 
@@ -28,71 +28,25 @@ export const messageDefaults = mutable({
   grouping: false,
   repeatNum: 1,
   appendTo: isClient ? document.body : (undefined as never),
-} as const);
+});
 
 export const messageProps = buildProps({
-  customClass: {
-    type: String,
-    default: messageDefaults.customClass,
-  },
-  center: {
-    type: Boolean,
-    default: messageDefaults.center,
-  },
-  dangerouslyUseHTMLString: {
-    type: Boolean,
-    default: messageDefaults.dangerouslyUseHTMLString,
-  },
-  duration: {
-    type: Number,
-    default: messageDefaults.duration,
-  },
-  icon: {
-    type: iconPropType,
-    default: messageDefaults.icon,
-  },
-  id: {
-    type: String,
-    default: messageDefaults.id,
-  },
-  message: {
-    type: definePropType<string | VNode | (() => VNode)>([
-      String,
-      Object,
-      Function,
-    ]),
-    default: messageDefaults.message,
-  },
-  onClose: {
-    type: definePropType<() => void>(Function),
-    required: false,
-  },
-  showClose: {
-    type: Boolean,
-    default: messageDefaults.showClose,
-  },
-  type: {
-    type: String,
-    values: messageTypes,
-    default: messageDefaults.type,
-  },
-  offset: {
-    type: Number,
-    default: messageDefaults.offset,
-  },
-  zIndex: {
-    type: Number,
-    default: messageDefaults.zIndex,
-  },
-  grouping: {
-    type: Boolean,
-    default: messageDefaults.grouping,
-  },
-  repeatNum: {
-    type: Number,
-    default: messageDefaults.repeatNum,
-  },
-} as const);
+  customClass: { type: String, default: messageDefaults.customClass },
+  center: { type: Boolean, default: messageDefaults.center },
+  dangerouslyUseHTMLString: { type: Boolean, default: messageDefaults.dangerouslyUseHTMLString },
+  duration: { type: Number, default: messageDefaults.duration },
+  icon: { type: iconPropType, default: messageDefaults.icon },
+  id: { type: String, default: messageDefaults.id },
+  message: { type: [String, Object, Function] as PropType<string | VNode | (() => VNode)>, default: messageDefaults.message },
+  onClose: { type: Function as PropType<() => void>, required: false },
+  showClose: { type: Boolean, default: messageDefaults.showClose },
+  type: { type: String, values: messageTypes, default: messageDefaults.type },
+  offset: { type: Number, default: messageDefaults.offset },
+  zIndex: { type: Number, default: messageDefaults.zIndex },
+  grouping: { type: Boolean, default: messageDefaults.grouping },
+  repeatNum: { type: Number, default: messageDefaults.repeatNum },
+});
+
 export type MessageProps = ExtractPropTypes<typeof messageProps>;
 
 export const messageEmits = {
@@ -102,17 +56,14 @@ export type MessageEmits = typeof messageEmits;
 
 export type MessageInstance = InstanceType<typeof MessageConstructor>;
 
-export type MessageOptions = Partial<
-Mutable<
-Omit<MessageProps, 'id'> & {
-  appendTo?: HTMLElement | string;
-}
->
->;
+export type MessageOptions = Partial<Mutable<Omit<MessageProps, 'id'> & { appendTo?: HTMLElement | string }>>;
+
 export type MessageParams = MessageOptions | MessageOptions['message'];
+
 export type MessageParamsNormalized = Omit<MessageProps, 'id'> & {
   appendTo: HTMLElement;
 };
+
 export type MessageOptionsWithType = Omit<MessageOptions, 'type'>;
 export type MessageParamsWithType =
   | MessageOptionsWithType

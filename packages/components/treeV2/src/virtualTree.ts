@@ -1,4 +1,4 @@
-import { buildProps, definePropType, iconPropType, mutable } from '@lemon-peel/utils';
+import { buildProps, iconPropType, mutable } from '@lemon-peel/utils';
 import type { CheckboxValueType } from '@lemon-peel/components/checkbox';
 import type { InjectionKey } from 'vue';
 import type { TreeNodeData } from '@lemon-peel/components/tree/src/tree.type';
@@ -28,7 +28,7 @@ export const enum SetOperationEnum {
 // props
 export const treeProps = buildProps({
   data: {
-    type: definePropType<TreeData>(Array),
+    type: Array as PropType<TreeData>,
     default: () => mutable([] as const),
   },
   emptyText: {
@@ -39,7 +39,7 @@ export const treeProps = buildProps({
     default: 200,
   },
   props: {
-    type: definePropType<TreeOptionProps>(Object),
+    type: Object as PropType<TreeOptionProps>,
     default: () =>
       mutable({
         children: TreeOptionsEnum.CHILDREN,
@@ -57,7 +57,7 @@ export const treeProps = buildProps({
     default: false,
   },
   defaultCheckedKeys: {
-    type: definePropType<TreeKey[]>(Array),
+    type: Array as PropType<TreeKey[]>,
     default: () => mutable([] as const),
   },
   // Whether checked state of a node not affects its father and
@@ -67,7 +67,7 @@ export const treeProps = buildProps({
     default: false,
   },
   defaultExpandedKeys: {
-    type: definePropType<TreeKey[]>(Array),
+    type: Array as PropType<TreeKey[]>,
     default: () => mutable([] as const),
   },
   indent: {
@@ -86,7 +86,7 @@ export const treeProps = buildProps({
     default: false,
   },
   currentNodeKey: {
-    type: definePropType<TreeKey>([String, Number]),
+    type: [String, Number] as PropType<TreeKey>,
   },
   // TODO need to optimization
   accordion: {
@@ -94,7 +94,7 @@ export const treeProps = buildProps({
     default: false,
   },
   filterMethod: {
-    type: definePropType<FilterMethod>(Function),
+    type: Function as PropType<FilterMethod>,
   },
   // Performance mode will increase memory usage, but scrolling will be smoother
   perfMode: {
@@ -105,7 +105,7 @@ export const treeProps = buildProps({
 
 export const treeNodeProps = buildProps({
   node: {
-    type: definePropType<TreeNode>(Object),
+    type: Object as PropType<TreeNode>,
     default: () => mutable(EMPTY_NODE),
   },
   expanded: {
@@ -140,7 +140,7 @@ export const treeNodeProps = buildProps({
 
 export const treeNodeContentProps = buildProps({
   node: {
-    type: definePropType<TreeNode>(Object),
+    type: Object as PropType<TreeNode>,
     required: true,
   },
 } as const);

@@ -1,4 +1,4 @@
-import { buildProps, definePropType, iconPropType, isBoolean, isNumber, isString, isValidComponentSize } from '@lemon-peel/utils';
+import { buildProps, iconPropType, isBoolean, isNumber, isString, isValidComponentSize } from '@lemon-peel/utils';
 import { CHANGE_EVENT, INPUT_EVENT, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
 import type { ComponentSize } from '@lemon-peel/constants';
 import type Switch from './Switch.vue';
@@ -73,7 +73,7 @@ export const switchProps = buildProps({
     default: false,
   },
   beforeChange: {
-    type: definePropType<() => Promise<boolean> | boolean>(Function),
+    type: Function as PropType<() => Promise<boolean> | boolean>,
   },
   size: {
     type: String as PropType<ComponentSize>,

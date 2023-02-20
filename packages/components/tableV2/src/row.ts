@@ -1,4 +1,4 @@
-import { buildProps, definePropType } from '@lemon-peel/utils';
+import { buildProps } from '@lemon-peel/utils';
 import { virtualizedGridProps } from '@lemon-peel/components/virtualList';
 import { columns, expandColumnKey, rowKey } from './common';
 
@@ -47,7 +47,7 @@ export const tableV2RowProps = buildProps({
   class: String,
   columns,
   columnsStyles: {
-    type: definePropType<Record<KeyType, CSSProperties>>(Object),
+    type: Object as PropType<Record<KeyType, CSSProperties>>,
     required: true,
   },
   depth: Number,
@@ -58,20 +58,20 @@ export const tableV2RowProps = buildProps({
   },
   isScrolling: Boolean,
   onRowExpand: {
-    type: definePropType<RowExpandHandler>(Function),
+    type: Function as PropType<RowExpandHandler>,
   },
   onRowHover: {
-    type: definePropType<RowHoverHandler>(Function),
+    type: Function as PropType<RowHoverHandler>,
   },
   onRowHeightChange: {
-    type: definePropType<RowHeightChangeHandler>(Function),
+    type: Function as PropType<RowHeightChangeHandler>,
   },
   rowData: {
-    type: definePropType<any>(Object),
+    type: Object as PropType<any>,
     required: true,
   },
   rowEventHandlers: {
-    type: definePropType<RowEventHandlers>(Object),
+    type: Object as PropType<RowEventHandlers>,
   },
   rowIndex: {
     type: Number,
@@ -82,7 +82,7 @@ export const tableV2RowProps = buildProps({
    */
   rowKey,
   style: {
-    type: definePropType<CSSProperties>(Object),
+    type: Object as PropType<CSSProperties>,
   },
 } as const);
 

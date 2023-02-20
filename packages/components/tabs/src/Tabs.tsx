@@ -1,5 +1,5 @@
 import { computed, defineComponent, getCurrentInstance, nextTick, provide, ref, renderSlot, watch } from 'vue';
-import { buildProps, definePropType, isNumber, isString, isUndefined } from '@lemon-peel/utils';
+import { buildProps, isNumber, isString, isUndefined } from '@lemon-peel/utils';
 import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
 import LpIcon from '@lemon-peel/components/icon';
 import { Plus } from '@element-plus/icons-vue';
@@ -9,25 +9,17 @@ import TabNav from './TabNav';
 
 import type { TabNavInstance } from './TabNav';
 import type { TabsPaneContext } from '@lemon-peel/tokens';
-import type { ExtractPropTypes } from 'vue';
+import type { ExtractPropTypes, PropType } from 'vue';
 import type { Awaitable } from '@lemon-peel/utils';
 
 export type TabPaneName = string | number;
 
 export const tabsProps = buildProps({
-  type: {
-    type: String,
-    values: ['card', 'border-card', ''],
-    default: '',
-  },
-  activeName: {
-    type: [String, Number],
-  },
+  type: { type: String, values: ['card', 'border-card', ''], default: '' },
+  activeName: { type: [String, Number] },
   closable: Boolean,
   addable: Boolean,
-  modelValue: {
-    type: [String, Number],
-  },
+  modelValue: { type: [String, Number] },
   editable: Boolean,
   tabPosition: {
     type: String,
@@ -35,13 +27,12 @@ export const tabsProps = buildProps({
     default: 'top',
   },
   beforeLeave: {
-    type: definePropType<
-    (newName: TabPaneName, oldName: TabPaneName) => Awaitable<void | boolean>
-    >(Function),
+    type: Function as PropType<(newName: TabPaneName, oldName: TabPaneName) => Awaitable<void | boolean>>,
     default: () => true,
   },
   stretch: Boolean,
 } as const);
+
 export type TabsProps = ExtractPropTypes<typeof tabsProps>;
 
 const isPaneName = (value: unknown): value is string | number =>
@@ -56,6 +47,7 @@ export const tabsEmits = {
   tabRemove: (name: TabPaneName) => isPaneName(name),
   tabAdd: () => true,
 };
+
 export type TabsEmits = typeof tabsEmits;
 
 export type TabsPanes = Record<number, TabsPaneContext>;

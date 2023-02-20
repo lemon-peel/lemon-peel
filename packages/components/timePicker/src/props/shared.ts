@@ -1,4 +1,4 @@
-import { buildProps, definePropType } from '@lemon-peel/utils';
+import { buildProps } from '@lemon-peel/utils';
 
 import type { ExtractPropTypes } from 'vue';
 import type { Dayjs } from 'dayjs';
@@ -18,13 +18,13 @@ export type GetDisabledSeconds = (
 
 export const disabledTimeListsProps = buildProps({
   disabledHours: {
-    type: definePropType<GetDisabledHours>(Function),
+    type: Function as PropType<GetDisabledHours>,
   },
   disabledMinutes: {
-    type: definePropType<GetDisabledMinutes>(Function),
+    type: Function as PropType<GetDisabledMinutes>,
   },
   disabledSeconds: {
-    type: definePropType<GetDisabledSeconds>(Function),
+    type: Function as PropType<GetDisabledSeconds>,
   },
 } as const);
 

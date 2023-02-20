@@ -53,10 +53,8 @@ export default defineComponent({
   components: {
     LpTooltip,
   },
-
   props: menuItemProps,
   emits: menuItemEmits,
-
   setup(props, { emit }) {
     const instance = getCurrentInstance()!;
     const rootMenu = inject<MenuProvider>('rootMenu');
@@ -71,7 +69,7 @@ export default defineComponent({
 
     const active = computed(() => props.index === rootMenu.activeIndex);
     const item: MenuItemRegistered = reactive({
-      index: props.index,
+      index: props.index || '',
       indexPath,
       active,
     });

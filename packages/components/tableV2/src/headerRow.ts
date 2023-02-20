@@ -1,4 +1,4 @@
-import { buildProps, definePropType } from '@lemon-peel/utils';
+import { buildProps } from '@lemon-peel/utils';
 import { columns } from './common';
 
 import type { CSSProperties, ExtractPropTypes } from 'vue';
@@ -8,11 +8,11 @@ export const tableV2HeaderRowProps = buildProps({
   class: String,
   columns,
   columnsStyles: {
-    type: definePropType<Record<KeyType, CSSProperties>>(Object),
+    type: Object as PropType<Record<KeyType, CSSProperties>>,
     required: true,
   },
   headerIndex: Number,
-  style: { type: definePropType<CSSProperties>(Object) },
+  style: { type: Object as PropType<CSSProperties> },
 } as const);
 
 export type TableV2HeaderRowProps = ExtractPropTypes<

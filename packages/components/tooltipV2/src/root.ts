@@ -1,25 +1,15 @@
-import { buildProps, definePropType } from '@lemon-peel/utils';
+import { buildProps } from '@lemon-peel/utils';
 
-import type { ExtractPropTypes } from 'vue';
+import type { ExtractPropTypes, PropType } from 'vue';
 
 type StateUpdater = (state: boolean) => void;
 
 export const tooltipV2RootProps = buildProps({
-  delayDuration: {
-    type: Number,
-    default: 300,
-  },
+  delayDuration: { type: Number, default: 300 },
   defaultOpen: Boolean,
-  open: {
-    type: Boolean,
-    default: undefined,
-  },
-  onOpenChange: {
-    type: definePropType<StateUpdater>(Function),
-  },
-  'onUpdate:open': {
-    type: definePropType<StateUpdater>(Function),
-  },
+  open: { type: Boolean, default: undefined },
+  onOpenChange: { type: Function as PropType<StateUpdater> },
+  'onUpdate:open': { type: Function as PropType<StateUpdater> },
 } as const);
 
 export type TooltipV2RootProps = ExtractPropTypes<typeof tooltipV2RootProps>;

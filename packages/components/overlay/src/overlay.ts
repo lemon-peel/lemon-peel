@@ -1,30 +1,17 @@
 import { createVNode, defineComponent, h, renderSlot } from 'vue';
-import { PatchFlags, buildProps, definePropType } from '@lemon-peel/utils';
+import { PatchFlags, buildProps } from '@lemon-peel/utils';
 import { useNamespace, useSameTarget } from '@lemon-peel/hooks';
 
-import type { CSSProperties, ExtractPropTypes } from 'vue';
+import type { CSSProperties, ExtractPropTypes, PropType } from 'vue';
 import type { ZIndexProperty } from 'csstype';
 
 export const overlayProps = buildProps({
-  mask: {
-    type: Boolean,
-    default: true,
-  },
-  customMaskEvent: {
-    type: Boolean,
-    default: false,
-  },
-  overlayClass: {
-    type: definePropType<string | string[] | Record<string, boolean>>([
-      String,
-      Array,
-      Object,
-    ]),
-  },
-  zIndex: {
-    type: definePropType<ZIndexProperty>([String, Number]),
-  },
-} as const);
+  mask: { type: Boolean, default: true },
+  customMaskEvent: { type: Boolean, default: false },
+  overlayClass: { type: [String, Array, Object] as PropType<string | string[] | Record<string, boolean>> },
+  zIndex: { type: [String, Number] as PropType<ZIndexProperty> },
+});
+
 export type OverlayProps = ExtractPropTypes<typeof overlayProps>;
 
 export const overlayEmits = {

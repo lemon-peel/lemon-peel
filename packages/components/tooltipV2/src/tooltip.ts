@@ -1,10 +1,10 @@
-import { buildProps, definePropType } from '@lemon-peel/utils';
-import { tooltipV2RootProps } from './Root.vue';
-import { tooltipV2TriggerProps } from './Trigger.vue';
-import { tooltipV2ArrowProps } from './Arrow.vue';
-import { tooltipV2ContentProps } from './Content.vue';
+import { buildProps } from '@lemon-peel/utils';
+import { tooltipV2RootProps } from './root';
+import { tooltipV2TriggerProps } from './trigger';
+import { tooltipV2ArrowProps } from './arrow';
+import { tooltipV2ContentProps } from './content';
 
-import type { ExtractPropTypes, TeleportProps, TransitionProps } from 'vue';
+import type { ExtractPropTypes, PropType, TeleportProps, TransitionProps } from 'vue';
 
 export const tooltipV2Props = buildProps({
   ...tooltipV2RootProps,
@@ -14,12 +14,12 @@ export const tooltipV2Props = buildProps({
   alwaysOn: Boolean,
   fullTransition: Boolean,
   transitionProps: {
-    type: definePropType<TransitionProps | null>(Object),
+    type: Object as PropType<TransitionProps | null>,
     default: null,
   },
   teleported: Boolean,
   to: {
-    type: definePropType<TeleportProps['to']>(String),
+    type: String as PropType<TeleportProps['to']>,
     default: 'body',
   },
 } as const);

@@ -114,7 +114,7 @@ import { useFormItemInputId, useLocale, useNamespace, useSize } from '@lemon-pee
 import { sliderContextKey } from '@lemon-peel/tokens';
 import { sliderEmits, sliderProps } from './slider';
 import SliderButton from './Button.vue';
-import SliderMarker from './marker';
+import SliderMarker from './Marker';
 import { useLifecycle, useMarks, useSlide, useStops, useWatch } from './composables';
 import type { SliderInitData } from './slider';
 

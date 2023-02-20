@@ -1,6 +1,6 @@
-import { buildProps, definePropType, iconPropType } from '@lemon-peel/utils';
+import { buildProps, iconPropType } from '@lemon-peel/utils';
 
-import type { ExtractPropTypes, VNode } from 'vue';
+import type { ExtractPropTypes, PropType, VNode } from 'vue';
 import type Notification from './Notification.vue';
 
 export const notificationTypes = [
@@ -11,69 +11,28 @@ export const notificationTypes = [
 ] as const;
 
 export const notificationProps = buildProps({
-  customClass: {
-    type: String,
-    default: '',
-  },
-  dangerouslyUseHTMLString: {
-    type: Boolean,
-    default: false,
-  },
-  duration: {
-    type: Number,
-    default: 4500,
-  },
-  icon: {
-    type: iconPropType,
-  },
-  id: {
-    type: String,
-    default: '',
-  },
-  message: {
-    type: definePropType<string | VNode>([String, Object]),
-    default: '',
-  },
-  offset: {
-    type: Number,
-    default: 0,
-  },
-  onClick: {
-    type: definePropType<() => void>(Function),
-    default: () => {},
-  },
-  onClose: {
-    type: definePropType<() => void>(Function),
-    required: true,
-  },
-  position: {
-    type: String,
-    values: ['top-right', 'top-left', 'bottom-right', 'bottom-left'],
-    default: 'top-right',
-  },
-  showClose: {
-    type: Boolean,
-    default: true,
-  },
-  title: {
-    type: String,
-    default: '',
-  },
-  type: {
-    type: String,
-    values: [...notificationTypes, ''],
-    default: '',
-  },
-  zIndex: {
-    type: Number,
-    default: 0,
-  },
-} as const);
+  customClass: { type: String, default: '' },
+  dangerouslyUseHTMLString: { type: Boolean, default: false },
+  duration: { type: Number, default: 4500 },
+  icon: { type: iconPropType },
+  id: { type: String, default: '' },
+  message: { type: [String, Object] as PropType<string | VNode>, default: '' },
+  offset: { type: Number, default: 0 },
+  onClick: { type: Function as PropType<() => void>, default: () => {} },
+  onClose: { type: Function as PropType<() => void>, required: true },
+  position: { type: String, values: ['top-right', 'top-left', 'bottom-right', 'bottom-left'], default: 'top-right' },
+  showClose: { type: Boolean, default: true },
+  title: { type: String, default: '' },
+  type: { type: String, values: [...notificationTypes, ''], default: '' },
+  zIndex: { type: Number, default: 0 },
+});
+
 export type NotificationProps = ExtractPropTypes<typeof notificationProps>;
 
 export const notificationEmits = {
   destroy: () => true,
 };
+
 export type NotificationEmits = typeof notificationEmits;
 
 export type NotificationInstance = InstanceType<typeof Notification>;
@@ -81,6 +40,7 @@ export type NotificationInstance = InstanceType<typeof Notification>;
 export type NotificationOptions = Omit<NotificationProps, 'id'> & {
   appendTo?: HTMLElement | string;
 };
+
 export type NotificationOptionsTyped = Omit<NotificationOptions, 'type'>;
 
 export interface NotificationHandle {

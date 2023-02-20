@@ -43,6 +43,7 @@ importers:
       dayjs: ^1.11.5
       escape-html: ^1.0.3
       eslint: ^8.30.0
+      expect-type: ^0.15.0
       fast-glob: ^3.2.12
       gulp: ^4.0.2
       lodash: ^4.17.21
@@ -105,6 +106,7 @@ importers:
       consola: 2.15.3
       csstype: 2.6.21
       eslint: 8.30.0
+      expect-type: 0.15.0
       fast-glob: 3.2.12
       gulp: 4.0.2
       pinia: 2.0.22_s5wezufqqhascgni6sxru3vmny
@@ -6531,6 +6533,10 @@ packages:
     engines: {node: '>=0.10.0'}
     dependencies:
       homedir-polyfill: 1.0.3
+    dev: true
+
+  /expect-type/0.15.0:
+    resolution: {integrity: sha512-yWnriYB4e8G54M5/fAFj7rCIBiKs1HAACaY13kCz6Ku0dezjS9aMcfcdVK2X8Tv2tEV1BPz/wKfQ7WA4S/d8aA==}
     dev: true
 
   /ext/1.7.0:

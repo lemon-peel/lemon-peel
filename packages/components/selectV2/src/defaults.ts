@@ -1,5 +1,5 @@
 import { placements } from '@popperjs/core';
-import { definePropType, isValidComponentSize } from '@lemon-peel/utils';
+import { isValidComponentSize } from '@lemon-peel/utils';
 import { useTooltipContentProps } from '@lemon-peel/components/tooltip';
 import { CircleClose } from '@element-plus/icons-vue';
 import type { Component, PropType } from 'vue';
@@ -11,101 +11,45 @@ export type ModelValue = any[] | string | number | boolean | Record<string, any>
 
 export const selectProps = {
   allowCreate: Boolean,
-  autocomplete: {
-    type: String as PropType<'none' | 'both' | 'list' | 'inline'>,
-    default: 'none',
-  },
+  autocomplete: { type: String as PropType<'none' | 'both' | 'list' | 'inline'>, default: 'none' },
   automaticDropdown: Boolean,
   clearable: Boolean,
-  clearIcon: {
-    type: [String, Object] as PropType<string | Component>,
-    default: CircleClose,
-  },
-  effect: {
-    type: String as PropType<'light' | 'dark' | string>,
-    default: 'light',
-  },
+  clearIcon: { type: [String, Object] as PropType<string | Component>, default: CircleClose },
+  effect: { type: String as PropType<'light' | 'dark' | string>, default: 'light' },
   collapseTags: Boolean,
-  collapseTagsTooltip: {
-    type: Boolean,
-    default: false,
-  },
+  collapseTagsTooltip: { type: Boolean, default: false },
   defaultFirstOption: Boolean,
   disabled: Boolean,
-  estimatedOptionHeight: {
-    type: Number,
-    default: undefined,
-  },
+  estimatedOptionHeight: { type: Number, default: undefined },
   filterable: Boolean,
   filterMethod: Function,
-  height: {
-    type: Number,
-    default: 170, // 5 items by default
-  },
-  itemHeight: {
-    type: Number,
-    default: 34,
-  },
+  // 5 items by default
+  height: { type: Number, default: 170 },
+  itemHeight: { type: Number, default: 34 },
   id: String,
   loading: Boolean,
   loadingText: String,
   label: String,
   modelValue: [Array, String, Number, Boolean, Object] as PropType<ModelValue>,
   multiple: Boolean,
-  multipleLimit: {
-    type: Number,
-    default: 0,
-  },
+  multipleLimit: { type: Number, default: 0 },
   name: String,
   noDataText: String,
   noMatchText: String,
   remoteMethod: Function,
-  reserveKeyword: {
-    type: Boolean,
-    default: true,
-  },
-  options: {
-    type: Array as PropType<OptionType[]>,
-    required: true,
-  },
-  placeholder: {
-    type: String,
-  },
+  reserveKeyword: { type: Boolean, default: true },
+  options: { type: Array as PropType<OptionType[]>, required: true },
+  placeholder: { type: String },
   teleported: useTooltipContentProps.teleported,
-  persistent: {
-    type: Boolean,
-    default: true,
-  },
-  popperClass: {
-    type: String,
-    default: '',
-  },
-  popperOptions: {
-    type: Object as PropType<Partial<Options>>,
-    default: () => ({} as Partial<Options>),
-  },
+  persistent: { type: Boolean, default: true },
+  popperClass: { type: String, default: '' },
+  popperOptions: { type: Object as PropType<Partial<Options>>, default: () => ({} as Partial<Options>) },
   remote: Boolean,
-  size: {
-    type: String as PropType<ComponentSize>,
-    validator: isValidComponentSize,
-  },
-  valueKey: {
-    type: String,
-    default: 'value',
-  },
-  scrollbarAlwaysOn: {
-    type: Boolean,
-    default: false,
-  },
-  validateEvent: {
-    type: Boolean,
-    default: true,
-  },
-  placement: {
-    type: definePropType<Placement>(String),
-    values: placements,
-    default: 'bottom-start',
-  },
+  size: { type: String as PropType<ComponentSize>, validator: isValidComponentSize },
+  valueKey: { type: String, default: 'value' },
+  scrollbarAlwaysOn: { type: Boolean, default: false },
+  validateEvent: { type: Boolean, default: true },
+  placement: { type: String as PropType<Placement>, values: placements, default: 'bottom-start' },
 };
 
 export const optionProps = {

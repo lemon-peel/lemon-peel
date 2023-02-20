@@ -1,4 +1,4 @@
-import { buildProps, definePropType } from '@lemon-peel/utils';
+import { buildProps } from '@lemon-peel/utils';
 import { timePanelSharedProps } from './shared';
 
 import type { ExtractPropTypes } from 'vue';
@@ -8,7 +8,7 @@ export const panelTimePickerProps = buildProps({
   ...timePanelSharedProps,
   datetimeRole: String,
   parsedValue: {
-    type: definePropType<Dayjs>(Object),
+    type: Object as PropType<Dayjs>,
   },
 } as const);
 

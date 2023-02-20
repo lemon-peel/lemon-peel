@@ -1,20 +1,15 @@
-import { computed, defineComponent, h } from 'vue';
-import { buildProps, definePropType, isString } from '@lemon-peel/utils';
+import { computed, defineComponent } from 'vue';
+import { buildProps, isString } from '@lemon-peel/utils';
 import { useNamespace } from '@lemon-peel/hooks';
-import type { CSSProperties, ExtractPropTypes } from 'vue';
+import type { CSSProperties, ExtractPropTypes, PropType } from 'vue';
 
 export const sliderMarkerProps = buildProps({
   mark: {
-    type: definePropType<
-    | string
-    | {
-      style: CSSProperties;
-      label: any;
-    }
-    >([String, Object]),
+    type: [String, Object] as PropType<string | { style: CSSProperties, label: any }>,
     default: undefined,
   },
 } as const);
+
 export type SliderMarkerProps = ExtractPropTypes<typeof sliderMarkerProps>;
 
 export default defineComponent({
@@ -29,14 +24,8 @@ export default defineComponent({
       isString(props.mark) ? undefined : props.mark!.style,
     );
 
-    return () =>
-      h(
-        'div',
-        {
-          class: ns.e('marks-text'),
-          style: style.value,
-        },
-        label.value,
-      );
+    return () => <div class={ns.e('marks-text')} style={style.value}>
+      {label.value}
+    </div>;
   },
 });

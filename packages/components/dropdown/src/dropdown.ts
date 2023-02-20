@@ -1,4 +1,4 @@
-import { buildProps, definePropType, iconPropType } from '@lemon-peel/utils';
+import { buildProps, iconPropType } from '@lemon-peel/utils';
 import { EVENT_CODE } from '@lemon-peel/constants';
 import { createCollectionWithScope } from '@lemon-peel/components/collection';
 import { useTooltipContentProps, useTooltipTriggerProps } from '@lemon-peel/components/tooltip';
@@ -6,7 +6,7 @@ import { useTooltipContentProps, useTooltipTriggerProps } from '@lemon-peel/comp
 import type { Options } from '@popperjs/core';
 import type { ButtonProps, ButtonType } from '@lemon-peel/components/button';
 import type { Placement } from '@lemon-peel/components/popper';
-import type { ComponentInternalInstance, ComputedRef } from 'vue';
+import type { ComponentInternalInstance, ComputedRef, PropType } from 'vue';
 import type { Nullable } from '@lemon-peel/utils';
 
 export interface LpDropdownInstance {
@@ -27,64 +27,24 @@ export const dropdownProps = buildProps({
     ...useTooltipContentProps.effect,
     default: 'light',
   },
-  type: {
-    type: definePropType<ButtonType>(String),
-  },
-  placement: {
-    type: definePropType<Placement>(String),
-    default: 'bottom',
-  },
-  popperOptions: {
-    type: definePropType<Partial<Options>>(Object),
-    default: () => ({}),
-  },
+  type: { type: String as PropType<ButtonType> },
+  placement: { type: String as PropType<Placement>, default: 'bottom' },
+  popperOptions: { type: Object as PropType<Partial<Options>>, default: () => ({}) },
   id: String,
-  size: {
-    type: String,
-    default: '',
-  },
+  size: { type: String, default: '' },
   splitButton: Boolean,
-  hideOnClick: {
-    type: Boolean,
-    default: true,
-  },
-  loop: {
-    type: Boolean,
-    default: true,
-  },
-  showTimeout: {
-    type: Number,
-    default: 150,
-  },
-  hideTimeout: {
-    type: Number,
-    default: 150,
-  },
-  tabindex: {
-    type: definePropType<number | string>([Number, String]),
-    default: 0,
-  },
-  maxHeight: {
-    type: definePropType<number | string>([Number, String]),
-    default: '',
-  },
-  popperClass: {
-    type: String,
-    default: '',
-  },
-  disabled: {
-    type: Boolean,
-    default: false,
-  },
-  role: {
-    type: String,
-    default: 'menu',
-  },
-  buttonProps: {
-    type: definePropType<ButtonProps>(Object),
-  },
+  hideOnClick: { type: Boolean, default: true },
+  loop: { type: Boolean, default: true },
+  showTimeout: { type: Number, default: 150 },
+  hideTimeout: { type: Number, default: 150 },
+  tabindex: { type: [Number, String] as PropType<number | string>, default: 0 },
+  maxHeight: { type: [Number, String] as PropType<number | string>, default: '' },
+  popperClass: { type: String, default: '' },
+  disabled: { type: Boolean, default: false },
+  role: { type: String, default: 'menu' },
+  buttonProps: { type: Object as PropType<ButtonProps> },
   teleported: useTooltipContentProps.teleported,
-} as const);
+});
 
 export const dropdownItemProps = buildProps({
   command: {
@@ -100,7 +60,7 @@ export const dropdownItemProps = buildProps({
 } as const);
 
 export const dropdownMenuProps = buildProps({
-  onKeydown: { type: definePropType<(e: KeyboardEvent) => void>(Function) },
+  onKeydown: { type: Function as PropType<(e: KeyboardEvent) => void> },
 });
 
 export const FIRST_KEYS = [

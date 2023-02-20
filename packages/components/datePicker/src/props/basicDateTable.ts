@@ -1,14 +1,12 @@
-import { buildProps, definePropType } from '@lemon-peel/utils';
+import { buildProps } from '@lemon-peel/utils';
 import { datePickerSharedProps, selectionModeWithDefault } from './shared';
 
-import type { ExtractPropTypes } from 'vue';
+import type { ExtractPropTypes, PropType } from 'vue';
 import type { Dayjs } from 'dayjs';
 
 export const basicDateTableProps = buildProps({
   ...datePickerSharedProps,
-  cellClassName: {
-    type: definePropType<(date: Date) => string>(Function),
-  },
+  cellClassName: { type: Function as PropType<(date: Date) => string> },
   showWeekNumber: Boolean,
   selectionMode: selectionModeWithDefault('date'),
 } as const);

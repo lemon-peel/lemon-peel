@@ -1,49 +1,40 @@
 import { NOOP } from '@vue/shared';
-import { buildProps, definePropType } from '@lemon-peel/utils';
+import { buildProps } from '@lemon-peel/utils';
 import { uploadBaseProps } from './upload';
 
-import type { ExtractPropTypes } from 'vue';
+import type { ExtractPropTypes, PropType } from 'vue';
 import type { UploadFile, UploadHooks, UploadProgressEvent, UploadRawFile } from './upload';
 import type UploadContent from './UploadContent.vue';
 import type { UploadAjaxError } from './ajax';
 
 export const uploadContentProps = buildProps({
   ...uploadBaseProps,
-
   beforeUpload: {
-    type: definePropType<UploadHooks['beforeUpload']>(Function),
+    type: Function as PropType<UploadHooks['beforeUpload']>,
     default: NOOP,
   },
   onRemove: {
-    type: definePropType<
-    (file: UploadFile | UploadRawFile, rawFile?: UploadRawFile) => void
-    >(Function),
+    type: Function as PropType<(file: UploadFile | UploadRawFile, rawFile?: UploadRawFile) => void>,
     default: NOOP,
   },
   onStart: {
-    type: definePropType<(rawFile: UploadRawFile) => void>(Function),
+    type: Function as PropType<(rawFile: UploadRawFile) => void>,
     default: NOOP,
   },
   onSuccess: {
-    type: definePropType<(response: any, rawFile: UploadRawFile) => unknown>(
-      Function,
-    ),
+    type: Function as PropType<(response: any, rawFile: UploadRawFile) => unknown>,
     default: NOOP,
   },
   onProgress: {
-    type: definePropType<
-    (evt: UploadProgressEvent, rawFile: UploadRawFile) => void
-    >(Function),
+    type: Function as PropType<(evt: UploadProgressEvent, rawFile: UploadRawFile) => void>,
     default: NOOP,
   },
   onError: {
-    type: definePropType<
-    (err: UploadAjaxError, rawFile: UploadRawFile) => void
-    >(Function),
+    type: Function as PropType<(err: UploadAjaxError, rawFile: UploadRawFile) => void>,
     default: NOOP,
   },
   onExceed: {
-    type: definePropType<UploadHooks['onExceed']>(Function),
+    type: Function as PropType<UploadHooks['onExceed']>,
     default: NOOP,
   },
 } as const);

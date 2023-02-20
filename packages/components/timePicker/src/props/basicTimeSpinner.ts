@@ -1,4 +1,4 @@
-import { buildProps, definePropType } from '@lemon-peel/utils';
+import { buildProps } from '@lemon-peel/utils';
 import { disabledTimeListsProps } from './shared';
 
 import type { ExtractPropTypes } from 'vue';
@@ -10,7 +10,7 @@ export const basicTimeSpinnerProps = buildProps({
     required: true,
   },
   spinnerDate: {
-    type: definePropType<Dayjs>(Object),
+    type: Object as PropType<Dayjs>,
     required: true,
   },
   showSeconds: {
@@ -20,7 +20,7 @@ export const basicTimeSpinnerProps = buildProps({
   arrowControl: Boolean,
   amPmMode: {
     // 'a': am/pm; 'A': AM/PM
-    type: definePropType<'a' | 'A' | ''>(String),
+    type: String as PropType<'a' | 'A' | ''>,
     default: '',
   },
   ...disabledTimeListsProps,

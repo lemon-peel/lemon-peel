@@ -1,4 +1,4 @@
-import { buildProps, definePropType } from '@lemon-peel/utils';
+import { buildProps } from '@lemon-peel/utils';
 
 import type { ExtractPropTypes } from 'vue';
 
@@ -8,7 +8,7 @@ export const autoResizerProps = buildProps({
   disableWidth: Boolean,
   disableHeight: Boolean,
   onResize: {
-    type: definePropType<AutoResizeHandler>(Function),
+    type: Function as PropType<AutoResizeHandler>,
   },
 } as const);
 

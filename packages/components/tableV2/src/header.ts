@@ -1,4 +1,4 @@
-import { buildProps, definePropType } from '@lemon-peel/utils';
+import { buildProps } from '@lemon-peel/utils';
 import { columns } from './common';
 
 import type { ExtractPropTypes } from 'vue';
@@ -12,14 +12,14 @@ export const tableV2HeaderProps = buildProps({
   class: String,
   columns,
   fixedHeaderData: {
-    type: definePropType<any[]>(Array),
+    type: Array as PropType<any[]>,
   },
   headerData: {
-    type: definePropType<any[]>(Array),
+    type: Array as PropType<any[]>,
     required: true,
   },
   headerHeight: {
-    type: definePropType<number | number[]>([Number, Array]),
+    type: [Number, Array] as PropType<number | number[]>,
     default: 50,
   },
   rowWidth: requiredNumberType,
