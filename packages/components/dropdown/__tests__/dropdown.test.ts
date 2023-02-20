@@ -37,8 +37,8 @@ describe('Dropdown', () => {
     const wrapper = _mount(
       `
         <lp-dropdown ref="b" placement="right">
-          <span class="el-dropdown-link" ref="a">
-            dropdown<i class="el-icon-arrow-down el-icon--right"></i>
+          <span class="lp-dropdown-link" ref="a">
+            dropdown<i class="lp-icon-arrow-down lp-icon--right"></i>
           </span>
           <template #dropdown>
             <lp-dropdown-menu>
@@ -59,7 +59,7 @@ describe('Dropdown', () => {
     >;
 
     vi.useFakeTimers();
-    const triggerElm = wrapper.find('.el-tooltip__trigger');
+    const triggerElm = wrapper.find('.lp-tooltip__trigger');
     expect(content.open).toBe(false);
     await triggerElm.trigger(MOUSE_ENTER_EVENT);
     vi.runAllTimers();
@@ -75,8 +75,8 @@ describe('Dropdown', () => {
     const wrapper = _mount(
       `
       <lp-dropdown ref="b" @command="commandHandler" placement="right">
-        <span class="el-dropdown-link" ref="a">
-          dropdown<i class="el-icon-arrow-down el-icon--right"></i>
+        <span class="lp-dropdown-link" ref="a">
+          dropdown<i class="lp-icon-arrow-down lp-icon--right"></i>
         </span>
         <template #dropdown>
           <lp-dropdown-menu>
@@ -101,7 +101,7 @@ describe('Dropdown', () => {
     );
     await nextTick();
     // const content = wrapper.findComponent({ ref: 'b' }).vm as any
-    const triggerElm = wrapper.find('.el-tooltip__trigger');
+    const triggerElm = wrapper.find('.lp-tooltip__trigger');
     await triggerElm.trigger(MOUSE_ENTER_EVENT);
     await nextTick();
     await wrapper
@@ -109,7 +109,7 @@ describe('Dropdown', () => {
       .findComponent({
         name: 'DropdownItemImpl',
       })
-      .find('.el-dropdown-menu__item')
+      .find('.lp-dropdown-menu__item')
       .trigger('click');
     await nextTick();
     expect(commandHandler).toHaveBeenCalled();
@@ -119,8 +119,8 @@ describe('Dropdown', () => {
     const wrapper = _mount(
       `
       <lp-dropdown trigger="click" ref="b" placement="right">
-        <span class="el-dropdown-link" ref="a">
-          dropdown<i class="el-icon-arrow-down el-icon--right"></i>
+        <span class="lp-dropdown-link" ref="a">
+          dropdown<i class="lp-icon-arrow-down lp-icon--right"></i>
         </span>
         <template #dropdown>
           <lp-dropdown-menu>
@@ -142,7 +142,7 @@ describe('Dropdown', () => {
     const content = wrapper.findComponent(LpTooltip).vm as InstanceType<
       typeof LpTooltip
     >;
-    const triggerElm = wrapper.find('.el-dropdown-link');
+    const triggerElm = wrapper.find('.lp-dropdown-link');
     expect(content.open).toBe(false);
     await triggerElm.trigger(MOUSE_ENTER_EVENT);
     expect(content.open).toBe(false);
@@ -157,8 +157,8 @@ describe('Dropdown', () => {
     const wrapper = _mount(
       `
       <lp-dropdown trigger="contextmenu" ref="b" placement="right">
-        <span class="el-dropdown-link" ref="a">
-          dropdown<i class="el-icon-arrow-down el-icon--right"></i>
+        <span class="lp-dropdown-link" ref="a">
+          dropdown<i class="lp-icon-arrow-down lp-icon--right"></i>
         </span>
         <template #dropdown>
           <lp-dropdown-menu>
@@ -180,7 +180,7 @@ describe('Dropdown', () => {
     const content = wrapper.findComponent(LpTooltip).vm as InstanceType<
       typeof LpTooltip
     >;
-    const triggerElm = wrapper.find('.el-dropdown-link');
+    const triggerElm = wrapper.find('.lp-dropdown-link');
     expect(content.open).toBe(false);
     await triggerElm.trigger(CONTEXTMENU);
     await rAF();
@@ -191,8 +191,8 @@ describe('Dropdown', () => {
     const wrapper = _mount(
       `
       <lp-dropdown trigger="click" ref="refDropdown" placement="right">
-        <span class="el-dropdown-link" ref="a">
-          dropdown<i class="el-icon-arrow-down el-icon--right"></i>
+        <span class="lp-dropdown-link" ref="a">
+          dropdown<i class="lp-icon-arrow-down lp-icon--right"></i>
         </span>
         <template #dropdown>
           <lp-dropdown-menu>
@@ -254,8 +254,8 @@ describe('Dropdown', () => {
     const content = wrapper.findComponent(LpTooltip).vm as InstanceType<
       typeof LpTooltip
     >;
-    const triggerElm = wrapper.find('.el-dropdown__caret-button');
-    const button = wrapper.find('.el-button');
+    const triggerElm = wrapper.find('.lp-dropdown__caret-button');
+    const button = wrapper.find('.lp-button');
     expect(content.open).toBe(false);
     await button.trigger('click');
     expect(handleClick).toHaveBeenCalled();
@@ -270,8 +270,8 @@ describe('Dropdown', () => {
     const wrapper = _mount(
       `
       <lp-dropdown ref="b" placement="right" :hide-on-click="false">
-        <span class="el-dropdown-link" ref="a">
-          dropdown<i class="el-icon-arrow-down el-icon--right"></i>
+        <span class="lp-dropdown-link" ref="a">
+          dropdown<i class="lp-icon-arrow-down lp-icon--right"></i>
         </span>
         <template #dropdown>
           <lp-dropdown-menu>
@@ -291,7 +291,7 @@ describe('Dropdown', () => {
       typeof LpTooltip
     >;
     expect(content.open).toBe(false);
-    const triggerElm = wrapper.find('.el-tooltip__trigger');
+    const triggerElm = wrapper.find('.lp-tooltip__trigger');
     vi.useFakeTimers();
     await triggerElm.trigger(MOUSE_ENTER_EVENT);
     vi.runAllTimers();
@@ -311,8 +311,8 @@ describe('Dropdown', () => {
     const wrapper = _mount(
       `
       <lp-dropdown ref="b" placement="right" :hide-on-click="false">
-        <span class="el-dropdown-link" ref="a">
-          dropdown<i class="el-icon-arrow-down el-icon--right"></i>
+        <span class="lp-dropdown-link" ref="a">
+          dropdown<i class="lp-icon-arrow-down lp-icon--right"></i>
         </span>
         <template #dropdown>
           <lp-dropdown-menu>
@@ -331,7 +331,7 @@ describe('Dropdown', () => {
     const content = wrapper.findComponent(LpTooltip).vm as InstanceType<
       typeof LpTooltip
     >;
-    const triggerElm = wrapper.find('.el-tooltip__trigger');
+    const triggerElm = wrapper.find('.lp-tooltip__trigger');
 
     vi.useFakeTimers();
     await triggerElm.trigger(MOUSE_ENTER_EVENT);
@@ -356,8 +356,8 @@ describe('Dropdown', () => {
     const wrapper = _mount(
       `
       <lp-dropdown ref="b" placement="right" :hide-on-click="false">
-        <span class="el-dropdown-link" ref="a">
-          dropdown<i class="el-icon-arrow-down el-icon--right"></i>
+        <span class="lp-dropdown-link" ref="a">
+          dropdown<i class="lp-icon-arrow-down lp-icon--right"></i>
         </span>
         <template #dropdown>
           <lp-dropdown-menu ref="dropdown-menu">
@@ -374,7 +374,7 @@ describe('Dropdown', () => {
     );
     await nextTick();
     const content = wrapper.findComponent({ ref: 'dropdown-menu' });
-    const triggerElm = wrapper.find('.el-tooltip__trigger');
+    const triggerElm = wrapper.find('.lp-tooltip__trigger');
     await triggerElm.trigger(MOUSE_ENTER_EVENT);
     await rAF();
     await content.trigger('keydown', {
@@ -387,7 +387,7 @@ describe('Dropdown', () => {
         .findComponent({
           name: 'DropdownItemImpl',
         })
-        .find('.el-dropdown-menu__item')
+        .find('.lp-dropdown-menu__item')
         .element.getAttribute('tabindex'),
     ).toBe('0');
   });
@@ -396,8 +396,8 @@ describe('Dropdown', () => {
     const wrapper = _mount(
       `
       <lp-dropdown ref="b" max-height="60px">
-        <span class="el-dropdown-link" ref="a">
-          dropdown<i class="el-icon-arrow-down el-icon--right"></i>
+        <span class="lp-dropdown-link" ref="a">
+          dropdown<i class="lp-icon-arrow-down lp-icon--right"></i>
         </span>
         <template #dropdown>
           <lp-dropdown-menu>
@@ -418,7 +418,7 @@ describe('Dropdown', () => {
         ref: 'b',
       })
       .findComponent({ ref: 'scrollbar' });
-    expect(scrollbar.find('.el-scrollbar__wrap').attributes('style')).toContain(
+    expect(scrollbar.find('.lp-scrollbar__wrap').attributes('style')).toContain(
       'max-height: 60px;',
     );
   });
@@ -427,8 +427,8 @@ describe('Dropdown', () => {
     const wrapper = _mount(
       `
       <lp-dropdown ref="b">
-        <span class="el-dropdown-link">
-          dropdown<i class="el-icon-arrow-down el-icon--right"></i>
+        <span class="lp-dropdown-link">
+          dropdown<i class="lp-icon-arrow-down lp-icon--right"></i>
         </span>
         <template #dropdown>
           <lp-dropdown-menu>
@@ -446,7 +446,7 @@ describe('Dropdown', () => {
     const content = wrapper.findComponent(LpTooltip).vm as InstanceType<
       typeof LpTooltip
     >;
-    const triggerElm = wrapper.find('.el-tooltip__trigger');
+    const triggerElm = wrapper.find('.lp-tooltip__trigger');
     expect(content.open).toBe(false);
 
     vi.useFakeTimers();
@@ -462,8 +462,8 @@ describe('Dropdown', () => {
     const wrapper = await _mount(
       `
       <lp-dropdown ref="b" max-height="60px" popper-class="custom-popper-class">
-        <span class="el-dropdown-link" ref="a">
-          dropdown<i class="el-icon-arrow-down el-icon--right"></i>
+        <span class="lp-dropdown-link" ref="a">
+          dropdown<i class="lp-icon-arrow-down lp-icon--right"></i>
         </span>
         <template #dropdown>
           <lp-dropdown-menu>
@@ -490,7 +490,7 @@ describe('Dropdown', () => {
     const wrapper = _mount(
       `
       <lp-dropdown>
-        <span class="el-dropdown-link">
+        <span class="lp-dropdown-link">
           Custom Attributes
         </span>
         <template #dropdown>
@@ -508,7 +508,7 @@ describe('Dropdown', () => {
         .findComponent({
           name: 'DropdownItemImpl',
         })
-        .find('.el-dropdown-menu__item').element.dataset.customAttribute,
+        .find('.lp-dropdown-menu__item').element.dataset.customAttribute,
     ).toBe('hello');
   });
 
@@ -516,7 +516,7 @@ describe('Dropdown', () => {
     const wrapper = _mount(
       `
       <lp-dropdown disabled>
-        <span class="el-dropdown-link">
+        <span class="lp-dropdown-link">
           Dropdown List
         </span>
         <template #dropdown>
@@ -541,7 +541,7 @@ describe('Dropdown', () => {
     const wrapper = _mount(
       `
       <lp-dropdown disabled split-button>
-        <span class="el-dropdown-link">
+        <span class="lp-dropdown-link">
           Dropdown List
         </span>
         <template #dropdown>
@@ -574,7 +574,7 @@ describe('Dropdown', () => {
     const wrapper = _mount(
       `
       <lp-dropdown trigger="hover" :show-timeout="200" :hide-timeout="300">
-        <span class="el-dropdown-link">
+        <span class="lp-dropdown-link">
           Dropdown List
         </span>
         <template #dropdown>
@@ -597,7 +597,7 @@ describe('Dropdown', () => {
     const wrapper = _mount(
       `
       <lp-dropdown trigger="click" :show-timeout="200" :hide-timeout="300">
-        <span class="el-dropdown-link">
+        <span class="lp-dropdown-link">
           Dropdown List
         </span>
         <template #dropdown>
@@ -621,7 +621,7 @@ describe('Dropdown', () => {
       const wrapper = _mount(
         `
         <lp-dropdown>
-          <span class="el-dropdown-link" data-test-ref="trigger">
+          <span class="lp-dropdown-link" data-test-ref="trigger">
             Dropdown List
           </span>
           <template #dropdown>
@@ -691,7 +691,7 @@ describe('Dropdown', () => {
         () => ({}),
       );
       await nextTick();
-      const trigger = wrapper.find('.el-dropdown__caret-button');
+      const trigger = wrapper.find('.lp-dropdown__caret-button');
       const menu = wrapper.findComponent({ ref: 'menu' });
       expect(trigger.attributes().role).toBe('button');
       expect(trigger.attributes().tabindex).toBe('0');
@@ -718,7 +718,7 @@ describe('Dropdown', () => {
         () => ({}),
       );
       const menu = wrapper.findComponent({ ref: 'menu' });
-      const menuItem = menu.find('.el-dropdown-menu__item');
+      const menuItem = menu.find('.lp-dropdown-menu__item');
       expect(menu.attributes().role).toBe('menu');
       expect(menuItem.attributes().role).toBe('menuitem');
     });
@@ -737,7 +737,7 @@ describe('Dropdown', () => {
         () => ({}),
       );
       const menu = wrapper.findComponent({ ref: 'menu' });
-      const menuItem = menu.find('.el-dropdown-menu__item');
+      const menuItem = menu.find('.lp-dropdown-menu__item');
       expect(menu.attributes().role).toBe('navigation');
       expect(menuItem.attributes().role).toBe('link');
     });
@@ -756,7 +756,7 @@ describe('Dropdown', () => {
         () => ({}),
       );
       const menu = wrapper.findComponent({ ref: 'menu' });
-      const menuItem = menu.find('.el-dropdown-menu__item');
+      const menuItem = menu.find('.lp-dropdown-menu__item');
       expect(menu.attributes().role).toBe('group');
       expect(menuItem.attributes().role).toBe('button');
     });
@@ -768,8 +768,8 @@ describe('Dropdown', () => {
       _mount(
         `
         <lp-dropdown ref="b" placement="right">
-          <span class="el-dropdown-link" ref="a">
-            dropdown<i class="el-icon-arrow-down el-icon--right"></i>
+          <span class="lp-dropdown-link" ref="a">
+            dropdown<i class="lp-icon-arrow-down lp-icon--right"></i>
           </span>
           <template #dropdown>
             <lp-dropdown-menu>
@@ -795,8 +795,8 @@ describe('Dropdown', () => {
       _mount(
         `
         <lp-dropdown ref="b" placement="right" :teleported="false">
-          <span class="el-dropdown-link" ref="a">
-            dropdown<i class="el-icon-arrow-down el-icon--right"></i>
+          <span class="lp-dropdown-link" ref="a">
+            dropdown<i class="lp-icon-arrow-down lp-icon--right"></i>
           </span>
           <template #dropdown>
             <lp-dropdown-menu>

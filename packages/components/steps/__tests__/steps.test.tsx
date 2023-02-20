@@ -28,9 +28,9 @@ describe('Steps.vue', () => {
         <Step />
       </Steps>
     ));
-    expect(wrapper.findAll('.el-step').length).toBe(3);
-    expect(wrapper.classes()).toContain('el-steps--horizontal');
-    expect(wrapper.find('.el-step').classes()).toContain('is-horizontal');
+    expect(wrapper.findAll('.lp-step').length).toBe(3);
+    expect(wrapper.classes()).toContain('lp-steps--horizontal');
+    expect(wrapper.find('.lp-step').classes()).toContain('is-horizontal');
   });
 
   test('space', () => {
@@ -39,7 +39,7 @@ describe('Steps.vue', () => {
         <Step />
       </Steps>
     ));
-    expect(wrapper.find('.el-step').attributes('style')).toMatch(
+    expect(wrapper.find('.lp-step').attributes('style')).toMatch(
       'flex-basis: 100px;',
     );
   });
@@ -50,7 +50,7 @@ describe('Steps.vue', () => {
         <Step />
       </Steps>
     ));
-    expect(wrapper.find('.el-step').classes()).toContain('is-center');
+    expect(wrapper.find('.lp-step').classes()).toContain('is-center');
   });
 
   test('direction', () => {
@@ -59,8 +59,8 @@ describe('Steps.vue', () => {
         <Step />
       </Steps>
     ));
-    expect(wrapper.classes()).toContain('el-steps--vertical');
-    expect(wrapper.find('.el-step').classes()).toContain('is-vertical');
+    expect(wrapper.classes()).toContain('lp-steps--vertical');
+    expect(wrapper.find('.lp-step').classes()).toContain('is-vertical');
   });
 
   test('simple', () => {
@@ -69,7 +69,7 @@ describe('Steps.vue', () => {
         <Step />
       </Steps>
     ));
-    expect(wrapper.classes()).toContain('el-steps--simple');
+    expect(wrapper.classes()).toContain('lp-steps--simple');
     expect(wrapper.find('is-center').exists()).toBe(false);
     expect(wrapper.find('is-vertical').exists()).toBe(false);
   });
@@ -84,37 +84,37 @@ describe('Steps.vue', () => {
     ));
     await nextTick();
     expect(
-      wrapper.findAll('.el-step')[0].find('.el-step__head').classes(),
+      wrapper.findAll('.lp-step')[0].find('.lp-step__head').classes(),
     ).toContain('is-process');
     expect(
-      wrapper.findAll('.el-step')[1].find('.el-step__head').classes(),
+      wrapper.findAll('.lp-step')[1].find('.lp-step__head').classes(),
     ).toContain('is-wait');
     expect(
-      wrapper.findAll('.el-step')[2].find('.el-step__head').classes(),
+      wrapper.findAll('.lp-step')[2].find('.lp-step__head').classes(),
     ).toContain('is-wait');
     await wrapper.setProps({ active: 1 });
     expect(
-      wrapper.findAll('.el-step')[0].find('.el-step__head').classes(),
+      wrapper.findAll('.lp-step')[0].find('.lp-step__head').classes(),
     ).toContain('is-finish');
     expect(
-      wrapper.findAll('.el-step')[1].find('.el-step__head').classes(),
+      wrapper.findAll('.lp-step')[1].find('.lp-step__head').classes(),
     ).toContain('is-process');
     expect(
-      wrapper.findAll('.el-step')[2].find('.el-step__head').classes(),
+      wrapper.findAll('.lp-step')[2].find('.lp-step__head').classes(),
     ).toContain('is-wait');
     await wrapper.setProps({ active: 2 });
     expect(
-      wrapper.findAll('.el-step')[0].find('.el-step__head').classes(),
+      wrapper.findAll('.lp-step')[0].find('.lp-step__head').classes(),
     ).toContain('is-finish');
     expect(
-      wrapper.findAll('.el-step')[1].find('.el-step__head').classes(),
+      wrapper.findAll('.lp-step')[1].find('.lp-step__head').classes(),
     ).toContain('is-finish');
     expect(
-      wrapper.findAll('.el-step')[2].find('.el-step__head').classes(),
+      wrapper.findAll('.lp-step')[2].find('.lp-step__head').classes(),
     ).toContain('is-process');
     await wrapper.setProps({ active: 3 });
     expect(
-      wrapper.findAll('.el-step')[2].find('.el-step__head').classes(),
+      wrapper.findAll('.lp-step')[2].find('.lp-step__head').classes(),
     ).toContain('is-finish');
   });
 
@@ -128,11 +128,11 @@ describe('Steps.vue', () => {
     ));
     await nextTick();
     expect(
-      wrapper.findAll('.el-step')[2].find('.el-step__head').classes(),
+      wrapper.findAll('.lp-step')[2].find('.lp-step__head').classes(),
     ).toContain('is-success');
     await wrapper.setProps({ processStatus: 'error' });
     expect(
-      wrapper.findAll('.el-step')[2].find('.el-step__head').classes(),
+      wrapper.findAll('.lp-step')[2].find('.lp-step__head').classes(),
     ).toContain('is-error');
   });
 
@@ -146,11 +146,11 @@ describe('Steps.vue', () => {
     ));
     await nextTick();
     expect(
-      wrapper.findAll('.el-step')[0].find('.el-step__head').classes(),
+      wrapper.findAll('.lp-step')[0].find('.lp-step__head').classes(),
     ).toContain('is-error');
     await wrapper.setProps({ finishStatus: 'success' });
     expect(
-      wrapper.findAll('.el-step')[0].find('.el-step__head').classes(),
+      wrapper.findAll('.lp-step')[0].find('.lp-step__head').classes(),
     ).toContain('is-success');
   });
 
@@ -170,9 +170,9 @@ describe('Steps.vue', () => {
         );
       },
     });
-    expect(wrapper.find('.el-step__head').classes()).toContain('is-wait');
-    expect(wrapper.find('.el-step__title').text()).toBe('title');
-    expect(wrapper.find('.el-step__description').text()).toBe('description');
+    expect(wrapper.find('.lp-step__head').classes()).toContain('is-wait');
+    expect(wrapper.find('.lp-step__title').text()).toBe('title');
+    expect(wrapper.find('.lp-step__description').text()).toBe('description');
     expect(wrapper.findComponent(Edit).exists()).toBe(true);
   });
 
@@ -187,7 +187,7 @@ describe('Steps.vue', () => {
         />
       </Steps>
     ));
-    expect(wrapper.find('.el-step__title').text()).toBe('A');
-    expect(wrapper.find('.el-step__description').text()).toBe('B');
+    expect(wrapper.find('.lp-step__title').text()).toBe('A');
+    expect(wrapper.find('.lp-step__description').text()).toBe('B');
   });
 });

@@ -8,7 +8,7 @@ const AXIOM = 'Rem is the best girl'
 describe('Badge', () => {
   test('has value', () => {
     const wrapper = mount(() => <Badge value={80} />)
-    expect(wrapper.find('.el-badge__content').text()).toEqual('80')
+    expect(wrapper.find('.lp-badge__content').text()).toEqual('80')
   })
 
   test('is fixed', () => {
@@ -19,8 +19,8 @@ describe('Badge', () => {
         }}
       />
     ))
-    expect(wrapper.find('.el-badge__content.is-fixed').exists()).toBe(true)
-    expect(wrapper.find('.el-badge').text()).toBe(AXIOM)
+    expect(wrapper.find('.lp-badge__content.is-fixed').exists()).toBe(true)
+    expect(wrapper.find('.lp-badge').text()).toBe(AXIOM)
   })
 
   test('is dot', () => {
@@ -32,9 +32,9 @@ describe('Badge', () => {
         }}
       />
     ))
-    expect(wrapper.find('.el-badge__content.is-dot').exists()).toBe(true)
+    expect(wrapper.find('.lp-badge__content.is-dot').exists()).toBe(true)
     expect(
-      wrapper.find('.el-badge__content.el-badge__content--danger').exists()
+      wrapper.find('.lp-badge__content.lp-badge__content--danger').exists()
     ).toBe(true)
   })
 
@@ -48,18 +48,18 @@ describe('Badge', () => {
         }}
       />
     ))
-    expect(wrapper.find('.el-badge__content.is-dot').exists()).toBe(true)
+    expect(wrapper.find('.lp-badge__content.is-dot').exists()).toBe(true)
     expect(
-      wrapper.find('.el-badge__content.el-badge__content--success').exists()
+      wrapper.find('.lp-badge__content.lp-badge__content--success').exists()
     ).toBe(true)
   })
 
   test('max', async () => {
     const badgeValue = ref(200)
     const wrapper = mount(() => <Badge max={100} value={badgeValue.value} />)
-    expect(wrapper.find('.el-badge__content').text()).toEqual('100+')
+    expect(wrapper.find('.lp-badge__content').text()).toEqual('100+')
     badgeValue.value = 80
     await nextTick()
-    expect(wrapper.find('.el-badge__content').text()).toEqual('80')
+    expect(wrapper.find('.lp-badge__content').text()).toEqual('80')
   })
 })

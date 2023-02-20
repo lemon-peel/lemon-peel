@@ -1,7 +1,7 @@
 import { buildProps, mutable } from '@lemon-peel/utils';
 import { componentSizes } from '@lemon-peel/constants';
 import type { ExtractPropTypes, PropType } from 'vue';
-import type Sizes from './sizes.vue';
+import type Sizes from './Sizes.vue';
 
 export const paginationSizesProps = buildProps({
   pageSize: { type: Number, required: true },

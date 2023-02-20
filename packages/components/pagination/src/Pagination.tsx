@@ -4,12 +4,12 @@ import { buildProps, debugWarn, iconPropType, mutable } from '@lemon-peel/utils'
 import { useLocale, useNamespace } from '@lemon-peel/hooks';
 import { elPaginationKey } from '@lemon-peel/tokens';
 
-import Previous from './components/prev.vue';
-import Next from './components/next.vue';
-import Sizes from './components/sizes.vue';
+import Previous from './components/Prev.vue';
+import Next from './components/Next.vue';
+import Sizes from './components/Sizes.vue';
 import Jumper from './components/jumper.vue';
-import Total from './components/total.vue';
-import Pager from './components/pager.vue';
+import Total from './components/Total.vue';
+import Pager from './components/Pager.vue';
 
 import type { ExtractPropTypes, VNode, PropType } from 'vue';
 
@@ -138,7 +138,7 @@ export default defineComponent({
           // users are account for page size change
           if (isAbsent(props.pageSize)) {
             // (else block just for explaination)
-            // else page size is controlled by el-pagination internally
+            // else page size is controlled by lp-pagination internally
           } else {
             if (!hasPageSizeListener) {
               return false;

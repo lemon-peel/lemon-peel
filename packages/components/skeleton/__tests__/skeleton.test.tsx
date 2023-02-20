@@ -2,7 +2,7 @@ import { nextTick } from 'vue';
 import { mount } from '@vue/test-utils';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import Skeleton from '../src/Skeleton.vue';
-import type { SkeletonInstance } from '../src/Skeleton.vue';
+import type { SkeletonInstance } from '../src/skeleton';
 
 const AXIOM = 'AXIOM is the best girl';
 
@@ -17,10 +17,10 @@ describe('Skeleton.vue', () => {
 
   it('render test', () => {
     const wrapper = mount(<Skeleton />);
-    expect(wrapper.findAll('.el-skeleton__p')).toHaveLength(4);
+    expect(wrapper.findAll('.lp-skeleton__p')).toHaveLength(4);
     expect(wrapper.classes()).toMatchInlineSnapshot(`
       [
-        "el-skeleton",
+        "lp-skeleton",
       ]
     `);
   });
@@ -30,7 +30,7 @@ describe('Skeleton.vue', () => {
 
     expect(wrapper.classes()).toMatchInlineSnapshot(`
       [
-        "el-skeleton",
+        "lp-skeleton",
         "is-animated",
       ]
     `);
@@ -39,19 +39,19 @@ describe('Skeleton.vue', () => {
   it('should render x times', async () => {
     const wrapper = mount(<Skeleton />);
 
-    expect(wrapper.findAll('.el-skeleton__p')).toHaveLength(4);
+    expect(wrapper.findAll('.lp-skeleton__p')).toHaveLength(4);
 
     await wrapper.setProps({
       count: 2,
     });
 
-    expect(wrapper.findAll('.el-skeleton__p')).toHaveLength(8);
+    expect(wrapper.findAll('.lp-skeleton__p')).toHaveLength(8);
   });
 
   it('should render x rows', () => {
     const wrapper = mount(<Skeleton rows={4} />);
 
-    expect(wrapper.findAll('.el-skeleton__p')).toHaveLength(5);
+    expect(wrapper.findAll('.lp-skeleton__p')).toHaveLength(5);
   });
 
   it('should render default slots', () => {

@@ -4,9 +4,9 @@ import { rAF } from '@lemon-peel/test-utils/tick';
 import Notification, { closeAll } from '../src/notify';
 import { LpNotification } from '../index';
 
-import type { NotificationHandle } from '../src/Notification.vue';
+import type { NotificationHandle } from '../src/notification';
 
-const selector = '.el-notification';
+const selector = '.lp-notification';
 
 describe('Notification on command', () => {
   afterEach(() => {
@@ -79,7 +79,7 @@ describe('Notification on command', () => {
   it('it should be able to render all types notification', () => {
     for (const type of ['success', 'warning', 'error', 'info'] as const) {
       Notification[type]({});
-      expect(document.querySelector(`.el-icon-${type}`)).toBeDefined();
+      expect(document.querySelector(`.lp-icon-${type}`)).toBeDefined();
     }
   });
 
@@ -100,7 +100,7 @@ describe('Notification on command', () => {
   it('it should appendTo specified selector', async () => {
     const htmlElement = document.createElement('div');
     htmlElement.classList.add('notification-manager');
-    document.body.appendChild(htmlElement);
+    document.body.append(htmlElement);
     const handle = Notification({
       appendTo: '.notification-manager',
     });

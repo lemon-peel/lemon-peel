@@ -5,7 +5,7 @@ import { POPPER_CONTENT_INJECTION_KEY } from '@lemon-peel/tokens';
 import LpArrow from '../src/Arrow.vue';
 
 import type { VueWrapper } from '@vue/test-utils';
-import type { PopperArrowInstance } from '../src/Arrow.vue';
+import type { PopperArrowInstance } from '../src/arrow';
 
 const popperContentInjection = {
   arrowRef: ref(null),

@@ -16,8 +16,8 @@ describe('Space.vue', () => {
       wrap: true,
     })
 
-    expect(wrapper.find('.el-space--vertical').exists()).toBe(true)
-    expect(wrapper.find('.el-space').attributes('style')).toContain(
+    expect(wrapper.find('.lp-space--vertical').exists()).toBe(true)
+    expect(wrapper.find('.lp-space').attributes('style')).toContain(
       'flex-wrap: wrap'
     )
   })
@@ -40,7 +40,7 @@ describe('Space.vue', () => {
     )
 
     await nextTick()
-    expect(wrapper.find('.el-space__item').attributes('style')).toContain(
+    expect(wrapper.find('.lp-space__item').attributes('style')).toContain(
       'margin-right: 16px'
     )
 
@@ -49,7 +49,7 @@ describe('Space.vue', () => {
     })
 
     await nextTick()
-    expect(wrapper.find('.el-space__item').attributes('style')).toContain(
+    expect(wrapper.find('.lp-space__item').attributes('style')).toContain(
       'margin-right: 30px'
     )
 
@@ -57,10 +57,10 @@ describe('Space.vue', () => {
       size: [10, 20],
     })
 
-    expect(wrapper.find('.el-space__item').attributes('style')).toContain(
+    expect(wrapper.find('.lp-space__item').attributes('style')).toContain(
       'margin-right: 10px'
     )
-    expect(wrapper.find('.el-space__item').attributes('style')).toContain(
+    expect(wrapper.find('.lp-space__item').attributes('style')).toContain(
       'padding-bottom: 20px'
     )
     await wrapper.setProps({
@@ -69,7 +69,7 @@ describe('Space.vue', () => {
 
     expect(warnHandler).toHaveBeenCalled()
 
-    expect(wrapper.find('.el-space__item').attributes('style')).toContain(
+    expect(wrapper.find('.lp-space__item').attributes('style')).toContain(
       'margin-right: 8px'
     )
   })
@@ -112,13 +112,13 @@ describe('Space.vue', () => {
     )
 
     await nextTick()
-    expect(wrapper.find('.el-space').attributes('style')).toContain(
+    expect(wrapper.find('.lp-space').attributes('style')).toContain(
       'flex-wrap: wrap'
     )
-    expect(wrapper.find('.el-space__item').attributes('style')).toContain(
+    expect(wrapper.find('.lp-space__item').attributes('style')).toContain(
       'flex-grow: 1'
     )
-    expect(wrapper.find('.el-space__item').attributes('style')).toContain(
+    expect(wrapper.find('.lp-space__item').attributes('style')).toContain(
       'min-width: 100%'
     )
 
@@ -128,7 +128,7 @@ describe('Space.vue', () => {
     })
 
     await nextTick()
-    expect(wrapper.find('.el-space__item').attributes('style')).toContain(
+    expect(wrapper.find('.lp-space__item').attributes('style')).toContain(
       'min-width: 50%'
     )
   })

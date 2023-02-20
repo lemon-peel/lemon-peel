@@ -173,7 +173,7 @@ watch(
 
 defineExpose({
   /**
-   * @description el-popper-content component instance
+   * @description lp-popper-content component instance
    */
   contentRef,
 });

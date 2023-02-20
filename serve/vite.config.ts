@@ -128,11 +128,10 @@ export default defineConfig(async ({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
   let { dependencies } = getPackageDependencies(mainPackage);
   dependencies = dependencies.filter(dep => !dep.startsWith('@types/')); // exclude dts deps
-  const optimizeDeps = (
-    await glob(['dayjs/(locale|plugin)/*.js'], {
-      cwd: path.resolve(lpRoot, 'node_modules'),
-    })
-  ).map(dep => dep.replace(/\.js$/, ''));
+  const dayjsPlugins = await glob(['dayjs/(locale|plugin)/*.js'], {
+    cwd: path.resolve(lpRoot, 'node_modules'),
+  });
+  const optimizeDeps = dayjsPlugins.map(dep => dep.replace(/\.js$/, ''));
 
   return {
     resolve: {
@@ -149,7 +148,9 @@ export default defineConfig(async ({ mode }) => {
       checker({
         eslint: false,
         vueTsc: true,
-        typescript: true,
+        // typescript: {
+        // root: path.resolve(__dirname, '../'),
+        // },
       }),
       eslint({ fix: true }),
       VueMacros({

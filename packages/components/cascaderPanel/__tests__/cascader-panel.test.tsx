@@ -102,12 +102,12 @@ const CUSTOM_PROPS_OPTIONS = [
   },
 ];
 
-const MENU = '.el-cascader-menu';
-const NODE = '.el-cascader-node';
-const VALID_NODE = '.el-cascader-node:not(.is-disabled)';
-const EXPAND_ARROW = '.arrow-right.el-cascader-node__postfix';
-const CHECKBOX = '.el-checkbox__input';
-const RADIO = '.el-radio__input';
+const MENU = '.lp-cascader-menu';
+const NODE = '.lp-cascader-node';
+const VALID_NODE = '.lp-cascader-node:not(.is-disabled)';
+const EXPAND_ARROW = '.arrow-right.lp-cascader-node__postfix';
+const CHECKBOX = '.lp-checkbox__input';
+const RADIO = '.lp-radio__input';
 
 let id = 0;
 

@@ -109,11 +109,11 @@ describe('config-provider', () => {
 
       await nextTick();
       expect(
-        wrapper.find('.el-button .el-button__text--expand').exists(),
+        wrapper.find('.lp-button .lp-button__text--expand').exists(),
       ).toBeTruthy();
       await wrapper.find('.toggle').trigger('click');
       expect(
-        wrapper.find('.el-button .el-button__text--expand').exists(),
+        wrapper.find('.lp-button .lp-button__text--expand').exists(),
       ).toBeFalsy();
     });
   });
@@ -129,7 +129,7 @@ describe('config-provider', () => {
       ));
 
       await nextTick();
-      expect(wrapper.find('button').classes().join('')).toBe('el-button');
+      expect(wrapper.find('button').classes().join('')).toBe('lp-button');
       namespace.value = 'ep';
       await nextTick();
       expect(wrapper.find('button').classes().join('')).toBe('ep-button');
@@ -156,21 +156,21 @@ describe('config-provider', () => {
       ));
 
       await nextTick();
-      wrapper.find('.el-button').trigger('click');
-      wrapper.find('.el-button').trigger('click');
-      wrapper.find('.el-button').trigger('click');
-      wrapper.find('.el-button').trigger('click');
+      wrapper.find('.lp-button').trigger('click');
+      wrapper.find('.lp-button').trigger('click');
+      wrapper.find('.lp-button').trigger('click');
+      wrapper.find('.lp-button').trigger('click');
       await nextTick();
-      expect(document.querySelectorAll('.el-message').length).toBe(3);
+      expect(document.querySelectorAll('.lp-message').length).toBe(3);
 
       config.max = 10;
       await nextTick();
-      wrapper.find('.el-button').trigger('click');
-      wrapper.find('.el-button').trigger('click');
-      wrapper.find('.el-button').trigger('click');
-      wrapper.find('.el-button').trigger('click');
+      wrapper.find('.lp-button').trigger('click');
+      wrapper.find('.lp-button').trigger('click');
+      wrapper.find('.lp-button').trigger('click');
+      wrapper.find('.lp-button').trigger('click');
       await nextTick();
-      expect(document.querySelectorAll('.el-message').length).toBe(7);
+      expect(document.querySelectorAll('.lp-message').length).toBe(7);
     });
 
     it('multiple config-provider config override', async () => {
@@ -193,11 +193,11 @@ describe('config-provider', () => {
       ));
 
       await rAF();
-      await wrapper.find('.el-button').trigger('click');
-      await wrapper.find('.el-button').trigger('click');
-      await wrapper.find('.el-button').trigger('click');
+      await wrapper.find('.lp-button').trigger('click');
+      await wrapper.find('.lp-button').trigger('click');
+      await wrapper.find('.lp-button').trigger('click');
       await nextTick();
-      expect(document.querySelectorAll('.el-message').length).toBe(1);
+      expect(document.querySelectorAll('.lp-message').length).toBe(1);
     });
   });
 

@@ -20,7 +20,7 @@ describe('TimeSelect', () => {
       <TimeSelect style={{ color: 'red' }} class="customClass" />
     ));
 
-    const outerInput = wrapper.find('.el-select');
+    const outerInput = wrapper.find('.lp-select');
     expect(outerInput.classes()).toContain('customClass');
     expect(outerInput.attributes().style).toBeDefined();
   });
@@ -140,7 +140,7 @@ describe('TimeSelect', () => {
     await nextTick();
     await nextTick();
 
-    const popperEl = document.querySelector('.el-select__popper');
+    const popperEl = document.querySelector('.lp-select__popper');
     const attr = popperEl?.getAttribute('aria-hidden');
     expect(attr).toEqual('false');
   });
@@ -157,7 +157,7 @@ describe('TimeSelect', () => {
     await nextTick();
     await nextTick();
 
-    const popperEl = document.querySelector('.el-select__popper');
+    const popperEl = document.querySelector('.lp-select__popper');
     const attr = popperEl?.getAttribute('aria-hidden');
     expect(attr).toEqual('true');
   });
@@ -174,10 +174,10 @@ describe('TimeSelect', () => {
       />
     ));
 
-    const input = wrapper.find('.el-input__inner');
+    const input = wrapper.find('.lp-input__inner');
     await input.trigger('click');
     await nextTick();
-    const option = document.querySelector('.el-select-dropdown__item');
+    const option = document.querySelector('.lp-select-dropdown__item');
     expect(option?.textContent).toBe('01:00 PM');
   });
 
@@ -191,8 +191,8 @@ describe('TimeSelect', () => {
 
       await nextTick();
       const formItem = wrapper.find('[data-test-ref="item"]');
-      const formItemLabel = formItem.find('.el-form-item__label');
-      const timeSelectInput = wrapper.find('.el-input__inner');
+      const formItemLabel = formItem.find('.lp-form-item__label');
+      const timeSelectInput = wrapper.find('.lp-input__inner');
       expect(formItem.attributes().role).toBeFalsy();
       expect(formItemLabel.attributes().for).toBe(
         timeSelectInput.attributes().id,
@@ -208,8 +208,8 @@ describe('TimeSelect', () => {
 
       await nextTick();
       const formItem = wrapper.find('[data-test-ref="item"]');
-      const formItemLabel = formItem.find('.el-form-item__label');
-      const timeSelectInput = wrapper.find('.el-input__inner');
+      const formItemLabel = formItem.find('.lp-form-item__label');
+      const timeSelectInput = wrapper.find('.lp-input__inner');
       expect(formItem.attributes().role).toBeFalsy();
       expect(timeSelectInput.attributes().id).toBe('foobar');
       expect(formItemLabel.attributes().for).toBe(

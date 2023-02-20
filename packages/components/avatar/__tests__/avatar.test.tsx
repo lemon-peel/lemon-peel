@@ -15,27 +15,27 @@ describe('Avatar.vue', () => {
 
   test('render test', () => {
     const wrapper = mount(() => <Avatar />);
-    expect(wrapper.find('.el-avatar').exists()).toBe(true);
+    expect(wrapper.find('.lp-avatar').exists()).toBe(true);
   });
 
   test('size is number', () => {
     const wrapper = mount(() => <Avatar size={50} />);
-    expect(wrapper.attributes('style')).toContain('--el-avatar-size: 50px;');
+    expect(wrapper.attributes('style')).toContain('--lp-avatar-size: 50px;');
   });
 
   test('size is string', () => {
     const wrapper = mount(() => <Avatar size="small" />);
-    expect(wrapper.classes()).toContain('el-avatar--small');
+    expect(wrapper.classes()).toContain('lp-avatar--small');
   });
 
   test('shape', () => {
     const wrapper = mount(() => <Avatar size="small" shape="square" />);
-    expect(wrapper.classes()).toContain('el-avatar--square');
+    expect(wrapper.classes()).toContain('lp-avatar--square');
   });
 
   test('icon avatar', () => {
     const wrapper = mount(() => <Avatar icon={markRaw(User)} />);
-    expect(wrapper.classes()).toContain('el-avatar--icon');
+    expect(wrapper.classes()).toContain('lp-avatar--icon');
     expect(wrapper.findComponent(User).exists()).toBe(true);
   });
 

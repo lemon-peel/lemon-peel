@@ -11,7 +11,7 @@
 <script lang="ts" setup>
 import { useLocale, useNamespace } from '@lemon-peel/hooks';
 import { usePagination } from '../usePagination';
-import { paginationTotalProps } from './total.vue';
+import { paginationTotalProps } from './total';
 
 const { t } = useLocale();
 const ns = useNamespace('pagination');

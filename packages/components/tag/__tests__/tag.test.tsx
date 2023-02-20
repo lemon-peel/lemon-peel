@@ -17,8 +17,8 @@ describe('Tag.vue', () => {
 
     const vm = wrapper.vm
 
-    expect(vm.$el.classList.contains('el-tag')).toEqual(true)
-    expect(vm.$el.classList.contains('el-tag__close')).toEqual(false)
+    expect(vm.$el.classList.contains('lp-tag')).toEqual(true)
+    expect(vm.$el.classList.contains('lp-tag__close')).toEqual(false)
     expect(vm.$el.classList.contains('is-hit')).toEqual(false)
     expect(vm.$el.classList.contains('md-fade-center')).toEqual(false)
   })
@@ -26,7 +26,7 @@ describe('Tag.vue', () => {
   test('type', () => {
     const wrapper = mount(() => <Tag type="success" />)
     const vm = wrapper.vm
-    expect(vm.$el.classList.contains('el-tag--success')).toEqual(true)
+    expect(vm.$el.classList.contains('lp-tag--success')).toEqual(true)
   })
 
   test('hit', () => {
@@ -38,7 +38,7 @@ describe('Tag.vue', () => {
   test('closable', async () => {
     const wrapper = mount(() => <Tag closable={true} />)
     const comp = wrapper.getComponent(Tag)
-    const closeBtn = comp.find('.el-tag .el-tag__close')
+    const closeBtn = comp.find('.lp-tag .lp-tag__close')
     expect(closeBtn.exists()).toBe(true)
 
     await closeBtn.trigger('click')
@@ -61,9 +61,9 @@ describe('Tag.vue', () => {
     const wrapper = mount(() => <Tag effect="dark" />)
     const vm = wrapper.vm
     const el = vm.$el
-    expect(el.className.includes('el-tag--dark')).toEqual(true)
-    expect(el.className.includes('el-tag--light')).toEqual(false)
-    expect(el.className.includes('el-tag--plain')).toEqual(false)
+    expect(el.className.includes('lp-tag--dark')).toEqual(true)
+    expect(el.className.includes('lp-tag--light')).toEqual(false)
+    expect(el.className.includes('lp-tag--plain')).toEqual(false)
   })
 
   // should also support large size
@@ -71,8 +71,8 @@ describe('Tag.vue', () => {
     const wrapper = mount(() => <Tag size="large" />)
     const vm = wrapper.vm
     const el = vm.$el
-    expect(el.className.includes('el-tag--large')).toEqual(true)
-    expect(el.className.includes('el-tag--default')).toEqual(false)
-    expect(el.className.includes('el-tag--small')).toEqual(false)
+    expect(el.className.includes('lp-tag--large')).toEqual(true)
+    expect(el.className.includes('lp-tag--default')).toEqual(false)
+    expect(el.className.includes('lp-tag--small')).toEqual(false)
   })
 })

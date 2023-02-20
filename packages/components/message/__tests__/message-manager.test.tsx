@@ -5,7 +5,7 @@ import { rAF } from '@lemon-peel/test-utils/tick';
 import { LpMessage } from '../index';
 import Message from '../src/method';
 
-const selector = '.el-message';
+const selector = '.lp-message';
 // TODO: testing the original transition with `nextTick`'
 
 describe('Message on command', () => {

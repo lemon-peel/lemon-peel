@@ -49,7 +49,7 @@ const addStyle = async (
     /**
      * await dom render when visible is true in init,
      * because some component's height maybe 0.
-     * e.g. el-table.
+     * e.g. lp-table.
      */
     await nextTick();
     for (const property of (['top', 'left'] as const)) {
@@ -123,7 +123,7 @@ export const Loading = function (options: LoadingOptions = {}): LoadingInstance 
    * because if a fullscreen loading is triggered when somewhere
    * a v-loading.body was triggered before and it's parent is
    * document.body which with a margin , the fullscreen loading's
-   * destroySelf function will remove 'el-loading-parent--relative',
+   * destroySelf function will remove 'lp-loading-parent--relative',
    * and then the position of v-loading.body will be error.
    */
   let loadingNumber: string | null =

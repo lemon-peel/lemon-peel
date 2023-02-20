@@ -49,7 +49,7 @@ import { computed, ref, unref } from 'vue';
 import { LpTooltip } from '@lemon-peel/components/tooltip';
 import { addUnit } from '@lemon-peel/utils';
 import { useNamespace } from '@lemon-peel/hooks';
-import { popoverEmits, popoverProps } from './Popover.vue';
+import { popoverEmits, popoverProps } from './popover';
 import type { TooltipInstance } from '@lemon-peel/components/tooltip';
 
 defineOptions({

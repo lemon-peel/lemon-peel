@@ -29,7 +29,7 @@
       :class="ns.be('node', 'content')"
       :style="{ paddingLeft: (node.level - 1) * tree.props.indent + 'px' }"
     >
-      <el-icon
+      <lp-icon
         v-if="tree.props.icon || CaretRight"
         :class="[
           ns.be('node', 'expand-icon'),
@@ -41,7 +41,7 @@
         @click.stop="handleExpandIconClick"
       >
         <component :is="tree.props.icon || CaretRight" />
-      </el-icon>
+      </lp-icon>
       <lp-checkbox
         v-if="showCheckbox"
         :model-value="node.checked"
@@ -50,12 +50,12 @@
         @click.stop
         @change="handleCheckChange"
       />
-      <el-icon
+      <lp-icon
         v-if="node.loading"
         :class="[ns.be('node', 'loading-icon'), ns.is('loading')]"
       >
         <loading />
-      </el-icon>
+      </lp-icon>
       <node-content :node="node" :render-content="renderContent" />
     </div>
     <lp-collapse-transition>

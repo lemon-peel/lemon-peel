@@ -131,7 +131,7 @@
     }
 
     &.#{$namespace}-icon {
-      // 防止 el-icon 的position样式覆盖
+      // 防止 lp-icon 的position样式覆盖
       position: absolute;
     }
 

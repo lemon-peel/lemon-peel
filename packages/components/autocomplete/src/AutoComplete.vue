@@ -350,9 +350,9 @@ defineExpose({
   activated,
   /** @description remote search loading status */
   loading,
-  /** @description el-input component instance */
+  /** @description lp-input component instance */
   inputRef,
-  /** @description el-tooltip component instance */
+  /** @description lp-tooltip component instance */
   popperRef,
   /** @description fetch suggestions result */
   suggestions,

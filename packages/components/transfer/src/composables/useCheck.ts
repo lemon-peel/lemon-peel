@@ -1,16 +1,12 @@
 import { computed, watch } from 'vue';
 import { isFunction } from '@lemon-peel/utils';
-import { CHECKED_CHANGE_EVENT } from '../TransferPanel.vue';
+import { CHECKED_CHANGE_EVENT } from '../transferPanel';
 import { usePropsAlias } from './usePropsAlias';
 
 import type { SetupContext } from 'vue';
 import type { CheckboxValueType } from '@lemon-peel/components/checkbox';
-import type { TransferKey } from '../Transfer.vue';
-import type {
-  TransferPanelEmits,
-  TransferPanelProps,
-  TransferPanelState,
-} from '../TransferPanel.vue';
+import type { TransferKey } from '../transfer';
+import type { TransferPanelEmits, TransferPanelProps, TransferPanelState } from '../transferPanel';
 
 export const useCheck = (
   props: TransferPanelProps,

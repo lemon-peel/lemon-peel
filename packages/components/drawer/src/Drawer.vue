@@ -106,7 +106,7 @@ export default defineComponent({
   setup(props, { slots }) {
     useDeprecated(
       {
-        scope: 'el-drawer',
+        scope: 'lp-drawer',
         from: 'the title slot',
         replacement: 'the header slot',
         version: '3.0.0',

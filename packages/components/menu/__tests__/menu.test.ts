@@ -10,10 +10,10 @@ import SubMenu from '../src/SubMenu';
 const _mount = (template: string, options = {}) =>
   mount({
     components: {
-      'el-menu': Menu,
-      'el-menu-item-group': MenuGroup,
-      'el-menu-item': MenuItem,
-      'el-sub-menu': SubMenu,
+      'lp-menu': Menu,
+      'lp-menu-item-group': MenuGroup,
+      'lp-menu-item': MenuItem,
+      'lp-sub-menu': SubMenu,
     },
     template,
     ...options,
@@ -60,7 +60,7 @@ describe('menu', () => {
     // const item2 = await wrapper.findComponent({ ref: 'item2' })
 
     expect(
-      window.getComputedStyle(instance)._values['--el-menu-bg-color'],
+      window.getComputedStyle(instance)._values['--lp-menu-bg-color'],
     ).toEqual(backgroundColor);
 
     // We can not test final style, so comment it out for now.
@@ -120,7 +120,7 @@ describe('menu', () => {
           <lp-menu
             ref="menu"
             default-active="2"
-            class="el-menu-vertical-demo"
+            class="lp-menu-vertical-demo"
           >
             <lp-sub-menu index="1" ref="subMenu">
               <template #title>
@@ -292,7 +292,7 @@ describe('submenu', () => {
     );
     const submenu = await wrapper.findComponent({ ref: 'submenu' });
     const submenuItem2 = await wrapper.findComponent({ ref: 'submenuItem2' });
-    submenu.vm.$el.querySelector('.el-sub-menu__title').click();
+    submenu.vm.$el.querySelector('.lp-sub-menu__title').click();
     await nextTick();
     expect(submenu.classes()).toContain('is-opened');
     submenuItem2.trigger('click');
@@ -385,7 +385,7 @@ describe('other', () => {
       </lp-menu>`,
     );
     const submenu2 = await wrapper.findComponent({ ref: 'submenu2' });
-    submenu2.vm.$el.querySelector('.el-sub-menu__title').click();
+    submenu2.vm.$el.querySelector('.lp-sub-menu__title').click();
     await nextTick();
     const submenu1 = await wrapper.findComponent({ ref: 'submenu1' });
     expect(submenu1.classes().includes('is-opened')).toBeFalsy();
@@ -411,7 +411,7 @@ describe('other', () => {
     );
     await nextTick();
 
-    expect(wrapper.classes()).toContain('el-menu--horizontal');
+    expect(wrapper.classes()).toContain('lp-menu--horizontal');
     const submenu = wrapper.findComponent({ ref: 'submenu' });
 
     vi.useFakeTimers();
@@ -440,7 +440,7 @@ describe('other', () => {
     );
     const group1 = await wrapper.findComponent({ ref: 'group1' });
     expect(
-      group1.vm.$el.querySelector('.el-menu-item-group__title').innerHTML,
+      group1.vm.$el.querySelector('.lp-menu-item-group__title').innerHTML,
     ).toEqual('分组一');
   });
   test('dynamic menus, issue 9092', async () => {
@@ -473,7 +473,7 @@ describe('other', () => {
 
     await nextTick();
     expect(
-      instance.$el.querySelector('.el-menu-item.is-active').innerHTML,
+      instance.$el.querySelector('.lp-menu-item.is-active').innerHTML,
     ).toEqual('new');
   });
 });

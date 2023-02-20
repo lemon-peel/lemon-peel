@@ -1,6 +1,6 @@
 import { buildProps, iconPropType } from '@lemon-peel/utils';
 import type { ExtractPropTypes } from 'vue';
-import type Prev from './prev.vue';
+import type Prev from './Prev.vue';
 
 export const paginationPrevProps = buildProps({
   disabled: Boolean,

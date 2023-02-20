@@ -40,7 +40,7 @@ describe('Collapse.vue', () => {
       CollapseItem
     ) as VueWrapper<CollapseItemInstance>[]
     const collapseItemHeaderEls = vm.$el.querySelectorAll(
-      '.el-collapse-item__header'
+      '.lp-collapse-item__header'
     )
     expect(collapseItemWrappers[0].vm.isActive).toBe(true)
 
@@ -86,7 +86,7 @@ describe('Collapse.vue', () => {
       CollapseItem
     ) as VueWrapper<CollapseItemInstance>[]
     const collapseItemHeaderEls = vm.$el.querySelectorAll(
-      '.el-collapse-item__header'
+      '.lp-collapse-item__header'
     )
     expect(collapseItemWrappers[0].vm.isActive).toBe(true)
 
@@ -134,7 +134,7 @@ describe('Collapse.vue', () => {
       CollapseItem
     ) as VueWrapper<CollapseItemInstance>[]
     const collapseItemHeaderEls = vm.$el.querySelectorAll(
-      '.el-collapse-item__header'
+      '.lp-collapse-item__header'
     )
     expect(collapseItemWrappers[0].vm.isActive).toBe(true)
     expect(vm.activeNames).toEqual(['1'])

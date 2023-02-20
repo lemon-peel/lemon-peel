@@ -6,7 +6,7 @@ import { Checked, CircleClose } from '@element-plus/icons-vue';
 import { LpFormItem } from '@lemon-peel/components/form';
 import Switch from '../src/Switch.vue';
 import type { VueWrapper } from '@vue/test-utils';
-import type { SwitchInstance } from '../src/Switch.vue';
+import type { SwitchInstance } from '../src/switch';
 
 vi.mock('@lemon-peel/utils/error', () => ({
   debugWarn: vi.fn(),
@@ -27,27 +27,27 @@ describe('Switch.vue', () => {
     };
     const wrapper = mount(() => <Switch {...props} />);
     const vm = wrapper.vm;
-    expect(vm.$el.style.getPropertyValue('--el-switch-on-color')).toEqual(
+    expect(vm.$el.style.getPropertyValue('--lp-switch-on-color')).toEqual(
       '#0f0',
     );
-    expect(vm.$el.style.getPropertyValue('--el-switch-off-color')).toEqual(
+    expect(vm.$el.style.getPropertyValue('--lp-switch-off-color')).toEqual(
       '#f00',
     );
     expect(vm.$el.classList.contains('is-checked')).false;
-    const coreEl = vm.$el.querySelector('.el-switch__core');
+    const coreEl = vm.$el.querySelector('.lp-switch__core');
     expect(coreEl.style.width).toEqual('100px');
-    const leftLabelWrapper = wrapper.find('.el-switch__label--left span');
+    const leftLabelWrapper = wrapper.find('.lp-switch__label--left span');
     expect(leftLabelWrapper.text()).toEqual('off');
   });
 
   test('size', () => {
     const wrapper = mount(() => <Switch size="large" />);
-    expect(wrapper.find('.el-switch--large').exists()).toBe(true);
+    expect(wrapper.find('.lp-switch--large').exists()).toBe(true);
   });
 
   test('tabindex', () => {
     const wrapper = mount(() => <Switch tabindex="0" />);
-    expect(wrapper.find('.el-switch__input').attributes().tabindex).toBe('0');
+    expect(wrapper.find('.lp-switch__input').attributes().tabindex).toBe('0');
   });
 
   test('inline prompt', () => {
@@ -61,16 +61,16 @@ describe('Switch.vue', () => {
     };
     const wrapper = mount(() => <Switch {...props} />);
     const vm = wrapper.vm;
-    expect(vm.$el.style.getPropertyValue('--el-switch-on-color')).toEqual(
+    expect(vm.$el.style.getPropertyValue('--lp-switch-on-color')).toEqual(
       '#0f0',
     );
-    expect(vm.$el.style.getPropertyValue('--el-switch-off-color')).toEqual(
+    expect(vm.$el.style.getPropertyValue('--lp-switch-off-color')).toEqual(
       '#f00',
     );
     expect(vm.$el.classList.contains('is-checked')).false;
-    const coreEl = vm.$el.querySelector('.el-switch__core');
+    const coreEl = vm.$el.querySelector('.lp-switch__core');
     expect(coreEl.style.width).toEqual('100px');
-    const label = wrapper.find('.el-switch__inner span');
+    const label = wrapper.find('.lp-switch__inner span');
     expect(label.text()).toEqual('off');
   });
 
@@ -91,14 +91,14 @@ describe('Switch.vue', () => {
       <Switch v-model={value.value} activeColor="#0f0" inactiveColor="#f00" />
     ));
     const vm = wrapper.vm;
-    expect(vm.$el.style.getPropertyValue('--el-switch-on-color')).toEqual(
+    expect(vm.$el.style.getPropertyValue('--lp-switch-on-color')).toEqual(
       '#0f0',
     );
-    expect(vm.$el.style.getPropertyValue('--el-switch-off-color')).toEqual(
+    expect(vm.$el.style.getPropertyValue('--lp-switch-off-color')).toEqual(
       '#f00',
     );
     expect(vm.$el.classList.contains('is-checked')).true;
-    const coreWrapper = wrapper.find('.el-switch__core');
+    const coreWrapper = wrapper.find('.lp-switch__core');
     await coreWrapper.trigger('click');
     expect(vm.$el.classList.contains('is-checked')).false;
     expect(value.value).toEqual(false);
@@ -118,7 +118,7 @@ describe('Switch.vue', () => {
     ));
 
     expect(target.value).toEqual(1);
-    const coreWrapper = wrapper.find('.el-switch__core');
+    const coreWrapper = wrapper.find('.lp-switch__core');
     await coreWrapper.trigger('click');
     const switchWrapper = wrapper.findComponent(Switch);
     expect(switchWrapper.emitted()['update:modelValue']).toBeTruthy();
@@ -130,7 +130,7 @@ describe('Switch.vue', () => {
     const wrapper = mount(() => <Switch disabled v-model={value.value} />);
 
     expect(value.value).toEqual(true);
-    const coreWrapper = wrapper.find('.el-switch__core');
+    const coreWrapper = wrapper.find('.lp-switch__core');
     await coreWrapper.trigger('click');
     expect(value.value).toEqual(true);
   });
@@ -149,7 +149,7 @@ describe('Switch.vue', () => {
       </div>
     ));
 
-    const coreWrapper = wrapper.find('.el-switch__core');
+    const coreWrapper = wrapper.find('.lp-switch__core');
     await coreWrapper.trigger('click');
     expect(value.value).toEqual('0');
     await coreWrapper.trigger('click');
@@ -170,7 +170,7 @@ describe('Switch.vue', () => {
       </div>
     ));
 
-    const coreWrapper = wrapper.find('.el-switch__core');
+    const coreWrapper = wrapper.find('.lp-switch__core');
     await coreWrapper.trigger('click');
     expect(value.value).toEqual(true);
     await coreWrapper.trigger('click');
@@ -181,7 +181,7 @@ describe('Switch.vue', () => {
     const wrapper = mount(() => <Switch value={true} />);
 
     const vm = wrapper.vm;
-    const coreWrapper = wrapper.find('.el-switch__core');
+    const coreWrapper = wrapper.find('.lp-switch__core');
     const switchWrapper: VueWrapper<SwitchInstance> =
       wrapper.findComponent(Switch);
     const switchVm = switchWrapper.vm;
@@ -200,7 +200,7 @@ describe('Switch.vue', () => {
     const wrapper = mount(() => <Switch model-value={true} />);
 
     const vm = wrapper.vm;
-    const coreWrapper = wrapper.find('.el-switch__core');
+    const coreWrapper = wrapper.find('.lp-switch__core');
     const switchWrapper: VueWrapper<SwitchInstance> =
       wrapper.findComponent(Switch);
     const switchVm = switchWrapper.vm;
@@ -258,7 +258,7 @@ describe('Switch.vue', () => {
       </div>
     ));
 
-    const coreWrapper = wrapper.find('.el-switch__core');
+    const coreWrapper = wrapper.find('.lp-switch__core');
 
     vi.useFakeTimers();
 
@@ -296,7 +296,7 @@ describe('Switch.vue', () => {
       </div>
     ));
 
-    const coreWrapper = wrapper.find('.el-switch__core');
+    const coreWrapper = wrapper.find('.lp-switch__core');
 
     await coreWrapper.trigger('click');
     expect(value.value).toEqual(true);
@@ -320,8 +320,8 @@ describe('Switch.vue', () => {
 
       await nextTick();
       const formItem = wrapper.find('[data-test-ref="item"]');
-      const formItemLabel = formItem.find('.el-form-item__label');
-      const switchInput = wrapper.find('.el-switch__input');
+      const formItemLabel = formItem.find('.lp-form-item__label');
+      const switchInput = wrapper.find('.lp-switch__input');
       expect(formItem.attributes().role).toBeFalsy();
       expect(formItemLabel.attributes().for).toBe(switchInput.attributes().id);
     });
@@ -335,8 +335,8 @@ describe('Switch.vue', () => {
 
       await nextTick();
       const formItem = wrapper.find('[data-test-ref="item"]');
-      const formItemLabel = formItem.find('.el-form-item__label');
-      const switchInput = wrapper.find('.el-switch__input');
+      const formItemLabel = formItem.find('.lp-form-item__label');
+      const switchInput = wrapper.find('.lp-switch__input');
       expect(formItem.attributes().role).toBeFalsy();
       expect(switchInput.attributes().id).toBe('foobar');
       expect(formItemLabel.attributes().for).toBe(switchInput.attributes().id);

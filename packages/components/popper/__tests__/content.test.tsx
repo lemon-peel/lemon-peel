@@ -5,7 +5,7 @@ import { POPPER_INJECTION_KEY } from '@lemon-peel/tokens';
 import LpContent from '../src/Content.vue';
 
 import type { VueWrapper } from '@vue/test-utils';
-import type { PopperContentInstance } from '../src/Content.vue';
+import type { PopperContentInstance } from '../src/content';
 
 const AXIOM = 'rem is the best girl';
 const popperInjection = {
@@ -25,7 +25,7 @@ const mountContent = (props = {}) =>
 
 describe('<LpPopperContent />', () => {
   describe('with triggerRef provided', () => {
-    const triggerKls = 'el-popper__trigger';
+    const triggerKls = 'lp-popper__trigger';
     let wrapper: VueWrapper<PopperContentInstance>;
 
     beforeEach(() => {
@@ -47,7 +47,7 @@ describe('<LpPopperContent />', () => {
       expect(popperInjection.triggerRef).toBeDefined();
       expect(wrapper.html()).toContain(AXIOM);
       expect(popperInjection.popperInstanceRef.value).toBeDefined();
-      expect(wrapper.classes()).toEqual(['el-popper', 'is-dark']);
+      expect(wrapper.classes()).toEqual(['lp-popper', 'is-dark']);
       expect(wrapper.vm.contentStyle[0]).toHaveProperty('zIndex');
       expect(wrapper.vm.contentStyle[1]).toBeUndefined();
     });
@@ -61,7 +61,7 @@ describe('<LpPopperContent />', () => {
         effect: 'custom',
       });
 
-      expect(wrapper.classes()).toEqual(['el-popper', 'is-pure', 'is-custom']);
+      expect(wrapper.classes()).toEqual(['lp-popper', 'is-pure', 'is-custom']);
     });
 
     it('should be able to set customized styles', async () => {

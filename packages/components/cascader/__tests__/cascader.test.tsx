@@ -45,12 +45,12 @@ const OPTIONS = [
 
 const AXIOM = 'Rem is the best girl';
 
-const TRIGGER = '.el-cascader';
-const NODE = '.el-cascader-node';
-const TAG = '.el-tag';
-const SUGGESTION_ITEM = '.el-cascader__suggestion-item';
-const SUGGESTION_PANEL = '.el-cascader__suggestion-panel';
-const DROPDOWN = '.el-cascader__dropdown';
+const TRIGGER = '.lp-cascader';
+const NODE = '.lp-cascader-node';
+const TAG = '.lp-tag';
+const SUGGESTION_ITEM = '.lp-cascader__suggestion-item';
+const SUGGESTION_PANEL = '.lp-cascader__suggestion-panel';
+const DROPDOWN = '.lp-cascader__dropdown';
 
 const _mount = (render: () => VNode) =>
   mount(render, {
@@ -202,7 +202,7 @@ describe('Cascader.vue', () => {
     expect(tags.length).toBe(2);
     expect(firstTag.text()).toBe('Zhejiang / Hangzhou');
     expect(secondTag.text()).toBe('Zhejiang / Ningbo');
-    await firstTag.find('.el-tag__close').trigger('click');
+    await firstTag.find('.lp-tag__close').trigger('click');
     expect(wrapper.findAll(TAG).length).toBe(1);
     expect(value.value).toEqual([['zhejiang', 'ningbo']]);
   });
@@ -267,7 +267,7 @@ describe('Cascader.vue', () => {
     ));
 
     await nextTick();
-    expect(wrapper.find('.el-tag').classes()).toContain('el-tag--success');
+    expect(wrapper.find('.lp-tag').classes()).toContain('lp-tag--success');
   });
 
   test('filterable', async () => {
@@ -311,7 +311,7 @@ describe('Cascader.vue', () => {
       />
     ));
 
-    const input = wrapper.find('.el-cascader__search-input')
+    const input = wrapper.find('.lp-cascader__search-input')
     ;(input.element as HTMLInputElement).value = 'Ha';
     await input.trigger('input');
     await nextTick();

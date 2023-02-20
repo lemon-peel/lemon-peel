@@ -5,7 +5,7 @@ import { addClass, hasClass, removeClass } from '@lemon-peel/utils';
 import { STORE_INJECTION_KEY, TABLE_INJECTION_KEY } from '../tokens';
 
 import type { SetupContext } from 'vue';
-import type { TableHeaderProps, tableHeaderEmits } from './types';
+import type { TableHeaderProps, tableHeaderEmits } from './tableHeader';
 import type { TableColumnCtx } from '../tableColumn/defaults';
 
 function useEvent(props: TableHeaderProps, emit: SetupContext<typeof tableHeaderEmits>['emit']) {

@@ -43,7 +43,7 @@ describe('v-popover', () => {
     const wrapper = mount();
     await nextTick();
 
-    expect(document.body.querySelector('.el-popover').innerHTML).toContain(
+    expect(document.body.querySelector('.lp-popover').innerHTML).toContain(
       AXIOM,
     );
     wrapper.unmount();
@@ -55,7 +55,7 @@ describe('v-popover', () => {
     const refNode = '#reference-node';
     expect(wrapper.find(refNode).exists()).toBe(true);
     expect(
-      document.body.querySelector('.el-popover').getAttribute('style'),
+      document.body.querySelector('.lp-popover').getAttribute('style'),
     ).toContain('display: none');
     await wrapper.find(refNode).trigger('click', {
       button: 0,
@@ -63,7 +63,7 @@ describe('v-popover', () => {
     await nextTick();
     await rAF();
     expect(
-      document.body.querySelector('.el-popover').getAttribute('style'),
+      document.body.querySelector('.lp-popover').getAttribute('style'),
     ).not.toContain('display: none');
     wrapper.unmount();
   });

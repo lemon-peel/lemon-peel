@@ -30,7 +30,7 @@ const component = defineComponent({
   },
   methods: {
     selectOptionClick() {
-      // $el.parentElement => el-tree-node__content
+      // $el.parentElement => lp-tree-node__content
       this.$el.parentElement.click();
     },
   },

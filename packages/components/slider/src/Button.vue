@@ -35,8 +35,8 @@ import { reactive, toRefs } from 'vue';
 import { LpTooltip } from '@lemon-peel/components/tooltip';
 import { useNamespace } from '@lemon-peel/hooks';
 import { useSliderButton } from './composables';
-import { sliderButtonEmits, sliderButtonProps } from './Button.vue';
-import type { SliderButtonInitData } from './Button.vue';
+import { sliderButtonEmits, sliderButtonProps } from './button';
+import type { SliderButtonInitData } from './button';
 
 defineOptions({
   name: 'LpSliderButton',

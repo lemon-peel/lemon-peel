@@ -17,12 +17,12 @@ const assertElementsExistence = (
 };
 
 const assertCurrent = (wrapper: VueWrapper<any>, page: number) => {
-  expect(wrapper.find('.el-pager li.is-active.number').text()).toBe(
+  expect(wrapper.find('.lp-pager li.is-active.number').text()).toBe(
     String(page),
   );
 };
 const assertPages = (wrapper: VueWrapper<any>, total: number) => {
-  expect(wrapper.find('.el-pagination .el-pager li:last-child').text()).toBe(
+  expect(wrapper.find('.lp-pagination .lp-pager li:last-child').text()).toBe(
     String(total),
   );
 };
@@ -41,11 +41,11 @@ describe('Pagination', () => {
       const total = ref<number | undefined>(undefined);
       const wrapper = mount(() => <Pagination total={total.value}></Pagination>);
 
-      expect(wrapper.find('.el-pagination').exists()).toBe(false);
+      expect(wrapper.find('.lp-pagination').exists()).toBe(false);
       expect(console.warn).toHaveBeenCalled();
       total.value = 100;
       await nextTick();
-      expect(wrapper.find('.el-pagination').exists()).toBe(true);
+      expect(wrapper.find('.lp-pagination').exists()).toBe(true);
     });
     test('current-page defined while absence of current-page listener is invalid', () => {
       expect(console.warn).not.toHaveBeenCalled();
@@ -53,7 +53,7 @@ describe('Pagination', () => {
         <Pagination total={100} currentPage={1}></Pagination>
       ));
 
-      expect(wrapper.find('.el-pagination').exists()).toBe(false);
+      expect(wrapper.find('.lp-pagination').exists()).toBe(false);
       expect(console.warn).toHaveBeenCalled();
     });
     test('layout with `sizes` restrictions(page-count)', () => {
@@ -61,7 +61,7 @@ describe('Pagination', () => {
       const wrapper = mount(() => (
         <Pagination layout="sizes, pager" pageCount={10}></Pagination>
       ));
-      expect(wrapper.find('.el-pagination').exists()).toBe(false);
+      expect(wrapper.find('.lp-pagination').exists()).toBe(false);
       expect(console.warn).toHaveBeenCalled();
     });
     test('layout with `sizes` restrictions(page-size)', () => {
@@ -70,7 +70,7 @@ describe('Pagination', () => {
         <Pagination layout="sizes, pager" pageSize={10}></Pagination>
       ));
 
-      expect(wrapper.find('.el-pagination').exists()).toBe(false);
+      expect(wrapper.find('.lp-pagination').exists()).toBe(false);
       expect(console.warn).toHaveBeenCalled();
     });
   });
@@ -83,15 +83,15 @@ describe('Pagination', () => {
 
     test('layout empty', async () => {
       await nextTick();
-      expect(wrapper.find('.el-pagination').exists()).toBe(false);
+      expect(wrapper.find('.lp-pagination').exists()).toBe(false);
     });
     const layoutSelectorPairs = [
-      ['sizes', '.el-pagination__sizes'],
+      ['sizes', '.lp-pagination__sizes'],
       ['prev', 'button.btn-prev'],
-      ['pager', 'ul.el-pager'],
+      ['pager', 'ul.lp-pager'],
       ['next', 'button.btn-next'],
-      ['jumper', '.el-pagination__jump'],
-      ['total', '.el-pagination__total'],
+      ['jumper', '.lp-pagination__jump'],
+      ['total', '.lp-pagination__total'],
     ];
     for (const [idx, [layout]] of layoutSelectorPairs.entries()) {
       test(`layout with only '${layout}'`, async () => {
@@ -108,7 +108,7 @@ describe('Pagination', () => {
       await nextTick();
       assertElementsExistence(
         wrapper,
-        ['.el-pagination__total', '.el-pagination__rightwrapper'],
+        ['.lp-pagination__total', '.lp-pagination__rightwrapper'],
         true,
       );
     });
@@ -119,11 +119,11 @@ describe('Pagination', () => {
       assertElementsExistence(
         wrapper,
         [
-          '.el-pagination__rightwrapper',
+          '.lp-pagination__rightwrapper',
           'button.btn-prev',
-          'ul.el-pager',
+          'ul.lp-pager',
           'button.btn-next',
-          '.el-pagination__jump',
+          '.lp-pagination__jump',
         ],
         true,
       );
@@ -144,7 +144,7 @@ describe('Pagination', () => {
         <Pagination total={100} small={true}></Pagination>
       ));
 
-      expect(wrapper.vm.$el.classList.contains('el-pagination--small')).toBe(
+      expect(wrapper.vm.$el.classList.contains('lp-pagination--small')).toBe(
         true,
       );
     });
@@ -170,10 +170,10 @@ describe('Pagination', () => {
         />
       ));
 
-      expect(wrapper.find('.el-pagination').exists()).toBe(true);
+      expect(wrapper.find('.lp-pagination').exists()).toBe(true);
       hideOnSinglePage.value = true;
       await nextTick();
-      expect(wrapper.find('.el-pagination').exists()).toBe(false);
+      expect(wrapper.find('.lp-pagination').exists()).toBe(false);
     });
 
     test('test custom icon', async () => {
@@ -227,7 +227,7 @@ describe('Pagination', () => {
       assertCurrent(wrapper, 2);
       defaultCurrentPage.value = 1;
       assertCurrent(wrapper, 2); // still 2
-      await wrapper.find('.el-pager li:last-child').trigger('click');
+      await wrapper.find('.lp-pager li:last-child').trigger('click');
       assertCurrent(wrapper, 10);
       await wrapper.find('button.btn-prev').trigger('click');
       assertCurrent(wrapper, 9);
@@ -248,7 +248,7 @@ describe('Pagination', () => {
       pageCount.value = 20;
       await nextTick();
       assertPages(wrapper, 20);
-      await wrapper.find('.el-pager li:last-child').trigger('click');
+      await wrapper.find('.lp-pager li:last-child').trigger('click');
       assertCurrent(wrapper, 20);
       pageCount.value = 5;
       await nextTick();
@@ -270,10 +270,10 @@ describe('Pagination', () => {
         />
       ));
 
-      await wrapper.find('.el-pager li:last-child').trigger('click');
+      await wrapper.find('.lp-pager li:last-child').trigger('click');
       assertCurrent(wrapper, 10 /* Math.ceil(100/10) */);
       expect(currentPageWatcher).toHaveBeenCalled();
-      await wrapper.find('.el-select').trigger('click');
+      await wrapper.find('.lp-select').trigger('click');
       await wrapper
         .getComponent(selectDropdownVue)
         .find('li:nth-child(2)')
@@ -286,53 +286,53 @@ describe('Pagination', () => {
   describe('test a11y supports', () => {
     test('test a11y attributes', async () => {
       const wrapper = mount(() => <Pagination total={100} />);
-      expect(wrapper.find('.el-pagination').attributes('aria-label')).toBe(
+      expect(wrapper.find('.lp-pagination').attributes('aria-label')).toBe(
         'pagination',
       );
-      expect(wrapper.find('.el-pagination').attributes('role')).toBe(
+      expect(wrapper.find('.lp-pagination').attributes('role')).toBe(
         'pagination',
       );
       expect(
-        wrapper.find('.el-pagination .btn-prev').attributes('aria-disabled'),
+        wrapper.find('.lp-pagination .btn-prev').attributes('aria-disabled'),
       ).toBe('true');
       expect(
-        wrapper.find('.el-pagination .btn-next').attributes('aria-disabled'),
+        wrapper.find('.lp-pagination .btn-next').attributes('aria-disabled'),
       ).toBe('false');
       expect(
-        wrapper.find('.el-pager li:first-child').attributes('aria-current'),
+        wrapper.find('.lp-pager li:first-child').attributes('aria-current'),
       ).toBe('true');
       expect(
-        wrapper.find('.el-pager li:last-child').attributes('aria-current'),
+        wrapper.find('.lp-pager li:last-child').attributes('aria-current'),
       ).toBe('false');
-      await wrapper.find('.el-pager li:last-child').trigger('click');
+      await wrapper.find('.lp-pager li:last-child').trigger('click');
       expect(
-        wrapper.find('.el-pagination .btn-prev').attributes('aria-disabled'),
+        wrapper.find('.lp-pagination .btn-prev').attributes('aria-disabled'),
       ).toBe('false');
       expect(
-        wrapper.find('.el-pagination .btn-next').attributes('aria-disabled'),
+        wrapper.find('.lp-pagination .btn-next').attributes('aria-disabled'),
       ).toBe('true');
       expect(
-        wrapper.find('.el-pager li:first-child').attributes('aria-current'),
+        wrapper.find('.lp-pager li:first-child').attributes('aria-current'),
       ).toBe('false');
       expect(
-        wrapper.find('.el-pager li:last-child').attributes('aria-current'),
+        wrapper.find('.lp-pager li:last-child').attributes('aria-current'),
       ).toBe('true');
     });
 
     test('test tabindex interactive', async () => {
       const wrapper = mount(() => <Pagination total={100} />);
-      await wrapper.find('.el-pager li:nth-child(2)').trigger('click');
+      await wrapper.find('.lp-pager li:nth-child(2)').trigger('click');
       assertCurrent(wrapper, 2);
-      await wrapper.find('.el-pager li:nth-child(3)').trigger('click', {
+      await wrapper.find('.lp-pager li:nth-child(3)').trigger('click', {
         key: 'Enter',
       });
       assertCurrent(wrapper, 3);
       // TODO getComputedStyle is not implemented in jsdom, so I duno how to assert style of psuedo-class
       /*
-       * await wrapper.find('.el-pager li:nth-child(3)').trigger('keyup', {
+       * await wrapper.find('.lp-pager li:nth-child(3)').trigger('keyup', {
        *   key: 'Tab',
        * })
-       * const style = window.getComputedStyle(wrapper.find('.el-pager li:nth-child(4)').element, ':focus-visible')
+       * const style = window.getComputedStyle(wrapper.find('.lp-pager li:nth-child(4)').element, ':focus-visible')
        * expect(style.outline).toBeTruthy()
        */
     });
@@ -344,14 +344,14 @@ describe('Pagination', () => {
       ));
 
       expect(
-        wrapper.find('.el-pager li:first-child').attributes('tabindex'),
+        wrapper.find('.lp-pager li:first-child').attributes('tabindex'),
       ).toBe('-1');
 
       disabled.value = false;
 
       await nextTick();
       expect(
-        wrapper.find('.el-pager li:first-child').attributes('tabindex'),
+        wrapper.find('.lp-pager li:first-child').attributes('tabindex'),
       ).toBe('0');
     });
   });

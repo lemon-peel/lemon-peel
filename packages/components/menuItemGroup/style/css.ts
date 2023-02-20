@@ -1,2 +1,2 @@
 import '@lemon-peel/components/base/style/css';
-import '@lemon-peel/theme-chalk/el-menu-item-group.css';
+import '@lemon-peel/theme-chalk/lp-menu-item-group.css';

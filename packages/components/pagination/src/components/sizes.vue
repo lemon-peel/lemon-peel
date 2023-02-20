@@ -24,7 +24,7 @@ import { isEqual } from 'lodash-es';
 import { LpOption, LpSelect } from '@lemon-peel/components/select';
 import { useLocale, useNamespace } from '@lemon-peel/hooks';
 import { usePagination } from '../usePagination';
-import { paginationSizesProps } from './sizes.vue';
+import { paginationSizesProps } from './sizes';
 
 defineOptions({
   name: 'LpPaginationSizes',

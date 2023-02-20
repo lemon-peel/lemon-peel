@@ -5,7 +5,7 @@ import { POPPER_INJECTION_KEY } from '@lemon-peel/tokens';
 import LpTrigger from '../src/Trigger.vue';
 
 import type { VueWrapper } from '@vue/test-utils';
-import type { PopperTriggerInstance } from '../src/Trigger.vue';
+import type { PopperTriggerInstance } from '../src/trigger';
 
 const AXIOM = 'rem is the best girl';
 

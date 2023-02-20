@@ -13,7 +13,7 @@ describe('Button.vue', () => {
   it('create', () => {
     const wrapper = mount(() => <Button type="primary" />);
 
-    expect(wrapper.classes()).toContain('el-button--primary');
+    expect(wrapper.classes()).toContain('lp-button--primary');
   });
 
   it('icon', () => {
@@ -38,7 +38,7 @@ describe('Button.vue', () => {
   it('size', () => {
     const wrapper = mount(() => <Button size="large" />);
 
-    expect(wrapper.classes()).toContain('el-button--large');
+    expect(wrapper.classes()).toContain('lp-button--large');
   });
 
   it('plain', () => {
@@ -173,7 +173,7 @@ describe('Button Group', () => {
           </ButtonGroup>
         ),
     });
-    expect(wrapper.classes()).toContain('el-button-group');
+    expect(wrapper.classes()).toContain('lp-button-group');
     expect(wrapper.findAll('button').length).toBe(2);
   });
 
@@ -188,16 +188,16 @@ describe('Button Group', () => {
           </ButtonGroup>
         ),
     });
-    expect(wrapper.classes()).toContain('el-button-group');
+    expect(wrapper.classes()).toContain('lp-button-group');
     expect(
-      wrapper.findAll('.el-button-group button.el-button--small').length,
+      wrapper.findAll('.lp-button-group button.lp-button--small').length,
     ).toBe(2);
 
     size.value = 'large';
     await nextTick();
 
     expect(
-      wrapper.findAll('.el-button-group button.el-button--large').length,
+      wrapper.findAll('.lp-button-group button.lp-button--large').length,
     ).toBe(2);
   });
 
@@ -211,12 +211,12 @@ describe('Button Group', () => {
           </ButtonGroup>
         ),
     });
-    expect(wrapper.classes()).toContain('el-button-group');
+    expect(wrapper.classes()).toContain('lp-button-group');
     expect(
-      wrapper.findAll('.el-button-group button.el-button--primary').length,
+      wrapper.findAll('.lp-button-group button.lp-button--primary').length,
     ).toBe(1);
     expect(
-      wrapper.findAll('.el-button-group button.el-button--warning').length,
+      wrapper.findAll('.lp-button-group button.lp-button--warning').length,
     ).toBe(1);
   });
 
@@ -230,9 +230,9 @@ describe('Button Group', () => {
       />
     ));
 
-    expect(wrapper.find('.el-button span').text()).toBe('中文');
-    expect(wrapper.find('.el-button span').classes()).toContain(
-      'el-button__text--expand',
+    expect(wrapper.find('.lp-button span').text()).toBe('中文');
+    expect(wrapper.find('.lp-button span').classes()).toContain(
+      'lp-button__text--expand',
     );
   });
 
@@ -241,9 +241,9 @@ describe('Button Group', () => {
       <Button autoInsertSpace>&nbsp;中文&nbsp;</Button>
     ));
 
-    expect(wrapper.find('.el-button span').text()).toBe('中文');
-    expect(wrapper.find('.el-button span').classes()).toContain(
-      'el-button__text--expand',
+    expect(wrapper.find('.lp-button span').text()).toBe('中文');
+    expect(wrapper.find('.lp-button span').classes()).toContain(
+      'lp-button__text--expand',
     );
   });
 });

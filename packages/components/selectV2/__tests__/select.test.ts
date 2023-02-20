@@ -22,7 +22,7 @@ vi.mock('lodash-es', async () => {
 
 const _mount = makeMountFunc({
   components: {
-    'el-select': Select,
+    'lp-select': Select,
   },
 });
 
@@ -95,7 +95,7 @@ const createSelect = (
     '';
   return _mount(
     `
-      <el-select
+      <lp-select
         :options="options"
         :popper-class="popperClass"
         :value-key="valueKey"
@@ -130,7 +130,7 @@ const createSelect = (
         v-model="value">
         ${defaultSlot}
         ${emptySlot}
-      </el-select>
+      </lp-select>
     `,
     {
       data() {
@@ -174,10 +174,10 @@ function getOptions(): HTMLElement[] {
   );
 }
 
-const CLASS_NAME = 'el-select-v2';
-const WRAPPER_CLASS_NAME = 'el-select-v2__wrapper';
-const OPTION_ITEM_CLASS_NAME = 'el-select-dropdown__option-item';
-const PLACEHOLDER_CLASS_NAME = 'el-select-v2__placeholder';
+const CLASS_NAME = 'lp-select-v2';
+const WRAPPER_CLASS_NAME = 'lp-select-v2__wrapper';
+const OPTION_ITEM_CLASS_NAME = 'lp-select-dropdown__option-item';
+const PLACEHOLDER_CLASS_NAME = 'lp-select-v2__placeholder';
 const DEFAULT_PLACEHOLDER = 'Select';
 
 describe('Select', () => {
@@ -216,7 +216,7 @@ describe('Select', () => {
       }),
     });
     await nextTick();
-    expect([...document.querySelector('.el-popper').classList]).toContain(
+    expect([...document.querySelector('.lp-popper').classList]).toContain(
       'custom-dropdown',
     );
   });
@@ -410,7 +410,7 @@ describe('Select', () => {
     const vm = wrapper.vm as any;
     const placeholder = wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`);
     const option = document.querySelector<HTMLElement>(
-      `.el-select-dropdown__option-item.is-disabled`,
+      `.lp-select-dropdown__option-item.is-disabled`,
     );
     expect(option.textContent).toBe(vm.options[1].label);
     option.click();
@@ -420,7 +420,7 @@ describe('Select', () => {
     vm.options[2].disabled = true;
     await nextTick();
     const options = document.querySelectorAll<HTMLElement>(
-      `.el-select-dropdown__option-item.is-disabled`,
+      `.lp-select-dropdown__option-item.is-disabled`,
     );
     expect(options.length).toBe(2);
     expect(options.item(1).textContent).toBe(vm.options[2].label);
@@ -547,7 +547,7 @@ describe('Select', () => {
       await nextTick();
       expect(vm.value.length).toBe(2);
       expect(vm.value[1]).toBe(vm.options[3].value);
-      const tagIcon = wrapper.find('.el-tag__close');
+      const tagIcon = wrapper.find('.lp-tag__close');
       await tagIcon.trigger('click');
       expect(vm.value.length).toBe(1);
     });
@@ -576,7 +576,7 @@ describe('Select', () => {
       options[2].click();
       await nextTick();
       expect(vm.value.length).toBe(3);
-      const tagCloseIcons = wrapper.findAll('.el-tag__close');
+      const tagCloseIcons = wrapper.findAll('.lp-tag__close');
       await tagCloseIcons[1].trigger('click');
       expect(vm.value.length).toBe(2);
       await tagCloseIcons[0].trigger('click');
@@ -673,7 +673,7 @@ describe('Select', () => {
       options[2].click();
       await nextTick();
       expect(vm.value.length).toBe(3);
-      const tags = wrapper.findAll('.el-tag').filter(item => {
+      const tags = wrapper.findAll('.lp-tag').filter(item => {
         return !hasClass(item.element, 'in-tooltip');
       });
       expect(tags.length).toBe(2);
@@ -702,7 +702,7 @@ describe('Select', () => {
       options[2].click();
       await nextTick();
       expect(vm.value.length).toBe(3);
-      expect(wrapper.findAll('.el-tag')[3].element.textContent).toBe('c2');
+      expect(wrapper.findAll('.lp-tag')[3].element.textContent).toBe('c2');
     });
   });
 
@@ -756,13 +756,13 @@ describe('Select', () => {
 
       vm.value = ['option_1'];
       await nextTick();
-      expect(wrapper.find('.el-select-v2__tags-text').text()).toBe('a0');
+      expect(wrapper.find('.lp-select-v2__tags-text').text()).toBe('a0');
       placeholder = wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`);
       expect(placeholder.exists()).toBeFalsy();
 
       vm.value = [];
       await nextTick();
-      expect(wrapper.find('.el-select-v2__tags-text').exists()).toBeFalsy();
+      expect(wrapper.find('.lp-select-v2__tags-text').exists()).toBeFalsy();
       placeholder = wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`);
       expect(placeholder.exists()).toBeTruthy();
     });
@@ -951,7 +951,7 @@ describe('Select', () => {
       await wrapper.trigger('click');
       expect(selectVm.filteredOptions.length).toBe(5);
       // remove tag
-      const tagCloseIcons = wrapper.findAll('.el-tag__close');
+      const tagCloseIcons = wrapper.findAll('.lp-tag__close');
       await tagCloseIcons[1].trigger('click');
       expect(selectVm.filteredOptions.length).toBe(4);
       // simulate backspace
@@ -1146,7 +1146,7 @@ describe('Select', () => {
         default: `
           <div class="custom-renderer">
             <span style="margin-right: 8px;">{{ item.label }}</span>
-            <span style="color: var(--el-text-color-secondary); font-size: 13px">
+            <span style="color: var(--lp-text-color-secondary); font-size: 13px">
               {{ item.value }}
             </span>
           </div>
@@ -1189,12 +1189,12 @@ describe('Select', () => {
       },
     });
     await nextTick();
-    expect(wrapper.findAll('.el-tag').length).toBe(2);
-    const tagCloseIcons = wrapper.findAll('.el-tag__close');
+    expect(wrapper.findAll('.lp-tag').length).toBe(2);
+    const tagCloseIcons = wrapper.findAll('.lp-tag__close');
     expect(tagCloseIcons.length).toBe(1);
     await tagCloseIcons[0].trigger('click');
-    expect(wrapper.findAll('.el-tag__close').length).toBe(0);
-    expect(wrapper.findAll('.el-tag').length).toBe(1);
+    expect(wrapper.findAll('.lp-tag__close').length).toBe(0);
+    expect(wrapper.findAll('.lp-tag').length).toBe(1);
   });
 
   it('modelValue should be deep reactive in multiple mode', async () => {
@@ -1207,11 +1207,11 @@ describe('Select', () => {
       },
     });
     await nextTick();
-    expect(wrapper.findAll('.el-tag').length).toBe(3);
+    expect(wrapper.findAll('.lp-tag').length).toBe(3);
     const vm = wrapper.vm as any;
     vm.value.splice(0, 1);
     await nextTick();
-    expect(wrapper.findAll('.el-tag').length).toBe(2);
+    expect(wrapper.findAll('.lp-tag').length).toBe(2);
   });
 
   it('should reset placeholder after clear when both multiple and filterable are true', async () => {
@@ -1228,7 +1228,7 @@ describe('Select', () => {
     await nextTick();
     expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).exists()).toBeFalsy();
     // When all tags are removed, the placeholder should be displayed
-    const tagCloseIcon = wrapper.find('.el-tag__close');
+    const tagCloseIcon = wrapper.find('.lp-tag__close');
     await tagCloseIcon.trigger('click');
     expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe(
       DEFAULT_PLACEHOLDER,
@@ -1458,7 +1458,7 @@ describe('Select', () => {
     });
     const select = wrapper.findComponent(Select);
     const selectVm = select.vm as any;
-    const selectDom = wrapper.find('.el-select-v2__wrapper').element;
+    const selectDom = wrapper.find('.lp-select-v2__wrapper').element;
     const selectRect = {
       height: 40,
       width: 221,
@@ -1477,7 +1477,7 @@ describe('Select', () => {
     await nextTick();
     options[2].click();
     await nextTick();
-    const tagWrappers = wrapper.findAll('.el-select-v2__tags-text');
+    const tagWrappers = wrapper.findAll('.lp-select-v2__tags-text');
     for (const tagWrapper of tagWrappers) {
       const tagWrapperDom = tagWrapper.element;
       expect(
@@ -1494,7 +1494,7 @@ describe('Select', () => {
       const select = wrapper.findComponent(Select);
       await wrapper.trigger('click');
       expect((select.vm as any).expanded).toBeTruthy();
-      const box = document.querySelector<HTMLElement>('.el-vl__wrapper');
+      const box = document.querySelector<HTMLElement>('.lp-vl__wrapper');
       expect(hasClass(box, 'always-on')).toBe(false);
     });
 
@@ -1510,7 +1510,7 @@ describe('Select', () => {
       const select = wrapper.findComponent(Select);
       await wrapper.trigger('click');
       expect((select.vm as any).expanded).toBeTruthy();
-      const box = document.querySelector<HTMLElement>('.el-vl__wrapper');
+      const box = document.querySelector<HTMLElement>('.lp-vl__wrapper');
       expect(hasClass(box, 'always-on')).toBe(true);
     });
   });

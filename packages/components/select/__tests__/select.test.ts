@@ -41,10 +41,10 @@ const _mount = (template: string, data: any = () => ({}), otherObj?) =>
   mount(
     {
       components: {
-        'el-select': Select,
-        'el-option': Option,
-        'el-group-option': Group,
-        'el-form-item': ElFormItem,
+        'lp-select': Select,
+        'lp-option': Option,
+        'lp-group-option': Group,
+        'lp-form-item': ElFormItem,
       },
       template,
       data,
@@ -57,7 +57,7 @@ const _mount = (template: string, data: any = () => ({}), otherObj?) =>
 
 function getOptions(): HTMLElement[] {
   return [...document.querySelectorAll<HTMLElement>(
-    'body > div:last-child .el-select-dropdown__item',
+    'body > div:last-child .lp-select-dropdown__item',
   )];
 }
 
@@ -293,7 +293,7 @@ const getGroupSelectVm = (configs: SelectProps = {}, options?) => {
 describe('Select', () => {
   let wrapper: ReturnType<typeof _mount>;
   const findInnerInput = () =>
-    wrapper.find('.el-input__inner').element as HTMLInputElement;
+    wrapper.find('.lp-input__inner').element as HTMLInputElement;
 
   afterEach(() => {
     document.body.innerHTML = '';
@@ -303,7 +303,7 @@ describe('Select', () => {
     wrapper = _mount(`<lp-select v-model="value"></lp-select>`, () => ({
       value: '',
     }));
-    expect(wrapper.classes()).toContain('el-select');
+    expect(wrapper.classes()).toContain('lp-select');
     expect(findInnerInput().placeholder).toBe('Select');
     const select = wrapper.findComponent({ name: 'ElSelect' });
     await select.trigger('mouseenter');
@@ -315,7 +315,7 @@ describe('Select', () => {
   test('options rendered correctly', () => {
     wrapper = getSelectVm();
     const options = wrapper.element.querySelectorAll(
-      '.el-select-dropdown__item',
+      '.lp-select-dropdown__item',
     );
     const result = Array.prototype.every.call(options, (option, index) => {
       const text = option.querySelector('span').textContent;
@@ -581,7 +581,7 @@ describe('Select', () => {
 
   test('disabled select', () => {
     wrapper = _mount(`<lp-select disabled></lp-select>`);
-    expect(wrapper.find('.el-input').classes()).toContain('is-disabled');
+    expect(wrapper.find('.lp-input').classes()).toContain('is-disabled');
   });
 
   test('group disabled option', () => {
@@ -898,7 +898,7 @@ describe('Select', () => {
     options[3].click();
     await nextTick();
     expect(vm.value.includes('选项2') && vm.value.includes('选项4')).toBe(true);
-    const tagCloseIcons = wrapper.findAll('.el-tag__close');
+    const tagCloseIcons = wrapper.findAll('.lp-tag__close');
     await tagCloseIcons[0].trigger('click');
     expect(vm.value.indexOf('选项1')).toBe(-1);
   });
@@ -954,7 +954,7 @@ describe('Select', () => {
     await nextTick();
     options[2].click();
     await nextTick();
-    const tagWrappers = wrapper.findAll('.el-select__tags-text');
+    const tagWrappers = wrapper.findAll('.lp-select__tags-text');
     for (const tagWrapper of tagWrappers) {
       const tagWrapperDom = tagWrapper.element;
       expect(Number.parseInt(tagWrapperDom.style.maxWidth) === 200 - 75).toBe(
@@ -1015,7 +1015,7 @@ describe('Select', () => {
     await nextTick();
     options[2].click();
     await nextTick();
-    const tagWrappers = wrapper.findAll('.el-select__tags-text');
+    const tagWrappers = wrapper.findAll('.lp-select__tags-text');
     const tagWrapperDom = tagWrappers[0].element;
     expect(Number.parseInt(tagWrapperDom.style.maxWidth) === 200 - 123).toBe(
       true,
@@ -1066,9 +1066,9 @@ describe('Select', () => {
     await nextTick();
     options[2].click();
     await nextTick();
-    const triggerWrappers = wrapper.findAll('.el-tooltip__trigger');
+    const triggerWrappers = wrapper.findAll('.lp-tooltip__trigger');
     expect(triggerWrappers[0]).toBeDefined();
-    const tags = document.querySelectorAll('.el-select__tags-text');
+    const tags = document.querySelectorAll('.lp-select__tags-text');
     expect(tags.length).toBe(4);
     expect(tags[3].textContent).toBe('蚵仔煎');
   });
@@ -1123,7 +1123,7 @@ describe('Select', () => {
     const vm = wrapper.vm as any;
     await nextTick();
     expect(vm.value.length).toBe(2);
-    const tagCloseIcons = wrapper.findAll('.el-tag__close');
+    const tagCloseIcons = wrapper.findAll('.lp-tag__close');
     await tagCloseIcons[1].trigger('click');
     expect(vm.value.length).toBe(1);
     await tagCloseIcons[0].trigger('click');
@@ -1344,10 +1344,10 @@ describe('Select', () => {
     await select.trigger('click');
     await nextTick();
     expect(
-      !!(document.querySelector('.el-select__popper') as HTMLElement).style
+      !!(document.querySelector('.lp-select__popper') as HTMLElement).style
         .display,
     ).toBeFalsy();
-    expect(wrapper.findAll('.el-select-dropdown__empty').length).toBe(0);
+    expect(wrapper.findAll('.lp-select-dropdown__empty').length).toBe(0);
   });
 
   test('multiple select with remote load', async () => {
@@ -1571,12 +1571,12 @@ describe('Select', () => {
     const vm = wrapper.vm as any;
     await nextTick();
     const selectVm = wrapper.findComponent({ name: 'ElSelect' }).vm as any;
-    expect(wrapper.findAll('.el-tag').length).toBe(3);
-    const tagCloseIcons = wrapper.findAll('.el-tag__close');
+    expect(wrapper.findAll('.lp-tag').length).toBe(3);
+    const tagCloseIcons = wrapper.findAll('.lp-tag__close');
     expect(tagCloseIcons.length).toBe(1);
     await tagCloseIcons[0].trigger('click');
-    expect(wrapper.findAll('.el-tag__close').length).toBe(0);
-    expect(wrapper.findAll('.el-tag').length).toBe(2);
+    expect(wrapper.findAll('.lp-tag__close').length).toBe(0);
+    expect(wrapper.findAll('.lp-tag').length).toBe(2);
 
     //test if is clearable
     vm.isClearable = true;
@@ -1585,9 +1585,9 @@ describe('Select', () => {
     selectVm.inputHovering = true;
     await selectVm.$nextTick();
     const iconClear = wrapper.findComponent(CircleClose);
-    expect(wrapper.findAll('.el-tag').length).toBe(3);
+    expect(wrapper.findAll('.lp-tag').length).toBe(3);
     await iconClear.trigger('click');
-    expect(wrapper.findAll('.el-tag').length).toBe(2);
+    expect(wrapper.findAll('.lp-tag').length).toBe(2);
 
     // test for collapse select
     vm.vendors = [1, 2, 4];
@@ -1595,17 +1595,17 @@ describe('Select', () => {
     vm.isClearable = false;
     await nextTick();
     expect(
-      wrapper.findAll('.el-tag').filter(item => {
+      wrapper.findAll('.lp-tag').filter(item => {
         return !hasClass(item.element, 'in-tooltip');
       }).length,
     ).toBe(2);
-    await wrapper.find('.el-tag__close').trigger('click');
+    await wrapper.find('.lp-tag__close').trigger('click');
     expect(
-      wrapper.findAll('.el-tag').filter(item => {
+      wrapper.findAll('.lp-tag').filter(item => {
         return !hasClass(item.element, 'in-tooltip');
       }).length,
     ).toBe(2);
-    expect(wrapper.findAll('.el-tag__close').length).toBe(0);
+    expect(wrapper.findAll('.lp-tag__close').length).toBe(0);
 
     // test for collapse select if is clearable
     vm.vendors = [1, 2, 4];
@@ -1613,17 +1613,17 @@ describe('Select', () => {
     vm.isClearable = true;
     await nextTick();
     expect(
-      wrapper.findAll('.el-tag__close').filter(item => {
+      wrapper.findAll('.lp-tag__close').filter(item => {
         return !hasClass(item.element.parentElement, 'in-tooltip');
       }).length,
     ).toBe(1);
-    await wrapper.find('.el-tag__close').trigger('click');
+    await wrapper.find('.lp-tag__close').trigger('click');
     expect(
-      wrapper.findAll('.el-tag').filter(item => {
+      wrapper.findAll('.lp-tag').filter(item => {
         return !hasClass(item.element, 'in-tooltip');
       }).length,
     ).toBe(2);
-    expect(wrapper.findAll('.el-tag__close').length).toBe(0);
+    expect(wrapper.findAll('.lp-tag__close').length).toBe(0);
   });
 
   test('tag type', async () => {
@@ -1658,7 +1658,7 @@ describe('Select', () => {
     const options = getOptions();
     options[1].click();
     await nextTick();
-    expect(wrapper.find('.el-tag').classes()).toContain('el-tag--success');
+    expect(wrapper.find('.lp-tag').classes()).toContain('lp-tag--success');
   });
 
   test('modelValue should be deep reactive in multiple mode', async () => {
@@ -1685,12 +1685,12 @@ describe('Select', () => {
     );
     const vm = wrapper.vm as any;
     await nextTick();
-    expect(wrapper.findAll('.el-tag').length).toBe(1);
+    expect(wrapper.findAll('.lp-tag').length).toBe(1);
 
     vm.modelValue.splice(0, 1);
 
     await nextTick();
-    expect(wrapper.findAll('.el-tag').length).toBe(0);
+    expect(wrapper.findAll('.lp-tag').length).toBe(0);
   });
 
   test('should reset placeholder after clear when both multiple and filterable are true', async () => {
@@ -1706,15 +1706,15 @@ describe('Select', () => {
     );
     await nextTick();
 
-    const innerInput = wrapper.find('.el-input__inner');
+    const innerInput = wrapper.find('.lp-input__inner');
     const innerInputEl = innerInput.element as HTMLInputElement;
     expect(innerInputEl.placeholder).toBe('');
 
-    const tagCloseIcon = wrapper.find('.el-tag__close');
+    const tagCloseIcon = wrapper.find('.lp-tag__close');
     await tagCloseIcon.trigger('click');
     expect(innerInputEl.placeholder).toBe(placeholder);
 
-    const selectInput = wrapper.find('.el-select__input');
+    const selectInput = wrapper.find('.lp-select__input');
     const selectInputEl = selectInput.element as HTMLInputElement;
     selectInputEl.value = 'a';
     vi.useFakeTimers();
@@ -1740,7 +1740,7 @@ describe('Select', () => {
     });
     const select = wrapper.findComponent({ name: 'ElSelect' });
     await select.trigger('mouseenter');
-    const suffixIcon = select.find('.el-input__suffix');
+    const suffixIcon = select.find('.lp-input__suffix');
     await suffixIcon.trigger('click');
     expect((select.vm as any).visible).toBe(true);
     await suffixIcon.trigger('click');
@@ -1830,7 +1830,7 @@ describe('Select', () => {
       await wrapper.trigger('mouseenter');
 
       const input = wrapper.find(
-        multiple ? '.el-select__input' : '.el-input__inner',
+        multiple ? '.lp-select__input' : '.lp-input__inner',
       );
       const inputEl = input.element as HTMLInputElement;
       await input.trigger('click');
@@ -2005,8 +2005,8 @@ describe('Select', () => {
 
       await nextTick();
       const formItem = wrapper.find('[data-test-ref="item"]');
-      const formItemLabel = formItem.find('.el-form-item__label');
-      const innerInput = wrapper.find('.el-input__inner');
+      const formItemLabel = formItem.find('.lp-form-item__label');
+      const innerInput = wrapper.find('.lp-input__inner');
       expect(formItem.attributes().role).toBeFalsy();
       expect(formItemLabel.attributes().for).toBe(innerInput.attributes().id);
     });
@@ -2025,8 +2025,8 @@ describe('Select', () => {
 
       await nextTick();
       const formItem = wrapper.find('[data-test-ref="item"]');
-      const formItemLabel = formItem.find('.el-form-item__label');
-      const innerInput = wrapper.find('.el-input__inner');
+      const formItemLabel = formItem.find('.lp-form-item__label');
+      const innerInput = wrapper.find('.lp-input__inner');
       expect(formItem.attributes().role).toBeFalsy();
       expect(innerInput.attributes().id).toBe('foobar');
       expect(formItemLabel.attributes().for).toBe(innerInput.attributes().id);

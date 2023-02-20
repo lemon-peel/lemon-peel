@@ -1,4 +1,4 @@
-import path from 'path';
+import path from 'node:path';
 import chalk from 'chalk';
 import { dest, parallel, series, src } from 'gulp';
 import gulpSass from 'gulp-sass';
@@ -7,10 +7,10 @@ import autoprefixer from 'gulp-autoprefixer';
 import cleanCSS from 'gulp-clean-css';
 import rename from 'gulp-rename';
 import consola from 'consola';
-import { epOutput } from '@lemon-peel/build-utils';
+import { lpOutput } from '@lemon-peel/build-utils';
 
 const distFolder = path.resolve(__dirname, 'dist');
-const distBundle = path.resolve(epOutput, 'theme-chalk');
+const distBundle = path.resolve(lpOutput, 'theme-chalk');
 
 /**
  * compile theme-chalk scss & minify

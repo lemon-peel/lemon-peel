@@ -53,7 +53,7 @@ export const useNamespace = (block: string) => {
       : '';
 
   // for css var
-  // --el-xxx: value;
+  // --lp-xxx: value;
   const cssVariable = (object: Record<string, string>) => {
     const styles: Record<string, string> = {};
     for (const key in object) {

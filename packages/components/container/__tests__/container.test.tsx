@@ -50,45 +50,45 @@ describe('Container.vue', () => {
 describe('Header', () => {
   test('create header', () => {
     const wrapper = mount(() => <Header />);
-    expect(wrapper.classes()).toContain('el-header');
+    expect(wrapper.classes()).toContain('lp-header');
   });
 
   test('header height', () => {
     const wrapper = mount(() => <Header height="100px" />);
     const vm = wrapper.vm;
-    expect(getCssVariable(vm.$el, '--el-header-height')).toEqual('100px');
+    expect(getCssVariable(vm.$el, '--lp-header-height')).toEqual('100px');
   });
 });
 
 describe('Aside', () => {
   test('aside create', () => {
     const wrapper = mount(() => <Aside />);
-    expect(wrapper.classes()).toContain('el-aside');
+    expect(wrapper.classes()).toContain('lp-aside');
   });
 
   test('aside width', () => {
     const wrapper = mount(() => <Aside width="200px" />);
     const vm = wrapper.vm;
-    expect(getCssVariable(vm.$el, '--el-aside-width')).toEqual('200px');
+    expect(getCssVariable(vm.$el, '--lp-aside-width')).toEqual('200px');
   });
 });
 
 describe('Main', () => {
   test('main create', () => {
     const wrapper = mount(() => <Main />);
-    expect(wrapper.classes()).toContain('el-main');
+    expect(wrapper.classes()).toContain('lp-main');
   });
 });
 
 describe('Footer', () => {
   test('footer create', () => {
     const wrapper = mount(() => <Footer />);
-    expect(wrapper.classes()).toContain('el-footer');
+    expect(wrapper.classes()).toContain('lp-footer');
   });
 
   test('footer height', () => {
     const wrapper = mount(() => <Footer height="100px" />);
     const vm = wrapper.vm;
-    expect(getCssVariable(vm.$el, '--el-footer-height')).toEqual('100px');
+    expect(getCssVariable(vm.$el, '--lp-footer-height')).toEqual('100px');
   });
 });

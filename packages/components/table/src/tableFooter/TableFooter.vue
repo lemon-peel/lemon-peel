@@ -21,7 +21,6 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps, h } from 'vue';
 import { useNamespace } from '@lemon-peel/hooks';
 import HColGroup from '../HColGroup.vue';
 import useStyle from './styleHelper';

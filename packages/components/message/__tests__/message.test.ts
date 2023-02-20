@@ -109,7 +109,7 @@ describe('Message.vue', () => {
         },
       });
 
-      const closeBtn = wrapper.find('.el-message__closeBtn');
+      const closeBtn = wrapper.find('.lp-message__closeBtn');
       expect(closeBtn.exists()).toBe(true);
       await closeBtn.trigger('click');
       expect((wrapper.vm as MessageInstance).visible).toBe(false);

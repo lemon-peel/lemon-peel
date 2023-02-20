@@ -50,8 +50,8 @@ describe('TableV2.vue', () => {
         }}
       />
     ))
-    expect(wrapper.find('.el-table-v2').exists()).toBe(true)
-    const cell = wrapper.find('.el-table-v2__row-cell')
+    expect(wrapper.find('.lp-table-v2').exists()).toBe(true)
+    const cell = wrapper.find('.lp-table-v2__row-cell')
     expect(cell.exists()).toBe(true)
     expect(cell.find('span').text()).toBe(customText)
   })
@@ -71,8 +71,8 @@ describe('TableV2.vue', () => {
         }}
       />
     ))
-    expect(wrapper.find('.el-table-v2').exists()).toBe(true)
-    const cell = wrapper.find('.el-table-v2__header-cell')
+    expect(wrapper.find('.lp-table-v2').exists()).toBe(true)
+    const cell = wrapper.find('.lp-table-v2__header-cell')
     expect(cell.exists()).toBe(true)
     expect(cell.find('span').text()).toBe(customText)
   })
@@ -97,8 +97,8 @@ describe('TableV2.vue', () => {
         }}
       />
     ))
-    expect(wrapper.find('.el-table-v2').exists()).toBe(true)
-    const cell = wrapper.find('.el-table-v2__row-cell')
+    expect(wrapper.find('.lp-table-v2').exists()).toBe(true)
+    const cell = wrapper.find('.lp-table-v2__row-cell')
     expect(cell.exists()).toBe(true)
     expect(cell.find('span').text()).toBe(
       `${data.value[0][columns.value[0].dataKey]}${customText}`
@@ -125,8 +125,8 @@ describe('TableV2.vue', () => {
         }}
       />
     ))
-    expect(wrapper.find('.el-table-v2').exists()).toBe(true)
-    const cell = wrapper.find('.el-table-v2__header-cell')
+    expect(wrapper.find('.lp-table-v2').exists()).toBe(true)
+    const cell = wrapper.find('.lp-table-v2__header-cell')
     expect(cell.exists()).toBe(true)
     expect(cell.find('span').text()).toBe(
       `${columns.value[0].title}${customText}`

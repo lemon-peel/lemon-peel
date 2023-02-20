@@ -101,7 +101,7 @@ export default {
       total: 'Total {total}',
       pageClassifier: '',
       deprecationWarning:
-        'Deprecated usages detected, please refer to the el-pagination documentation for more details',
+        'Deprecated usages detected, please refer to the lp-pagination documentation for more details',
     },
     dialog: {
       close: 'Close this dialog',

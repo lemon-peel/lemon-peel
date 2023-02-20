@@ -105,7 +105,7 @@ describe('Popover.vue', () => {
 
     await nextTick();
     const trigger$ = wrapper.findComponent(LpPopperTrigger);
-    const triggerEl = trigger$.find('.el-tooltip__trigger');
+    const triggerEl = trigger$.find('.lp-tooltip__trigger');
     vi.useFakeTimers();
     await triggerEl.trigger('click');
     vi.runAllTimers();
@@ -129,8 +129,8 @@ describe('Popover.vue', () => {
     const wrapper = _mount({ visible: false, trigger: 'click' });
     await nextTick();
     const trigger$ = wrapper.findComponent(LpPopperTrigger);
-    const triggerEl = trigger$.find('.el-tooltip__trigger');
-    const popoverDom: HTMLElement = document.querySelector('.el-popper')!;
+    const triggerEl = trigger$.find('.lp-tooltip__trigger');
+    const popoverDom: HTMLElement = document.querySelector('.lp-popper')!;
 
     vi.useFakeTimers();
     await triggerEl.trigger('click');
@@ -175,8 +175,8 @@ describe('Popover.vue', () => {
     );
     await nextTick();
     const trigger$ = wrapper.findComponent(LpPopperTrigger);
-    const triggerEl = trigger$.find('.el-tooltip__trigger');
-    const popoverDom: HTMLElement = document.querySelector('.el-popper')!;
+    const triggerEl = trigger$.find('.lp-tooltip__trigger');
+    const popoverDom: HTMLElement = document.querySelector('.lp-popper')!;
 
     vi.useFakeTimers();
     await triggerEl.trigger('click');

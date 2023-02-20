@@ -79,6 +79,7 @@
     "gulp": "^4.0.2",
     "pinia": "^2.0",
     "rollup-plugin-esbuild": "^5.0.0",
+    "sass": "^1.56.1",
     "tslib": "^2.4.0",
     "tsx": "3.12.1",
     "type-fest": "^3.3.0",

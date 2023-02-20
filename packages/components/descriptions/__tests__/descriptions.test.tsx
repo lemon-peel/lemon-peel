@@ -15,9 +15,9 @@ describe('Descriptions.vue', () => {
       </LpDescriptions>
     ));
 
-    expect(wrapper.find('.el-descriptions__title').text()).toEqual('title');
-    expect(wrapper.find('.el-descriptions__extra').text()).toEqual('extra');
-    expect(wrapper.findAll('.el-descriptions__label').length).toEqual(4);
+    expect(wrapper.find('.lp-descriptions__title').text()).toEqual('title');
+    expect(wrapper.find('.lp-descriptions__extra').text()).toEqual('extra');
+    expect(wrapper.findAll('.lp-descriptions__label').length).toEqual(4);
   });
 
   test('should render border props', () => {
@@ -39,10 +39,10 @@ describe('Descriptions.vue', () => {
       </LpDescriptions>
     ));
 
-    expect(wrapper.find('.el-descriptions__label').classes()).toContain(
+    expect(wrapper.find('.lp-descriptions__label').classes()).toContain(
       'is-center',
     );
-    expect(wrapper.find('.el-descriptions__content').classes()).toContain(
+    expect(wrapper.find('.lp-descriptions__content').classes()).toContain(
       'is-right',
     );
   });
@@ -57,10 +57,10 @@ describe('Descriptions.vue', () => {
     ));
 
     expect(
-      wrapper.find('.el-descriptions__label').attributes('style'),
+      wrapper.find('.lp-descriptions__label').attributes('style'),
     ).toContain('width: 50px; min-width: 60px;');
     expect(
-      wrapper.find('.el-descriptions__content').attributes('style'),
+      wrapper.find('.lp-descriptions__content').attributes('style'),
     ).toContain('width: 50px; min-width: 60px;');
   });
 
@@ -76,10 +76,10 @@ describe('Descriptions.vue', () => {
       </LpDescriptions>
     ));
 
-    expect(wrapper.find('.el-descriptions__label').classes()).toContain(
+    expect(wrapper.find('.lp-descriptions__label').classes()).toContain(
       'label-class-name',
     );
-    expect(wrapper.find('.el-descriptions__content').classes()).toContain(
+    expect(wrapper.find('.lp-descriptions__content').classes()).toContain(
       'class-name',
     );
   });
@@ -142,7 +142,7 @@ describe('Descriptions.vue', () => {
       ></LpDescriptions>
     ));
 
-    expect(wrapper.find('.el-descriptions__title').text()).toEqual('title');
+    expect(wrapper.find('.lp-descriptions__title').text()).toEqual('title');
   });
 
   test('should render span props', async () => {

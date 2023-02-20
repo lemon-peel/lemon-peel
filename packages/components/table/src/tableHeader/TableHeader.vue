@@ -41,7 +41,7 @@ import { inject, nextTick, onMounted, ref } from 'vue';
 import { useNamespace } from '@lemon-peel/hooks';
 
 import { STORE_INJECTION_KEY, TABLE_INJECTION_KEY } from '../tokens';
-import { tableHeaderProps } from './types';
+import { tableHeaderProps } from './tableHeader';
 
 import useLayoutObserver from '../layout/layoutObserver';
 import useEvent from './eventHelper';

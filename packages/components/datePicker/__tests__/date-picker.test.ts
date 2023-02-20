@@ -17,8 +17,8 @@ const _mount = (template: string, data = () => ({}), otherObj?) =>
   mount(
     {
       components: {
-        'el-date-picker': DatePicker,
-        'el-form-item': LpFormItem,
+        'lp-date-picker': DatePicker,
+        'lp-form-item': LpFormItem,
       },
       template,
       data,
@@ -98,7 +98,7 @@ describe('DatePicker', () => {
     const input = wrapper.find('input');
     expect(input.attributes('placeholder')).toBe('test_');
     expect(input.attributes('readonly')).not.toBeUndefined();
-    const outterInput = wrapper.find('.el-input');
+    const outterInput = wrapper.find('.lp-input');
     expect(outterInput.classes()).toContain(customClassName);
     expect(outterInput.attributes().style).toBeDefined();
     input.trigger('blur');
@@ -106,7 +106,7 @@ describe('DatePicker', () => {
     await nextTick();
     expect(
       document
-        .querySelector('.el-picker__popper')
+        .querySelector('.lp-picker__popper')
         .classList.contains(popperClassName),
     ).toBe(true);
   });
@@ -124,17 +124,17 @@ describe('DatePicker', () => {
     input.trigger('blur');
     input.trigger('focus');
     await nextTick();
-    const spans = document.querySelectorAll('.el-date-picker__header-label');
+    const spans = document.querySelectorAll('.lp-date-picker__header-label');
     const arrowLeftElm = document.querySelector(
-      '.el-date-picker__prev-btn .arrow-left',
+      '.lp-date-picker__prev-btn .arrow-left',
     ) as HTMLElement;
     const arrowRightElm = document.querySelector(
-      '.el-date-picker__next-btn .arrow-right',
+      '.lp-date-picker__next-btn .arrow-right',
     ) as HTMLElement;
     expect(spans[0].textContent).toContain(date.year());
     expect(spans[1].textContent).toContain(date.format('MMMM'));
     const arrowLeftYeayElm = document.querySelector(
-      '.el-date-picker__prev-btn .d-arrow-left',
+      '.lp-date-picker__prev-btn .d-arrow-left',
     ) as HTMLElement;
     arrowLeftYeayElm.click();
     let count = 20;
@@ -301,7 +301,7 @@ describe('DatePicker', () => {
     const wrapper = _mount(`<lp-date-picker v-model="value" />`, () => ({
       value: new Date(2016, 9, 10, 18, 40),
     }));
-    const popperEl = document.querySelector('.el-picker__popper') as HTMLElement;
+    const popperEl = document.querySelector('.lp-picker__popper') as HTMLElement;
     expect(popperEl.style.display).toBe('none');
     const input = wrapper.find('input');
     input.element.focus();
@@ -335,9 +335,9 @@ describe('DatePicker', () => {
     input.trigger('blur');
     input.trigger('focus');
     await nextTick();
-    const shortcut = document.querySelector('.el-picker-panel__shortcut');
+    const shortcut = document.querySelector('.lp-picker-panel__shortcut');
     expect(shortcut.textContent).toBe(text);
-    expect(document.querySelector('.el-picker-panel__sidebar')).not.toBeNull()
+    expect(document.querySelector('.lp-picker-panel__sidebar')).not.toBeNull()
     ;(shortcut as HTMLElement).click();
     await nextTick();
     const vm = wrapper.vm as any;
@@ -379,7 +379,7 @@ describe('DatePicker', () => {
     );
     await nextTick();
     await rAF();
-    const popperEl = document.querySelector('.el-picker__popper');
+    const popperEl = document.querySelector('.lp-picker__popper');
     const attr = popperEl.getAttribute('aria-hidden');
     expect(attr).toEqual('false');
   });
@@ -398,7 +398,7 @@ describe('DatePicker', () => {
       },
     );
     await nextTick();
-    const popperEl = document.querySelector('.el-picker__popper');
+    const popperEl = document.querySelector('.lp-picker__popper');
     const attr = popperEl.getAttribute('aria-hidden');
     expect(attr).toEqual('false');
   });
@@ -425,7 +425,7 @@ describe('DatePicker', () => {
 
     vi.runAllTimers();
     await nextTick();
-    const popperEl = document.querySelector('.el-picker__popper');
+    const popperEl = document.querySelector('.lp-picker__popper');
     const attr = popperEl.getAttribute('aria-hidden');
     expect(attr).toEqual('true');
 
@@ -484,7 +484,7 @@ describe('DatePicker', () => {
       },
     );
     await nextTick();
-    const el = document.querySelector('td.available .el-date-table-cell');
+    const el = document.querySelector('td.available .lp-date-table-cell');
     const text = el.textContent;
     expect(text.includes('csw')).toBeFalsy();
   });
@@ -645,9 +645,9 @@ describe('DatePicker Navigation', () => {
     nextMonth = document.querySelector('button.arrow-right');
     nextYear = document.querySelector('button.d-arrow-right');
     getYearLabel = () =>
-      document.querySelectorAll('.el-date-picker__header-label')[0].textContent;
+      document.querySelectorAll('.lp-date-picker__header-label')[0].textContent;
     getMonthLabel = () =>
-      document.querySelectorAll('.el-date-picker__header-label')[1].textContent;
+      document.querySelectorAll('.lp-date-picker__header-label')[1].textContent;
   };
 
   it('month, year', async () => {
@@ -697,24 +697,24 @@ describe('DatePicker Navigation', () => {
   it('month label with fewer dates', async () => {
     await initNavigationTest(new Date(2000, 6, 31));
     const yearLabel = document.querySelectorAll(
-      '.el-date-picker__header-label',
+      '.lp-date-picker__header-label',
     )[0]
     ;(yearLabel as HTMLElement).click();
     await nextTick();
-    const year1999Label = document.querySelectorAll('.el-year-table td')[1]
+    const year1999Label = document.querySelectorAll('.lp-year-table td')[1]
     ;(year1999Label as HTMLElement).click();
     await nextTick();
-    const juneLabel = document.querySelectorAll('.el-month-table td')[5]
+    const juneLabel = document.querySelectorAll('.lp-month-table td')[5]
     ;(juneLabel as HTMLElement).click();
     await nextTick();
     expect(getYearLabel()).toContain('2001');
     expect(getMonthLabel()).toContain('June');
     const monthLabel = document.querySelectorAll(
-      '.el-date-picker__header-label',
+      '.lp-date-picker__header-label',
     )[1]
     ;(monthLabel as HTMLElement).click();
     await nextTick();
-    const janLabel = document.querySelectorAll('.el-month-table td')[0]
+    const janLabel = document.querySelectorAll('.lp-month-table td')[0]
     ;(janLabel as HTMLElement).click();
     await nextTick();
     expect(getYearLabel()).toContain('2001');
@@ -740,10 +740,10 @@ describe('MonthPicker', () => {
     input.trigger('focus');
     await nextTick();
     expect(
-      (document.querySelector('.el-month-table') as HTMLElement).style.display,
+      (document.querySelector('.lp-month-table') as HTMLElement).style.display,
     ).toBe('');
-    expect(document.querySelector('.el-year-table')).toBeNull()
-    ;(document.querySelector('.el-month-table .cell') as HTMLElement).click();
+    expect(document.querySelector('.lp-year-table')).toBeNull()
+    ;(document.querySelector('.lp-month-table .cell') as HTMLElement).click();
     await nextTick();
     const vm = wrapper.vm as any;
     expect(vm.value.getMonth()).toBe(0);
@@ -768,7 +768,7 @@ describe('MonthPicker', () => {
     input.trigger('focus');
     await nextTick();
     {
-      (document.querySelector('.el-month-table .cell') as HTMLElement).click();
+      (document.querySelector('.lp-month-table .cell') as HTMLElement).click();
     }
     await nextTick();
     expect(wrapper.findComponent(Input).vm.modelValue).toBe('2020-01');
@@ -792,9 +792,9 @@ describe('YearPicker', () => {
     input.trigger('focus');
     await nextTick();
     expect(
-      (document.querySelector('.el-year-table') as HTMLElement).style.display,
+      (document.querySelector('.lp-year-table') as HTMLElement).style.display,
     ).toBe('');
-    expect(document.querySelector('.el-month-table')).toBeNull();
+    expect(document.querySelector('.lp-month-table')).toBeNull();
 
     const leftBtn = document.querySelector('.d-arrow-left') as HTMLElement;
     const rightBtn = document.querySelector('.d-arrow-right') as HTMLElement;
@@ -809,7 +809,7 @@ describe('YearPicker', () => {
     }
 
     await nextTick()
-    ;(document.querySelector('.el-year-table .cell') as HTMLElement).click();
+    ;(document.querySelector('.lp-year-table .cell') as HTMLElement).click();
     await nextTick();
     const vm = wrapper.vm as any;
     expect(vm.value.getFullYear()).toBe(2030);
@@ -833,7 +833,7 @@ describe('YearPicker', () => {
     input.trigger('blur');
     input.trigger('focus');
     await nextTick();
-    const cell = document.querySelector('.el-year-table .cell') as HTMLElement;
+    const cell = document.querySelector('.lp-year-table .cell') as HTMLElement;
     cell.click();
     await nextTick();
     expect((wrapper.vm as any).value).toBe(
@@ -861,20 +861,20 @@ describe('WeekPicker', () => {
     // select month still is in week-mode
     ;(
       document.querySelectorAll(
-        '.el-date-picker__header-label',
+        '.lp-date-picker__header-label',
       )[1] as HTMLElement
     ).click();
     await nextTick()
     ;(
-      document.querySelectorAll('.el-month-table .cell')[7] as HTMLElement
+      document.querySelectorAll('.lp-month-table .cell')[7] as HTMLElement
     ).click();
     await nextTick();
     expect(document.querySelector('.is-week-mode')).not.toBeNull();
     const numberOfHighlightRows = () =>
-      document.querySelectorAll('.el-date-table__row.current').length
+      document.querySelectorAll('.lp-date-table__row.current').length
     ;(
       document.querySelector(
-        '.el-date-table__row ~ .el-date-table__row td.available',
+        '.lp-date-table__row ~ .lp-date-table__row td.available',
       ) as HTMLElement
     ).click();
     await nextTick();
@@ -903,8 +903,8 @@ describe('WeekPicker', () => {
       const wrapper = mount(
         {
           components: {
-            'el-date-picker': DatePicker,
-            'el-config-provider': ConfigProvider,
+            'lp-date-picker': DatePicker,
+            'lp-config-provider': ConfigProvider,
           },
           template: `
           <lp-config-provider :locale="locale">
@@ -932,7 +932,7 @@ describe('WeekPicker', () => {
       // click Wednesday
       ;(
         document.querySelectorAll(
-          '.el-date-table__row ~ .el-date-table__row td',
+          '.lp-date-table__row ~ .lp-date-table__row td',
         )[3] as HTMLElement
       ).click();
       await nextTick();
@@ -960,7 +960,7 @@ describe('DatePicker dates', () => {
     input.trigger('focus');
     await nextTick();
     const td = document.querySelectorAll(
-      '.el-date-table__row .available',
+      '.lp-date-table__row .available',
     ) as NodeListOf<HTMLElement>;
     const vm = wrapper.vm as any;
     td[0].click();
@@ -970,7 +970,7 @@ describe('DatePicker dates', () => {
     await nextTick();
     expect(vm.value.length).toBe(2);
     expect(
-      document.querySelectorAll('.el-date-table__row .selected').length,
+      document.querySelectorAll('.lp-date-table__row .selected').length,
     ).toBe(2);
     td[0].click();
     await nextTick();
@@ -990,19 +990,19 @@ describe('DatePicker keyboard events', () => {
   />`,
       () => ({ value: '' }),
     );
-    const input = wrapper.find('.el-input__inner');
+    const input = wrapper.find('.lp-input__inner');
     await input.trigger('focus');
     await input.trigger('click');
     await nextTick();
 
-    const popperEl = document.querySelectorAll('.el-picker__popper')[0];
+    const popperEl = document.querySelectorAll('.lp-picker__popper')[0];
     const attr = popperEl.getAttribute('aria-hidden');
     expect(attr).toEqual('false');
 
     await input.trigger('keydown', {
       code: EVENT_CODE.enter,
     });
-    const popperEl2 = document.querySelectorAll('.el-picker__popper')[0];
+    const popperEl2 = document.querySelectorAll('.lp-picker__popper')[0];
     const attr2 = popperEl2.getAttribute('aria-hidden');
     expect(attr2).toEqual('true');
   });
@@ -1015,19 +1015,19 @@ describe('DatePicker keyboard events', () => {
   />`,
       () => ({ value: '' }),
     );
-    const input = wrapper.find('.el-input__inner');
+    const input = wrapper.find('.lp-input__inner');
     await input.trigger('focus');
     await input.trigger('click');
     await nextTick();
 
-    const popperEl = document.querySelectorAll('.el-picker__popper')[0];
+    const popperEl = document.querySelectorAll('.lp-picker__popper')[0];
     const attr = popperEl.getAttribute('aria-hidden');
     expect(attr).toEqual('false');
 
     await input.trigger('keydown', {
       code: EVENT_CODE.numpadEnter,
     });
-    const popperEl2 = document.querySelectorAll('.el-picker__popper')[0];
+    const popperEl2 = document.querySelectorAll('.lp-picker__popper')[0];
     const attr2 = popperEl2.getAttribute('aria-hidden');
     expect(attr2).toEqual('true');
   });
@@ -1063,10 +1063,10 @@ describe('DateRangePicker', () => {
     inputs[0].trigger('focus');
     await nextTick();
 
-    const outterInput = wrapper.find('.el-range-editor.el-input__wrapper');
+    const outterInput = wrapper.find('.lp-range-editor.lp-input__wrapper');
     expect(outterInput.classes()).toContain(customClassName);
     expect(outterInput.attributes().style).toBeDefined();
-    const panels = document.querySelectorAll('.el-date-range-picker__content');
+    const panels = document.querySelectorAll('.lp-date-range-picker__content');
     expect(panels.length).toBe(2)
     ;(panels[0].querySelector('td.available') as HTMLElement).click();
     await nextTick()
@@ -1078,7 +1078,7 @@ describe('DateRangePicker', () => {
     // popperClassName
     expect(
       document
-        .querySelector('.el-picker__popper')
+        .querySelector('.lp-picker__popper')
         .classList.contains(popperClassName),
     ).toBe(true);
     // correct highlight
@@ -1114,7 +1114,7 @@ describe('DateRangePicker', () => {
     inputs[0].trigger('focus');
     await nextTick();
 
-    const panels = document.querySelectorAll('.el-date-range-picker__content')
+    const panels = document.querySelectorAll('.lp-date-range-picker__content')
     ;(panels[1].querySelector('td.available') as HTMLElement).click();
     await nextTick()
     ;(panels[0].querySelector('td.available') as HTMLElement).click();
@@ -1146,7 +1146,7 @@ describe('DateRangePicker', () => {
     inputs[0].trigger('blur');
     inputs[0].trigger('focus');
     await nextTick();
-    const panels = document.querySelectorAll('.el-date-range-picker__content')
+    const panels = document.querySelectorAll('.lp-date-range-picker__content')
     ;(panels[1].querySelector('td.available') as HTMLElement).click();
     await nextTick()
     ;(panels[0].querySelector('td.available') as HTMLElement).click();
@@ -1168,7 +1168,7 @@ describe('DateRangePicker', () => {
       () => ({ value: '' }),
     );
 
-    const table = document.querySelector('.el-date-table');
+    const table = document.querySelector('.lp-date-table');
     const availableTds = (table as HTMLTableElement).querySelectorAll(
       'td.available',
     )
@@ -1213,10 +1213,10 @@ describe('DateRangePicker', () => {
     inputs[0].trigger('blur');
     inputs[0].trigger('focus');
     await nextTick();
-    const panels = document.querySelectorAll('.el-date-range-picker__content');
-    const left = panels[0].querySelector('.el-date-range-picker__header');
+    const panels = document.querySelectorAll('.lp-date-range-picker__content');
+    const left = panels[0].querySelector('.lp-date-range-picker__header');
     const right = panels[1].querySelector(
-      '.is-right .el-date-range-picker__header',
+      '.is-right .lp-date-range-picker__header',
     );
     expect(left.textContent).toBe('2000  October');
     expect(right.textContent).toBe('2000  December')
@@ -1276,7 +1276,7 @@ describe('DateRangePicker', () => {
     startInput.trigger('blur');
     startInput.trigger('focus');
     await nextTick();
-    const panels = document.querySelectorAll('.el-date-range-picker__content');
+    const panels = document.querySelectorAll('.lp-date-range-picker__content');
     expect(panels.length).toBe(2)
     ;(panels[0].querySelector('td.available') as HTMLElement).click();
     await nextTick()
@@ -1325,7 +1325,7 @@ describe('MonthRange', () => {
     inputs[0].trigger('blur');
     inputs[0].trigger('focus');
     await nextTick();
-    const panels = document.querySelectorAll('.el-date-range-picker__content');
+    const panels = document.querySelectorAll('.lp-date-range-picker__content');
     expect(panels.length).toBe(2);
     const p0 = <HTMLElement>panels[0].querySelector('td:not(.disabled)');
     p0.click();
@@ -1365,7 +1365,7 @@ describe('MonthRange', () => {
       () => ({ value: '' }),
     );
 
-    const table = document.querySelector('.el-month-table');
+    const table = document.querySelector('.lp-month-table');
     const tds = (table as HTMLTableElement).querySelectorAll('td')
 
     ;(tds[0] as HTMLElement).click();
@@ -1409,10 +1409,10 @@ describe('MonthRange', () => {
     inputs[0].trigger('blur');
     inputs[0].trigger('focus');
     await nextTick();
-    const panels = document.querySelectorAll('.el-date-range-picker__content');
-    const left = panels[0].querySelector('.el-date-range-picker__header');
+    const panels = document.querySelectorAll('.lp-date-range-picker__content');
+    const left = panels[0].querySelector('.lp-date-range-picker__header');
     const right = panels[1].querySelector(
-      '.is-right .el-date-range-picker__header',
+      '.is-right .lp-date-range-picker__header',
     );
     expect(left.textContent).toContain(2000);
     expect(right.textContent).toContain(2002)
@@ -1484,8 +1484,8 @@ describe('MonthRange', () => {
 
       await nextTick();
       const formItem = wrapper.find('[data-test-ref="item"]');
-      const formItemLabel = formItem.find('.el-form-item__label');
-      const datePickerInput = wrapper.find('.el-input__inner');
+      const formItemLabel = formItem.find('.lp-form-item__label');
+      const datePickerInput = wrapper.find('.lp-input__inner');
       expect(formItem.attributes().role).toBeFalsy();
       expect(formItemLabel.attributes().for).toBe(
         datePickerInput.attributes().id,
@@ -1502,8 +1502,8 @@ describe('MonthRange', () => {
 
       await nextTick();
       const formItem = wrapper.find('[data-test-ref="item"]');
-      const formItemLabel = formItem.find('.el-form-item__label');
-      const datePickerInput = wrapper.find('.el-input__inner');
+      const formItemLabel = formItem.find('.lp-form-item__label');
+      const datePickerInput = wrapper.find('.lp-input__inner');
       expect(formItem.attributes().role).toBeFalsy();
       expect(datePickerInput.attributes().id).toBe('foobar');
       expect(formItemLabel.attributes().for).toBe(

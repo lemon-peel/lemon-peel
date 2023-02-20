@@ -5,7 +5,7 @@ import { hasClass } from '@lemon-peel/utils';
 
 import { useLockscreen } from '../use-lockscreen';
 
-const kls = 'el-popup-parent--hidden';
+const kls = 'lp-popup-parent--hidden';
 
 const Comp = defineComponent({
   setup() {

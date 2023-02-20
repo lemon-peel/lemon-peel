@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps, getCurrentInstance, h, inject, onUnmounted, watch } from 'vue';
+import { getCurrentInstance, inject, onUnmounted, watch } from 'vue';
 import { isClient } from '@vueuse/core';
 import { useNamespace } from '@lemon-peel/hooks';
 import { addClass, removeClass } from '@lemon-peel/utils';

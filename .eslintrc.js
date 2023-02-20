@@ -9,6 +9,7 @@ module.exports = {
     'vue/multi-word-component-names': 0,
     'vue/prefer-import-from-vue': 0,
     'vue/no-v-text-v-html-on-component': 0,
+    'unicorn/prefer-module': 0,
   },
   overrides: [
     {

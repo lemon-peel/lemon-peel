@@ -39,7 +39,7 @@ describe('TimeLine.vue', () => {
       </TimeLine>
     ));
 
-    const contentWrappers = wrapper.findAll('.el-timeline-item__content');
+    const contentWrappers = wrapper.findAll('.lp-timeline-item__content');
 
     for (const [index, content] of contentWrappers.entries()) {
       expect(content.text()).toEqual(activities[index].content);
@@ -57,7 +57,7 @@ describe('TimeLine.vue', () => {
       </TimeLine>
     ));
 
-    const timestampWrapper = wrapper.findAll('.el-timeline-item__timestamp')[0];
+    const timestampWrapper = wrapper.findAll('.lp-timeline-item__timestamp')[0];
 
     expect(timestampWrapper.classes('is-top')).toBe(true);
   });
@@ -73,7 +73,7 @@ describe('TimeLine.vue', () => {
       </TimeLine>
     ));
 
-    const timestampWrappers = wrapper.findAll('.el-timeline-item__timestamp');
+    const timestampWrappers = wrapper.findAll('.lp-timeline-item__timestamp');
 
     expect(timestampWrappers.length).toEqual(2);
   });
@@ -86,7 +86,7 @@ describe('TimeLine.vue', () => {
     ));
 
     const vm = wrapper.vm;
-    const nodeElm = vm.$el.querySelector('.el-timeline-item__node');
+    const nodeElm = vm.$el.querySelector('.lp-timeline-item__node');
 
     expect(nodeElm.style.backgroundColor).toEqual('rgb(255, 0, 0)');
   });
@@ -98,9 +98,9 @@ describe('TimeLine.vue', () => {
       </TimeLine>
     ));
 
-    const nodeWrapper = wrapper.find('.el-timeline-item__node');
+    const nodeWrapper = wrapper.find('.lp-timeline-item__node');
 
-    expect(nodeWrapper.classes('el-timeline-item__node--primary')).toBe(true);
+    expect(nodeWrapper.classes('lp-timeline-item__node--primary')).toBe(true);
   });
 
   test('size', () => {
@@ -110,9 +110,9 @@ describe('TimeLine.vue', () => {
       </TimeLine>
     ));
 
-    const nodeWrapper = wrapper.find('.el-timeline-item__node');
+    const nodeWrapper = wrapper.find('.lp-timeline-item__node');
 
-    expect(nodeWrapper.classes('el-timeline-item__node--large')).toBe(true);
+    expect(nodeWrapper.classes('lp-timeline-item__node--large')).toBe(true);
   });
 
   test('icon', () => {
@@ -122,7 +122,7 @@ describe('TimeLine.vue', () => {
       </TimeLine>
     ));
 
-    expect(wrapper.find('.el-timeline-item__icon').exists()).toBe(true);
+    expect(wrapper.find('.lp-timeline-item__icon').exists()).toBe(true);
     expect(wrapper.findComponent(MoreFilled).exists()).toBe(true);
   });
 
@@ -133,7 +133,7 @@ describe('TimeLine.vue', () => {
       </TimeLine>
     ));
 
-    const nodeWrapper = wrapper.find('.el-timeline-item__node');
+    const nodeWrapper = wrapper.find('.lp-timeline-item__node');
 
     expect(nodeWrapper.classes('is-hollow')).toBe(true);
   });
@@ -149,10 +149,10 @@ describe('TimeLine.vue', () => {
       </TimeLine>
     ));
 
-    const dotWrapper = wrapper.find('.el-timeline-item__dot');
+    const dotWrapper = wrapper.find('.lp-timeline-item__dot');
 
     expect(dotWrapper.text()).toEqual('dot');
-    expect(wrapper.find('.el-timeline-item__node').exists()).toBe(false);
+    expect(wrapper.find('.lp-timeline-item__node').exists()).toBe(false);
   });
 
   test('center', () => {
@@ -164,8 +164,8 @@ describe('TimeLine.vue', () => {
       </TimeLine>
     ));
 
-    const timestampWrappers = wrapper.findAll('.el-timeline-item');
+    const timestampWrappers = wrapper.findAll('.lp-timeline-item');
 
-    expect(timestampWrappers[1].classes()).toContain('el-timeline-item__center');
+    expect(timestampWrappers[1].classes()).toContain('lp-timeline-item__center');
   });
 });

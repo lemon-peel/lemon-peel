@@ -19,7 +19,7 @@ describe('Overlay.vue', () => {
 
   test('should emit click event', async () => {
     const wrapper = mount(() => <Overlay>{AXIOM}</Overlay>)
-    await wrapper.find('.el-overlay').trigger('click')
+    await wrapper.find('.lp-overlay').trigger('click')
     expect(wrapper.emitted()).toBeTruthy()
   })
 
@@ -27,7 +27,7 @@ describe('Overlay.vue', () => {
     const mask = ref(true)
     const wrapper = mount(() => <Overlay mask={mask.value}>{AXIOM}</Overlay>)
 
-    const selector = '.el-overlay'
+    const selector = '.lp-overlay'
     expect(wrapper.find(selector).exists()).toBe(true)
 
     mask.value = false

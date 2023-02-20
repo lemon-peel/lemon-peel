@@ -25,7 +25,7 @@ export const useTeleport = (
   const showTeleport = () => {
     isTeleportVisible.value = true;
     // this allows the delayed showing strategy since the the content itself could be enterable
-    // e.g. el-popper
+    // e.g. lp-popper
     if ($element !== null) return;
 
     $element = createGlobalNode();

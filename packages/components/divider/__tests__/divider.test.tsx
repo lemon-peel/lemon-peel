@@ -18,7 +18,7 @@ describe('Divider.vue', () => {
 
   test('direction', () => {
     const wrapper = mount(() => <Divider direction="vertical" />)
-    expect(wrapper.classes()).toContain('el-divider--vertical')
+    expect(wrapper.classes()).toContain('lp-divider--vertical')
   })
 
   test('contentPosition', () => {
@@ -30,7 +30,7 @@ describe('Divider.vue', () => {
         contentPosition="right"
       />
     ))
-    expect(wrapper.find('.el-divider__text').classes()).toContain('is-right')
+    expect(wrapper.find('.lp-divider__text').classes()).toContain('is-right')
   })
 
   test('customClass', () => {
@@ -42,7 +42,7 @@ describe('Divider.vue', () => {
     const wrapper = mount(() => <Divider borderStyle="dashed" />)
     expect(
       getComputedStyle(wrapper.element, null).getPropertyValue(
-        '--el-border-style'
+        '--lp-border-style'
       )
     ).toBe('dashed')
   })
@@ -51,7 +51,7 @@ describe('Divider.vue', () => {
     const wrapper = mount(() => <Divider direction="vertical" />)
     expect(
       getComputedStyle(wrapper.element, null).getPropertyValue(
-        '--el-border-style'
+        '--lp-border-style'
       )
     ).toBe('solid')
   })

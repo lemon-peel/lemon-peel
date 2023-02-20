@@ -21,7 +21,7 @@
       :class="ns.be('node', 'content')"
       :style="{ paddingLeft: `${(node.level - 1) * indent}px` }"
     >
-      <el-icon
+      <lp-icon
         v-if="icon"
         :class="[
           ns.is('leaf', !!node?.isLeaf),
@@ -34,8 +34,8 @@
         @click.stop="handleExpandIconClick"
       >
         <component :is="icon" />
-      </el-icon>
-      <el-checkbox
+      </lp-icon>
+      <lp-checkbox
         v-if="showCheckbox"
         :model-value="checked"
         :indeterminate="indeterminate"
@@ -43,25 +43,21 @@
         @change="handleCheckChange"
         @click.stop
       />
-      <el-node-content :node="node" />
+      <lp-node-content :node="node" />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { computed, inject } from 'vue';
-import ElIcon from '@element-plus/components/icon';
+import ElIcon from '@lemon-peel/components/icon';
 import { CaretRight } from '@element-plus/icons-vue';
-import ElCheckbox from '@element-plus/components/checkbox';
-import { useNamespace } from '@element-plus/hooks';
+import ElCheckbox from '@lemon-peel/components/checkbox';
+import { useNamespace } from '@lemon-peel/hooks';
 import ElNodeContent from './TreeNodeContent';
-import {
-  NODE_CONTEXTMENU,
-  ROOT_TREE_INJECTION_KEY,
-  treeNodeEmits,
-  treeNodeProps,
-} from './virtualTree';
-import type { CheckboxValueType } from '@element-plus/components/checkbox';
+
+import { NODE_CONTEXTMENU, ROOT_TREE_INJECTION_KEY, treeNodeEmits, treeNodeProps } from './virtualTree';
+import type { CheckboxValueType } from '@lemon-peel/components/checkbox';
 
 defineOptions({
   name: 'ElTreeNode',

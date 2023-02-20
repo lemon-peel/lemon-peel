@@ -7,7 +7,7 @@ import { QuestionFilled as QuestionFilledIcon } from '@element-plus/icons-vue';
 import MessageBox from '../src/messageBox';
 import { LpMessageBox } from '../index';
 
-const selector = '.el-overlay';
+const selector = '.lp-overlay';
 const QuestionFilled = markRaw(QuestionFilledIcon);
 
 vi.mock('@lemon-peel/utils/error', () => ({
@@ -49,15 +49,15 @@ describe('MessageBox', () => {
     expect(msgbox).toBeDefined();
     await rAF();
     expect(
-      msgbox.querySelector('.el-message-box__title span').textContent,
+      msgbox.querySelector('.lp-message-box__title span').textContent,
     ).toEqual('消息');
     expect(
-      msgbox.querySelector('.el-message-box__message').querySelector('p')
+      msgbox.querySelector('.lp-message-box__message').querySelector('p')
         .textContent,
     ).toEqual('这是一段内容');
     /** custom inline style */
     expect(
-      (msgbox.querySelector('.el-message-box') as HTMLElement).style.width,
+      (msgbox.querySelector('.lp-message-box') as HTMLElement).style.width,
     ).toEqual('100px');
     MessageBox.close();
     await rAF();
@@ -77,9 +77,9 @@ describe('MessageBox', () => {
       message: '这是一段内容',
     });
     await rAF();
-    const icon = document.querySelector('.el-message-box__status');
+    const icon = document.querySelector('.lp-message-box__status');
 
-    expect(icon.classList.contains('el-icon')).toBe(true);
+    expect(icon.classList.contains('lp-icon')).toBe(true);
 
     const svg = mount(QuestionFilled).find('svg').element;
     expect(icon.querySelector('svg').innerHTML).toBe(svg.innerHTML);
@@ -92,7 +92,7 @@ describe('MessageBox', () => {
       message: '<strong>html string</strong>',
     });
     await rAF();
-    const message = document.querySelector('.el-message-box__message strong');
+    const message = document.querySelector('.lp-message-box__message strong');
     expect(message.textContent).toEqual('html string');
   });
 
@@ -113,7 +113,7 @@ describe('MessageBox', () => {
     await rAF();
 
     const btn = document.querySelector(
-      '.el-message-box__close',
+      '.lp-message-box__close',
     ) as HTMLButtonElement;
     btn.click();
     await rAF();
@@ -130,7 +130,7 @@ describe('MessageBox', () => {
     await rAF();
     const msgbox: HTMLElement = document.querySelector(selector);
     expect(msgbox.style.display).toEqual('');
-    expect(msgbox.querySelector('.el-icon-warning')).toBeDefined();
+    expect(msgbox.querySelector('.lp-icon-warning')).toBeDefined();
   });
 
   test('confirm', async () => {
@@ -141,7 +141,7 @@ describe('MessageBox', () => {
     await rAF();
     const btn = document
       .querySelector(selector)
-      .querySelector('.el-button--primary') as HTMLButtonElement;
+      .querySelector('.lp-button--primary') as HTMLButtonElement;
     btn.click();
     await rAF();
     const msgbox: HTMLElement = document.querySelector(selector);
@@ -155,7 +155,7 @@ describe('MessageBox', () => {
     });
     await rAF();
     const btnElm = document.querySelector(
-      '.el-message-box__btns .el-button--primary',
+      '.lp-message-box__btns .lp-button--primary',
     );
     const haveFocus = btnElm.isSameNode(document.activeElement);
     expect(haveFocus).toBe(false);
@@ -170,7 +170,7 @@ describe('MessageBox', () => {
     await rAF();
     const inputElm = document
       .querySelector(selector)
-      .querySelector('.el-message-box__input');
+      .querySelector('.lp-message-box__input');
     const haveFocus = inputElm
       .querySelector('input')
       .isSameNode(document.activeElement);
@@ -202,7 +202,7 @@ describe('MessageBox', () => {
     });
     await rAF();
     const closeBtn = document.querySelector(
-      '.el-message-box__close',
+      '.lp-message-box__close',
     ) as HTMLButtonElement;
     closeBtn.click();
     await rAF();
@@ -224,7 +224,7 @@ describe('MessageBox', () => {
     await rAF()
     ;(
       document.querySelector(
-        '.el-message-box__btns .el-button--primary',
+        '.lp-message-box__btns .lp-button--primary',
       ) as HTMLButtonElement
     ).click();
     await rAF();
@@ -241,7 +241,7 @@ describe('MessageBox', () => {
       );
       await rAF();
       const btn = document.querySelector(
-        '.el-message-box__btns .el-button--primary',
+        '.lp-message-box__btns .lp-button--primary',
       ) as HTMLButtonElement;
       btn.click();
       await rAF();
@@ -256,7 +256,7 @@ describe('MessageBox', () => {
         },
       );
       await rAF();
-      const btn = document.querySelector('.el-message-box__btns .el-button')
+      const btn = document.querySelector('.lp-message-box__btns .lp-button')
       ;(btn as HTMLButtonElement).click();
       await rAF();
       expect(msgAction).toEqual('cancel');
@@ -349,7 +349,7 @@ describe('MessageBox', () => {
       const msgbox: HTMLElement = document.querySelector(selector)!;
       const msgboxDialog = msgbox.querySelector('[role="dialog"]')!;
       const msgboxContent = msgboxDialog.querySelector(
-        '.el-message-box__content',
+        '.lp-message-box__content',
       )!;
       expect(msgboxDialog.getAttribute('aria-describedby')).toBe(
         msgboxContent.getAttribute('id'),

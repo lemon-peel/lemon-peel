@@ -16,7 +16,7 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
 import { LpIcon } from '@lemon-peel/components/icon';
-import { paginationPrevEmits, paginationPrevProps } from './prev.vue';
+import { paginationPrevEmits, paginationPrevProps } from './prev';
 
 defineOptions({
   name: 'LpPaginationPrev',

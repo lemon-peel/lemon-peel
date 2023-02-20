@@ -13,7 +13,7 @@ describe('CheckTag.vue', () => {
     })
     expect(wrapper.text()).toEqual(AXIOM)
 
-    expect(wrapper.classes()).toContain('el-check-tag')
+    expect(wrapper.classes()).toContain('lp-check-tag')
   })
 
   test('functionality', async () => {
@@ -32,11 +32,11 @@ describe('CheckTag.vue', () => {
     })
     expect(wrapper.text()).toEqual(AXIOM)
 
-    await wrapper.find('.el-check-tag').trigger('click')
+    await wrapper.find('.lp-check-tag').trigger('click')
 
     expect(wrapper.vm.checked).toBe(true)
 
-    await wrapper.find('.el-check-tag').trigger('click')
+    await wrapper.find('.lp-check-tag').trigger('click')
 
     expect(wrapper.vm.checked).toBe(false)
   })

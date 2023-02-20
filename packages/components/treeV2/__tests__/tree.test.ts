@@ -16,9 +16,9 @@ import type {
 let id = 1;
 
 const NODE_NUMBER = 5;
-const TREE_NODE_CLASS_NAME = '.el-tree-node';
-const TREE_NODE_CONTENT_CLASS_NAME = '.el-tree-node__content';
-const TREE_NODE_EXPAND_ICON_CLASS_NAME = '.el-tree-node__expand-icon';
+const TREE_NODE_CLASS_NAME = '.lp-tree-node';
+const TREE_NODE_CONTENT_CLASS_NAME = '.lp-tree-node__content';
+const TREE_NODE_EXPAND_ICON_CLASS_NAME = '.lp-tree-node__expand-icon';
 
 const getUniqueId = () => {
   return id++;
@@ -52,7 +52,7 @@ const data = createData(4, 30, NODE_NUMBER);
 
 const _mount = makeMountFunc({
   components: {
-    'el-tree': Tree,
+    'lp-tree': Tree,
   },
 });
 
@@ -110,7 +110,7 @@ const createTree = (
     '';
   const wrapper = _mount(
     `
-      <el-tree
+      <lp-tree
         ref="tree"
         :data="data"
         :empty-text="emptyText"
@@ -132,7 +132,7 @@ const createTree = (
         @check="onNodeCheck"
         @current-change="onCurrentChange"
         @node-contextmenu="onNodeContextMenu"
-      >${defaultSlot}</el-tree>
+      >${defaultSlot}</lp-tree>
     `,
     {
       data() {
@@ -215,7 +215,7 @@ describe('Virtual Tree', () => {
       },
     });
     await nextTick();
-    expect(wrapper.find('.el-tree__empty-text').text()).toBe(emptyText);
+    expect(wrapper.find('.lp-tree__empty-text').text()).toBe(emptyText);
   });
 
   test('height', async () => {
@@ -227,7 +227,7 @@ describe('Virtual Tree', () => {
       },
     });
     await nextTick();
-    const el = wrapper.find('.el-tree-virtual-list').element as any;
+    const el = wrapper.find('.lp-tree-virtual-list').element as any;
     expect(el.style.height).toBe('300px');
   });
 
@@ -298,7 +298,7 @@ describe('Virtual Tree', () => {
       },
     });
     await nextTick();
-    expect(wrapper.classes()).toContain('el-tree--highlight-current');
+    expect(wrapper.classes()).toContain('lp-tree--highlight-current');
   });
 
   test('showCheckbox', async () => {
@@ -351,7 +351,7 @@ describe('Virtual Tree', () => {
       },
     });
     await nextTick();
-    expect(wrapper.find('.el-checkbox').exists()).toBeTruthy();
+    expect(wrapper.find('.lp-checkbox').exists()).toBeTruthy();
     // expand all nodes
     let nodes = wrapper.findAll(TREE_NODE_CLASS_NAME);
     await nodes[0].trigger('click');
@@ -362,13 +362,13 @@ describe('Virtual Tree', () => {
     nodes = wrapper.findAll(TREE_NODE_CLASS_NAME);
     expect(nodes.length).toBe(8);
     // When node-1 is checked, all child nodes should be checked
-    await nodes[0].find('.el-checkbox').trigger('click');
-    expect(wrapper.findAll('.el-checkbox.is-checked').length).toBe(7);
+    await nodes[0].find('.lp-checkbox').trigger('click');
+    expect(wrapper.findAll('.lp-checkbox.is-checked').length).toBe(7);
     // When cancel node-1 checked, all child nodes should not be checked
-    await nodes[0].find('.el-checkbox').trigger('click');
-    expect(wrapper.findAll('.el-checkbox.is-checked').length).toBe(0);
+    await nodes[0].find('.lp-checkbox').trigger('click');
+    expect(wrapper.findAll('.lp-checkbox.is-checked').length).toBe(0);
     // When node-1-1 is checked, node-1-1-1 and node-1-1-2 should be checked
-    await nodes[1].find('.el-checkbox').trigger('click');
+    await nodes[1].find('.lp-checkbox').trigger('click');
     expect(
       wrapper
         .findAll(`${TREE_NODE_CLASS_NAME}.is-checked`)
@@ -376,21 +376,21 @@ describe('Virtual Tree', () => {
         .toString(),
     ).toBe(['node-1-1', 'node-1-1-1', 'node-1-1-2'].toString());
     // When cancel node-1-1, node-1-1-1 and node-1-1-2 should not be checked
-    await nodes[1].find('.el-checkbox').trigger('click');
-    expect(wrapper.findAll('.el-checkbox.is-checked').length).toBe(0);
+    await nodes[1].find('.lp-checkbox').trigger('click');
+    expect(wrapper.findAll('.lp-checkbox.is-checked').length).toBe(0);
     // When node-1-1-1 is checked, node-1 and node-1-1 should be indeterminate
-    await nodes[2].find('.el-checkbox').trigger('click');
-    expect(wrapper.findAll('.el-checkbox.is-checked').length).toBe(1);
-    expect(wrapper.findAll('.el-checkbox .is-indeterminate').length).toBe(2);
+    await nodes[2].find('.lp-checkbox').trigger('click');
+    expect(wrapper.findAll('.lp-checkbox.is-checked').length).toBe(1);
+    expect(wrapper.findAll('.lp-checkbox .is-indeterminate').length).toBe(2);
     // When node-1-1-1 and node-1-1-2 are checked, node-1-1 should be checked, node-1 should be indeterminate
-    await nodes[3].find('.el-checkbox').trigger('click');
-    expect(wrapper.findAll('.el-checkbox.is-checked').length).toBe(3);
-    expect(wrapper.findAll('.el-checkbox .is-indeterminate').length).toBe(1);
-    await nodes[3].find('.el-checkbox').trigger('click');
-    await nodes[2].find('.el-checkbox').trigger('click');
+    await nodes[3].find('.lp-checkbox').trigger('click');
+    expect(wrapper.findAll('.lp-checkbox.is-checked').length).toBe(3);
+    expect(wrapper.findAll('.lp-checkbox .is-indeterminate').length).toBe(1);
+    await nodes[3].find('.lp-checkbox').trigger('click');
+    await nodes[2].find('.lp-checkbox').trigger('click');
     // test one leaf node
     // When node-1-2-1 is checked, node-1-2 should be checked
-    await nodes[5].find('.el-checkbox').trigger('click');
+    await nodes[5].find('.lp-checkbox').trigger('click');
     expect(
       wrapper
         .findAll(`${TREE_NODE_CLASS_NAME}.is-checked`)
@@ -398,9 +398,9 @@ describe('Virtual Tree', () => {
         .toString(),
     ).toBe(['node-1-2', 'node-1-2-1'].toString());
     // cancel node-1-2-1, node-1-2 should not be checked
-    await nodes[5].find('.el-checkbox').trigger('click');
-    expect(wrapper.findAll('.el-checkbox.is-checked').length).toBe(0);
-    expect(wrapper.findAll('.el-checkbox .is-indeterminate').length).toBe(0);
+    await nodes[5].find('.lp-checkbox').trigger('click');
+    expect(wrapper.findAll('.lp-checkbox.is-checked').length).toBe(0);
+    expect(wrapper.findAll('.lp-checkbox .is-indeterminate').length).toBe(0);
   });
 
   test('defaultCheckedKeys', async () => {
@@ -518,7 +518,7 @@ describe('Virtual Tree', () => {
     expect(treeRef.getHalfCheckedKeys().length).toBe(0);
     // manual
     const nodes = wrapper.findAll(TREE_NODE_CLASS_NAME);
-    await nodes[0].find('.el-checkbox').trigger('click');
+    await nodes[0].find('.lp-checkbox').trigger('click');
     expect(treeRef.getCheckedKeys().length).toBe(3);
   });
 
@@ -864,7 +864,7 @@ describe('Virtual Tree', () => {
       });
       await nextTick();
       const nodes = wrapper.findAll(TREE_NODE_CLASS_NAME);
-      await nodes[2].find('.el-checkbox').trigger('click');
+      await nodes[2].find('.lp-checkbox').trigger('click');
       expect(onNodeCheck).toHaveBeenCalledTimes(1);
       expect(onNodeCheck).toHaveBeenCalledWith(
         { id: '1-1-1', label: 'node-1-1-1' },

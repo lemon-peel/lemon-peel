@@ -9,7 +9,7 @@ const AXIOM = 'Rem is the best girl';
 describe('PageHeader.vue', () => {
   test('render test', () => {
     const wrapper = mount(() => <PageHeader content={AXIOM} />);
-    expect(wrapper.find('.el-page-header__content').text()).toEqual(AXIOM);
+    expect(wrapper.find('.lp-page-header__content').text()).toEqual(AXIOM);
   });
 
   test('should render icon props', () => {
@@ -26,7 +26,7 @@ describe('PageHeader.vue', () => {
         }}
       />
     ));
-    expect(wrapper.find('.el-page-header__icon').text()).toEqual(AXIOM);
+    expect(wrapper.find('.lp-page-header__icon').text()).toEqual(AXIOM);
   });
 
   describe('slots', () => {
@@ -38,7 +38,7 @@ describe('PageHeader.vue', () => {
           }}
         />
       ));
-      expect(wrapper.find('.el-page-header__content').text()).toEqual(AXIOM);
+      expect(wrapper.find('.lp-page-header__content').text()).toEqual(AXIOM);
     });
 
     test('breadcrumb', () => {
@@ -49,8 +49,8 @@ describe('PageHeader.vue', () => {
           }}
         />
       ));
-      expect(wrapper.find('.el-page-header__breadcrumb').exists()).toBe(true);
-      expect(wrapper.classes()).toContain('el-page-header--has-breadcrumb');
+      expect(wrapper.find('.lp-page-header__breadcrumb').exists()).toBe(true);
+      expect(wrapper.classes()).toContain('lp-page-header--has-breadcrumb');
     });
 
     test('extra', () => {
@@ -61,8 +61,8 @@ describe('PageHeader.vue', () => {
           }}
         />
       ));
-      expect(wrapper.find('.el-page-header__extra').exists()).toBe(true);
-      expect(wrapper.classes()).toContain('el-page-header--has-extra');
+      expect(wrapper.find('.lp-page-header__extra').exists()).toBe(true);
+      expect(wrapper.classes()).toContain('lp-page-header--has-extra');
     });
 
     test('default', () => {
@@ -73,14 +73,14 @@ describe('PageHeader.vue', () => {
           }}
         />
       ));
-      expect(wrapper.find('.el-page-header__main').exists()).toBe(true);
+      expect(wrapper.find('.lp-page-header__main').exists()).toBe(true);
       expect(wrapper.classes()).toContain('is-contentful');
     });
   });
 
   test('prop title', () => {
     const wrapper = mount(() => <PageHeader title={AXIOM} />);
-    expect(wrapper.find('.el-page-header__title').text()).toEqual(AXIOM);
+    expect(wrapper.find('.lp-page-header__title').text()).toEqual(AXIOM);
   });
 
   test('slot prop', () => {
@@ -91,13 +91,13 @@ describe('PageHeader.vue', () => {
         }}
       />
     ));
-    expect(wrapper.find('.el-page-header__title').text()).toEqual(AXIOM);
+    expect(wrapper.find('.lp-page-header__title').text()).toEqual(AXIOM);
   });
 
   test('event back', async () => {
     const wrapper = mount(() => <PageHeader content={AXIOM} />);
     const pageHeader = wrapper.findComponent(PageHeader);
-    await pageHeader.find('.el-icon').trigger('click');
+    await pageHeader.find('.lp-icon').trigger('click');
     expect(pageHeader.emitted('back')).toBeDefined();
   });
 });

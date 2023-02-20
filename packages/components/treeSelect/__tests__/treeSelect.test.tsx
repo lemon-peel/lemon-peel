@@ -77,18 +77,18 @@ describe('TreeSelect.vue', () => {
       },
     });
 
-    expect(wrapper.find('.el-tree')).toBeTruthy();
-    expect(wrapper.find('.el-select')).toBeTruthy();
+    expect(wrapper.find('.lp-tree')).toBeTruthy();
+    expect(wrapper.find('.lp-select')).toBeTruthy();
 
-    expect(tree.findAll('.el-tree > .el-tree-node').length).toBe(1);
-    expect(tree.findAll('.el-tree .el-tree-node').length).toBe(3);
-    expect(tree.findAll('.el-tree .el-select-dropdown__item').length).toBe(3);
+    expect(tree.findAll('.lp-tree > .lp-tree-node').length).toBe(1);
+    expect(tree.findAll('.lp-tree .lp-tree-node').length).toBe(3);
+    expect(tree.findAll('.lp-tree .lp-select-dropdown__item').length).toBe(3);
 
     wrapper.findComponent(TreeSelect).vm.data[0].children = [];
 
     await nextTick();
 
-    expect(tree.findAll('.el-tree .el-tree-node').length).toBe(1);
+    expect(tree.findAll('.lp-tree .lp-tree-node').length).toBe(1);
   });
 
   test('modelValue', async () => {
@@ -114,19 +114,19 @@ describe('TreeSelect.vue', () => {
     expect(wrapperRef.getCheckedKeys()).toEqual([11]);
 
     await tree
-      .findAll('.el-select-dropdown__item')
+      .findAll('.lp-select-dropdown__item')
       .slice(-1)[0]
       .trigger('click');
     await nextTick();
     expect(select.vm.modelValue).toBe(111);
     expect(wrapperRef.getCheckedKeys()).toEqual([111]);
 
-    await tree.find('.el-tree-node__content').trigger('click');
+    await tree.find('.lp-tree-node__content').trigger('click');
     await nextTick();
     expect(select.vm.modelValue).toBe(1);
     expect(wrapperRef.getCheckedKeys()).toEqual([1]);
 
-    await tree.findAll('.el-checkbox__original')[1].trigger('click');
+    await tree.findAll('.lp-checkbox__original')[1].trigger('click');
     await nextTick();
     expect(select.vm.modelValue).toBe(11);
     expect(wrapperRef.getCheckedKeys()).toEqual([11]);
@@ -156,10 +156,10 @@ describe('TreeSelect.vue', () => {
     });
 
     await nextTick();
-    await tree.find('.el-tree-node').trigger('click');
-    await tree.find('.el-tree-node .el-checkbox.is-disabled').trigger('click');
+    await tree.find('.lp-tree-node').trigger('click');
+    await tree.find('.lp-tree-node .lp-checkbox.is-disabled').trigger('click');
     await tree
-      .find('.el-tree-node .el-select-dropdown__item.is-disabled')
+      .find('.lp-tree-node .lp-select-dropdown__item.is-disabled')
       .trigger('click');
     await nextTick();
     expect(wrapper.findComponent(TreeSelect).vm.modelValue).toBe('1');
@@ -189,19 +189,19 @@ describe('TreeSelect.vue', () => {
     expect(wrapperRef.getCheckedKeys()).toEqual([11]);
 
     await tree
-      .findAll('.el-select-dropdown__item')
+      .findAll('.lp-select-dropdown__item')
       .slice(-1)[0]
       .trigger('click');
     await nextTick();
     expect(select.vm.modelValue).toEqual([11, 111]);
     expect(wrapperRef.getCheckedKeys()).toEqual([11, 111]);
 
-    await tree.find('.el-tree-node__content').trigger('click');
+    await tree.find('.lp-tree-node__content').trigger('click');
     await nextTick();
     expect(select.vm.modelValue).toEqual([1, 11, 111]);
     expect(wrapperRef.getCheckedKeys()).toEqual([1, 11, 111]);
 
-    await tree.findAll('.el-checkbox')[1].trigger('click');
+    await tree.findAll('.lp-checkbox')[1].trigger('click');
     await nextTick();
     expect(select.vm.modelValue).toEqual([1, 111]);
     expect(wrapperRef.getCheckedKeys()).toEqual([1, 111]);
@@ -216,7 +216,7 @@ describe('TreeSelect.vue', () => {
 
     tree.vm.filter('一级 1');
     await nextTick();
-    expect(tree.findAll('.el-tree-node:not(.is-hidden)').length).toBe(1);
+    expect(tree.findAll('.lp-tree-node:not(.is-hidden)').length).toBe(1);
   });
 
   test('props', async () => {
@@ -243,7 +243,7 @@ describe('TreeSelect.vue', () => {
     });
 
     await nextTick();
-    expect(tree.find('.el-select-dropdown__item').text()).toBe('1');
+    expect(tree.find('.lp-select-dropdown__item').text()).toBe('1');
     await wrapper.setProps({ modelValue: '2' });
     expect(select.vm.selectedLabel).toBe('2');
   });
@@ -257,8 +257,8 @@ describe('TreeSelect.vue', () => {
     });
 
     await nextTick();
-    expect(tree.find('.el-select-dropdown__item').text()).toBe('123一级 1');
-    expect(select.find('.el-input__prefix-inner').text()).toBe('prefix');
+    expect(tree.find('.lp-select-dropdown__item').text()).toBe('123一级 1');
+    expect(select.find('.lp-input__prefix-inner').text()).toBe('prefix');
   });
 
   test('renderContent', async () => {
@@ -274,7 +274,7 @@ describe('TreeSelect.vue', () => {
     });
 
     await nextTick();
-    expect(tree.find('.el-select-dropdown__item').text()).toBe('123一级 1');
+    expect(tree.find('.lp-select-dropdown__item').text()).toBe('123一级 1');
   });
 
   test('lazy', async () => {
@@ -294,9 +294,9 @@ describe('TreeSelect.vue', () => {
     });
 
     await nextTick();
-    await tree.find('.el-tree-node').trigger('click');
+    await tree.find('.lp-tree-node').trigger('click');
     await nextTick();
-    expect(tree.find('.el-tree-node .el-tree-node').text()).toBe('2');
+    expect(tree.find('.lp-tree-node .lp-tree-node').text()).toBe('2');
   });
 
   test('events', async () => {
@@ -307,7 +307,7 @@ describe('TreeSelect.vue', () => {
       },
     });
     await nextTick();
-    await tree.find('.el-tree-node').trigger('click');
+    await tree.find('.lp-tree-node').trigger('click');
     await nextTick();
     expect(onNodeClick).toBeCalled();
   });
@@ -322,13 +322,13 @@ describe('TreeSelect.vue', () => {
     });
 
     const wrapperRef = await getWrapperRef();
-    await tree.findAll('.el-tree-node__content')[0].trigger('click');
+    await tree.findAll('.lp-tree-node__content')[0].trigger('click');
     await nextTick();
     expect(select.vm.modelValue).toEqual([]);
     expect(wrapperRef.getCheckedKeys()).toEqual([]);
 
     await tree
-      .findAll('.el-tree-node__content .el-checkbox')[0]
+      .findAll('.lp-tree-node__content .lp-checkbox')[0]
       .trigger('click');
     await nextTick();
     expect(select.vm.modelValue).toEqual([1]);
@@ -346,13 +346,13 @@ describe('TreeSelect.vue', () => {
     });
 
     const wrapperRef = await getWrapperRef();
-    await tree.findAll('.el-tree-node__content')[0].trigger('click');
+    await tree.findAll('.lp-tree-node__content')[0].trigger('click');
     await nextTick();
     expect(select.vm.modelValue).toEqual([1]);
     expect(wrapperRef.getCheckedKeys()).toEqual([1]);
 
     await tree
-      .findAll('.el-tree-node__content .el-checkbox')[0]
+      .findAll('.lp-tree-node__content .lp-checkbox')[0]
       .trigger('click');
     await nextTick();
     expect(select.vm.modelValue).toEqual([]);
@@ -369,14 +369,14 @@ describe('TreeSelect.vue', () => {
     // check child node when folder node checked,
     // value.value will be 111
     await tree
-      .find('.el-tree-node__content .el-checkbox__original')
+      .find('.lp-tree-node__content .lp-checkbox__original')
       .trigger('click');
     await nextTick();
     expect(select.vm.modelValue).equal(111);
 
     // unselect when has child checked
     await tree
-      .find('.el-tree-node__content .el-checkbox__original')
+      .find('.lp-tree-node__content .lp-checkbox__original')
       .trigger('click');
     await nextTick();
     expect(select.vm.modelValue).toBe(undefined);
@@ -392,12 +392,12 @@ describe('TreeSelect.vue', () => {
 
     // check child node when folder node checked,
     // value.value will be 111
-    await tree.findAll('.el-tree-node__content').slice(-1)[0].trigger('click');
+    await tree.findAll('.lp-tree-node__content').slice(-1)[0].trigger('click');
     await nextTick();
     expect(select.vm.modelValue).equal(111);
 
     // unselect when has child checked
-    await tree.findAll('.el-tree-node__content').slice(-1)[0].trigger('click');
+    await tree.findAll('.lp-tree-node__content').slice(-1)[0].trigger('click');
     await nextTick();
     expect(select.vm.modelValue).toBe(undefined);
   });
@@ -422,15 +422,15 @@ describe('TreeSelect.vue', () => {
       },
     });
 
-    await tree.findAll('.el-tree-node__content')[0].trigger('click');
+    await tree.findAll('.lp-tree-node__content')[0].trigger('click');
     expect(
-      tree.findAll('.el-tree-node__children')[0].attributes('style'),
+      tree.findAll('.lp-tree-node__children')[0].attributes('style'),
     ).toContain('display: none;');
 
     await wrapper.setProps({ expandOnClickNode: true });
-    await tree.findAll('.el-tree-node__content')[0].trigger('click');
+    await tree.findAll('.lp-tree-node__content')[0].trigger('click');
     expect(
-      tree.findAll('.el-tree-node__children')[0].attributes('style'),
+      tree.findAll('.lp-tree-node__children')[0].attributes('style'),
     ).not.toContain('display: none;');
   });
 });

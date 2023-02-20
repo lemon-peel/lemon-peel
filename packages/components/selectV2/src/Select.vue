@@ -90,7 +90,7 @@
                           :key="idx"
                           :class="nsSelectV2.e('selected-item')"
                         >
-                          <el-tag
+                          <lp-tag
                             :key="getValueKey(selected)"
                             :closable="!selectDisabled && !selected.disabled"
                             :size="collapseTagSize"
@@ -105,7 +105,7 @@
                                 maxWidth: `${tagMaxWidth}px`,
                               }"
                             >{{ getLabel(selected) }}</span>
-                          </el-tag>
+                          </lp-tag>
                         </div>
                       </div>
                     </template>
@@ -256,26 +256,26 @@
             {{ currentPlaceholder }}
           </span>
           <span :class="nsSelectV2.e('suffix')">
-            <el-icon
+            <lp-icon
               v-if="iconComponent"
               v-show="!showClearBtn"
               :class="[nsSelectV2.e('caret'), nsInput.e('icon'), iconReverse]"
             >
               <component :is="iconComponent" />
-            </el-icon>
-            <el-icon
+            </lp-icon>
+            <lp-icon
               v-if="showClearBtn && clearIcon"
               :class="[nsSelectV2.e('caret'), nsInput.e('icon')]"
               @click.prevent.stop="handleClear"
             >
               <component :is="clearIcon" />
-            </el-icon>
-            <el-icon
+            </lp-icon>
+            <lp-icon
               v-if="validateState && validateIcon"
               :class="[nsInput.e('icon'), nsInput.e('validateIcon')]"
             >
               <component :is="validateIcon" />
-            </el-icon>
+            </lp-icon>
           </span>
         </div>
       </template>

@@ -43,7 +43,7 @@ describe('TimePicker', () => {
     const input = wrapper.find('input');
     expect(input.attributes('placeholder')).toBe('test_');
     expect(input.attributes('readonly')).not.toBeUndefined();
-    const outterInput = wrapper.find('.el-input');
+    const outterInput = wrapper.find('.lp-input');
     expect(outterInput.classes()).toContain('customClass');
     expect(outterInput.attributes().style).toBeDefined();
   });
@@ -61,18 +61,18 @@ describe('TimePicker', () => {
     input.trigger('blur');
     input.trigger('focus');
     await nextTick();
-    const list = document.querySelectorAll('.el-time-spinner__list');
+    const list = document.querySelectorAll('.lp-time-spinner__list');
     const hoursEl = list[0];
-    const items = hoursEl.querySelectorAll('.el-time-spinner__item');
+    const items = hoursEl.querySelectorAll('.lp-time-spinner__item');
     expect(items[0].textContent).toBe('12 AM'); // am pm
     expect(items[1].textContent).toBe('01 AM');
     expect(items[12].textContent).toBe('12 PM');
     expect(items[15].textContent).toBe('03 PM');
-    const times = document.querySelectorAll('.el-time-spinner__list .is-active');
+    const times = document.querySelectorAll('.lp-time-spinner__list .is-active');
     expect(times[0].textContent).toBe('06 PM');
     expect(times[1].textContent).toBe('40'); // default value
     expect(times[2].textContent).toBe('00');
-    const panel = document.querySelector('.el-time-panel') as any;
+    const panel = document.querySelector('.lp-time-panel') as any;
     expect(panel.classList.contains('customClass')).toBeFalsy();
   });
 
@@ -84,16 +84,16 @@ describe('TimePicker', () => {
     input.trigger('blur');
     input.trigger('focus');
     await nextTick();
-    const list = document.querySelectorAll('.el-time-spinner__list');
+    const list = document.querySelectorAll('.lp-time-spinner__list');
     const hoursEl = list[0];
     const minutesEl = list[1];
     const secondsEl = list[2];
-    const hourEl = hoursEl.querySelectorAll('.el-time-spinner__item')[4] as any;
+    const hourEl = hoursEl.querySelectorAll('.lp-time-spinner__item')[4] as any;
     const minuteEl = minutesEl.querySelectorAll(
-      '.el-time-spinner__item',
+      '.lp-time-spinner__item',
     )[36] as any;
     const secondEl = secondsEl.querySelectorAll(
-      '.el-time-spinner__item',
+      '.lp-time-spinner__item',
     )[20] as any;
     // click hour, minute, second one at a time.
     hourEl.click();
@@ -120,13 +120,13 @@ describe('TimePicker', () => {
     input.trigger('blur');
     input.trigger('focus');
     await nextTick()
-    ;(document.querySelector('.el-time-panel__btn.cancel') as any).click();
+    ;(document.querySelector('.lp-time-panel__btn.cancel') as any).click();
 
     expect(value.value).toBe('');
     input.trigger('blur');
     input.trigger('focus');
     await nextTick()
-    ;(document.querySelector('.el-time-panel__btn.confirm') as any).click();
+    ;(document.querySelector('.lp-time-panel__btn.confirm') as any).click();
     expect(value.value).toBeInstanceOf(Date);
   });
 
@@ -141,16 +141,16 @@ describe('TimePicker', () => {
     await nextTick();
 
     // select time
-    const list = document.querySelectorAll('.el-time-spinner__list');
+    const list = document.querySelectorAll('.lp-time-spinner__list');
     const hoursEl = list[0];
     const minutesEl = list[1];
     const secondsEl = list[2];
-    const hourEl = hoursEl.querySelectorAll('.el-time-spinner__item')[4] as any;
+    const hourEl = hoursEl.querySelectorAll('.lp-time-spinner__item')[4] as any;
     const minuteEl = minutesEl.querySelectorAll(
-      '.el-time-spinner__item',
+      '.lp-time-spinner__item',
     )[36] as any;
     const secondEl = secondsEl.querySelectorAll(
-      '.el-time-spinner__item',
+      '.lp-time-spinner__item',
     )[20] as any;
     hourEl.click();
     await nextTick();
@@ -160,7 +160,7 @@ describe('TimePicker', () => {
     await nextTick()
 
     // click confirm button
-    ;(document.querySelector('.el-time-panel__btn.confirm') as any).click();
+    ;(document.querySelector('.lp-time-panel__btn.confirm') as any).click();
     const date = value.value;
     expect(date.getHours()).toBe(4);
     expect(date.getMinutes()).toBe(36);
@@ -170,7 +170,7 @@ describe('TimePicker', () => {
     input.trigger('blur');
     input.trigger('focus');
     await nextTick()
-    ;(document.querySelector('.el-time-panel__btn.cancel') as any).click();
+    ;(document.querySelector('.lp-time-panel__btn.cancel') as any).click();
     expect(date.getHours()).toBe(4);
     expect(date.getMinutes()).toBe(36);
     expect(date.getSeconds()).toBe(20);
@@ -186,7 +186,7 @@ describe('TimePicker', () => {
     input.trigger('blur');
     input.trigger('focus');
     await nextTick();
-    const spinnerDom = document.querySelectorAll('.el-time-spinner__wrapper');
+    const spinnerDom = document.querySelectorAll('.lp-time-spinner__wrapper');
     const minutesDom = spinnerDom[1];
     const secondsDom = spinnerDom[2];
     expect(minutesDom).not.toBeUndefined();
@@ -228,13 +228,13 @@ describe('TimePicker', () => {
     input.trigger('focus');
     await nextTick();
     await rAF();
-    const list = document.querySelectorAll('.el-time-spinner__list');
+    const list = document.querySelectorAll('.lp-time-spinner__list');
     const hoursEl = list[0];
-    const hourEl = hoursEl.querySelectorAll('.el-time-spinner__item')[4] as any;
+    const hourEl = hoursEl.querySelectorAll('.lp-time-spinner__item')[4] as any;
     hourEl.click();
     await nextTick();
     expect(changeHandler).toHaveBeenCalledTimes(0)
-    ;(document.querySelector('.el-time-panel__btn.confirm') as any).click();
+    ;(document.querySelector('.lp-time-panel__btn.confirm') as any).click();
     await nextTick();
     await nextTick(); // onchange is triggered by props.modelValue update
     expect(changeHandler).toHaveBeenCalledTimes(1);
@@ -288,13 +288,13 @@ describe('TimePicker', () => {
     input.trigger('focus');
     await nextTick();
 
-    const list = document.querySelectorAll('.el-time-spinner__list');
+    const list = document.querySelectorAll('.lp-time-spinner__list');
     const hoursEl = list[0];
     const minutesEl = list[1];
     const secondsEl = list[2];
     const disabledHours = getSpinnerTextAsArray(hoursEl, '.is-disabled');
     expect(disabledHours).toEqual(disabledHoursArr);
-    const hourSpinners = hoursEl.querySelectorAll('.el-time-spinner__item')
+    const hourSpinners = hoursEl.querySelectorAll('.lp-time-spinner__item')
     ;(hourSpinners[18] as any).click();
     await nextTick();
     const disabledMinutes = getSpinnerTextAsArray(minutesEl, '.is-disabled');
@@ -325,7 +325,7 @@ describe('TimePicker', () => {
     await nextTick();
     // These following two allows popper to gets rendered.
     await rAF();
-    const popperEl = document.querySelector('.el-picker__popper');
+    const popperEl = document.querySelector('.lp-picker__popper');
     const attr = popperEl.getAttribute('aria-hidden');
     expect(attr).toEqual('false');
   });
@@ -341,7 +341,7 @@ describe('TimePicker', () => {
     timePickerExposed.blur();
 
     await nextTick();
-    const popperEl = document.querySelector('.el-picker__popper');
+    const popperEl = document.querySelector('.lp-picker__popper');
     const attr = popperEl.getAttribute('aria-hidden');
     expect(attr).toEqual('false');
   });
@@ -355,7 +355,7 @@ describe('TimePicker', () => {
     timePickerExposed.handleOpen();
 
     await nextTick();
-    const popperEl = document.querySelector('.el-picker__popper');
+    const popperEl = document.querySelector('.lp-picker__popper');
     const attr = popperEl.getAttribute('aria-hidden');
     expect(attr).toEqual('false');
   });
@@ -373,7 +373,7 @@ describe('TimePicker', () => {
     timePickerExposed.handleClose();
 
     await nextTick();
-    const popperEl = document.querySelector('.el-picker__popper');
+    const popperEl = document.querySelector('.lp-picker__popper');
     const attr = popperEl.getAttribute('aria-hidden');
     expect(attr).toEqual('true');
 
@@ -451,13 +451,13 @@ describe('TimePicker', () => {
     input.trigger('focus');
     await nextTick();
 
-    const list = document.querySelectorAll('.el-time-spinner__list');
+    const list = document.querySelectorAll('.lp-time-spinner__list');
     const hoursEl = list[0];
     let activeHours = getSpinnerTextAsArray(hoursEl, '.is-active')[0];
 
     expect(activeHours).toEqual(20);
     const hoursLpWrapperList = document.querySelectorAll(
-      '.el-time-spinner__wrapper',
+      '.lp-time-spinner__wrapper',
     );
     const hoursLpWrapper = hoursLpWrapperList[0];
     const hoursLpArrowDown: Element | null =
@@ -499,7 +499,7 @@ describe('TimePicker(range)', () => {
       },
     );
 
-    expect(wrapper.find('.el-range-editor--small').exists()).toBeTruthy();
+    expect(wrapper.find('.lp-range-editor--small').exists()).toBeTruthy();
     const input = wrapper.find('input');
     input.trigger('blur');
     input.trigger('focus');
@@ -507,7 +507,7 @@ describe('TimePicker(range)', () => {
     // For skipping Transition animation
     await rAF();
     const list = document.querySelectorAll(
-      '.el-time-spinner__list .el-time-spinner__item.is-active',
+      '.lp-time-spinner__list .lp-time-spinner__item.is-active',
     )
 
     ;['18', '40', '00', '19', '40', '00'].forEach((_, i) => {
@@ -541,7 +541,7 @@ describe('TimePicker(range)', () => {
     // For skipping Transition animation
     await rAF();
     const list = document.querySelectorAll(
-      '.el-time-spinner__list .el-time-spinner__item.is-active',
+      '.lp-time-spinner__list .lp-time-spinner__item.is-active',
     )
 
     ;['10', '20', '00', '11', '10', '00'].forEach((_, i) => {
@@ -566,18 +566,18 @@ describe('TimePicker(range)', () => {
     await nextTick();
     // For skipping Transition animation
     await rAF()
-    ;(document.querySelector('.el-time-panel__btn.cancel') as any).click();
+    ;(document.querySelector('.lp-time-panel__btn.cancel') as any).click();
     await rAF();
 
     expect(value.value).toEqual(cancelDates);
     expect((wrapper.findComponent(Picker).vm as any).pickerVisible).toEqual(
       false,
     );
-    expect(document.querySelector('.el-picker-panel')).toBeNull();
+    expect(document.querySelector('.lp-picker-panel')).toBeNull();
     input.trigger('blur');
     input.trigger('focus');
     await nextTick()
-    ;(document.querySelector('.el-time-panel__btn.confirm') as any).click();
+    ;(document.querySelector('.lp-time-panel__btn.confirm') as any).click();
     expect(Array.isArray(value.value)).toBeTruthy();
     value.value.forEach((v: unknown) => {
       expect(v).toBeInstanceOf(Date);
@@ -591,8 +591,8 @@ describe('TimePicker(range)', () => {
     ]);
     const wrapper = mount(() => <TimePicker v-model={value.value} is-range />);
 
-    const findInputWrapper = () => wrapper.find('.el-date-editor');
-    const findClear = () => wrapper.find('.el-range__close-icon');
+    const findInputWrapper = () => wrapper.find('.lp-date-editor');
+    const findClear = () => wrapper.find('.lp-range__close-icon');
 
     await nextTick();
     const inputWrapper = findInputWrapper();
@@ -630,7 +630,7 @@ describe('TimePicker(range)', () => {
     // For skipping Transition animation
     await rAF();
 
-    const list = document.querySelectorAll('.el-time-spinner__list');
+    const list = document.querySelectorAll('.lp-time-spinner__list');
     const leftHoursEl = list[0];
     const leftEndbledHours = getSpinnerTextAsArray(
       leftHoursEl,
@@ -643,7 +643,7 @@ describe('TimePicker(range)', () => {
       ':not(.is-disabled)',
     );
     expect(rightEndbledHours).toEqual([11, 12, 13, 14, 15, 16])
-    ;(leftHoursEl.querySelectorAll('.el-time-spinner__item')[12] as any).click();
+    ;(leftHoursEl.querySelectorAll('.lp-time-spinner__item')[12] as any).click();
     await nextTick();
     const NextRightEndbledHours = getSpinnerTextAsArray(
       rightHoursEl,
@@ -733,20 +733,20 @@ describe('TimePicker(range)', () => {
     // For skipping Transition animation
     await rAF();
 
-    const list = document.querySelectorAll('.el-time-spinner__list');
+    const list = document.querySelectorAll('.lp-time-spinner__list');
     expect(
       list[0]
-        .querySelector('.el-time-spinner__item.is-active')
+        .querySelector('.lp-time-spinner__item.is-active')
         .innerHTML.split(' ').length,
     ).toBe(2);
     expect(
       list[1]
-        .querySelector('.el-time-spinner__item.is-active')
+        .querySelector('.lp-time-spinner__item.is-active')
         .innerHTML.split(' ').length,
     ).toBe(1);
     expect(
       list[2]
-        .querySelector('.el-time-spinner__item.is-active')
+        .querySelector('.lp-time-spinner__item.is-active')
         .innerHTML.split(' ').length,
     ).toBe(1);
   });
@@ -761,8 +761,8 @@ describe('TimePicker(range)', () => {
 
       await nextTick();
       const formItem = wrapper.find('[data-test-ref="item"]');
-      const formItemLabel = formItem.find('.el-form-item__label');
-      const timePickerInput = wrapper.find('.el-input__inner');
+      const formItemLabel = formItem.find('.lp-form-item__label');
+      const timePickerInput = wrapper.find('.lp-input__inner');
       expect(formItem.attributes().role).toBeFalsy();
       expect(formItemLabel.attributes().for).toBe(
         timePickerInput.attributes().id,
@@ -778,8 +778,8 @@ describe('TimePicker(range)', () => {
 
       await nextTick();
       const formItem = wrapper.find('[data-test-ref="item"]');
-      const formItemLabel = formItem.find('.el-form-item__label');
-      const timePickerInput = wrapper.find('.el-input__inner');
+      const formItemLabel = formItem.find('.lp-form-item__label');
+      const timePickerInput = wrapper.find('.lp-input__inner');
       expect(formItem.attributes().role).toBeFalsy();
       expect(timePickerInput.attributes().id).toBe('foobar');
       expect(formItemLabel.attributes().for).toBe(
@@ -834,10 +834,10 @@ describe('TimePicker(range)', () => {
       await clearIcon.trigger('click');
       await rAF();
       expect(document.activeElement).toBe(wrapper.find('input').element);
-      expect(document.querySelector('.el-time-panel')).toBeFalsy();
+      expect(document.querySelector('.lp-time-panel')).toBeFalsy();
       await input.vm.$emit('input', 'a');
       await rAF();
-      expect(document.querySelector('.el-time-panel')).toBeTruthy();
+      expect(document.querySelector('.lp-time-panel')).toBeTruthy();
     });
 
     it('should be able to focus back and callout picker after pick', async () => {
@@ -846,15 +846,15 @@ describe('TimePicker(range)', () => {
       const input = findInput();
       input.vm.$emit('input', 'a');
       await rAF();
-      expect(document.querySelector('.el-time-panel')).toBeTruthy();
+      expect(document.querySelector('.lp-time-panel')).toBeTruthy();
       picker.vm.onPick('', false);
       await rAF(); // Picker triggers popup close, event propagation
       await rAF(); // Focus trap recognizes focusout event, and propagation
       expect(document.activeElement).toBe(wrapper.find('input').element);
-      expect(document.querySelector('.el-time-panel')).toBeFalsy();
+      expect(document.querySelector('.lp-time-panel')).toBeFalsy();
       input.vm.$emit('input', 'a');
       await rAF();
-      expect(document.querySelector('.el-time-panel')).toBeTruthy();
+      expect(document.querySelector('.lp-time-panel')).toBeTruthy();
     });
   });
 

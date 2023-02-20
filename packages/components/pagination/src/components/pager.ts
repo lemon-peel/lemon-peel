@@ -1,20 +1,11 @@
 import { buildProps } from '@lemon-peel/utils';
 import type { ExtractPropTypes } from 'vue';
-import type Pager from './pager.vue';
+import type Pager from './Pager.vue';
 
 export const paginationPagerProps = buildProps({
-  currentPage: {
-    type: Number,
-    default: 1,
-  },
-  pageCount: {
-    type: Number,
-    required: true,
-  },
-  pagerCount: {
-    type: Number,
-    default: 7,
-  },
+  currentPage: { type: Number, default: 1 },
+  pageCount: { type: Number, required: true },
+  pagerCount: { type: Number, default: 7 },
   disabled: Boolean,
 } as const);
 

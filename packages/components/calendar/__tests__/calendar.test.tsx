@@ -23,10 +23,10 @@ describe('Calendar.vue', () => {
         return <Calendar v-model={this.value} />
       },
     })
-    const titleEl = wrapper.find('.el-calendar__title')
+    const titleEl = wrapper.find('.lp-calendar__title')
     expect(/2019.*April/.test(titleEl.element?.innerHTML)).toBeTruthy()
     expect(wrapper.element.querySelectorAll('thead th').length).toBe(7)
-    const rows = wrapper.element.querySelectorAll('.el-calendar-table__row')
+    const rows = wrapper.element.querySelectorAll('.lp-calendar-table__row')
     expect(rows.length).toBe(5)
     ;(rows[4].lastElementChild as HTMLElement).click()
 
@@ -43,12 +43,12 @@ describe('Calendar.vue', () => {
     const wrapper = mount(() => (
       <Calendar range={[new Date(2019, 2, 4), new Date(2019, 2, 24)]} />
     ))
-    const titleEl = wrapper.find('.el-calendar__title')
+    const titleEl = wrapper.find('.lp-calendar__title')
     expect(/2019.*March/.test(titleEl.element.innerHTML)).toBeTruthy()
-    const rows = wrapper.element.querySelectorAll('.el-calendar-table__row')
+    const rows = wrapper.element.querySelectorAll('.lp-calendar-table__row')
     expect(rows.length).toBe(4)
     expect(
-      wrapper.element.querySelector('.el-calendar__button-group')
+      wrapper.element.querySelector('.lp-calendar__button-group')
     ).toBeNull()
   })
 
@@ -57,12 +57,12 @@ describe('Calendar.vue', () => {
     const wrapper = mount(() => (
       <Calendar range={[new Date(2021, 1, 2), new Date(2021, 1, 28)]} />
     ))
-    const titleEl = wrapper.find('.el-calendar__title')
+    const titleEl = wrapper.find('.lp-calendar__title')
     expect(/2021.*January/.test(titleEl.element.innerHTML)).toBeTruthy()
-    const rows = wrapper.element.querySelectorAll('.el-calendar-table__row')
+    const rows = wrapper.element.querySelectorAll('.lp-calendar-table__row')
     expect(rows.length).toBe(5)
     expect(
-      wrapper.element.querySelector('.el-calendar__button-group')
+      wrapper.element.querySelector('.lp-calendar__button-group')
     ).toBeNull()
   })
 
@@ -70,13 +70,13 @@ describe('Calendar.vue', () => {
     const wrapper = mount(() => (
       <Calendar range={[new Date(2019, 3, 14), new Date(2019, 4, 18)]} />
     ))
-    const titleEl = wrapper.find('.el-calendar__title')
+    const titleEl = wrapper.find('.lp-calendar__title')
     expect(/2019.*April/.test(titleEl.element.innerHTML)).toBeTruthy()
     const dateTables = wrapper.element.querySelectorAll(
-      '.el-calendar-table.is-range'
+      '.lp-calendar-table.is-range'
     )
     expect(dateTables.length).toBe(2)
-    const rows = wrapper.element.querySelectorAll('.el-calendar-table__row')
+    const rows = wrapper.element.querySelectorAll('.lp-calendar-table__row')
     expect(rows.length).toBe(5)
     const cell = rows[rows.length - 1].firstElementChild as HTMLElement
     cell.click()
@@ -92,13 +92,13 @@ describe('Calendar.vue', () => {
     const wrapper = mount(() => (
       <Calendar range={[new Date(2021, 1, 2), new Date(2021, 2, 21)]} />
     ))
-    const titleEl = wrapper.find('.el-calendar__title')
+    const titleEl = wrapper.find('.lp-calendar__title')
     expect(/2021.*January/.test(titleEl.element.innerHTML)).toBeTruthy()
     const dateTables = wrapper.element.querySelectorAll(
-      '.el-calendar-table.is-range'
+      '.lp-calendar-table.is-range'
     )
     expect(dateTables.length).toBe(3)
-    const rows = wrapper.element.querySelectorAll('.el-calendar-table__row')
+    const rows = wrapper.element.querySelectorAll('.lp-calendar-table__row')
     expect(rows.length).toBe(8)
     const cell = rows[rows.length - 1].firstElementChild as HTMLElement
     cell.click()
@@ -117,10 +117,10 @@ describe('Calendar.vue', () => {
         return <Calendar v-model={this.value} />
       },
     })
-    const head = wrapper.element.querySelector('.el-calendar-table thead')
+    const head = wrapper.element.querySelector('.lp-calendar-table thead')
     expect(head?.firstElementChild?.innerHTML).toBe('Sun')
     expect(head?.lastElementChild?.innerHTML).toBe('Sat')
-    const firstRow = wrapper.element.querySelector('.el-calendar-table__row')
+    const firstRow = wrapper.element.querySelector('.lp-calendar-table__row')
     expect(firstRow?.firstElementChild?.innerHTML).toContain('31')
     expect(firstRow?.lastElementChild?.innerHTML).toContain('6')
   })
@@ -133,13 +133,13 @@ describe('Calendar.vue', () => {
         return <Calendar v-model={this.value} />
       },
     })
-    const head = wrapper.element.querySelector('.el-calendar-table thead')
+    const head = wrapper.element.querySelector('.lp-calendar-table thead')
     expect(head?.firstElementChild?.innerHTML).toBe('Mon')
     expect(head?.lastElementChild?.innerHTML).toBe('Sun')
-    const firstRow = wrapper.element.querySelector('.el-calendar-table__row')
+    const firstRow = wrapper.element.querySelector('.lp-calendar-table__row')
     expect(firstRow?.firstElementChild?.innerHTML).toContain('26')
     expect(firstRow?.lastElementChild?.innerHTML).toContain('1')
-    const rows = wrapper.element.querySelectorAll('.el-calendar-table__row')
+    const rows = wrapper.element.querySelectorAll('.lp-calendar-table__row')
     expect(rows.length).toBe(6)
     // reset weekStart 0
     setDayjsWeekStart()
@@ -157,10 +157,10 @@ describe('Calendar.vue', () => {
         )
       },
     })
-    const head = wrapper.element.querySelector('.el-calendar-table thead')
+    const head = wrapper.element.querySelector('.lp-calendar-table thead')
     expect(head?.firstElementChild?.innerHTML).toBe('Sun')
     expect(head?.lastElementChild?.innerHTML).toBe('Sat')
-    const firstRow = wrapper.element.querySelector('.el-calendar-table__row')
+    const firstRow = wrapper.element.querySelector('.lp-calendar-table__row')
     expect(firstRow?.firstElementChild?.innerHTML).toContain('3')
     expect(firstRow?.lastElementChild?.innerHTML).toContain('9')
   })
@@ -173,7 +173,7 @@ describe('Calendar.vue', () => {
       },
     })
     await nextTick()
-    const btns = wrapper.findAll('.el-button')
+    const btns = wrapper.findAll('.lp-button')
     const prevBtn = btns.at(0)
     const nextBtn = btns.at(2)
     await prevBtn?.trigger('click')
@@ -186,13 +186,13 @@ describe('Calendar.vue', () => {
     const wrapper = mount(() => (
       <Calendar range={[new Date(2022, 0, 1), new Date(2022, 0, 31)]} />
     ))
-    const titleEl = wrapper.find('.el-calendar__title')
+    const titleEl = wrapper.find('.lp-calendar__title')
     expect(/2021.*December/.test(titleEl.element.innerHTML)).toBeTruthy()
     const dateTables = wrapper.element.querySelectorAll(
-      '.el-calendar-table.is-range'
+      '.lp-calendar-table.is-range'
     )
     expect(dateTables.length).toBe(3)
-    const rows = wrapper.element.querySelectorAll('.el-calendar-table__row')
+    const rows = wrapper.element.querySelectorAll('.lp-calendar-table__row')
     expect(rows.length).toBe(6)
     const cell = rows[rows.length - 1].firstElementChild as HTMLElement
     cell.click()
@@ -207,13 +207,13 @@ describe('Calendar.vue', () => {
     const wrapper = mount(() => (
       <Calendar range={[new Date(2021, 11, 20), new Date(2022, 0, 10)]} />
     ))
-    const titleEl = wrapper.find('.el-calendar__title')
+    const titleEl = wrapper.find('.lp-calendar__title')
     expect(/2021.*December/.test(titleEl.element.innerHTML)).toBeTruthy()
     const dateTables = wrapper.element.querySelectorAll(
-      '.el-calendar-table.is-range'
+      '.lp-calendar-table.is-range'
     )
     expect(dateTables.length).toBe(2)
-    const rows = wrapper.element.querySelectorAll('.el-calendar-table__row')
+    const rows = wrapper.element.querySelectorAll('.lp-calendar-table__row')
     expect(rows.length).toBe(4)
     const cell = rows[rows.length - 1].firstElementChild as HTMLElement
     cell.click()
@@ -234,7 +234,7 @@ describe('Calendar.vue', () => {
       />
     ))
 
-    expect(wrapper.find('.el-calendar__header').text()).toEqual(AXIOM)
+    expect(wrapper.find('.lp-calendar__header').text()).toEqual(AXIOM)
     expect(wrapper.find('.current.is-today').text()).toEqual(AXIOM)
   })
 })

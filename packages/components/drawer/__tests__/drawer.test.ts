@@ -32,8 +32,8 @@ describe('Drawer', () => {
     await nextTick();
     await rAF();
     await nextTick();
-    const wrapperEl = wrapper.find('.el-overlay').element as HTMLDivElement;
-    const headerEl = wrapper.find('.el-drawer__header').element;
+    const wrapperEl = wrapper.find('.lp-overlay').element as HTMLDivElement;
+    const headerEl = wrapper.find('.lp-drawer__header').element;
 
     await nextTick();
     expect(wrapperEl.style.display).not.toEqual('none');
@@ -58,10 +58,10 @@ describe('Drawer', () => {
     await nextTick();
     await rAF();
     await nextTick();
-    expect(wrapper.find('.el-drawer__body span').element.textContent).toEqual(
+    expect(wrapper.find('.lp-drawer__body span').element.textContent).toEqual(
       'this is a sentence',
     );
-    const footerBtns = wrapper.findAll('.el-button');
+    const footerBtns = wrapper.findAll('.lp-button');
     expect(footerBtns.length).toEqual(2);
     expect(footerBtns[0].find('span').element.textContent).toEqual('cancel');
     expect(footerBtns[1].find('span').element.textContent).toEqual('confirm');
@@ -85,7 +85,7 @@ describe('Drawer', () => {
     await nextTick();
     await rAF();
     await nextTick();
-    expect(document.querySelector('.el-overlay')?.parentNode).toEqual(
+    expect(document.querySelector('.lp-overlay')?.parentNode).toEqual(
       document.body,
     );
   });
@@ -118,7 +118,7 @@ describe('Drawer', () => {
     await nextTick();
     expect(onOpened).not.toHaveBeenCalled();
 
-    const drawerEl = wrapper.find('.el-overlay').element as HTMLDivElement;
+    const drawerEl = wrapper.find('.lp-overlay').element as HTMLDivElement;
     expect(drawerEl.style.display).toEqual('none');
 
     vm.visible = true;
@@ -151,14 +151,14 @@ describe('Drawer', () => {
     await nextTick();
     await rAF();
     await nextTick();
-    expect(wrapper.find('.el-drawer__body span').element.textContent).toEqual(
+    expect(wrapper.find('.lp-drawer__body span').element.textContent).toEqual(
       content,
     );
     vm.$refs.drawer.handleClose();
     await nextTick();
     await rAF();
     await nextTick();
-    expect(wrapper.find('.el-drawer__body').exists()).toBe(false);
+    expect(wrapper.find('.lp-drawer__body').exists()).toBe(false);
   });
 
   test('should close dialog by clicking the close button', async () => {
@@ -178,7 +178,7 @@ describe('Drawer', () => {
     await nextTick();
     const vm = wrapper.vm as any;
 
-    await wrapper.find('.el-drawer__close-btn').trigger('click');
+    await wrapper.find('.lp-drawer__close-btn').trigger('click');
     await nextTick();
     await rAF();
     await nextTick();
@@ -225,7 +225,7 @@ describe('Drawer', () => {
       }),
     );
 
-    expect(wrapper.find('.el-drawer__close-btn').exists()).toBe(false);
+    expect(wrapper.find('.lp-drawer__close-btn').exists()).toBe(false);
   });
 
   test('should have custom classes when custom classes were given', async () => {
@@ -263,7 +263,7 @@ describe('Drawer', () => {
     const headerButton = wrapper.find('button');
     expect(headerButton.attributes()['data-title-id']).toBeTruthy();
     expect(headerButton.attributes()['data-title-class']).toBe(
-      'el-drawer__title',
+      'lp-drawer__title',
     );
     expect(drawer.emitted().close).toBeFalsy();
     headerButton.trigger('click');
@@ -284,7 +284,7 @@ describe('Drawer', () => {
       }),
     );
 
-    expect(wrapper.find('.el-drawer__header').exists()).toBe(false);
+    expect(wrapper.find('.lp-drawer__header').exists()).toBe(false);
   });
 
   describe('directions', () => {
@@ -385,13 +385,13 @@ describe('Drawer', () => {
       );
 
     test('should effect height when drawer is vertical', async () => {
-      const drawerEl = renderer('50%', true).find('.el-drawer')
+      const drawerEl = renderer('50%', true).find('.lp-drawer')
         .element as HTMLDivElement;
       expect(drawerEl.style.width).toEqual('50%');
     });
 
     test('should effect width when drawer is horizontal', async () => {
-      const drawerEl = renderer('50%', false).find('.el-drawer')
+      const drawerEl = renderer('50%', false).find('.lp-drawer')
         .element as HTMLDivElement;
       expect(drawerEl.style.height).toEqual('50%');
     });
@@ -435,7 +435,7 @@ describe('Drawer', () => {
       );
       await nextTick();
       const drawerDialog = wrapper.find('[role="dialog"]');
-      const drawerTitle = wrapper.find('.el-drawer__title');
+      const drawerTitle = wrapper.find('.lp-drawer__title');
       expect(drawerDialog.attributes()['aria-label']).toBeFalsy();
       expect(drawerDialog.attributes()['aria-labelledby']).toBe(
         drawerTitle.attributes().id,
@@ -457,7 +457,7 @@ describe('Drawer', () => {
       );
       await nextTick();
       const drawerDialog = wrapper.find('[role="dialog"]');
-      const drawerBody = wrapper.find('.el-drawer__body');
+      const drawerBody = wrapper.find('.lp-drawer__body');
       expect(drawerDialog.attributes()['aria-describedby']).toBe(
         drawerBody.attributes().id,
       );

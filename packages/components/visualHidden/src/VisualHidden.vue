@@ -6,7 +6,7 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue';
-import { visualHiddenProps } from './VisualHidden.vue';
+import { visualHiddenProps } from './visualHidden';
 import type { StyleValue } from 'vue';
 const props = defineProps(visualHiddenProps);
 

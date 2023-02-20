@@ -6,7 +6,7 @@ import { POPPER_CONTAINER_SELECTOR } from '@lemon-peel/hooks';
 import Popconfirm from '../src/Popconfirm.vue';
 
 const AXIOM = 'rem is the best girl';
-const selector = '.el-popper';
+const selector = '.lp-popper';
 
 describe('Popconfirm.vue', () => {
   afterEach(() => {

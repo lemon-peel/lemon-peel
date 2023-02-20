@@ -59,11 +59,11 @@ import { useLocale, useNamespace } from '@lemon-peel/hooks';
 import { LpCheckbox, LpCheckboxGroup } from '@lemon-peel/components/checkbox';
 import { LpInput } from '@lemon-peel/components/input';
 import { Search } from '@element-plus/icons-vue';
-import { transferPanelEmits, transferPanelProps } from './TransferPanel.vue';
+import { transferPanelEmits, transferPanelProps } from './transferPanel';
 import { useCheck, usePropsAlias } from './composables';
 
 import type { VNode } from 'vue';
-import type { TransferPanelState } from './TransferPanel.vue';
+import type { TransferPanelState } from './transferPanel';
 
 defineOptions({
   name: 'LpTransferPanel',

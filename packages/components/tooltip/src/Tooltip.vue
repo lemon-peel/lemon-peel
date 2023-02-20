@@ -126,27 +126,27 @@ onDeactivated(() => open.value && hide());
 
 defineExpose({
   /**
-   * @description el-popper component instance
+   * @description lp-popper component instance
    */
   popperRef,
   /**
-   * @description el-tooltip-content component instance
+   * @description lp-tooltip-content component instance
    */
   contentRef,
   /**
-   * @description validate current focus event is trigger inside el-tooltip-content
+   * @description validate current focus event is trigger inside lp-tooltip-content
    */
   isFocusInsideContent,
   /**
-   * @description update el-popper component instance
+   * @description update lp-popper component instance
    */
   updatePopper,
   /**
-   * @description expose onOpen function to mange el-tooltip open state
+   * @description expose onOpen function to mange lp-tooltip open state
    */
   onOpen,
   /**
-   * @description expose onOpen function to mange el-tooltip open state
+   * @description expose onOpen function to mange lp-tooltip open state
    */
   onClose,
   /**

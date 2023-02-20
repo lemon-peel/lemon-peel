@@ -1,5 +1,5 @@
 import { buildProps } from '@lemon-peel/utils';
-import type Total from './total.vue';
+import type Total from './Total.vue';
 import type { ExtractPropTypes } from 'vue';
 
 export const paginationTotalProps = buildProps({

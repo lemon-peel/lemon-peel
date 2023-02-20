@@ -1,5 +1,5 @@
 import type { DirectiveBinding, ObjectDirective } from 'vue';
-import type { PopoverInstance } from './Popover.vue';
+import type { PopoverInstance } from './popover';
 
 const attachEvents = (element: HTMLElement, binding: DirectiveBinding) => {
   const popperComponent: PopoverInstance = binding.arg || binding.value;

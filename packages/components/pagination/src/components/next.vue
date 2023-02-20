@@ -16,7 +16,7 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
 import { LpIcon } from '@lemon-peel/components/icon';
-import { paginationNextProps } from './next.vue';
+import { paginationNextProps } from './next';
 
 defineOptions({
   name: 'LpPaginationNext',

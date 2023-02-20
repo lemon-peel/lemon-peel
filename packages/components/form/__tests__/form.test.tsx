@@ -52,7 +52,7 @@ describe('Form', () => {
         );
       },
     });
-    expect(findStyle(wrapper, '.el-form-item__label').width).toBe('80px');
+    expect(findStyle(wrapper, '.lp-form-item__label').width).toBe('80px');
   });
 
   it('auto label width', async () => {
@@ -83,7 +83,7 @@ describe('Form', () => {
 
     await nextTick();
 
-    const formItems = wrapper.findAll<HTMLElement>('.el-form-item__content');
+    const formItems = wrapper.findAll<HTMLElement>('.lp-form-item__content');
     const marginLeft = Number.parseInt(
       formItems[0].element.style.marginLeft,
       10,
@@ -97,7 +97,7 @@ describe('Form', () => {
     labelPosition.value = 'left';
     await nextTick();
 
-    const formItems1 = wrapper.findAll<HTMLElement>('.el-form-item__content');
+    const formItems1 = wrapper.findAll<HTMLElement>('.lp-form-item__content');
     const marginRight = Number.parseInt(
       formItems1[0].element.style.marginRight,
       10,
@@ -143,9 +143,9 @@ describe('Form', () => {
 
     await nextTick();
 
-    const formItemLabels = wrapper.findAll<HTMLElement>('.el-form-item__label');
+    const formItemLabels = wrapper.findAll<HTMLElement>('.lp-form-item__label');
     const formItemLabelWraps = wrapper.findAll<HTMLElement>(
-      '.el-form-item__label-wrap',
+      '.lp-form-item__label-wrap',
     );
 
     const labelWrapMarginLeft1 = formItemLabelWraps[0].element.style.marginLeft;
@@ -183,7 +183,7 @@ describe('Form', () => {
         );
       },
     });
-    expect(wrapper.classes()).toContain('el-form--inline');
+    expect(wrapper.classes()).toContain('lp-form--inline');
   });
 
   it('label position', () => {
@@ -224,13 +224,13 @@ describe('Form', () => {
       },
     });
     expect(wrapper.findComponent({ ref: 'labelTop' }).classes()).toContain(
-      'el-form--label-top',
+      'lp-form--label-top',
     );
     expect(wrapper.findComponent({ ref: 'labelLeft' }).classes()).toContain(
-      'el-form--label-left',
+      'lp-form--label-left',
     );
     expect(wrapper.findComponent({ ref: 'labelRight' }).classes()).toContain(
-      'el-form--label-right',
+      'lp-form--label-right',
     );
   });
 
@@ -254,7 +254,7 @@ describe('Form', () => {
       },
     });
     expect(wrapper.findComponent(FormItem).classes()).toContain(
-      'el-form-item--small',
+      'lp-form-item--small',
     );
   });
 
@@ -296,7 +296,7 @@ describe('Form', () => {
 
     await nextTick();
     expect(valid).toBe(false);
-    expect(wrapper.find('.el-form-item__error').exists()).toBe(false);
+    expect(wrapper.find('.lp-form-item__error').exists()).toBe(false);
   });
 
   it('reset field', async () => {
@@ -366,7 +366,7 @@ describe('Form', () => {
     expect(form.name).toBe('');
     expect(form.address).toBe('');
     expect(form.type.length).toBe(0);
-    expect(wrapper.findAll('.el-form-item__error')).toHaveLength(0);
+    expect(wrapper.findAll('.lp-form-item__error')).toHaveLength(0);
     vi.useRealTimers();
   });
 
