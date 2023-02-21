@@ -24,36 +24,36 @@ export interface LemonPeelResolverOptions {
    *
    * @default 'css'
    */
-  importStyle?: boolean | 'css' | 'sass'
+  importStyle?: boolean | 'css' | 'sass';
 
   /**
    * use commonjs lib & source css or scss for ssr
    */
-  ssr?: boolean
+  ssr?: boolean;
 
   /**
    * specify lemon-peel version to load style
    *
    * @default installed version
    */
-  version?: string
+  version?: string;
 
   /**
    * auto import for directives
    *
    * @default true
    */
-  directives?: boolean
+  directives?: boolean;
 
   /**
    * exclude component name, if match do not resolve the name
    */
-  exclude?: RegExp
+  exclude?: RegExp;
 
   /**
    * a list of component names that have no styles, so resolving their styles file should be prevented
    */
-  noStylesComponents?: string[]
+  noStylesComponents?: string[];
 }
 
 type LemonPeelResolverOptionsResolved = Required<Omit<LemonPeelResolverOptions, 'exclude'>> &
@@ -99,15 +99,15 @@ function getSideEffects(dirName: string, options: LemonPeelResolverOptionsResolv
 }
 
 function resolveComponent(name: string, options: LemonPeelResolverOptionsResolved): ComponentInfo | undefined {
-  if (options.exclude && name.match(options.exclude))
+  if (options.exclude && options.exclude.test(name))
     return;
 
-  if (!name.match(/^El[A-Z]/))
+  if (!/^Lp[A-Z]/.test(name))
     return;
 
-  if (name.match(/^ElIcon.+/)) {
+  if (/^LpIcon.+/.test(name)) {
     return {
-      name: name.replace(/^ElIcon/, ''),
+      name: name.replace(/^LpIcon/, ''),
       from: '@element-plus/icons-vue',
     };
   }
@@ -126,7 +126,7 @@ function resolveDirective(name: string, options: LemonPeelResolverOptionsResolve
   if (!options.directives)
     return;
 
-  const directives: Record<string, { importName: string; styleName: string }> = {
+  const directives: Record<string, { importName: string, styleName: string }> = {
     Loading: { importName: 'LpLoadingDirective', styleName: 'loading' },
     Popover: { importName: 'LpPopoverDirective', styleName: 'popover' },
     InfiniteScroll: { importName: 'LpInfiniteScroll', styleName: 'infinite-scroll' },
@@ -182,9 +182,7 @@ export function index(userOpt: LemonPeelResolverOptions = {}): ComponentResolver
       resolve: async (name: string) => {
         const options = await resolveOptions();
 
-        if ([...options.noStylesComponents, ...noStylesComponents].includes(name))
-          return resolveComponent(name, { ...options, importStyle: false });
-        else return resolveComponent(name, options);
+        return [...options.noStylesComponents, ...noStylesComponents].includes(name) ? resolveComponent(name, { ...options, importStyle: false }) : resolveComponent(name, options);
       },
     },
     {

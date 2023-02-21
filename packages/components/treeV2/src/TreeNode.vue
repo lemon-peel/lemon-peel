@@ -50,17 +50,17 @@
 
 <script lang="ts" setup>
 import { computed, inject } from 'vue';
-import ElIcon from '@lemon-peel/components/icon';
+import LpIcon from '@lemon-peel/components/icon';
 import { CaretRight } from '@element-plus/icons-vue';
-import ElCheckbox from '@lemon-peel/components/checkbox';
+import LpCheckbox from '@lemon-peel/components/checkbox';
 import { useNamespace } from '@lemon-peel/hooks';
-import ElNodeContent from './TreeNodeContent';
+import LpNodeContent from './TreeNodeContent';
 
 import { NODE_CONTEXTMENU, ROOT_TREE_INJECTION_KEY, treeNodeEmits, treeNodeProps } from './virtualTree';
 import type { CheckboxValueType } from '@lemon-peel/components/checkbox';
 
 defineOptions({
-  name: 'ElTreeNode',
+  name: 'LpTreeNode',
 });
 
 const props = defineProps(treeNodeProps);

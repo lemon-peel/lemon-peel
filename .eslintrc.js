@@ -10,6 +10,7 @@ module.exports = {
     'vue/prefer-import-from-vue': 0,
     'vue/no-v-text-v-html-on-component': 0,
     'unicorn/prefer-module': 0,
+    'unicorn/catch-error-name': 0,
   },
   overrides: [
     {

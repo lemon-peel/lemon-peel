@@ -157,7 +157,6 @@ importers:
       escape-html: ^1.0.3
       lodash: ^4.17.21
       lodash-es: ^4.17.21
-      lodash-unified: ^1.0.2
       memoize-one: ^6.0.0
       normalize-wheel-es: ^1.2.0
       vue: ^3.2.37
@@ -175,7 +174,6 @@ importers:
       escape-html: 1.0.3
       lodash: 4.17.21
       lodash-es: 4.17.21
-      lodash-unified: 1.0.3_3ib2ivapxullxkx3xftsimdk7u
       memoize-one: 6.0.0
       normalize-wheel-es: 1.2.0
     devDependencies:
@@ -228,7 +226,7 @@ importers:
       unplugin-auto-import: ^0.12.0
       unplugin-vue-components: ^0.22.11
       vite: ^4.1.1
-      vite-plugin-checker: ^0.5.3
+      vite-plugin-checker: ^0.5.6
       vite-plugin-eslint: ^1.8.1
       vite-plugin-inspect: ^0.7.9
       vite-plugin-mkcert: ^1.10.1
@@ -246,7 +244,7 @@ importers:
       unplugin-auto-import: 0.12.2
       unplugin-vue-components: 0.22.11_vue@3.2.40
       vite: 4.1.1_sass@1.56.1
-      vite-plugin-checker: 0.5.5_mkbak43dgayfplq5kfzhlxvzqa
+      vite-plugin-checker: 0.5.6_mkbak43dgayfplq5kfzhlxvzqa
       vite-plugin-eslint: 1.8.1_eslint@8.30.0+vite@4.1.1
       vite-plugin-inspect: 0.7.15_vite@4.1.1
       vite-plugin-mkcert: 1.13.0_vite@4.1.1
@@ -8086,18 +8084,6 @@ packages:
   /lodash-es/4.17.21:
     resolution: {integrity: sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==}
 
-  /lodash-unified/1.0.3_3ib2ivapxullxkx3xftsimdk7u:
-    resolution: {integrity: sha512-WK9qSozxXOD7ZJQlpSqOT+om2ZfcT4yO+03FuzAHD0wF6S0l0090LRPDx3vhTTLZ8cFKpBn+IOcVXK6qOcIlfQ==}
-    peerDependencies:
-      '@types/lodash-es': '*'
-      lodash: '*'
-      lodash-es: '*'
-    dependencies:
-      '@types/lodash-es': 4.17.6
-      lodash: 4.17.21
-      lodash-es: 4.17.21
-    dev: false
-
   /lodash.clonedeep/4.5.0:
     resolution: {integrity: sha512-H5ZhCF25riFd9uB5UCkVKo61m3S/xZk1x4wA6yp/L3RFP6Z/eHH1ymQcGLo7J3GMPfm0V/7m1tryHuGVxpqEBQ==}
     dev: true
@@ -11129,8 +11115,8 @@ packages:
       - terser
     dev: true
 
-  /vite-plugin-checker/0.5.5_mkbak43dgayfplq5kfzhlxvzqa:
-    resolution: {integrity: sha512-BLaRlBmiVn3Fg/wR9A0+YNwgXVteFJaH8rCIiIgYQcQ50jc3oVe2m8i0xxG5geq36UttNJsAj7DpDelN7/KjOg==}
+  /vite-plugin-checker/0.5.6_mkbak43dgayfplq5kfzhlxvzqa:
+    resolution: {integrity: sha512-ftRyON0gORUHDxcDt2BErmsikKSkfvl1i2DoP6Jt2zDO9InfvM6tqO1RkXhSjkaXEhKPea6YOnhFaZxW3BzudQ==}
     engines: {node: '>=14.16'}
     peerDependencies:
       eslint: '>=7'

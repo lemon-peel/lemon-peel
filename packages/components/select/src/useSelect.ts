@@ -6,10 +6,9 @@ import { get, isEqual, debounce as lodashDebounce } from 'lodash-es';
 import { isClient } from '@vueuse/core';
 import { CHANGE_EVENT, EVENT_CODE, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
 import { debugWarn, getComponentSize, isFunction, isKorean, isNumber, isString, scrollIntoView } from '@lemon-peel/utils';
-import { useDeprecated, useFormItem, useLocale, useNamespace, useSize } from '@lemon-peel/hooks';
+import { useFormItem, useLocale, useNamespace, useSize } from '@lemon-peel/hooks';
 
-import type { ComponentPublicInstance, ExtractPropTypes } from 'vue';
-import type { EmitFn } from '@lemon-peel/utils';
+import type { ComponentPublicInstance, ExtractPropTypes, Ref, ShallowRef, SetupContext } from 'vue';
 import type LpTooltip from '@lemon-peel/components/tooltip';
 import type { QueryChangeCtx, SelectOptionProxy } from './token';
 import type { selectProps } from './select';
@@ -46,20 +45,9 @@ export function useSelectStates(props: Readonly<ExtractPropTypes<typeof selectPr
 
 type States = ReturnType<typeof useSelectStates>;
 
-export const useSelect = (props: Readonly<ExtractPropTypes<typeof selectProps>>, states: States, emit: EmitFn) => {
+export function useSelect(props: Readonly<ExtractPropTypes<typeof selectProps>>, states: States, emit: SetupContext['emit']) {
   const { t } = useLocale();
   const ns = useNamespace('select');
-
-  useDeprecated(
-    {
-      from: 'suffixTransition',
-      replacement: 'override style scheme',
-      version: '2.3.0',
-      scope: 'props',
-      ref: 'https://element-plus.org/en-US/component/select.html#select-attributes',
-    },
-    computed(() => props.suffixTransition === false),
-  );
 
   // template refs
   const reference = ref<ComponentPublicInstance<{
@@ -67,15 +55,14 @@ export const useSelect = (props: Readonly<ExtractPropTypes<typeof selectProps>>,
     blur: () => void;
     input: HTMLInputElement;
   }> | null>(null);
-  const input = ref<HTMLInputElement | null>(null);
-  const tooltipRef = ref<InstanceType<typeof LpTooltip> | null>(null);
-  const tags = ref<HTMLElement | null>(null);
-  const selectWrapper = ref<HTMLElement | null>(null);
-  const scrollbar = ref<{
-    handleScroll: () => void;
-  } | null>(null);
-  const hoverOption = ref(-1);
-  const queryChange = shallowRef<QueryChangeCtx>({ query: '' });
+
+  const input: Ref<HTMLInputElement | null> = ref(null);
+  const tooltipRef: Ref<InstanceType<typeof LpTooltip> | null> = ref(null);
+  const tags: Ref<HTMLElement | null> = ref(null);
+  const selectWrapper: Ref<HTMLElement | null> = ref(null);
+  const scrollbar: Ref<{ handleScroll: () => void } | null> = ref(null);
+  const hoverOption: Ref<SelectOptionProxy | null> = ref(null);
+  const queryChange: ShallowRef<QueryChangeCtx> = shallowRef({ query: '' });
   const groupQueryChange = shallowRef('');
 
   const { form, formItem } = useFormItem();
@@ -622,7 +609,7 @@ export const useSelect = (props: Readonly<ExtractPropTypes<typeof selectProps>>,
     inputEle?.focus();
   };
 
-  const scrollToOption = (option: SelectOptionProxy) => {
+  const scrollToOption = (option: SelectOptionProxy[] | SelectOptionProxy | null) => {
     const targetOption = Array.isArray(option) ? option[0] : option;
     let target = null;
 
@@ -686,7 +673,7 @@ export const useSelect = (props: Readonly<ExtractPropTypes<typeof selectProps>>,
     states.cachedOptions.set(vm.value, vm);
   };
 
-  const onOptionDestroy = (key, vm: SelectOptionProxy) => {
+  const onOptionDestroy = (key: any, vm: SelectOptionProxy) => {
     if (states.options.get(key) === vm) {
       states.optionsCount--;
       states.filteredOptionsCount--;
@@ -700,8 +687,8 @@ export const useSelect = (props: Readonly<ExtractPropTypes<typeof selectProps>>,
     resetInputHeight();
   };
 
-  const handleComposition = event => {
-    const text = event.target.value;
+  const handleComposition = (event: CompositionEvent) => {
+    const text = (event.target as HTMLInputElement).value;
     if (event.type === 'compositionend') {
       states.isOnComposition = false;
       nextTick(() => handleQueryChange(text));
@@ -725,7 +712,7 @@ export const useSelect = (props: Readonly<ExtractPropTypes<typeof selectProps>>,
         }
         states.visible = true;
       }
-      emit.emit('focus', event);
+      emit('focus', event);
     }
   };
 
@@ -740,7 +727,7 @@ export const useSelect = (props: Readonly<ExtractPropTypes<typeof selectProps>>,
       if (states.isSilentBlur) {
         states.isSilentBlur = false;
       } else {
-        emit.emit('blur', event);
+        emit('blur', event);
       }
     });
     states.softFocus = false;
@@ -796,7 +783,7 @@ export const useSelect = (props: Readonly<ExtractPropTypes<typeof selectProps>>,
       .every(option => option.disabled),
   );
 
-  const navigateOptions = direction => {
+  const navigateOptions = (direction: 'prev' | 'next') => {
     if (!states.visible) {
       states.visible = true;
       return;
@@ -890,4 +877,4 @@ export const useSelect = (props: Readonly<ExtractPropTypes<typeof selectProps>>,
     handleMouseEnter,
     handleMouseLeave,
   };
-};
+}

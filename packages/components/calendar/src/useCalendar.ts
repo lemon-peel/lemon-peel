@@ -1,6 +1,6 @@
-import { computed, ref, useSlots } from 'vue';
+import { computed, ref } from 'vue';
 import dayjs from 'dayjs';
-import { useDeprecated, useLocale } from '@lemon-peel/hooks';
+import { useLocale } from '@lemon-peel/hooks';
 import { debugWarn } from '@lemon-peel/utils';
 import { INPUT_EVENT, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
 
@@ -56,7 +56,6 @@ export const useCalendar = (
   emit: SetupContext<CalendarEmits>['emit'],
   componentName: string,
 ) => {
-  const slots = useSlots();
   const { lang } = useLocale();
 
   const selectedDay = ref<Dayjs>();
@@ -172,18 +171,6 @@ export const useCalendar = (
       pickDay(day);
     }
   };
-
-  useDeprecated(
-    {
-      from: '"dateCell"',
-      replacement: '"date-cell"',
-      scope: 'LpCalendar',
-      version: '2.3.0',
-      ref: 'https://element-plus.org/en-US/component/calendar.html#slots',
-      type: 'Slot',
-    },
-    computed(() => !!slots.dateCell),
-  );
 
   return {
     calculateValidatedDateRange,

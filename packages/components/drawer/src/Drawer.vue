@@ -88,7 +88,7 @@ import LpFocusTrap from '@lemon-peel/components/focusTrap';
 import { useDialog } from '@lemon-peel/components/dialog';
 import { addUnit } from '@lemon-peel/utils';
 import LpIcon from '@lemon-peel/components/icon';
-import { useDeprecated, useLocale, useNamespace } from '@lemon-peel/hooks';
+import { useLocale, useNamespace } from '@lemon-peel/hooks';
 
 import { drawerEmits, drawerProps } from './drawer';
 
@@ -104,17 +104,6 @@ export default defineComponent({
   emits: drawerEmits,
 
   setup(props, { slots }) {
-    useDeprecated(
-      {
-        scope: 'lp-drawer',
-        from: 'the title slot',
-        replacement: 'the header slot',
-        version: '3.0.0',
-        ref: 'https://element-plus.org/en-US/component/drawer.html#slots',
-      },
-      computed(() => !!slots.title),
-    );
-
     const drawerRef = ref<HTMLElement>();
     const focusStartRef = ref<HTMLElement>();
     const ns = useNamespace('drawer');

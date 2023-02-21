@@ -1,5 +1,37 @@
 {
-  "files": [],
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "strict": true,
+    "jsx": "preserve",
+    "importHelpers": true,
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "composite": true,
+    "outDir": "dist",
+    "declarationDir": "dist",
+    "types": [
+      "webpack-env"
+    ],
+    "baseUrl": ".",
+    "lib": [
+      "esnext",
+      "dom",
+      "dom.iterable"
+    ]
+  },
+  "include": [
+    "packages",
+    "types"
+  ],
+  "exclude": [
+    "node_modules"
+  ],
   "references": [
     { "path": "./tsconfig.config.json" },
     { "path": "./tsconfig.node.json" },

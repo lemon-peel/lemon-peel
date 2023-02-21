@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Text, computed, inject, ref, useSlots } from 'vue';
 import {
-  useDeprecated,
   useDisabled,
   useFormItem,
   useGlobalConfig,
@@ -16,18 +15,7 @@ export const useButton = (
   props: ButtonProps,
   emit: SetupContext<ButtonEmits>['emit'],
 ) => {
-  useDeprecated(
-    {
-      from: 'type.text',
-      replacement: 'link',
-      version: '3.0.0',
-      scope: 'props',
-      ref: 'https://element-plus.org/en-US/component/button.html#button-attributes',
-    },
-    computed(() => props.type === 'text'),
-  );
-
-  const buttonGroupContext = inject(buttonGroupContextKey);
+  const buttonGroupContext = inject(buttonGroupContextKey, null);
   const globalConfig = useGlobalConfig('button');
   const { form } = useFormItem();
   const _size = useSize(computed(() => buttonGroupContext?.size));

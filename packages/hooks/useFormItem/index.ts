@@ -6,8 +6,8 @@ import type { FormItemContext } from '@lemon-peel/tokens';
 import type { ComputedRef, Ref, WatchStopHandle } from 'vue';
 
 export const useFormItem = () => {
-  const form = inject(formContextKey);
-  const formItem = inject(formItemContextKey);
+  const form = inject(formContextKey, null);
+  const formItem = inject(formItemContextKey, null);
   return {
     form,
     formItem,

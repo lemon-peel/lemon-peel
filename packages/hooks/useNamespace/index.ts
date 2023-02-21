@@ -1,6 +1,6 @@
 import { useGlobalConfig } from '../useGlobalConfig';
 
-export const defaultNamespace = 'el';
+export const defaultNamespace = 'lp';
 const statePrefix = 'is-';
 
 const namer = (

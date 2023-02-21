@@ -73,7 +73,7 @@
 <script lang="ts" setup>
 import { computed, provide, ref, useSlots } from 'vue';
 import { LpOverlay } from '@lemon-peel/components/overlay';
-import { useDeprecated, useNamespace, useSameTarget } from '@lemon-peel/hooks';
+import { useNamespace, useSameTarget } from '@lemon-peel/hooks';
 import { dialogInjectionKey } from '@lemon-peel/tokens';
 import LpFocusTrap from '@lemon-peel/components/focusTrap';
 import LpDialogContent from './DialogContent.vue';
@@ -88,29 +88,6 @@ defineOptions({
 const props = defineProps(dialogProps);
 defineEmits(dialogEmits);
 const slots = useSlots();
-
-useDeprecated(
-  {
-    scope: 'lp-dialog',
-    from: 'the title slot',
-    replacement: 'the header slot',
-    version: '3.0.0',
-    ref: 'https://element-plus.org/en-US/component/dialog.html#slots',
-  },
-  computed(() => !!slots.title),
-);
-
-useDeprecated(
-  {
-    scope: 'lp-dialog',
-    from: 'custom-class',
-    replacement: 'class',
-    version: '2.3.0',
-    ref: 'https://element-plus.org/en-US/component/dialog.html#attributes',
-    type: 'Attribute',
-  },
-  computed(() => !!props.customClass),
-);
 
 const ns = useNamespace('dialog');
 const dialogRef = ref<HTMLElement>();

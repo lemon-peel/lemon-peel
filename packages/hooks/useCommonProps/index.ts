@@ -25,10 +25,10 @@ export const useSize = (
   const globalConfig = ignore.global ? emptyReference : useGlobalConfig('size');
   const form = ignore.form
     ? { size: undefined }
-    : inject(formContextKey);
+    : inject(formContextKey, null);
   const formItem = ignore.formItem
     ? { size: undefined }
-    : inject(formItemContextKey);
+    : inject(formItemContextKey, null);
 
   return computed(
     (): ComponentSize =>
@@ -43,7 +43,7 @@ export const useSize = (
 
 export const useDisabled = (fallback?: MaybeRef<boolean | undefined>) => {
   const disabled = useProp<boolean>('disabled');
-  const form = inject(formContextKey);
+  const form = inject(formContextKey, null);
   return computed(
     () => disabled.value || unref(fallback) || form?.disabled || false,
   );
