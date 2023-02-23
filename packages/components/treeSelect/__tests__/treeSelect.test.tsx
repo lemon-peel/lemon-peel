@@ -1,7 +1,7 @@
 import { nextTick, ref } from 'vue';
 import { mount } from '@vue/test-utils';
 import { describe, expect, test, vi } from 'vitest';
-import TreeSelect from '../src/TreeSelect.tsx';
+import TreeSelect from '../src/TreeSelect.vue';
 
 import type { RenderFunction } from 'vue';
 import type { VueWrapper } from '@vue/test-utils';
@@ -60,12 +60,8 @@ const createComponent = ({
       new Promise<InstanceType<typeof TreeSelect>>(resolve =>
         nextTick(() => resolve(wrapperRef.value!)),
       ),
-    select: wrapper.findComponent({ name: 'LpSelect' }) as VueWrapper<
-    InstanceType<typeof LpSelect>
-    >,
-    tree: wrapper.findComponent({ name: 'LpTree' }) as VueWrapper<
-    InstanceType<typeof LpTree>
-    >,
+    select: wrapper.findComponent({ name: 'LpSelect' }) as VueWrapper<InstanceType<typeof LpSelect>>,
+    tree: wrapper.findComponent({ name: 'LpTree' }) as VueWrapper<InstanceType<typeof LpTree>>,
   };
 };
 
@@ -105,7 +101,8 @@ describe('TreeSelect.vue', () => {
     const wrapperRef = await getWrapperRef();
 
     await nextTick();
-    expect(select.vm.modelValue).toBe(1);
+    wrapperRef.
+      expect(select.vm.modelValue).toBe(1);
     expect(wrapperRef.getCheckedKeys()).toEqual([1]);
 
     value.value = 11;

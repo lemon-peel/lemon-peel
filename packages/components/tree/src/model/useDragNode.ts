@@ -1,10 +1,11 @@
-import { provide, ref } from 'vue';
+import { provide, shallowReactive } from 'vue';
 import { addClass, removeClass } from '@lemon-peel/utils';
 import { useNamespace } from '@lemon-peel/hooks';
 
-import type { InjectionKey } from 'vue';
-import type { NodeDropType } from '../tree.type';
-import type Node from './node';
+import type { InjectionKey, Ref, SetupContext, ShallowRef  } from 'vue';
+import type { NodeDropType, TreeProps } from '../tree';
+import Node from './node';
+import type TreeStore from './treeStore';
 
 interface TreeNode {
   node: Node;
@@ -24,9 +25,28 @@ export interface DragEvents {
 
 export const dragEventsKey: InjectionKey<DragEvents> = Symbol('dragEvents');
 
-export function useDragNodeHandler({ props, ctx, el$, dropIndicator$, store }) {
+export function useDragNodeHandler({
+  props,
+  emit,
+  elRef,
+  dropIndicatorRef,
+  store,
+}: {
+  props: TreeProps;
+  emit: SetupContext['emit'];
+  elRef: Ref<HTMLElement>;
+  dropIndicatorRef: Ref<HTMLElement>;
+  store: ShallowRef<TreeStore>;
+}) {
   const ns = useNamespace('tree');
-  const dragState = ref({
+
+  const dragState = shallowReactive<{
+    showDropIndicator: boolean;
+    draggingNode: TreeNode | null;
+    dropNode: TreeNode | null;
+    allowDrop: boolean;
+    dropType: NodeDropType | null;
+  }>({
     showDropIndicator: false,
     draggingNode: null,
     dropNode: null,
@@ -42,25 +62,26 @@ export function useDragNodeHandler({ props, ctx, el$, dropIndicator$, store }) {
       event.preventDefault();
       return false;
     }
-    event.dataTransfer.effectAllowed = 'move';
+    event.dataTransfer!.effectAllowed = 'move';
 
     // wrap in try catch to address IE's error when first param is 'text/plain'
     try {
       // setData is required for draggable to work in FireFox
       // the content has to be '' so dragging a node out of the tree won't open a new tab in FireFox
-      event.dataTransfer.setData('text/plain', '');
+      event.dataTransfer!.setData('text/plain', '');
     } catch {}
-    dragState.value.draggingNode = treeNode;
-    ctx.emit('node-drag-start', treeNode.node, event);
+    dragState.draggingNode = treeNode;
+    emit('node-drag-start', treeNode.node, event);
   };
 
   const treeNodeDragOver = ({ event, treeNode }: DragOptions) => {
     const dropNode = treeNode;
-    const oldDropNode = dragState.value.dropNode;
+    const oldDropNode = dragState.dropNode;
     if (oldDropNode && oldDropNode !== dropNode) {
-      removeClass(oldDropNode.$el, ns.is('drop-inner'));
+      removeClass(oldDropNode.$el!, ns.is('drop-inner'));
     }
-    const draggingNode = dragState.value.draggingNode;
+
+    const draggingNode = dragState.draggingNode;
     if (!draggingNode || !dropNode) return;
 
     let dropPrev = true;
@@ -76,17 +97,19 @@ export function useDragNodeHandler({ props, ctx, el$, dropIndicator$, store }) {
       );
       dropNext = props.allowDrop(draggingNode.node, dropNode.node, 'next');
     }
-    event.dataTransfer.dropEffect =
+
+    event.dataTransfer!.dropEffect =
       dropInner || dropPrev || dropNext ? 'move' : 'none';
     if ((dropPrev || dropInner || dropNext) && oldDropNode !== dropNode) {
       if (oldDropNode) {
-        ctx.emit('node-drag-leave', draggingNode.node, oldDropNode.node, event);
+        emit('node-drag-leave', draggingNode.node, oldDropNode.node, event);
       }
-      ctx.emit('node-drag-enter', draggingNode.node, dropNode.node, event);
+
+      emit('node-drag-enter', draggingNode.node, dropNode.node, event);
     }
 
     if (dropPrev || dropInner || dropNext) {
-      dragState.value.dropNode = dropNode;
+      dragState.dropNode = dropNode;
     }
 
     if (dropNode.node.nextSibling === draggingNode.node) {
@@ -107,8 +130,8 @@ export function useDragNodeHandler({ props, ctx, el$, dropIndicator$, store }) {
       dropNext = false;
     }
 
-    const targetPosition = dropNode.$el.getBoundingClientRect();
-    const treePosition = el$.value.getBoundingClientRect();
+    const targetPosition = dropNode.$el!.getBoundingClientRect();
+    const treePosition = elRef.value.getBoundingClientRect();
 
     let dropType: NodeDropType;
     const prevPercent = dropPrev ? (dropInner ? 0.25 : dropNext ? 0.45 : 1) : -1;
@@ -126,10 +149,10 @@ export function useDragNodeHandler({ props, ctx, el$, dropIndicator$, store }) {
       dropType = 'none';
     }
 
-    const iconPosition = dropNode.$el
-      .querySelector(`.${ns.be('node', 'expand-icon')}`)
+    const iconPosition = dropNode.$el!
+      .querySelector(`.${ns.be('node', 'expand-icon')}`)!
       .getBoundingClientRect();
-    const dropIndicator = dropIndicator$.value;
+    const dropIndicator = dropIndicatorRef.value;
     if (dropType === 'before') {
       indicatorTop = iconPosition.top - treePosition.top;
     } else if (dropType === 'after') {
@@ -139,37 +162,41 @@ export function useDragNodeHandler({ props, ctx, el$, dropIndicator$, store }) {
     dropIndicator.style.left = `${iconPosition.right - treePosition.left}px`;
 
     if (dropType === 'inner') {
-      addClass(dropNode.$el, ns.is('drop-inner'));
+      addClass(dropNode.$el!, ns.is('drop-inner'));
     } else {
-      removeClass(dropNode.$el, ns.is('drop-inner'));
+      removeClass(dropNode.$el!, ns.is('drop-inner'));
     }
 
-    dragState.value.showDropIndicator =
+    dragState.showDropIndicator =
       dropType === 'before' || dropType === 'after';
-    dragState.value.allowDrop =
-      dragState.value.showDropIndicator || userAllowDropInner;
-    dragState.value.dropType = dropType;
-    ctx.emit('node-drag-over', draggingNode.node, dropNode.node, event);
+    dragState.allowDrop =
+      dragState.showDropIndicator || userAllowDropInner;
+    dragState.dropType = dropType;
+    emit('node-drag-over', draggingNode.node, dropNode.node, event);
   };
 
   const treeNodeDragEnd = (event: DragEvent) => {
-    const { draggingNode, dropType, dropNode } = dragState.value;
+    const { draggingNode, dropType, dropNode } = dragState;
     event.preventDefault();
-    event.dataTransfer.dropEffect = 'move';
+    event.dataTransfer!.dropEffect = 'move';
 
     if (draggingNode && dropNode) {
-      const draggingNodeCopy = { data: draggingNode.node.data };
+      const draggingNodeCopy = new Node({
+        data: draggingNode.node.data,
+        store: store.value,
+      });
+
       if (dropType !== 'none') {
         draggingNode.node.remove();
       }
       switch (dropType) {
         case 'before': {
-          dropNode.node.parent.insertBefore(draggingNodeCopy, dropNode.node);
+          dropNode.node.parent!.insertBefore(draggingNodeCopy, dropNode.node);
 
           break;
         }
         case 'after': {
-          dropNode.node.parent.insertAfter(draggingNodeCopy, dropNode.node);
+          dropNode.node.parent!.insertAfter(draggingNodeCopy, dropNode.node);
 
           break;
         }
@@ -180,31 +207,34 @@ export function useDragNodeHandler({ props, ctx, el$, dropIndicator$, store }) {
         }
       // No default
       }
+
       if (dropType !== 'none') {
         store.value.registerNode(draggingNodeCopy);
       }
 
-      removeClass(dropNode.$el, ns.is('drop-inner'));
+      removeClass(dropNode.$el!, ns.is('drop-inner'));
 
-      ctx.emit(
+      emit(
         'node-drag-end',
         draggingNode.node,
         dropNode.node,
         dropType,
         event,
       );
+
       if (dropType !== 'none') {
-        ctx.emit('node-drop', draggingNode.node, dropNode.node, dropType, event);
+        emit('node-drop', draggingNode.node, dropNode.node, dropType, event);
       }
     }
+
     if (draggingNode && !dropNode) {
-      ctx.emit('node-drag-end', draggingNode.node, null, dropType, event);
+      emit('node-drag-end', draggingNode.node, null, dropType, event);
     }
 
-    dragState.value.showDropIndicator = false;
-    dragState.value.draggingNode = null;
-    dragState.value.dropNode = null;
-    dragState.value.allowDrop = true;
+    dragState.showDropIndicator = false;
+    dragState.draggingNode = null;
+    dragState.dropNode = null;
+    dragState.allowDrop = true;
   };
 
   provide(dragEventsKey, {

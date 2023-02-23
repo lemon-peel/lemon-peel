@@ -1,7 +1,7 @@
 import { buildProps } from '@lemon-peel/utils';
 import { popperContentProps } from '@lemon-peel/components/popper';
 import { POPPER_CONTAINER_SELECTOR, useDelayedToggleProps, useNamespace } from '@lemon-peel/hooks';
-import type { ExtractPropTypes } from 'vue';
+import type { ExtractPropTypes, PropType } from 'vue';
 
 const ns = useNamespace('tooltip');
 

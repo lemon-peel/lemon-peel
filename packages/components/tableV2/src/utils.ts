@@ -1,7 +1,6 @@
-import { h, isVNode } from 'vue';
 import { addUnit, isArray, isFunction } from '@lemon-peel/utils';
 
-import type { CSSProperties, Component, Slot } from 'vue';
+import type { CSSProperties } from 'vue';
 
 const sumReducer = (sum: number, number_: number) => sum + number_;
 
@@ -25,9 +24,3 @@ export const enforceUnit = (style: CSSProperties) => {
   return style;
 };
 
-export const componentToSlot = <T>(
-  ComponentLike: JSX.Element | ((props: T) => Component<T>) | undefined,
-) =>
-    isVNode(ComponentLike)
-      ? (props: T) => h(ComponentLike, props)
-      : (ComponentLike as Slot);

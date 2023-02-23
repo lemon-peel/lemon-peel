@@ -16,14 +16,13 @@ const AXIOM = 'Rem is the best girl';
 describe('<LpTooltip />', () => {
   const createComponent = (props = {}, content: string | VNode = '') =>
     mount(
-      <Tooltip
-        {...props}
-        v-slots={{
+      Tooltip,
+      {
+        ...props,
+        slots: {
           default: () => AXIOM,
           content: () => content,
-        }}
-      />,
-      {
+        },
         attachTo: document.body,
       },
     );
@@ -44,7 +43,7 @@ describe('<LpTooltip />', () => {
     it('content should teleport according appendTo', async () => {
       const el = document.createElement('div');
       el.id = 'test';
-      document.body.appendChild(el);
+      document.body.append(el);
       wrapper = createComponent({ appendTo: '#test' }, 'test appendTo props');
       await nextTick();
       const trigger$ = findTrigger();

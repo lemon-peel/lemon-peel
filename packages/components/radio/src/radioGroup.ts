@@ -1,7 +1,7 @@
 import { buildProps } from '@lemon-peel/utils';
 import { useSizeProp } from '@lemon-peel/hooks';
 
-import type { ExtractPropTypes } from '@vue/runtime-core';
+import type { ExtractPropTypes } from 'vue';
 
 import { radioEmits } from './radio';
 

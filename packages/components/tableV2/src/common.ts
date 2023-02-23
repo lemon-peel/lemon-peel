@@ -1,6 +1,6 @@
 import { mutable } from '@lemon-peel/utils';
 
-import type { CSSProperties } from 'vue';
+import type { CSSProperties, PropType } from 'vue';
 import type { Column, KeyType } from './types';
 
 export type AnyColumn = Column<any>;
@@ -11,10 +11,7 @@ export type AnyColumn = Column<any>;
  */
 export const classType = String;
 
-export const columns = {
-  type: Array as PropType<AnyColumn[]>,
-  required: true,
-} as const;
+export const columns = { type: Array as PropType<AnyColumn[]>, required: true } as const;
 
 export const column = {
   type: Object as PropType<AnyColumn>,

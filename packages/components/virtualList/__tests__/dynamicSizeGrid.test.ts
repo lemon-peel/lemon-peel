@@ -1,14 +1,9 @@
 import { nextTick, unref } from 'vue';
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest';
-import makeMount from '@lemon-peel/test-utils/make-mount';
-import makeScroll from '@lemon-peel/test-utils/make-scroll';
+import makeMount from '@lemon-peel/test-utils/makeMount';
+import makeScroll from '@lemon-peel/test-utils/makeScroll';
 import setupMock from '../setupMock';
-import {
-  CENTERED_ALIGNMENT,
-  END_ALIGNMENT,
-  SMART_ALIGNMENT,
-  START_ALIGNMENT,
-} from '../src/defaults';
+import { CENTERED_ALIGNMENT, END_ALIGNMENT, SMART_ALIGNMENT, START_ALIGNMENT } from '../src/defaults';
 import { DynamicSizeGrid } from '../index';
 
 import type { GridExposes } from '../src/types';
@@ -32,6 +27,7 @@ const mount = makeMount(
     components: {
       DynamicSizeGrid,
     },
+    props: {},
   },
   {
     props: {

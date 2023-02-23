@@ -65,9 +65,9 @@ function useColumns(
     const arr = unref(columns);
 
     return arr.reduce<Record<Column<any>['key'], CSSProperties>>(
-      (style, column) => {
-        style[column.key] = calcColumnStyle(column, unref(fixed), props.fixed);
-        return style;
+      (map, column) => {
+        map[column.key] = calcColumnStyle(column, unref(fixed), props.fixed);
+        return map;
       },
       {},
     );
@@ -85,7 +85,7 @@ function useColumns(
   };
 
   const getColumnStyle = (key: KeyType) => {
-    return unref(columnsStyles)[key];
+    return columnsStyles.value[key as string];
   };
 
   const updateColumnWidth = (column: Column<any>, width: number) => {

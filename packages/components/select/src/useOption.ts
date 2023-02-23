@@ -24,7 +24,7 @@ export function useOption(props: Readonly<ExtractPropTypes<typeof optionProps>>,
   const isEqual = (a: unknown, b: unknown) => {
     if (isObject.value) {
       const { valueKey } = select.props;
-      return get(a, valueKey) === get(b, valueKey);
+      return get(a, valueKey!) === get(b, valueKey!);
     } else {
       return a === b;
     }
@@ -36,7 +36,7 @@ export function useOption(props: Readonly<ExtractPropTypes<typeof optionProps>>,
       return (
         arr &&
         arr.some(item => {
-          return toRaw(get(item, valueKey)) === get(target, valueKey);
+          return toRaw(get(item, valueKey!)) === get(target, valueKey!);
         })
       );
     } else {
@@ -53,8 +53,7 @@ export function useOption(props: Readonly<ExtractPropTypes<typeof optionProps>>,
       const modelValue = (select.props.modelValue || []) as unknown[];
       return (
         !itemSelected.value &&
-        modelValue.length >= select.props.multipleLimit &&
-        select.props.multipleLimit > 0
+        modelValue.length >= select.props.multipleLimit! && select.props.multipleLimit! > 0
       );
     } else {
       return false;
@@ -73,7 +72,7 @@ export function useOption(props: Readonly<ExtractPropTypes<typeof optionProps>>,
     return props.disabled || states.groupDisabled || limitReached.value;
   });
 
-  const instance = getCurrentInstance();
+  const instance = getCurrentInstance()!;
 
   const hoverItem = () => {
     if (!props.disabled && !selectGroup.disabled) {
@@ -94,8 +93,8 @@ export function useOption(props: Readonly<ExtractPropTypes<typeof optionProps>>,
       const { remote, valueKey } = select.props;
 
       if (!Object.is(val, oldVal)) {
-        select.onOptionDestroy(oldVal, instance.proxy);
-        select.onOptionCreate(instance.proxy);
+        select.onOptionDestroy(oldVal as string, instance.proxy as any);
+        select.onOptionCreate(instance.proxy as any);
       }
 
       if (!props.created && !remote) {
@@ -125,7 +124,7 @@ export function useOption(props: Readonly<ExtractPropTypes<typeof optionProps>>,
     const { query } = unref(changes);
 
     const regexp = new RegExp(escapeStringRegexp(query), 'i');
-    states.visible = regexp.test(currentLabel.value) || props.created;
+    states.visible = regexp.test(currentLabel.value as string) || props.created;
     if (!states.visible) {
       select.filteredOptionsCount--;
     }

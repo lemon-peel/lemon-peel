@@ -1,17 +1,17 @@
-import { ref } from 'vue'
-import { describe, expect, it } from 'vitest'
-import { useFocus } from '../use-focus'
+import { ref } from 'vue';
+import { describe, expect, it } from 'vitest';
+import { useFocus } from '../useFocus';
 
 describe('useFocus', () => {
   it('should focus el', async () => {
-    const inputEl = document.createElement('input')
-    document.body.appendChild(inputEl)
+    const inputEl = document.createElement('input');
+    document.body.append(inputEl);
 
-    const reference = ref(inputEl)
-    const { focus } = useFocus(reference)
+    const reference = ref(inputEl);
+    const { focus } = useFocus(reference);
 
-    focus()
+    focus();
 
-    expect(document.activeElement).toBe(inputEl)
-  })
-})
+    expect(document.activeElement).toBe(inputEl);
+  });
+});

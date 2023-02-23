@@ -460,10 +460,12 @@ const popperPaneReference = computed(() => {
 
 defineExpose({
   options,
-
   focus,
   blur,
   deleteSelected,
+  debouncedQueryChange,
   handleOptionSelect,
+  handleResize,
+  selectedLabel,
 });
 </script>

@@ -61,7 +61,7 @@ function useEvent(props: TableHeaderProps, emit: SetupContext<typeof tableHeader
     states.sortProp.value = sortProp;
     states.sortOrder.value = sortOrder;
 
-    store.commit('changeSortCondition');
+    store.actions.changeSortCondition();
   };
 
   const handleHeaderClick = (event: Event, column: TableColumnCtx) => {

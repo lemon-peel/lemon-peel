@@ -45,8 +45,6 @@ export interface CascaderProps {
   hoverThreshold?: number;
 }
 
-export type Nullable<T> = null | T;
-
 type ChildrenData = CascaderOption[] | undefined;
 
 let uid = 0;

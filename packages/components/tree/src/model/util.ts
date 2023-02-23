@@ -1,6 +1,7 @@
 import type { SetupContext } from 'vue';
 import type Node from './node';
-import type { RootTreeType, TreeKey, TreeNodeData } from '../tree.type';
+import type { TreeKey, TreeNodeData } from '../tree';
+import type { RootTreeType } from '../tokens';
 
 export const NODE_KEY = '$treeNodeId';
 

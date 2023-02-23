@@ -1,17 +1,11 @@
-
 import { nextTick } from 'vue';
 import { NOOP } from '@vue/shared';
 import { describe, expect, test, vi } from 'vitest';
-import { makeMountFunc } from '@lemon-peel/test-utils/make-mount';
+import { makeMountFunc } from '@lemon-peel/test-utils/makeMount';
+import { forceType } from '@lemon-peel/utils';
 import Tree from '../src/Tree.vue';
-import type {
-  FilterMethod,
-  TreeData,
-  TreeKey,
-  TreeNode,
-  TreeNodeData,
-  TreeOptionProps,
-} from '../src/types';
+
+import type { FilterMethod, TreeData, TreeKey, TreeNode, TreeNodeData, TreeOptionProps } from '../src/types';
 
 let id = 1;
 
@@ -24,13 +18,20 @@ const getUniqueId = () => {
   return id++;
 };
 
+type FakeTreeNode = {
+  id: number;
+  disabled: boolean;
+  label: string;
+  children: FakeTreeNode[];
+};
+
 const createData = (
-  maxDeep,
-  maxChildren,
-  minNodesNumber,
+  maxDeep: number,
+  maxChildren: number,
+  minNodesNumber: number,
   deep = 1,
   disabled = false,
-) => {
+): FakeTreeNode[] => {
   return Array.from({ length: minNodesNumber })
     .fill(deep)
     .map(() => {
@@ -50,10 +51,9 @@ const createData = (
 
 const data = createData(4, 30, NODE_NUMBER);
 
-const _mount = makeMountFunc({
-  components: {
-    'lp-tree': Tree,
-  },
+const doMount = makeMountFunc({
+  components: { 'lp-tree': Tree },
+  props: {},
 });
 
 interface TreeProps {
@@ -108,7 +108,7 @@ const createTree = (
       options.slots.default &&
       `<template #default="{node}">${options.slots.default}</template>`) ||
     '';
-  const wrapper = _mount(
+  const wrapper = doMount(
     `
       <lp-tree
         ref="tree"
@@ -161,11 +161,11 @@ const createTree = (
         };
       },
       methods: {
-        onNodeClick: NOOP,
-        onNodeExpand: NOOP,
-        onNodeCheck: NOOP,
-        onCurrentChange: NOOP,
-        onNodeContextMenu: NOOP,
+        onNodeClick: forceType(NOOP),
+        onNodeExpand: forceType(NOOP),
+        onNodeCheck: forceType(NOOP),
+        onCurrentChange: forceType(NOOP),
+        onNodeContextMenu: forceType(NOOP),
         ...options.methods,
       },
     },
@@ -174,7 +174,7 @@ const createTree = (
   const vm = wrapper.vm as any;
   return {
     wrapper,
-    treeRef: vm.$refs.tree,
+    treeRef: vm.$refs.tree as InstanceType<typeof Tree>,
     vm,
     treeWrapper,
     treeVm: treeWrapper.vm as any,

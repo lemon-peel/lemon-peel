@@ -63,12 +63,12 @@ let timer: (() => void) | undefined;
 
 const typeClass = computed(() => {
   const type = props.type;
-  return type && TypeComponentsMap[props.type] ? ns.m(type) : '';
+  return type && TypeComponentsMap[props.type as keyof typeof TypeComponentsMap] ? ns.m(type) : '';
 });
 
 const iconComponent = computed(() => {
   if (!props.type) return props.icon;
-  return TypeComponentsMap[props.type] || props.icon;
+  return TypeComponentsMap[props.type as keyof typeof TypeComponentsMap] || props.icon;
 });
 
 const horizontalClass = computed(() =>
@@ -127,5 +127,8 @@ defineExpose({
   visible,
   /** @description close notification */
   close,
+  iconComponent,
+  horizontalClass,
+  positionStyle,
 });
 </script>

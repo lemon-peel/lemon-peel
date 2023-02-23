@@ -1,8 +1,9 @@
-
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+// @ts-nocheck
 import { nextTick } from 'vue';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import LpCheckbox from '@lemon-peel/components/checkbox';
-import triggerEvent from '@lemon-peel/test-utils/trigger-event';
+import triggerEvent from '@lemon-peel/test-utils/triggerEvent';
 import { rAF } from '@lemon-peel/test-utils/tick';
 import LpTable from '../src/table/Table.vue';
 import LpTableColumn from '../src/tableColumn';
@@ -121,7 +122,7 @@ describe('Table.vue', () => {
     expect(checkSelect.length).toBe(3);
   });
   describe('attributes', () => {
-    const createTable = function (props, opts?) {
+    const createTable = function (props: string, opts?: any) {
       return mount(
         Object.assign(
           {
@@ -137,7 +138,7 @@ describe('Table.vue', () => {
             <lp-table-column prop="runtime" label="时长（分）" />
           </lp-table>
         `,
-            created() {
+            created(this: any) {
               this.testData = getTestData();
             },
           },
@@ -207,7 +208,7 @@ describe('Table.vue', () => {
     it('tableRowClassName', async () => {
       const wrapper = createTable(':row-class-name="tableRowClassName"', {
         methods: {
-          tableRowClassName({ rowIndex }) {
+          tableRowClassName({ rowIndex }: { rowIndex: number }) {
             if (rowIndex === 1) {
               return 'info-row';
             } else if (rowIndex === 3) {
@@ -236,7 +237,7 @@ describe('Table.vue', () => {
     it('tableRowStyle[Function]', async () => {
       const wrapper = createTable(':row-style="tableRowStyle"', {
         methods: {
-          tableRowStyle({ rowIndex }) {
+          tableRowStyle({ rowIndex }: { rowIndex: number }) {
             if (rowIndex === 1) {
               return { height: '60px', display: 'none' };
             }
@@ -322,10 +323,10 @@ describe('Table.vue', () => {
         },
 
         methods: {
-          filterMethod(value, row) {
+          filterMethod(value: any, row: any) {
             return value === row.director;
           },
-          handleFilterChange(filters) {
+          handleFilterChange(filters: any) {
             this.filters = filters;
           },
         },

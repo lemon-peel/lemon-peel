@@ -2,7 +2,7 @@ import { computed, nextTick, reactive, ref, watch } from 'vue';
 import { mount } from '@vue/test-utils';
 import { describe, expect, it } from 'vitest';
 import { rAF } from '@lemon-peel/test-utils/tick';
-import { arrowMiddleware, useFloating } from '../use-floating';
+import { arrowMiddleware, useFloating } from '../useFloating';
 
 import type { CSSProperties } from 'vue';
 import type { Middleware, Placement, Strategy } from '@floating-ui/dom';

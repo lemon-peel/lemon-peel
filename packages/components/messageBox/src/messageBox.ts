@@ -1,5 +1,6 @@
 import { createVNode, render } from 'vue';
 import { isClient } from '@vueuse/core';
+import type { Mutable } from '@lemon-peel/utils';
 import { debugWarn, hasOwn, isElement, isFunction, isObject, isString, isUndefined, isVNode } from '@lemon-peel/utils';
 
 import MessageBoxConstructor from './Index.vue';
@@ -75,12 +76,7 @@ const showMessage = (options: any, appContext?: AppContext | null) => {
   // This is how we use message box programmably.
   // Maybe consider releasing a template version?
   // get component instance like v2.
-  const vm = instance.proxy as ComponentPublicInstance<
-  {
-    visible: boolean;
-    doClose: () => void;
-  } & MessageBoxState
-  >;
+  const vm = instance.proxy as Mutable<ComponentPublicInstance<{ visible: boolean, doClose: () => void } & MessageBoxState>> ;
 
   // Adding destruct method.
   // when transition leaves emitting `vanish` evt. so that we can do the clean job.
@@ -96,7 +92,7 @@ const showMessage = (options: any, appContext?: AppContext | null) => {
   options.onAction = (action: Action) => {
     const currentMessage = messageInstance.get(vm)!;
     const resolve: Action | { value: string, action: Action }
-      = options.showInput ? { value: vm.inputValue, action } : action;
+      = options.showInput ? { value: vm.inputValue!, action } : action;
     if (options.callback) {
       options.callback(resolve, instance.proxy);
     } else {

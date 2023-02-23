@@ -3,7 +3,7 @@ import Collection from './Collection.vue';
 import CollectionItem from './CollectionItem.vue';
 
 import type { Component, InjectionKey } from 'vue';
-import type { SetupContext } from '@vue/runtime-core';
+import type { SetupContext } from 'vue';
 import type { LpCollectionInjectionContext, LpCollectionItemInjectionContext } from './tokens';
 
 export const COLLECTION_ITEM_SIGN = `data-lp-collection-item`;

@@ -1,13 +1,15 @@
 import { computed, nextTick, ref } from 'vue';
 import { mount } from '@vue/test-utils';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import dayjs from 'dayjs';
-import triggerEvent from '@lemon-peel/test-utils/trigger-event';
 import { rAF } from '@lemon-peel/test-utils/tick';
 import { LpFormItem } from '@lemon-peel/components/form';
+import triggerEvent from '@lemon-peel/test-utils/triggerEvent';
 import sleep from '@lemon-peel/test-utils/sleep';
+import dayjs from 'dayjs';
+
 import TimePicker from '../src/TimePicker';
 import Picker from '../src/common/Picker.vue';
+
 
 const makeRange = (start: number, end: number) => {
   const result = [];
@@ -77,7 +79,7 @@ describe('TimePicker', () => {
   });
 
   it('select time', async () => {
-    const value = ref('');
+    const value = ref<Date>('' as any);
     const wrapper = mount(() => <TimePicker v-model={value.value} />);
 
     const input = wrapper.find('input');
@@ -248,7 +250,7 @@ describe('TimePicker', () => {
     const disabledHoursData = () => {
       return disabledHoursArr;
     };
-    const disabledMinutesData = hour => {
+    const disabledMinutesData = (hour: number) => {
       // ['17:30:00 - 18:30:00', '18:50:00 - 20:30:00', '21:00:00 - 22:00:00']
       if (hour === 17) {
         return makeRange(0, 29);
@@ -263,7 +265,7 @@ describe('TimePicker', () => {
         return makeRange(1, 59);
       }
     };
-    const disabledSeconds = (hour, minute) => {
+    const disabledSeconds = (hour: number, minute: number) => {
       if (hour === 18 && minute === 30) {
         return makeRange(1, 59);
       }
@@ -288,7 +290,7 @@ describe('TimePicker', () => {
     input.trigger('focus');
     await nextTick();
 
-    const list = document.querySelectorAll('.lp-time-spinner__list');
+    const list = document.querySelectorAll<HTMLElement>('.lp-time-spinner__list');
     const hoursEl = list[0];
     const minutesEl = list[1];
     const secondsEl = list[2];
@@ -319,14 +321,14 @@ describe('TimePicker', () => {
     const wrapper = mount(() => <TimePicker v-model={value.value} />);
 
     await nextTick();
-    wrapper.findComponent(TimePicker).vm.$.exposed.focus();
+    wrapper.findComponent(TimePicker).vm.$.exposed!.focus();
 
     // This one allows mounted to take effect
     await nextTick();
     // These following two allows popper to gets rendered.
     await rAF();
     const popperEl = document.querySelector('.lp-picker__popper');
-    const attr = popperEl.getAttribute('aria-hidden');
+    const attr = popperEl!.getAttribute('aria-hidden');
     expect(attr).toEqual('false');
   });
 
@@ -336,27 +338,27 @@ describe('TimePicker', () => {
     const timePickerExposed = wrapper.findComponent(TimePicker).vm.$.exposed;
 
     await nextTick();
-    timePickerExposed.focus();
+    timePickerExposed!.focus();
     await nextTick();
-    timePickerExposed.blur();
+    timePickerExposed!.blur();
 
     await nextTick();
     const popperEl = document.querySelector('.lp-picker__popper');
-    const attr = popperEl.getAttribute('aria-hidden');
+    const attr = popperEl!.getAttribute('aria-hidden');
     expect(attr).toEqual('false');
   });
 
   it('ref handleOpen', async () => {
     const value = ref(new Date(2016, 9, 10, 18, 40));
     const wrapper = mount(() => <TimePicker v-model={value.value} />);
-    const timePickerExposed = wrapper.findComponent(TimePicker).vm.$.exposed;
+    const timePickerExposed = wrapper.findComponent(TimePicker).vm.$.exposed!;
 
     await nextTick();
     timePickerExposed.handleOpen();
 
     await nextTick();
     const popperEl = document.querySelector('.lp-picker__popper');
-    const attr = popperEl.getAttribute('aria-hidden');
+    const attr = popperEl!.getAttribute('aria-hidden');
     expect(attr).toEqual('false');
   });
 
@@ -365,7 +367,7 @@ describe('TimePicker', () => {
 
     const value = ref(new Date(2016, 9, 10, 18, 40));
     const wrapper = mount(() => <TimePicker v-model={value.value} />);
-    const timePickerExposed = wrapper.findComponent(TimePicker).vm.$.exposed;
+    const timePickerExposed = wrapper.findComponent(TimePicker).vm.$.exposed!;
 
     await nextTick();
     timePickerExposed.handleOpen();
@@ -373,7 +375,7 @@ describe('TimePicker', () => {
     timePickerExposed.handleClose();
 
     await nextTick();
-    const popperEl = document.querySelector('.lp-picker__popper');
+    const popperEl = document.querySelector('.lp-picker__popper')!;
     const attr = popperEl.getAttribute('aria-hidden');
     expect(attr).toEqual('true');
 
@@ -451,7 +453,7 @@ describe('TimePicker', () => {
     input.trigger('focus');
     await nextTick();
 
-    const list = document.querySelectorAll('.lp-time-spinner__list');
+    const list = document.querySelectorAll<HTMLElement>('.lp-time-spinner__list');
     const hoursEl = list[0];
     let activeHours = getSpinnerTextAsArray(hoursEl, '.is-active')[0];
 
@@ -460,8 +462,8 @@ describe('TimePicker', () => {
       '.lp-time-spinner__wrapper',
     );
     const hoursLpWrapper = hoursLpWrapperList[0];
-    const hoursLpArrowDown: Element | null =
-      hoursLpWrapper.querySelector('.arrow-down');
+    const hoursLpArrowDown =
+      hoursLpWrapper.querySelector<HTMLElement>('.arrow-down')!;
     expect(hoursLpArrowDown).toBeTruthy();
 
     const mousedownEvt = new MouseEvent('mousedown');
@@ -610,7 +612,7 @@ describe('TimePicker(range)', () => {
       new Date(2016, 9, 10, 9, 40),
       new Date(2016, 9, 10, 15, 40),
     ]);
-    const disabledHours = role => {
+    const disabledHours = (role: string) => {
       if (role === 'start') {
         return makeRange(0, 7).concat(makeRange(13, 23));
       }
@@ -630,7 +632,7 @@ describe('TimePicker(range)', () => {
     // For skipping Transition animation
     await rAF();
 
-    const list = document.querySelectorAll('.lp-time-spinner__list');
+    const list = document.querySelectorAll<HTMLElement>('.lp-time-spinner__list');
     const leftHoursEl = list[0];
     const leftEndbledHours = getSpinnerTextAsArray(
       leftHoursEl,
@@ -733,20 +735,20 @@ describe('TimePicker(range)', () => {
     // For skipping Transition animation
     await rAF();
 
-    const list = document.querySelectorAll('.lp-time-spinner__list');
+    const list = document.querySelectorAll<HTMLElement>('.lp-time-spinner__list');
     expect(
       list[0]
-        .querySelector('.lp-time-spinner__item.is-active')
+        .querySelector('.lp-time-spinner__item.is-active')!
         .innerHTML.split(' ').length,
     ).toBe(2);
     expect(
       list[1]
-        .querySelector('.lp-time-spinner__item.is-active')
+        .querySelector('.lp-time-spinner__item.is-active')!
         .innerHTML.split(' ').length,
     ).toBe(1);
     expect(
       list[2]
-        .querySelector('.lp-time-spinner__item.is-active')
+        .querySelector('.lp-time-spinner__item.is-active')!
         .innerHTML.split(' ').length,
     ).toBe(1);
   });
@@ -818,7 +820,7 @@ describe('TimePicker(range)', () => {
       const value = ref(new Date(2016, 9, 10, 18, 40));
       wrapper = mount(() => <TimePicker v-model={value.value} ref="input" />, {
         attachTo: document.body,
-      });
+      }) as any;
     });
 
     afterEach(() => {

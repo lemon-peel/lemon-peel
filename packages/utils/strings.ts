@@ -1,4 +1,4 @@
-import { capitalize as toCapitalize } from '@vue/shared';
+import { capitalize as toCapitalize } from 'vue';
 export {
   camelize,
   hyphenate,

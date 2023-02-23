@@ -2,7 +2,7 @@ import { unref } from 'vue';
 import { isArray } from '@lemon-peel/utils';
 import type { Arrayable } from '@lemon-peel/utils';
 import type { Ref } from 'vue';
-import type { TooltipTriggerType } from './Trigger.vue';
+import type { TooltipTriggerType } from './trigger';
 
 export const isTriggerType = (
   trigger: Arrayable<TooltipTriggerType>,

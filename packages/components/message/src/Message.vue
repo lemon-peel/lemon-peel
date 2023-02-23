@@ -65,7 +65,7 @@ defineOptions({
 });
 
 const props = defineProps(messageProps);
-defineEmits(messageEmits);
+const emit = defineEmits(messageEmits);
 
 const ns = useNamespace('message');
 
@@ -139,5 +139,7 @@ defineExpose({
   visible,
   bottom,
   close,
+  iconComponent,
+  customStyle,
 });
 </script>

@@ -4,13 +4,13 @@ import SkeletonItem from '../src/SkeletonItem.vue';
 
 describe('<skeleton-item />', () => {
   it('should render correctly', () => {
-    const wrapper = mount(<SkeletonItem />);
+    const wrapper = mount(SkeletonItem);
 
     expect(wrapper.find('.lp-skeleton__text').exists()).toBe(true);
   });
 
   it('should render image placeholder', () => {
-    const wrapper = mount(<SkeletonItem variant="image" />);
+    const wrapper = mount(SkeletonItem, { propsData: { variant: 'image' } });
 
     expect(wrapper.find('svg').exists()).toBe(true);
   });

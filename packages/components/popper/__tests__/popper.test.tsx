@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import { defineComponent, inject, nextTick } from 'vue';
 import { mount } from '@vue/test-utils';
 import { describe, expect, it } from 'vitest';
@@ -8,7 +10,7 @@ const AXIOM = 'rem is the best girl';
 
 const TestChild = defineComponent({
   setup() {
-    const { contentRef } = inject(POPPER_INJECTION_KEY, undefined)!;
+    const { contentRef } = inject(POPPER_INJECTION_KEY)!;
     return () => <div ref={contentRef}>{AXIOM}</div>;
   },
 });

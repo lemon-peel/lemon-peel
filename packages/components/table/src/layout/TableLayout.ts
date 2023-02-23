@@ -91,7 +91,7 @@ class TableLayout {
 
   getFlattenColumns(): TableColumnCtx[] {
     const flattenColumns: TableColumnCtx[] = [];
-    const columns = this.table.store.states.columns.value;
+    const columns = this.store.states.columns.value;
     columns.forEach((column: TableColumnCtx) => {
       if (column.isColumnGroup) {
         // eslint-disable-next-line prefer-spread

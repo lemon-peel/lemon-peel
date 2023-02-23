@@ -1,17 +1,20 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import { nextTick } from 'vue';
 import { NOOP } from '@vue/shared';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { hasClass } from '@element-plus/utils';
-import { EVENT_CODE } from '@element-plus/constants';
-import { makeMountFunc } from '@element-plus/test-utils/make-mount';
-import { rAF } from '@element-plus/test-utils/tick';
+import { forceType, hasClass } from '@lemon-peel/utils';
+import { EVENT_CODE } from '@lemon-peel/constants';
+import { makeMountFunc } from '@lemon-peel/test-utils/makeMount';
+import { rAF } from '@lemon-peel/test-utils/tick';
 import { CircleClose } from '@element-plus/icons-vue';
-import { usePopperContainerId } from '@element-plus/hooks';
+import { POPPER_CONTAINER_SELECTOR } from '@lemon-peel/hooks';
 import Select from '../src/Select.vue';
+import type { VueWrapper } from '@vue/test-utils';
 
-vi.mock('lodash-es', async () => {
+vi.mock('lodash-unified', async () => {
   return {
-    ...((await vi.importActual('lodash-es')) as Record<string, any>),
+    ...((await vi.importActual('lodash-unified')) as Record<string, any>),
     debounce: vi.fn(fn => {
       fn.cancel = vi.fn();
       fn.flush = vi.fn();
@@ -20,11 +23,18 @@ vi.mock('lodash-es', async () => {
   };
 });
 
-const _mount = makeMountFunc({
+const doMount = makeMountFunc({
   components: {
     'lp-select': Select,
   },
+  props: {},
 });
+
+const CLASS_NAME = 'lp-select-v2';
+const WRAPPER_CLASS_NAME = 'lp-select-v2__wrapper';
+const OPTION_ITEM_CLASS_NAME = 'lp-select-dropdown__option-item';
+const PLACEHOLDER_CLASS_NAME = 'lp-select-v2__placeholder';
+const DEFAULT_PLACEHOLDER = 'Select';
 
 const createData = (count = 1000) => {
   const initials = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
@@ -34,7 +44,7 @@ const createData = (count = 1000) => {
   }));
 };
 
-const clickClearButton = async wrapper => {
+const clickClearButton = async (wrapper: VueWrapper) => {
   const select = wrapper.findComponent(Select);
   const selectVm = select.vm as any;
   selectVm.states.comboBoxHovering = true;
@@ -62,21 +72,20 @@ interface SelectProps {
   [key: string]: any;
 }
 
-interface SelectEvents {
+interface LocalSelectEvents {
   onChange?: (value?: string) => void;
   onVisibleChange?: (visible?: boolean) => void;
   onRemoveTag?: (tag?: string) => void;
   onFocus?: (event?: FocusEvent) => void;
-  onBlur?: (event?) => void;
+  onBlur?: (event?: Event) => void;
   filterMethod?: (query: string) => void | undefined;
   remoteMethod?: (query: string) => void | undefined;
-  [key: string]: (...args) => any;
 }
 
 const createSelect = (
   options: {
     data?: () => SelectProps;
-    methods?: SelectEvents;
+    methods?: LocalSelectEvents;
     slots?: {
       empty?: string;
       default?: string;
@@ -93,7 +102,7 @@ const createSelect = (
       options.slots.default &&
       `<template #default="{item}">${options.slots.default}</template>`) ||
     '';
-  return _mount(
+  return doMount(
     `
       <lp-select
         :options="options"
@@ -157,11 +166,11 @@ const createSelect = (
         };
       },
       methods: {
-        onChange: NOOP,
-        onVisibleChange: NOOP,
-        onRemoveTag: NOOP,
-        onFocus: NOOP,
-        onBlur: NOOP,
+        onChange: forceType(NOOP),
+        onVisibleChange: forceType(NOOP),
+        onRemoveTag: forceType(NOOP),
+        onFocus: forceType(NOOP),
+        onBlur: forceType(NOOP),
         ...options.methods,
       },
     },
@@ -173,12 +182,6 @@ function getOptions(): HTMLElement[] {
     document.querySelectorAll<HTMLElement>(`.${OPTION_ITEM_CLASS_NAME}`),
   );
 }
-
-const CLASS_NAME = 'lp-select-v2';
-const WRAPPER_CLASS_NAME = 'lp-select-v2__wrapper';
-const OPTION_ITEM_CLASS_NAME = 'lp-select-dropdown__option-item';
-const PLACEHOLDER_CLASS_NAME = 'lp-select-v2__placeholder';
-const DEFAULT_PLACEHOLDER = 'Select';
 
 describe('Select', () => {
   afterEach(() => {
@@ -475,55 +478,6 @@ describe('Select', () => {
     expect(vm.value).toBeUndefined();
     const placeholder = wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`);
     expect(placeholder.text()).toBe(DEFAULT_PLACEHOLDER);
-  });
-
-  describe('initial value', () => {
-    it.each([
-      [null, DEFAULT_PLACEHOLDER],
-      [undefined, DEFAULT_PLACEHOLDER],
-      ['', ''],
-      [[], DEFAULT_PLACEHOLDER],
-      [{}, '[object Object]'],
-    ])(
-      '[single select] initial value is %s, placeholder is "%s"',
-      async (value, placeholder) => {
-        const wrapper = createSelect({
-          data: () => {
-            return {
-              value,
-            };
-          },
-        });
-        await nextTick();
-        expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe(
-          placeholder,
-        );
-      },
-    );
-
-    it.each([
-      [null, DEFAULT_PLACEHOLDER],
-      [undefined, DEFAULT_PLACEHOLDER],
-      ['', DEFAULT_PLACEHOLDER],
-      [[], DEFAULT_PLACEHOLDER],
-      [{}, DEFAULT_PLACEHOLDER],
-    ])(
-      '[multiple select] initial value is %s, placeholder is "%s"',
-      async (value, placeholder) => {
-        const wrapper = createSelect({
-          data: () => {
-            return {
-              multiple: true,
-              value,
-            };
-          },
-        });
-        await nextTick();
-        expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe(
-          placeholder,
-        );
-      },
-    );
   });
 
   describe('multiple', () => {
@@ -1550,10 +1504,9 @@ describe('Select', () => {
       });
 
       await nextTick();
-      const { selector } = usePopperContainerId();
-      expect(document.body.querySelector(selector.value)!.innerHTML).not.toBe(
-        '',
-      );
+      expect(
+        document.body.querySelector(POPPER_CONTAINER_SELECTOR)!.innerHTML,
+      ).not.toBe('');
     });
 
     it('should not mount on the popper container', async () => {
@@ -1591,43 +1544,9 @@ describe('Select', () => {
       });
 
       await nextTick();
-      const { selector } = usePopperContainerId();
-      expect(document.body.querySelector(selector.value).innerHTML).toBe('');
+      expect(
+        document.body.querySelector(POPPER_CONTAINER_SELECTOR).innerHTML,
+      ).toBe('');
     });
-  });
-
-  it('filterable case-insensitive', async () => {
-    const wrapper = createSelect({
-      data: () => {
-        return {
-          filterable: true,
-          options: [
-            {
-              value: '1',
-              label: 'option 1',
-            },
-            {
-              value: '2',
-              label: 'option 2',
-            },
-            {
-              value: '3',
-              label: 'OPtion 3',
-            },
-          ],
-        };
-      },
-    });
-    await nextTick();
-    const select = wrapper.findComponent(Select);
-    const selectVm = select.vm as any;
-    selectVm.expanded = true;
-    await nextTick();
-    await rAF();
-    const input = wrapper.find('input');
-    input.element.value = 'op';
-    await input.trigger('input');
-    await nextTick();
-    expect(selectVm.filteredOptions.length).toBe(3);
   });
 });

@@ -2,7 +2,7 @@ import { nextTick, ref } from 'vue';
 import { mount } from '@vue/test-utils';
 import { afterEach, describe, expect, it } from 'vitest';
 import dayjs from 'dayjs';
-import triggerEvent from '@lemon-peel/test-utils/trigger-event';
+import triggerEvent from '@lemon-peel/test-utils/triggerEvent';
 import { LpFormItem } from '@lemon-peel/components/form';
 import DatePicker from '../src/DatePicker';
 import type { VNode } from 'vue';

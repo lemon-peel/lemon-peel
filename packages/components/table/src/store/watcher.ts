@@ -79,7 +79,7 @@ export const useWatcher = memoize((table: TableVM) => {
   const sortingColumn = ref<TableColumnCtx | null>(null);
   const sortProp = ref<string | null>(null);
   const sortOrder = ref<string | null>(null);
-  const hoverRow = ref(null);
+  const hoverRow = ref<number | null>(null);
 
   // 更新 fixed
   const updateChildFixed = (column: TableColumnCtx) => {
@@ -341,9 +341,7 @@ export const useWatcher = memoize((table: TableVM) => {
       const values = filters.value[columnId];
       if (!values || values.length === 0) return;
       const column = getColumnById(
-        {
-          columns: columns.value,
-        },
+        columns.value,
         columnId,
       );
       if (column && column.filterMethod) {
@@ -397,7 +395,7 @@ export const useWatcher = memoize((table: TableVM) => {
         }
       });
 
-      actions.commit('filterChange', {
+      actions.filterChange({
         column: columnList,
         values: [],
         silent: true,
@@ -412,8 +410,8 @@ export const useWatcher = memoize((table: TableVM) => {
       });
 
       filters.value = {};
-      actions.commit('filterChange', {
-        column: {},
+      actions.filterChange({
+        column: {} as TableColumnCtx,
         values: [],
         silent: true,
       });
@@ -424,7 +422,7 @@ export const useWatcher = memoize((table: TableVM) => {
     if (!sortingColumn.value) return;
 
     updateSort(null, null, null);
-    actions.commit('changeSortCondition', { silent: true });
+    actions.changeSortCondition({ silent: true });
   };
 
   // 适配层，expand-row-keys 在 Expand 与 TreeTable 中都有使用

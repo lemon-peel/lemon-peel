@@ -30,7 +30,7 @@ function useStore(table: TableVM) {
       ...watcher.states,
     },
     ns: useNamespace('table'),
-    commit: actions.commit,
+    actions,
     clear,
     current,
     expand,

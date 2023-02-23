@@ -1,6 +1,6 @@
 
 import { describe, expect, it, vi } from 'vitest';
-import triggerEvent from '@lemon-peel/test-utils/trigger-event';
+import triggerEvent from '@lemon-peel/test-utils/triggerEvent';
 import LpTable from '../src/table/Table.vue';
 import LpTableColumn from '../src/tableColumn';
 import { doubleWait, getTestData, mount } from './tableTestCommon';
@@ -19,12 +19,12 @@ vi.mock('lodash-es', async () => {
 describe('table column', () => {
   describe('column attributes', () => {
     const createTable = function (
-      props1?,
-      props2?,
-      props3?,
-      props4?,
-      opts?,
-      tableProps?,
+      props1?: string,
+      props2?: string,
+      props3?: string,
+      props4?: string,
+      opts?: Record<string, any>,
+      tableProps?: string,
     ) {
       return mount(
         Object.assign(
@@ -42,7 +42,7 @@ describe('table column', () => {
           </lp-table>
         `,
 
-            created() {
+            created(this: any) {
               this.testData = getTestData();
             },
           },
@@ -99,21 +99,21 @@ describe('table column', () => {
       expect(leftFixedBodyColumns).toHaveLength(10);
       expect(rightFixedHeaderColumns).toHaveLength(1);
       expect(rightFixedBodyColumns).toHaveLength(5);
-      expect(leftFixedHeaderColumns.at(0).text()).toBe('test1');
-      expect(leftFixedHeaderColumns.at(1).text()).toBe('test3');
-      expect(leftFixedHeaderColumns.at(1).classes()).toContain('is-last-column');
-      expect(rightFixedHeaderColumns.at(0).text()).toBe('test2');
-      expect(rightFixedHeaderColumns.at(0).classes()).toContain(
+      expect(leftFixedHeaderColumns.at(0)!.text()).toBe('test1');
+      expect(leftFixedHeaderColumns.at(1)!.text()).toBe('test3');
+      expect(leftFixedHeaderColumns.at(1)!.classes()).toContain('is-last-column');
+      expect(rightFixedHeaderColumns.at(0)!.text()).toBe('test2');
+      expect(rightFixedHeaderColumns.at(0)!.classes()).toContain(
         'is-first-column',
       );
-      expect(getComputedStyle(leftFixedHeaderColumns.at(0).element).left).toBe(
+      expect(getComputedStyle(leftFixedHeaderColumns.at(0)!.element).left).toBe(
         '0px',
       );
-      expect(getComputedStyle(leftFixedHeaderColumns.at(1).element).left).toBe(
+      expect(getComputedStyle(leftFixedHeaderColumns.at(1)!.element).left).toBe(
         '100px',
       );
       expect(
-        getComputedStyle(rightFixedHeaderColumns.at(0).element).right,
+        getComputedStyle(rightFixedHeaderColumns.at(0)!.element).right,
       ).toBe('0px');
       wrapper.unmount();
     });
@@ -137,7 +137,7 @@ describe('table column', () => {
     it('formatter', async () => {
       const wrapper = createTable(':formatter="renderCell"', '', '', '', {
         methods: {
-          renderCell(row) {
+          renderCell(row: any) {
             return `[${row.name}]`;
           },
         },
@@ -217,7 +217,7 @@ describe('table column', () => {
         },
 
         methods: {
-          change(rows) {
+          change(this: any, rows: any[]) {
             this.selected = rows;
           },
 
@@ -235,7 +235,7 @@ describe('table column', () => {
     });
 
     describe('type', () => {
-      const createTable = function (type) {
+      const createTable = function (type: string) {
         return mount({
           components: {
             LpTable,
@@ -260,7 +260,7 @@ describe('table column', () => {
           },
 
           methods: {
-            change(rows) {
+            change(this: any, rows: any[]) {
               this.selected = rows;
             },
           },
@@ -312,8 +312,7 @@ describe('table column', () => {
       });
 
       describe('= expand', () => {
-        const createInstance = function (extra?) {
-          extra = extra || '';
+        const createInstance = function (extra = '') {
           return mount({
             components: {
               LpTableColumn,
@@ -341,10 +340,10 @@ describe('table column', () => {
             },
 
             methods: {
-              handleExpand() {
+              handleExpand(this: any) {
                 this.expandCount++;
               },
-              refreshData() {
+              refreshData(this: any) {
                 this.testData = getTestData();
               },
             },
@@ -405,7 +404,7 @@ describe('table column', () => {
           '',
           {
             methods: {
-              sortMethod(a, b) {
+              sortMethod(a: any, b: any) {
                 // sort method should return number
                 if (a.runtime < b.runtime) {
                   return 1;
@@ -440,7 +439,7 @@ describe('table column', () => {
       it('sortable by method', async () => {
         const wrapper = createTable('sortable :sort-by="sortBy"', '', '', '', {
           methods: {
-            sortBy(a) {
+            sortBy(a: any) {
               return -a.runtime;
             },
           },
@@ -747,17 +746,17 @@ describe('table column', () => {
       );
       expect(lfbcolumns).toHaveLength(15);
       expect(rfbcolumns).toHaveLength(10);
-      expect(lfhcolumns.at(0).at(0).classes()).toContain('is-last-column');
-      expect(lfhcolumns.at(1).at(1).classes()).toContain('is-last-column');
-      expect(getComputedStyle(lfhcolumns.at(1).at(1).element).left).toBe(
+      expect(lfhcolumns.at(0)!.at(0)!.classes()).toContain('is-last-column');
+      expect(lfhcolumns.at(1)!.at(1)!.classes()).toContain('is-last-column');
+      expect(getComputedStyle(lfhcolumns.at(1)!.at(1)!.element).left).toBe(
         '200px',
       );
-      expect(getComputedStyle(lfhcolumns.at(2).at(1).element).left).toBe(
+      expect(getComputedStyle(lfhcolumns.at(2)!.at(1)!.element).left).toBe(
         '100px',
       );
-      expect(rfhcolumns.at(0).at(0).classes()).toContain('is-first-column');
-      expect(rfhcolumns.at(1).at(0).classes()).toContain('is-first-column');
-      expect(getComputedStyle(rfhcolumns.at(1).at(0).element).right).toBe(
+      expect(rfhcolumns.at(0)!.at(0)!.classes()).toContain('is-first-column');
+      expect(rfhcolumns.at(1)!.at(0)!.classes()).toContain('is-first-column');
+      expect(getComputedStyle(rfhcolumns.at(1)!.at(0)!.element).right).toBe(
         '50px',
       );
       wrapper.unmount();
@@ -1272,7 +1271,7 @@ describe('table column', () => {
       ];
     };
 
-    const createTable = function (methods) {
+    const createTable = function (methods: Record<string, any>) {
       return mount(
         Object.assign({
           components: {
@@ -1310,7 +1309,7 @@ describe('table column', () => {
               </lp-table>
           `,
           methods: {
-            selectable(row) {
+            selectable(row: any) {
               return !row.disabled;
             },
             ...methods,
@@ -1325,9 +1324,9 @@ describe('table column', () => {
     };
 
     it('selectable index parameter should be correct', async () => {
-      const result = [];
+      const result: boolean[] = [];
       const wrapper = createTable({
-        selectable(row, index) {
+        selectable(row: any, index: number) {
           result.push(row.index - 1 === index);
           return !row.disabled;
         },

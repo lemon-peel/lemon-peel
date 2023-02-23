@@ -2,7 +2,7 @@ import { buildProps } from '@lemon-peel/utils';
 import { virtualizedGridProps } from '@lemon-peel/components/virtualList';
 import { columns, expandColumnKey, rowKey } from './common';
 
-import type { CSSProperties, ExtractPropTypes } from 'vue';
+import type { CSSProperties, ExtractPropTypes, PropType } from 'vue';
 import type { FixedDirection, KeyType, RowCommonParams } from './types';
 
 export type RowExpandParams = {
@@ -46,10 +46,7 @@ export type RowEventHandlers = {
 export const tableV2RowProps = buildProps({
   class: String,
   columns,
-  columnsStyles: {
-    type: Object as PropType<Record<KeyType, CSSProperties>>,
-    required: true,
-  },
+  columnsStyles: { type: Object as PropType<Record<KeyType, CSSProperties>>, required: true },
   depth: Number,
   expandColumnKey,
   estimatedRowHeight: {
@@ -57,33 +54,17 @@ export const tableV2RowProps = buildProps({
     default: undefined,
   },
   isScrolling: Boolean,
-  onRowExpand: {
-    type: Function as PropType<RowExpandHandler>,
-  },
-  onRowHover: {
-    type: Function as PropType<RowHoverHandler>,
-  },
-  onRowHeightChange: {
-    type: Function as PropType<RowHeightChangeHandler>,
-  },
-  rowData: {
-    type: Object as PropType<any>,
-    required: true,
-  },
-  rowEventHandlers: {
-    type: Object as PropType<RowEventHandlers>,
-  },
-  rowIndex: {
-    type: Number,
-    required: true,
-  },
+  onRowExpand: { type: Function as PropType<RowExpandHandler> },
+  onRowHover: { type: Function as PropType<RowHoverHandler> },
+  onRowHeightChange: { type: Function as PropType<RowHeightChangeHandler> },
+  rowData: { type: Object as PropType<any>, required: true },
+  rowEventHandlers: { type: Object as PropType<RowEventHandlers> },
+  rowIndex: { type: Number, required: true },
   /**
    * Unique item key
    */
   rowKey,
-  style: {
-    type: Object as PropType<CSSProperties>,
-  },
+  style: { type: Object as PropType<CSSProperties> },
 } as const);
 
 export type TableV2RowProps = ExtractPropTypes<typeof tableV2RowProps>;

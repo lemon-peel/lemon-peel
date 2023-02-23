@@ -1,7 +1,7 @@
 import { nextTick } from 'vue';
 import { mount } from '@vue/test-utils';
 import { describe, expect, test } from 'vitest';
-import makeScroll from '@lemon-peel/test-utils/make-scroll';
+import makeScroll from '@lemon-peel/test-utils/makeScroll';
 import defineGetter from '@lemon-peel/test-utils/defineGetter';
 
 import Scrollbar from '../src/Scrollbar.vue';

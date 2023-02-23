@@ -10,6 +10,7 @@ import glob from 'fast-glob';
 import VueMacros from 'unplugin-vue-macros/vite';
 import esbuild from 'rollup-plugin-esbuild';
 import AutoImport from 'unplugin-auto-import/vite';
+import eslint from 'vite-plugin-eslint';
 import checker from 'vite-plugin-checker';
 
 import { mainPackage, mainPkg, getPackageDependencies, pkgRoot, lpRoot } from '@lemon-peel/build-utils';
@@ -144,8 +145,10 @@ export default defineConfig(async ({ mode }) => {
       https: !!env.HTTPS,
     },
     plugins: [
-      // eslint({ fix: true }),
-      checker({ vueTsc: true }),
+      eslint({ fix: true }),
+      checker({
+        vueTsc: { tsconfigPath: path.resolve(__dirname, '../tsconfig.serve.json') },
+      }),
       VueMacros({
         setupComponent: false,
         setupSFC: false,
@@ -164,7 +167,7 @@ export default defineConfig(async ({ mode }) => {
         ],
         dts: 'auto-imports.d.ts',
       }),
-      // esbuildPlugin(),
+      esbuildPlugin(),
       Components({
         include: `${__dirname}/**`,
         resolvers: LomonPeelResolver({ importStyle: 'sass' }),

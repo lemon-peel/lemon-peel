@@ -2,7 +2,7 @@ import { defineComponent, provide } from 'vue';
 import { NOOP } from '@vue/shared';
 import { mount } from '@vue/test-utils';
 import { describe, expect, it } from 'vitest';
-import { ElButton } from '@lemon-peel/components';
+import { LpButton } from '@lemon-peel/components';
 import {
   buttonGroupContextKey,
   formContextKey,
@@ -18,7 +18,7 @@ const mountComponent = (setup = NOOP, options = {}) =>
     defineComponent({
       setup,
       render() {
-        return <ElButton {...this.$attrs}>{AXIOM}</ElButton>;
+        return <LpButton {...this.$attrs}>{AXIOM}</LpButton>;
       },
     }),
     options,

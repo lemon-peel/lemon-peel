@@ -1,7 +1,7 @@
 import { computed, inject, ref, unref } from 'vue';
 import { formContextKey, formItemContextKey } from '@lemon-peel/tokens';
 import { buildProp } from '@lemon-peel/utils';
-import { componentSizes } from '@lemon-peel/constants';
+import { componentSizes, defaultSize } from '@lemon-peel/constants';
 
 import { useProp } from '../useProp';
 import { useGlobalConfig } from '../useGlobalConfig';
@@ -37,7 +37,7 @@ export const useSize = (
       formItem?.size ||
       form?.size ||
       globalConfig.value ||
-      '',
+      defaultSize,
   );
 };
 

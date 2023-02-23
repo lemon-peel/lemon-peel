@@ -1,16 +1,10 @@
+
 import { nextTick } from 'vue';
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest';
-import makeMount from '@lemon-peel/test-utils/make-mount';
-import makeScroll from '@lemon-peel/test-utils/make-scroll';
+import makeMount from '@lemon-peel/test-utils/makeMount';
+import makeScroll from '@lemon-peel/test-utils/makeScroll';
 import setupMock from '../setupMock';
-import {
-  CENTERED_ALIGNMENT,
-  END_ALIGNMENT,
-  HORIZONTAL,
-  RTL,
-  SMART_ALIGNMENT,
-  START_ALIGNMENT,
-} from '../src/defaults';
+import { CENTERED_ALIGNMENT, END_ALIGNMENT, HORIZONTAL, RTL, SMART_ALIGNMENT, START_ALIGNMENT } from '../src/defaults';
 import { FixedSizeList } from '../index';
 
 import type { SpyInstance } from 'vitest';
@@ -22,7 +16,7 @@ const WINDOW_KLS = 'window';
 const WINDOW_SELECTOR = `.${WINDOW_KLS}`;
 const ITEM_KLS = 'item';
 const ITEM_SELECTOR = `.${ITEM_KLS}`;
-const mount = makeMount(
+const doMount = makeMount(
   {
     template: `<fixed-size-list v-bind="$attrs" ref="listRef">
     <template #default="{index, style}">
@@ -32,6 +26,7 @@ const mount = makeMount(
     components: {
       FixedSizeList,
     },
+    props: {},
   },
   {
     props: {
@@ -58,7 +53,7 @@ describe('<fixed-size-list />', () => {
   });
 
   it('should render correctly', async () => {
-    const wrapper = mount();
+    const wrapper = doMount({});
 
     await nextTick();
 
@@ -73,13 +68,13 @@ describe('<fixed-size-list />', () => {
     expect(
       wrapper
         .find(WINDOW_SELECTOR)
-        .element.firstElementChild.getAttribute('style'),
+        .element.firstElementChild!.getAttribute('style'),
     ).toBe('height: 2500px; width: 100%;');
     expect(onItemRendered).toHaveBeenCalledTimes(1);
   });
 
   it('should render 0 item when total is 0', async () => {
-    const wrapper = mount({
+    const wrapper = doMount({
       props: {
         total: 0,
       },
@@ -89,14 +84,14 @@ describe('<fixed-size-list />', () => {
   });
 
   it('should early terminate scroll handler when the scrollTo equals to current offset', async () => {
-    const wrapper = mount();
+    const wrapper = doMount({});
 
     await nextTick();
 
     expect(wrapper.find(ITEM_SELECTOR).text()).toContain(0);
 
     await makeScroll(
-      (wrapper.vm.$refs.listRef as ListRef).windowRef,
+      (wrapper.vm.$refs.listRef as ListRef).windowRef.value,
       'scrollTop',
       0,
     );
@@ -107,7 +102,7 @@ describe('<fixed-size-list />', () => {
     });
 
     await makeScroll(
-      (wrapper.vm.$refs.listRef as ListRef).windowRef,
+      (wrapper.vm.$refs.listRef as ListRef).windowRef.value,
       'scrollLeft',
       0,
     );
@@ -116,7 +111,7 @@ describe('<fixed-size-list />', () => {
   });
 
   it('should render correct items to the dom', async () => {
-    const wrapper = mount();
+    const wrapper = doMount();
 
     await nextTick();
 
@@ -127,7 +122,7 @@ describe('<fixed-size-list />', () => {
     expect(wrapper.findAll(ITEM_SELECTOR)).toHaveLength(7);
     expect(onItemRendered).toHaveBeenCalledTimes(1);
 
-    makeScroll(windowRef, 'scrollTop', 100);
+    makeScroll(windowRef.value, 'scrollTop', 100);
     await nextTick();
     // from index 3(item 4) + 4 visible items + 3 cache items = index 10
     // the total items rendered is 3 + 4 + 1 (index 3) inclusive
@@ -136,7 +131,7 @@ describe('<fixed-size-list />', () => {
   });
 
   it('should set initial offset', async () => {
-    const wrapper = mount({
+    const wrapper = doMount({
       props: {
         initScrollOffset: 100,
       },
@@ -150,7 +145,7 @@ describe('<fixed-size-list />', () => {
   });
 
   it('should render horizontal list', async () => {
-    const wrapper = mount({
+    const wrapper = doMount({
       props: {
         layout: HORIZONTAL,
       },
@@ -160,12 +155,12 @@ describe('<fixed-size-list />', () => {
     expect(
       wrapper
         .find(WINDOW_SELECTOR)
-        .element.firstElementChild.getAttribute('style'),
+        .element.firstElementChild!.getAttribute('style'),
     ).toBe('height: 100%; width: 2500px;');
   });
 
   it('should handle horizontal scroll correctly', async () => {
-    const wrapper = mount({
+    const wrapper = doMount({
       props: {
         layout: HORIZONTAL,
       },
@@ -175,14 +170,14 @@ describe('<fixed-size-list />', () => {
     expect(wrapper.findAll(ITEM_SELECTOR)).toHaveLength(5);
 
     const { windowRef } = wrapper.vm.$refs.listRef as ListRef;
-    makeScroll(windowRef, 'scrollLeft', 100);
+    makeScroll(windowRef.value, 'scrollLeft', 100);
     await nextTick();
     expect(wrapper.findAll(ITEM_SELECTOR)).toHaveLength(6);
     expect(wrapper.find(ITEM_SELECTOR).text()).toContain(3);
   });
 
   it('should render rtl direction', async () => {
-    const wrapper = mount({
+    const wrapper = doMount({
       props: {
         direction: RTL,
       },
@@ -192,7 +187,7 @@ describe('<fixed-size-list />', () => {
     expect(
       wrapper
         .find(WINDOW_SELECTOR)
-        .element.getAttribute('style')
+        .element.getAttribute('style')!
         .includes(`direction: ${RTL}`),
     ).toBe(true);
     const style = wrapper.find(ITEM_SELECTOR).element.getAttribute('style');
@@ -201,7 +196,7 @@ describe('<fixed-size-list />', () => {
   });
 
   it('should update rendered items when cache changes', async () => {
-    const wrapper = mount();
+    const wrapper = doMount();
     await nextTick();
     expect(wrapper.findAll(ITEM_SELECTOR)).toHaveLength(7);
 
@@ -213,7 +208,7 @@ describe('<fixed-size-list />', () => {
   });
 
   it('should update rendered items when item size changed', async () => {
-    const wrapper = mount();
+    const wrapper = doMount();
     await nextTick();
     expect(wrapper.findAll(ITEM_SELECTOR)).toHaveLength(7);
 
@@ -226,7 +221,7 @@ describe('<fixed-size-list />', () => {
 
   describe('scrollTo', () => {
     it('should correctly scroll vertically', async () => {
-      const wrapper = mount();
+      const wrapper = doMount();
 
       await nextTick();
 
@@ -245,7 +240,7 @@ describe('<fixed-size-list />', () => {
     });
 
     it('should correctly scroll horizontally', async () => {
-      const wrapper = mount({
+      const wrapper = doMount({
         props: {
           layout: HORIZONTAL,
         },
@@ -268,7 +263,7 @@ describe('<fixed-size-list />', () => {
     });
 
     it('should not scroll out of the boundary', async () => {
-      const wrapper = mount({
+      const wrapper = doMount({
         props: {
           total: 10,
         },
@@ -292,7 +287,7 @@ describe('<fixed-size-list />', () => {
   describe('scrollToItem', () => {
     it('should scrollToItem correctly', async () => {
       // auto alignment
-      const wrapper = mount();
+      const wrapper = doMount();
 
       await nextTick();
 
@@ -361,7 +356,7 @@ describe('<fixed-size-list />', () => {
       vi.spyOn(console, 'warn').mockImplementation(() => vi.fn);
 
       try {
-        const wrapper = mount({
+        const wrapper = doMount({
           props: {
             width: '100',
             height: '100',

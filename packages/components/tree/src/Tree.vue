@@ -1,6 +1,6 @@
 <template>
   <div
-    ref="el$"
+    ref="elRef"
     :class="[
       ns.b(),
       ns.is('dragging', !!dragState.draggingNode),
@@ -26,7 +26,7 @@
     </div>
     <div
       v-show="dragState.showDropIndicator"
-      ref="dropIndicator$"
+      ref="dropIndicatorRef"
       :class="ns.e('drop-indicator')"
     />
   </div>
@@ -83,20 +83,20 @@ const store = shallowRef<TreeStore>(
 
 const root = ref<Node>(store.value.root);
 const currentNode = ref<Node>();
-const element$ = ref<HTMLElement>(null as any);
-const dropIndicator$ = ref<HTMLElement>();
+const elRef = shallowRef<HTMLElement>(null as any);
+const dropIndicatorRef = shallowRef<HTMLElement>(null as any);
 
 const { broadcastExpanded } = useNodeExpandEventBroadcast(props);
 
 const { dragState } = useDragNodeHandler({
   props,
-  ctx: { emit },
-  el$: element$,
-  dropIndicator$,
+  emit,
+  elRef,
+  dropIndicatorRef,
   store,
 });
 
-useKeydown({ el$: element$ as any }, store);
+useKeydown({ elRef: elRef as any }, store);
 
 const isEmpty = computed(() => {
   const { childNodes } = root.value;

@@ -18,7 +18,7 @@ function useLayoutObserver(root: TableVM) {
     const cols = root.vnode.el?.querySelectorAll('colgroup > col') || [];
     if (cols.length === 0) return;
     const flattenColumns = layout.getFlattenColumns();
-    const columnsMap: Record<string, TableColumnCtx<T>> = {};
+    const columnsMap: Record<string, TableColumnCtx> = {};
     flattenColumns.forEach(column => {
       columnsMap[column.id] = column;
     });
@@ -49,7 +49,7 @@ function useLayoutObserver(root: TableVM) {
   };
 
   onBeforeMount(() => {
-    tableLayout.value.addObserver(instance);
+    tableLayout.value.addObserver(instance as any);
   });
 
   onMounted(() => {
@@ -63,7 +63,7 @@ function useLayoutObserver(root: TableVM) {
   });
 
   onUnmounted(() => {
-    tableLayout.value.removeObserver(instance);
+    tableLayout.value.removeObserver(instance as any);
   });
 
   return {

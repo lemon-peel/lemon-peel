@@ -1,18 +1,21 @@
 
 import { computed, ref } from 'vue';
 import type { ISelectProps } from './token';
-import type { Option } from './select.types';
+import type { Option, OptionType } from './select.types';
 
-export function useAllowCreate(props: ISelectProps, states) {
+export function useAllowCreate(props: ISelectProps, states: {
+  createdOptions: OptionType[];
+  inputValue: any;
+}) {
   const createOptionCount = ref(0);
-  const cachedSelectedOption = ref<Option>(null);
+  const cachedSelectedOption = ref<Option | null>(null);
 
   const enableAllowCreateMode = computed(() => {
     return props.allowCreate && props.filterable;
   });
 
   function hasExistingOption(query: string) {
-    const hasValue = option => option.value === query;
+    const hasValue = (option: OptionType) => option.value === query;
     return (
       (props.options && props.options.some(hasValue)) ||
       states.createdOptions.some(hasValue)

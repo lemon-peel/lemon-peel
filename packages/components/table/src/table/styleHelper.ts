@@ -59,7 +59,7 @@ function useStyle(props: TableProps, layout: TableLayout, store: Store, table: T
   watch(
     () => props.data,
     data => {
-      store.commit('setData', data);
+      store.actions.setData(data);
     },
     {
       immediate: true,
@@ -73,7 +73,7 @@ function useStyle(props: TableProps, layout: TableLayout, store: Store, table: T
   });
 
   const handleMouseLeave = () => {
-    store.commit('setHoverRow', null);
+    store.actions.setHoverRow(null);
     if (table.hoverState) table.hoverState = null;
   };
 
@@ -134,7 +134,7 @@ function useStyle(props: TableProps, layout: TableLayout, store: Store, table: T
     // init filters
     store.states.columns.value.forEach((column: TableColumnCtx) => {
       if (column.filteredValue && column.filteredValue.length > 0) {
-        store.commit('filterChange', {
+        store.actions.filterChange({
           column,
           values: column.filteredValue,
           silent: true,

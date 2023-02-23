@@ -298,12 +298,13 @@ const useSelect = (props: ExtractPropTypes<typeof selectProps>, emit: SetupConte
     selectNewOption,
     clearAllNewOption,
   } = useAllowCreate(props, states);
+
   const {
     handleCompositionStart,
     handleCompositionUpdate,
     handleCompositionEnd,
   // eslint-disable-next-line @typescript-eslint/no-use-before-define
-  } = useInput(e => onInput(e));
+  } = useInput(e => onInput(e as InputEvent));
 
   function onInputChange() {
     if (props.filterable && states.inputValue !== states.selectedLabel) {

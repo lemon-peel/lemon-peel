@@ -5,7 +5,7 @@ export default () => {
   const clientWidth = defineGetter(
     HTMLElement.prototype,
     'clientWidth',
-    function () {
+    function (this: HTMLElement) {
       return Number.parseInt(this.style.width, 10) || 0;
     },
     0,
@@ -14,7 +14,7 @@ export default () => {
   const clientHeight = defineGetter(
     HTMLElement.prototype,
     'clientHeight',
-    function () {
+    function (this: HTMLElement) {
       return Number.parseInt(this.style.height, 10) || 0;
     },
     0,

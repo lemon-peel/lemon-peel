@@ -31,7 +31,7 @@ function useEvents() {
   };
 
   const handleClick = (event: Event, row: DefaultRow) => {
-    store.commit('setCurrentRow', row);
+    store.actions.setCurrentRow(row);
     handleEvent(event, row, 'click');
   };
 
@@ -40,11 +40,11 @@ function useEvents() {
   };
 
   const handleMouseEnter = debounce((index: number) => {
-    store.commit('setHoverRow', index);
+    store.actions.setHoverRow(index);
   }, 30);
 
   const handleMouseLeave = debounce(() => {
-    store.commit('setHoverRow', null);
+    store.actions.setHoverRow(null);
   }, 30);
 
   const handleCellMouseEnter = (

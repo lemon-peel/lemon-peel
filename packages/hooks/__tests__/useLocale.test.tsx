@@ -3,7 +3,7 @@ import { mount } from '@vue/test-utils';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import Chinese from '@lemon-peel/locale/lang/zh-cn';
 import English from '@lemon-peel/locale/lang/en';
-import { buildTranslator, useLocale } from '../use-locale';
+import { buildTranslator, useLocale } from '../useLocale';
 import { provideGlobalConfig } from '../index';
 import type { Language } from '@lemon-peel/locale';
 import type { ComponentPublicInstance, PropType } from 'vue';

@@ -1,10 +1,6 @@
 import { isNil } from 'lodash-es';
 import { throwError } from '@lemon-peel/utils';
-import type {
-  UploadProgressEvent,
-  UploadRequestHandler,
-  UploadRequestOptions,
-} from './Upload.vue';
+import type { UploadProgressEvent, UploadRequestHandler, UploadRequestOptions } from './upload';
 
 const SCOPE = 'LpUpload';
 

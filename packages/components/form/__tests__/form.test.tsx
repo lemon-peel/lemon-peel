@@ -1,21 +1,10 @@
 
 import { nextTick, reactive, ref } from 'vue';
 import { mount } from '@vue/test-utils';
-import {
-  afterEach,
-  beforeAll,
-  beforeEach,
-  describe,
-  expect,
-  it,
-  vi,
-} from 'vitest';
+import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { rAF } from '@lemon-peel/test-utils/tick';
-import installStyle from '@lemon-peel/test-utils/style-plugin';
-import {
-  LpCheckbox as Checkbox,
-  LpCheckboxGroup as CheckboxGroup,
-} from '@lemon-peel/components/checkbox';
+import installStyle from '@lemon-peel/test-utils/stylePlugin';
+import { LpCheckbox as Checkbox, LpCheckboxGroup as CheckboxGroup } from '@lemon-peel/components/checkbox';
 import Input from '@lemon-peel/components/input';
 import Form from '../src/Form.vue';
 import FormItem from '../src/FormItem.vue';

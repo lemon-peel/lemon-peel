@@ -4,33 +4,30 @@ import { describe, expect, test, vi } from 'vitest';
 import { TypeComponentsMap } from '@lemon-peel/utils';
 import { EVENT_CODE } from '@lemon-peel/constants';
 import { useZIndex } from '@lemon-peel/hooks';
-import { notificationTypes } from '../src/Notification.vue';
+import { notificationTypes } from '../src/notification';
 import Notification from '../src/Notification.vue';
 
 import type { VNode } from 'vue';
 import type { VueWrapper } from '@vue/test-utils';
 import type { SpyInstance } from 'vitest';
-import type {
-  NotificationInstance,
-  NotificationProps,
-} from '../src/Notification.vue';
+import type { NotificationInstance, NotificationProps } from '../src/notification';
 
 const AXIOM = 'Rem is the best girl';
 
 const onClose = vi.fn();
 
-const _mount = ({
+const doMount = ({
   props,
   slots,
 }: {
-  props?: Partial<NotificationProps>
-  slots?: Record<'default', () => string | VNode>
-}) => mount(<Notification {...{ onClose, ...props }} v-slots={slots} />);
+  props?: Partial<NotificationProps>;
+  slots?: Record<'default', () => string | VNode>;
+}) => mount(Notification, { slots, props: { onClose, ...props } });
 
 describe('Notification.vue', () => {
   describe('render', () => {
     test('basic render test', () => {
-      const wrapper = _mount({
+      const wrapper = doMount({
         slots: {
           default: () => AXIOM,
         },
@@ -40,14 +37,11 @@ describe('Notification.vue', () => {
       expect(wrapper.vm.visible).toBe(true);
       expect(wrapper.vm.iconComponent).toBeUndefined();
       expect(wrapper.vm.horizontalClass).toBe('right');
-      expect(wrapper.vm.positionStyle).toEqual({
-        top: '0px',
-        zIndex: 0,
-      });
+      expect(wrapper.vm.positionStyle).toEqual({ top: '0px', zIndex: 0 });
     });
 
     test('should be able to render VNode', () => {
-      const wrapper = _mount({
+      const wrapper = doMount({
         slots: {
           default: () => <span class="text-node">{AXIOM}</span>,
         },
@@ -58,7 +52,7 @@ describe('Notification.vue', () => {
 
     test('should be able to render raw HTML tag with dangerouslyUseHTMLString flag', () => {
       const tagClass = 'test-class';
-      const HTMLWrapper = _mount({
+      const HTMLWrapper = doMount({
         props: {
           dangerouslyUseHTMLString: true,
           message: `<strong class=${tagClass}>${AXIOM}</strong>`,
@@ -70,7 +64,7 @@ describe('Notification.vue', () => {
 
     test('should not be able to render raw HTML tag without dangerouslyUseHTMLString flag', () => {
       const tagClass = 'test-class';
-      const HTMLWrapper = _mount({
+      const HTMLWrapper = doMount({
         props: {
           dangerouslyUseHTMLString: false,
           message: `<strong class=${tagClass}>${AXIOM}</strong>`,
@@ -83,7 +77,7 @@ describe('Notification.vue', () => {
     test('should be able to render z-index style with zIndex flag', () => {
       const { nextZIndex } = useZIndex();
       const zIndex = nextZIndex();
-      const wrapper = _mount({
+      const wrapper = doMount({
         props: {
           zIndex,
         },
@@ -101,7 +95,7 @@ describe('Notification.vue', () => {
       let wrapper: VueWrapper<NotificationInstance>;
 
       for (const type of notificationTypes) {
-        wrapper = _mount({
+        wrapper = doMount({
           props: {
             type,
           },
@@ -116,13 +110,7 @@ describe('Notification.vue', () => {
       vi.spyOn(console, 'warn').mockImplementation(() => vi.fn);
 
       const type = 'some-type';
-      const wrapper = _mount({
-        props: {
-          // @ts-expect-error
-          type,
-        },
-      });
-
+      const wrapper = doMount({ props: { type } });
       expect(wrapper.find('.lp-notification__icon').exists()).toBe(false);
       expect(console.warn).toHaveBeenCalled()
       ;(console.warn as any as SpyInstance).mockRestore();
@@ -132,7 +120,7 @@ describe('Notification.vue', () => {
   describe('event handlers', () => {
     test('it should be able to close the notification by clicking close button', async () => {
       const onClose = vi.fn();
-      const wrapper = _mount({
+      const wrapper = doMount({
         slots: {
           default: () => AXIOM,
         },
@@ -149,7 +137,7 @@ describe('Notification.vue', () => {
     test('should be able to close after duration', async () => {
       vi.useFakeTimers();
       const duration = 100;
-      const wrapper = _mount({
+      const wrapper = doMount({
         props: {
           duration,
         },
@@ -163,7 +151,7 @@ describe('Notification.vue', () => {
     test('should be able to prevent close itself when hover over', async () => {
       vi.useFakeTimers();
       const duration = 100;
-      const wrapper = _mount({
+      const wrapper = doMount({
         props: {
           duration,
         },
@@ -188,7 +176,7 @@ describe('Notification.vue', () => {
     test('should not be able to close when duration is set to 0', async () => {
       vi.useFakeTimers();
       const duration = 0;
-      const wrapper = _mount({
+      const wrapper = doMount({
         props: {
           duration,
         },
@@ -201,7 +189,7 @@ describe('Notification.vue', () => {
 
     test('should be able to handle click event', async () => {
       const onClick = vi.fn();
-      const wrapper = _mount({
+      const wrapper = doMount({
         props: {
           duration: 0,
           onClick,
@@ -214,7 +202,7 @@ describe('Notification.vue', () => {
 
     test('should be able to delete timer when press delete', async () => {
       vi.useFakeTimers();
-      const wrapper = _mount({
+      const wrapper = doMount({
         slots: {
           default: () => AXIOM,
         },
@@ -233,7 +221,7 @@ describe('Notification.vue', () => {
 
     test('should be able to close the notification immediately when press esc', async () => {
       vi.useFakeTimers();
-      const wrapper = _mount({
+      const wrapper = doMount({
         props: {
           duration: 0,
         },

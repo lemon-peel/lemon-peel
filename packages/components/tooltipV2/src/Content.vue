@@ -20,6 +20,7 @@ import { tooltipV2ContentKey, tooltipV2RootKey } from '@lemon-peel/tokens';
 import { arrowMiddleware, useFloating, useNamespace, useZIndex } from '@lemon-peel/hooks';
 import LpVisuallyHidden from '@lemon-peel/components/visualHidden';
 import { tooltipV2ContentProps } from './content';
+import type { TooltipV2Sides } from './common';
 import { tooltipV2CommonProps } from './common';
 
 import type { CSSProperties } from 'vue';
@@ -59,7 +60,7 @@ const zIndex = useZIndex().nextZIndex();
 
 const ns = useNamespace('tooltip-v2');
 
-const side = computed(() => {
+const side = computed<TooltipV2Sides>(() => {
   return placement.value.split('-')[0];
 });
 

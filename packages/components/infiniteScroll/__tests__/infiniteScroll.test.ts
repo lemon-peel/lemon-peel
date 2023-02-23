@@ -1,16 +1,8 @@
 import { nextTick, ref } from 'vue';
 import { mount } from '@vue/test-utils';
-import {
-  afterAll,
-  afterEach,
-  beforeAll,
-  describe,
-  expect,
-  test,
-  vi,
-} from 'vitest';
+import { afterAll, afterEach, beforeAll, describe, expect, test, vi } from 'vitest';
 import defineGetter from '@lemon-peel/test-utils/defineGetter';
-import makeScroll from '@lemon-peel/test-utils/make-scroll';
+import makeScroll from '@lemon-peel/test-utils/makeScroll';
 import tick from '@lemon-peel/test-utils/tick';
 import InfiniteScroll, { DEFAULT_DELAY, SCOPE } from '../src';
 

@@ -11,6 +11,7 @@
   "npm.exclude": [
     "**/packages/**",
     "**/toolkit/**",
+    "**/docs",
     "**/serve",
   ]
 }

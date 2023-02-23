@@ -1,7 +1,7 @@
 import { computed } from 'vue';
 import { usePropsAlias } from './usePropsAlias';
 
-import type { TransferDataItem, TransferKey, TransferProps } from '../Transfer.vue';
+import type { TransferDataItem, TransferKey, TransferProps } from '../transfer';
 
 export const useComputedData = (props: TransferProps) => {
   const propsAlias = usePropsAlias(props);

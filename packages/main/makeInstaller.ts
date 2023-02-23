@@ -2,7 +2,7 @@ import { provideGlobalConfig } from '@lemon-peel/hooks';
 import { INSTALLED_KEY } from '@lemon-peel/constants';
 import { version } from './version';
 
-import type { App, Plugin } from '@vue/runtime-core';
+import type { App, Plugin } from 'vue';
 import type { ConfigProviderContext } from '@lemon-peel/tokens';
 
 export const makeInstaller = (components: Plugin[] = []) => {

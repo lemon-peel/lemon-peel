@@ -6,6 +6,7 @@ import type TreeStore from './treeStore';
 
 import type { Ref } from 'vue';
 import type { Nullable } from '@lemon-peel/utils';
+import type { TreeKey } from '../tree';
 
 interface UseKeydownOption {
   el$: Ref<HTMLElement>;
@@ -48,7 +49,8 @@ export function useKeydown({ el$ }: UseKeydownOption, store: Ref<TreeStore>) {
     const currentItem = ev.target as HTMLElement;
     if (!currentItem.className.includes(ns.b('node'))) return;
     const code = ev.code;
-    treeItems.value = [...el$.value.querySelectorAll(`.${ns.is('focusable')}[role=treeitem]`)];
+    treeItems.value = [...el$.value.querySelectorAll(`.${ns.is('focusable')}[role=treeitem]`)] as HTMLElement[];
+
     const currentIndex = treeItems.value.indexOf(currentItem);
     let nextIndex;
     if ([EVENT_CODE.up, EVENT_CODE.down].includes(code)) {
@@ -62,9 +64,7 @@ export function useKeydown({ el$ }: UseKeydownOption, store: Ref<TreeStore>) {
               : currentIndex - 1);
         const startIndex = nextIndex;
         while (true) {
-          if (
-            store.value.getNode(treeItems.value[nextIndex].dataset.key).canFocus
-          )
+          if (store.value.getNode(treeItems.value[nextIndex].dataset.key as TreeKey).canFocus)
             break;
           nextIndex--;
           if (nextIndex === startIndex) {
@@ -85,7 +85,7 @@ export function useKeydown({ el$ }: UseKeydownOption, store: Ref<TreeStore>) {
         const startIndex = nextIndex;
         while (true) {
           if (
-            store.value.getNode(treeItems.value[nextIndex].dataset.key).canFocus
+            store.value.getNode(treeItems.value[nextIndex].dataset.key as TreeKey).canFocus
           )
             break;
           nextIndex++;

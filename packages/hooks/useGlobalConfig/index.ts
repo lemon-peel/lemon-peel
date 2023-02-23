@@ -32,11 +32,11 @@ const mergeConfig = (
   return object;
 };
 
-export const provideGlobalConfig = (
+export function provideGlobalConfig(
   config: MaybeRef<ConfigProviderContext>,
   app?: App,
   global = false,
-) => {
+) {
   const inSetup = !!getCurrentInstance();
   const oldConfig = inSetup ? useGlobalConfig() : undefined;
 
@@ -59,4 +59,4 @@ export const provideGlobalConfig = (
     globalConfig.value = context.value;
   }
   return context;
-};
+}

@@ -48,7 +48,7 @@ import ElementTreeNode from './TreeNode.vue';
 import { ROOT_TREE_INJECTION_KEY, treeEmits, treeProps } from './virtualTree';
 
 defineOptions({
-  name: 'ElTreeV2',
+  name: 'LpTreeV2',
 });
 
 const props = defineProps(treeProps);

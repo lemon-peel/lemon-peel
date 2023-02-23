@@ -108,9 +108,10 @@ export interface Sort {
 }
 
 export interface Filter {
-  column: TableColumnCtx;
+  column: TableColumnCtx | TableColumnCtx[];
   values: string[];
   silent: any;
+  multi?: boolean;
 }
 
 export interface TreeNode {

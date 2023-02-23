@@ -1,4 +1,4 @@
-import TreeSelect from './src/TreeSelect';
+import TreeSelect from './src/TreeSelect.vue';
 
 import type { App } from 'vue';
 import type { SFCWithInstall } from '@lemon-peel/utils';

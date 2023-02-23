@@ -3,11 +3,13 @@ import { mount } from '@vue/test-utils';
 import { afterEach, describe, expect, it, test, vi } from 'vitest';
 import { EVENT_CODE } from '@lemon-peel/constants';
 import { ArrowDown, CaretTop, CircleClose } from '@element-plus/icons-vue';
-import { usePopperContainerId } from '@lemon-peel/hooks';
+import { POPPER_CONTAINER_ID } from '@lemon-peel/hooks';
 import { hasClass } from '@lemon-peel/utils';
+import { LpFormItem } from '@lemon-peel/components/form';
 import Select from '../src/Select.vue';
 import Group from '../src/OptionGroup.vue';
 import Option from '../src/Option.vue';
+
 
 vi.mock('lodash-es', async () => {
   return {
@@ -37,14 +39,14 @@ interface SelectProps {
   size?: 'small' | 'default' | 'large';
 }
 
-const _mount = (template: string, data: any = () => ({}), otherObj?) =>
+const doMount = (template: string, data: any = () => ({}), otherObj?: any) =>
   mount(
     {
       components: {
         'lp-select': Select,
         'lp-option': Option,
         'lp-group-option': Group,
-        'lp-form-item': ElFormItem,
+        'lp-form-item': LpFormItem,
       },
       template,
       data,
@@ -61,7 +63,16 @@ function getOptions(): HTMLElement[] {
   )];
 }
 
-const getSelectVm = (configs: SelectProps = {}, options?) => {
+type OptionProps = {
+  value: string;
+  label: string;
+  disabled: boolean;
+};
+
+const getSelectVm = (
+  configs: SelectProps = {},
+  options?: OptionProps[],
+) => {
   for (const config of [
     'multiple',
     'clearable',
@@ -72,9 +83,10 @@ const getSelectVm = (configs: SelectProps = {}, options?) => {
     'collapseTags',
     'automaticDropdown',
     'fitInputWidth',
-  ]) {
-    configs[config] = configs[config] || false;
+  ] as (Array< keyof SelectProps>)) {
+    configs[config as keyof SelectProps] = configs[config] || false;
   }
+
   configs.multipleLimit = configs.multipleLimit || 0;
   if (!options) {
     options = [
@@ -106,7 +118,7 @@ const getSelectVm = (configs: SelectProps = {}, options?) => {
     ];
   }
 
-  return _mount(
+  return doMount(
     `
     <lp-select
       ref="select"
@@ -157,7 +169,17 @@ const getSelectVm = (configs: SelectProps = {}, options?) => {
   );
 };
 
-const getGroupSelectVm = (configs: SelectProps = {}, options?) => {
+
+type OptionGrouped = {
+  label: string;
+  value?: string | number;
+  options?: OptionGrouped[];
+};
+
+const getGroupSelectVm = (
+  configs: SelectProps = {},
+  options?: OptionGrouped[],
+) => {
   for (const config of [
     'multiple',
     'clearable',
@@ -167,7 +189,7 @@ const getGroupSelectVm = (configs: SelectProps = {}, options?) => {
     'collapseTags',
     'automaticDropdown',
     'fitInputWidth',
-  ]) {
+  ] as Array<keyof SelectProps>) {
     configs[config] = configs[config] || false;
   }
   configs.multipleLimit = configs.multipleLimit || 0;
@@ -176,35 +198,17 @@ const getGroupSelectVm = (configs: SelectProps = {}, options?) => {
       {
         label: 'Australia',
         options: [
-          {
-            value: 'Sydney',
-            label: 'Sydney',
-          },
-          {
-            value: 'Melbourne',
-            label: 'Melbourne',
-          },
+          { value: 'Sydney', label: 'Sydney' },
+          { value: 'Melbourne', label: 'Melbourne' },
         ],
       },
       {
         label: 'China',
         options: [
-          {
-            value: 'Shanghai',
-            label: 'Shanghai',
-          },
-          {
-            value: 'Shenzhen',
-            label: 'Shenzhen',
-          },
-          {
-            value: 'Guangzhou',
-            label: 'Guangzhou',
-          },
-          {
-            value: 'Dalian',
-            label: 'Dalian',
-          },
+          { value: 'Shanghai', label: 'Shanghai' },
+          { value: 'Shenzhen', label: 'Shenzhen' },
+          { value: 'Guangzhou', label: 'Guangzhou' },
+          { value: 'Dalian', label: 'Dalian' },
         ],
       },
       {
@@ -239,7 +243,7 @@ const getGroupSelectVm = (configs: SelectProps = {}, options?) => {
       },
     ];
   }
-  return _mount(
+  return doMount(
     `
     <lp-select
       ref="select"
@@ -291,7 +295,7 @@ const getGroupSelectVm = (configs: SelectProps = {}, options?) => {
 };
 
 describe('Select', () => {
-  let wrapper: ReturnType<typeof _mount>;
+  let wrapper: ReturnType<typeof doMount>;
   const findInnerInput = () =>
     wrapper.find('.lp-input__inner').element as HTMLInputElement;
 
@@ -300,7 +304,7 @@ describe('Select', () => {
   });
 
   test('create', async () => {
-    wrapper = _mount(`<lp-select v-model="value"></lp-select>`, () => ({
+    wrapper = doMount(`<lp-select v-model="value"></lp-select>`, () => ({
       value: '',
     }));
     expect(wrapper.classes()).toContain('lp-select');
@@ -332,7 +336,7 @@ describe('Select', () => {
   });
 
   test('default value', async () => {
-    wrapper = _mount(
+    wrapper = doMount(
       `
       <lp-select v-model="value">
         <lp-option
@@ -363,7 +367,7 @@ describe('Select', () => {
   });
 
   test('set default value to object', async () => {
-    wrapper = _mount(
+    wrapper = doMount(
       `
       <lp-select v-model="value">
         <lp-option
@@ -400,7 +404,7 @@ describe('Select', () => {
   });
 
   test('custom label', async () => {
-    wrapper = _mount(
+    wrapper = doMount(
       `
       <lp-select v-model="value">
         <lp-option
@@ -431,7 +435,7 @@ describe('Select', () => {
   });
 
   test('custom label with object', async () => {
-    wrapper = _mount(
+    wrapper = doMount(
       `
       <lp-select v-model="value" value-key="id">
         <lp-option
@@ -464,7 +468,7 @@ describe('Select', () => {
   });
 
   test('sync set value and options', async () => {
-    wrapper = _mount(
+    wrapper = doMount(
       `
     <lp-select v-model="value">
       <lp-option
@@ -502,7 +506,7 @@ describe('Select', () => {
   });
 
   test('single select', async () => {
-    wrapper = _mount(
+    wrapper = doMount(
       `
       <lp-select v-model="value" @change="handleChange">
         <lp-option
@@ -542,7 +546,7 @@ describe('Select', () => {
       }),
       {
         methods: {
-          handleChange() {
+          handleChange(this: any) {
             this.count++;
           },
         },
@@ -580,7 +584,7 @@ describe('Select', () => {
   });
 
   test('disabled select', () => {
-    wrapper = _mount(`<lp-select disabled></lp-select>`);
+    wrapper = doMount(`<lp-select disabled></lp-select>`);
     expect(wrapper.find('.lp-input').classes()).toContain('is-disabled');
   });
 
@@ -661,7 +665,7 @@ describe('Select', () => {
   });
 
   test('visible event', async () => {
-    wrapper = _mount(
+    wrapper = doMount(
       `
     <lp-select v-model="value" @visible-change="handleVisibleChange">
       <lp-option
@@ -678,7 +682,7 @@ describe('Select', () => {
       }),
       {
         methods: {
-          handleVisibleChange(val) {
+          handleVisibleChange(this: any, val: boolean) {
             this.visible = val;
           },
         },
@@ -736,7 +740,7 @@ describe('Select', () => {
   });
 
   test('suffix icon', async () => {
-    wrapper = _mount(`<lp-select></lp-select>`);
+    wrapper = doMount(`<lp-select></lp-select>`);
     let suffixIcon = wrapper.findComponent(ArrowDown);
     expect(suffixIcon.exists()).toBe(true);
     await wrapper.setProps({ suffixIcon: markRaw(CaretTop) });
@@ -745,7 +749,7 @@ describe('Select', () => {
   });
 
   test('test remote show suffix', async () => {
-    wrapper = _mount(`<lp-select></lp-select>`);
+    wrapper = doMount(`<lp-select></lp-select>`);
     await wrapper.setProps({
       remote: true,
       filters: true,
@@ -775,7 +779,7 @@ describe('Select', () => {
       selectWrapper.element.getBoundingClientRect().width
     }px`;
     await nextTick();
-    expect(dropdown.element.style.width).toBe('221px');
+    expect((dropdown.element as HTMLElement).style.width).toBe('221px');
     mockSelectWidth.mockRestore();
   });
 
@@ -841,7 +845,7 @@ describe('Select', () => {
     selectVm.debouncedOnInputChange();
     await nextTick();
     const options = [...getOptions()];
-    const target = options.find(option => option.textContent === 'new');
+    const target = options.find(option => option.textContent === 'new')!;
     target.click();
     expect((wrapper.vm as any).value).toBe('new');
   });
@@ -857,7 +861,7 @@ describe('Select', () => {
         label: '双皮奶',
       },
     ];
-    wrapper = _mount(
+    wrapper = doMount(
       `
       <lp-select
         v-model="value"
@@ -904,7 +908,7 @@ describe('Select', () => {
   });
 
   test('multiple select when content overflow', async () => {
-    wrapper = _mount(
+    wrapper = doMount(
       `
       <lp-select v-model="selectedList" multiple placeholder="请选择">
         <lp-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
@@ -957,7 +961,7 @@ describe('Select', () => {
     const tagWrappers = wrapper.findAll('.lp-select__tags-text');
     for (const tagWrapper of tagWrappers) {
       const tagWrapperDom = tagWrapper.element;
-      expect(Number.parseInt(tagWrapperDom.style.maxWidth) === 200 - 75).toBe(
+      expect(Number.parseInt((tagWrapperDom as HTMLElement).style.maxWidth) === 200 - 75).toBe(
         true,
       );
     }
@@ -965,7 +969,7 @@ describe('Select', () => {
   });
 
   test('multiple select with collapseTags when content overflow', async () => {
-    wrapper = _mount(
+    wrapper = doMount(
       `
       <lp-select v-model="selectedList" multiple collapseTags placeholder="请选择">
         <lp-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
@@ -1016,7 +1020,7 @@ describe('Select', () => {
     options[2].click();
     await nextTick();
     const tagWrappers = wrapper.findAll('.lp-select__tags-text');
-    const tagWrapperDom = tagWrappers[0].element;
+    const tagWrapperDom = tagWrappers[0].element as HTMLElement;
     expect(Number.parseInt(tagWrapperDom.style.maxWidth) === 200 - 123).toBe(
       true,
     );
@@ -1024,7 +1028,7 @@ describe('Select', () => {
   });
 
   test('multiple select with collapseTagsTooltip', async () => {
-    wrapper = _mount(
+    wrapper = doMount(
       `
       <lp-select v-model="selectedList" multiple collapseTags collapse-tags-tooltip placeholder="请选择">
         <lp-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
@@ -1074,7 +1078,7 @@ describe('Select', () => {
   });
 
   test('multiple remove-tag', async () => {
-    wrapper = _mount(
+    wrapper = doMount(
       `
       <lp-select v-model="value" multiple @remove-tag="handleRemoveTag">
         <lp-option
@@ -1146,7 +1150,7 @@ describe('Select', () => {
   test('event:focus & blur', async () => {
     const handleFocus = vi.fn();
     const handleBlur = vi.fn();
-    wrapper = _mount(
+    wrapper = doMount(
       `<lp-select
       @focus="handleFocus"
       @blur="handleBlur" />`,
@@ -1168,7 +1172,7 @@ describe('Select', () => {
   test('event:focus & blur for multiple & filterable select', async () => {
     const handleFocus = vi.fn();
     const handleBlur = vi.fn();
-    wrapper = _mount(
+    wrapper = doMount(
       `
     <lp-select
       @focus="handleFocus"
@@ -1213,7 +1217,7 @@ describe('Select', () => {
 
   test('only emit change on user input', async () => {
     let callCount = 0;
-    wrapper = _mount(
+    wrapper = doMount(
       `
     <lp-select v-model="value" @change="change" ref="select">
       <lp-option label="1" value="1" />
@@ -1234,7 +1238,7 @@ describe('Select', () => {
   });
 
   test('render slot `empty`', async () => {
-    wrapper = _mount(
+    wrapper = doMount(
       `
       <lp-select v-model="value">
         <template #empty>
@@ -1252,7 +1256,7 @@ describe('Select', () => {
   });
 
   test('should set placeholder to label of selected option when filterable is true and multiple is false', async () => {
-    wrapper = _mount(
+    wrapper = doMount(
       `
       <lp-select ref="select" v-model="value" filterable>
         <lp-option label="test" value="test" />
@@ -1269,7 +1273,7 @@ describe('Select', () => {
   });
 
   test('default value is null or undefined', async () => {
-    wrapper = _mount(
+    wrapper = doMount(
       `
     <lp-select v-model="value">
       <lp-option
@@ -1303,7 +1307,7 @@ describe('Select', () => {
   });
 
   test('emptyText error show', async () => {
-    wrapper = _mount(
+    wrapper = doMount(
       `
     <lp-select :model-value="value" filterable placeholder="Select">
       <lp-option
@@ -1374,9 +1378,9 @@ describe('Select', () => {
       components: { ElSelect: Select, ElOption: Option },
       data() {
         return {
-          options: [],
+          options: <OptionProps[]>[],
           value: [],
-          list: [],
+          list: <OptionProps[]>[],
           loading: false,
           states: [
             'Alabama',
@@ -1432,13 +1436,13 @@ describe('Select', () => {
           ],
         };
       },
-      mounted() {
-        this.list = this.states.map(item => {
+      mounted(this: any) {
+        this.list = this.states.map((item: string) => {
           return { value: `value:${item}`, label: `label:${item}` };
         });
       },
       methods: {
-        remoteMethod(query) {
+        remoteMethod(query: string) {
           if (query !== '') {
             this.loading = true;
             setTimeout(() => {
@@ -1488,7 +1492,7 @@ describe('Select', () => {
   });
 
   test('disabled group', async () => {
-    wrapper = _mount(
+    wrapper = doMount(
       `
     <lp-select v-model="value">
       <lp-group-option
@@ -1544,7 +1548,7 @@ describe('Select', () => {
   });
 
   test('tag of disabled option is not closable', async () => {
-    wrapper = _mount(
+    wrapper = doMount(
       `
     <lp-select v-model="vendors" multiple :collapse-tags="isCollapsed" :clearable="isClearable" placeholder="Select Business Unit">
     <lp-option
@@ -1614,7 +1618,7 @@ describe('Select', () => {
     await nextTick();
     expect(
       wrapper.findAll('.lp-tag__close').filter(item => {
-        return !hasClass(item.element.parentElement, 'in-tooltip');
+        return !hasClass(item.element.parentElement!, 'in-tooltip');
       }).length,
     ).toBe(1);
     await wrapper.find('.lp-tag__close').trigger('click');
@@ -1627,7 +1631,7 @@ describe('Select', () => {
   });
 
   test('tag type', async () => {
-    wrapper = _mount(
+    wrapper = doMount(
       `
       <lp-select v-model="value" multiple tag-type="success">
         <lp-option
@@ -1662,7 +1666,7 @@ describe('Select', () => {
   });
 
   test('modelValue should be deep reactive in multiple mode', async () => {
-    wrapper = _mount(
+    wrapper = doMount(
       `
     <lp-select v-model="modelValue" multiple>
       <lp-option
@@ -1695,7 +1699,7 @@ describe('Select', () => {
 
   test('should reset placeholder after clear when both multiple and filterable are true', async () => {
     const placeholder = 'placeholder';
-    wrapper = _mount(
+    wrapper = doMount(
       `
     <lp-select v-model="modelValue" multiple filterable placeholder=${placeholder}>
       <lp-option label="1" value="1" />
@@ -1869,7 +1873,7 @@ describe('Select', () => {
   describe('teleported API', () => {
     it('should mount on popper container', async () => {
       expect(document.body.innerHTML).toBe('');
-      wrapper = _mount(
+      wrapper = doMount(
         `
       <lp-select v-model="modelValue" multiple>
         <lp-option
@@ -1892,13 +1896,12 @@ describe('Select', () => {
       );
 
       await nextTick();
-      const { selector } = usePopperContainerId();
-      expect(document.body.querySelector(selector.value).innerHTML).not.toBe('');
+      expect(document.body.querySelector(POPPER_CONTAINER_ID)!.innerHTML).not.toBe('');
     });
 
     it('should not mount on the popper container', async () => {
       expect(document.body.innerHTML).toBe('');
-      wrapper = _mount(
+      wrapper = doMount(
         `
       <lp-select v-model="modelValue" multiple :teleported="false">
         <lp-option
@@ -1921,15 +1924,14 @@ describe('Select', () => {
       );
 
       await nextTick();
-      const { selector } = usePopperContainerId();
-      expect(document.body.querySelector(selector.value).innerHTML).toBe('');
+      expect(document.body.querySelector(POPPER_CONTAINER_ID)!.innerHTML).toBe('');
     });
   });
 
   it('multiple select has an initial value', async () => {
     const options = [{ value: `value:Alaska`, label: `label:Alaska` }];
     const modelValue = [{ value: `value:Alaska`, label: `label:Alaska` }];
-    const wrapper = _mount(
+    const wrapper = doMount(
       `
     <lp-select v-model="modelValue"
       multiple
@@ -1992,7 +1994,7 @@ describe('Select', () => {
 
   describe('form item accessibility integration', () => {
     it('automatic id attachment', async () => {
-      const wrapper = _mount(
+      const wrapper = doMount(
         `<lp-form-item label="Foobar" data-test-ref="item">
           <lp-select v-model="modelValue">
             <lp-option label="1" value="1" />
@@ -2012,7 +2014,7 @@ describe('Select', () => {
     });
 
     it('specified id attachment', async () => {
-      const wrapper = _mount(
+      const wrapper = doMount(
         `<lp-form-item label="Foobar" data-test-ref="item">
           <lp-select id="foobar" v-model="modelValue">
             <lp-option label="1" value="1" />
@@ -2033,7 +2035,7 @@ describe('Select', () => {
     });
 
     it('form item role is group when multiple inputs', async () => {
-      const wrapper = _mount(
+      const wrapper = doMount(
         `<lp-form-item label="Foobar" data-test-ref="item">
           <lp-select v-model="modelValue">
             <lp-option label="1" value="1" />

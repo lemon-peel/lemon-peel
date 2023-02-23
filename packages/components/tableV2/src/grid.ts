@@ -4,7 +4,7 @@ import { classType, columns, dataType, fixedDataType, requiredNumber, styleType 
 import { tableV2HeaderProps } from './header';
 import { tableV2RowProps } from './row';
 
-import type { ExtractPropTypes } from 'vue';
+import type { ExtractPropTypes, PropType } from 'vue';
 import type { ItemSize } from '@lemon-peel/components/virtualList';
 
 export type OnRowRenderedParams = {

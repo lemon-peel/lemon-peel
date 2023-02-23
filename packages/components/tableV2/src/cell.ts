@@ -1,7 +1,7 @@
 import { buildProps } from '@lemon-peel/utils';
 import { column } from './common';
 
-import type { ExtractPropTypes, StyleValue } from 'vue';
+import type { ExtractPropTypes, PropType, StyleValue } from 'vue';
 
 export const tableV2CellProps = buildProps({
   class: String,

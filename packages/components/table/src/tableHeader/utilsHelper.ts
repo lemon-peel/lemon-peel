@@ -1,9 +1,8 @@
 
 import { computed, inject } from 'vue';
 
-import { TABLE_INJECTION_KEY } from '../tokens';
+import { STORE_INJECTION_KEY, TABLE_INJECTION_KEY } from '../tokens';
 import type { TableColumnCtx } from '../tableColumn/defaults';
-import type { TableHeaderProps } from './tableHeader';
 
 function getAllColumns(columns: TableColumnCtx[]): TableColumnCtx[] {
   const result: TableColumnCtx[] = [];
@@ -65,10 +64,11 @@ const convertToRows = (originColumns: TableColumnCtx[]): TableColumnCtx[][] => {
   return rows;
 };
 
-function useUtils(props: TableHeaderProps) {
-  const parent = inject(TABLE_INJECTION_KEY);
+function useUtils() {
+  const parent = inject(TABLE_INJECTION_KEY)!;
+  const store = inject(STORE_INJECTION_KEY)!;
   const columnRows = computed(() => {
-    return convertToRows(props.store.states.originColumns.value);
+    return convertToRows(store.states.originColumns.value);
   });
 
   const isGroup = computed(() => {
@@ -81,7 +81,7 @@ function useUtils(props: TableHeaderProps) {
 
   const toggleAllSelection = (event: Event) => {
     event.stopPropagation();
-    parent?.store.commit('toggleAllSelection');
+    store.actions.toggleAllSelection();
   };
 
   return {

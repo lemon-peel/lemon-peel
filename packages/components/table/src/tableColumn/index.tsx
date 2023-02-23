@@ -30,7 +30,7 @@ export default defineComponent({
     const {
       registerNormalWatchers,
       registerComplexWatchers,
-    } = useWatcher(table, props, columnConfig);
+    } = useWatcher(props, columnConfig);
 
     const {
       columnId,
@@ -125,17 +125,15 @@ export default defineComponent({
       columnConfig.value.getColumnIndex = getColumnIndex;
       const columnIndex = getColumnIndex();
       columnIndex > -1 &&
-        store.commit(
-          'insertColumn',
-          columnConfig.value,
+        store.actions.insertColumn(
+          columnConfig.value as TableColumnCtx,
           isSubColumn.value ? parent.columnConfig.value : null,
         );
     });
 
     onBeforeUnmount(() => {
-      store.commit(
-        'removeColumn',
-        columnConfig.value,
+      store.actions.removeColumn(
+        columnConfig.value as TableColumnCtx,
         isSubColumn.value ? parent.columnConfig.value : null,
       );
     });

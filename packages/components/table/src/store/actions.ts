@@ -45,10 +45,10 @@ export const useActions = memoize((table: TableVM) => {
   const expand = lazyProxy(() => useExpand(table));
   const tree = lazyProxy(() => useTree(table));
   const watcher = lazyProxy(() => useWatcher(table));
-  type StoreStates = typeof watcher.states;
 
-  const mutations = {
-    setData(states: StoreStates, data: DefaultRow[]) {
+  return {
+    setData(data: DefaultRow[]) {
+      const states = watcher.states;
       const dataInstanceChanged = unref(states._data) !== data;
       states.data.value = data;
       states._data.value = data;
@@ -77,17 +77,17 @@ export const useActions = memoize((table: TableVM) => {
     },
 
     insertColumn(
-      states: StoreStates,
       column: TableColumnCtx,
-      parent: TableColumnCtx,
+      parent?: TableColumnCtx,
     ) {
+      const states = watcher.states;
       const array = unref(states.originalColumns);
       let newColumns = [];
       if (parent) {
         if (parent && !parent.children) {
           parent.children = [];
         }
-        parent.children!.push(column);
+        parent.children!.push(column as TableColumnCtx);
         newColumns = replaceColumn(array, parent);
       } else {
         array.push(column);
@@ -106,10 +106,10 @@ export const useActions = memoize((table: TableVM) => {
     },
 
     removeColumn(
-      states: StoreStates,
       column: TableColumnCtx,
       parent: TableColumnCtx,
     ) {
+      const states = watcher.states;
       const array = unref(states.originalColumns) || [];
       if (parent) {
         parent.children?.splice(
@@ -134,29 +134,14 @@ export const useActions = memoize((table: TableVM) => {
       }
     },
 
-    sort(states: StoreStates, options: Sort) {
-      const { prop, order, init } = options;
-      if (prop) {
-        const column = unref(states.columns).find(
-          (column: TableColumnCtx) => column.property === prop,
-        );
-        if (column) {
-          column.order = order;
-          watcher.updateSort(column, prop, order);
-          // eslint-disable-next-line @typescript-eslint/no-use-before-define
-          commit('changeSortCondition', { init });
-        }
-      }
-    },
-
-    changeSortCondition(states: StoreStates, options: Sort) {
-      const { sortingColumn, sortProp, sortOrder } = states;
+    changeSortCondition(options?: Partial<Sort>) {
+      const { sortingColumn, sortProp, sortOrder } = watcher.states;
       const columnValue = unref(sortingColumn);
       const propValue = unref(sortProp);
       const orderValue = unref(sortOrder);
       if (orderValue === null) {
-        states.sortingColumn.value = null;
-        states.sortProp.value = null;
+        sortingColumn.value = null;
+        sortProp.value = null;
       }
       const ignore = { filter: true };
       watcher.execQuery(ignore);
@@ -172,7 +157,19 @@ export const useActions = memoize((table: TableVM) => {
       table.updateTableScrollY();
     },
 
-    filterChange(_states: StoreStates, options: Filter) {
+    sort(options: Sort) {
+      const { prop, order, init } = options;
+      if (prop) {
+        const column = unref(watcher.states.columns).find((column: TableColumnCtx) => column.property === prop);
+        if (column) {
+          column.order = order;
+          watcher.updateSort(column, prop, order);
+          this.changeSortCondition({ init });
+        }
+      }
+    },
+
+    filterChange(options: Filter) {
       const { column, values, silent } = options;
       const newFilters = watcher.updateFilters(column, values);
       watcher.execQuery();
@@ -184,32 +181,22 @@ export const useActions = memoize((table: TableVM) => {
     },
 
     toggleAllSelection() {
-      instance.store.toggleAllSelection();
+      watcher.toggleAllSelection();
     },
 
-    rowSelectedChanged(_states, row: T) {
-      instance.store.toggleRowSelection(row);
-      instance.store.updateAllSelected();
+    rowSelectedChanged(row: DefaultRow) {
+      watcher.toggleRowSelection(row, false);
+      watcher.updateAllSelected();
     },
 
-    setHoverRow(states: StoreStates, row: T) {
-      states.hoverRow.value = row;
+    setHoverRow(index: number | null) {
+      watcher.states.hoverRow.value = index;
     },
 
-    setCurrentRow(_states, row: T) {
-      instance.store.updateCurrentRow(row);
+    setCurrentRow(row: DefaultRow) {
+      current.updateCurrentRow(row);
     },
   };
-
-  function commit(name: keyof typeof mutations, ...args: any[]) {
-    if (!mutations[name]) {
-      throw new Error(`Action not found: ${name}`);
-    }
-
-    mutations[name](states, ...args);
-  }
-
-  return { commit };
 });
 
 export default useActions;

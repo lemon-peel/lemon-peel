@@ -6,7 +6,6 @@ import { STORE_INJECTION_KEY } from '../tokens';
 
 import type { Ref } from 'vue';
 import type { TableColumnCtx, TableColumnProps, ValueOf } from './defaults';
-import type { TableVM } from '../table/defaults';
 
 function getAllAliases(props: string[], aliases: Record<string, string>) {
   return props.reduce((pre, cur) => {
@@ -15,7 +14,7 @@ function getAllAliases(props: string[], aliases: Record<string, string>) {
   }, aliases);
 }
 
-function useWatcher(owner: TableVM, props: TableColumnProps, columnConfig: Ref<TableColumnCtx>) {
+function useWatcher(props: TableColumnProps, columnConfig: Ref<Partial<TableColumnCtx>>) {
   const store = inject(STORE_INJECTION_KEY)!;
 
   const registerComplexWatchers = () => {

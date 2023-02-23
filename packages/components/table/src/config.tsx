@@ -76,7 +76,7 @@ export const cellForced: Record<string, CellRenders> = {
           : false,
         size: store.states.tableSize.value,
         onChange: () => {
-          store.commit('rowSelectedChanged', row);
+          store.actions.rowSelectedChanged(row);
         },
         onClick: (event: Event) => event.stopPropagation(),
         modelValue: store.watcher.isSelected(row),

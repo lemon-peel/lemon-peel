@@ -5,7 +5,7 @@
 </template>
 <script lang="ts" setup>
 import { useNamespace } from '@lemon-peel/hooks';
-import type { RendererElement } from '@vue/runtime-core';
+import type { RendererElement } from 'vue';
 
 defineOptions({
   name: 'LpCollapseTransition',

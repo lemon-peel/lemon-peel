@@ -1,13 +1,8 @@
 import { nextTick } from 'vue';
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest';
-import makeMount from '@lemon-peel/test-utils/make-mount';
+import makeMount from '@lemon-peel/test-utils/makeMount';
 import setupMock from '../setupMock';
-import {
-  END_ALIGNMENT,
-  HORIZONTAL,
-  SMART_ALIGNMENT,
-  START_ALIGNMENT,
-} from '../src/defaults';
+import { END_ALIGNMENT, HORIZONTAL, SMART_ALIGNMENT, START_ALIGNMENT } from '../src/defaults';
 import { DynamicSizeList } from '../index';
 
 import type { ListExposes } from '../src/types';
@@ -33,6 +28,7 @@ const mount = makeMount(
     components: {
       DynamicSizeList,
     },
+    props: {},
   },
   {
     props: {
@@ -86,7 +82,7 @@ describe('<dynamic-size-list />', () => {
       const wrapper = mount();
       const listRef = wrapper.vm.$refs.listRef as ListRef;
       await nextTick();
-      const estimatedTotalSize = Number.parseInt(listRef.innerRef.style.height);
+      const estimatedTotalSize = Number.parseInt(listRef.innerRef.value.style.height);
       // when the size is all 26, then there should be 7 items 4 visible + 3 cache
       // so the size must be greater or equal to BASE_SIZE + 1 * 7, so it must be greater
       // than BASE_SIZE + 1 * 6
@@ -100,7 +96,7 @@ describe('<dynamic-size-list />', () => {
       // scroll 200px is approximately ~7(size 30px) - ~8(size 26px) items away.
       listRef.scrollTo(200);
       await nextTick();
-      expect(Number.parseInt(listRef.innerRef.style.height)).toBeGreaterThan(
+      expect(Number.parseInt(listRef.innerRef.value.style.height)).toBeGreaterThan(
         estimatedTotalSize,
       );
 
@@ -112,11 +108,11 @@ describe('<dynamic-size-list />', () => {
       // end with (10 | 11) cached items
       // so the base case is that our window's height has been updated for at least 10 times
       // the height should be only be updated at most 5(the biggest size) * 11
-      expect(Number.parseInt(listRef.innerRef.style.height)).toBeGreaterThan(
+      expect(Number.parseInt(listRef.innerRef.value.style.height)).toBeGreaterThan(
         BASE_SIZE + 1 * 10,
       );
 
-      expect(Number.parseInt(listRef.innerRef.style.height)).toBeLessThan(
+      expect(Number.parseInt(listRef.innerRef.value.style.height)).toBeLessThan(
         BASE_SIZE + 5 * 12,
       );
 
@@ -133,7 +129,7 @@ describe('<dynamic-size-list />', () => {
 
       const listRef = wrapper.vm.$refs.listRef as ListRef;
       await nextTick();
-      const estimatedTotalSize = Number.parseInt(listRef.innerRef.style.width);
+      const estimatedTotalSize = Number.parseInt(listRef.innerRef.value.style.width);
       // when the size is all 26, then there should be 7 items 2 visible + 3 cache
       // so the size must be greater or equal to BASE_SIZE + 1 * 5, so it must be greater
       // than BASE_SIZE + 1 * 4
@@ -147,7 +143,7 @@ describe('<dynamic-size-list />', () => {
       // scroll 200px is approximately ~7(size 30px) - ~8(size 26px) items away.
       listRef.scrollTo(200);
       await nextTick();
-      expect(Number.parseInt(listRef.innerRef.style.width)).toBeGreaterThan(
+      expect(Number.parseInt(listRef.innerRef.value.style.width)).toBeGreaterThan(
         estimatedTotalSize,
       );
 
@@ -159,11 +155,11 @@ describe('<dynamic-size-list />', () => {
       // end with (9 | 10) cached items
       // so the base case is that our window's width has been updated for at least 10 times
       // the width should be only be updated at most 5(the biggest size) * 11
-      expect(Number.parseInt(listRef.innerRef.style.width)).toBeGreaterThan(
+      expect(Number.parseInt(listRef.innerRef.value.style.width)).toBeGreaterThan(
         BASE_SIZE + 1 * 9,
       );
 
-      expect(Number.parseInt(listRef.innerRef.style.width)).toBeLessThan(
+      expect(Number.parseInt(listRef.innerRef.value.style.width)).toBeLessThan(
         BASE_SIZE + 5 * 11,
       );
       expect(wrapper.findAll(ITEM_SELECTOR).length).toBeLessThanOrEqual(9);
@@ -237,7 +233,7 @@ describe('<dynamic-size-list />', () => {
             },
           },
         });
-      } catch (error) {
+      } catch (error: Error & any) {
         expect(errorHandler).toHaveBeenCalled();
         expect(error).toBeInstanceOf(Error);
         expect(error.message).toContain('itemSize is required as function');

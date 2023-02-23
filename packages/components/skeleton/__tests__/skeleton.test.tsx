@@ -16,7 +16,7 @@ describe('Skeleton.vue', () => {
   });
 
   it('render test', () => {
-    const wrapper = mount(<Skeleton />);
+    const wrapper = mount(Skeleton);
     expect(wrapper.findAll('.lp-skeleton__p')).toHaveLength(4);
     expect(wrapper.classes()).toMatchInlineSnapshot(`
       [
@@ -26,7 +26,7 @@ describe('Skeleton.vue', () => {
   });
 
   it('should render with animation', () => {
-    const wrapper = mount(<Skeleton animated={true} />);
+    const wrapper = mount(Skeleton, { data: () => ({ animated: true }) });
 
     expect(wrapper.classes()).toMatchInlineSnapshot(`
       [
@@ -37,7 +37,7 @@ describe('Skeleton.vue', () => {
   });
 
   it('should render x times', async () => {
-    const wrapper = mount(<Skeleton />);
+    const wrapper = mount(Skeleton);
 
     expect(wrapper.findAll('.lp-skeleton__p')).toHaveLength(4);
 
@@ -49,31 +49,37 @@ describe('Skeleton.vue', () => {
   });
 
   it('should render x rows', () => {
-    const wrapper = mount(<Skeleton rows={4} />);
+    const wrapper = mount(Skeleton, { data: () => ({ rows: 4 }) });
 
     expect(wrapper.findAll('.lp-skeleton__p')).toHaveLength(5);
   });
 
   it('should render default slots', () => {
-    const wrapper = mount(<Skeleton loading={false}>{AXIOM}</Skeleton>);
+    const wrapper = mount(Skeleton, {
+      data: () => ({ loading: false }),
+      slots: {
+        default: () => AXIOM,
+      },
+    });
 
     expect(wrapper.text()).toBe(AXIOM);
   });
 
   it('should render templates', () => {
     const wrapper = mount(
-      <Skeleton
-        v-slots={{
+      Skeleton,
+      {
+        slots: {
           template: () => AXIOM,
-        }}
-      />,
+        },
+      },
     );
 
     expect(wrapper.text()).toBe(AXIOM);
   });
 
   it('should throttle rendering', async () => {
-    const wrapper = mount(<Skeleton throttle={500} />);
+    const wrapper = mount(Skeleton, { data: () => ({ throttle: 500 }) });
 
     expect((wrapper.vm as SkeletonInstance).uiLoading).toBe(false);
 

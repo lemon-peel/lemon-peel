@@ -1,6 +1,6 @@
 import { buildProps } from '@lemon-peel/utils';
 
-import type { ExtractPropTypes } from 'vue';
+import type { ExtractPropTypes, PropType } from 'vue';
 import type { Dayjs } from 'dayjs';
 
 export type GetDisabledHours = (role: string, comparingDate?: Dayjs) => number[];

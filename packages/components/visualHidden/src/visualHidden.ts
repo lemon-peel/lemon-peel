@@ -1,5 +1,5 @@
 import { buildProps } from '@lemon-peel/utils';
-import type { StyleValue } from 'vue';
+import type { PropType, StyleValue } from 'vue';
 
 export const visualHiddenProps = buildProps({
   style: {

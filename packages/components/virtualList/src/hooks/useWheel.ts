@@ -43,7 +43,7 @@ const useWheel = (
   const onWheel = (e: WheelEvent) => {
     cAF(frameHandle);
 
-    const newOffset = e[LayoutKeys[layout.value]];
+    const newOffset = e[LayoutKeys[layout.value] as 'deltaX'];
 
     if (hasReachedEdge(offset) && hasReachedEdge(offset + newOffset)) return;
 

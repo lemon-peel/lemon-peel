@@ -1,7 +1,7 @@
 import { buildProps } from '@lemon-peel/utils';
 import { columns } from './common';
 
-import type { CSSProperties, ExtractPropTypes } from 'vue';
+import type { CSSProperties, ExtractPropTypes, PropType } from 'vue';
 import type { KeyType } from './types';
 
 export const tableV2HeaderRowProps = buildProps({

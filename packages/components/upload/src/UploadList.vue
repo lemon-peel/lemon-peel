@@ -119,7 +119,7 @@ defineOptions({
   name: 'LpUploadList',
 });
 
-defineProps(uploadListProps);
+const props = defineProps(uploadListProps);
 const emit = defineEmits(uploadListEmits);
 
 const { t } = useLocale();

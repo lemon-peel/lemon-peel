@@ -1,4 +1,5 @@
-
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import { Comment, computed, getCurrentInstance, h, inject, ref, unref } from 'vue';
 import { debugWarn } from '@lemon-peel/utils';
 import { useNamespace } from '@lemon-peel/hooks';

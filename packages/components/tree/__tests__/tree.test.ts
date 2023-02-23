@@ -1,4 +1,5 @@
-
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import { nextTick } from 'vue';
 import { mount } from '@vue/test-utils';
 import { describe, expect, test, vi } from 'vitest';
@@ -6,6 +7,7 @@ import defineGetter from '@lemon-peel/test-utils/defineGetter';
 
 import Tree from '../src/Tree.vue';
 import type Node from '../src/model/node';
+import type { TreeKey, TreeNodeData } from '../src/tree';
 
 const ALL_NODE_COUNT = 9;
 
@@ -23,9 +25,9 @@ const getTreeVm = (props = '', options = {}) => {
           return {
             currentNode: null,
             nodeExpended: false,
-            defaultExpandedKeys: [],
+            defaultExpandedKeys: [] as TreeKey[],
             defaultCheckedKeys: [],
-            clickedNode: null,
+            clickedNode: null as (TreeNodeData | null),
             count: 1,
             data: [
               {
@@ -186,7 +188,8 @@ describe('Tree.vue', () => {
       `:props="defaultProps" @node-click="handleNodeClick"`,
       {
         methods: {
-          handleNodeClick(data) {
+          // TODO remove any
+          handleNodeClick(this: any, data: TreeNodeData) {
             this.clickedNode = data;
           },
         },
@@ -199,7 +202,7 @@ describe('Tree.vue', () => {
     await firstNodeContentWrapper.trigger('click');
     await nextTick(); // because node click method to expaned is async
 
-    expect(vm.clickedNode.label).toEqual('一级 1');
+    expect(vm.clickedNode?.label).toEqual('一级 1');
     expect(firstNodeWrapper.classes('is-expanded')).toBe(true);
     expect(firstNodeWrapper.classes('is-current')).toBe(true);
 
@@ -268,7 +271,8 @@ describe('Tree.vue', () => {
     const { wrapper } = getTreeVm(
       `:props="defaultProps" :default-expanded-keys="defaultExpandedKeys" node-key="id"`,
       {
-        created() {
+        // TODO remove any
+        created(this: any) {
           this.defaultExpandedKeys = [1, 3];
         },
       },
@@ -281,7 +285,8 @@ describe('Tree.vue', () => {
     const { wrapper, vm } = getTreeVm(
       `:props="defaultProps" :default-expanded-keys="defaultExpandedKeys" node-key="id"`,
       {
-        created() {
+        // TODO remove any
+        created(this: any) {
           this.defaultExpandedKeys = [1, 3];
         },
       },

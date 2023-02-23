@@ -1,10 +1,10 @@
 
 import type { Store } from '../store';
-import type { DefaultRow } from './defaults';
+import type { DefaultRow, Sort } from './defaults';
 
 function useUtils(store: Store) {
   const setCurrentRow = (row: DefaultRow) => {
-    store.commit('setCurrentRow', row);
+    store.actions.setCurrentRow(row);
   };
 
   const getSelectionRows = () => {
@@ -25,7 +25,7 @@ function useUtils(store: Store) {
   };
 
   const toggleAllSelection = () => {
-    store.commit('toggleAllSelection');
+    store.actions.toggleAllSelection();
   };
 
   const toggleRowExpansion = (row: DefaultRow, expanded?: boolean) => {
@@ -36,8 +36,8 @@ function useUtils(store: Store) {
     store.watcher.clearSort();
   };
 
-  const sort = (prop: string, order: string) => {
-    store.commit('sort', { prop, order });
+  const sort = (prop: string, order: Sort['order']) => {
+    store.actions.sort({ prop, order });
   };
 
   return {

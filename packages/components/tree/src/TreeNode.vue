@@ -83,7 +83,7 @@
 </template>
 
 <script lang="ts" setup>
-import { defineComponent, getCurrentInstance, inject, nextTick, provide, ref, watch } from 'vue';
+import { getCurrentInstance, inject, nextTick, provide, ref, watch } from 'vue';
 import { isFunction, isString } from '@vue/shared';
 import LpCollapseTransition from '@lemon-peel/components/collapseTransition';
 import { LpIcon } from '@lemon-peel/components/icon';

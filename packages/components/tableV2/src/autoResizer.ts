@@ -1,6 +1,6 @@
 import { buildProps } from '@lemon-peel/utils';
 
-import type { ExtractPropTypes } from 'vue';
+import type { ExtractPropTypes, PropType } from 'vue';
 
 type AutoResizeHandler = (event: { height: number, width: number }) => void;
 

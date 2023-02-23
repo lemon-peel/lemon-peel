@@ -3,7 +3,7 @@ import { isFunction, isObject } from '@lemon-peel/utils';
 import { ExpandIcon, TableCell } from '../components';
 import { Alignment } from '../constants';
 import { placeholderSign } from '../private';
-import { componentToSlot, enforceUnit, tryCall } from '../utils';
+import { enforceUnit, tryCall } from '../utils';
 
 import type { FunctionalComponent, UnwrapNestedRefs, VNode } from 'vue';
 import type { CellRendererParams } from '../types';
@@ -52,10 +52,8 @@ const CellRenderer: FunctionalComponent<CellRendererProps> = (
   }
   const { cellRenderer, dataKey, dataGetter } = column;
 
-  const columnCellRenderer = componentToSlot(cellRenderer);
-
   const CellComponent =
-    columnCellRenderer ||
+  cellRenderer ||
     slots.default ||
     ((props: CellRendererParams<any>) => <TableCell {...props} />);
 

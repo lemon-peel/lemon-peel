@@ -138,7 +138,8 @@ describe('<upload />', () => {
         return Promise.resolve();
       });
       const wrapper = mount(
-        <UploadContent httpRequest={httpRequest} onProgress={onProgress} />,
+        UploadContent,
+        { httpRequest, onProgress },
       );
 
       const fileList = [new File(['content'], 'test-file.txt')];

@@ -2,7 +2,7 @@ import { HeaderCell, SortIcon } from '../components';
 // import ColumnResizer from '../table-column-resizer'
 import { Alignment, SortOrder, oppositeOrderMap } from '../constants';
 import { placeholderSign } from '../private';
-import { componentToSlot, enforceUnit, tryCall } from '../utils';
+import { enforceUnit, tryCall } from '../utils';
 
 import type { FunctionalComponent, UnwrapNestedRefs } from 'vue';
 import type { CssNamespace } from '@lemon-peel/hooks';
@@ -43,7 +43,7 @@ const HeaderCellRenderer: FunctionalComponent<HeaderCellRendererProps> = (
   };
 
   const cellRenderer =
-    componentToSlot<typeof cellProperties>(headerCellRenderer) ||
+    headerCellRenderer ||
     slots.default ||
     ((props: TableV2HeaderCell) => <HeaderCell {...props} />);
 

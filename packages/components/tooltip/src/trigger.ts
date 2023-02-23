@@ -2,7 +2,7 @@ import { buildProps } from '@lemon-peel/utils';
 import { popperTriggerProps } from '@lemon-peel/components/popper';
 import { EVENT_CODE } from '@lemon-peel/constants';
 import type { Arrayable } from '@lemon-peel/utils';
-import type { ExtractPropTypes } from 'vue';
+import type { ExtractPropTypes, PropType } from 'vue';
 
 export type TooltipTriggerType = 'hover' | 'focus' | 'click' | 'contextmenu';
 

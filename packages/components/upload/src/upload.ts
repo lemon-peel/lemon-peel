@@ -4,7 +4,7 @@ import { ajaxUpload } from './ajax';
 
 import type { UploadAjaxError } from './ajax';
 import type { Awaitable } from '@lemon-peel/utils';
-import type { ExtractPropTypes } from 'vue';
+import type { ExtractPropTypes, PropType } from 'vue';
 import type Upload from './Upload.vue';
 
 export const uploadListTypes = ['text', 'picture', 'picture-card'] as const;
@@ -46,6 +46,7 @@ export type UploadFiles = UploadFile[];
 export interface UploadRawFile extends File {
   uid: number;
 }
+
 export type UploadRequestHandler = (
   options: UploadRequestOptions
 ) => XMLHttpRequest | Promise<unknown>;

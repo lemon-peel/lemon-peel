@@ -58,17 +58,17 @@ defineOptions({
 
 const props = defineProps(tooltipV2Props);
 
-const refedProperties = toRefs(props);
+const refedProps = toRefs(props);
 
-const arrowProperties = reactive(pick(refedProperties, Object.keys(tooltipV2ArrowProps)));
+const arrowProps = reactive(pick(refedProps, Object.keys(tooltipV2ArrowProps)));
 
-const contentProperties = reactive(
-  pick(refedProperties, Object.keys(tooltipV2ContentProps)),
+const contentProps = reactive(
+  pick(refedProps, Object.keys(tooltipV2ContentProps)),
 );
 
-const rootProperties = reactive(pick(refedProperties, Object.keys(tooltipV2RootProps)));
+const rootProps = reactive(pick(refedProps, Object.keys(tooltipV2RootProps)));
 
-const triggerProperties = reactive(
-  pick(refedProperties, Object.keys(tooltipV2TriggerProps)),
+const triggerProps = reactive(
+  pick(refedProps, Object.keys(tooltipV2TriggerProps)),
 );
 </script>

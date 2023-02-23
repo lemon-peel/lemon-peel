@@ -116,7 +116,7 @@ const COMPONENT_NAME = 'LpTableV2TableRow';
 const TableV2Row = defineComponent({
   name: COMPONENT_NAME,
   props: tableV2RowProps,
-  setup(properties, { expose, slots, attrs }) {
+  setup(props, { expose, slots, attrs }) {
     const {
       eventHandlers,
       isScrolling,
@@ -125,7 +125,7 @@ const TableV2Row = defineComponent({
       rowRef,
 
       onExpand,
-    } = useTableRow(properties);
+    } = useTableRow(props);
 
     expose({
       /**
@@ -143,7 +143,7 @@ const TableV2Row = defineComponent({
         rowData,
         rowIndex,
         style,
-      } = properties;
+      } = props;
 
       let ColumnCells: ColumnCellsType = columns.map((column, columnIndex) => {
         const expandable =
@@ -193,7 +193,7 @@ const TableV2Row = defineComponent({
         return (
           <div
             ref={rowRef}
-            class={properties.class}
+            class={props.class}
             style={measured.value ? style : exceptHeightStyle}
             {...attrs}
             {...unref(eventHandlers)}
@@ -207,7 +207,7 @@ const TableV2Row = defineComponent({
         <div
           {...attrs}
           ref={rowRef}
-          class={properties.class}
+          class={props.class}
           style={style}
           {...unref(eventHandlers)}
         >
