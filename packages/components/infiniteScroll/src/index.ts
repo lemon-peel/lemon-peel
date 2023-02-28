@@ -2,11 +2,7 @@
 import { nextTick } from 'vue';
 import { isFunction } from '@vue/shared';
 import { throttle } from 'lodash-es';
-import {
-  getOffsetTopDistance,
-  getScrollContainer,
-  throwError,
-} from '@lemon-peel/utils';
+import { getOffsetTopDistance, getScrollContainer, throwError } from '@lemon-peel/utils';
 
 import type { ComponentPublicInstance, ObjectDirective } from 'vue';
 
@@ -16,32 +12,25 @@ export const DEFAULT_DELAY = 200;
 export const DEFAULT_DISTANCE = 0;
 
 const attributes = {
-  delay: {
-    type: Number,
-    default: DEFAULT_DELAY,
-  },
-  distance: {
-    type: Number,
-    default: DEFAULT_DISTANCE,
-  },
-  disabled: {
-    type: Boolean,
-    default: false,
-  },
-  immediate: {
-    type: Boolean,
-    default: true,
-  },
+  delay: { type: Number, default: DEFAULT_DELAY },
+  distance: { type: Number, default: DEFAULT_DISTANCE },
+  disabled: { type: Boolean, default: false },
+  immediate: { type: Boolean, default: true },
 };
 
-type Attributes = typeof attributes;
-type ScrollOptions = { [K in keyof Attributes]: Attributes[K]['default'] };
+type ScrollOptions = {
+  delay: number;
+  distance: number;
+  disabled: boolean;
+  immediate: boolean;
+};
+
 type InfiniteScrollCallback = () => void;
 type InfiniteScrollElement = HTMLElement & {
   [SCOPE]: {
     container: HTMLElement | Window;
     containerEl: HTMLElement;
-    instance: ComponentPublicInstance;
+    instance: ComponentPublicInstance & Record<string, any>;
     delay: number; // export for test
     lastScrollTop: number;
     cb: InfiniteScrollCallback;
@@ -52,17 +41,23 @@ type InfiniteScrollElement = HTMLElement & {
 
 const getScrollOptions = (
   element: HTMLElement,
-  instance: ComponentPublicInstance,
+  instance: ComponentPublicInstance & Record<string, any>,
 ): ScrollOptions => {
-  return Object.entries(attributes).reduce((acm, [name, option]) => {
-    const { type, default: defaultValue } = option;
-    const attributeValue = element.getAttribute(`infinite-scroll-${name}`);
-    let value = instance[attributeValue] ?? attributeValue ?? defaultValue;
-    value = value === 'false' ? false : value;
-    value = type(value);
-    acm[name] = Number.isNaN(value) ? defaultValue : value;
-    return acm;
-  }, {} as ScrollOptions);
+  return Object.entries(attributes)
+    .reduce((acm, [name, option]) => {
+      const { type, default: defaultValue } = option;
+      const attributeValue = element.getAttribute(`infinite-scroll-${name}`);
+      let value = attributeValue
+        ? instance[attributeValue] ?? attributeValue
+        : defaultValue;
+
+      value = value === 'false' ? false : value;
+      value = type(value);
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      acm[name as keyof ScrollOptions] = Number.isNaN(value) ? defaultValue : value;
+      return acm;
+    }, {} as ScrollOptions);
 };
 
 const destroyObserver = (element: InfiniteScrollElement) => {
@@ -130,7 +125,7 @@ InfiniteScrollCallback
     // ensure parentNode mounted
     await nextTick();
 
-    const { delay, immediate } = getScrollOptions(element, instance);
+    const { delay, immediate } = getScrollOptions(element, instance!);
     const container = getScrollContainer(element, true);
     const containerElement =
       container === window
@@ -141,7 +136,7 @@ InfiniteScrollCallback
     if (!container) return;
 
     element[SCOPE] = {
-      instance,
+      instance: instance!,
       container,
       containerEl: containerElement,
       delay,

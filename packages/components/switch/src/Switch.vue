@@ -69,7 +69,7 @@ import { addUnit, debugWarn, isBoolean, throwError } from '@lemon-peel/utils';
 import LpIcon from '@lemon-peel/components/icon';
 import { Loading } from '@element-plus/icons-vue';
 import { CHANGE_EVENT, INPUT_EVENT, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
-import { useDeprecated, useDisabled, useFormItem, useFormItemInputId, useNamespace, useSize } from '@lemon-peel/hooks';
+import { useDisabled, useFormItem, useFormItemInputId, useNamespace, useSize } from '@lemon-peel/hooks';
 import { switchEmits, switchProps } from './switch';
 import type { CSSProperties } from 'vue';
 
@@ -85,18 +85,6 @@ const vm = getCurrentInstance()!;
 const { formItem } = useFormItem();
 const switchSize = useSize();
 const ns = useNamespace('switch');
-
-useDeprecated(
-  {
-    from: '"value"',
-    replacement: '"model-value" or "v-model"',
-    scope: COMPONENT_NAME,
-    version: '2.3.0',
-    ref: 'https://element-plus.org/en-US/component/switch.html#attributes',
-    type: 'Attribute',
-  },
-  computed(() => !!vm.vnode.props?.value),
-);
 
 const { inputId } = useFormItemInputId(props, {
   formItemContext: formItem,

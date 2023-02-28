@@ -8,14 +8,16 @@ import { LpTooltip } from '@lemon-peel/components/tooltip';
 import Button from '@lemon-peel/components/button';
 import { POPPER_CONTAINER_SELECTOR } from '@lemon-peel/hooks';
 import Dropdown from '../src/Dropdown.vue';
-import DropdownItem from '../src/dropdownItem.vue';
+import DropdownItem from '../src/DropdownItem.vue';
 import DropdownMenu from '../src/DropdownMenu.vue';
+
+import type { ComponentOptions } from 'vue';
 
 const MOUSE_ENTER_EVENT = 'mouseenter';
 const MOUSE_LEAVE_EVENT = 'mouseleave';
 const CONTEXTMENU = 'contextmenu';
 
-const _mount = (template: string, data, otherObj?) =>
+const doMount = (template: string, data: () => any, otherObj?: ComponentOptions) =>
   mount({
     components: {
       [Button.name]: Button,
@@ -34,7 +36,7 @@ describe('Dropdown', () => {
   });
 
   test('create', async () => {
-    const wrapper = _mount(
+    const wrapper = doMount(
       `
         <lp-dropdown ref="b" placement="right">
           <span class="lp-dropdown-link" ref="a">
@@ -72,7 +74,7 @@ describe('Dropdown', () => {
 
   test('menu click', async () => {
     const commandHandler = vi.fn();
-    const wrapper = _mount(
+    const wrapper = doMount(
       `
       <lp-dropdown ref="b" @command="commandHandler" placement="right">
         <span class="lp-dropdown-link" ref="a">
@@ -116,7 +118,7 @@ describe('Dropdown', () => {
   });
 
   test('trigger', async () => {
-    const wrapper = _mount(
+    const wrapper = doMount(
       `
       <lp-dropdown trigger="click" ref="b" placement="right">
         <span class="lp-dropdown-link" ref="a">
@@ -154,7 +156,7 @@ describe('Dropdown', () => {
   });
 
   test('trigger contextmenu', async () => {
-    const wrapper = _mount(
+    const wrapper = doMount(
       `
       <lp-dropdown trigger="contextmenu" ref="b" placement="right">
         <span class="lp-dropdown-link" ref="a">
@@ -188,7 +190,7 @@ describe('Dropdown', () => {
   });
 
   test('handleOpen and handleClose', async () => {
-    const wrapper = _mount(
+    const wrapper = doMount(
       `
       <lp-dropdown trigger="click" ref="refDropdown" placement="right">
         <span class="lp-dropdown-link" ref="a">
@@ -225,7 +227,7 @@ describe('Dropdown', () => {
 
   test('split button', async () => {
     const handleClick = vi.fn();
-    const wrapper = _mount(
+    const wrapper = doMount(
       `
       <lp-dropdown  @click="handleClick" split-button type="primary" ref="b" placement="right">
         dropdown
@@ -267,7 +269,7 @@ describe('Dropdown', () => {
   });
 
   test('hide on click', async () => {
-    const wrapper = _mount(
+    const wrapper = doMount(
       `
       <lp-dropdown ref="b" placement="right" :hide-on-click="false">
         <span class="lp-dropdown-link" ref="a">
@@ -308,7 +310,7 @@ describe('Dropdown', () => {
   });
 
   test('triggerElm keydown', async () => {
-    const wrapper = _mount(
+    const wrapper = doMount(
       `
       <lp-dropdown ref="b" placement="right" :hide-on-click="false">
         <span class="lp-dropdown-link" ref="a">
@@ -353,7 +355,7 @@ describe('Dropdown', () => {
   });
 
   test('dropdown menu keydown', async () => {
-    const wrapper = _mount(
+    const wrapper = doMount(
       `
       <lp-dropdown ref="b" placement="right" :hide-on-click="false">
         <span class="lp-dropdown-link" ref="a">
@@ -393,7 +395,7 @@ describe('Dropdown', () => {
   });
 
   test('max height', async () => {
-    const wrapper = _mount(
+    const wrapper = doMount(
       `
       <lp-dropdown ref="b" max-height="60px">
         <span class="lp-dropdown-link" ref="a">
@@ -424,7 +426,7 @@ describe('Dropdown', () => {
   });
 
   test('tooltip debounce', async () => {
-    const wrapper = _mount(
+    const wrapper = doMount(
       `
       <lp-dropdown ref="b">
         <span class="lp-dropdown-link">
@@ -459,7 +461,7 @@ describe('Dropdown', () => {
   });
 
   test('popperClass', async () => {
-    const wrapper = await _mount(
+    const wrapper = await doMount(
       `
       <lp-dropdown ref="b" max-height="60px" popper-class="custom-popper-class">
         <span class="lp-dropdown-link" ref="a">
@@ -487,7 +489,7 @@ describe('Dropdown', () => {
   });
 
   test('custom attributes for dropdown items', async () => {
-    const wrapper = _mount(
+    const wrapper = doMount(
       `
       <lp-dropdown>
         <span class="lp-dropdown-link">
@@ -503,17 +505,16 @@ describe('Dropdown', () => {
       () => ({}),
     );
     await nextTick();
-    expect(
-      wrapper
-        .findComponent({
-          name: 'DropdownItemImpl',
-        })
-        .find('.lp-dropdown-menu__item').element.dataset.customAttribute,
+    expect((wrapper
+      .findComponent({
+        name: 'DropdownItemImpl',
+      })
+      .find('.lp-dropdown-menu__item').element as HTMLElement).dataset.customAttribute,
     ).toBe('hello');
   });
 
   test('disable normal dropdown', async () => {
-    const wrapper = _mount(
+    const wrapper = doMount(
       `
       <lp-dropdown disabled>
         <span class="lp-dropdown-link">
@@ -538,7 +539,7 @@ describe('Dropdown', () => {
     ).toContain('is-disabled');
   });
   test('disable dropdown with split button', async () => {
-    const wrapper = _mount(
+    const wrapper = doMount(
       `
       <lp-dropdown disabled split-button>
         <span class="lp-dropdown-link">
@@ -571,7 +572,7 @@ describe('Dropdown', () => {
   });
 
   test('set show-timeout/hide-timeout when trigger is hover', async () => {
-    const wrapper = _mount(
+    const wrapper = doMount(
       `
       <lp-dropdown trigger="hover" :show-timeout="200" :hide-timeout="300">
         <span class="lp-dropdown-link">
@@ -594,7 +595,7 @@ describe('Dropdown', () => {
   });
 
   test('ignore show-timeout/hide-timeout when trigger is not hover', async () => {
-    const wrapper = _mount(
+    const wrapper = doMount(
       `
       <lp-dropdown trigger="click" :show-timeout="200" :hide-timeout="300">
         <span class="lp-dropdown-link">
@@ -618,7 +619,7 @@ describe('Dropdown', () => {
 
   describe('accessibility', () => {
     test('Custom span trigger has proper attributes', async () => {
-      const wrapper = _mount(
+      const wrapper = doMount(
         `
         <lp-dropdown>
           <span class="lp-dropdown-link" data-test-ref="trigger">
@@ -648,7 +649,7 @@ describe('Dropdown', () => {
     });
 
     test('LpButton trigger has proper attributes', async () => {
-      const wrapper = _mount(
+      const wrapper = doMount(
         `
         <lp-dropdown>
           <lp-button ref="trigger">
@@ -678,7 +679,7 @@ describe('Dropdown', () => {
     });
 
     test('Split button trigger has proper attributes', async () => {
-      const wrapper = _mount(
+      const wrapper = doMount(
         `
         <lp-dropdown split-button>
           <template #dropdown>
@@ -705,7 +706,7 @@ describe('Dropdown', () => {
     });
 
     test('Menu items with "menu" role', async () => {
-      const wrapper = _mount(
+      const wrapper = doMount(
         `
         <lp-dropdown split-button>
           <template #dropdown>
@@ -724,7 +725,7 @@ describe('Dropdown', () => {
     });
 
     test('Menu items with "navigation" role', async () => {
-      const wrapper = _mount(
+      const wrapper = doMount(
         `
         <lp-dropdown split-button role="navigation">
           <template #dropdown>
@@ -743,7 +744,7 @@ describe('Dropdown', () => {
     });
 
     test('Menu items with "group" role', async () => {
-      const wrapper = _mount(
+      const wrapper = doMount(
         `
         <lp-dropdown split-button role="group">
           <template #dropdown>
@@ -765,7 +766,7 @@ describe('Dropdown', () => {
   describe('teleported API', () => {
     test('should mount on popper container', async () => {
       expect(document.body.innerHTML).toBe('');
-      _mount(
+      doMount(
         `
         <lp-dropdown ref="b" placement="right">
           <span class="lp-dropdown-link" ref="a">
@@ -786,13 +787,13 @@ describe('Dropdown', () => {
 
       await nextTick();
       expect(
-        document.body.querySelector(POPPER_CONTAINER_SELECTOR).innerHTML,
+        document.body.querySelector(POPPER_CONTAINER_SELECTOR)!.innerHTML,
       ).not.toBe('');
     });
 
     test('should not mount on the popper container', async () => {
       expect(document.body.innerHTML).toBe('');
-      _mount(
+      doMount(
         `
         <lp-dropdown ref="b" placement="right" :teleported="false">
           <span class="lp-dropdown-link" ref="a">
@@ -813,7 +814,7 @@ describe('Dropdown', () => {
 
       await nextTick();
       expect(
-        document.body.querySelector(POPPER_CONTAINER_SELECTOR).innerHTML,
+        document.body.querySelector(POPPER_CONTAINER_SELECTOR)!.innerHTML,
       ).toBe('');
     });
   });

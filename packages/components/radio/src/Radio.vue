@@ -53,10 +53,9 @@ const props = defineProps(radioProps);
 const emit = defineEmits(radioEmits);
 
 const ns = useNamespace('radio');
-const { radioRef, radioGroup, focus, size, disabled, modelValue } = useRadio(
-  props,
-  emit,
-);
+
+const { radioRef, radioGroup, focus, size, disabled, modelValue } =
+  useRadio(props, emit);
 
 function handleChange() {
   nextTick(() => emit('change', modelValue.value));

@@ -1,7 +1,7 @@
 {
   "name": "@lemon-peel/theme-chalk",
   "version": "0.1.0",
-  "description": "Element component chalk theme.",
+  "description": "Lemon Peel component chalk theme.",
   "keywords": [
     "vue-components",
     "element-plus",

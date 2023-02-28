@@ -3,7 +3,16 @@ import { mount } from '@vue/test-utils';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { useModelToggle, useModelToggleProps } from '../useModelToggle';
+
 import type { VueWrapper } from '@vue/test-utils';
+import type { UnwrapNestedRefs } from 'vue';
+
+
+declare module 'vue-router' {
+  interface TypesConfig {
+    $route: UnwrapNestedRefs<{ test: string }>;
+  }
+}
 
 const AXIOM = 'Rem is the best girl';
 
@@ -151,15 +160,16 @@ describe('use-model-toggle', () => {
   it('should hide when route changes', async () => {
     wrapper.unmount();
 
-    const router = reactive({
-      test: '/',
+    const route = reactive({
+      path: '/',
     });
+
     wrapper = mount(Comp, {
       global: {
         config: {
           globalProperties: {
-            $route: router,
-          },
+            $route: route,
+          } as any,
         },
       },
     });
@@ -170,7 +180,7 @@ describe('use-model-toggle', () => {
 
     expect(wrapper.text()).toContain(AXIOM);
     expect(onHide).toHaveBeenCalledTimes(0);
-    router.test = '/test/changed';
+    route.path = '/test/changed';
     await nextTick();
     expect(onHide).toHaveBeenCalledTimes(1);
   });

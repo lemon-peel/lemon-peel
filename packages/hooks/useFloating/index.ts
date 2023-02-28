@@ -87,14 +87,11 @@ export const useFloating = ({
 };
 
 export type ArrowMiddlewareProps = {
-  arrowRef: Ref<HTMLElement | null | undefined>;
+  arrowRef: Ref<HTMLElement>;
   padding?: number | SideObject;
 };
 
-export const arrowMiddleware = ({
-  arrowRef,
-  padding,
-}: ArrowMiddlewareProps): Middleware => {
+export const arrowMiddleware = ({ arrowRef, padding }: ArrowMiddlewareProps): Middleware => {
   return {
     name: 'arrow',
     options: {

@@ -48,7 +48,7 @@
         :indeterminate="node.indeterminate"
         :disabled="!!node.disabled"
         @click.stop
-        @change="handleCheckChange"
+        @change="handleCheckChange as any"
       />
       <lp-icon
         v-if="node.loading"
@@ -101,7 +101,7 @@ import Node from './model/node';
 
 import type { ComponentInternalInstance, PropType } from 'vue';
 import type { Nullable } from '@lemon-peel/utils';
-import type { TreeNodeData, TreeOptionProps } from './tree';
+import type { TreeNodeContentRender, TreeNodeData, TreeOptionProps } from './tree';
 
 defineOptions({
   name: 'LpTreeNode',
@@ -114,10 +114,7 @@ const props  = defineProps({
     default: () => ({}),
   },
   accordion: Boolean,
-  renderContent: {
-    type: Function,
-    default: undefined,
-  },
+  renderContent: { type: Function as PropType<TreeNodeContentRender>, default: undefined },
   renderAfterExpand: Boolean,
   showCheckbox: {
     type: Boolean,

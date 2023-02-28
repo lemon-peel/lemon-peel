@@ -3,8 +3,8 @@ import { mount } from '@vue/test-utils';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import dayjs from 'dayjs';
 import { rAF } from '@lemon-peel/test-utils/tick';
-import ConfigProvider from '@lemon-peel/components/config-provider';
-import { CommonPicker } from '@lemon-peel/components/time-picker';
+import ConfigProvider from '@lemon-peel/components/configProvider';
+import { CommonPicker } from '@lemon-peel/components/timePicker';
 import Input from '@lemon-peel/components/input';
 import zhCn from '@lemon-peel/locale/lang/zh-cn';
 import enUs from '@lemon-peel/locale/lang/en';
@@ -13,7 +13,9 @@ import { EVENT_CODE } from '@lemon-peel/constants';
 import { LpFormItem } from '@lemon-peel/components/form';
 import DatePicker from '../src/DatePicker';
 
-const _mount = (template: string, data = () => ({}), otherObj?) =>
+import type { ComponentOptions } from 'vue';
+
+const doMount = (template: string, data = () => ({}), otherObj?: ComponentOptions) =>
   mount(
     {
       components: {
@@ -35,7 +37,7 @@ afterEach(() => {
 
 const testDatePickerPanelChange = async (type: 'date' | 'daterange') => {
   let mode;
-  const wrapper = _mount(
+  const wrapper = doMount(
     `<lp-date-picker
         type="${type}"
         v-model="value"
@@ -44,8 +46,8 @@ const testDatePickerPanelChange = async (type: 'date' | 'daterange') => {
     () => ({ value: type === 'daterange' ? [] : '' }),
     {
       methods: {
-        onPanelChange(value, _mode) {
-          mode = _mode;
+        onPanelChange(_: string, uMode: string) {
+          mode = uMode;
         },
       },
     },
@@ -59,10 +61,10 @@ const testDatePickerPanelChange = async (type: 'date' | 'daterange') => {
   input.trigger('blur');
   input.trigger('focus');
   await nextTick();
-  const prevMonth = document.querySelector<HTMLElement>('button.arrow-left');
-  const prevYear = document.querySelector<HTMLElement>('button.d-arrow-left');
-  const nextMonth = document.querySelector<HTMLElement>('button.arrow-right');
-  const nextYear = document.querySelector<HTMLElement>('button.d-arrow-right');
+  const prevMonth = document.querySelector<HTMLElement>('button.arrow-left')!;
+  const prevYear = document.querySelector<HTMLElement>('button.d-arrow-left')!;
+  const nextMonth = document.querySelector<HTMLElement>('button.arrow-right')!;
+  const nextYear = document.querySelector<HTMLElement>('button.d-arrow-right')!;
   prevMonth.click();
   await nextTick();
   expect(mode).toBe('month');
@@ -84,7 +86,7 @@ describe('DatePicker', () => {
   it('create & custom class & style', async () => {
     const popperClassName = 'popper-class-test';
     const customClassName = 'custom-class-test';
-    const wrapper = _mount(
+    const wrapper = doMount(
       `<lp-date-picker
         :readonly="true"
         placeholder='test_'
@@ -106,13 +108,13 @@ describe('DatePicker', () => {
     await nextTick();
     expect(
       document
-        .querySelector('.lp-picker__popper')
+        .querySelector('.lp-picker__popper')!
         .classList.contains(popperClassName),
     ).toBe(true);
   });
 
   it('select date', async () => {
-    const wrapper = _mount(
+    const wrapper = doMount(
       `<lp-date-picker
         v-model="value"
     />`,
@@ -155,7 +157,7 @@ describe('DatePicker', () => {
   });
 
   it('defaultTime and clear value', async () => {
-    const wrapper = _mount(
+    const wrapper = doMount(
       `<lp-date-picker
         v-model="value"
         :default-time="new Date(2011,1,1,12,0,1)"
@@ -181,7 +183,7 @@ describe('DatePicker', () => {
   });
 
   it('defaultValue', async () => {
-    const wrapper = _mount(
+    const wrapper = doMount(
       `<lp-date-picker
         v-model="value"
         :default-value="defaultValue"
@@ -195,7 +197,7 @@ describe('DatePicker', () => {
     input.trigger('blur');
     input.trigger('focus');
     await nextTick();
-    document.querySelector<HTMLElement>('td.available').click();
+    document.querySelector<HTMLElement>('td.available')!.click();
     await nextTick();
     const vm = wrapper.vm as any;
     expect(vm.value).toBeDefined();
@@ -205,14 +207,14 @@ describe('DatePicker', () => {
     const picker = wrapper.findComponent(CommonPicker)
     ;(picker.vm as any).showClose = true;
     await nextTick();
-    document.querySelector<HTMLElement>('.clear-icon').click();
+    document.querySelector<HTMLElement>('.clear-icon')!.click();
     expect(vm.value).toBeNull();
 
     vm.defaultValue = new Date(2031, 5, 1);
     input.trigger('blur');
     input.trigger('focus');
     await nextTick();
-    document.querySelector<HTMLElement>('td.available').click();
+    document.querySelector<HTMLElement>('td.available')!.click();
     await nextTick();
     expect(vm.value).toBeDefined();
     expect(vm.value.getFullYear()).toBe(2031);
@@ -226,7 +228,7 @@ describe('DatePicker', () => {
     const blurHandler = vi.fn();
     const keydownHandler = vi.fn();
     let onChangeValue: Date | undefined;
-    const wrapper = _mount(
+    const wrapper = doMount(
       `<lp-date-picker
         v-model="value"
         @change="onChange"
@@ -237,17 +239,17 @@ describe('DatePicker', () => {
       () => ({ value: new Date(2016, 9, 10, 18, 40) }),
       {
         methods: {
-          onChange(e) {
+          onChange(e?: Date) {
             onChangeValue = e;
             return changeHandler(e);
           },
-          onFocus(e) {
+          onFocus(e: Date) {
             return focusHandler(e);
           },
-          onBlur(e) {
+          onBlur(e: Date) {
             return blurHandler(e);
           },
-          onKeydown(e) {
+          onKeydown(e: Date) {
             return keydownHandler(e);
           },
         },
@@ -274,7 +276,7 @@ describe('DatePicker', () => {
 
   it('emits focus on click when not currently focused', async () => {
     const focusHandler = vi.fn();
-    const wrapper = _mount(
+    const wrapper = doMount(
       `<lp-date-picker
         v-model="value"
         @focus="onFocus"
@@ -298,7 +300,7 @@ describe('DatePicker', () => {
   });
 
   it('opens popper on click when input is focused', async () => {
-    const wrapper = _mount(`<lp-date-picker v-model="value" />`, () => ({
+    const wrapper = doMount(`<lp-date-picker v-model="value" />`, () => ({
       value: new Date(2016, 9, 10, 18, 40),
     }));
     const popperEl = document.querySelector('.lp-picker__popper') as HTMLElement;
@@ -316,7 +318,7 @@ describe('DatePicker', () => {
     const text = 'Yesterday';
     const value = new Date(Date.now() - 86_400_000);
     value.setHours(0, 0, 0, 0);
-    const wrapper = _mount(
+    const wrapper = doMount(
       `<lp-date-picker
         v-model="value"
         :shortcuts="shortcuts"
@@ -335,7 +337,7 @@ describe('DatePicker', () => {
     input.trigger('blur');
     input.trigger('focus');
     await nextTick();
-    const shortcut = document.querySelector('.lp-picker-panel__shortcut');
+    const shortcut = document.querySelector('.lp-picker-panel__shortcut')!;
     expect(shortcut.textContent).toBe(text);
     expect(document.querySelector('.lp-picker-panel__sidebar')).not.toBeNull()
     ;(shortcut as HTMLElement).click();
@@ -345,14 +347,14 @@ describe('DatePicker', () => {
   });
 
   it('disabledDate', async () => {
-    const wrapper = _mount(
+    const wrapper = doMount(
       `<lp-date-picker
         v-model="value"
         :disabledDate="disabledDate"
     />`,
       () => ({
         value: '',
-        disabledDate(time) {
+        disabledDate(time: Date) {
           return time.getTime() < Date.now() - 8.64e7;
         },
       }),
@@ -365,7 +367,7 @@ describe('DatePicker', () => {
   });
 
   it('ref focus', async () => {
-    _mount(
+    doMount(
       `<lp-date-picker
         v-model="value"
         ref="input"
@@ -379,13 +381,13 @@ describe('DatePicker', () => {
     );
     await nextTick();
     await rAF();
-    const popperEl = document.querySelector('.lp-picker__popper');
+    const popperEl = document.querySelector('.lp-picker__popper')!;
     const attr = popperEl.getAttribute('aria-hidden');
     expect(attr).toEqual('false');
   });
 
   it('ref handleOpen', async () => {
-    _mount(
+    doMount(
       `<lp-date-picker
         v-model="value"
         ref="input"
@@ -398,7 +400,7 @@ describe('DatePicker', () => {
       },
     );
     await nextTick();
-    const popperEl = document.querySelector('.lp-picker__popper');
+    const popperEl = document.querySelector('.lp-picker__popper')!;
     const attr = popperEl.getAttribute('aria-hidden');
     expect(attr).toEqual('false');
   });
@@ -406,7 +408,7 @@ describe('DatePicker', () => {
   it('ref handleClose', async () => {
     vi.useFakeTimers();
 
-    _mount(
+    doMount(
       `<lp-date-picker
         v-model="value"
         ref="input"
@@ -425,7 +427,7 @@ describe('DatePicker', () => {
 
     vi.runAllTimers();
     await nextTick();
-    const popperEl = document.querySelector('.lp-picker__popper');
+    const popperEl = document.querySelector('.lp-picker__popper')!;
     const attr = popperEl.getAttribute('aria-hidden');
     expect(attr).toEqual('true');
 
@@ -433,7 +435,7 @@ describe('DatePicker', () => {
   });
 
   it('custom content', async () => {
-    const wrapper = _mount(
+    const wrapper = doMount(
       `<lp-date-picker
         v-model="value"
         ref="input">
@@ -461,12 +463,12 @@ describe('DatePicker', () => {
     input.trigger('focus');
     await nextTick();
     expect(
-      document.querySelector('td.available .cell').classList.contains('current'),
+      document.querySelector('td.available .cell')!.classList.contains('current'),
     ).toBeTruthy();
   });
 
   it('custom content comment', async () => {
-    _mount(
+    doMount(
       `<lp-date-picker
         v-model="value"
         ref="input">
@@ -484,13 +486,13 @@ describe('DatePicker', () => {
       },
     );
     await nextTick();
-    const el = document.querySelector('td.available .lp-date-table-cell');
-    const text = el.textContent;
+    const el = document.querySelector('td.available .lp-date-table-cell')!;
+    const text = el.textContent!;
     expect(text.includes('csw')).toBeFalsy();
   });
 
   it('custom content value validate', async () => {
-    _mount(
+    doMount(
       `<lp-date-picker
         v-model="value"
         ref="input">
@@ -508,13 +510,13 @@ describe('DatePicker', () => {
       },
     );
     await nextTick();
-    const el = document.querySelector('td.available .cell');
-    const text = el.textContent;
+    const el = document.querySelector('td.available .cell')!;
+    const text = el.textContent!;
     expect(text.includes('csw')).toBeTruthy();
   });
 
   it('custom content bail out slot compoent', async () => {
-    _mount(
+    doMount(
       `<lp-date-picker
         v-model="value"
         ref="input">
@@ -528,7 +530,7 @@ describe('DatePicker', () => {
       },
     );
     await nextTick();
-    const el = document.querySelector<HTMLElement>('td.available');
+    const el = document.querySelector<HTMLElement>('td.available')!;
     const text = el.textContent;
     expect(!!text).toBeTruthy();
   });
@@ -539,7 +541,7 @@ describe('DatePicker', () => {
       const format = 'YYYY-MM-DD';
       const valueFormat = '[Element-Plus] DD/MM YYYY';
       const value = day.format(valueFormat);
-      const wrapper = _mount(
+      const wrapper = doMount(
         `
         <lp-date-picker
           ref="compo"
@@ -587,7 +589,7 @@ describe('DatePicker', () => {
       const dateStr = '2021/05/31';
       const valueFormat = 'x';
       const value = Date.now();
-      const wrapper = _mount(
+      const wrapper = doMount(
         `
         <lp-date-picker
           ref="compo"
@@ -626,10 +628,15 @@ describe('DatePicker', () => {
 });
 
 describe('DatePicker Navigation', () => {
-  let prevMonth; let prevYear; let nextMonth; let nextYear; let getYearLabel; let getMonthLabel;
+  let prevMonth: HTMLElement;
+  let prevYear: HTMLElement;
+  let nextMonth: HTMLElement;
+  let nextYear: HTMLElement;
+  let getYearLabel: () => string;
+  let getMonthLabel: () => string;
 
-  const initNavigationTest = async value => {
-    const wrapper = _mount(
+  const initNavigationTest = async (value: Date) => {
+    const wrapper = doMount(
       `<lp-date-picker
         v-model="value"
     />`,
@@ -640,14 +647,14 @@ describe('DatePicker Navigation', () => {
     input.trigger('blur');
     input.trigger('focus');
     await nextTick();
-    prevMonth = document.querySelector('button.arrow-left');
-    prevYear = document.querySelector('button.d-arrow-left');
-    nextMonth = document.querySelector('button.arrow-right');
-    nextYear = document.querySelector('button.d-arrow-right');
+    prevMonth = document.querySelector('button.arrow-left')!;
+    prevYear = document.querySelector('button.d-arrow-left')!;
+    nextMonth = document.querySelector('button.arrow-right')!;
+    nextYear = document.querySelector('button.d-arrow-right')!;
     getYearLabel = () =>
-      document.querySelectorAll('.lp-date-picker__header-label')[0].textContent;
+      document.querySelectorAll('.lp-date-picker__header-label')[0].textContent!;
     getMonthLabel = () =>
-      document.querySelectorAll('.lp-date-picker__header-label')[1].textContent;
+      document.querySelectorAll('.lp-date-picker__header-label')[1].textContent!;
   };
 
   it('month, year', async () => {
@@ -728,7 +735,7 @@ describe('DatePicker Navigation', () => {
 
 describe('MonthPicker', () => {
   it('basic', async () => {
-    const wrapper = _mount(
+    const wrapper = doMount(
       `<lp-date-picker
     type='month'
     v-model="value"
@@ -751,7 +758,7 @@ describe('MonthPicker', () => {
 
   it('value-format', async () => {
     const valueFormat = '[Element-Plus] YYYY.MM';
-    const wrapper = _mount(
+    const wrapper = doMount(
       `
       <lp-date-picker
         type="month"
@@ -780,7 +787,7 @@ describe('MonthPicker', () => {
 
 describe('YearPicker', () => {
   it('basic', async () => {
-    const wrapper = _mount(
+    const wrapper = doMount(
       `<lp-date-picker
     type='year'
     v-model="value"
@@ -817,7 +824,7 @@ describe('YearPicker', () => {
 
   it('value-format', async () => {
     const valueFormat = '[Element-Plus] YYYY';
-    const wrapper = _mount(
+    const wrapper = doMount(
       `
       <lp-date-picker
         type="year"
@@ -846,7 +853,7 @@ describe('YearPicker', () => {
 
 describe('WeekPicker', () => {
   it('create', async () => {
-    const wrapper = _mount(
+    const wrapper = doMount(
       `<lp-date-picker
     type='week'
     v-model="value"
@@ -948,7 +955,7 @@ describe('WeekPicker', () => {
 
 describe('DatePicker dates', () => {
   it('create', async () => {
-    const wrapper = _mount(
+    const wrapper = doMount(
       `<lp-date-picker
     type='dates'
     v-model="value"
@@ -983,7 +990,7 @@ describe('DatePicker dates', () => {
 
 describe('DatePicker keyboard events', () => {
   it('enter', async () => {
-    const wrapper = _mount(
+    const wrapper = doMount(
       `<lp-date-picker
     type='date'
     v-model="value"
@@ -1008,7 +1015,7 @@ describe('DatePicker keyboard events', () => {
   });
 
   it('numpadEnter', async () => {
-    const wrapper = _mount(
+    const wrapper = doMount(
       `<lp-date-picker
     type='date'
     v-model="value"
@@ -1035,11 +1042,11 @@ describe('DatePicker keyboard events', () => {
 
 describe('DateRangePicker', () => {
   it('create & custom class & style', async () => {
-    let calendarChangeValue = null;
+    let calendarChangeValue: Array<Date> | null = null;
     const changeHandler = vi.fn();
     const popperClassName = 'popper-class-test';
     const customClassName = 'custom-class-test';
-    const wrapper = _mount(
+    const wrapper = doMount(
       `<lp-date-picker
         type='daterange'
         v-model="value"
@@ -1051,7 +1058,7 @@ describe('DateRangePicker', () => {
       () => ({ value: '', popperClassName, customClassName }),
       {
         methods: {
-          onCalendarChange(e) {
+          onCalendarChange(e: Date[]) {
             calendarChangeValue = e;
             changeHandler(e);
           },
@@ -1078,7 +1085,7 @@ describe('DateRangePicker', () => {
     // popperClassName
     expect(
       document
-        .querySelector('.lp-picker__popper')
+        .querySelector('.lp-picker__popper')!
         .classList.contains(popperClassName),
     ).toBe(true);
     // correct highlight
@@ -1096,13 +1103,15 @@ describe('DateRangePicker', () => {
     expect(inputs[1].element.value.length).toBe(10);
     // calendar-change event
     expect(changeHandler).toHaveBeenCalledTimes(2);
-    expect(calendarChangeValue.length).toBe(2);
-    expect(calendarChangeValue[0]).toBeInstanceOf(Date);
-    expect(calendarChangeValue[1]).toBeInstanceOf(Date);
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    expect(calendarChangeValue && calendarChangeValue.length).toBe(2);
+    expect(calendarChangeValue && calendarChangeValue[0]).toBeInstanceOf(Date);
+    expect(calendarChangeValue && calendarChangeValue[1]).toBeInstanceOf(Date);
   });
 
   it('reverse selection', async () => {
-    const wrapper = _mount(
+    const wrapper = doMount(
       `<lp-date-picker
       type='daterange'
       v-model="value"
@@ -1134,7 +1143,7 @@ describe('DateRangePicker', () => {
   });
 
   it('reset selection', async () => {
-    const wrapper = _mount(
+    const wrapper = doMount(
       `<lp-date-picker
       type='daterange'
       v-model="value"
@@ -1160,7 +1169,7 @@ describe('DateRangePicker', () => {
   });
 
   it('range, start-date and end-date', async () => {
-    _mount(
+    doMount(
       `<lp-date-picker
       type='daterange'
       v-model="value"
@@ -1201,7 +1210,7 @@ describe('DateRangePicker', () => {
   });
 
   it('unlink:true', async () => {
-    const wrapper = _mount(
+    const wrapper = doMount(
       `<lp-date-picker
       type='daterange'
       v-model="value"
@@ -1214,10 +1223,8 @@ describe('DateRangePicker', () => {
     inputs[0].trigger('focus');
     await nextTick();
     const panels = document.querySelectorAll('.lp-date-range-picker__content');
-    const left = panels[0].querySelector('.lp-date-range-picker__header');
-    const right = panels[1].querySelector(
-      '.is-right .lp-date-range-picker__header',
-    );
+    const left = panels[0].querySelector('.lp-date-range-picker__header')!;
+    const right = panels[1].querySelector('.is-right .lp-date-range-picker__header')!;
     expect(left.textContent).toBe('2000  October');
     expect(right.textContent).toBe('2000  December')
     ;(panels[1].querySelector('.d-arrow-right') as HTMLElement).click();
@@ -1232,7 +1239,7 @@ describe('DateRangePicker', () => {
     // Run test with environment variable TZ=Australia/Sydney
     // The following test uses Australian Eastern Daylight Time (AEDT)
     // AEST -> AEDT shift happened on 2016-10-02 02:00:00
-    const wrapper = _mount(
+    const wrapper = doMount(
       `<lp-date-picker
       type='daterange'
       v-model="value"
@@ -1254,7 +1261,7 @@ describe('DateRangePicker', () => {
 
   it('value-format', async () => {
     const valueFormat = 'DD/MM YYYY';
-    const wrapper = _mount(
+    const wrapper = doMount(
       `
       <lp-date-picker
         v-model="value"
@@ -1292,7 +1299,7 @@ describe('DateRangePicker', () => {
   });
 
   it('display value', async () => {
-    const wrapper = _mount(
+    const wrapper = doMount(
       `
       <lp-date-picker
         v-model="value"
@@ -1313,7 +1320,7 @@ describe('DateRangePicker', () => {
 
 describe('MonthRange', () => {
   it('works', async () => {
-    const wrapper = _mount(
+    const wrapper = doMount(
       `<lp-date-picker
       type='monthrange'
       v-model="value"
@@ -1357,7 +1364,7 @@ describe('MonthRange', () => {
   });
 
   it('range, start-date and end-date', async () => {
-    _mount(
+    doMount(
       `<lp-date-picker
       type='monthrange'
       v-model="value"
@@ -1396,7 +1403,7 @@ describe('MonthRange', () => {
   });
 
   it('type:monthrange unlink:true', async () => {
-    const wrapper = _mount(
+    const wrapper = doMount(
       `<lp-date-picker
       type='monthrange'
       v-model="value"
@@ -1410,10 +1417,8 @@ describe('MonthRange', () => {
     inputs[0].trigger('focus');
     await nextTick();
     const panels = document.querySelectorAll('.lp-date-range-picker__content');
-    const left = panels[0].querySelector('.lp-date-range-picker__header');
-    const right = panels[1].querySelector(
-      '.is-right .lp-date-range-picker__header',
-    );
+    const left = panels[0].querySelector('.lp-date-range-picker__header')!;
+    const right = panels[1].querySelector('.is-right .lp-date-range-picker__header')!;
     expect(left.textContent).toContain(2000);
     expect(right.textContent).toContain(2002)
     ;(panels[1].querySelector('.d-arrow-right') as HTMLElement).click();
@@ -1423,7 +1428,7 @@ describe('MonthRange', () => {
   });
 
   it('daylight saving time highlight', async () => {
-    const wrapper = _mount(
+    const wrapper = doMount(
       `<lp-date-picker
       type='monthrange'
       v-model="value"
@@ -1446,7 +1451,7 @@ describe('MonthRange', () => {
     const LpPopperOptions = {
       strategy: 'fixed',
     };
-    const wrapper = _mount(
+    const wrapper = doMount(
       `<lp-date-picker
         type='monthrange'
         v-model="value"
@@ -1475,7 +1480,7 @@ describe('MonthRange', () => {
 
   describe('form item accessibility integration', () => {
     it('automatic id attachment', async () => {
-      const wrapper = _mount(
+      const wrapper = doMount(
         `<lp-form-item label="Foobar" data-test-ref="item">
           <lp-date-picker />
         </lp-form-item>`,
@@ -1493,7 +1498,7 @@ describe('MonthRange', () => {
     });
 
     it('specified id attachment', async () => {
-      const wrapper = _mount(
+      const wrapper = doMount(
         `<lp-form-item label="Foobar" data-test-ref="item">
           <lp-date-picker id="foobar" />
         </lp-form-item>`,
@@ -1512,7 +1517,7 @@ describe('MonthRange', () => {
     });
 
     it('form item role is group when multiple inputs', async () => {
-      const wrapper = _mount(
+      const wrapper = doMount(
         `<lp-form-item label="Foobar" data-test-ref="item">
           <lp-date-picker />
           <lp-date-picker />
@@ -1528,7 +1533,7 @@ describe('MonthRange', () => {
 
   it('The year which is disabled should not be selectable', async () => {
     const pickHandler = vi.fn();
-    const wrapper = _mount(
+    const wrapper = doMount(
       `<lp-date-picker
         v-model="yearValue"
         type="year"
@@ -1537,10 +1542,10 @@ describe('MonthRange', () => {
       />`,
       () => ({
         yearValue: '2022',
-        validateYear: date => {
+        validateYear: (date: Date) => {
           return date.getFullYear() > 2022 ? true : false;
         },
-        onPick(e) {
+        onPick(e: Date) {
           return pickHandler(e);
         },
       }),

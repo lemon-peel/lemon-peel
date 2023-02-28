@@ -23,7 +23,7 @@ import { tooltipV2ContentProps } from './content';
 import type { TooltipV2Sides } from './common';
 import { tooltipV2CommonProps } from './common';
 
-import type { CSSProperties } from 'vue';
+import type { CSSProperties, Ref } from 'vue';
 import type { Middleware } from '@floating-ui/dom';
 
 defineOptions({
@@ -36,7 +36,7 @@ const { triggerRef, contentId } = inject(tooltipV2RootKey)!;
 
 const placement = ref(props.placement);
 const strategy = ref(props.strategy);
-const arrowRef = ref<HTMLElement | null>(null);
+const arrowRef: Ref<HTMLElement> = ref(null as any);
 
 const { referenceRef, contentRef, middlewareData, x, y, update } = useFloating({
   placement,
@@ -60,8 +60,8 @@ const zIndex = useZIndex().nextZIndex();
 
 const ns = useNamespace('tooltip-v2');
 
-const side = computed<TooltipV2Sides>(() => {
-  return placement.value.split('-')[0];
+const side = computed(() => {
+  return placement.value.split('-')[0] as TooltipV2Sides;
 });
 
 const contentStyle = computed<CSSProperties>(() => {

@@ -1,7 +1,7 @@
 import { buildProps, isBoolean } from '@lemon-peel/utils';
 import { CHANGE_EVENT } from '@lemon-peel/constants';
 
-import type CheckTag from './CheckT/ag.vue';
+import type CheckTag from './CheckTag.vue';
 import type { ExtractPropTypes } from 'vue';
 
 export const checkTagProps = buildProps({

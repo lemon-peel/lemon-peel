@@ -82,15 +82,16 @@
 <script lang="ts">
 import { computed, defineComponent, ref } from 'vue';
 import { Close } from '@element-plus/icons-vue';
-
 import { LpOverlay } from '@lemon-peel/components/overlay';
-import LpFocusTrap from '@lemon-peel/components/focusTrap';
 import { useDialog } from '@lemon-peel/components/dialog';
-import { addUnit } from '@lemon-peel/utils';
-import LpIcon from '@lemon-peel/components/icon';
 import { useLocale, useNamespace } from '@lemon-peel/hooks';
+import { addUnit } from '@lemon-peel/utils';
+import LpFocusTrap from '@lemon-peel/components/focusTrap';
+import LpIcon from '@lemon-peel/components/icon';
 
 import { drawerEmits, drawerProps } from './drawer';
+
+import type { Ref } from 'vue';
 
 export default defineComponent({
   name: 'LpDrawer',
@@ -104,8 +105,8 @@ export default defineComponent({
   emits: drawerEmits,
 
   setup(props, { slots }) {
-    const drawerRef = ref<HTMLElement>();
-    const focusStartRef = ref<HTMLElement>();
+    const drawerRef: Ref<HTMLElement> = ref(null as any);
+    const focusStartRef: Ref<HTMLElement> = ref(null as any);
     const ns = useNamespace('drawer');
     const { t } = useLocale();
 

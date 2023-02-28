@@ -14,7 +14,7 @@ export const avatarProps = buildProps({
   shape: { type: String, values: ['circle', 'square'], default: 'circle' },
   icon: { type: iconPropType },
   src: { type: String, default: '' },
-  alt: String,
+  alt: { type: String, default: '' },
   srcSet: String,
   fit: { type: String as PropType<ObjectFitProperty>, default: 'cover' },
 });

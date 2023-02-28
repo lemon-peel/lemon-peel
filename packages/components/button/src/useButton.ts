@@ -1,11 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Text, computed, inject, ref, useSlots } from 'vue';
-import {
-  useDisabled,
-  useFormItem,
-  useGlobalConfig,
-  useSize,
-} from '@lemon-peel/hooks';
+import { useDisabled, useFormItem, useGlobalConfig, useSize } from '@lemon-peel/hooks';
 import { buttonGroupContextKey } from '@lemon-peel/tokens';
 
 import type { SetupContext } from 'vue';
@@ -24,6 +19,7 @@ export const useButton = (
   const slots = useSlots();
 
   const _type = computed(() => props.type || buttonGroupContext?.type || '');
+
   const autoInsertSpace = computed(
     () => props.autoInsertSpace ?? globalConfig.value?.autoInsertSpace ?? false,
   );

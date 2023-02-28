@@ -1,5 +1,5 @@
 import { buildProps } from '@lemon-peel/utils';
-import type { ExtractPropTypes } from 'vue';
+import type { ExtractPropTypes, PropType } from 'vue';
 import type Icon from './Icon.vue';
 
 export const iconProps = buildProps({

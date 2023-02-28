@@ -12,43 +12,24 @@ import { useMenuCssVar as useMenuCssVariable } from './useMenuCssVar';
 
 import type { MenuItemClicked, MenuProvider, SubMenuProvider } from './types';
 import type { NavigationFailure, Router } from 'vue-router';
-import type { ExtractPropTypes, VNode, VNodeArrayChildren } from 'vue';
+import type { ExtractPropTypes, VNode, VNodeArrayChildren, PropType } from 'vue';
 import type { UseResizeObserverReturn } from '@vueuse/core';
 
 export const menuProps = buildProps({
-  mode: {
-    type: String,
-    values: ['horizontal', 'vertical'],
-    default: 'vertical',
-  },
-  defaultActive: {
-    type: String,
-    default: '',
-  },
-  defaultOpeneds: {
-    type: Array as PropType<string[]>,
-    default: () => mutable([] as const),
-  },
+  mode: { type: String, values: ['horizontal', 'vertical'], default: 'vertical' },
+  defaultActive: { type: String, default: '' },
+  defaultOpeneds: { type: Array as PropType<string[]>, default: () => mutable([] as const) },
   uniqueOpened: Boolean,
   router: Boolean,
-  menuTrigger: {
-    type: String,
-    values: ['hover', 'click'],
-    default: 'hover',
-  },
+  menuTrigger: { type: String, values: ['hover', 'click'], default: 'hover' },
   collapse: Boolean,
   backgroundColor: String,
   textColor: String,
   activeTextColor: String,
-  collapseTransition: {
-    type: Boolean,
-    default: true,
-  },
-  ellipsis: {
-    type: Boolean,
-    default: true,
-  },
+  collapseTransition: { type: Boolean, default: true },
+  ellipsis: { type: Boolean, default: true },
 } as const);
+
 export type MenuProps = ExtractPropTypes<typeof menuProps>;
 
 const checkIndexPath = (indexPath: unknown): indexPath is string[] =>

@@ -24,25 +24,25 @@ const setStoreValue = (
 };
 
 export const useCheckbox = (
-  properties: CheckboxProps,
+  props: CheckboxProps,
   slots: ComponentInternalInstance['slots'],
 ) => {
   const { formItem: elementFormItem } = useFormItem();
-  const { model, isGroup, isLimitExceeded } = useCheckboxModel(properties);
+  const { model, isGroup, isLimitExceeded } = useCheckboxModel(props);
   const {
     isFocused,
     isChecked,
     checkboxButtonSize,
     checkboxSize,
     hasOwnLabel,
-  } = useCheckboxStatus(properties, slots, { model });
+  } = useCheckboxStatus(props, slots, { model });
   const { isDisabled } = useCheckboxDisabled({ model, isChecked });
-  const { inputId, isLabeledByFormItem } = useFormItemInputId(properties, {
+  const { inputId, isLabeledByFormItem } = useFormItemInputId(props, {
     formItemContext: elementFormItem,
     disableIdGeneration: hasOwnLabel,
     disableIdManagement: isGroup,
   });
-  const { handleChange, onClickRoot } = useCheckboxEvent(properties, {
+  const { handleChange, onClickRoot } = useCheckboxEvent(props, {
     model,
     isLimitExceeded,
     hasOwnLabel,
@@ -50,7 +50,7 @@ export const useCheckbox = (
     isLabeledByFormItem,
   });
 
-  setStoreValue(properties, { model });
+  setStoreValue(props, { model });
 
   return {
     inputId,

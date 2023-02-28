@@ -76,9 +76,12 @@ import { LpOverlay } from '@lemon-peel/components/overlay';
 import { useNamespace, useSameTarget } from '@lemon-peel/hooks';
 import { dialogInjectionKey } from '@lemon-peel/tokens';
 import LpFocusTrap from '@lemon-peel/components/focusTrap';
-import LpDialogContent from './DialogContent.vue';
+
 import { dialogEmits, dialogProps } from './dialog';
 import { useDialog } from './useDialog';
+import LpDialogContent from './DialogContent.vue';
+
+import type { Ref } from 'vue';
 
 defineOptions({
   name: 'LpDialog',
@@ -90,8 +93,8 @@ defineEmits(dialogEmits);
 const slots = useSlots();
 
 const ns = useNamespace('dialog');
-const dialogRef = ref<HTMLElement>();
-const headerRef = ref<HTMLElement>();
+const dialogRef: Ref<HTMLElement | null> = ref(null);
+const headerRef = ref<HTMLElement | null>(null);
 const dialogContentRef = ref();
 
 const {

@@ -1,6 +1,6 @@
 import { buildProps, isString } from '@lemon-peel/utils';
 
-import type { ExtractPropTypes } from 'vue';
+import type { ExtractPropTypes, PropType } from 'vue';
 import type { RouteLocationRaw } from 'vue-router';
 import type { MenuItemRegistered } from './types';
 

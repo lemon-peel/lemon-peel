@@ -14,7 +14,7 @@
       :reference-element="referenceElementRef?.$el"
       :trigger="trigger"
       :trigger-keys="triggerKeys"
-      :trigger-target-el="contentRef"
+      :trigger-target-el="contentRef as HTMLElement"
       :show-after="trigger === 'hover' ? showTimeout : 0"
       :stop-popper-mouse-event="false"
       :virtual-ref="triggeringElementRef"
@@ -187,7 +187,7 @@ function handleBeforeHideTooltip() {
 }
 
 provide(DROPDOWN_INJECTION_KEY, {
-  contentRef,
+  contentRef: contentRef as any,
   role: computed(() => props.role),
   triggerId,
   isUsingKeyboard,

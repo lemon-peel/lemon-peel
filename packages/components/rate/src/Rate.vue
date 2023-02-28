@@ -86,7 +86,7 @@ defineOptions({
 const properties = defineProps(rateProps);
 const emit = defineEmits(rateEmits);
 
-const formContext = inject(formContextKey);
+const formContext = inject(formContextKey, null);
 const formItemContext = inject(formItemContextKey);
 const rateSize = useSize();
 const ns = useNamespace('rate');

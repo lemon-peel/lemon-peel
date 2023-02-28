@@ -103,13 +103,18 @@ import { useAttrs, useDisabled, useNamespace } from '@lemon-peel/hooks';
 import { generateId, isArray, throwError } from '@lemon-peel/utils';
 import { CHANGE_EVENT, INPUT_EVENT, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
 import { autocompleteEmits, autocompleteProps } from './autoComplete';
-import type { AutocompleteData } from './autoComplete';
+import { Loading } from '@element-plus/icons-vue';
+import LpIcon from '@lemon-peel/components/icon';
+import LpInput from '@lemon-peel/components/input';
+import LpScrollbar from '@lemon-peel/components/scrollbar';
+import LpTooltip from '@lemon-peel/components/tooltip';
 
 import type { StyleValue } from 'vue';
 import type { TooltipInstance } from '@lemon-peel/components/tooltip';
 import type { InputInstance } from '@lemon-peel/components/input';
+import type { AutocompleteData } from './autoComplete';
 
-const COMPONENT_NAME = 'ElAutocomplete';
+const COMPONENT_NAME = 'LpAutocomplete';
 defineOptions({
   name: COMPONENT_NAME,
   inheritAttrs: false,

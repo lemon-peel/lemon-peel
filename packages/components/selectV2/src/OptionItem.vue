@@ -13,7 +13,7 @@
     @click.stop="selectOptionClick"
   >
     <slot :item="item" :index="index" :disabled="disabled">
-      <span>{{ item.label }}</span>
+      <span>{{ item!.label }}</span>
     </slot>
   </li>
 </template>
@@ -29,7 +29,7 @@ export default defineComponent({
   emits: ['select', 'hover'],
   setup(props, { emit }) {
     const ns = useNamespace('select');
-    const { hoverItem, selectOptionClick } = useOption(props, { emit });
+    const { hoverItem, selectOptionClick } = useOption(props, { emit: emit as any });
     return {
       ns,
       hoverItem,

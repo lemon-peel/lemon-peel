@@ -6,10 +6,12 @@ import type { RenderHeaderData, RenderRowData } from '../table/defaults';
 import type { DefaultRow, TableVM } from '../table/defaults';
 import type { SortBy } from '../util';
 
-export type Filters = {
+export type Filter = {
   text: string;
   value: string;
-}[];
+};
+
+export type Filters = Filter[];
 
 export type FilterMethods = (value: any, row: DefaultRow, column: TableColumnCtx) => void;
 

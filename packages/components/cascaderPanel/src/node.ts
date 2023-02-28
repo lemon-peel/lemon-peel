@@ -15,7 +15,7 @@ export type ExpandTrigger = 'click' | 'hover';
 export type IsDisabled = (data: CascaderOption, node: Node) => boolean;
 export type IsLeaf = (data: CascaderOption, node: Node) => boolean;
 export type Resolve = (dataList?: CascaderOption[]) => void;
-export type LazyLoad = (node: Node, resolve: Resolve) => void;
+export type LazyLoad = (node: Node | null, resolve: Resolve) => void;
 
 export interface CascaderOption extends Record<string, unknown> {
   label?: string;

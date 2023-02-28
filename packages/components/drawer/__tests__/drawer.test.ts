@@ -1,12 +1,13 @@
 import { nextTick } from 'vue';
+import type { ComponentOptions } from 'vue';
 import { mount } from '@vue/test-utils';
 import { describe, expect, test, vi } from 'vitest';
 import { rAF } from '@lemon-peel/test-utils/tick';
 import Drawer from '../src/Drawer.vue';
 import Button from '../../button/src/Button.vue';
 
-const _mount = (template: string, data, otherObj?) =>
-  mount({
+function doMount(template: string, data: () => any, otherObj?: ComponentOptions) {
+  return mount({
     components: {
       [Drawer.name]: Drawer,
       [Button.name]: Button,
@@ -15,12 +16,15 @@ const _mount = (template: string, data, otherObj?) =>
     data,
     ...otherObj,
   });
+}
+
+
 const title = 'Drawer Title';
 const content = 'content';
 
 describe('Drawer', () => {
   test('create', async () => {
-    const wrapper = _mount(
+    const wrapper = doMount(
       `
       <lp-drawer :title="title" v-model="visible"></lp-drawer>
       `,
@@ -41,7 +45,7 @@ describe('Drawer', () => {
   });
 
   test('render correct content', async () => {
-    const wrapper = _mount(
+    const wrapper = doMount(
       `
       <lp-drawer :title='title' v-model='visible'>
         <span>this is a sentence</span>
@@ -68,7 +72,7 @@ describe('Drawer', () => {
   });
 
   test('should append to body, when append-to-body flag is true', async () => {
-    const wrapper = _mount(
+    const wrapper = doMount(
       `
       <lp-drawer ref='d' :title='title' v-model='visible' :append-to-body='true'>
         <span> content </span>
@@ -94,7 +98,7 @@ describe('Drawer', () => {
     const onClose = vi.fn();
     const onClosed = vi.fn();
     const onOpened = vi.fn();
-    const wrapper = _mount(
+    const wrapper = doMount(
       `
       <lp-drawer :title='title' v-model='visible' @closed="onClosed" @close="onClose" @opened="onOpened">
         <span>${content}</span>
@@ -135,7 +139,7 @@ describe('Drawer', () => {
   });
 
   test('should destroy every child after drawer was closed when destroy-on-close flag is true', async () => {
-    const wrapper = _mount(
+    const wrapper = doMount(
       `
       <lp-drawer :title='title' v-model='visible' :append-to-body='false' :destroy-on-close='true' ref='drawer'>
         <span>${content}</span>
@@ -162,7 +166,7 @@ describe('Drawer', () => {
   });
 
   test('should close dialog by clicking the close button', async () => {
-    const wrapper = _mount(
+    const wrapper = doMount(
       `
       <lp-drawer :title='title' v-model='visible' :append-to-body='false' :destroy-on-close='true' ref='drawer'>
         <span>${content}</span>
@@ -187,7 +191,7 @@ describe('Drawer', () => {
 
   test('should invoke before-close', async () => {
     const beforeClose = vi.fn();
-    const wrapper = _mount(
+    const wrapper = doMount(
       `
       <lp-drawer
           :before-close='beforeClose'
@@ -213,7 +217,7 @@ describe('Drawer', () => {
   });
 
   test('should not show close button when show-close flag is false', async () => {
-    const wrapper = _mount(
+    const wrapper = doMount(
       `
       <lp-drawer :title='title' v-model='visible' ref='drawer' :show-close='false'>
         <span>${content}</span>
@@ -230,7 +234,7 @@ describe('Drawer', () => {
 
   test('should have custom classes when custom classes were given', async () => {
     const classes = 'some-custom-class';
-    const wrapper = _mount(
+    const wrapper = doMount(
       `
       <lp-drawer :title='title' v-model='visible' ref='drawer' custom-class='${classes}'>
         <span>${content}</span>
@@ -246,7 +250,7 @@ describe('Drawer', () => {
   });
 
   test('drawer header should have slot props', async () => {
-    const wrapper = _mount(
+    const wrapper = doMount(
       `
       <lp-drawer v-model='visible' ref='drawer'>
         <template #header="{ titleId, titleClass, close }">
@@ -272,7 +276,7 @@ describe('Drawer', () => {
   });
 
   test('should not render header when withHeader attribute is false', async () => {
-    const wrapper = _mount(
+    const wrapper = doMount(
       `
       <lp-drawer :title='title' v-model='visible' ref='drawer' :with-header='false'>
         <span>${content}</span>
@@ -289,7 +293,7 @@ describe('Drawer', () => {
 
   describe('directions', () => {
     const renderer = (direction: string) => {
-      return _mount(
+      return doMount(
         `
         <lp-drawer :title='title' v-model='visible' direction='${direction}'>
           <span>${content}</span>
@@ -323,7 +327,7 @@ describe('Drawer', () => {
     const opened = vi.fn();
     const close = vi.fn();
     const closed = vi.fn();
-    const wrapper = _mount(
+    const wrapper = doMount(
       `
       <lp-drawer
         :title='title'
@@ -370,7 +374,7 @@ describe('Drawer', () => {
 
   describe('size', () => {
     const renderer = (size: string, isVertical: boolean) =>
-      _mount(
+      doMount(
         `
         <lp-drawer :title='title' v-model='visible' direction='${
   isVertical ? 'ltr' : 'ttb'
@@ -399,7 +403,7 @@ describe('Drawer', () => {
 
   describe('accessibility', () => {
     test('title attribute should set aria-label', async () => {
-      const wrapper = _mount(
+      const wrapper = doMount(
         `
         <lp-drawer
           :title='title'
@@ -419,7 +423,7 @@ describe('Drawer', () => {
     });
 
     test('missing title attribute should point to header slot content', async () => {
-      const wrapper = _mount(
+      const wrapper = doMount(
         `
         <lp-drawer
           v-model='visible'
@@ -443,7 +447,7 @@ describe('Drawer', () => {
     });
 
     test('aria-describedby should point to modal body', async () => {
-      const wrapper = _mount(
+      const wrapper = doMount(
         `
         <lp-drawer
           v-model='visible'

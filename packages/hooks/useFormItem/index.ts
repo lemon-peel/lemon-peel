@@ -8,10 +8,7 @@ import type { ComputedRef, Ref, WatchStopHandle } from 'vue';
 export const useFormItem = () => {
   const form = inject(formContextKey, null);
   const formItem = inject(formItemContextKey, null);
-  return {
-    form,
-    formItem,
-  };
+  return { form, formItem };
 };
 
 export type IUseFormItemInputCommonProps = {
@@ -26,7 +23,7 @@ export const useFormItemInputId = (
     disableIdGeneration,
     disableIdManagement,
   }: {
-    formItemContext?: FormItemContext;
+    formItemContext?: FormItemContext | null;
     disableIdGeneration?: ComputedRef<boolean> | Ref<boolean>;
     disableIdManagement?: ComputedRef<boolean> | Ref<boolean>;
   },

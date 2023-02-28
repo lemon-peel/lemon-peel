@@ -66,7 +66,7 @@ onMounted(async () => {
   await nextTick();
   await nextTick();
   const { prop, order } = props.defaultSort;
-  store.commit('sort', { prop, order, init: true });
+  store.actions.sort({ prop, order, init: true });
 });
 
 const {
@@ -77,24 +77,25 @@ const {
   handleMouseOut,
   handleSortClick,
   handleFilterClick,
-} = useEvent(props, emit);
+} = useEvent(props, emit as any);
 
 const {
   getHeaderRowStyle,
   getHeaderRowClass,
   getHeaderCellStyle,
   getHeaderCellClass,
-} = useStyle(props);
+} = useStyle();
 
 const {
   isGroup,
   toggleAllSelection,
   columnRows,
-} = useUtils(props);
+} = useUtils();
 
 defineExpose({
   handleFilterClick,
   filterPanels,
+  toggleAllSelection,
   state: {
     onColumnsChange,
     onScrollableChange,

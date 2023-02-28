@@ -33,8 +33,8 @@
                 :class="drpNs.e('editor')"
                 :model-value="minVisibleDate"
                 :validate-event="false"
-                @input="(val) => handleDateInput(val, 'min')"
-                @change="(val) => handleDateChange(val, 'min')"
+                @input="(val: string) => handleDateInput(val, 'min')"
+                @change="(val: string) => handleDateChange(val, 'min')"
               />
             </span>
             <span

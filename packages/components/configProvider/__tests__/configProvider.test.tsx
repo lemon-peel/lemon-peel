@@ -129,10 +129,10 @@ describe('config-provider', () => {
       ));
 
       await nextTick();
-      expect(wrapper.find('button').classes().join('')).toBe('lp-button');
+      expect(wrapper.find('button').classes().join(' ')).toBe('lp-button lp-button--default');
       namespace.value = 'ep';
       await nextTick();
-      expect(wrapper.find('button').classes().join('')).toBe('ep-button');
+      expect(wrapper.find('button').classes().join(' ')).toBe('ep-button ep-button--default');
     });
   });
 
@@ -224,7 +224,7 @@ describe('config-provider', () => {
       { feature: 'experimentalFeatures', config: { someFeature: true } },
     ])(
       'should inject config $feature to $config correctly',
-      ({ feature, config }: { feature: string; config: any }) => {
+      ({ feature, config }: { feature: string, config: any }) => {
         const props: Record<string, any> = {};
         props[feature] = config;
 

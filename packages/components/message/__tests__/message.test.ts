@@ -1,23 +1,25 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import { h, nextTick } from 'vue';
 import { describe, expect, test, vi } from 'vitest';
-import makeMount from '@lemon-peel/test-utils/makeMount';
 import { rAF } from '@lemon-peel/test-utils/tick';
 import { TypeComponentsMap } from '@lemon-peel/utils';
 import { EVENT_CODE } from '@lemon-peel/constants';
+import { mount } from '@vue/test-utils';
+import { merge } from 'lodash-es';
 import Message from '../src/Message.vue';
-import type { CSSProperties, Component, ComponentPublicInstance } from 'vue';
+
+import type { MountingOptions } from '@vue/test-utils';
+import type { Mutable } from '@lemon-peel/utils';
 import type { MessageProps } from '../src/message';
 
 const AXIOM = 'Rem is the best girl';
 
-type MessageInstance = ComponentPublicInstance<{
-  visible: boolean;
-  iconComponent: string | Component;
-  customStyle: CSSProperties;
-}>;
-
 const onClose = vi.fn();
-const doMount = makeMount<MessageProps>(Message, { props: { onClose } });
+
+const doMount = (props: MountingOptions<Partial<Mutable<MessageProps>>>) => {
+  return mount(Message, merge({}, { props: { onClose } }, props));
+};
 
 describe('Message.vue', () => {
   describe('render', () => {
@@ -86,7 +88,11 @@ describe('Message.vue', () => {
       const consoleWarn = console.warn;
       console.warn = vi.fn();
       const type = 'some-type';
-      const wrapper = doMount({ props: { type } });
+      const wrapper = doMount({ props: {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
+        type,
+      } });
 
       for (const component of Object.values(TypeComponentsMap)) {
         expect(wrapper.findComponent(component).exists()).toBe(false);
@@ -109,14 +115,14 @@ describe('Message.vue', () => {
       const closeBtn = wrapper.find('.lp-message__closeBtn');
       expect(closeBtn.exists()).toBe(true);
       await closeBtn.trigger('click');
-      expect((wrapper.vm as MessageInstance).visible).toBe(false);
+      expect(wrapper.vm.visible).toBe(false);
     });
 
     test('it should close after duration', async () => {
       vi.useFakeTimers();
       const duration = 1000;
       const wrapper = doMount({ props: { duration } });
-      const vm = wrapper.vm as MessageInstance;
+      const vm = wrapper.vm;
       await nextTick();
       expect(vm.visible).toBe(true);
       vi.runAllTimers();
@@ -129,7 +135,7 @@ describe('Message.vue', () => {
       vi.useFakeTimers();
       const duration = 1000;
       const wrapper = doMount({ props: { duration } });
-      const vm = wrapper.vm as MessageInstance;
+      const vm = wrapper.vm;
       vi.advanceTimersByTime(50);
       expect(vm.visible).toBe(true);
       await wrapper.find('[role="alert"]').trigger('mouseenter');
@@ -146,7 +152,7 @@ describe('Message.vue', () => {
       vi.useFakeTimers();
       const duration = 0;
       const wrapper = doMount({ props: { duration } });
-      const vm = wrapper.vm as MessageInstance;
+      const vm = wrapper.vm;
       expect(vm.visible).toBe(true);
       vi.runAllTimers();
       expect(vm.visible).toBe(true);
@@ -161,7 +167,7 @@ describe('Message.vue', () => {
       });
       document.dispatchEvent(event);
 
-      expect((wrapper.vm as MessageInstance).visible).toBe(false);
+      expect(wrapper.vm.visible).toBe(false);
     });
 
     test('it should call close after transition ends', async () => {
@@ -171,7 +177,7 @@ describe('Message.vue', () => {
         props: { onClose },
       });
       await rAF();
-      const vm = wrapper.vm as MessageInstance;
+      const vm = wrapper.vm;
       vm.visible = false;
       await rAF();
 

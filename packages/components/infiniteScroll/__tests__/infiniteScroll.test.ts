@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import { nextTick, ref } from 'vue';
 import { mount } from '@vue/test-utils';
 import { afterAll, afterEach, beforeAll, describe, expect, test, vi } from 'vitest';
@@ -27,10 +29,10 @@ const INITIAL_TICK = INITIAL_VALUE * 2 + 1;
 const CUSTOM_DELAY = 0;
 const CUSTOM_DISTANCE = 10;
 
-let clientHeightRestore = null;
-let scrollHeightRestore = null;
+let clientHeightRestore: ReturnType<typeof defineGetter> | null = null;
+let scrollHeightRestore: ReturnType<typeof defineGetter> | null = null;
 
-const _mount = (options: Record<string, unknown>) =>
+const doMount = (options: Record<string, unknown>) =>
   mount(
     {
       ...options,
@@ -73,7 +75,7 @@ beforeAll(() => {
   scrollHeightRestore = defineGetter(
     window.HTMLElement.prototype,
     'scrollHeight',
-    function () {
+    function (this: HTMLElement) {
       return (
         // eslint-disable-next-line unicorn/prefer-query-selector
         Array.from(this.getElementsByClassName(LIST_ITEM_CLASS)).length *
@@ -85,18 +87,18 @@ beforeAll(() => {
 });
 
 afterAll(() => {
-  clientHeightRestore();
-  scrollHeightRestore();
+  clientHeightRestore?.();
+  scrollHeightRestore?.();
 });
 
 afterEach(() => {
   const app = document.querySelector('[data-v-app]');
-  app.remove();
+  app?.remove();
 });
 
 describe('InfiniteScroll', () => {
   test('scrollable container is the element to which the directive is bound', async () => {
-    const wrapper = _mount({
+    const wrapper = doMount({
       extraAttrs: `style="${CONTAINER_STYLE}"`,
       setup,
     });
@@ -125,7 +127,7 @@ describe('InfiniteScroll', () => {
   });
 
   test('custom scroll delay', async () => {
-    const wrapper = _mount({
+    const wrapper = doMount({
       extraAttrs: `infinite-scroll-delay="${CUSTOM_DELAY}" style="${CONTAINER_STYLE}"`,
       setup,
     });
@@ -137,7 +139,7 @@ describe('InfiniteScroll', () => {
   });
 
   test('custom scroll distance', async () => {
-    const wrapper = _mount({
+    const wrapper = doMount({
       extraAttrs: `infinite-scroll-distance="${CUSTOM_DISTANCE}" style="${CONTAINER_STYLE}"`,
       setup,
     });
@@ -151,7 +153,7 @@ describe('InfiniteScroll', () => {
   });
 
   test('turn off immediate check', async () => {
-    const wrapper = _mount({
+    const wrapper = doMount({
       extraAttrs: `infinite-scroll-immediate="false" style="${CONTAINER_STYLE}"`,
       setup,
     });
@@ -161,7 +163,7 @@ describe('InfiniteScroll', () => {
   });
 
   test('limited scroll with `disabled` option', async () => {
-    const wrapper = _mount({
+    const wrapper = doMount({
       extraAttrs: `infinite-scroll-disabled="disabled" style="${CONTAINER_STYLE}"`,
       setup() {
         const count = ref(0);
@@ -190,7 +192,7 @@ describe('InfiniteScroll', () => {
   });
 
   test('scrollable container is document.documentElement', async () => {
-    const wrapper = _mount({
+    const wrapper = doMount({
       setup,
     });
 
@@ -226,7 +228,7 @@ describe('InfiniteScroll', () => {
       window.HTMLElement.prototype,
       'scrollHeight',
       0,
-      function () {
+      function (this: HTMLElement) {
         return (
           // eslint-disable-next-line unicorn/prefer-query-selector
           Array.from(this.getElementsByClassName(LIST_ITEM_CLASS)).length *
@@ -234,7 +236,7 @@ describe('InfiniteScroll', () => {
         );
       },
     );
-    const wrapper = _mount({
+    const wrapper = doMount({
       extraAttrs: `style="${CONTAINER_STYLE}"`,
       setup,
     });

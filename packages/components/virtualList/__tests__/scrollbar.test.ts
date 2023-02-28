@@ -91,7 +91,7 @@ describe('virtual scrollbar', () => {
       'mousedown',
       false,
       false,
-      window,
+      null as any,
       0,
       0,
       0,

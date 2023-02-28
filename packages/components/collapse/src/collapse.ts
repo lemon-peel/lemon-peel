@@ -1,6 +1,6 @@
 import { buildProps, isNumber, isString, mutable } from '@lemon-peel/utils';
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
-import type { ExtractPropTypes } from 'vue';
+import type { ExtractPropTypes, PropType } from 'vue';
 import type { Arrayable } from '@lemon-peel/utils';
 
 export type CollapseActiveName = string | number;

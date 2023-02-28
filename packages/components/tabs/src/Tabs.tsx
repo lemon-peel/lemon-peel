@@ -1,10 +1,10 @@
-import { computed, defineComponent, getCurrentInstance, nextTick, provide, ref, renderSlot, watch } from 'vue';
+import { defineComponent, getCurrentInstance, nextTick, provide, ref, renderSlot, watch } from 'vue';
 import { buildProps, isNumber, isString, isUndefined } from '@lemon-peel/utils';
 import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
 import LpIcon from '@lemon-peel/components/icon';
 import { Plus } from '@element-plus/icons-vue';
 import { tabsRootContextKey } from '@lemon-peel/tokens';
-import { useDeprecated, useNamespace, useOrderedChildren } from '@lemon-peel/hooks';
+import { useNamespace, useOrderedChildren } from '@lemon-peel/hooks';
 import TabNav from './TabNav';
 
 import type { TabNavInstance } from './TabNav';
@@ -116,18 +116,6 @@ export default defineComponent({
       emit('edit', undefined, 'add');
       emit('tabAdd');
     };
-
-    useDeprecated(
-      {
-        from: '"activeName"',
-        replacement: '"model-value" or "v-model"',
-        scope: 'LpTabs',
-        version: '2.3.0',
-        ref: 'https://element-plus.org/en-US/component/tabs.html#attributes',
-        type: 'Attribute',
-      },
-      computed(() => !!props.activeName),
-    );
 
     watch(
       () => props.activeName,

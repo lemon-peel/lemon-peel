@@ -22,7 +22,7 @@ export const configProviderProps = buildProps({
   keyboardNavigation: { type: Boolean, default: true },
   message: { type: Object as PropType<MessageConfigContext> },
   zIndex: Number,
-  namespace: { type: String, default: 'el' },
+  namespace: { type: String, default: 'lp' },
 });
 
 export type ConfigProviderProps = ExtractPropTypes<typeof configProviderProps>;

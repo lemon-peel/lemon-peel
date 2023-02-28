@@ -1,29 +1,18 @@
 import { mount } from '@vue/test-utils';
-import { merge } from 'lodash';
+import { merge } from 'lodash-es';
 
 const makeMount = <C extends Parameters<typeof mount>[0], O, E>(element: C, defaultOptions: O) => {
   return (props: (E | O) | (E & O) = {} as E) =>
-    mount(element, merge({}, defaultOptions, props));
+    mount(element as any, merge({}, defaultOptions, props));
 };
 
-interface Options {
-  data?: () => {
-    [key: string]: unknown;
-  };
-  methods?: {
-    [key: string]: (...args: unknown[]) => any;
-  };
-}
-
-export const makeMountFunc = (
-  defaultOptions: Parameters<typeof mount>[0],
-) => {
-  return (template: string, options: Options) => {
+export function makeMountFunc<T>(defaultOptions: T) {
+  return (template: string, options: T) => {
     return mount({
       ...merge({}, defaultOptions, options),
       template,
     });
   };
-};
+}
 
 export default makeMount;

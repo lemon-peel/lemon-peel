@@ -98,8 +98,9 @@ import LpScrollbar from '@lemon-peel/components/scrollbar';
 import type { Placement } from '@lemon-peel/components/popper';
 
 import type { PropType, WritableComputedRef } from 'vue';
-import type { TableColumnCtx } from './tableColumn/defaults';
+import type { Filter, TableColumnCtx } from './tableColumn/defaults';
 import type { TableHeaderInstance } from './tableHeader';
+import { STORE_INJECTION_KEY } from './tokens';
 
 const { CheckboxGroup: LpCheckboxGroup } = LpCheckbox;
 
@@ -115,7 +116,7 @@ const ns = useNamespace('table-filter');
 const parent = instance.parent as unknown as TableHeaderInstance;
 
 if (!parent.filterPanels[props.column.id]) {
-  parent.filterPanels.value[props.column.id] = instance;
+  unref(parent.filterPanels)[props.column.id] = instance as any;
 }
 
 const tooltipVisible = ref(false);
@@ -123,6 +124,21 @@ const tooltip = ref<InstanceType<typeof LpTooltip> | null>(null);
 const filters = computed(() => {
   return props.column && props.column.filters;
 });
+
+const filteredValue: WritableComputedRef<string[]> = computed({
+  get() {
+    if (props.column) {
+      return props.column.filteredValue || [] as string[];
+    }
+    return [] as string[];
+  },
+  set(value: string[]) {
+    if (props.column) {
+      props.upDataColumn('filteredValue', value);
+    }
+  },
+});
+
 const filterValue = computed({
   get: () => (props.column?.filteredValue || [])[0],
   set: (value: string) => {
@@ -135,19 +151,6 @@ const filterValue = computed({
     }
   },
 });
-const filteredValue: WritableComputedRef<unknown[]> = computed({
-  get() {
-    if (props.column) {
-      return props.column.filteredValue || [];
-    }
-    return [];
-  },
-  set(value: unknown[]) {
-    if (props.column) {
-      props.upDataColumn('filteredValue', value);
-    }
-  },
-});
 
 const multiple = computed(() => {
   if (props.column) {
@@ -156,7 +159,7 @@ const multiple = computed(() => {
   return true;
 });
 
-const isActive = filter => {
+const isActive = (filter: Filter) => {
   return filter.value === filterValue.value;
 };
 
@@ -173,6 +176,13 @@ const hideFilterPanel = () => {
   tooltipVisible.value = false;
 };
 
+const store = inject(STORE_INJECTION_KEY)!;
+
+const confirmFilter = (filteredValue: string[]) => {
+  store.actions.filterChange({ column: props.column, values: filteredValue, silent: false });
+  store.watcher.updateAllSelected();
+};
+
 const handleConfirm = () => {
   confirmFilter(filteredValue.value);
   hidden();
@@ -184,9 +194,9 @@ const handleReset = () => {
   hidden();
 };
 
-const handleSelect = (_filterValue?: string) => {
-  filterValue.value = _filterValue;
-  if (_filterValue !== undefined && _filterValue !== null) {
+const handleSelect = (filter?: string) => {
+  filterValue.value = filter || '';
+  if (filter !== undefined && filter !== null) {
     confirmFilter(filteredValue.value);
   } else {
     confirmFilter([]);
@@ -194,13 +204,6 @@ const handleSelect = (_filterValue?: string) => {
   hidden();
 };
 
-const confirmFilter = (filteredValue: unknown[]) => {
-  props.store.commit('filterChange', {
-    column: props.column,
-    values: filteredValue,
-  });
-  props.store.updateAllSelected();
-};
 
 watch(
   tooltipVisible,

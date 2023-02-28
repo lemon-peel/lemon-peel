@@ -26,8 +26,9 @@ import { computed, onDeactivated, provide, readonly, ref, toRef, unref, watch } 
 import { isBoolean } from '@lemon-peel/utils';
 import { useDelayedToggle, useId, usePopperContainer } from '@lemon-peel/hooks';
 import { TOOLTIP_INJECTION_KEY } from '@lemon-peel/tokens';
-import type { LpPopper } from '@lemon-peel/components/popper';
 import { LpPopperArrow } from '@lemon-peel/components/popper';
+// eslint-disable-next-line @typescript-eslint/consistent-type-imports
+import LpPopper from '@lemon-peel/components/popper';
 
 import { tooltipEmits, useTooltipModelToggle, useTooltipProps } from './tooltip';
 import LpTooltipTrigger from './Trigger.vue';

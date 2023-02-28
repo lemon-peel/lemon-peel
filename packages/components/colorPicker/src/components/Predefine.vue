@@ -60,7 +60,7 @@ export default defineComponent({
         color.fromString(value);
 
         for (const item of rgbaColors.value) {
-          item.selected = color.compare(item);
+          item.selected = color.compare(item as Color);
         }
       },
     );

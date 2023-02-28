@@ -187,18 +187,11 @@
             @keydown.down.stop.prevent="navigateOptions('next')"
             @keydown.up.stop.prevent="navigateOptions('prev')"
             @keydown.enter.stop.prevent="selectOption"
-            @keydown.esc="handleKeydownEscape"
+            @keydown.esc="handleKeydownEscape as any"
             @keydown.tab="visible = false"
           >
             <template v-if="$slots.prefix" #prefix>
-              <div
-                style="
-                  height: 100%;
-                  display: flex;
-                  justify-content: center;
-                  align-items: center;
-                "
-              >
+              <div style=" height: 100%; display: flex; justify-content: center; align-items: center;">
                 <slot name="prefix" />
               </div>
             </template>

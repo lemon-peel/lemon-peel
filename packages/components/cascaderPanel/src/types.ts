@@ -35,10 +35,7 @@ export interface LpCascaderPanelContext {
   isHoverMenu: boolean;
   initialLoaded: boolean;
   renderLabelFn: RenderLabel;
-  lazyLoad: (
-    node?: CascaderNode,
-    callback?: (dataList: CascaderOption[]) => void
-  ) => void;
+  lazyLoad: (node: CascaderNode | null, callback?: (dataList: CascaderOption[]) => void) => void;
   expandNode: (node: CascaderNode, silent?: boolean) => void;
   handleCheckChange: (
     node: CascaderNode,

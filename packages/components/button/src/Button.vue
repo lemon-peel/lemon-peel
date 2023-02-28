@@ -61,15 +61,10 @@ const { _ref, _size, _type, _disabled, shouldAddSpace, handleClick } =
   useButton(props, emit);
 
 defineExpose({
-  /** @description button html element */
   ref: _ref,
-  /** @description button size */
   size: _size,
-  /** @description button type */
   type: _type,
-  /** @description button disabled */
   disabled: _disabled,
-  /** @description whether adding space */
   shouldAddSpace,
 });
 </script>

@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import { nextTick } from 'vue';
 import { mount } from '@vue/test-utils';
 import { afterEach, describe, expect, test, vi } from 'vitest';
@@ -7,7 +9,7 @@ import MenuGroup from '../src/MenuItemGroup.vue';
 import MenuItem from '../src/MenuItem.vue';
 import SubMenu from '../src/SubMenu';
 
-const _mount = (template: string, options = {}) =>
+const doMount = (template: string, options = {}) =>
   mount({
     components: {
       'lp-menu': Menu,
@@ -25,7 +27,7 @@ describe('menu', () => {
   });
 
   test('create', async () => {
-    const wrapper = _mount(
+    const wrapper = doMount(
       `<lp-menu>
         <lp-menu-item index="1" ref="item1">处理中心</lp-menu-item>
         <lp-menu-item index="2" ref="item2">订单管理</lp-menu-item>
@@ -46,7 +48,7 @@ describe('menu', () => {
     const textColor = '#000';
     const activeTextColor = '#0f0';
 
-    const wrapper = _mount(
+    const wrapper = doMount(
       `<lp-menu default-active="2"
         background-color="${backgroundColor}"
         text-color="${textColor}"
@@ -73,7 +75,7 @@ describe('menu', () => {
     // expect(item1.vm.$el.style.backgroundColor).toEqual('rgb(204, 0, 0)')
   });
   test('menu-item click', async () => {
-    const wrapper = _mount(
+    const wrapper = doMount(
       `<lp-menu>
         <lp-menu-item @click="onMenuItemClick" index="1" ref="item1">处理中心</lp-menu-item>
         <lp-menu-item index="2" ref="item2">订单管理</lp-menu-item>
@@ -101,7 +103,7 @@ describe('menu', () => {
     expect((wrapper.vm as any).clicksCount).toEqual(1);
   });
   test('menu-item disabled', async () => {
-    const wrapper = _mount(
+    const wrapper = doMount(
       `<lp-menu default-active="2">
         <lp-menu-item index="1" ref="item1" disabled>处理中心</lp-menu-item>
         <lp-menu-item index="2" ref="item2">订单管理</lp-menu-item>
@@ -115,7 +117,7 @@ describe('menu', () => {
     expect(item1.classes().includes('is-active')).toBeFalsy();
   });
   test('open method', async () => {
-    const wrapper = _mount(
+    const wrapper = doMount(
       `<div>
           <lp-menu
             ref="menu"
@@ -165,7 +167,7 @@ describe('menu', () => {
   });
 
   test('hover-bg-color', async () => {
-    const wrapper = _mount(
+    const wrapper = doMount(
       `<lp-menu ref="menu" default-active="2"
         :background-color="background"
         text-color="#000"
@@ -196,7 +198,7 @@ describe('menu', () => {
 
 describe('default active', () => {
   test('normal active', async () => {
-    const wrapper = _mount(
+    const wrapper = doMount(
       `<lp-menu default-active="2">
         <lp-menu-item index="1" ref="item1">处理中心</lp-menu-item>
         <lp-menu-item index="2" ref="item2">订单管理</lp-menu-item>
@@ -211,7 +213,7 @@ describe('default active', () => {
     expect(item1.classes()).toContain('is-active');
   });
   test('dynamic active', async () => {
-    const wrapper = _mount(
+    const wrapper = doMount(
       `<lp-menu :default-active="active">
         <lp-menu-item index="1" ref="item1">active watch处理中心</lp-menu-item>
         <lp-menu-item index="2" ref="item2">active watch订单管理</lp-menu-item>
@@ -231,7 +233,7 @@ describe('default active', () => {
     expect(item1.classes()).toContain('is-active');
   });
   test('vertical submenu item active', async () => {
-    const wrapper = _mount(
+    const wrapper = doMount(
       `<div>
         <lp-menu default-active="2-2" mode="vertical">
           <lp-menu-item index="1" ref="item1">处理中心</lp-menu-item>
@@ -253,7 +255,7 @@ describe('default active', () => {
     expect(submenu.classes()).toContain('is-active');
   });
   test('horizontal submenu item active', async () => {
-    const wrapper = _mount(
+    const wrapper = doMount(
       `<div>
         <lp-menu default-active="2-2">
           <lp-menu-item index="1" ref="item1">处理中心</lp-menu-item>
@@ -278,7 +280,7 @@ describe('default active', () => {
 
 describe('submenu', () => {
   test('toggle', async () => {
-    const wrapper = _mount(
+    const wrapper = doMount(
       `<lp-menu>
         <lp-menu-item index="1" ref="item1">处理中心</lp-menu-item>
         <lp-sub-menu index="2" ref="submenu">
@@ -303,7 +305,7 @@ describe('submenu', () => {
     expect(submenu.classes()).toContain('is-opened');
   });
   test('default opened', async () => {
-    const wrapper = _mount(
+    const wrapper = doMount(
       `<lp-menu :default-openeds="defaultOpeneds">
         <lp-menu-item index="1">default opened处理中心</lp-menu-item>
         <lp-sub-menu index="2" ref="submenu1">
@@ -339,7 +341,7 @@ describe('submenu', () => {
     expect(submenu2.classes()).toContain('is-opened');
   });
   test('disabled', async () => {
-    const wrapper = _mount(
+    const wrapper = doMount(
       `<lp-menu>
         <lp-menu-item index="1" ref="item1">处理中心</lp-menu-item>
         <lp-sub-menu index="2" ref="submenu" disabled>
@@ -367,7 +369,7 @@ describe('submenu', () => {
 
 describe('other', () => {
   test('disabled', async () => {
-    const wrapper = _mount(
+    const wrapper = doMount(
       `<lp-menu unique-opened default-active="2-2">
         <lp-menu-item index="1">处理中心</lp-menu-item>
         <lp-sub-menu index="2" ref="submenu1">
@@ -392,7 +394,7 @@ describe('other', () => {
   });
   test('horizontal mode', async () => {
     const onOpen = vi.fn();
-    const wrapper = _mount(
+    const wrapper = doMount(
       `<lp-menu mode="horizontal" @open="onOpen">
         <lp-menu-item index="1">处理中心</lp-menu-item>
         <lp-sub-menu index="2" ref="submenu">
@@ -423,7 +425,7 @@ describe('other', () => {
     expect(onOpen).toHaveBeenCalled();
   });
   test('menu group', async () => {
-    const wrapper = _mount(
+    const wrapper = doMount(
       `<lp-menu mode="vertical" default-active="1">
         <lp-menu-item-group title="分组一" ref="group1">
           <lp-menu-item index="1">导航一</lp-menu-item>
@@ -444,7 +446,7 @@ describe('other', () => {
     ).toEqual('分组一');
   });
   test('dynamic menus, issue 9092', async () => {
-    const wrapper = _mount(
+    const wrapper = doMount(
       `<lp-menu :default-active="active">
         <lp-menu-item
           v-for="menu in menus"

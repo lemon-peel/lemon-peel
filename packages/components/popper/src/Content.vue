@@ -10,8 +10,8 @@
     <lp-focus-trap
       :trapped="trapped"
       :trap-on-focus-in="true"
-      :focus-trap-el="popperContentRef"
-      :focus-start-el="focusStartRef"
+      :focus-trap-el="(popperContentRef as HTMLElement)"
+      :focus-start-el="(focusStartRef as any)"
       @focus-after-trapped="onFocusAfterTrapped"
       @focus-after-released="onFocusAfterReleased"
       @focusin="onFocusInTrap"
@@ -50,10 +50,10 @@ const props = defineProps(popperContentProps);
 const { popperInstanceRef, contentRef, triggerRef, role } = inject(
   POPPER_INJECTION_KEY,
 )!;
-const formItemContext = inject(formItemContextKey);
+const formItemContext = inject(formItemContextKey, null);
 const { nextZIndex } = useZIndex();
 const ns = useNamespace('popper');
-const popperContentRef = ref<HTMLElement>();
+const popperContentRef = ref<HTMLElement>(null as any);
 const focusStartRef = ref<'container' | 'first' | HTMLElement>('first');
 const arrowRef = ref<HTMLElement>();
 const arrowOffset = ref<number>();
@@ -173,7 +173,7 @@ onMounted(() => {
       const popperInstance = unref(popperInstanceRef);
       popperInstance?.destroy?.();
       if (referenceElement) {
-        const popperContentElement = unref(popperContentRef)!;
+        const popperContentElement = unref(popperContentRef) as HTMLElement;
         contentRef.value = popperContentElement;
 
         popperInstanceRef.value = createPopperInstance({

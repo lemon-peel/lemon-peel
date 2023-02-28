@@ -2,8 +2,8 @@ import type { CSSProperties, ComputedRef, InjectionKey, Ref } from 'vue';
 import type { useNamespace } from '@lemon-peel/hooks';
 
 export type DialogContext = {
-  dialogRef: Ref<HTMLElement | undefined>;
-  headerRef: Ref<HTMLElement | undefined>;
+  dialogRef: Ref<HTMLElement>;
+  headerRef: Ref<HTMLElement>;
   bodyId: Ref<string>;
   ns: ReturnType<typeof useNamespace>;
   rendered: Ref<boolean>;

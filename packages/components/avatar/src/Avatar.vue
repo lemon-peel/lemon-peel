@@ -66,4 +66,8 @@ function handleError(e: Event) {
   hasLoadError.value = true;
   emit('error', e);
 }
+
+defineExpose(
+  { hasLoadError },
+);
 </script>

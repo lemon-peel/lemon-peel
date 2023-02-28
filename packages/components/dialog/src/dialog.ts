@@ -2,66 +2,28 @@ import { buildProps, isBoolean } from '@lemon-peel/utils';
 import { UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
 import { dialogContentProps } from './dialogContent';
 
-import type { ExtractPropTypes } from 'vue';
+import type { ExtractPropTypes, PropType } from 'vue';
 
 type DoneFn = (cancel?: boolean) => void;
 export type DialogBeforeCloseFn = (done: DoneFn) => void;
 
 export const dialogProps = buildProps({
   ...dialogContentProps,
-  appendToBody: {
-    type: Boolean,
-    default: false,
-  },
-  beforeClose: {
-    type: Function as PropType<DialogBeforeCloseFn>,
-  },
-  destroyOnClose: {
-    type: Boolean,
-    default: false,
-  },
-  closeOnClickModal: {
-    type: Boolean,
-    default: true,
-  },
-  closeOnPressEscape: {
-    type: Boolean,
-    default: true,
-  },
-  lockScroll: {
-    type: Boolean,
-    default: true,
-  },
-  modal: {
-    type: Boolean,
-    default: true,
-  },
-  openDelay: {
-    type: Number,
-    default: 0,
-  },
-  closeDelay: {
-    type: Number,
-    default: 0,
-  },
-  top: {
-    type: String,
-  },
-  modelValue: {
-    type: Boolean,
-    default: false,
-  },
+  appendToBody: { type: Boolean, default: false },
+  beforeClose: { type: Function as PropType<DialogBeforeCloseFn> },
+  destroyOnClose: { type: Boolean, default: false },
+  closeOnClickModal: { type: Boolean, default: true },
+  closeOnPressEscape: { type: Boolean, default: true },
+  lockScroll: { type: Boolean, default: true },
+  modal: { type: Boolean, default: true },
+  openDelay: { type: Number, default: 0 },
+  closeDelay: { type: Number, default: 0 },
+  top: { type: String },
+  modelValue: { type: Boolean, default: false },
   modalClass: String,
-  width: {
-    type: [String, Number],
-  },
-  zIndex: {
-    type: Number,
-  },
-  trapFocus: {
-    type: Boolean,
-    default: false,
-  },
+  width: { type: [String, Number] },
+  zIndex: { type: Number },
+  trapFocus: { type: Boolean, default: false },
 } as const);
 
 export type DialogProps = ExtractPropTypes<typeof dialogProps>;

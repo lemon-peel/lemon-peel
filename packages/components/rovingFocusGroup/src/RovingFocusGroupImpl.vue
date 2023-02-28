@@ -27,7 +27,7 @@ export default defineComponent({
     );
     const isBackingOut = ref(false);
     const isClickFocus = ref(false);
-    const rovingFocusGroupRef = ref<HTMLElement | null>(null);
+    const rovingFocusGroupRef = ref<HTMLElement | null>(null as any);
     const { getItems } = inject(
       ROVING_FOCUS_COLLECTION_INJECTION_KEY,
     )!;
@@ -115,7 +115,7 @@ export default defineComponent({
       tabIndex: computed(() => {
         return unref(isBackingOut) ? -1 : 0;
       }),
-      rovingFocusGroupRef,
+      rovingFocusGroupRef: rovingFocusGroupRef as any,
       rovingFocusGroupRootStyle,
       orientation: toRef(props, 'orientation'),
       dir: toRef(props, 'dir'),

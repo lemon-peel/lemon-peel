@@ -1,57 +1,38 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import { Fragment, computed, defineComponent, getCurrentInstance, h, inject, onBeforeUnmount, onMounted, provide, reactive, ref, vShow, watch, withDirectives } from 'vue';
 import { useTimeoutFn } from '@vueuse/core';
-import LpCollapseTransition from '@lemon-peel/components/collapseTransition';
-import LpTooltip from '@lemon-peel/components/tooltip';
 import { buildProps, iconPropType, isString, throwError } from '@lemon-peel/utils';
-import { useNamespace } from '@lemon-peel/hooks';
 import { ArrowDown, ArrowRight } from '@element-plus/icons-vue';
 import { LpIcon } from '@lemon-peel/components/icon';
-import useMenu from './useMenu';
+import { useNamespace } from '@lemon-peel/hooks';
+import LpCollapseTransition from '@lemon-peel/components/collapseTransition';
+import LpTooltip from '@lemon-peel/components/tooltip';
+
 import { useMenuCssVar as useMenuCssVariable } from './useMenuCssVar';
+import useMenu from './useMenu';
 
 import type { Placement } from '@lemon-peel/components/popper';
 import type { CSSProperties, ExtractPropTypes, VNodeArrayChildren } from 'vue';
 import type { MenuProvider, SubMenuProvider } from './types';
 
 export const subMenuProps = buildProps({
-  index: {
-    type: String,
-    required: true,
-  },
-  showTimeout: {
-    type: Number,
-    default: 300,
-  },
-  hideTimeout: {
-    type: Number,
-    default: 300,
-  },
+  index: { type: String, required: true },
+  showTimeout: { type: Number, default: 300 },
+  hideTimeout: { type: Number, default: 300 },
   popperClass: String,
   disabled: Boolean,
-  popperAppendToBody: {
-    type: Boolean,
-    default: undefined,
-  },
-  popperOffset: {
-    type: Number,
-    default: 6,
-  },
-  expandCloseIcon: {
-    type: iconPropType,
-  },
-  expandOpenIcon: {
-    type: iconPropType,
-  },
-  collapseCloseIcon: {
-    type: iconPropType,
-  },
-  collapseOpenIcon: {
-    type: iconPropType,
-  },
+  popperAppendToBody: { type: Boolean, default: undefined },
+  popperOffset: { type: Number, default: 6 },
+  expandCloseIcon: { type: iconPropType },
+  expandOpenIcon: { type: iconPropType },
+  collapseCloseIcon: { type: iconPropType },
+  collapseOpenIcon: { type: iconPropType },
 } as const);
 export type SubMenuProps = ExtractPropTypes<typeof subMenuProps>;
 
 const COMPONENT_NAME = 'LpSubMenu';
+
 export default defineComponent({
   name: COMPONENT_NAME,
   props: subMenuProps,

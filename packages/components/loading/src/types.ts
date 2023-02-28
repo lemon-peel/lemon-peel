@@ -16,10 +16,7 @@ export type LoadingOptionsResolved = {
   closed?: () => void;
 };
 export type LoadingOptions = Partial<
-Omit<LoadingOptionsResolved, 'parent' | 'target'> & {
-  target: HTMLElement | string;
-  body: boolean;
-}
+Omit<LoadingOptionsResolved, 'parent' | 'target'> & { target: HTMLElement | string, body: boolean }
 >;
 
 export interface LoadingParentElement extends HTMLElement {

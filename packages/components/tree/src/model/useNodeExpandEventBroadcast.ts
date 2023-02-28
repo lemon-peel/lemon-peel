@@ -2,8 +2,8 @@
 import type { InjectionKey } from 'vue';
 import { inject, provide } from 'vue';
 
-import type { TreeNodeProps } from '../treeNode';
 import type Node from '../model/node';
+import type { TreeNodeProps } from '../treeNode';
 
 interface NodeMap {
   treeNodeExpand(node: Node): void;
@@ -12,13 +12,13 @@ interface NodeMap {
 
 const TreeNodeMapKey: InjectionKey<NodeMap> = Symbol('TreeNodeMap');
 
-export function useNodeExpandEventBroadcast(props: TreeNodeProps) {
+export function useNodeExpandEventBroadcast(props: Partial<TreeNodeProps>) {
   const parentNodeMap = inject(TreeNodeMapKey, null);
 
   const currentNodeMap: NodeMap = {
     treeNodeExpand: node => {
       if (props.node !== node) {
-        props.node.collapse();
+        props.node?.collapse();
       }
     },
     children: [],

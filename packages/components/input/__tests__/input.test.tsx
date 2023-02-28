@@ -1,10 +1,13 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import { nextTick, ref } from 'vue';
 import { mount } from '@vue/test-utils';
 import { afterEach, describe, expect, test, vi } from 'vitest';
 import defineGetter from '@lemon-peel/test-utils/defineGetter';
 import { LpFormItem as FormItem } from '@lemon-peel/components/form';
+import { parseStyle } from '@lemon-peel/utils';
+
 import Input from '../src/Input.vue';
-import type { CSSProperties } from 'vue';
 import type { InputAutoSize, InputInstance, InputProps } from '../src/input';
 
 describe('Input.vue', () => {
@@ -310,13 +313,12 @@ describe('Input.vue', () => {
       });
       const refTextarea = wrapper.vm.$refs.textarea as InputInstance;
 
-      const originMinHeight = (refTextarea.textareaStyle as CSSProperties)
-        .minHeight
-      ;(refTextarea.autosize as Exclude<InputAutoSize, boolean>).minRows = 5;
+      const originMinHeight = parseStyle(refTextarea.textareaStyle).minHeight;
+      (refTextarea.autosize as Exclude<InputAutoSize, boolean>).minRows = 5;
 
       refTextarea.resizeTextarea();
       // After this textarea min-height (style)  will change
-      const nowMinHeight = (refTextarea.textareaStyle as any)[1].minHeight;
+      const nowMinHeight = parseStyle(refTextarea.textareaStyle).minHeight;
       expect(originMinHeight).not.toEqual(nowMinHeight);
     });
   });

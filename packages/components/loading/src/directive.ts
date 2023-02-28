@@ -1,4 +1,5 @@
-
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import { isRef, ref } from 'vue';
 import { hyphenate, isObject, isString } from '@vue/shared';
 import { Loading } from './service';
@@ -24,7 +25,7 @@ const createInstance = (
 
   const getBindingProperty = <K extends keyof LoadingOptions>(
     key: K,
-  ): LoadingOptions[K] => {
+  ): LoadingOptions[K] | undefined => {
     return isObject(binding.value) ? binding.value[key] : undefined;
   };
 

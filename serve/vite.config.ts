@@ -78,6 +78,7 @@ const lpComponentList = [
   'LpInput',
   'LpInputNumber',
   'LpLink',
+  'LpMessage',
   'LpMenu',
   'LpMenuItem',
   'LpMenuItemGroup',
@@ -159,7 +160,7 @@ export default defineConfig(async ({ mode }) => {
       }) as any,
       // vite.config.ts
       AutoImport({
-        include: [/\.[jt]sx?$/],
+        include: [/\.[jt]sx?$/, /\.vue$/],
         vueTemplate: true,
         imports: [
           'vue',

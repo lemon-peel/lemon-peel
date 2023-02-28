@@ -74,7 +74,7 @@ defineOptions({
 });
 
 const props = defineProps(checkboxProps);
-defineEmits(checkboxEmits);
+const emit = defineEmits(checkboxEmits);
 const slots = useSlots();
 
 const {

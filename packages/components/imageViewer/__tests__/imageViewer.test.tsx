@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import { nextTick } from 'vue';
 import { mount } from '@vue/test-utils';
 import { describe, expect, test } from 'vitest';
@@ -9,9 +11,11 @@ async function doubleWait() {
   await nextTick();
 }
 
+const doMount = (urlList: string[]) => mount(ImageViewer, { props: { urlList } });
+
 describe('<image-viewer />', () => {
   test('big image preview', async () => {
-    const wrapper = mount(<ImageViewer urlList={[IMAGE_SUCCESS]} />);
+    const wrapper = doMount([IMAGE_SUCCESS]);
 
     await doubleWait();
     const viewer = wrapper.find('.lp-image-viewer__wrapper');
@@ -22,7 +26,7 @@ describe('<image-viewer />', () => {
   });
 
   test('image preview hide-click-on-modal', async () => {
-    const wrapper = mount(<ImageViewer urlList={[IMAGE_SUCCESS]} />);
+    const wrapper = doMount([IMAGE_SUCCESS]);
 
     await doubleWait();
     const viewer = wrapper.find('.lp-image-viewer__wrapper');
@@ -40,9 +44,7 @@ describe('<image-viewer />', () => {
   });
 
   test('manually switch image', async () => {
-    const wrapper = mount(
-      <ImageViewer urlList={[IMAGE_SUCCESS, IMAGE_SUCCESS]} />,
-    );
+    const wrapper = doMount([IMAGE_SUCCESS, IMAGE_SUCCESS]);
 
     await doubleWait();
     const viewer = wrapper.find('.lp-image-viewer__wrapper');

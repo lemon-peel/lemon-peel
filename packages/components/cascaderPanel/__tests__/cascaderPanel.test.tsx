@@ -4,12 +4,7 @@ import { beforeEach, describe, expect, test, vi } from 'vitest';
 import { Check, Loading } from '@element-plus/icons-vue';
 import CascaderPanel from '../src/Index.vue';
 
-import type {
-  CascaderOption,
-  CascaderProps,
-  CascaderValue,
-  LazyLoad,
-} from '../src/Node.vue';
+import type { CascaderOption, CascaderProps, CascaderValue, LazyLoad } from '../src/node';
 
 const NORMAL_OPTIONS = [
   {
@@ -112,7 +107,7 @@ const RADIO = '.lp-radio__input';
 let id = 0;
 
 const lazyLoad: LazyLoad = (node, resolve) => {
-  const { level } = node;
+  const { level } = node!;
   setTimeout(() => {
     const nodes = Array.from({ length: level + 1 }).map(() => ({
       value: ++id,
@@ -131,15 +126,17 @@ describe('CascaderPanel.vue', () => {
   test('expand and check', async () => {
     const handleChange = vi.fn();
     const handleExpandChange = vi.fn();
-    const value = ref([]);
-    const wrapper = mount(() => (
-      <CascaderPanel
-        v-model={value.value}
-        options={NORMAL_OPTIONS}
-        onChange={handleChange}
-        onExpandChange={handleExpandChange}
-      />
-    ));
+    const value = ref<any[]>([]);
+    const wrapper = mount(CascaderPanel, {
+      props: {
+        props: {},
+        modelValue: value.value,
+        ['update:modelValue']: (val: any[]) => (value.value = val),
+        options: NORMAL_OPTIONS,
+        onChange: handleChange,
+        onExpandChange: handleExpandChange,
+      },
+    });
 
     const options = wrapper.findAll(NODE);
     const [bjNode, zjNode, , gdNode] = options;
@@ -531,7 +528,7 @@ describe('CascaderPanel.vue', () => {
     const props: CascaderProps = {
       lazy: true,
       lazyLoad(node, resolve) {
-        const { level } = node;
+        const { level } = node!;
         setTimeout(() => {
           const nodes = Array.from({ length: level + 1 }).map(() => ({
             value: { id: ++id },
@@ -560,7 +557,7 @@ describe('CascaderPanel.vue', () => {
       multiple: true,
       lazy: true,
       lazyLoad(node, resolve) {
-        const { level } = node;
+        const { level } = node!;
         setTimeout(() => {
           const nodes = Array.from({ length: level + 1 }).map(() => {
             ++id;
@@ -607,7 +604,7 @@ describe('CascaderPanel.vue', () => {
       checkStrictly: true,
       lazy: true,
       lazyLoad(node, resolve) {
-        const { level } = node;
+        const { level } = node!;
         setTimeout(() => {
           const nodes = Array.from({ length: level + 1 }).map(() => ({
             value: ++id,

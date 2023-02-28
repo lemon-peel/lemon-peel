@@ -104,22 +104,24 @@
 <script lang="ts" setup>
 import { computed, nextTick, onMounted, provide, reactive, ref, watch } from 'vue';
 import { debounce } from 'lodash-es';
-import { LpButton } from '@lemon-peel/components/button';
-import { LpIcon } from '@lemon-peel/components/icon';
 import { ClickOutside as vClickOutside } from '@lemon-peel/directives';
 import { useDisabled, useFormItem, useFormItemInputId, useLocale, useNamespace, useSize } from '@lemon-peel/hooks';
-import { LpTooltip } from '@lemon-peel/components/tooltip';
-import { LpInput } from '@lemon-peel/components/input';
 import { UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
 import { debugWarn } from '@lemon-peel/utils';
 import { ArrowDown } from '@element-plus/icons-vue';
+import { LpButton } from '@lemon-peel/components/button';
+import { LpInput } from '@lemon-peel/components/input';
+import { LpTooltip } from '@lemon-peel/components/tooltip';
+import { LpIcon } from '@lemon-peel/components/icon';
+
+import { colorPickerContextKey, colorPickerEmits, colorPickerProps } from './colorPicker';
+import Predefine from './components/Predefine.vue';
+import Color from './utils/color';
+
+import type { TooltipInstance } from '@lemon-peel/components/tooltip';
 import type AlphaSlider from './components/AlphaSlider.vue';
 import type HueSlider from './components/HueSlider.vue';
-import Predefine from './components/Predefine.vue';
 import type SvPanel from './components/SvPanel.vue';
-import Color from './utils/color';
-import { colorPickerContextKey, colorPickerEmits, colorPickerProps } from './colorPicker';
-import type { TooltipInstance } from '@lemon-peel/components/tooltip';
 
 defineOptions({
   name: 'LpColorPicker',

@@ -17,7 +17,7 @@ const ITEM_SELECTOR = `.${ITEM_KLS}`;
 const columnWidths = Array.from({ length: 100 }).map((_, i) => 25 + i);
 
 const rowHeights = Array.from({ length: 100 }).map((_, i) => 25 + i);
-const mount = makeMount(
+const doMount = makeMount(
   {
     template: `<dynamic-size-grid v-bind="$attrs" ref="gridRef">
     <template #default="{columnIndex, style, rowIndex}">
@@ -56,7 +56,7 @@ describe('<fixed-size-grid />', () => {
 
   describe('render testing', () => {
     it('should render correctly', async () => {
-      const wrapper = mount();
+      const wrapper = doMount();
 
       await nextTick();
 
@@ -68,7 +68,7 @@ describe('<fixed-size-grid />', () => {
     });
 
     it('should render zero row zero column', async () => {
-      const wrapper = mount({
+      const wrapper = doMount({
         props: {
           totalColumn: 0,
           totalRow: 0,
@@ -82,7 +82,7 @@ describe('<fixed-size-grid />', () => {
 
   describe('scroll testing', () => {
     it('should scroll correctly', async () => {
-      const wrapper = mount();
+      const wrapper = doMount();
       await nextTick();
 
       // 6(4 + 2) x 6(4 + 2) grid
@@ -100,7 +100,7 @@ describe('<fixed-size-grid />', () => {
     });
 
     it('should not scroll at all', async () => {
-      const wrapper = mount();
+      const wrapper = doMount();
       await nextTick();
       expect(wrapper.findAll(ITEM_SELECTOR)).toHaveLength(36);
 
@@ -115,7 +115,7 @@ describe('<fixed-size-grid />', () => {
     });
 
     it('should run scrollTo correctly', async () => {
-      const wrapper = mount();
+      const wrapper = doMount();
       await nextTick();
       expect(onItemRendered).toHaveBeenCalledTimes(1);
 
@@ -146,7 +146,7 @@ describe('<fixed-size-grid />', () => {
     });
 
     it('should scrollToItem with correct alignment', async () => {
-      const wrapper = mount();
+      const wrapper = doMount();
       await nextTick();
       expect(wrapper.findAll(ITEM_SELECTOR)).toHaveLength(36);
 
@@ -207,7 +207,7 @@ describe('<fixed-size-grid />', () => {
     it('should throw when column-width is not number', () => {
       const errorHandler = vi.fn();
 
-      mount({
+      doMount({
         props: {
           columnWidth: '1',
         },
@@ -226,7 +226,7 @@ describe('<fixed-size-grid />', () => {
 
     it('should throw when row-height is not number', () => {
       const errorHandler = vi.fn();
-      mount({
+      doMount({
         props: {
           rowHeight: '1',
         },
@@ -255,7 +255,7 @@ describe('<fixed-size-grid />', () => {
         `,
       };
 
-      const wrapper = mount({
+      const wrapper = doMount({
         props: {
           containerElement: 'A',
           innerElement: 'B',

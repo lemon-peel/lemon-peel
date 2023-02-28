@@ -1,2 +1,2 @@
-import '@element-plus/components/base/style/css';
-import '@element-plus/theme-chalk/lp-affix.css';
+import '@lemon-peel/components/base/style/css';
+import '@lemon-peel/theme-chalk/lp-affix.css';

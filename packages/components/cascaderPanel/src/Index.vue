@@ -41,14 +41,8 @@ export default defineComponent({
   },
   props: {
     ...CommonProps,
-    border: {
-      type: Boolean,
-      default: true,
-    },
-    renderLabel: {
-      required: true,
-      type: Function as PropType<RenderLabel>,
-    },
+    border: { type: Boolean, default: true },
+    renderLabel: { type: Function as PropType<RenderLabel>, default: undefined },
   },
   emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT, 'close', 'expand-change'],
   setup(props, { emit, slots }) {
@@ -71,7 +65,7 @@ export default defineComponent({
 
     const lazyLoad: LpCascaderPanelContext['lazyLoad'] = (node, callback) => {
       const cfg = config.value;
-      node != node || new Node({}, cfg, undefined, true);
+      node != new Node({}, cfg, undefined, true);
       node!.loading = true;
 
       const resolve = (dataList: CascaderOption[]) => {
@@ -161,9 +155,7 @@ export default defineComponent({
         return;
 
       if (lazy && !loaded) {
-        const values: CascaderNodeValue[] = unique(
-          flattenDeep(castArray(modelValue)),
-        );
+        const values: CascaderNodeValue[] = unique(flattenDeep(castArray(modelValue) as CascaderNodeValue[]));
 
         const nodes = values
           .map(value => store?.getNodeByValue(value))
@@ -179,10 +171,10 @@ export default defineComponent({
       } else {
         const values = multiple ? castArray(modelValue) : [modelValue];
         const nodes = unique(
-          values.map(value => store?.getNodeByValue(value, leafOnly)),
+          values.map(value => store?.getNodeByValue(value as any, leafOnly)),
         ) as Node[];
         syncMenuState(nodes, forced);
-        checkedValue.value = cloneDeep(modelValue);
+        checkedValue.value = cloneDeep(modelValue) as any;
       }
     };
 
@@ -196,7 +188,7 @@ export default defineComponent({
 
       if (cfg.lazy && isEmpty(props.options)) {
         initialLoaded.value = false;
-        lazyLoad(undefined, list => {
+        lazyLoad(null, list => {
           if (list) {
             store = new Store(list, cfg);
             menus.value = [store.getNodes()];

@@ -11,7 +11,7 @@ export const useRadio = (
   emit?: SetupContext<RadioEmits>['emit'],
 ) => {
   const radioRef = ref<HTMLInputElement>();
-  const radioGroup = inject(radioGroupKey);
+  const radioGroup = inject(radioGroupKey, null);
   const isGroup = computed(() => !!radioGroup);
   const modelValue = computed<RadioProps['modelValue']>({
     get() {

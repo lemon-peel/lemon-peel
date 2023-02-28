@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest';
 import { rAF } from '@lemon-peel/test-utils/tick';
 import { arrowMiddleware, useFloating } from '../useFloating';
 
-import type { CSSProperties } from 'vue';
+import type { CSSProperties, Ref } from 'vue';
 import type { Middleware, Placement, Strategy } from '@floating-ui/dom';
 
 describe('useFloating', () => {
@@ -13,7 +13,7 @@ describe('useFloating', () => {
       setup() {
         const placement = ref<Placement>('bottom');
         const strategy = ref<Strategy>('fixed');
-        const arrowRef = ref<HTMLElement>();
+        const arrowRef: Ref<HTMLElement> = ref(null as any);
         const middleware = ref<Array<Middleware>>(
           arrow
             ? [

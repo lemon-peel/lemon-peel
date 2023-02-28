@@ -6,6 +6,7 @@ import { useTooltipContentProps, useTooltipTriggerProps } from '@lemon-peel/comp
 import type { Options } from '@popperjs/core';
 import type { ButtonProps, ButtonType } from '@lemon-peel/components/button';
 import type { Placement } from '@lemon-peel/components/popper';
+import { roleTypes } from '@lemon-peel/components/popper';
 import type { ComponentInternalInstance, ComputedRef, PropType } from 'vue';
 import type { Nullable } from '@lemon-peel/utils';
 
@@ -41,7 +42,7 @@ export const dropdownProps = buildProps({
   maxHeight: { type: [Number, String] as PropType<number | string>, default: '' },
   popperClass: { type: String, default: '' },
   disabled: { type: Boolean, default: false },
-  role: { type: String, default: 'menu' },
+  role: { type: String, values: roleTypes, default: 'menu' },
   buttonProps: { type: Object as PropType<ButtonProps> },
   teleported: useTooltipContentProps.teleported,
 });

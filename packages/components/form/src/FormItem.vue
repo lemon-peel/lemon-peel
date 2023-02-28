@@ -59,8 +59,8 @@ defineOptions({
 const props = defineProps(formItemProps);
 const slots = useSlots();
 
-const formContext = inject(formContextKey);
-const parentFormItemContext = inject(formItemContextKey);
+const formContext = inject(formContextKey, null);
+const parentFormItemContext = inject(formItemContextKey, null);
 
 const size = useSize(undefined, { formItem: false });
 const ns = useNamespace('form-item');

@@ -3,8 +3,8 @@ import { addUnit } from '@lemon-peel/utils';
 import type { ComputedRef, Ref } from 'vue';
 
 export const useDraggable = (
-  targetReference: Ref<HTMLElement | undefined>,
-  dragReference: Ref<HTMLElement | undefined>,
+  targetReference: Ref<HTMLElement>,
+  dragReference: Ref<HTMLElement | null>,
   draggable: ComputedRef<boolean>,
 ) => {
   let transform = {
@@ -17,7 +17,7 @@ export const useDraggable = (
     const downY = downEvent.clientY;
     const { offsetX, offsetY } = transform;
 
-    const targetRect = targetReference.value!.getBoundingClientRect();
+    const targetRect = targetReference.value.getBoundingClientRect();
     const targetLeft = targetRect.left;
     const targetTop = targetRect.top;
     const targetWidth = targetRect.width;

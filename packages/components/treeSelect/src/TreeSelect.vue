@@ -35,7 +35,7 @@ const treeProps = useTree(props, forceType({ attrs, emit }), { select, tree, key
 
 // expose LpTree/LpSelect methods
 //
-const methods = reactive<Record<string, any> & InstanceType<typeof LpTree>>({} as any);
+const methods = reactive<any>({} as any);
 
 defineExpose(methods);
 

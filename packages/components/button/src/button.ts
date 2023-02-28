@@ -10,36 +10,19 @@ export const buttonTypes = [
   'warning',
   'info',
   'danger',
-  /**
-   * @deprecated
-   * Text type will be deprecated in the next major version (3.0.0)
-   */
-  'text',
   '',
 ] as const;
+
 export const buttonNativeTypes = ['button', 'submit', 'reset'] as const;
 
 export const buttonProps = buildProps({
   size: useSizeProp,
   disabled: Boolean,
-  type: {
-    type: String,
-    values: buttonTypes,
-    default: '',
-  },
-  icon: {
-    type: iconPropType,
-  },
-  nativeType: {
-    type: String,
-    values: buttonNativeTypes,
-    default: 'button',
-  },
+  type: { type: String, values: buttonTypes, default: '' },
+  icon: { type: iconPropType },
+  nativeType: { type: String, values: buttonNativeTypes, default: 'button' },
   loading: Boolean,
-  loadingIcon: {
-    type: iconPropType,
-    default: () => Loading,
-  },
+  loadingIcon: { type: iconPropType, default: () => Loading },
   plain: Boolean,
   text: Boolean,
   link: Boolean,
@@ -49,11 +32,9 @@ export const buttonProps = buildProps({
   circle: Boolean,
   color: String,
   dark: Boolean,
-  autoInsertSpace: {
-    type: Boolean,
-    default: undefined,
-  },
+  autoInsertSpace: { type: Boolean, default: undefined },
 } as const);
+
 export const buttonEmits = {
   click: (event_: MouseEvent) => event_ instanceof MouseEvent,
 };

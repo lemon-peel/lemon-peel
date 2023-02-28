@@ -6,10 +6,11 @@ import MenuItemGroup from './src/MenuItemGroup.vue';
 import SubMenu from './src/SubMenu';
 
 export const LpMenu = withInstall(Menu, {
-  MenuItem,
-  MenuItemGroup,
-  SubMenu,
+  // MenuItem,
+  // MenuItemGroup,
+  // SubMenu,
 });
+
 export default LpMenu;
 export const LpMenuItem = withNoopInstall(MenuItem);
 export const LpMenuItemGroup = withNoopInstall(MenuItemGroup);

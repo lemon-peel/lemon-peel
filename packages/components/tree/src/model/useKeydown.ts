@@ -9,18 +9,19 @@ import type { Nullable } from '@lemon-peel/utils';
 import type { TreeKey } from '../tree';
 
 interface UseKeydownOption {
-  el$: Ref<HTMLElement>;
+  elRef: Ref<HTMLElement>;
 }
-export function useKeydown({ el$ }: UseKeydownOption, store: Ref<TreeStore>) {
+
+export function useKeydown({ elRef }: UseKeydownOption, store: Ref<TreeStore>) {
   const ns = useNamespace('tree');
 
   const treeItems = shallowRef<HTMLElement[]>([]);
   const checkboxItems = shallowRef<HTMLElement[]>([]);
 
   const initTabIndex = (): void => {
-    treeItems.value = [...el$.value.querySelectorAll<HTMLElement>(`.${ns.is('focusable')}[role=treeitem]`)];
-    checkboxItems.value = [...el$.value.querySelectorAll<HTMLElement>('input[type=checkbox]')];
-    const checkedItem = el$.value.querySelectorAll(
+    treeItems.value = [...elRef.value.querySelectorAll<HTMLElement>(`.${ns.is('focusable')}[role=treeitem]`)];
+    checkboxItems.value = [...elRef.value.querySelectorAll<HTMLElement>('input[type=checkbox]')];
+    const checkedItem = elRef.value.querySelectorAll(
       `.${ns.is('checked')}[role=treeitem]`,
     );
     if (checkedItem.length > 0) {
@@ -35,8 +36,8 @@ export function useKeydown({ el$ }: UseKeydownOption, store: Ref<TreeStore>) {
   });
 
   onUpdated(() => {
-    treeItems.value = [...el$.value.querySelectorAll<HTMLElement>('[role=treeitem]')];
-    checkboxItems.value = [...el$.value.querySelectorAll<HTMLElement>('input[type=checkbox]')];
+    treeItems.value = [...elRef.value.querySelectorAll<HTMLElement>('[role=treeitem]')];
+    checkboxItems.value = [...elRef.value.querySelectorAll<HTMLElement>('input[type=checkbox]')];
   });
 
   watch(checkboxItems, val => {
@@ -49,7 +50,7 @@ export function useKeydown({ el$ }: UseKeydownOption, store: Ref<TreeStore>) {
     const currentItem = ev.target as HTMLElement;
     if (!currentItem.className.includes(ns.b('node'))) return;
     const code = ev.code;
-    treeItems.value = [...el$.value.querySelectorAll(`.${ns.is('focusable')}[role=treeitem]`)] as HTMLElement[];
+    treeItems.value = [...elRef.value.querySelectorAll(`.${ns.is('focusable')}[role=treeitem]`)] as HTMLElement[];
 
     const currentIndex = treeItems.value.indexOf(currentItem);
     let nextIndex;
@@ -113,5 +114,5 @@ export function useKeydown({ el$ }: UseKeydownOption, store: Ref<TreeStore>) {
     }
   };
 
-  useEventListener(el$, 'keydown', handleKeydown);
+  useEventListener(elRef, 'keydown', handleKeydown);
 }

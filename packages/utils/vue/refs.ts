@@ -24,14 +24,14 @@ export function unrefs<T extends object>(origin: T) : Unrefs<T> {
 }
 
 export function composeRefs(
-  ...references: (Ref<HTMLElement | undefined> | RefSetter)[]
+  ...references: (Ref<HTMLElement | null> | RefSetter)[]
 ) {
   return (element: Element | ComponentPublicInstance | null) => {
     for (const reference of references) {
       if (isFunction(reference)) {
         reference(element as Element | ComponentPublicInstance);
       } else {
-        reference.value = element as HTMLElement | undefined;
+        reference.value = element as HTMLElement | null;
       }
     }
   };

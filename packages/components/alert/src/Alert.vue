@@ -29,12 +29,14 @@
 import { computed, ref, useSlots } from 'vue';
 import { TypeComponents, TypeComponentsMap } from '@lemon-peel/utils';
 import { useNamespace } from '@lemon-peel/hooks';
+import { LpIcon } from '@lemon-peel/components/icon';
+
 import { alertEmits, alertProps } from './alert';
 
 const { Close } = TypeComponents;
 
 defineOptions({
-  name: 'ElAlert',
+  name: 'LpAlert',
 });
 
 const props = defineProps(alertProps);

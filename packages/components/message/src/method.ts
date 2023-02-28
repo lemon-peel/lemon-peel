@@ -3,13 +3,13 @@ import { isClient } from '@vueuse/core';
 import { debugWarn, isElement, isFunction, isNumber, isString, isVNode } from '@lemon-peel/utils';
 import { useZIndex } from '@lemon-peel/hooks';
 import { messageConfig } from '@lemon-peel/components/configProvider/src/configProvider';
-import MessageConstructor from './Message.vue';
+import MessageView from './Message.vue';
 import { messageDefaults, messageTypes } from './message';
 import { instances } from './instance';
 
 import type { MessageContext } from './instance';
 import type { AppContext } from 'vue';
-import type { Message, MessageFn, MessageHandler, MessageOptions, MessageParams, MessageParamsNormalized, MessageType } from './message';
+import type { Message, MessageFn, MessageHandler, MessageOptions, MessageParams, MessageParamsNormalized, MessageType, MessageProps } from './message';
 
 let seed = 1;
 
@@ -55,10 +55,7 @@ const closeMessage = (instance: MessageContext) => {
   handler.close();
 };
 
-// eslint-disable-next-line prefer-const
-let createMessage: (params: MessageParamsNormalized, context?: AppContext | null) => MessageContext;
-
-const message: MessageFn & Partial<Message> & { _context: AppContext | null } = (options = {}, context?) => {
+const message: MessageFn & Message & { _context: AppContext | null } = (((options = {}, context?) => {
   if (!isClient) return { close: () => {} };
 
   if (isNumber(messageConfig.max) && instances.length >= messageConfig.max) {
@@ -78,13 +75,14 @@ const message: MessageFn & Partial<Message> & { _context: AppContext | null } = 
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-use-before-define
   const instance = createMessage(normalized, context);
 
   instances.push(instance);
   return instance.handler;
-};
+}) as MessageFn) as any;
 
-createMessage = ({ appendTo, ...options }: MessageParamsNormalized, context?: AppContext | null): MessageContext => {
+function createMessage({ appendTo, ...options }: MessageParamsNormalized, context?: AppContext | null): MessageContext {
   const { nextZIndex } = useZIndex();
 
   const id = `message_${seed++}`;
@@ -114,7 +112,7 @@ createMessage = ({ appendTo, ...options }: MessageParamsNormalized, context?: Ap
   };
 
   const vnode = createVNode(
-    MessageConstructor,
+    MessageView,
     props,
     isFunction(props.message) || isVNode(props.message)
       ? {
@@ -125,22 +123,21 @@ createMessage = ({ appendTo, ...options }: MessageParamsNormalized, context?: Ap
       : null,
   );
 
-  const vm = vnode.component!;
-
   const handler: MessageHandler = {
     // instead of calling the onClose function directly, setting this value so that we can have the full lifecycle
     // for out component, so that all closing steps will not be skipped.
     close: () => {
-      vm.exposed!.visible.value = false;
+      if (vnode.component?.exposed) {
+        vnode.component.exposed.visible.value = false;
+      }
     },
   };
 
   instance = {
     id,
     vnode,
-    vm,
     handler,
-    props: (vnode.component as any).props,
+    props: vnode.props as MessageProps,
   };
 
   vnode.appContext = context || message._context;
@@ -150,7 +147,7 @@ createMessage = ({ appendTo, ...options }: MessageParamsNormalized, context?: Ap
   appendTo.append(container.firstElementChild!);
 
   return instance;
-};
+}
 
 for (const type of messageTypes) {
   message[type] = (options = {}, appContext = null) => {

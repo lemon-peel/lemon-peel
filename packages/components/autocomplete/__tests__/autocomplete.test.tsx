@@ -5,13 +5,14 @@ import { beforeEach, describe, expect, it, test, vi } from 'vitest';
 import { POPPER_CONTAINER_SELECTOR } from '@lemon-peel/hooks';
 import { LpFormItem as FormItem } from '@lemon-peel/components/form';
 import Autocomplete from '../src/AutoComplete.vue';
+import type { AutocompleteProps } from '../src/autoComplete';
 
-vi.unmock('lodash');
+// vi.unmock('lodash');
 
 vi.useFakeTimers();
 
-const _mount = (
-  payload = {},
+const doMount = (
+  props: Partial<AutocompleteProps> = {},
   type: 'fn-cb' | 'fn-promise' | 'fn-arr' | 'fn-async' | 'arr' = 'fn-cb',
 ) =>
   mount({
@@ -24,7 +25,7 @@ const _mount = (
           { value: 'JavaScript', tag: 'javascript' },
           { value: 'Python', tag: 'python' },
         ],
-        payload,
+        payload: props,
       });
 
       function filterList(queryString: string) {
@@ -37,25 +38,30 @@ const _mount = (
 
       const querySearch = (() => {
         switch (type) {
-          case 'fn-cb':
+          case 'fn-cb': {
             return (
               queryString: string,
               cb: (arg: typeof state.list) => void,
             ) => {
               cb(filterList(queryString));
             };
-          case 'fn-promise':
+          }
+          case 'fn-promise': {
             return (queryString: string) =>
               Promise.resolve(filterList(queryString));
-          case 'fn-async':
+          }
+          case 'fn-async': {
             return async (queryString: string) => {
               await Promise.resolve();
               return filterList(queryString);
             };
-          case 'fn-arr':
+          }
+          case 'fn-arr': {
             return (queryString: string) => filterList(queryString);
-          case 'arr':
+          }
+          case 'arr': {
             return state.list;
+          }
         }
       })();
 
@@ -63,8 +69,12 @@ const _mount = (
         <Autocomplete
           ref="autocomplete"
           v-model={state.value}
-          fetch-suggestions={querySearch}
-          {...state.payload}
+          {
+            ...{
+              ...props,
+              fetchSuggestions: props.fetchSuggestions || querySearch,
+            }
+          }
         />
       );
     },
@@ -76,7 +86,7 @@ describe('Autocomplete.vue', () => {
   });
 
   test('placeholder', async () => {
-    const wrapper = _mount();
+    const wrapper = doMount();
     await nextTick();
 
     await wrapper.setProps({ placeholder: 'autocomplete' });
@@ -88,7 +98,7 @@ describe('Autocomplete.vue', () => {
 
   test('triggerOnFocus', async () => {
     const fetchSuggestions = vi.fn();
-    const wrapper = _mount({
+    const wrapper = doMount({
       debounce: 10,
       fetchSuggestions,
     });
@@ -110,7 +120,7 @@ describe('Autocomplete.vue', () => {
   });
 
   test('popperClass', async () => {
-    const wrapper = _mount();
+    const wrapper = doMount();
     await nextTick();
 
     await wrapper.setProps({ popperClass: 'error' });
@@ -128,15 +138,15 @@ describe('Autocomplete.vue', () => {
   });
 
   test('teleported', async () => {
-    _mount({ teleported: false });
+    doMount({ teleported: false });
     expect(document.body.querySelector('.lp-popper__mask')).toBeNull();
   });
 
   test('debounce / fetchSuggestions', async () => {
     const fetchSuggestions = vi.fn();
-    const wrapper = _mount({
-      debounce: 10,
-      fetchSuggestions,
+    const wrapper = doMount({
+      debounce: 5,
+      fetchSuggestions: fetchSuggestions as any,
     });
     await nextTick();
 
@@ -146,6 +156,7 @@ describe('Autocomplete.vue', () => {
     await wrapper.find('input').trigger('blur');
     await wrapper.find('input').trigger('focus');
     await wrapper.find('input').trigger('blur');
+    await wrapper.find('input').trigger('focus');
     expect(fetchSuggestions).toHaveBeenCalledTimes(0);
     vi.runAllTimers();
     await nextTick();
@@ -159,7 +170,7 @@ describe('Autocomplete.vue', () => {
   });
 
   test('fetchSuggestions with fn-promise', async () => {
-    const wrapper = _mount({ debounce: 10 }, 'fn-promise');
+    const wrapper = doMount({ debounce: 10 }, 'fn-promise');
     await nextTick();
     await wrapper.find('input').trigger('focus');
     vi.runAllTimers();
@@ -173,7 +184,7 @@ describe('Autocomplete.vue', () => {
   });
 
   test('fetchSuggestions with fn-async', async () => {
-    const wrapper = _mount({ debounce: 10 }, 'fn-async');
+    const wrapper = doMount({ debounce: 10 }, 'fn-async');
     await nextTick();
     await wrapper.find('input').trigger('focus');
     vi.runAllTimers();
@@ -188,7 +199,7 @@ describe('Autocomplete.vue', () => {
   });
 
   test('fetchSuggestions with fn-arr', async () => {
-    const wrapper = _mount({ debounce: 10 }, 'fn-arr');
+    const wrapper = doMount({ debounce: 10 }, 'fn-arr');
     await nextTick();
     await wrapper.find('input').trigger('focus');
     vi.runAllTimers();
@@ -202,7 +213,7 @@ describe('Autocomplete.vue', () => {
   });
 
   test('fetchSuggestions with arr', async () => {
-    const wrapper = _mount({ debounce: 10 }, 'arr');
+    const wrapper = doMount({ debounce: 10 }, 'arr');
     await nextTick();
     await wrapper.find('input').trigger('focus');
     vi.runAllTimers();
@@ -216,7 +227,7 @@ describe('Autocomplete.vue', () => {
   });
 
   test('valueKey / modelValue', async () => {
-    const wrapper = _mount();
+    const wrapper = doMount();
     await nextTick();
 
     const target = wrapper.getComponent(Autocomplete).vm as InstanceType<
@@ -234,7 +245,7 @@ describe('Autocomplete.vue', () => {
   });
 
   test('hideLoading', async () => {
-    const wrapper = _mount({
+    const wrapper = doMount({
       hideLoading: false,
       fetchSuggestions: NOOP,
       debounce: 10,
@@ -250,7 +261,7 @@ describe('Autocomplete.vue', () => {
   });
 
   test('selectWhenUnmatched', async () => {
-    const wrapper = _mount({
+    const wrapper = doMount({
       selectWhenUnmatched: true,
       debounce: 10,
     });
@@ -268,7 +279,7 @@ describe('Autocomplete.vue', () => {
   });
 
   test('highlightFirstItem', async () => {
-    const wrapper = _mount({
+    const wrapper = doMount({
       highlightFirstItem: false,
       debounce: 10,
     });
@@ -290,7 +301,7 @@ describe('Autocomplete.vue', () => {
   });
 
   test('fitInputWidth', async () => {
-    const wrapper = _mount({
+    const wrapper = doMount({
       fitInputWidth: true,
     });
     await nextTick();
@@ -318,7 +329,7 @@ describe('Autocomplete.vue', () => {
   describe('teleported API', () => {
     it('should mount on popper container', async () => {
       expect(document.body.innerHTML).toBe('');
-      _mount();
+      doMount();
 
       await nextTick();
       expect(
@@ -328,7 +339,7 @@ describe('Autocomplete.vue', () => {
 
     it('should not mount on the popper container', async () => {
       expect(document.body.innerHTML).toBe('');
-      _mount({
+      doMount({
         teleported: false,
       });
 

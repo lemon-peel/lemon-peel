@@ -3,7 +3,7 @@ import { buildProps, isString } from '@lemon-peel/utils';
 import { useSizeProp } from '@lemon-peel/hooks';
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
 
-import type { ComputedRef, ExtractPropTypes, InjectionKey } from 'vue';
+import type { ComputedRef, ExtractPropTypes, InjectionKey, PropType } from 'vue';
 import type ColorPicker from './ColorPicker.vue';
 
 export const colorPickerProps = buildProps({
@@ -13,26 +13,13 @@ export const colorPickerProps = buildProps({
   colorFormat: String,
   disabled: Boolean,
   size: useSizeProp,
-  popperClass: {
-    type: String,
-    default: '',
-  },
-  label: {
-    type: String,
-    default: undefined,
-  },
-  tabindex: {
-    type: [String, Number],
-    default: 0,
-  },
-  predefine: {
-    type: Array as PropType<string[]>,
-  },
-  validateEvent: {
-    type: Boolean,
-    default: true,
-  },
+  popperClass: { type: String, default: '' },
+  label: { type: String, default: undefined },
+  tabindex: { type: [String, Number], default: 0 },
+  predefine: { type: Array as PropType<string[]> },
+  validateEvent: { type: Boolean, default: true },
 } as const);
+
 export const colorPickerEmits = {
   [UPDATE_MODEL_EVENT]: (value: string | null) => isString(value) || isNil(value),
   [CHANGE_EVENT]: (value: string | null) => isString(value) || isNil(value),
@@ -47,6 +34,4 @@ export interface ColorPickerContext {
   currentColor: ComputedRef<string>;
 }
 
-export const colorPickerContextKey: InjectionKey<ColorPickerContext> = Symbol(
-  'colorPickerContextKey',
-);
+export const colorPickerContextKey: InjectionKey<ColorPickerContext> = Symbol('colorPickerContextKey');

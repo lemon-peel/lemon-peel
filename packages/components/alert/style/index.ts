@@ -1,2 +1,2 @@
-import '@element-plus/components/base/style'
-import '@element-plus/theme-chalk/src/alert.scss'
+import '@lemon-peel/components/base/style';
+import '@lemon-peel/theme-chalk/src/alert.scss';

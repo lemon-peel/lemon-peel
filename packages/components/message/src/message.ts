@@ -77,6 +77,7 @@ export type MessageFn = {
   (options?: MessageParams, appContext?: null | AppContext): MessageHandler;
   closeAll(type?: MessageType): void;
 };
+
 export type MessageTypedFn = (
   options?: MessageParamsWithType,
   appContext?: null | AppContext

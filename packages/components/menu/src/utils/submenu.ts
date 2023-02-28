@@ -9,10 +9,6 @@ class SubMenu {
 
   constructor(public parent: MenuItem, public domNode: ParentNode) {
     this.subIndex = 0;
-    this.init();
-  }
-
-  init(): void {
     this.subMenuItems = this.domNode.querySelectorAll('li');
     this.addListeners();
   }
@@ -30,9 +26,9 @@ class SubMenu {
   addListeners(): void {
     const parentNode = this.parent.domNode;
     Array.prototype.forEach.call(this.subMenuItems, (el: Element) => {
-      el.addEventListener('keydown', (event: KeyboardEvent) => {
+      el.addEventListener('keydown', (event: Event) => {
         let prevDef = false;
-        switch (event.code) {
+        switch ((event as KeyboardEvent).code) {
           case EVENT_CODE.down: {
             this.gotoSubIndex(this.subIndex + 1);
             prevDef = true;
@@ -54,6 +50,7 @@ class SubMenu {
             break;
           }
         }
+
         if (prevDef) {
           event.preventDefault();
           event.stopPropagation();

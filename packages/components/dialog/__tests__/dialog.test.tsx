@@ -1,16 +1,30 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import { markRaw, nextTick } from 'vue';
 import { mount } from '@vue/test-utils';
 import { describe, expect, test, vi } from 'vitest';
 import { rAF } from '@lemon-peel/test-utils/tick';
-import triggerCompositeClick from '@lemon-peel/test-utils/compositeClick';
 import { Delete } from '@element-plus/icons-vue';
+import { merge } from 'lodash-es';
+import triggerCompositeClick from '@lemon-peel/test-utils/compositeClick';
 import Dialog from '../src/Dialog.vue';
+
+import type { MountingOptions } from '@vue/test-utils';
+import type { Mutable } from '@lemon-peel/utils';
+import type { DialogProps } from '../src/dialog';
 
 const AXIOM = 'Rem is the best girl';
 
+const doMount = (props: MountingOptions<Partial<Mutable<DialogProps>>>) => {
+  return mount(
+    Dialog,
+    merge({}, { props: { modelValue: true }, slots: { default: () => AXIOM } }, props),
+  );
+};
+
 describe('Dialog.vue', () => {
   test('render test', async () => {
-    const wrapper = mount(<Dialog modelValue={true}>{AXIOM}</Dialog>);
+    const wrapper = doMount({});
 
     await nextTick();
     await rAF();
@@ -21,20 +35,15 @@ describe('Dialog.vue', () => {
   test('dialog should have a title and header when it has been given', async () => {
     const HEADER = 'I am header';
     const wrapper = mount(
-      <Dialog
-        modelValue={true}
-        v-slots={{
-          header: () => HEADER,
-        }}
-      >
-        {AXIOM}
-      </Dialog>,
+      Dialog,
+      { props: { modelValue: true }, slots: { default: () => AXIOM, header: () => HEADER } },
     );
 
     await nextTick();
     expect(wrapper.find('.lp-dialog__header').text()).toBe(HEADER);
 
     mount(
+      Dialog,
       <Dialog modelValue={true} title={HEADER}>
         {AXIOM}
       </Dialog>,
@@ -45,30 +54,13 @@ describe('Dialog.vue', () => {
   });
 
   test('dialog header should have slot props', async () => {
-    const wrapper = mount(
-      <Dialog
-        modelValue={true}
-        v-slots={{
-          header: ({
-            titleId,
-            titleClass,
-            close,
-          }: {
-            titleId: string;
-            titleClass: string;
-            close: () => void;
-          }) => (
-            <button
-              data-title-id={titleId}
-              data-title-class={titleClass}
-              onClick={close}
-            />
-          ),
-        }}
-      >
-        {AXIOM}
-      </Dialog>,
-    );
+    const wrapper = doMount({
+      slots: {
+        header: ({ titleId, titleClass, close }: { titleId: string, titleClass: string, close: () => void }) => (
+          <button data-title-id={titleId} data-title-class={titleClass} onClick={close} />
+        ),
+      },
+    });
 
     await nextTick();
     const headerButton = wrapper.find('button');
@@ -83,11 +75,9 @@ describe('Dialog.vue', () => {
   });
 
   test('dialog should have a footer when footer has been given', async () => {
-    const wrapper = mount(
-      <Dialog modelValue={true} v-slots={{ footer: () => AXIOM }}>
-        {AXIOM}
-      </Dialog>,
-    );
+    const wrapper = doMount({
+      slots: { footer: () => AXIOM },
+    });
 
     await nextTick();
     expect(wrapper.find('.lp-dialog__footer').exists()).toBe(true);
@@ -95,11 +85,7 @@ describe('Dialog.vue', () => {
   });
 
   test('should append dialog to body when appendToBody is true', async () => {
-    const wrapper = mount(
-      <Dialog modelValue={true} appendToBody={true}>
-        {AXIOM}
-      </Dialog>,
-    );
+    const wrapper = doMount({ props: { appendToBody: true } });
 
     await nextTick();
     expect(
@@ -109,36 +95,28 @@ describe('Dialog.vue', () => {
   });
 
   test('should center dialog', async () => {
-    const wrapper = mount(
-      <Dialog modelValue={true} center={true}>
-        {AXIOM}
-      </Dialog>,
-    );
+    const wrapper = doMount({ props: { center: true } });
 
     await nextTick();
     expect(wrapper.find('.lp-dialog--center').exists()).toBe(true);
   });
 
   test('should show close button', async () => {
-    const wrapper = mount(<Dialog modelValue={true}>{AXIOM}</Dialog>);
+    const wrapper = doMount({});
 
     await nextTick();
     expect(wrapper.find('.lp-dialog__close').exists()).toBe(true);
   });
 
   test('should hide close button when showClose = false', async () => {
-    const wrapper = mount(
-      <Dialog modelValue={true} showClose={false}>
-        {AXIOM}
-      </Dialog>,
-    );
+    const wrapper = doMount({ props: { showClose: false } });
 
     await nextTick();
     expect(wrapper.find('.lp-dialog__headerbtn').exists()).toBe(false);
   });
 
   test('should close dialog when click on close button', async () => {
-    const wrapper = mount(<Dialog modelValue={true}>{AXIOM}</Dialog>);
+    const wrapper = doMount({});
 
     await nextTick();
     await wrapper.find('.lp-dialog__headerbtn').trigger('click');
@@ -147,18 +125,14 @@ describe('Dialog.vue', () => {
 
   describe('mask related', () => {
     test('should not have overlay mask when mask is false', async () => {
-      const wrapper = mount(
-        <Dialog modal={false} modelValue={true}>
-          {AXIOM}
-        </Dialog>,
-      );
+      const wrapper = doMount({ props: { modal: false } });
 
       await nextTick();
       expect(wrapper.find('.lp-overlay').exists()).toBe(false);
     });
 
     test('should close the modal when clicking on mask when `closeOnClickModal` is true', async () => {
-      const wrapper = mount(<Dialog modelValue={true}>{AXIOM}</Dialog>);
+      const wrapper = doMount({});
 
       await nextTick();
       expect(wrapper.find('.lp-overlay').exists()).toBe(true);
@@ -172,11 +146,7 @@ describe('Dialog.vue', () => {
   describe('life cycles', () => {
     test('should call before close', async () => {
       const beforeClose = vi.fn();
-      const wrapper = mount(
-        <Dialog modelValue={true} beforeClose={beforeClose}>
-          {AXIOM}
-        </Dialog>,
-      );
+      const wrapper = doMount({ props: { beforeClose } });
 
       await nextTick();
       await wrapper.find('.lp-dialog__headerbtn').trigger('click');
@@ -188,11 +158,7 @@ describe('Dialog.vue', () => {
         .fn()
         .mockImplementation((hide: (cancel: boolean) => void) => hide(true));
 
-      const wrapper = mount(
-        <Dialog modelValue={true} beforeClose={beforeClose}>
-          {AXIOM}
-        </Dialog>,
-      );
+      const wrapper = doMount({ props: { beforeClose } });
       await nextTick();
       await wrapper.find('.lp-dialog__headerbtn').trigger('click');
       expect(beforeClose).toHaveBeenCalled();
@@ -200,11 +166,7 @@ describe('Dialog.vue', () => {
     });
 
     test('should open and close with delay', async () => {
-      const wrapper = mount(
-        <Dialog openDelay={200} closeDelay={200} modelValue={false}>
-          {AXIOM}
-        </Dialog>,
-      );
+      const wrapper = doMount({ props: { openDelay: 200, closeDelay: 200 } });
 
       expect(wrapper.vm.visible).toBe(false);
 
@@ -214,11 +176,7 @@ describe('Dialog.vue', () => {
     });
 
     test('should destroy on close', async () => {
-      const wrapper = mount(
-        <Dialog modelValue={true} destroyOnClose={true}>
-          {AXIOM}
-        </Dialog>,
-      );
+      const wrapper = doMount({ props:{ destroyOnClose: true } });
       expect(wrapper.vm.visible).toBe(true);
       await nextTick();
       await rAF();
@@ -239,16 +197,13 @@ describe('Dialog.vue', () => {
       let visible = true;
       const onClose = vi.fn();
       const onClosed = vi.fn();
-      const wrapper = mount(
-        <Dialog
-          modelValue={true}
-          onUpdate:modelValue={(value: boolean) => (visible = value)}
-          onClose={onClose}
-          onClosed={onClosed}
-        >
-          {AXIOM}
-        </Dialog>,
-      );
+      const wrapper = doMount({
+        props: {
+          ['onUpdate:modelValue']: (value: boolean) => (visible = value),
+          onClose,
+          onClosed,
+        },
+      });
 
       expect(wrapper.vm.visible).toBe(true);
       await nextTick();
@@ -265,11 +220,7 @@ describe('Dialog.vue', () => {
     });
 
     test('closeIcon', async () => {
-      const wrapper = mount(
-        <Dialog modelValue={true} closeIcon={markRaw(Delete)}>
-          {AXIOM}
-        </Dialog>,
-      );
+      const wrapper = doMount({ props: { closeIcon: markRaw(Delete) } });
       await nextTick();
       await rAF();
       const closeIcon = wrapper.find('svg');
@@ -279,11 +230,7 @@ describe('Dialog.vue', () => {
     });
 
     test('should render draggable prop', async () => {
-      const wrapper = mount(
-        <Dialog modelValue={true} draggable={true}>
-          {AXIOM}
-        </Dialog>,
-      );
+      const wrapper = doMount({ props: { draggable: true } });
 
       await nextTick();
       await rAF();
@@ -295,11 +242,7 @@ describe('Dialog.vue', () => {
   describe('accessibility', () => {
     test('title attribute should set aria-label', async () => {
       const title = 'Hello World';
-      const wrapper = mount(
-        <Dialog modelValue={true} title={title}>
-          {AXIOM}
-        </Dialog>,
-      );
+      const wrapper = doMount({ props: { title } });
       await nextTick();
       const dialog = wrapper.find('[role="dialog"]');
       expect(dialog.attributes()['aria-label']).toBe(title);
@@ -307,22 +250,17 @@ describe('Dialog.vue', () => {
     });
 
     test('missing title attribute should point to header slot content', async () => {
-      const wrapper = mount(
-        <Dialog
-          modelValue={true}
-          v-slots={{
-            header: ({
-              titleId,
-              titleClass,
-            }: {
-              titleId: string;
-              titleClass: string;
-            }) => <h5 id={titleId} class={titleClass} />,
-          }}
-        >
-          {AXIOM}
-        </Dialog>,
-      );
+      const wrapper = doMount({
+        slots: {
+          header: ({
+            titleId,
+            titleClass,
+          }: {
+            titleId: string;
+            titleClass: string;
+          }) => <h5 id={titleId} class={titleClass} />,
+        },
+      });
       await nextTick();
       const dialog = wrapper.find('[role="dialog"]');
       const dialogTitle = wrapper.find('.lp-dialog__title');
@@ -333,7 +271,7 @@ describe('Dialog.vue', () => {
     });
 
     test('aria-describedby should point to modal body', async () => {
-      const wrapper = mount(<Dialog modelValue={true}>{AXIOM}</Dialog>);
+      const wrapper = mount({});
       await nextTick();
       const dialog = wrapper.find('[role="dialog"]');
       const dialogBody = wrapper.find('.lp-dialog__body');

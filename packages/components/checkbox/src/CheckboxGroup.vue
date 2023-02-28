@@ -33,6 +33,7 @@ const emit = defineEmits(checkboxGroupEmits);
 const ns = useNamespace('checkbox');
 
 const { formItem } = useFormItem();
+
 const { inputId: groupId, isLabeledByFormItem } = useFormItemInputId(props, {
   formItemContext: formItem,
 });

@@ -19,8 +19,8 @@
         <lp-focus-trap
           loop
           :trapped="visible"
-          :focus-trap-el="rootRef!"
-          :focus-start-el="focusStartRef"
+          :focus-trap-el="rootRef as HTMLElement"
+          :focus-start-el="focusStartRef as HTMLElement"
           @release-requested="onCloseRequested"
         >
           <div
@@ -101,7 +101,7 @@
                   :placeholder="inputPlaceholder"
                   :aria-invalid="validateError"
                   :class="{ invalid: validateError }"
-                  @keydown.enter="handleInputEnter"
+                  @keydown.enter="handleInputEnter as any"
                 />
                 <div
                   :class="ns.e('errormsg')"
@@ -158,7 +158,7 @@ import { TypeComponents, TypeComponentsMap, isValidComponentSize } from '@lemon-
 import { LpIcon } from '@lemon-peel/components/icon';
 import LpFocusTrap from '@lemon-peel/components/focusTrap';
 
-import type { Component, ComponentPublicInstance, PropType, ToRefs  } from 'vue';
+import type { Component, ComponentPublicInstance, PropType, ToRefs, Ref } from 'vue';
 import type { ComponentSize } from '@lemon-peel/constants';
 import type { Action, MessageBoxState, MessageBoxType } from './messageBox.type';
 
@@ -287,9 +287,9 @@ export default defineComponent({
     );
 
     const hasMessage = computed(() => !!state.message);
-    const rootRef = ref<HTMLElement>();
-    const headerRef = ref<HTMLElement>();
-    const focusStartRef = ref<HTMLElement>();
+    const rootRef: Ref<HTMLElement> = ref(null as any);
+    const headerRef: Ref<HTMLElement> = ref(null as any);
+    const focusStartRef = ref<HTMLElement | null>(null);
     const inputRef = ref<ComponentPublicInstance>(null as any);
     const confirmRef = ref<ComponentPublicInstance>();
 

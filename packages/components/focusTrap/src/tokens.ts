@@ -16,7 +16,7 @@ export const ON_TRAP_FOCUS_EVT = 'focusAfterTrapped';
 export const ON_RELEASE_FOCUS_EVT = 'focusAfterReleased';
 
 export type FocusTrapInjectionContext = {
-  focusTrapRef: Ref<HTMLElement | undefined>;
+  focusTrapRef: Ref<HTMLElement | null>;
   onKeydown: (e: KeyboardEvent) => void;
 };
 

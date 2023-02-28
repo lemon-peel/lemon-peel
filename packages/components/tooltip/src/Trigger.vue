@@ -22,8 +22,10 @@ import { inject, ref, toRef, unref } from 'vue';
 import { composeEventHandlers } from '@lemon-peel/utils';
 import { useNamespace } from '@lemon-peel/hooks';
 import { TOOLTIP_INJECTION_KEY } from '@lemon-peel/tokens';
+import { LpPopperTrigger } from '@lemon-peel/components/popper';
 import { useTooltipTriggerProps } from './trigger';
 import { whenTrigger } from './utils';
+
 
 defineOptions({
   name: 'LpTooltipTrigger',

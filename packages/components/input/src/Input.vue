@@ -228,11 +228,13 @@ const containerStyle = computed<StyleValue>(() => [
   rawAttrs.style as StyleValue,
   props.inputStyle,
 ]);
-const textareaStyle = computed<StyleValue>(() => [
+
+const textareaStyle = computed(() => ([
   props.inputStyle,
   textareaCalcStyle.value,
   { resize: props.resize },
-]);
+] as StyleValue[]));
+
 const nativeInputValue = computed(() =>
   isNil(props.modelValue) ? '' : String(props.modelValue),
 );

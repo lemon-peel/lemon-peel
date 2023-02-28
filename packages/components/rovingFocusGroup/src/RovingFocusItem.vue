@@ -129,7 +129,7 @@ export default defineComponent({
     const isCurrentTab = computed(() => currentTabbedId.value === unref(id));
 
     provide(ROVING_FOCUS_GROUP_ITEM_INJECTION_KEY, {
-      rovingFocusGroupItemRef,
+      rovingFocusGroupItemRef: rovingFocusGroupItemRef as any,
       tabIndex: computed(() => (unref(isCurrentTab) ? 0 : -1)),
       handleMousedown,
       handleFocus,

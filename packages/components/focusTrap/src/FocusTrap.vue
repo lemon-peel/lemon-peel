@@ -20,10 +20,7 @@ export default defineComponent({
   props: {
     loop: Boolean,
     trapped: Boolean,
-    focusTrapEl: {
-      type: Object as PropType<HTMLElement>,
-      required: true,
-    },
+    focusTrapEl: { type: Object as PropType<HTMLElement | null>, default: undefined },
     focusStartEl: {
       type: [Object, String] as PropType<'container' | 'first' | HTMLElement>,
       default: 'first',
@@ -38,7 +35,7 @@ export default defineComponent({
     'release-requested',
   ],
   setup(props, { emit }) {
-    const forwardRef = ref<HTMLElement | undefined>();
+    const forwardRef = ref<HTMLElement | null>();
     let lastFocusBeforeTrapped: HTMLElement | null;
     let lastFocusAfterTrapped: HTMLElement | null;
 

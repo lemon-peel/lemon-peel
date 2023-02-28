@@ -89,7 +89,7 @@ const mouseMoveDocumentHandler = (e: MouseEvent) => {
 
 const restoreOnselectstart = () => {
   if (document.onselectstart !== originalOnSelectStart)
-    document.addEventListener('selectstart', originalOnSelectStart);
+    document.addEventListener('selectstart', originalOnSelectStart as any);
 };
 
 const mouseUpDocumentHandler = () => {
@@ -144,7 +144,7 @@ const clickTrackHandler = (e: MouseEvent) => {
 
 const mouseMoveScrollbarHandler = () => {
   cursorLeave = false;
-  visible.value = props.size > 0;
+  visible.value = +(props.size || 0) > 0;
 };
 
 const mouseLeaveScrollbarHandler = () => {

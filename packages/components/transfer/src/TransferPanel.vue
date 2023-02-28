@@ -39,7 +39,7 @@
           :disabled="item[propsAlias.disabled]"
           :validate-event="false"
         >
-          <option-content :option="optionRender?.(item)" />
+          <option-content :option="optionRender(item)" />
         </lp-checkbox>
       </lp-checkbox-group>
       <p v-show="hasNoMatch || isEmpty(data)" :class="ns.be('panel', 'empty')">

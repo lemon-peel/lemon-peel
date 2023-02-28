@@ -11,9 +11,22 @@ import type { RadioProps } from '../src/radio';
 describe('Radio', () => {
   test('create', async () => {
     const radio = ref('');
-    const wrapper = mount(() => <Radio v-model={radio.value} label="a" />);
+    const wrapper = mount(Radio as any, {
+      props: {
+        label: 'a',
+        modelValue: radio.value,
+        'onUpdate:modelValue': (val: string) => {
+          console.log(val);
+          radio.value = val;
+        },
+        onClick: (val: string) => { console.info(1, val); },
+        onChange: (val: string) => { console.info(1, val); },
+      },
+    });
+
     expect(wrapper.classes()).toContain('lp-radio');
     await wrapper.trigger('click');
+    console.info(navigator.userAgent);
     expect(wrapper.classes()).toContain('is-checked');
   });
 

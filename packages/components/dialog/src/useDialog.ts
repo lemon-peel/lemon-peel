@@ -10,7 +10,7 @@ import type { DialogEmits, DialogProps } from './dialog';
 
 export const useDialog = (
   props: DialogProps,
-  targetRef: Ref<HTMLElement | undefined>,
+  targetRef: Ref<HTMLElement | null>,
 ) => {
   const instance = getCurrentInstance()!;
   const emit = instance.emit as SetupContext<DialogEmits>['emit'];

@@ -2,6 +2,7 @@
 import { NOOP } from '@vue/shared';
 import { buildProps, isObject, isString } from '@lemon-peel/utils';
 import { useTooltipContentProps } from '@lemon-peel/components/tooltip';
+import { placements } from '@popperjs/core';
 import { CHANGE_EVENT, INPUT_EVENT, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
 
 import type { ExtractPropTypes, PropType } from 'vue';
@@ -30,20 +31,13 @@ export const autocompleteProps = buildProps({
   triggerOnFocus: { type: Boolean, default: true },
   selectWhenUnmatched: { type: Boolean, default: false },
   hideLoading: { type: Boolean, default: false },
-  label: { type: String, required: true },
+  label: { type: String },
   teleported: useTooltipContentProps.teleported,
   highlightFirstItem: { type: Boolean, default: false },
   fitInputWidth: { type: Boolean, default: false },
   placement: {
     type: String as PropType<Placement>,
-    values: [
-      'top',
-      'top-start',
-      'top-end',
-      'bottom',
-      'bottom-start',
-      'bottom-end',
-    ],
+    values: placements,
     default: 'bottom-start',
   },
 });

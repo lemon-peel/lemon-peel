@@ -62,18 +62,8 @@ const props = defineProps(useTooltipContentProps);
 // TODO any is temporary, replace with `InstanceType<typeof LpPopperContent> | null` later
 const contentRef = ref<any>(null);
 const destroyed = ref(false);
-const {
-  controlled,
-  id,
-  open,
-  trigger,
-  onClose,
-  onOpen,
-  onShow,
-  onHide,
-  onBeforeShow,
-  onBeforeHide,
-} = inject(TOOLTIP_INJECTION_KEY)!;
+const { controlled, id, open, trigger, onClose, onOpen, onShow, onHide, onBeforeShow, onBeforeHide } = inject(TOOLTIP_INJECTION_KEY)!;
+
 const persistentRef = computed(() => {
   // For testing, we would always want the content to be rendered
   // to the DOM, so we need to return true here.

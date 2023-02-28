@@ -10,6 +10,7 @@ import Form from '../src/Form.vue';
 import FormItem from '../src/FormItem.vue';
 import DynamicDomainForm, { formatDomainError } from '../mocks/mock-data';
 
+import type { MockedFunction } from 'vitest';
 import type { VueWrapper } from '@vue/test-utils';
 import type { FormRules } from '@lemon-peel/tokens';
 
@@ -57,7 +58,7 @@ describe('Form', () => {
             ref="form"
             model={form}
             labelWidth="auto"
-            labelPosition={labelPosition.value}
+            labelPosition={labelPosition.value as any}
           >
             <FormItem label="Name">
               <Input v-model={form.name} />
@@ -480,8 +481,6 @@ describe('Form', () => {
             ref="formRef"
             model={form}
             rules={rules}
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
             onSubmit="return false"
           >
             <FormItem prop="name" label="name">
@@ -555,7 +554,7 @@ describe('Form', () => {
     const onSuccess = vi.fn();
     const onError = vi.fn();
     let wrapper: VueWrapper<InstanceType<typeof DynamicDomainForm>>;
-    const createComponent = (onSubmit?: vi.MockedFunction<any>) => {
+    const createComponent = (onSubmit?: MockedFunction<any>) => {
       wrapper = mount(DynamicDomainForm, {
         props: {
           onSuccess,

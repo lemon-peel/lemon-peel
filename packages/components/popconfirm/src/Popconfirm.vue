@@ -26,16 +26,16 @@
         <div :class="ns.e('action')">
           <lp-button
             size="small"
-            :type="cancelButtonType === 'text' ? '' : cancelButtonType"
-            :text="cancelButtonType === 'text'"
+            :type="cancelButtonType"
+            :text="false"
             @click="cancel"
           >
             {{ finalCancelButtonText }}
           </lp-button>
           <lp-button
             size="small"
-            :type="confirmButtonType === 'text' ? '' : confirmButtonType"
-            :text="confirmButtonType === 'text'"
+            :type="confirmButtonType"
+            :text="false"
             @click="confirm"
           >
             {{ finalConfirmButtonText }}

@@ -35,9 +35,7 @@ export default defineComponent({
     const { dropdownSize } = useDropdown();
     const size = dropdownSize.value;
 
-    const { focusTrapRef, onKeydown } = inject(
-      FOCUS_TRAP_INJECTION_KEY,
-    )!;
+    const { focusTrapRef, onKeydown } = inject(FOCUS_TRAP_INJECTION_KEY)!;
 
     const { contentRef, role, triggerId } = inject(
       DROPDOWN_INJECTION_KEY,

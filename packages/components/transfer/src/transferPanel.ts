@@ -17,7 +17,7 @@ export const CHECKED_CHANGE_EVENT = 'checked-change';
 
 export const transferPanelProps = buildProps({
   data: transferProps.data,
-  optionRender: { type: Function as PropType<(option: TransferDataItem) => VNode | VNode[]> },
+  optionRender: { type: Function as PropType<(option: TransferDataItem) => VNode | VNode[]>, required: true },
   placeholder: String,
   title: String,
   filterable: Boolean,
@@ -26,6 +26,7 @@ export const transferPanelProps = buildProps({
   defaultChecked: transferProps.leftDefaultChecked,
   props: transferProps.props,
 } as const);
+
 export type TransferPanelProps = ExtractPropTypes<typeof transferPanelProps>;
 
 export const transferPanelEmits = {

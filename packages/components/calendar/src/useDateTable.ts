@@ -47,15 +47,15 @@ export const useDateTable = (
       );
       days = currentMonthRange.concat(nextMonthRange);
     } else {
-      const firstDay = props.date.startOf('month').day();
+      const firstDay = props.date!.startOf('month').day();
       const previousMonthDays: CalendarDateCell[] = getPreviousMonthLastDays(
-        props.date,
+        props.date!,
         (firstDay - firstDayOfWeek + 7) % 7,
       ).map(day => ({
         text: day,
         type: 'prev',
       }));
-      const currentMonthDays: CalendarDateCell[] = getMonthDays(props.date).map(
+      const currentMonthDays: CalendarDateCell[] = getMonthDays(props.date!).map(
         day => ({
           text: day,
           type: 'current',
@@ -84,13 +84,13 @@ export const useDateTable = (
   const getFormattedDate = (day: number, type: CalendarDateCellType): Dayjs => {
     switch (type) {
       case 'prev': {
-        return props.date.startOf('month').subtract(1, 'month').date(day);
+        return props.date!.startOf('month').subtract(1, 'month').date(day);
       }
       case 'next': {
-        return props.date.startOf('month').add(1, 'month').date(day);
+        return props.date!.startOf('month').add(1, 'month').date(day);
       }
       case 'current': {
-        return props.date.date(day);
+        return props.date!.date(day);
       }
     }
   };

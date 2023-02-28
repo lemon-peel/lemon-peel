@@ -3,14 +3,9 @@ import { EVENT_CODE } from '@lemon-peel/constants';
 import SubMenu from './submenu';
 
 class MenuItem {
-  public submenu: SubMenu = null;
+  public submenu: SubMenu | null = null;
 
   constructor(public domNode: HTMLElement, namespace: string) {
-    this.submenu = null;
-    this.init(namespace);
-  }
-
-  init(namespace: string): void {
     this.domNode.setAttribute('tabindex', '0');
     const menuChild = this.domNode.querySelector(`.${namespace}-menu`);
     if (menuChild) {

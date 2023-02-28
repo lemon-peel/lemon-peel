@@ -96,7 +96,7 @@ const { dragState } = useDragNodeHandler({
   store,
 });
 
-useKeydown({ elRef: elRef as any }, store);
+useKeydown({ elRef }, store);
 
 const isEmpty = computed(() => {
   const { childNodes } = root.value;

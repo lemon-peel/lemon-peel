@@ -1,5 +1,5 @@
 import { placements } from '@popperjs/core';
-import { isValidComponentSize } from '@lemon-peel/utils';
+import { buildProps, isValidComponentSize } from '@lemon-peel/utils';
 import { useTooltipContentProps } from '@lemon-peel/components/tooltip';
 import { CircleClose } from '@element-plus/icons-vue';
 import type { Component, PropType } from 'vue';
@@ -52,13 +52,18 @@ export const selectProps = {
   placement: { type: String as PropType<Placement>, values: placements, default: 'bottom-start' },
 };
 
-export const optionProps = {
+export type OptionItem = {
+  label: string;
+  value: any;
+};
+
+export const optionProps = buildProps({
   data: Array,
   disabled: Boolean,
   hovering: Boolean,
-  item: Object,
+  item: { type: Object as PropType<OptionItem>, required: true },
   index: Number,
   style: Object,
   selected: Boolean,
   created: Boolean,
-};
+});

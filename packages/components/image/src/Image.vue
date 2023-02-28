@@ -82,12 +82,9 @@ let stopWheelListener: (() => void) | undefined;
 
 const containerStyle = computed(() => rawAttrs.style as StyleValue);
 
-const imageStyle = computed<CSSProperties>(() => {
+const imageStyle = computed(() => {
   const { fit } = props;
-  if (isClient && fit) {
-    return { objectFit: fit };
-  }
-  return {};
+  return (isClient && fit ? { objectFit: fit } : {}) as CSSProperties;
 });
 
 const preview = computed(() => {
