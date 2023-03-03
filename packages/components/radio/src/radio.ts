@@ -4,25 +4,12 @@ import { useSizeProp } from '@lemon-peel/hooks';
 import type { ExtractPropTypes } from 'vue';
 import type Radio from './Radio.vue';
 
-export const radioPropsBase = buildProps({
+export const radioProps = buildProps({
   size: useSizeProp,
   disabled: Boolean,
-  label: {
-    type: [String, Number, Boolean],
-    default: '',
-  },
-});
-
-export const radioProps = buildProps({
-  ...radioPropsBase,
-  modelValue: {
-    type: [String, Number, Boolean],
-    default: '',
-  },
-  name: {
-    type: String,
-    default: '',
-  },
+  label: { type: [String, Number, Boolean], default: '' },
+  value: { type: [String, Number, Boolean], default: '' },
+  name: { type: String, required: true },
   border: Boolean,
 } as const);
 

@@ -2,7 +2,7 @@ import { computed } from 'vue';
 import dayjs from 'dayjs';
 import localeData from 'dayjs/plugin/localeData.js';
 
-import { useLocale } from '@lemon-peel/hooks';
+import { useLocale } from '@lemon-peel/hooks/src';
 import { rangeArr } from '@lemon-peel/components/timePicker';
 import { WEEK_DAYS } from '@lemon-peel/constants';
 

@@ -1,6 +1,6 @@
 import { computed, inject, onMounted, onUnmounted, ref, toRef, watch } from 'vue';
 import { formContextKey, formItemContextKey } from '@lemon-peel/tokens';
-import { useId } from '../useId';
+import { useId } from './useId';
 
 import type { FormItemContext } from '@lemon-peel/tokens';
 import type { ComputedRef, Ref, WatchStopHandle } from 'vue';

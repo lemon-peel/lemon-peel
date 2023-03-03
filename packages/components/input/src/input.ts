@@ -1,7 +1,7 @@
 import { isString } from '@vue/shared';
 import { buildProps, iconPropType, mutable } from '@lemon-peel/utils';
 import { UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
-import { useSizeProp } from '@lemon-peel/hooks';
+import { useSizeProp } from '@lemon-peel/hooks/src';
 import type Input from './Input.vue';
 import type { ExtractPropTypes, PropType, StyleValue } from 'vue';
 

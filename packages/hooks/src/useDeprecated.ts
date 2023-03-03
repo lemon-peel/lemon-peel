@@ -28,8 +28,6 @@ For more detail, please visit: ${ref}
         );
       }
     },
-    {
-      immediate: true,
-    },
+    { immediate: true },
   );
 };

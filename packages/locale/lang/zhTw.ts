@@ -1,6 +1,6 @@
 export default {
   name: 'zh-tw',
-  el: {
+  lp: {
     colorpicker: {
       confirm: '確認',
       clear: '清空',
@@ -154,4 +154,4 @@ export default {
       cancelButtonText: '取消',
     },
   },
-}
+};

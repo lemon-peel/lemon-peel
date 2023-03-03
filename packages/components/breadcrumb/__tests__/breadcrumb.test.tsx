@@ -7,7 +7,7 @@ import Breadcrumb from '../src/Breadcrumb.vue';
 import BreadcrumbItem from '../src/BreadcrumbItem.vue';
 import type { VNode } from 'vue';
 
-const _mount = (render: () => VNode, $router = {}) =>
+const doMount = (render: () => VNode, $router = {}) =>
   mount(render, {
     global: {
       provide: {
@@ -23,7 +23,7 @@ const _mount = (render: () => VNode, $router = {}) =>
 
 describe('Breadcrumb.vue', () => {
   it('separator', () => {
-    const wrapper = _mount(() => (
+    const wrapper = doMount(() => (
       <Breadcrumb separator="?">
         <BreadcrumbItem>A</BreadcrumbItem>
       </Breadcrumb>
@@ -32,7 +32,7 @@ describe('Breadcrumb.vue', () => {
   });
 
   it('separatorIcon', () => {
-    const wrapper = _mount(() => (
+    const wrapper = doMount(() => (
       <Breadcrumb separatorIcon={Check}>
         <BreadcrumbItem>A</BreadcrumbItem>
       </Breadcrumb>
@@ -42,7 +42,7 @@ describe('Breadcrumb.vue', () => {
   });
 
   it('to', () => {
-    const wrapper = _mount(() => (
+    const wrapper = doMount(() => (
       <Breadcrumb separator="?" separatorIcon={Check}>
         <BreadcrumbItem to="/index">A</BreadcrumbItem>
       </Breadcrumb>
@@ -51,14 +51,14 @@ describe('Breadcrumb.vue', () => {
   });
 
   it('single', () => {
-    const wrapper = _mount(() => <BreadcrumbItem>A</BreadcrumbItem>);
+    const wrapper = doMount(() => <BreadcrumbItem>A</BreadcrumbItem>);
     expect(wrapper.find('.lp-breadcrumb__inner').text()).toBe('A');
     expect(wrapper.find('.lp-breadcrumb__separator').text()).toBe('');
   });
 
   describe('BreadcrumbItem', () => {
     it('should set the last item as current page', () => {
-      const wrapper = _mount(() => (
+      const wrapper = doMount(() => (
         <Breadcrumb>
           <BreadcrumbItem>A</BreadcrumbItem>
           <BreadcrumbItem>B</BreadcrumbItem>
@@ -72,7 +72,7 @@ describe('Breadcrumb.vue', () => {
     it('click event', async () => {
       const replace = vi.fn();
       const push = vi.fn();
-      let wrapper = _mount(
+      let wrapper = doMount(
         () => (
           <Breadcrumb>
             <BreadcrumbItem to="/path">A</BreadcrumbItem>
@@ -86,7 +86,7 @@ describe('Breadcrumb.vue', () => {
       await wrapper.find('.lp-breadcrumb__inner').trigger('click');
       expect(push).toHaveBeenCalled();
       wrapper.unmount();
-      wrapper = _mount(
+      wrapper = doMount(
         () => (
           <Breadcrumb>
             <BreadcrumbItem to="/path" replace>

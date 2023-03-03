@@ -19,6 +19,7 @@
     "dev": "pnpm -C serve dev",
     "test": "vitest",
     "test:ui": "vitest --ui",
+    "test:browser": "vitest --browser",
     "test:coverage": "vitest --coverage",
     "test:ssr": "vitest --config ./ssr-testing/vitest.config.ts",
     "stub": "pnpm run -r --parallel stub",
@@ -45,6 +46,7 @@
     "@lemon-peel/tokens": "workspace:*",
     "@lemon-peel/utils": "workspace:*",
     "@popperjs/core": "^2.11.6",
+    "@vitest/browser": "^0.29.1",
     "@vue/shared": "^3.2.45",
     "@vueuse/core": "^9.10.0",
     "async-validator": "^4.2.5",
@@ -56,6 +58,7 @@
     "normalize-wheel-es": "^1.2.0"
   },
   "devDependencies": {
+    "@edge-runtime/vm": "^2.0.5",
     "@lemon-peel/build-utils": "workspace:*",
     "@lemon-peel/unplugin-resolver": "workspace:*",
     "@lemonbot.fun/eslint-config-vue": "^2.6.0",
@@ -81,6 +84,7 @@
     "expect-type": "^0.15.0",
     "fast-glob": "^3.2.12",
     "gulp": "^4.0.2",
+    "happy-dom": "^8.9.0",
     "jsdom": "^21.1.0",
     "pinia": "^2.0",
     "resize-observer-polyfill": "^1.5.1",
@@ -93,7 +97,7 @@
     "unplugin-vue-define-options": "^1.1.1",
     "unplugin-vue-macros": "^1.0.3",
     "vite": "^4.1.4",
-    "vitest": "^0.27.2",
+    "vitest": "^0.29.1",
     "vue": "^3.2.0",
     "vue-router": "^4.1.0"
   },

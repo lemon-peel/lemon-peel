@@ -1,6 +1,6 @@
 export default {
   name: 'ug-cn',
-  el: {
+  lp: {
     colorpicker: {
       confirm: 'جەزملەش',
       clear: 'قۇرۇقداش',
@@ -118,4 +118,4 @@ export default {
       cancelButtonText: 'No', // to be translated
     },
   },
-}
+};

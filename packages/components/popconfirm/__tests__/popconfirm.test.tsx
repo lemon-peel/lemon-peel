@@ -2,7 +2,7 @@ import { nextTick } from 'vue';
 import { mount } from '@vue/test-utils';
 import { afterEach, describe, expect, it } from 'vitest';
 import { rAF } from '@lemon-peel/test-utils/tick';
-import { POPPER_CONTAINER_SELECTOR } from '@lemon-peel/hooks';
+import { POPPER_CONTAINER_SELECTOR } from '@lemon-peel/hooks/src';
 import Popconfirm from '../src/Popconfirm.vue';
 
 const AXIOM = 'rem is the best girl';

@@ -5,7 +5,7 @@ import { useTimeoutFn } from '@vueuse/core';
 import { buildProps, iconPropType, isString, throwError } from '@lemon-peel/utils';
 import { ArrowDown, ArrowRight } from '@element-plus/icons-vue';
 import { LpIcon } from '@lemon-peel/components/icon';
-import { useNamespace } from '@lemon-peel/hooks';
+import { useNamespace } from '@lemon-peel/hooks/src';
 import LpCollapseTransition from '@lemon-peel/components/collapseTransition';
 import LpTooltip from '@lemon-peel/components/tooltip';
 

@@ -13,7 +13,7 @@
         >
           <div
             v-if="icon || $slots.icon"
-            :aria-label="title || t('el.pageHeader.title')"
+            :aria-label="title || t('lp.pageHeader.title')"
             :class="ns.e('icon')"
           >
             <slot name="icon">
@@ -23,7 +23,7 @@
             </slot>
           </div>
           <div :class="ns.e('title')">
-            <slot name="title">{{ title || t('el.pageHeader.title') }}</slot>
+            <slot name="title">{{ title || t('lp.pageHeader.title') }}</slot>
           </div>
         </div>
         <lp-divider direction="vertical" />

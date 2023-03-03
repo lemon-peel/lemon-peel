@@ -1,6 +1,6 @@
 export default {
   name: 'es',
-  el: {
+  lp: {
     colorpicker: {
       confirm: 'Confirmar',
       clear: 'Despejar',
@@ -117,4 +117,4 @@ export default {
       cancelButtonText: 'No',
     },
   },
-}
+};

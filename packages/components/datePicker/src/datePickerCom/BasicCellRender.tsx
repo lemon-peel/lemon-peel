@@ -1,6 +1,6 @@
 import { defineComponent, inject } from 'vue';
 import { ROOT_PICKER_INJECTION_KEY } from '@lemon-peel/tokens';
-import { useNamespace } from '@lemon-peel/hooks';
+import { useNamespace } from '@lemon-peel/hooks/src';
 import { basicCellProps } from '../props/basicCell';
 
 export default defineComponent({

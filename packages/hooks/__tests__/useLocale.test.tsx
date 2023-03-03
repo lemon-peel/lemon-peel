@@ -1,9 +1,9 @@
 import { computed, defineComponent, nextTick } from 'vue';
 import { mount } from '@vue/test-utils';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
-import Chinese from '@lemon-peel/locale/lang/zh-cn';
+import Chinese from '@lemon-peel/locale/lang/zhCn';
 import English from '@lemon-peel/locale/lang/en';
-import { buildTranslator, useLocale } from '../useLocale';
+import { buildTranslator, useLocale } from '../src/useLocale';
 import { provideGlobalConfig } from '../index';
 import type { Language } from '@lemon-peel/locale';
 import type { ComponentPublicInstance, PropType } from 'vue';

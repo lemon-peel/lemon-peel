@@ -1,6 +1,6 @@
 export default {
   name: 'af',
-  el: {
+  lp: {
     colorpicker: {
       confirm: 'Bevestig',
       clear: 'Maak skoon',
@@ -118,4 +118,4 @@ export default {
       cancelButtonText: 'No', // to be translated
     },
   },
-}
+};

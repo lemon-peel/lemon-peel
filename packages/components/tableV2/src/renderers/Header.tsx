@@ -2,7 +2,7 @@ import { HeaderRow } from '../components';
 import { tryCall } from '../utils';
 
 import type { FunctionalComponent } from 'vue';
-import type { CssNamespace } from '@lemon-peel/hooks';
+import type { CssNamespace } from '@lemon-peel/hooks/src';
 import type { TableV2HeaderRendererParams } from '../components';
 import type { TableV2Props } from '../table';
 

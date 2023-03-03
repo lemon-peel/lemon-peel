@@ -79,7 +79,7 @@
         <!-- This is a bug which needs to be fixed -->
         <!-- TODO: Fix the incorrect navigation interaction -->
         <i v-if="!disabled" :class="nsIcon.m('close-tip')">{{
-          t('el.upload.deleteTip')
+          t('lp.upload.deleteTip')
         }}</i>
         <span
           v-if="listType === 'picture-card'"

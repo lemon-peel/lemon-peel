@@ -1,20 +1,20 @@
-import { defineComponent, nextTick } from 'vue'
-import { mount } from '@vue/test-utils'
-import { afterEach, beforeEach, describe, expect, it } from 'vitest'
-import { provideGlobalConfig, useNamespace } from '../index'
-import type { VueWrapper } from '@vue/test-utils'
+import { defineComponent, nextTick } from 'vue';
+import { mount } from '@vue/test-utils';
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { provideGlobalConfig, useNamespace } from '../index';
+import type { VueWrapper } from '@vue/test-utils';
 
 const TestComp = defineComponent({
   setup() {
-    const ns = useNamespace('table')
+    const ns = useNamespace('table');
     const cssVar = ns.cssVar({
       'border-style': 'solid',
       'border-width': '',
-    })
+    });
     const cssVarBlock = ns.cssVarBlock({
       'text-color': '#409eff',
       'active-color': '',
-    })
+    });
     return () => (
       <div
         id="testId"
@@ -39,30 +39,30 @@ const TestComp = defineComponent({
       >
         text
       </div>
-    )
+    );
   },
-})
+});
 
 describe('use-locale', () => {
   const Comp = defineComponent({
     setup(_props, { slots }) {
-      provideGlobalConfig({ namespace: 'ep' })
-      return () => slots.default?.()
+      provideGlobalConfig({ namespace: 'ep' });
+      return () => slots.default?.();
     },
-  })
-  let wrapper: VueWrapper<InstanceType<typeof Comp>>
+  });
+  let wrapper: VueWrapper<InstanceType<typeof Comp>>;
   beforeEach(() => {
     wrapper = mount(Comp, {
       slots: { default: () => <TestComp /> },
-    })
-  })
+    });
+  });
 
   afterEach(() => {
-    wrapper.unmount()
-  })
+    wrapper.unmount();
+  });
 
   it('should provide bem correctly', async () => {
-    await nextTick()
+    await nextTick();
     expect(wrapper.find('#testId').classes()).toEqual([
       'ep-table', // b()
       'ep-table-body', // b('body')
@@ -72,12 +72,12 @@ describe('use-locale', () => {
       'ep-table__content--active', // em('content', 'active')
       'ep-table-body__content--active', // bem('body', 'content', 'active')
       'is-focus', // is('focus')
-    ])
+    ]);
 
-    const style = wrapper.find('#testId').attributes('style')
-    expect(style).toMatch('--ep-border-style: solid;')
-    expect(style).not.toMatch('--ep-border-width:')
-    expect(style).toMatch('--ep-table-text-color: #409eff;')
-    expect(style).not.toMatch('--ep-table-active-color:')
-  })
-})
+    const style = wrapper.find('#testId').attributes('style');
+    expect(style).toMatch('--ep-border-style: solid;');
+    expect(style).not.toMatch('--ep-border-width:');
+    expect(style).toMatch('--ep-table-text-color: #409eff;');
+    expect(style).not.toMatch('--ep-table-active-color:');
+  });
+});

@@ -1,6 +1,6 @@
 import { nextTick, ref } from 'vue';
 import { describe, expect, it } from 'vitest';
-import { useRestoreActive } from '../useRestoreActive';
+import { useRestoreActive } from '../src/useRestoreActive';
 
 describe('useRestoreActive', () => {
   it('should restore active element', async () => {

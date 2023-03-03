@@ -1,6 +1,6 @@
 import { computed, ref } from 'vue';
 import dayjs from 'dayjs';
-import { useLocale } from '@lemon-peel/hooks';
+import { useLocale } from '@lemon-peel/hooks/src';
 import { debugWarn } from '@lemon-peel/utils';
 import { INPUT_EVENT, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
 

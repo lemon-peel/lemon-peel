@@ -3,7 +3,7 @@ import { useResizeObserver } from '@vueuse/core';
 import LpIcon from '@lemon-peel/components/icon';
 import { More } from '@element-plus/icons-vue';
 import { buildProps, flattedChildren, isObject, isString, mutable } from '@lemon-peel/utils';
-import { useNamespace } from '@lemon-peel/hooks';
+import { useNamespace } from '@lemon-peel/hooks/src';
 
 import Menubar from './utils/menuBar';
 import LpMenuCollapseTransition from './MenuCollapseTransition.vue';

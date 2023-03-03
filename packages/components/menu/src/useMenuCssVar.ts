@@ -1,5 +1,5 @@
 import { computed } from 'vue';
-import { useNamespace } from '@lemon-peel/hooks';
+import { useNamespace } from '@lemon-peel/hooks/src';
 import useMenuColor from './useMenuColor';
 
 import type { MenuProps } from './menu';

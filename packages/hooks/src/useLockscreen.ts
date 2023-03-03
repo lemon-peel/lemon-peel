@@ -8,7 +8,7 @@ import {
   removeClass,
   throwError,
 } from '@lemon-peel/utils';
-import { useNamespace } from '../useNamespace';
+import { useNamespace } from './useNamespace';
 
 import type { Ref } from 'vue';
 

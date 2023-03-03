@@ -8,7 +8,7 @@ import { EVENT_CODE } from '@lemon-peel/constants';
 import { makeMountFunc } from '@lemon-peel/test-utils/makeMount';
 import { rAF } from '@lemon-peel/test-utils/tick';
 import { CircleClose } from '@element-plus/icons-vue';
-import { POPPER_CONTAINER_SELECTOR } from '@lemon-peel/hooks';
+import { POPPER_CONTAINER_SELECTOR } from '@lemon-peel/hooks/src';
 import Select from '../src/Select.vue';
 import type { VueWrapper } from '@vue/test-utils';
 

@@ -1,6 +1,6 @@
 export default {
   name: 'km',
-  el: {
+  lp: {
     colorpicker: {
       confirm: 'យល់ព្រម',
       clear: 'លុប',
@@ -118,4 +118,4 @@ export default {
       cancelButtonText: 'មិនព្រម',
     },
   },
-}
+};

@@ -13,7 +13,7 @@ import {
 import { useResizeObserver } from '@vueuse/core';
 import { throwError } from '@lemon-peel/utils';
 import { formContextKey, formItemContextKey } from '@lemon-peel/tokens';
-import { useNamespace } from '@lemon-peel/hooks';
+import { useNamespace } from '@lemon-peel/hooks/src';
 
 import type { CSSProperties } from 'vue';
 

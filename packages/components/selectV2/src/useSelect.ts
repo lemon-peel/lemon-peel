@@ -2,7 +2,7 @@ import { computed, nextTick, onMounted, reactive, ref, watch } from 'vue';
 import { isArray, isFunction, isObject } from '@vue/shared';
 import { get, isEqual, isNil, debounce as lodashDebounce } from 'lodash-es';
 import { useResizeObserver } from '@vueuse/core';
-import { useFormItem, useLocale, useNamespace, useSize } from '@lemon-peel/hooks';
+import { useFormItem, useLocale, useNamespace, useSize } from '@lemon-peel/hooks/src';
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
 import { ValidateComponentsMap, debugWarn, escapeStringRegexp } from '@lemon-peel/utils';
 import { ArrowUp } from '@element-plus/icons-vue';
@@ -157,15 +157,15 @@ const useSelect = (props: ExtractPropTypes<typeof selectProps>, emit: SetupConte
   const emptyText = computed(() => {
     const options = filteredOptions.value;
     if (props.loading) {
-      return props.loadingText || t('el.select.loading');
+      return props.loadingText || t('lp.select.loading');
     } else {
       if (props.remote && states.inputValue === '' && options.length === 0)
         return false;
       if (props.filterable && states.inputValue && options.length > 0) {
-        return props.noMatchText || t('el.select.noMatch');
+        return props.noMatchText || t('lp.select.noMatch');
       }
       if (options.length === 0) {
-        return props.noDataText || t('el.select.noData');
+        return props.noDataText || t('lp.select.noData');
       }
     }
     return null;
@@ -219,7 +219,7 @@ const useSelect = (props: ExtractPropTypes<typeof selectProps>, emit: SetupConte
   });
 
   const currentPlaceholder = computed(() => {
-    const str = props.placeholder || t('el.select.placeholder');
+    const str = props.placeholder || t('lp.select.placeholder');
     return props.multiple || isNil(props.modelValue)
       ? str
       : states.selectedLabel;

@@ -1,5 +1,5 @@
 import { buildProps } from '@lemon-peel/utils';
-import { createModelToggleComposable } from '@lemon-peel/hooks';
+import { createModelToggleComposable } from '@lemon-peel/hooks/src';
 import { popperArrowProps, popperProps } from '@lemon-peel/components/popper';
 import { useTooltipContentProps } from './content';
 import { useTooltipTriggerProps } from './trigger';

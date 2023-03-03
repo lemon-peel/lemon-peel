@@ -6,7 +6,7 @@
     <div :class="nsTime.be('range-picker', 'content')">
       <div :class="nsTime.be('range-picker', 'cell')">
         <div :class="nsTime.be('range-picker', 'header')">
-          {{ t('el.datepicker.startTime') }}
+          {{ t('lp.datepicker.startTime') }}
         </div>
         <div
           :class="[
@@ -34,7 +34,7 @@
       </div>
       <div :class="nsTime.be('range-picker', 'cell')">
         <div :class="nsTime.be('range-picker', 'header')">
-          {{ t('el.datepicker.endTime') }}
+          {{ t('lp.datepicker.endTime') }}
         </div>
         <div
           :class="[
@@ -67,7 +67,7 @@
         :class="[nsTime.be('panel', 'btn'), 'cancel']"
         @click="handleCancel()"
       >
-        {{ t('el.datepicker.cancel') }}
+        {{ t('lp.datepicker.cancel') }}
       </button>
       <button
         type="button"
@@ -75,7 +75,7 @@
         :disabled="btnConfirmDisabled"
         @click="handleConfirm()"
       >
-        {{ t('el.datepicker.confirm') }}
+        {{ t('lp.datepicker.confirm') }}
       </button>
     </div>
   </div>

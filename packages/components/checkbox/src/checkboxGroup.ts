@@ -1,5 +1,5 @@
 import { UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
-import { useSizeProp } from '@lemon-peel/hooks';
+import { useSizeProp } from '@lemon-peel/hooks/src';
 import { buildProps, isArray } from '@lemon-peel/utils';
 
 import type { ExtractPropTypes, PropType } from 'vue';

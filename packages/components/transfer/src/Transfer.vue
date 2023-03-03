@@ -112,15 +112,15 @@ const clearQuery = (which: TransferDirection) => {
 const hasButtonTexts = computed(() => props.buttonTexts.length === 2);
 
 const leftPanelTitle = computed(
-  () => props.titles[0] || t('el.transfer.titles.0'),
+  () => props.titles[0] || t('lp.transfer.titles.0'),
 );
 
 const rightPanelTitle = computed(
-  () => props.titles[1] || t('el.transfer.titles.1'),
+  () => props.titles[1] || t('lp.transfer.titles.1'),
 );
 
 const panelFilterPlaceholder = computed(
-  () => props.filterPlaceholder || t('el.transfer.filterPlaceholder'),
+  () => props.filterPlaceholder || t('lp.transfer.filterPlaceholder'),
 );
 
 watch(

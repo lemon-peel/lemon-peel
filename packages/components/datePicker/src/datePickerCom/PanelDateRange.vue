@@ -228,7 +228,7 @@
         :class="ppNs.e('link-btn')"
         @click="handleClear"
       >
-        {{ t('el.datepicker.clear') }}
+        {{ t('lp.datepicker.clear') }}
       </lp-button>
       <lp-button
         plain
@@ -237,7 +237,7 @@
         :disabled="btnDisabled"
         @click="handleRangeConfirm(false)"
       >
-        {{ t('el.datepicker.confirm') }}
+        {{ t('lp.datepicker.confirm') }}
       </lp-button>
     </div>
   </div>

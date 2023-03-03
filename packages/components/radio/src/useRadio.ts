@@ -1,28 +1,29 @@
 import { computed, inject, ref } from 'vue';
-import { UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
 import { radioGroupKey } from '@lemon-peel/tokens';
 import { useDisabled, useSize } from '@lemon-peel/hooks';
-import type { SetupContext } from 'vue';
 
-import type { RadioEmits, RadioProps } from './radio';
+import type { RadioGroupProps } from './radioGroup';
+import type { RadioProps } from './radio';
+import { debugWarn } from '@lemon-peel/utils';
 
-export const useRadio = (
-  props: { label: RadioProps['label'], modelValue?: RadioProps['modelValue'] },
-  emit?: SetupContext<RadioEmits>['emit'],
-) => {
+export function inGroupGuard() {
+  if (!inject(radioGroupKey, null)) {
+    debugWarn('LpRadio', t() `LpRadio/LpRadioButton 组件必须使用 LpRadioGroup 包裹, 请勿单独使用.`);
+  }
+}
+
+export function useRadio(
+  props: RadioProps,
+) {
   const radioRef = ref<HTMLInputElement>();
   const radioGroup = inject(radioGroupKey, null);
-  const isGroup = computed(() => !!radioGroup);
-  const modelValue = computed<RadioProps['modelValue']>({
+
+  const groupValue = computed<RadioGroupProps['modelValue']>({
     get() {
-      return isGroup.value ? radioGroup!.modelValue : props.modelValue!;
+      return radioGroup!.modelValue;
     },
-    set(value) {
-      if (isGroup.value) {
-        radioGroup!.changeEvent(value);
-      } else {
-        emit && emit(UPDATE_MODEL_EVENT, value);
-      }
+    set(val) {
+      radioGroup!.changeEvent(val);
       radioRef.value!.checked = props.modelValue === props.label;
     },
   });
@@ -31,19 +32,18 @@ export const useRadio = (
   const disabled = useDisabled(computed(() => radioGroup?.disabled));
   const focus = ref(false);
   const tabIndex = computed(() => {
-    return disabled.value || (isGroup.value && modelValue.value !== props.label)
+    return disabled.value || (isGroup.value && groupValue.value !== props.label)
       ? -1
       : 0;
   });
 
   return {
     radioRef,
-    isGroup,
     radioGroup,
     focus,
     size,
     disabled,
     tabIndex,
-    modelValue,
+    modelValue: groupValue,
   };
-};
+}

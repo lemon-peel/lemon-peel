@@ -1,6 +1,6 @@
 export default {
   name: 'sk',
-  el: {
+  lp: {
     colorpicker: {
       confirm: 'OK',
       clear: 'Zmazať',
@@ -120,4 +120,4 @@ export default {
       cancelButtonText: 'No', // to be translated
     },
   },
-}
+};

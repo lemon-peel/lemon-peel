@@ -1,6 +1,6 @@
 export default {
   name: 'pa',
-  el: {
+  lp: {
     colorpicker: {
       confirm: 'تایید',
       clear: 'پاکول',
@@ -118,4 +118,4 @@ export default {
       cancelButtonText: 'No', // to be translated
     },
   },
-}
+};

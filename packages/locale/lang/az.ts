@@ -1,6 +1,6 @@
 export default {
   name: 'az',
-  el: {
+  lp: {
     colorpicker: {
       confirm: 'Təsdiqlə',
       clear: 'Təmizlə',
@@ -121,4 +121,4 @@ export default {
       description: 'Məlumat yoxdur',
     },
   },
-}
+};

@@ -1,7 +1,7 @@
 import { nextTick, ref } from 'vue';
 import { describe, expect, it, vi } from 'vitest';
 import { EVENT_CODE } from '@lemon-peel/constants';
-import { useModal } from '../useModal';
+import { useModal } from '../src/useModal';
 
 describe('useModal', () => {
   it('should work when ref value changed', async () => {

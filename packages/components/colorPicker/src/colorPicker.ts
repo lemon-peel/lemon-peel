@@ -1,6 +1,6 @@
 import { isNil } from 'lodash-es';
 import { buildProps, isString } from '@lemon-peel/utils';
-import { useSizeProp } from '@lemon-peel/hooks';
+import { useSizeProp } from '@lemon-peel/hooks/src';
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
 
 import type { ComputedRef, ExtractPropTypes, InjectionKey, PropType } from 'vue';

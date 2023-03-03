@@ -1,6 +1,6 @@
 import { provide, shallowReactive } from 'vue';
 import { addClass, removeClass } from '@lemon-peel/utils';
-import { useNamespace } from '@lemon-peel/hooks';
+import { useNamespace } from '@lemon-peel/hooks/src';
 
 import type { InjectionKey, Ref, SetupContext, ShallowRef  } from 'vue';
 import type { NodeDropType, TreeProps } from '../tree';

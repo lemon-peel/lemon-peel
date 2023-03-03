@@ -1,6 +1,6 @@
 export default {
   name: 'uz-uz',
-  el: {
+  lp: {
     colorpicker: {
       confirm: 'Qabul qilish',
       clear: 'Tozalash',
@@ -118,4 +118,4 @@ export default {
       cancelButtonText: 'No', // to be translated
     },
   },
-}
+};

@@ -1,6 +1,6 @@
 export default {
   name: 'ko',
-  el: {
+  lp: {
     colorpicker: {
       confirm: '확인',
       clear: '초기화',
@@ -146,4 +146,4 @@ export default {
       cancelButtonText: '아니오',
     },
   },
-}
+};

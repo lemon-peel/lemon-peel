@@ -168,7 +168,7 @@
         :class="ppNs.e('link-btn')"
         @click="changeToNow"
       >
-        {{ t('el.datepicker.now') }}
+        {{ t('lp.datepicker.now') }}
       </lp-button>
       <lp-button
         plain
@@ -176,7 +176,7 @@
         :class="ppNs.e('link-btn')"
         @click="onConfirm"
       >
-        {{ t('el.datepicker.confirm') }}
+        {{ t('lp.datepicker.confirm') }}
       </lp-button>
     </div>
   </div>
@@ -355,7 +355,7 @@ const moveByYear = (forward: boolean) => {
 };
 
 const yearLabel = computed(() => {
-  const yearTranslation = t('el.datepicker.year');
+  const yearTranslation = t('lp.datepicker.year');
   if (currentView.value === 'year') {
     const startYear = Math.floor(year.value / 10) * 10;
     if (yearTranslation) {

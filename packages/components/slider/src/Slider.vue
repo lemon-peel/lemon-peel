@@ -169,7 +169,7 @@ const sliderInputSize = computed(
 const groupLabel = computed<string>(() => {
   return (
     props.label ||
-    t('el.slider.defaultLabel', {
+    t('lp.slider.defaultLabel', {
       min: props.min,
       max: props.max,
     })
@@ -177,7 +177,7 @@ const groupLabel = computed<string>(() => {
 });
 
 const firstButtonLabel = computed<string>(() => {
-  return props.range ? props.rangeStartLabel || t('el.slider.defaultRangeStartLabel') : groupLabel.value;
+  return props.range ? props.rangeStartLabel || t('lp.slider.defaultRangeStartLabel') : groupLabel.value;
 });
 
 const { firstValue, secondValue, sliderSize } = toRefs(initData);
@@ -189,7 +189,7 @@ const firstValueText = computed<string>(() => {
 });
 
 const secondButtonLabel = computed<string>(() => {
-  return props.rangeEndLabel || t('el.slider.defaultRangeEndLabel');
+  return props.rangeEndLabel || t('lp.slider.defaultRangeEndLabel');
 });
 
 const secondValueText = computed<string>(() => {

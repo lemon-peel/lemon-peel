@@ -5,7 +5,7 @@ import * as vueuse from '@vueuse/core';
 import {
   POPPER_CONTAINER_SELECTOR,
   usePopperContainer,
-} from '../usePopperContainer';
+} from '../src/usePopperContainer';
 
 const AXIOM = 'rem is the best girl';
 

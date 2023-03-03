@@ -1,7 +1,7 @@
 import { placements } from '@popperjs/core';
 import { buildProps, isArray, isNumber } from '@lemon-peel/utils';
 import { CHANGE_EVENT, INPUT_EVENT, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
-import { useSizeProp } from '@lemon-peel/hooks';
+import { useSizeProp } from '@lemon-peel/hooks/src';
 
 import type { Arrayable } from '@lemon-peel/utils';
 import type { ExtractPropTypes, PropType } from 'vue';

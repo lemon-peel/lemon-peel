@@ -1,6 +1,6 @@
 import { defineComponent, inject } from 'vue';
 import { addUnit, buildProps, getNormalizedProps } from '@lemon-peel/utils';
-import { useNamespace } from '@lemon-peel/hooks';
+import { useNamespace } from '@lemon-peel/hooks/src';
 import { descriptionsKey } from './token';
 
 import type { VNode } from 'vue';

@@ -1,6 +1,6 @@
 import { unref } from 'vue';
 import { buildProps } from '@lemon-peel/utils';
-import { useTimeout } from '../useTimeout';
+import { useTimeout } from './useTimeout';
 
 import type { ExtractPropTypes, ToRefs } from 'vue';
 

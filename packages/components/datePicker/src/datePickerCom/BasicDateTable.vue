@@ -12,14 +12,14 @@
   >
     <tbody ref="tbodyRef">
       <tr>
-        <th v-if="showWeekNumber" scope="col">{{ t('el.datepicker.week') }}</th>
+        <th v-if="showWeekNumber" scope="col">{{ t('lp.datepicker.week') }}</th>
         <th
           v-for="(week, key) in WEEKS"
           :key="key"
           scope="col"
           :aria-label="t('el.datepicker.weeksFull.' + week)"
         >
-          {{ t('el.datepicker.weeks.' + week) }}
+          {{ t('lp.datepicker.weeks.' + week) }}
         </th>
       </tr>
       <tr

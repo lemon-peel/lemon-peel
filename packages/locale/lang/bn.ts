@@ -1,6 +1,6 @@
 export default {
   name: 'bn',
-  el: {
+  lp: {
     colorpicker: {
       confirm: 'ঠিক আছে',
       clear: 'ক্লিয়ার',
@@ -120,4 +120,4 @@ export default {
       cancelButtonText: 'না',
     },
   },
-}
+};

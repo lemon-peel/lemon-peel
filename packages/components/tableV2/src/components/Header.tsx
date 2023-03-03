@@ -1,5 +1,5 @@
 import { computed, defineComponent, nextTick, ref, unref } from 'vue';
-import { useNamespace } from '@lemon-peel/hooks';
+import { useNamespace } from '@lemon-peel/hooks/src';
 import { ensureArray } from '@lemon-peel/utils';
 import { tableV2HeaderProps } from '../header';
 import { enforceUnit } from '../utils';

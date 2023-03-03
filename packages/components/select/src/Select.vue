@@ -408,7 +408,7 @@ const slots = useSlots();
 
 onMounted(() => {
   states.cachedPlaceHolder = currentPlaceholder.value =
-        props.placeholder || t('el.select.placeholder');
+        props.placeholder || t('lp.select.placeholder');
   if (
     props.multiple &&
         Array.isArray(props.modelValue) &&

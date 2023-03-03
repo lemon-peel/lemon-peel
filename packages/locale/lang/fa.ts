@@ -1,6 +1,6 @@
 export default {
   name: 'fa',
-  el: {
+  lp: {
     colorpicker: {
       confirm: 'باشد',
       clear: 'حذف',
@@ -118,4 +118,4 @@ export default {
       cancelButtonText: 'No', // to be translated
     },
   },
-}
+};

@@ -1,7 +1,7 @@
 import { defineComponent, h, nextTick, ref } from 'vue';
 import { mount } from '@vue/test-utils';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
-import { useTeleport } from '../useTeleport';
+import { useTeleport } from '../src/useTeleport';
 import type { VueWrapper } from '@vue/test-utils';
 
 const AXIOM = 'Rem is the best girl';

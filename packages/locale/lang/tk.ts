@@ -1,6 +1,6 @@
 export default {
   name: 'tk',
-  el: {
+  lp: {
     colorpicker: {
       confirm: 'OK',
       clear: 'Arassala',
@@ -118,4 +118,4 @@ export default {
       cancelButtonText: 'No', // to be translated
     },
   },
-}
+};

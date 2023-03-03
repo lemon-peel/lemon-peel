@@ -24,7 +24,7 @@
       :style="modelValue === label ? activeStyle : {}"
       @keydown.stop
     >
-      <slot>
+      <slot>``
         {{ label }}
       </slot>
     </span>

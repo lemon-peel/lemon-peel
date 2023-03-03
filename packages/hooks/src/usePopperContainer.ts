@@ -1,8 +1,8 @@
 import { onBeforeMount } from 'vue';
 import { isClient } from '@vueuse/core';
 import { generateId } from '@lemon-peel/utils';
-import { useGlobalConfig } from '../useGlobalConfig';
-import { defaultNamespace } from '../useNamespace';
+import { useGlobalConfig } from './useGlobalConfig';
+import { defaultNamespace } from './useNamespace';
 
 let cachedContainer: HTMLElement;
 

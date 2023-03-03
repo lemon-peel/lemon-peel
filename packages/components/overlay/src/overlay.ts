@@ -1,6 +1,6 @@
 import { createVNode, defineComponent, h, renderSlot } from 'vue';
 import { PatchFlags, buildProps } from '@lemon-peel/utils';
-import { useNamespace, useSameTarget } from '@lemon-peel/hooks';
+import { useNamespace, useSameTarget } from '@lemon-peel/hooks/src';
 
 import type { CSSProperties, ExtractPropTypes, PropType } from 'vue';
 import type { ZIndexProperty } from 'csstype';

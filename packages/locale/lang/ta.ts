@@ -1,6 +1,6 @@
 export default {
   name: 'ta',
-  el: {
+  lp: {
     colorpicker: {
       confirm: 'உறுதி செய்',
       clear: 'தெளிவாக்கு',
@@ -117,4 +117,4 @@ export default {
       cancelButtonText: 'No', // to be translated
     },
   },
-}
+};

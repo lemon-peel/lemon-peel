@@ -1,7 +1,7 @@
 import { ref } from 'vue';
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest';
 import triggerEvent from '@lemon-peel/test-utils/triggerEvent';
-import { usePreventGlobal } from '../usePreventGlobal';
+import { usePreventGlobal } from '../src/usePreventGlobal';
 
 describe('usePreventGlobal', () => {
   const evtName = 'keydown';

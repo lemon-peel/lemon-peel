@@ -1,4 +1,4 @@
-import { provideGlobalConfig } from '@lemon-peel/hooks';
+import { provideGlobalConfig } from '@lemon-peel/hooks/src';
 import { INSTALLED_KEY } from '@lemon-peel/constants';
 import { version } from './version';
 

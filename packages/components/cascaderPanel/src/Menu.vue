@@ -20,10 +20,10 @@
       <lp-icon size="14" :class="ns.is('loading')">
         <loading />
       </lp-icon>
-      {{ t('el.cascader.loading') }}
+      {{ t('lp.cascader.loading') }}
     </div>
     <div v-else-if="isEmpty" :class="ns.e('empty-text')">
-      {{ t('el.cascader.noData') }}
+      {{ t('lp.cascader.noData') }}
     </div>
 
     <svg

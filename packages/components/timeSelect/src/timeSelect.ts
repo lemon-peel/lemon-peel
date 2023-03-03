@@ -1,6 +1,6 @@
 import { buildProps } from '@lemon-peel/utils';
 import { CircleClose, Clock } from '@element-plus/icons-vue';
-import { useSizeProp } from '@lemon-peel/hooks';
+import { useSizeProp } from '@lemon-peel/hooks/src';
 import type TimeSelect from './timeSelect.vue';
 import type { Component, ExtractPropTypes, PropType } from 'vue';
 

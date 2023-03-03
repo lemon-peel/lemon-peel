@@ -3,7 +3,7 @@ import { mount } from '@vue/test-utils';
 import { describe, expect, it } from 'vitest';
 import { hasClass } from '@lemon-peel/utils';
 
-import { useLockscreen } from '../useLockscreen';
+import { useLockscreen } from '../src/useLockscreen';
 
 const kls = 'lp-popup-parent--hidden';
 

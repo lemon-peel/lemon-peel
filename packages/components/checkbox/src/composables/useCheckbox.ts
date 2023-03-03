@@ -1,4 +1,4 @@
-import { useFormItem, useFormItemInputId } from '@lemon-peel/hooks';
+import { useFormItem, useFormItemInputId } from '@lemon-peel/hooks/src';
 import { isArray } from '@lemon-peel/utils';
 import { useCheckboxDisabled } from './useCheckboxDisabled';
 import { useCheckboxEvent } from './useCheckboxEvent';

@@ -1,6 +1,6 @@
 <template>
   <span :class="ns.e('jump')" :disabled="disabled">
-    {{ t('el.pagination.goto') }}
+    {{ t('lp.pagination.goto') }}
     <lp-input
       size="small"
       :class="[ns.e('editor'), ns.is('in-pagination')]"
@@ -13,7 +13,7 @@
       @update:model-value="handleInput"
       @change="handleChange"
     />
-    {{ t('el.pagination.pageClassifier') }}
+    {{ t('lp.pagination.pageClassifier') }}
   </span>
 </template>
 

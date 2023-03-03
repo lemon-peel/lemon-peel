@@ -6,7 +6,7 @@ import { EVENT_CODE } from '@lemon-peel/constants';
 import { LpIcon } from '@lemon-peel/components/icon';
 import { ArrowLeft, ArrowRight, Close } from '@element-plus/icons-vue';
 import { tabsRootContextKey } from '@lemon-peel/tokens';
-import { useNamespace } from '@lemon-peel/hooks';
+import { useNamespace } from '@lemon-peel/hooks/src';
 import TabBar from './TabBar.vue';
 import type { CSSProperties, ExtractPropTypes, PropType } from 'vue';
 import type { TabsPaneContext } from '@lemon-peel/tokens';

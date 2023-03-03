@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import { isFunction } from '@lemon-peel/utils';
 
 import type { SetupContext } from 'vue';
-import type { useLocale } from '@lemon-peel/hooks';
+import type { useLocale } from '@lemon-peel/hooks/src';
 import type { RangePickerSharedEmits } from '../props/shared';
 
 // FIXME: extract this to `date-picker.ts`

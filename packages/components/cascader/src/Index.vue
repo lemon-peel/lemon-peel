@@ -184,7 +184,7 @@
         </template>
         <slot v-else name="empty">
           <li :class="nsCascader.e('empty-text')">
-            {{ t('el.cascader.noMatch') }}
+            {{ t('lp.cascader.noMatch') }}
           </li>
         </slot>
       </lp-scrollbar>
@@ -343,7 +343,7 @@ export default defineComponent({
 
     const isDisabled = computed(() => props.disabled || form?.disabled);
     const inputPlaceholder = computed(
-      () => props.placeholder || t('el.cascader.placeholder'),
+      () => props.placeholder || t('lp.cascader.placeholder'),
     );
     const currentPlaceholder = computed(() =>
       searchInputValue.value || presentTags.value.length > 0

@@ -123,20 +123,7 @@ export default defineComponent({
       const rect = el.getBoundingClientRect();
       const { clientX, clientY } = getClientXY(event);
 
-      if (!props.vertical) {
-        let left = clientX - rect.left;
-        left = Math.max(thumb.value.offsetWidth / 2, left);
-        left = Math.min(left, rect.width - thumb.value.offsetWidth / 2);
-
-        props.color.set(
-          'alpha',
-          Math.round(
-            ((left - thumb.value.offsetWidth / 2) /
-              (rect.width - thumb.value.offsetWidth)) *
-              100,
-          ),
-        );
-      } else {
+      if (props.vertical) {
         let top = clientY - rect.top;
         top = Math.max(thumb.value.offsetHeight / 2, top);
         top = Math.min(top, rect.height - thumb.value.offsetHeight / 2);
@@ -146,6 +133,19 @@ export default defineComponent({
           Math.round(
             ((top - thumb.value.offsetHeight / 2) /
               (rect.height - thumb.value.offsetHeight)) *
+              100,
+          ),
+        );
+      } else {
+        let left = clientX - rect.left;
+        left = Math.max(thumb.value.offsetWidth / 2, left);
+        left = Math.min(left, rect.width - thumb.value.offsetWidth / 2);
+
+        props.color.set(
+          'alpha',
+          Math.round(
+            ((left - thumb.value.offsetWidth / 2) /
+              (rect.width - thumb.value.offsetWidth)) *
               100,
           ),
         );

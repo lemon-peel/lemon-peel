@@ -8,7 +8,7 @@ import { enforceUnit, tryCall } from '../utils';
 import type { FunctionalComponent, UnwrapNestedRefs, VNode } from 'vue';
 import type { CellRendererParams } from '../types';
 import type { TableV2RowCellRenderParam } from '../components';
-import type { CssNamespace } from '@lemon-peel/hooks';
+import type { CssNamespace } from '@lemon-peel/hooks/src';
 import type { UseTableReturn } from '../useTable';
 import type { TableV2Props } from '../table';
 

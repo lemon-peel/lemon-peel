@@ -228,11 +228,11 @@ const { scrollBarRef, scrollTo, setScrollLeft, setScrollTop } =
 const debouncedUpdateLayout = debounce(doLayout, 50);
 
 const computedSumText = computed(
-  () => props.sumText || t('el.table.sumText'),
+  () => props.sumText || t('lp.table.sumText'),
 );
 
 const computedEmptyText = computed(() => {
-  return props.emptyText || t('el.table.emptyText');
+  return props.emptyText || t('lp.table.emptyText');
 });
 
 const tableId = `${ns.namespace.value}-table_${tableIdSeed++}`;

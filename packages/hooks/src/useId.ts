@@ -1,8 +1,8 @@
 import { computed, inject, unref } from 'vue';
 import { isClient } from '@vueuse/core';
 import { debugWarn } from '@lemon-peel/utils';
-import { useGlobalConfig } from '../useGlobalConfig';
-import { defaultNamespace } from '../useNamespace';
+import { useGlobalConfig } from './useGlobalConfig';
+import { defaultNamespace } from './useNamespace';
 
 import type { InjectionKey, Ref } from 'vue';
 import type { MaybeRef } from '@vueuse/core';

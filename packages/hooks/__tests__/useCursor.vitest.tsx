@@ -1,6 +1,6 @@
 import { nextTick, shallowRef } from 'vue';
 import { describe, expect, it } from 'vitest';
-import { useCursor } from '../useCursor';
+import { useCursor } from '../src/useCursor';
 
 describe('useCursor', () => {
   it('record and set cursor correctly', async () => {

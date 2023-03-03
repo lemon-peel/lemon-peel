@@ -1,6 +1,6 @@
 export default {
   name: 'ja',
-  el: {
+  lp: {
     colorpicker: {
       confirm: 'OK',
       clear: 'クリア',
@@ -118,4 +118,4 @@ export default {
       cancelButtonText: 'いいえ',
     },
   },
-}
+};

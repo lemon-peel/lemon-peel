@@ -1,6 +1,6 @@
 export default {
   name: 'ku',
-  el: {
+  lp: {
     colorpicker: {
       confirm: 'Temam',
       clear: 'Paqij bike',
@@ -118,4 +118,4 @@ export default {
       cancelButtonText: 'No', // to be translated
     },
   },
-}
+};

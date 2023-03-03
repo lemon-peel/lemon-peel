@@ -3,7 +3,7 @@ import { mount } from '@vue/test-utils';
 import { afterEach, describe, expect, it, test, vi } from 'vitest';
 import { EVENT_CODE } from '@lemon-peel/constants';
 import { ArrowDown, CaretTop, CircleClose } from '@element-plus/icons-vue';
-import { POPPER_CONTAINER_ID } from '@lemon-peel/hooks';
+import { POPPER_CONTAINER_ID } from '@lemon-peel/hooks/src';
 import { hasClass } from '@lemon-peel/utils';
 import { LpFormItem } from '@lemon-peel/components/form';
 import Select from '../src/Select.vue';
@@ -1443,7 +1443,9 @@ describe('Select', () => {
       },
       methods: {
         remoteMethod(query: string) {
-          if (query !== '') {
+          if (query === '') {
+            this.options = [];
+          } else {
             this.loading = true;
             setTimeout(() => {
               this.loading = false;
@@ -1451,8 +1453,6 @@ describe('Select', () => {
                 return item.label.toLowerCase().includes(query.toLowerCase());
               });
             }, 200);
-          } else {
-            this.options = [];
           }
         },
       },

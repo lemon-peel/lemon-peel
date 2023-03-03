@@ -1,5 +1,5 @@
 import { isNil } from 'lodash-es';
-import { useSizeProp } from '@lemon-peel/hooks';
+import { useSizeProp } from '@lemon-peel/hooks/src';
 import { buildProps, isNumber } from '@lemon-peel/utils';
 import { CHANGE_EVENT, INPUT_EVENT, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
 import type { ExtractPropTypes } from 'vue';

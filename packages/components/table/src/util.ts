@@ -2,7 +2,7 @@
 import { createPopper } from '@popperjs/core';
 import { flatMap, get } from 'lodash-es';
 import { hasOwn, isArray, isBoolean, throwError } from '@lemon-peel/utils';
-import { useZIndex } from '@lemon-peel/hooks';
+import { useZIndex } from '@lemon-peel/hooks/src';
 import escapeHtml from 'escape-html';
 
 import type { Options as PopperOptions } from '@lemon-peel/components/popper';

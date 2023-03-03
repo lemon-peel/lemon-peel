@@ -6,7 +6,7 @@ import { rAF } from '@lemon-peel/test-utils/tick';
 import { EVENT_CODE } from '@lemon-peel/constants';
 import { LpTooltip } from '@lemon-peel/components/tooltip';
 import Button from '@lemon-peel/components/button';
-import { POPPER_CONTAINER_SELECTOR } from '@lemon-peel/hooks';
+import { POPPER_CONTAINER_SELECTOR } from '@lemon-peel/hooks/src';
 import Dropdown from '../src/Dropdown.vue';
 import DropdownItem from '../src/DropdownItem.vue';
 import DropdownMenu from '../src/DropdownMenu.vue';

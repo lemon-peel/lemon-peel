@@ -1,5 +1,5 @@
 import type { CSSProperties, ComputedRef, InjectionKey, Ref } from 'vue';
-import type { useNamespace } from '@lemon-peel/hooks';
+import type { useNamespace } from '@lemon-peel/hooks/src';
 
 export type DialogContext = {
   dialogRef: Ref<HTMLElement>;

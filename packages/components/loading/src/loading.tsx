@@ -1,5 +1,5 @@
 import { Transition, createApp, reactive, ref, toRefs, vShow, withCtx, withDirectives } from 'vue';
-import { useNamespace } from '@lemon-peel/hooks';
+import { useNamespace } from '@lemon-peel/hooks/src';
 import { removeClass } from '@lemon-peel/utils';
 
 import type { ComponentPublicInstance, ToRefs } from 'vue';

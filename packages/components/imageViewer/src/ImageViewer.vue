@@ -334,7 +334,7 @@ function handleImgLoad() {
 
 function handleImgError(e: Event) {
   loading.value = false
-  ;(e.target as HTMLImageElement).alt = t('el.image.error');
+  ;(e.target as HTMLImageElement).alt = t('lp.image.error');
 }
 
 function handleMouseDown(e: MouseEvent) {

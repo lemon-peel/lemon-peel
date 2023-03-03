@@ -1,6 +1,6 @@
 export default {
   name: 'hy-am',
-  el: {
+  lp: {
     colorpicker: {
       confirm: 'Լաւ',
       clear: 'Մաքրել',
@@ -118,4 +118,4 @@ export default {
       cancelButtonText: 'No', // to be translated
     },
   },
-}
+};

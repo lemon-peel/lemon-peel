@@ -2,7 +2,7 @@ import { defineComponent, nextTick, reactive, ref } from 'vue';
 import { mount } from '@vue/test-utils';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { useModelToggle, useModelToggleProps } from '../useModelToggle';
+import { useModelToggle, useModelToggleProps } from '../src/useModelToggle';
 
 import type { VueWrapper } from '@vue/test-utils';
 import type { UnwrapNestedRefs } from 'vue';

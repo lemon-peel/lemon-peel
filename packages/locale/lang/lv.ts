@@ -1,6 +1,6 @@
 export default {
   name: 'lv',
-  el: {
+  lp: {
     colorpicker: {
       confirm: 'Labi',
       clear: 'Notīrīt',
@@ -118,4 +118,4 @@ export default {
       cancelButtonText: 'No', // to be translated
     },
   },
-}
+};

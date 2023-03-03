@@ -1,6 +1,6 @@
 export default {
   name: 'th',
-  el: {
+  lp: {
     colorpicker: {
       confirm: 'ตกลง',
       clear: 'ล้างข้อมูล',
@@ -118,4 +118,4 @@ export default {
       cancelButtonText: 'No', // to be translated
     },
   },
-}
+};

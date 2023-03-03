@@ -2,7 +2,7 @@ import { defineComponent, nextTick, reactive, ref } from 'vue';
 import { mount } from '@vue/test-utils';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { useGlobalConfig, useLocale } from '@lemon-peel/hooks';
-import Chinese from '@lemon-peel/locale/lang/zh-cn';
+import Chinese from '@lemon-peel/locale/lang/zhCn';
 import English from '@lemon-peel/locale/lang/en';
 import { LpButton, LpMessage } from '@lemon-peel/components';
 import { rAF } from '@lemon-peel/test-utils/tick';

@@ -123,7 +123,7 @@
                 @click="handleAction('cancel')"
                 @keydown.prevent.enter="handleAction('cancel')"
               >
-                {{ cancelButtonText || t('el.messagebox.cancel') }}
+                {{ cancelButtonText || t('lp.messagebox.cancel') }}
               </lp-button>
               <lp-button
                 v-show="showConfirmButton"
@@ -137,7 +137,7 @@
                 @click="handleAction('confirm')"
                 @keydown.prevent.enter="handleAction('confirm')"
               >
-                {{ confirmButtonText || t('el.messagebox.confirm') }}
+                {{ confirmButtonText || t('lp.messagebox.confirm') }}
               </lp-button>
             </div>
           </div>
@@ -300,7 +300,7 @@ export default defineComponent({
         const inputPattern = state.inputPattern;
         if (inputPattern && !inputPattern.test(state.inputValue || '')) {
           state.editorErrorMessage =
-            state.inputErrorMessage || t('el.messagebox.error');
+            state.inputErrorMessage || t('lp.messagebox.error');
           state.validateError = true;
           return false;
         }
@@ -309,7 +309,7 @@ export default defineComponent({
           const validateResult = inputValidator(state.inputValue || '');
           if (validateResult === false) {
             state.editorErrorMessage =
-              state.inputErrorMessage || t('el.messagebox.error');
+              state.inputErrorMessage || t('lp.messagebox.error');
             state.validateError = true;
             return false;
           }

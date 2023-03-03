@@ -18,11 +18,10 @@
     >
       <input
         ref="radioRef"
-        v-model="modelValue"
         :class="ns.e('original')"
-        :value="label"
         :name="name || radioGroup?.name"
         :disabled="disabled"
+        :value="value"
         type="radio"
         @focus="focus = true"
         @blur="focus = false"
@@ -55,9 +54,13 @@ const emit = defineEmits(radioEmits);
 const ns = useNamespace('radio');
 
 const { radioRef, radioGroup, focus, size, disabled, modelValue } =
-  useRadio(props, emit);
+  useRadio(props);
 
 function handleChange() {
   nextTick(() => emit('change', modelValue.value));
 }
+
+defineExpose({
+  modelValue,
+});
 </script>

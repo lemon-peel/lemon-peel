@@ -1,4 +1,4 @@
-import { useGlobalConfig } from '../useGlobalConfig';
+import { useGlobalConfig } from './useGlobalConfig';
 
 export const defaultNamespace = 'lp';
 const statePrefix = 'is-';

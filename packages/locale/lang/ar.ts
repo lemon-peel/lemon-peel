@@ -1,6 +1,6 @@
 export default {
   name: 'ar',
-  el: {
+  lp: {
     colorpicker: {
       confirm: 'موافق',
       clear: 'إزالة',
@@ -117,4 +117,4 @@ export default {
       cancelButtonText: 'No', // to be translated
     },
   },
-}
+};

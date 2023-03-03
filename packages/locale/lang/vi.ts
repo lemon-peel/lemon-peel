@@ -1,6 +1,6 @@
 export default {
   name: 'vi',
-  el: {
+  lp: {
     colorpicker: {
       confirm: 'OK',
       clear: 'Xóa',
@@ -118,4 +118,4 @@ export default {
       cancelButtonText: 'Huỷ',
     },
   },
-}
+};

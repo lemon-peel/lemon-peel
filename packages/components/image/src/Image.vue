@@ -20,7 +20,7 @@
         <div :class="ns.e('placeholder')" />
       </slot>
       <slot v-else-if="hasLoadError" name="error">
-        <div :class="ns.e('error')">{{ t('el.image.error') }}</div>
+        <div :class="ns.e('error')">{{ t('lp.image.error') }}</div>
       </slot>
     </div>
     <template v-if="preview">

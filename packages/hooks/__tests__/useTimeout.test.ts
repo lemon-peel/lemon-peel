@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { useTimeout } from '../useTimeout';
+import { useTimeout } from '../src/useTimeout';
 
 const _mount = (cb: () => void) => {
   return mount({

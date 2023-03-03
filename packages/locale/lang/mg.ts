@@ -1,6 +1,6 @@
 export default {
   name: 'mg',
-  el: {
+  lp: {
     colorpicker: {
       confirm: 'ENY',
       clear: 'Fafana',
@@ -120,4 +120,4 @@ export default {
       cancelButtonText: 'Tsy',
     },
   },
-}
+};

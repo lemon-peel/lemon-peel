@@ -1,6 +1,6 @@
 export default {
   name: 'nb-no',
-  el: {
+  lp: {
     colorpicker: {
       confirm: 'OK',
       clear: 'Tøm',
@@ -117,4 +117,4 @@ export default {
       cancelButtonText: 'Nei',
     },
   },
-}
+};

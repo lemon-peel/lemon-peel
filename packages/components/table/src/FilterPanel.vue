@@ -37,10 +37,10 @@
             type="button"
             @click="handleConfirm"
           >
-            {{ t('el.table.confirmFilter') }}
+            {{ t('lp.table.confirmFilter') }}
           </button>
           <button type="button" @click="handleReset">
-            {{ t('el.table.resetFilter') }}
+            {{ t('lp.table.resetFilter') }}
           </button>
         </div>
       </div>
@@ -55,7 +55,7 @@
           ]"
           @click="handleSelect()"
         >
-          {{ t('el.table.clearFilter') }}
+          {{ t('lp.table.clearFilter') }}
         </li>
         <li
           v-for="filter in filters"

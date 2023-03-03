@@ -1,5 +1,5 @@
 import { computed, inject } from 'vue';
-import { useNamespace } from '@lemon-peel/hooks';
+import { useNamespace } from '@lemon-peel/hooks/src';
 
 import { ensurePosition, getFixedColumnOffset, getFixedColumnsClass } from '../util';
 import { STORE_INJECTION_KEY } from '../tokens';

@@ -1,5 +1,5 @@
 import { computed, inject } from 'vue';
-import { useDisabled } from '@lemon-peel/hooks';
+import { useDisabled } from '@lemon-peel/hooks/src';
 import { isUndefined } from '@lemon-peel/utils';
 import { checkboxGroupContextKey } from '@lemon-peel/tokens';
 

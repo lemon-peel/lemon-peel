@@ -3,8 +3,8 @@ import { formContextKey, formItemContextKey } from '@lemon-peel/tokens';
 import { buildProp } from '@lemon-peel/utils';
 import { componentSizes, defaultSize } from '@lemon-peel/constants';
 
-import { useProp } from '../useProp';
-import { useGlobalConfig } from '../useGlobalConfig';
+import { useProp } from './useProp';
+import { useGlobalConfig } from './useGlobalConfig';
 
 import type { ComponentSize } from '@lemon-peel/constants';
 import type { MaybeRef } from '@vueuse/core';

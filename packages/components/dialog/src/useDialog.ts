@@ -1,7 +1,7 @@
 import { computed, getCurrentInstance, nextTick, onMounted, ref, watch } from 'vue';
 import { isClient, useTimeoutFn } from '@vueuse/core';
 
-import { defaultNamespace, useGlobalConfig, useId, useLockscreen, useZIndex } from '@lemon-peel/hooks';
+import { defaultNamespace, useGlobalConfig, useId, useLockscreen, useZIndex } from '@lemon-peel/hooks/src';
 import { UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
 import { addUnit } from '@lemon-peel/utils';
 

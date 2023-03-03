@@ -1,7 +1,7 @@
 <template>
   <span :class="ns.e('total')" :disabled="disabled">
     {{
-      t('el.pagination.total', {
+      t('lp.pagination.total', {
         total,
       })
     }}

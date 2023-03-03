@@ -1,9 +1,9 @@
 import { computed, getCurrentInstance, inject, nextTick, watch } from 'vue';
-import { useFormItem } from '@lemon-peel/hooks';
+import { useFormItem } from '@lemon-peel/hooks/src';
 import { checkboxGroupContextKey } from '@lemon-peel/tokens';
 import { debugWarn } from '@lemon-peel/utils';
 
-import type { useFormItemInputId } from '@lemon-peel/hooks';
+import type { useFormItemInputId } from '@lemon-peel/hooks/src';
 import type { CheckboxProps } from '../checkbox';
 import type { CheckboxDisabled, CheckboxModel, CheckboxStatus } from './index';
 

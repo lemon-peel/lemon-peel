@@ -6,13 +6,13 @@
         <div v-if="validatedRange.length === 0" :class="ns.e('button-group')">
           <lp-button-group>
             <lp-button size="small" @click="selectDate('prev-month')">
-              {{ t('el.datepicker.prevMonth') }}
+              {{ t('lp.datepicker.prevMonth') }}
             </lp-button>
             <lp-button size="small" @click="selectDate('today')">
-              {{ t('el.datepicker.today') }}
+              {{ t('lp.datepicker.today') }}
             </lp-button>
             <lp-button size="small" @click="selectDate('next-month')">
-              {{ t('el.datepicker.nextMonth') }}
+              {{ t('lp.datepicker.nextMonth') }}
             </lp-button>
           </lp-button-group>
         </div>

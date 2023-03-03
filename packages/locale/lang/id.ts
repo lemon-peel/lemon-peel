@@ -1,6 +1,6 @@
 export default {
   name: 'id',
-  el: {
+  lp: {
     colorpicker: {
       confirm: 'Pilih',
       clear: 'Kosongkan',
@@ -120,4 +120,4 @@ export default {
       cancelButtonText: 'Tidak',
     },
   },
-}
+};

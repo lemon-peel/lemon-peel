@@ -1,5 +1,5 @@
 import { defineComponent, provide, unref } from 'vue';
-import { useNamespace } from '@lemon-peel/hooks';
+import { useNamespace } from '@lemon-peel/hooks/src';
 import { useTable } from './useTable';
 import { TableV2InjectionKey } from './tokens';
 import { tableV2Props } from './table';

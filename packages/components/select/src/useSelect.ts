@@ -6,7 +6,7 @@ import { get, isEqual, debounce as lodashDebounce } from 'lodash-es';
 import { isClient } from '@vueuse/core';
 import { CHANGE_EVENT, EVENT_CODE, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
 import { debugWarn, getComponentSize, isFunction, isKorean, isNumber, isString, scrollIntoView } from '@lemon-peel/utils';
-import { useFormItem, useLocale, useNamespace, useSize } from '@lemon-peel/hooks';
+import { useFormItem, useLocale, useNamespace, useSize } from '@lemon-peel/hooks/src';
 
 import type { ComponentPublicInstance, ExtractPropTypes, Ref, ShallowRef, SetupContext } from 'vue';
 import type LpTooltip from '@lemon-peel/components/tooltip';
@@ -33,7 +33,7 @@ export function useSelectStates(props: Readonly<ExtractPropTypes<typeof selectPr
     previousQuery: null as Nullable<string>,
     inputHovering: false,
     cachedPlaceHolder: '',
-    currentPlaceholder: t('el.select.placeholder'),
+    currentPlaceholder: t('lp.select.placeholder'),
     menuVisibleOnFocus: false,
     isOnComposition: false,
     isSilentBlur: false,
@@ -103,7 +103,7 @@ export function useSelect(props: Readonly<ExtractPropTypes<typeof selectProps>>,
 
   const emptyText = computed(() => {
     if (props.loading) {
-      return props.loadingText || t('el.select.loading');
+      return props.loadingText || t('lp.select.loading');
     } else {
       if (props.remote && states.query === '' && states.options.size === 0)
         return false;
@@ -113,10 +113,10 @@ export function useSelect(props: Readonly<ExtractPropTypes<typeof selectProps>>,
         states.options.size > 0 &&
         states.filteredOptionsCount === 0
       ) {
-        return props.noMatchText || t('el.select.noMatch');
+        return props.noMatchText || t('lp.select.noMatch');
       }
       if (states.options.size === 0) {
-        return props.noDataText || t('el.select.noData');
+        return props.noDataText || t('lp.select.noData');
       }
     }
     return null;

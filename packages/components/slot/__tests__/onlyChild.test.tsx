@@ -2,7 +2,7 @@ import { Comment, Fragment, h, nextTick, ref } from 'vue';
 import { shallowMount } from '@vue/test-utils';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { debugWarn } from '@lemon-peel/utils';
-import { FORWARD_REF_INJECTION_KEY } from '@lemon-peel/hooks';
+import { FORWARD_REF_INJECTION_KEY } from '@lemon-peel/hooks/src';
 import { OnlyChild } from '../src/onlyChild';
 import type { MountingOptions } from '@vue/test-utils';
 

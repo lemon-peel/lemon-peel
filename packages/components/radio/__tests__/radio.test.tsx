@@ -1,4 +1,4 @@
-import { nextTick, ref } from 'vue';
+import { computed, nextTick, ref } from 'vue';
 import { mount } from '@vue/test-utils';
 import { describe, expect, it, test } from 'vitest';
 import { LpFormItem } from '@lemon-peel/components/form';
@@ -9,24 +9,28 @@ import RadioButton from '../src/RadioButton.vue';
 import type { RadioProps } from '../src/radio';
 
 describe('Radio', () => {
-  test('create', async () => {
-    const radio = ref('');
-    const wrapper = mount(Radio as any, {
-      props: {
-        label: 'a',
-        modelValue: radio.value,
-        'onUpdate:modelValue': (val: string) => {
-          console.log(val);
-          radio.value = val;
-        },
-        onClick: (val: string) => { console.info(1, val); },
-        onChange: (val: string) => { console.info(1, val); },
+  test('match', async () => {
+    let tmp = '';
+    const radio = computed({
+      get() {
+        return tmp;
+      },
+      set(val) {
+        console.info(val);
+        tmp = val;
       },
     });
+    const wrapper = mount(() => <input type="radio" v-model={radio.value} value="a" />);
+    await wrapper.trigger('click');
+    console.info(radio.value);
+    expect(radio.value).equal('a');
+  });
 
+  test('create', async () => {
+    const radio = ref('');
+    const wrapper = mount(() => <Radio v-model={radio.value} label="a" />);
     expect(wrapper.classes()).toContain('lp-radio');
     await wrapper.trigger('click');
-    console.info(navigator.userAgent);
     expect(wrapper.classes()).toContain('is-checked');
   });
 

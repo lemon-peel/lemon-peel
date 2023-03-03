@@ -13,22 +13,16 @@
 
 <script lang="ts" setup>
 import { computed, nextTick, onMounted, provide, reactive, ref, toRefs, watch } from 'vue';
+import { useFormItem, useFormItemInputId, useId, useNamespace } from '@lemon-peel/hooks';
 import { UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
 import { radioGroupKey } from '@lemon-peel/tokens';
-import {
-  useFormItem,
-  useFormItemInputId,
-  useId,
-  useNamespace,
-} from '@lemon-peel/hooks';
 import { debugWarn } from '@lemon-peel/utils';
+
 import { radioGroupEmits, radioGroupProps } from './radioGroup';
 
 import type { RadioGroupProps } from './radioGroup';
 
-defineOptions({
-  name: 'LpRadioGroup',
-});
+defineOptions({ name: 'LpRadioGroup' });
 
 const props = defineProps(radioGroupProps);
 const emit = defineEmits(radioGroupEmits);

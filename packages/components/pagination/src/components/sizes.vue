@@ -12,7 +12,7 @@
         v-for="item in innerPageSizes"
         :key="item"
         :value="item"
-        :label="item + t('el.pagination.pagesize')"
+        :label="item + t('lp.pagination.pagesize')"
       />
     </lp-select>
   </span>

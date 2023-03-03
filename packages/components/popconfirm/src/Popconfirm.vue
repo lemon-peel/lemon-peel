@@ -90,9 +90,9 @@ const cancel = (e: Event) => {
 };
 
 const finalConfirmButtonText = computed(
-  () => props.confirmButtonText || t('el.popconfirm.confirmButtonText'),
+  () => props.confirmButtonText || t('lp.popconfirm.confirmButtonText'),
 );
 const finalCancelButtonText = computed(
-  () => props.cancelButtonText || t('el.popconfirm.cancelButtonText'),
+  () => props.cancelButtonText || t('lp.popconfirm.cancelButtonText'),
 );
 </script>

@@ -2,7 +2,7 @@ import { nextTick, reactive } from 'vue';
 import { mount } from '@vue/test-utils';
 import { NOOP } from '@vue/shared';
 import { beforeEach, describe, expect, it, test, vi } from 'vitest';
-import { POPPER_CONTAINER_SELECTOR } from '@lemon-peel/hooks';
+import { POPPER_CONTAINER_SELECTOR } from '@lemon-peel/hooks/src';
 import { LpFormItem as FormItem } from '@lemon-peel/components/form';
 import Autocomplete from '../src/AutoComplete.vue';
 import type { AutocompleteProps } from '../src/autoComplete';

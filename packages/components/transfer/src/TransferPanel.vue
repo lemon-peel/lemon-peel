@@ -43,7 +43,7 @@
         </lp-checkbox>
       </lp-checkbox-group>
       <p v-show="hasNoMatch || isEmpty(data)" :class="ns.be('panel', 'empty')">
-        {{ hasNoMatch ? t('el.transfer.noMatch') : t('el.transfer.noData') }}
+        {{ hasNoMatch ? t('lp.transfer.noMatch') : t('lp.transfer.noData') }}
       </p>
     </div>
     <p v-if="hasFooter" :class="ns.be('panel', 'footer')">

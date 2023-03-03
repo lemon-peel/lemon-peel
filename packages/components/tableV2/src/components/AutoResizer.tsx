@@ -1,5 +1,5 @@
 import { defineComponent } from 'vue';
-import { useNamespace } from '@lemon-peel/hooks';
+import { useNamespace } from '@lemon-peel/hooks/src';
 import { autoResizerProps } from '../autoResizer';
 import { useAutoResize } from '../composables';
 

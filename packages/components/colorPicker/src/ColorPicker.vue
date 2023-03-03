@@ -42,7 +42,7 @@
             size="small"
             @click="clear"
           >
-            {{ t('el.colorpicker.clear') }}
+            {{ t('lp.colorpicker.clear') }}
           </lp-button>
           <lp-button
             plain
@@ -50,7 +50,7 @@
             :class="ns.be('dropdown', 'btn')"
             @click="confirmValue"
           >
-            {{ t('el.colorpicker.confirm') }}
+            {{ t('lp.colorpicker.confirm') }}
           </lp-button>
         </div>
       </div>
@@ -67,7 +67,7 @@
         :aria-label="buttonAriaLabel"
         :aria-labelledby="buttonAriaLabelledby"
         :aria-description="
-          t('el.colorpicker.description', { color: modelValue || '' })
+          t('lp.colorpicker.description', { color: modelValue || '' })
         "
         :tabindex="tabindex"
         @keydown.enter="handleTrigger"
@@ -184,7 +184,7 @@ const currentColor = computed(() => {
 const buttonAriaLabel = computed<string | undefined>(() => {
   return isLabeledByFormItem.value
     ? undefined
-    : props.label || t('el.colorpicker.defaultLabel');
+    : props.label || t('lp.colorpicker.defaultLabel');
 });
 
 const buttonAriaLabelledby = computed<string | undefined>(() => {

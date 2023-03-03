@@ -1,6 +1,6 @@
 export default {
   name: 'tr',
-  el: {
+  lp: {
     colorpicker: {
       confirm: 'Onayla',
       clear: 'Temizle',
@@ -118,4 +118,4 @@ export default {
       cancelButtonText: 'Hayır',
     },
   },
-}
+};

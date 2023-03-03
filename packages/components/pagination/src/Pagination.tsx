@@ -1,7 +1,7 @@
 import { computed, defineComponent, getCurrentInstance, h, provide, ref, watch } from 'vue';
 import { ArrowLeft, ArrowRight } from '@element-plus/icons-vue';
 import { buildProps, debugWarn, iconPropType, mutable } from '@lemon-peel/utils';
-import { useLocale, useNamespace } from '@lemon-peel/hooks';
+import { useLocale, useNamespace } from '@lemon-peel/hooks/src';
 import { elPaginationKey } from '@lemon-peel/tokens';
 
 import Previous from './components/Prev.vue';
@@ -242,7 +242,7 @@ export default defineComponent({
 
     return () => {
       if (!assertValidUsage.value) {
-        debugWarn(componentName, t('el.pagination.deprecationWarning'));
+        debugWarn(componentName, t('lp.pagination.deprecationWarning'));
         return null;
       }
       if (!props.layout) return null;

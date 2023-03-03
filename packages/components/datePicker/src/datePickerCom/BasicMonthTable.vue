@@ -21,7 +21,7 @@
         >
           <div>
             <span class="cell">
-              {{ t('el.datepicker.months.' + months[cell.text]) }}
+              {{ t('lp.datepicker.months.' + months[cell.text]) }}
             </span>
           </div>
         </td>

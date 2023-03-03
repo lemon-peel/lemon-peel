@@ -6,7 +6,7 @@ import { rAF } from '@lemon-peel/test-utils/tick';
 import ConfigProvider from '@lemon-peel/components/configProvider';
 import { CommonPicker } from '@lemon-peel/components/timePicker';
 import Input from '@lemon-peel/components/input';
-import zhCn from '@lemon-peel/locale/lang/zh-cn';
+import zhCn from '@lemon-peel/locale/lang/zhCn';
 import enUs from '@lemon-peel/locale/lang/en';
 import 'dayjs/locale/zh-cn';
 import { EVENT_CODE } from '@lemon-peel/constants';

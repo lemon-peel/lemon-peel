@@ -4,7 +4,7 @@ import { isEqual, pick } from 'lodash-es';
 import { UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
 import { buildProps, isFunction } from '@lemon-peel/utils';
 import { selectProps } from '@lemon-peel/components/select';
-import { useNamespace } from '@lemon-peel/hooks';
+import { useNamespace } from '@lemon-peel/hooks/src';
 import LpTree, { treeProps } from '@lemon-peel/components/tree';
 
 import { isValidArray, isValidValue, toValidArray, treeFind } from './utils';

@@ -33,7 +33,7 @@ const props = defineProps(emptyProps);
 const { t } = useLocale();
 const ns = useNamespace('empty');
 const emptyDescription = computed(
-  () => props.description || t('el.table.emptyText'),
+  () => props.description || t('lp.table.emptyText'),
 );
 const imageStyle = computed<CSSProperties>(() => ({
   width: props.imageSize ? `${props.imageSize}px` : '',

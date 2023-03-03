@@ -4,7 +4,7 @@ import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
 import LpIcon from '@lemon-peel/components/icon';
 import { Plus } from '@element-plus/icons-vue';
 import { tabsRootContextKey } from '@lemon-peel/tokens';
-import { useNamespace, useOrderedChildren } from '@lemon-peel/hooks';
+import { useNamespace, useOrderedChildren } from '@lemon-peel/hooks/src';
 import TabNav from './TabNav';
 
 import type { TabNavInstance } from './TabNav';
