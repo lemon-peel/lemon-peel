@@ -2,7 +2,7 @@ import { nextTick } from 'vue';
 import { isString } from '@vue/shared';
 import { isClient } from '@vueuse/core';
 import { addClass, getStyle, removeClass } from '@lemon-peel/utils';
-import { useNamespace, useZIndex } from '@lemon-peel/hooks/src';
+import { useNamespace, useZIndex } from '@lemon-peel/hooks';
 
 import type { CSSProperties } from 'vue';
 import type { LoadingInstance } from './loading';

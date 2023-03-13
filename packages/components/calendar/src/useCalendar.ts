@@ -1,8 +1,8 @@
 import { computed, ref } from 'vue';
 import dayjs from 'dayjs';
-import { useLocale } from '@lemon-peel/hooks/src';
+import { useLocale } from '@lemon-peel/hooks';
 import { debugWarn } from '@lemon-peel/utils';
-import { INPUT_EVENT, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
+import { INPUT_EVENT, UPDATE_MODEL_EVENT_OLD } from '@lemon-peel/constants';
 
 import type { ComputedRef, SetupContext } from 'vue';
 import type { Dayjs } from 'dayjs';
@@ -75,7 +75,7 @@ export const useCalendar = (
       const result = value.toDate();
 
       emit(INPUT_EVENT, result);
-      emit(UPDATE_MODEL_EVENT, result);
+      emit(UPDATE_MODEL_EVENT_OLD, result);
     },
   });
 

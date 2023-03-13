@@ -106,9 +106,9 @@ import { computed, nextTick, onMounted, provide, reactive, ref, watch } from 'vu
 import { debounce } from 'lodash-es';
 import { ClickOutside as vClickOutside } from '@lemon-peel/directives';
 import { useDisabled, useFormItem, useFormItemInputId, useLocale, useNamespace, useSize } from '@lemon-peel/hooks';
-import { UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
+import { UPDATE_MODEL_EVENT_OLD } from '@lemon-peel/constants';
 import { debugWarn } from '@lemon-peel/utils';
-import { ArrowDown } from '@element-plus/icons-vue';
+import { ArrowDown, Close } from '@element-plus/icons-vue';
 import { LpButton } from '@lemon-peel/components/button';
 import { LpInput } from '@lemon-peel/components/input';
 import { LpTooltip } from '@lemon-peel/components/tooltip';
@@ -118,10 +118,14 @@ import { colorPickerContextKey, colorPickerEmits, colorPickerProps } from './col
 import Predefine from './components/Predefine.vue';
 import Color from './utils/color';
 
+/* eslint-disable @typescript-eslint/consistent-type-imports */
+import HueSlider from './components/HueSlider.vue';
+import AlphaSlider from './components/AlphaSlider.vue';
+import SvPanel from './components/SvPanel.vue';
+/* eslint-enable */
+
 import type { TooltipInstance } from '@lemon-peel/components/tooltip';
-import type AlphaSlider from './components/AlphaSlider.vue';
-import type HueSlider from './components/HueSlider.vue';
-import type SvPanel from './components/SvPanel.vue';
+
 
 defineOptions({
   name: 'LpColorPicker',
@@ -226,7 +230,7 @@ function handleConfirm() {
 
 function confirmValue() {
   const value = color.value;
-  emit(UPDATE_MODEL_EVENT, value);
+  emit(UPDATE_MODEL_EVENT_OLD, value);
   emit('change', value);
   if (props.validateEvent) {
     formItem?.validate('change').catch(error => debugWarn(error));
@@ -247,7 +251,7 @@ function confirmValue() {
 
 function clear() {
   debounceSetShowPicker(false);
-  emit(UPDATE_MODEL_EVENT, null);
+  emit(UPDATE_MODEL_EVENT_OLD, null);
   emit('change', null);
   if (props.modelValue !== null && props.validateEvent) {
     formItem?.validate('change').catch(error => debugWarn(error));

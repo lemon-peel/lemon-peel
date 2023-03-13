@@ -1,7 +1,7 @@
 import type { DefaultRow } from './../table/defaults';
 
 import { inject } from 'vue';
-import { useNamespace } from '@lemon-peel/hooks/src';
+import { useNamespace } from '@lemon-peel/hooks';
 import { ensurePosition, getFixedColumnOffset, getFixedColumnsClass } from '../util';
 import { STORE_INJECTION_KEY, TABLE_INJECTION_KEY } from '../tokens';
 import type { TableColumnCtx } from '../tableColumn/defaults';

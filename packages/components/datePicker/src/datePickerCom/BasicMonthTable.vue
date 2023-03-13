@@ -1,7 +1,7 @@
 <template>
   <table
     role="grid"
-    :aria-label="t('el.datepicker.monthTablePrompt')"
+    :aria-label="t('lp.datepicker.monthTablePrompt')"
     :class="ns.b()"
     @click="handleMonthTableClick"
     @mousemove="handleMouseMove"
@@ -14,7 +14,7 @@
           :ref="(el) => isSelectedCell(cell) && (currentCellRef = el as HTMLElement)"
           :class="getCellStyle(cell)"
           :aria-selected="`${isSelectedCell(cell)}`"
-          :aria-label="t(`el.datepicker.month${+cell.text + 1}`)"
+          :aria-label="t(`lp.datepicker.month${+cell.text + 1}`)"
           :tabindex="isSelectedCell(cell) ? 0 : -1"
           @keydown.space.prevent.stop="handleMonthTableClick"
           @keydown.enter.prevent.stop="handleMonthTableClick"

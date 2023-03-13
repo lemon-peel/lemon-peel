@@ -3,7 +3,7 @@ import { NOOP } from '@vue/shared';
 import { buildProps, isObject, isString } from '@lemon-peel/utils';
 import { useTooltipContentProps } from '@lemon-peel/components/tooltip';
 import { placements } from '@popperjs/core';
-import { CHANGE_EVENT, INPUT_EVENT, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
+import { CHANGE_EVENT, INPUT_EVENT, UPDATE_MODEL_EVENT_OLD } from '@lemon-peel/constants';
 
 import type { ExtractPropTypes, PropType } from 'vue';
 import type Autocomplete from './AutoComplete.vue';
@@ -44,7 +44,7 @@ export const autocompleteProps = buildProps({
 export type AutocompleteProps = ExtractPropTypes<typeof autocompleteProps>;
 
 export const autocompleteEmits = {
-  [UPDATE_MODEL_EVENT]: (value: string) => isString(value),
+  [UPDATE_MODEL_EVENT_OLD]: (value: string) => isString(value),
   [INPUT_EVENT]: (value: string) => isString(value),
   [CHANGE_EVENT]: (value: string) => isString(value),
   focus: (event_: FocusEvent) => event_ instanceof FocusEvent,

@@ -16,7 +16,7 @@ import type { ConfigProviderProps } from '../src/configProvider';
 const TestComp = defineComponent({
   setup() {
     const { t } = useLocale();
-    return () => <div>{t('el.popconfirm.confirmButtonText')}</div>;
+    return () => <div>{t('lp.popconfirm.confirmButtonText')}</div>;
   },
 });
 
@@ -61,28 +61,28 @@ describe('config-provider', () => {
 
     it('should provide locale properly', async () => {
       expect(wrapper.find('.current-locale').text()).toBe(
-        English.el.popconfirm.confirmButtonText,
+        English.lp.popconfirm.confirmButtonText,
       );
       expect(wrapper.find('.opposite-locale').text()).toBe(
-        Chinese.el.popconfirm.confirmButtonText,
+        Chinese.lp.popconfirm.confirmButtonText,
       );
     });
 
     it('should reactively update the text on page', async () => {
       expect(wrapper.find('.current-locale').text()).toBe(
-        English.el.popconfirm.confirmButtonText,
+        English.lp.popconfirm.confirmButtonText,
       );
       expect(wrapper.find('.opposite-locale').text()).toBe(
-        Chinese.el.popconfirm.confirmButtonText,
+        Chinese.lp.popconfirm.confirmButtonText,
       );
 
       await wrapper.find('.to-zh').trigger('click');
 
       expect(wrapper.find('.current-locale').text()).toBe(
-        Chinese.el.popconfirm.confirmButtonText,
+        Chinese.lp.popconfirm.confirmButtonText,
       );
       expect(wrapper.find('.opposite-locale').text()).toBe(
-        English.el.popconfirm.confirmButtonText,
+        English.lp.popconfirm.confirmButtonText,
       );
     });
   });
@@ -129,10 +129,10 @@ describe('config-provider', () => {
       ));
 
       await nextTick();
-      expect(wrapper.find('button').classes().join(' ')).toBe('lp-button lp-button--default');
+      expect(wrapper.find('button').classes().join(' ')).toBe('lp-button');
       namespace.value = 'ep';
       await nextTick();
-      expect(wrapper.find('button').classes().join(' ')).toBe('ep-button ep-button--default');
+      expect(wrapper.find('button').classes().join(' ')).toBe('ep-button');
     });
   });
 

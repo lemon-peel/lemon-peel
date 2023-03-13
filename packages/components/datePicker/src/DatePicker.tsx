@@ -9,7 +9,7 @@ import dayOfYear from 'dayjs/plugin/dayOfYear.js';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter.js';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore.js';
 
-import { useNamespace } from '@lemon-peel/hooks/src';
+import { useNamespace } from '@lemon-peel/hooks';
 import { ROOT_PICKER_INJECTION_KEY } from '@lemon-peel/tokens';
 import { CommonPicker, DEFAULT_FORMATS_DATE, DEFAULT_FORMATS_DATEPICKER, timePickerDefaultProps } from '@lemon-peel/components/timePicker';
 

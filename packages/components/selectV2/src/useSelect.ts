@@ -2,8 +2,8 @@ import { computed, nextTick, onMounted, reactive, ref, watch } from 'vue';
 import { isArray, isFunction, isObject } from '@vue/shared';
 import { get, isEqual, isNil, debounce as lodashDebounce } from 'lodash-es';
 import { useResizeObserver } from '@vueuse/core';
-import { useFormItem, useLocale, useNamespace, useSize } from '@lemon-peel/hooks/src';
-import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
+import { useFormItem, useLocale, useNamespace, useSize } from '@lemon-peel/hooks';
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT_OLD } from '@lemon-peel/constants';
 import { ValidateComponentsMap, debugWarn, escapeStringRegexp } from '@lemon-peel/utils';
 import { ArrowUp } from '@element-plus/icons-vue';
 
@@ -360,7 +360,7 @@ const useSelect = (props: ExtractPropTypes<typeof selectProps>, emit: SetupConte
   };
 
   const update = (val: any) => {
-    emit(UPDATE_MODEL_EVENT, val);
+    emit(UPDATE_MODEL_EVENT_OLD, val);
     emitChange(val);
     states.previousValue = val?.toString();
   };

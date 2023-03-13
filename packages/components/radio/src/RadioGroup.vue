@@ -35,9 +35,9 @@ const { inputId: groupId, isLabeledByFormItem } = useFormItemInputId(props, {
   formItemContext: formItem,
 });
 
-const changeEvent = (value: RadioGroupProps['modelValue']) => {
-  emit(UPDATE_MODEL_EVENT, value);
-  nextTick(() => emit('change', value));
+const changeEvent = (val: RadioGroupProps['value']) => {
+  emit(UPDATE_MODEL_EVENT, val);
+  nextTick(() => emit('change', val));
 };
 
 onMounted(() => {
@@ -63,7 +63,7 @@ provide(
 );
 
 watch(
-  () => props.modelValue,
+  () => props.value,
   () => {
     if (props.validateEvent) {
       formItem?.validate('change').catch(error => debugWarn(error));

@@ -4,7 +4,7 @@ import { afterEach, describe, expect, it, test, vi } from 'vitest';
 import { EVENT_CODE } from '@lemon-peel/constants';
 import triggerEvent from '@lemon-peel/test-utils/triggerEvent';
 import { ArrowDown, Check, CircleClose } from '@element-plus/icons-vue';
-import { POPPER_CONTAINER_SELECTOR } from '@lemon-peel/hooks/src';
+import { POPPER_CONTAINER_SELECTOR } from '@lemon-peel/hooks';
 import { hasClass } from '@lemon-peel/utils';
 import LpForm, { LpFormItem } from '@lemon-peel/components/form';
 import Cascader from '../src/Index.vue';

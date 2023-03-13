@@ -1,6 +1,6 @@
 import { computed, inject, ref, watch, nextTick } from 'vue';
 import { debounce } from 'lodash-es';
-import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
+import { EVENT_CODE, UPDATE_MODEL_EVENT_OLD } from '@lemon-peel/constants';
 import { sliderContextKey } from '@lemon-peel/tokens';
 import type { CSSProperties, ComputedRef, Ref, SetupContext } from 'vue';
 import type { SliderProps } from '../slider';
@@ -137,7 +137,7 @@ export const useSliderButton = (
     value = Number.parseFloat(value.toFixed(precision.value));
 
     if (value !== props.modelValue) {
-      emit(UPDATE_MODEL_EVENT, value);
+      emit(UPDATE_MODEL_EVENT_OLD, value);
     }
 
     if (!initData.dragging && props.modelValue !== initData.oldValue) {

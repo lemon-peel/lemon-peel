@@ -2,7 +2,7 @@ import { computed } from 'vue';
 import dayjs from 'dayjs';
 import localeData from 'dayjs/plugin/localeData.js';
 
-import { useLocale } from '@lemon-peel/hooks/src';
+import { useLocale } from '@lemon-peel/hooks';
 import { rangeArr } from '@lemon-peel/components/timePicker';
 import { WEEK_DAYS } from '@lemon-peel/constants';
 
@@ -76,9 +76,9 @@ export const useDateTable = (
 
   const weekDays = computed(() => {
     const start = firstDayOfWeek;
-    return start === 0 ? WEEK_DAYS.map(_ => t(`el.datepicker.weeks.${_}`)) : WEEK_DAYS.slice(start)
+    return start === 0 ? WEEK_DAYS.map(_ => t(`lp.datepicker.weeks.${_}`)) : WEEK_DAYS.slice(start)
       .concat(WEEK_DAYS.slice(0, start))
-      .map(_ => t(`el.datepicker.weeks.${_}`));
+      .map(_ => t(`lp.datepicker.weeks.${_}`));
   });
 
   const getFormattedDate = (day: number, type: CalendarDateCellType): Dayjs => {

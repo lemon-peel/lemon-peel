@@ -35,7 +35,7 @@ defineOptions({
   name: 'LpDescriptionsRow',
 });
 
-defineProps(descriptionsRowProps);
+const props = defineProps(descriptionsRowProps);
 
 const descriptions = inject(descriptionsKey, {} as IDescriptionsInject);
 </script>

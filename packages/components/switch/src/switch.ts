@@ -1,5 +1,5 @@
 import { buildProps, iconPropType, isBoolean, isNumber, isString, isValidComponentSize } from '@lemon-peel/utils';
-import { CHANGE_EVENT, INPUT_EVENT, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
+import { CHANGE_EVENT, INPUT_EVENT, UPDATE_MODEL_EVENT_OLD } from '@lemon-peel/constants';
 import type { ComponentSize } from '@lemon-peel/constants';
 import type Switch from './Switch.vue';
 import type { ExtractPropTypes, PropType } from 'vue';
@@ -87,7 +87,7 @@ export const switchProps = buildProps({
 export type SwitchProps = ExtractPropTypes<typeof switchProps>;
 
 export const switchEmits = {
-  [UPDATE_MODEL_EVENT]: (val: boolean | string | number) =>
+  [UPDATE_MODEL_EVENT_OLD]: (val: boolean | string | number) =>
     isBoolean(val) || isString(val) || isNumber(val),
   [CHANGE_EVENT]: (val: boolean | string | number) =>
     isBoolean(val) || isString(val) || isNumber(val),

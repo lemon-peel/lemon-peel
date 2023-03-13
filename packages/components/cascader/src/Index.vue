@@ -209,7 +209,7 @@ import { ClickOutside as Clickoutside } from '@lemon-peel/directives';
 import { useFormItem, useLocale, useNamespace, useSize } from '@lemon-peel/hooks';
 
 import { debugWarn, focusNode, getSibling, isKorean, isValidComponentSize } from '@lemon-peel/utils';
-import { CHANGE_EVENT, EVENT_CODE, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
+import { CHANGE_EVENT, EVENT_CODE, UPDATE_MODEL_EVENT_OLD } from '@lemon-peel/constants';
 import { ArrowDown, Check, CircleClose } from '@element-plus/icons-vue';
 
 import type { Options } from '@lemon-peel/components/popper';
@@ -307,7 +307,7 @@ export default defineComponent({
   },
 
   emits: [
-    UPDATE_MODEL_EVENT,
+    UPDATE_MODEL_EVENT_OLD,
     CHANGE_EVENT,
     'focus',
     'blur',
@@ -388,7 +388,7 @@ export default defineComponent({
         return cloneDeep(props.modelValue) as CascaderValue;
       },
       set(value) {
-        emit(UPDATE_MODEL_EVENT, value);
+        emit(UPDATE_MODEL_EVENT_OLD, value);
         emit(CHANGE_EVENT, value);
         if (props.validateEvent) {
           formItem?.validate('change').catch(error => debugWarn(error));

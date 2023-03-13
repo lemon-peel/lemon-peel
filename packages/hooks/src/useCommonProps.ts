@@ -15,10 +15,10 @@ export const useSizeProp = buildProp({
   required: false,
 } as const);
 
-export const useSize = (
+export function useSize(
   fallback?: MaybeRef<ComponentSize | undefined>,
   ignore: Partial<Record<'prop' | 'form' | 'formItem' | 'global', boolean>> = {},
-) => {
+) {
   const emptyReference = ref(undefined);
 
   const size = ignore.prop ? emptyReference : useProp<ComponentSize>('size');
@@ -39,12 +39,12 @@ export const useSize = (
       globalConfig.value ||
       defaultSize,
   );
-};
+}
 
-export const useDisabled = (fallback?: MaybeRef<boolean | undefined>) => {
+export function useDisabled(fallback?: MaybeRef<boolean | undefined>) {
   const disabled = useProp<boolean>('disabled');
   const form = inject(formContextKey, null);
   return computed(
     () => disabled.value || unref(fallback) || form?.disabled || false,
   );
-};
+}

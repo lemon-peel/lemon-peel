@@ -91,6 +91,9 @@ export default {
       preview: '查看图片',
       continue: '继续上传',
     },
+    radio: {
+      shouldWrappedWithGroup: '`LpRadio`/`LpRadioButton`组件应该使用`LpRadioGroup`包裹, 请勿单独使用.',
+    },
     table: {
       emptyText: '暂无数据',
       confirmFilter: '筛选',

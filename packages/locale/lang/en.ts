@@ -122,6 +122,9 @@ export default {
       preview: 'Preview',
       continue: 'Continue',
     },
+    radio: {
+      shouldWrappedWithGroup: 'The `LpRadioButton` component should be wrapped in an `LpRadioGroup`, not used separately.',
+    },
     slider: {
       defaultLabel: 'slider between {min} and {max}',
       defaultRangeStartLabel: 'pick start value',

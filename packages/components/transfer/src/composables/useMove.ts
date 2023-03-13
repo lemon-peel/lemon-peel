@@ -1,4 +1,4 @@
-import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT_OLD } from '@lemon-peel/constants';
 import { usePropsAlias } from './usePropsAlias';
 
 import type { SetupContext } from 'vue';
@@ -16,7 +16,7 @@ export const useMove = (
     direction: TransferDirection,
     movedKeys: TransferKey[],
   ) => {
-    emit(UPDATE_MODEL_EVENT, value);
+    emit(UPDATE_MODEL_EVENT_OLD, value);
     emit(CHANGE_EVENT, value, direction, movedKeys);
   };
 

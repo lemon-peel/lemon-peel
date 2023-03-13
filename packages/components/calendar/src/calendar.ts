@@ -1,5 +1,5 @@
 import { buildProps, isArray, isDate } from '@lemon-peel/utils';
-import { INPUT_EVENT, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
+import { INPUT_EVENT, UPDATE_MODEL_EVENT_OLD } from '@lemon-peel/constants';
 import type { ExtractPropTypes, PropType } from 'vue';
 
 export type CalendarDateType =
@@ -19,7 +19,7 @@ export const calendarProps = buildProps({
 export type CalendarProps = ExtractPropTypes<typeof calendarProps>;
 
 export const calendarEmits = {
-  [UPDATE_MODEL_EVENT]: (value: Date) => isDate(value),
+  [UPDATE_MODEL_EVENT_OLD]: (value: Date) => isDate(value),
   [INPUT_EVENT]: (value: Date) => isDate(value),
 };
 export type CalendarEmits = typeof calendarEmits;

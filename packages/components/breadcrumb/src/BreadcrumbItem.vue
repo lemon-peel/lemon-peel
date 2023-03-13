@@ -33,7 +33,7 @@ defineOptions({
 const props = defineProps(breadcrumbItemProps);
 
 const instance = getCurrentInstance()!;
-const breadcrumbContext = inject(breadcrumbKey)!;
+const breadcrumbContext = inject(breadcrumbKey, null)!;
 const ns = useNamespace('breadcrumb');
 
 const { separator, separatorIcon } = toRefs(breadcrumbContext);

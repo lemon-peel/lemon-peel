@@ -166,7 +166,7 @@ describe('Dialog.vue', () => {
     });
 
     test('should open and close with delay', async () => {
-      const wrapper = doMount({ props: { openDelay: 200, closeDelay: 200 } });
+      const wrapper = doMount({ props: { openDelay: 2000, closeDelay: 200, modelValue: false } });
 
       expect(wrapper.vm.visible).toBe(false);
 
@@ -271,7 +271,7 @@ describe('Dialog.vue', () => {
     });
 
     test('aria-describedby should point to modal body', async () => {
-      const wrapper = mount({});
+      const wrapper = mount(<Dialog modelValue={true}>{AXIOM}</Dialog>);
       await nextTick();
       const dialog = wrapper.find('[role="dialog"]');
       const dialogBody = wrapper.find('.lp-dialog__body');

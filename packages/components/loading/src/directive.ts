@@ -37,7 +37,7 @@ const createInstance = (
   const getProperty = <K extends keyof LoadingOptions>(name: K) =>
     resolveExpression(
       getBindingProperty(name) ||
-        element.getAttribute(`element-loading-${hyphenate(name)}`),
+        element.getAttribute(`lp-loading-${hyphenate(name)}`),
     );
 
   const fullscreen =

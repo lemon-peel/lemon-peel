@@ -1,6 +1,6 @@
 import { createVNode, render } from 'vue';
 import { isClient } from '@vueuse/core';
-import { useZIndex } from '@lemon-peel/hooks/src';
+import { useZIndex } from '@lemon-peel/hooks';
 import { debugWarn, isElement, isString, isVNode } from '@lemon-peel/utils';
 import NotificationConstructor from './Notification.vue';
 import { notificationTypes } from './notification';

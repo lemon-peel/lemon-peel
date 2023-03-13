@@ -1,6 +1,6 @@
 import { nextTick, ref } from 'vue';
 import { mount } from '@vue/test-utils';
-import { describe, expect, test } from 'vitest';
+import { describe, expect, test, vi } from 'vitest';
 import { LpFormItem } from '@lemon-peel/components/form';
 import Checkbox from '../src/Checkbox.vue';
 import CheckboxButton from '../src/CheckboxButton.vue';
@@ -11,7 +11,10 @@ import type { CheckboxValueType } from '../src/checkbox';
 describe('Checkbox', () => {
   test('create', async () => {
     const checked = ref(false);
-    const wrapper = mount(() => <Checkbox v-model={checked.value} label="a" />);
+    const wrapper = mount(
+      () => <Checkbox v-model:checked={checked.value} value="a" />,
+      { attachTo: 'body' },
+    );
 
     expect(wrapper.classes()).toContain('lp-checkbox');
     expect(wrapper.classes()).not.toContain('is-disabled');
@@ -24,18 +27,18 @@ describe('Checkbox', () => {
   describe('no v-model', () => {
     test('checkbox without label', async () => {
       const checked = ref(false);
-      const wrapper = mount(() => <Checkbox checked={checked.value} />);
+      const wrapper = mount(() => <Checkbox checked={checked.value} value="a" />, { attachTo: 'body' });
 
-      expect(wrapper.classes('is-checked')).toBe(false);
+      expect(wrapper.classes()).not.toContain('is-checked');
     });
 
     test('checkbox with label attribute', async () => {
       const checked = ref(false);
       const wrapper = mount(() => (
-        <Checkbox checked={checked.value} label="a" />
+        <Checkbox checked={checked.value} value="a" label='a' />
       ));
 
-      expect(wrapper.classes('is-checked')).toBe(false);
+      expect(wrapper.classes()).not.toContain('is-checked');
     });
   });
 
@@ -44,7 +47,7 @@ describe('Checkbox', () => {
       const checked = ref(false);
       const wrapper = mount(() => (
         <LpFormItem label="test">
-          <Checkbox v-model={checked.value} disabled />
+          <Checkbox v-model:checked={checked.value} value="a" disabled />
         </LpFormItem>
       ));
 
@@ -60,7 +63,7 @@ describe('Checkbox', () => {
     test('checkbox with label attribute', async () => {
       const checked = ref(false);
       const wrapper = mount(() => (
-        <Checkbox v-model={checked.value} disabled label="a" />
+        <Checkbox v-model={checked.value} disabled label="a" value="a" />
       ));
 
       expect(wrapper.classes()).toContain('is-disabled');
@@ -79,7 +82,7 @@ describe('Checkbox', () => {
       const onChange = (val: CheckboxValueType) => (data.value = val);
       const wrapper = mount(() => (
         <LpFormItem label="test">
-          <Checkbox v-model={checked.value} onChange={onChange} />
+          <Checkbox v-model:checked={checked.value} value="a" onChange={onChange} />
         </LpFormItem>
       ));
 
@@ -92,8 +95,8 @@ describe('Checkbox', () => {
       const data = ref();
       const onChange = (val: CheckboxValueType) => (data.value = val);
       const wrapper = mount(() => (
-        <Checkbox v-model={checked.value} onChange={onChange} label="Foobar" />
-      ));
+        <Checkbox v-model:checked={checked.value} onChange={onChange} value="Foobar" />
+      ), { attachTo: 'body' });
 
       await wrapper.trigger('click');
       expect(data.value).toBe(true);
@@ -104,10 +107,8 @@ describe('Checkbox', () => {
       const data = ref();
       const onChange = (val: CheckboxValueType) => (data.value = val);
       const wrapper = mount(() => (
-        <Checkbox v-model={checked.value} onChange={onChange}>
-          Foobar
-        </Checkbox>
-      ));
+        <Checkbox v-model:checked={checked.value} onChange={onChange} value="Foobar">Foobar</Checkbox>
+      ), { attachTo: 'body' });
 
       await wrapper.trigger('click');
       expect(data.value).toBe(true);
@@ -120,10 +121,10 @@ describe('Checkbox', () => {
       const wrapper = mount(() => (
         <LpFormItem label="test">
           <label>
-            <Checkbox v-model={checked.value} onChange={onChange} />
+            <Checkbox v-model:checked={checked.value} value="a" onChange={onChange} />
           </label>
         </LpFormItem>
-      ));
+      ), { attachTo: 'body' });
 
       await wrapper.findComponent(Checkbox).trigger('click');
       expect(data.value).toBe(false);
@@ -132,26 +133,23 @@ describe('Checkbox', () => {
 
   test('checkbox group', async () => {
     const checkList = ref([]);
-    const wrapper = mount({
-      setup() {
-        return () => (
-          <CheckboxGroup v-model={checkList.value}>
-            <Checkbox label="a" ref="a" />
-            <Checkbox label="b" ref="b" />
-            <Checkbox label="c" ref="c" />
-            <Checkbox label="d" ref="d" />
-          </CheckboxGroup>
-        );
-      },
-    });
+    const wrapper = mount(() => (
+      <CheckboxGroup v-model:value={checkList.value}>
+        <Checkbox label="a" value="a" />
+        <Checkbox label="b" value="b" />
+        <Checkbox label="c" value="c" />
+        <Checkbox label="d" value="d" />
+      </CheckboxGroup>
+    ), { attachTo: 'body' });
 
     expect(checkList.value.length).toBe(0);
 
-    await wrapper.findComponent({ ref: 'a' }).trigger('click');
+    const checkboxList = wrapper.findAll('.lp-checkbox')!;
+    await checkboxList.at(0)!.trigger('click');
     expect(checkList.value.length).toBe(1);
     expect(checkList.value).toContain('a');
 
-    await wrapper.findComponent({ ref: 'b' }).trigger('click');
+    await checkboxList.at(1)!.trigger('click');
     expect(checkList.value.length).toBe(2);
     expect(checkList.value).toContain('a');
     expect(checkList.value).toContain('b');
@@ -159,20 +157,16 @@ describe('Checkbox', () => {
 
   test('checkbox group without modelValue', async () => {
     const checkList = ref([]);
-    const wrapper = mount({
-      setup() {
-        return () => (
-          <CheckboxGroup v-model={checkList.value}>
-            <Checkbox label="a" ref="a" />
-            <Checkbox label="b" ref="b" />
-            <Checkbox label="c" ref="c" />
-            <Checkbox label="d" ref="d" />
-          </CheckboxGroup>
-        );
-      },
-    });
+    const wrapper = mount(() => (
+      <CheckboxGroup v-model:value={checkList.value}>
+        <Checkbox label="a" value="a" />
+        <Checkbox label="b" value="b" />
+        <Checkbox label="c" value="c" />
+        <Checkbox label="d" value="d" />
+      </CheckboxGroup>
+    ), { attachTo: 'body' });
 
-    await wrapper.findComponent({ ref: 'a' }).trigger('click');
+    await wrapper.find('.lp-checkbox').trigger('click');
     expect(checkList.value.length).toBe(1);
     expect(checkList.value).toContain('a');
   });
@@ -181,18 +175,14 @@ describe('Checkbox', () => {
     const checkList = ref([]);
     const data = ref<CheckboxValueType[]>([]);
     const onChange = (val: CheckboxValueType[]) => (data.value = val);
-    const wrapper = mount({
-      setup() {
-        return () => (
-          <CheckboxGroup v-model={checkList.value} onChange={onChange}>
-            <Checkbox label="a" ref="a" />
-            <Checkbox label="b" ref="b" />
-          </CheckboxGroup>
-        );
-      },
-    });
+    const wrapper = mount(() => (
+      <CheckboxGroup v-model={checkList.value} onChange={onChange}>
+        <Checkbox label="a" value="a" />
+        <Checkbox label="b" value="b" />
+      </CheckboxGroup>
+    ), { attachTo: 'body' });
 
-    await wrapper.findComponent({ ref: 'a' }).trigger('click');
+    await wrapper.find('.lp-checkbox').trigger('click');
     await nextTick();
     expect(data.value.length).toBe(1);
     expect(data.value).toEqual(['a']);
@@ -200,146 +190,61 @@ describe('Checkbox', () => {
 
   test('nested group', async () => {
     const checkList = ref([]);
-    const wrapper = mount({
-      setup() {
-        return () => (
-          <CheckboxGroup v-model={checkList.value}>
-            <Checkbox label="a" ref="a" />
-            <Checkbox label="b" ref="b" />
-            <Checkbox label="c" ref="c" />
-            <Checkbox label="d" ref="d" />
-          </CheckboxGroup>
-        );
-      },
-    });
+    const wrapper = mount(() => (
+      <CheckboxGroup v-model:value={checkList.value}>
+        <Checkbox label="a" value="a" />
+        <Checkbox label="b" value="b" />
+        <Checkbox label="c" value="c" />
+        <Checkbox label="d" value="d" />
+      </CheckboxGroup>
+    ), { attachTo: 'body' });
 
     expect(checkList.value.length).toBe(0);
-    await wrapper.findComponent({ ref: 'a' }).trigger('click');
+    await wrapper.find('.lp-checkbox').trigger('click');
     expect(checkList.value).toEqual(['a']);
   });
 
-  describe('true false label', () => {
-    test('without label', async () => {
-      const checked = ref('a');
-      const wrapper = mount(() => (
-        <LpFormItem label="test">
-          <Checkbox true-label="a" false-label={3} v-model={checked.value} />
-        </LpFormItem>
-      ));
-
-      const checkbox = wrapper.findComponent(Checkbox);
-      await checkbox.trigger('click');
-      await nextTick();
-      expect(checked.value).toBe(3);
-      await checkbox.trigger('click');
-      await nextTick();
-      expect(checked.value).toBe('a');
-    });
-
-    test('with label attribute', async () => {
-      const checked = ref('a');
-      const wrapper = mount(() => (
-        <Checkbox
-          label="Foobar"
-          true-label="a"
-          false-label={3}
-          v-model={checked.value}
-        />
-      ));
-
-      await wrapper.trigger('click');
-      await nextTick();
-      expect(checked.value).toBe(3);
-      await wrapper.trigger('click');
-      await nextTick();
-      expect(checked.value).toBe('a');
-    });
-
-    test('with label as slot content', async () => {
-      const checked = ref('a');
-      const wrapper = mount(() => (
-        <Checkbox true-label="a" false-label={3} v-model={checked.value}>
-          Foobar
-        </Checkbox>
-      ));
-
-      await wrapper.trigger('click');
-      await nextTick();
-      expect(checked.value).toBe(3);
-      await wrapper.trigger('click');
-      await nextTick();
-      expect(checked.value).toBe('a');
-    });
-  });
-
   test('check', () => {
-    const checked = ref(false);
-    const checklist = ref([]);
-    mount(() => (
-      <div>
-        <Checkbox v-model={checked.value} checked />
-        <CheckboxGroup v-model={checklist.value}>
-          <Checkbox checked label="a" />
-        </CheckboxGroup>
-      </div>
-    ));
-
-    expect(checked.value).toBe(true);
-    expect(checklist.value).toEqual(['a']);
-  });
-
-  test('label', async () => {
-    const checklist = ref([]);
-    const wrapper = mount(() => (
-      <CheckboxGroup v-model={checklist.value}>
-        <Checkbox label="">all</Checkbox>
-        <Checkbox label="a">a</Checkbox>
-        <Checkbox label="b">b</Checkbox>
+    const checklist = ref(['a']);
+    const wp = mount(() => (
+      <CheckboxGroup v-model:value={checklist.value}>
+          <Checkbox label="a" value="a" />
       </CheckboxGroup>
-    ));
+    ), { attachTo: 'body' });
 
-    const checkbox = wrapper.find('.lp-checkbox');
-    await checkbox.trigger('click');
-    expect(checklist.value[0]).toEqual('');
+    expect(wp.find('.lp-checkbox').classes()).toContain('is-checked');
   });
 
   test('label is object', async () => {
     const checklist = ref([]);
     const wrapper = mount(() => (
-      <CheckboxGroup v-model={checklist.value}>
-        <Checkbox label={{ a: 1 }}>all</Checkbox>
-        <Checkbox label={{ a: 2 }}>a</Checkbox>
-        <Checkbox label={{ b: 1 }}>b</Checkbox>
+      <CheckboxGroup v-model:value={checklist.value}>
+        <Checkbox value={{ a: 1 }}>a1</Checkbox>
+        <Checkbox value={{ a: 2 }}>a2</Checkbox>
+        <Checkbox value={{ b: 1 }}>b1</Checkbox>
       </CheckboxGroup>
-    ));
+    ), { attachTo: 'body' });
 
     const checkbox = wrapper.find('.lp-checkbox');
     await checkbox.trigger('click');
     expect(checklist.value[0]).toEqual({ a: 1 });
     expect(checkbox.classes()).contains('is-checked');
   });
+
   test('label is object with initial values', async () => {
     const checklist = ref([{ a: 1 }]);
-    const wrapper = mount({
-      setup() {
-        return () => (
-          <CheckboxGroup v-model={checklist.value}>
-            <Checkbox label={{ a: 1 }} ref="a1">
-              a1
-            </Checkbox>
-            <Checkbox label={{ a: 2 }} ref="a2">
-              a2
-            </Checkbox>
-            <Checkbox label={{ b: 1 }} ref="b1">
-              b1
-            </Checkbox>
-          </CheckboxGroup>
-        );
-      },
-    });
+    const wrapper = mount(() => (
+      <CheckboxGroup v-model:value={checklist.value}>
+        <Checkbox value={{ a: 1 }}> a1 </Checkbox>
+        <Checkbox value={{ a: 2 }}> a2 </Checkbox>
+        <Checkbox value={{ b: 1 }}> b-1 </Checkbox>
+      </CheckboxGroup>
+    ), { attachTo: 'body' });
+
     expect(checklist.value.length).toBe(1);
-    const checkboxA1 = wrapper.findComponent({ ref: 'a1' });
-    const checkboxA2 = wrapper.findComponent({ ref: 'a2' });
+    const checkboxList = wrapper.findAll('.lp-checkbox');
+    const checkboxA1 = checkboxList.at(0)!;
+    const checkboxA2 = checkboxList.at(1)!;
     await checkboxA2.trigger('click');
     expect(checklist.value).toEqual([{ a: 1 }, { a: 2 }]);
     expect(checkboxA1.classes()).contains('is-checked');
@@ -350,12 +255,12 @@ describe('Checkbox', () => {
   });
 });
 
-describe('check-button', () => {
+describe('Check Button', () => {
   test('create', async () => {
     const checked = ref(false);
     const wrapper = mount(() => (
-      <CheckboxButton v-model={checked.value} label="a" />
-    ));
+      <CheckboxButton v-model:checked={checked.value} value="a" />
+    ), { attachTo: 'body' });
 
     expect(wrapper.classes()).toContain('lp-checkbox-button');
     await wrapper.trigger('click');
@@ -367,7 +272,7 @@ describe('check-button', () => {
   test('disabled', async () => {
     const checked = ref(false);
     const wrapper = mount(() => (
-      <CheckboxButton v-model={checked.value} disabled label="a" />
+      <CheckboxButton v-model:checked={checked.value} disabled value="a" />
     ));
 
     expect(wrapper.classes()).toContain('is-disabled');
@@ -378,59 +283,47 @@ describe('check-button', () => {
   test('change event', async () => {
     const checked = ref(false);
     const data = ref();
-    const onChange = (val: CheckboxValueType) => (data.value = val);
+    const onChange = vi.fn((val: CheckboxValueType) => (data.value = val));
+
     const wrapper = mount(() => (
-      <CheckboxButton v-model={checked.value} onChange={onChange} />
-    ));
+      <CheckboxButton v-model:checked={checked.value} onChange={onChange} value="a" />
+    ), { attachTo: 'body' });
 
     await wrapper.trigger('click');
+    expect(onChange).toBeCalledTimes(1);
     expect(data.value).toBe(true);
   });
 
   test('button group change', async () => {
     const checkList = ref([]);
-    const data = ref<CheckboxValueType[]>([]);
-    const onChange = (val: CheckboxValueType[]) => (data.value = val);
-    const wrapper = mount({
-      setup() {
-        return () => (
-          <CheckboxGroup v-model={checkList.value} onChange={onChange}>
-            <CheckboxButton label="a" ref="a" />
-            <CheckboxButton label="b" ref="b" />
-            <CheckboxButton label="c" ref="c" />
-            <CheckboxButton label="d" ref="d" />
-          </CheckboxGroup>
-        );
-      },
-    });
+    const wrapper = mount(() => (
+      <CheckboxGroup v-model:value={checkList.value}>
+        <CheckboxButton value="a" ref="a" />
+        <CheckboxButton value="b" ref="b" />
+        <CheckboxButton value="c" ref="c" />
+        <CheckboxButton value="d" ref="d" />
+      </CheckboxGroup>
+    ), { attachTo: 'body' });
 
-    await wrapper.findComponent({ ref: 'a' }).trigger('click');
-    expect(data.value).toEqual(['a']);
-    await wrapper.findComponent({ ref: 'b' }).trigger('click');
-    expect(data.value).toEqual(['a', 'b']);
+    const checkboxList = wrapper.findAll('.lp-checkbox-button');
+    await checkboxList.at(1)!.trigger('click');
+    expect(checkList.value).toEqual(['b']);
+    await checkboxList.at(2)!.trigger('click');
+    expect(checkList.value).toEqual(['b', 'c']);
   });
 
   test('button group props', () => {
     const checkList = ref(['a', 'b']);
-    const wrapper = mount({
-      setup() {
-        return () => (
-          <CheckboxGroup
-            v-model={checkList.value}
-            size="large"
-            fill="#ff0000"
-            text-color="#000"
-          >
-            <CheckboxButton label="a" ref="a" />
-            <CheckboxButton label="b" ref="b" />
-            <CheckboxButton label="c" ref="c" />
-            <CheckboxButton label="d" ref="d" />
-          </CheckboxGroup>
-        );
-      },
-    });
+    const wrapper = mount(() => (
+      <CheckboxGroup v-model:value={checkList.value} size="large" fill="#ff0000" text-color="#000" >
+        <CheckboxButton value="a" label="A"/>
+        <CheckboxButton value="b" label="B" />
+        <CheckboxButton value="c" label="C" />
+        <CheckboxButton value="d" label="D" />
+      </CheckboxGroup>
+    ), { attachTo: 'body' });
 
-    const checkbox = wrapper.findComponent({ ref: 'a' });
+    const checkbox = wrapper.find('.lp-checkbox-button');
     expect(checkList.value.length).toBe(2);
     expect(checkbox.classes()).contains('is-checked');
     expect(
@@ -452,81 +345,23 @@ describe('check-button', () => {
     expect(wrapper.find('tr').classes('lp-checkbox-group')).toBeTruthy();
   });
 
-  test('button group min and max', async () => {
-    const checkList = ref(['a', 'b']);
-    const wrapper = mount({
-      setup() {
-        return () => (
-          <CheckboxGroup v-model={checkList.value} min={2} max={3}>
-            <CheckboxButton label="a" ref="a" />
-            <CheckboxButton label="b" ref="b" />
-            <CheckboxButton label="c" ref="c" />
-            <CheckboxButton label="d" ref="d" />
-            <CheckboxButton label="e" ref="e" />
-          </CheckboxGroup>
-        );
-      },
-    });
-
-    expect(checkList.value.length).toBe(2);
-
-    await wrapper.findComponent({ ref: 'a' }).trigger('click');
-    expect(checkList.value.length).toBe(2);
-
-    await wrapper.findComponent({ ref: 'c' }).trigger('click');
-    expect(checkList.value.length).toBe(3);
-    expect(checkList.value).toEqual(['a', 'b', 'c']);
-
-    expect(wrapper.findComponent({ ref: 'd' }).vm.isDisabled).toBe(true);
-    expect(wrapper.findComponent({ ref: 'e' }).vm.isDisabled).toBe(true);
-
-    checkList.value = [];
-    await nextTick();
-    await wrapper.findComponent({ ref: 'a' }).trigger('click');
-    await wrapper.findComponent({ ref: 'd' }).trigger('click');
-    expect(checkList.value).toEqual(['a', 'd']);
-    await wrapper.findComponent({ ref: 'a' }).trigger('click');
-    expect(checkList.value).toEqual(['a', 'd']);
-    expect(wrapper.findComponent({ ref: 'a' }).vm.isDisabled).toBe(true);
-  });
-
   test('nested group', async () => {
     const checkList = ref([]);
-    const wrapper = mount({
-      setup() {
-        return () => (
-          <CheckboxGroup v-model={checkList.value}>
-            <CheckboxButton label="a" ref="a" />
-            <CheckboxButton label="b" ref="b" />
-            <CheckboxButton label="c" ref="c" />
-            <CheckboxButton label="d" ref="d" />
-          </CheckboxGroup>
-        );
-      },
-    });
+    const wrapper = mount(() => (
+      <CheckboxGroup v-model:value={checkList.value}>
+        <CheckboxButton label="a" value="a" />
+        <CheckboxButton label="b" value="b" />
+        <CheckboxButton label="c" value="c" />
+        <CheckboxButton label="d" value="d" />
+      </CheckboxGroup>
+    ), { attachTo: 'body' });
 
     expect(checkList.value.length).toBe(0);
-    await wrapper.findComponent({ ref: 'a' }).trigger('click');
+    await wrapper.find('.lp-checkbox-button').trigger('click');
     expect(checkList.value).toEqual(['a']);
   });
 
   describe('checked prop', () => {
-    test('check', () => {
-      const checked = ref(false);
-      const checklist = ref([]);
-      mount(() => (
-        <div>
-          <Checkbox v-model={checked.value} checked />
-          <CheckboxGroup v-model={checklist.value}>
-            <CheckboxButton checked label="a" />
-          </CheckboxGroup>
-        </div>
-      ));
-
-      expect(checked.value).toBe(true);
-      expect(checklist.value).toEqual(['a']);
-    });
-
     test('checked', () => {
       const wrapper = mount(() => <Checkbox checked />);
 

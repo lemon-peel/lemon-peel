@@ -1,5 +1,5 @@
 import { watch } from 'vue';
-import { INPUT_EVENT, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
+import { INPUT_EVENT, UPDATE_MODEL_EVENT_OLD } from '@lemon-peel/constants';
 import { debugWarn, throwError } from '@lemon-peel/utils';
 import type { ComputedRef, SetupContext } from 'vue';
 import type { Arrayable } from '@lemon-peel/utils';
@@ -15,7 +15,7 @@ export const useWatch = (
   elFormItem: FormItemContext,
 ) => {
   const emitUpdate = (val: Arrayable<number>) => {
-    emit(UPDATE_MODEL_EVENT, val);
+    emit(UPDATE_MODEL_EVENT_OLD, val);
     emit(INPUT_EVENT, val);
   };
 

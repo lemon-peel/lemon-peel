@@ -2,7 +2,7 @@
   <label
     :class="[
       ns.b('button'),
-      ns.is('active', modelValue === label),
+      ns.is('active', isChecked),
       ns.is('disabled', disabled),
       ns.is('focus', focus),
       ns.bm('button', size),
@@ -10,18 +10,19 @@
   >
     <input
       ref="radioRef"
-      v-model="modelValue"
-      :class="ns.be('button', 'original-radio')"
-      :value="label"
       type="radio"
+      :class="ns.be('button', 'original-radio')"
       :name="name || radioGroup?.name"
+      :value="value"
       :disabled="disabled"
+      :checked="isChecked"
       @focus="focus = true"
       @blur="focus = false"
+      @change="onChange"
     >
     <span
       :class="ns.be('button', 'inner')"
-      :style="modelValue === label ? activeStyle : {}"
+      :style="isChecked ? activeStyle : {}"
       @keydown.stop
     >
       <slot>``
@@ -34,7 +35,7 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
 import { useNamespace } from '@lemon-peel/hooks';
-import { useRadio } from './useRadio';
+import { useRadio, wrappedGuard } from './useRadio';
 
 import { radioButtonProps } from './radioButton';
 
@@ -44,10 +45,12 @@ defineOptions({
   name: 'LpRadioButton',
 });
 
+wrappedGuard();
+
 const props = defineProps(radioButtonProps);
 
 const ns = useNamespace('radio');
-const { radioRef, focus, size, disabled, modelValue, radioGroup } = useRadio(props);
+const { radioRef, radioGroup, isChecked, focus, size, disabled, onChange } = useRadio(props as any);
 
 const activeStyle = computed<CSSProperties>(() => {
   return {

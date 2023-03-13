@@ -1,7 +1,7 @@
 import { isNil } from 'lodash-es';
-import { useSizeProp } from '@lemon-peel/hooks/src';
+import { useSizeProp } from '@lemon-peel/hooks';
 import { buildProps, isNumber } from '@lemon-peel/utils';
-import { CHANGE_EVENT, INPUT_EVENT, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
+import { CHANGE_EVENT, INPUT_EVENT, UPDATE_MODEL_EVENT_OLD } from '@lemon-peel/constants';
 import type { ExtractPropTypes } from 'vue';
 import type InputNumber from './InputNumber.vue';
 
@@ -64,7 +64,7 @@ export const inputNumberEmits = {
   focus: (e: FocusEvent) => e instanceof FocusEvent,
   [INPUT_EVENT]: (val: number | null | undefined) =>
     isNumber(val) || isNil(val),
-  [UPDATE_MODEL_EVENT]: (val: number | undefined) =>
+  [UPDATE_MODEL_EVENT_OLD]: (val: number | undefined) =>
     isNumber(val) || isNil(val),
 };
 export type InputNumberEmits = typeof inputNumberEmits;

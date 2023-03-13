@@ -3,7 +3,7 @@ import { mount } from '@vue/test-utils';
 import { afterEach, describe, expect, it, test, vi } from 'vitest';
 import { EVENT_CODE } from '@lemon-peel/constants';
 import { ArrowDown, CaretTop, CircleClose } from '@element-plus/icons-vue';
-import { POPPER_CONTAINER_ID } from '@lemon-peel/hooks/src';
+import { POPPER_CONTAINER_ID } from '@lemon-peel/hooks';
 import { hasClass } from '@lemon-peel/utils';
 import { LpFormItem } from '@lemon-peel/components/form';
 import Select from '../src/Select.vue';
@@ -309,7 +309,7 @@ describe('Select', () => {
     }));
     expect(wrapper.classes()).toContain('lp-select');
     expect(findInnerInput().placeholder).toBe('Select');
-    const select = wrapper.findComponent({ name: 'ElSelect' });
+    const select = wrapper.findComponent(Select);
     await select.trigger('mouseenter');
     await select.trigger('click');
     await nextTick();
@@ -1375,7 +1375,7 @@ describe('Select', () => {
           :value="item"
         />
       </lp-select>`,
-      components: { ElSelect: Select, ElOption: Option },
+      components: { LpSelect: Select, LpOption: Option },
       data() {
         return {
           options: <OptionProps[]>[],

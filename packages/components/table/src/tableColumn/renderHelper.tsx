@@ -2,7 +2,7 @@
 // @ts-nocheck
 import { Comment, computed, getCurrentInstance, h, inject, ref, unref } from 'vue';
 import { debugWarn } from '@lemon-peel/utils';
-import { useNamespace } from '@lemon-peel/hooks/src';
+import { useNamespace } from '@lemon-peel/hooks';
 import type { CellRenders } from '../config';
 import { cellForced, defaultRenderCell, getDefaultClassName, treeCellPrefix } from '../config';
 import { parseMinWidth, parseWidth } from '../util';

@@ -1,7 +1,7 @@
 import { createVNode, render } from 'vue';
 import { isClient } from '@vueuse/core';
 import { debugWarn, isElement, isFunction, isNumber, isString, isVNode } from '@lemon-peel/utils';
-import { useZIndex } from '@lemon-peel/hooks/src';
+import { useZIndex } from '@lemon-peel/hooks';
 import { messageConfig } from '@lemon-peel/components/configProvider/src/configProvider';
 import MessageView from './Message.vue';
 import { messageDefaults, messageTypes } from './message';

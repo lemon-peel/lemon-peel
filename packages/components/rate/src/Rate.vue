@@ -50,7 +50,7 @@
 </template>
 <script lang="ts" setup>
 import { computed, inject, markRaw, ref, watch } from 'vue';
-import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
+import { EVENT_CODE, UPDATE_MODEL_EVENT_OLD } from '@lemon-peel/constants';
 import { hasClass, isArray, isObject, isString } from '@lemon-peel/utils';
 import { formContextKey, formItemContextKey } from '@lemon-peel/tokens';
 import { LpIcon } from '@lemon-peel/components/icon';
@@ -202,7 +202,7 @@ function emitValue(value: number) {
     value = 0;
   }
 
-  emit(UPDATE_MODEL_EVENT, value);
+  emit(UPDATE_MODEL_EVENT_OLD, value);
   if (properties.modelValue !== value) {
     emit('change', value);
   }
@@ -236,7 +236,7 @@ function handleKey(e: KeyboardEvent) {
   }
   currentVal = currentVal < 0 ? 0 : currentVal;
   currentVal = currentVal > properties.max ? properties.max : currentVal;
-  emit(UPDATE_MODEL_EVENT, currentVal);
+  emit(UPDATE_MODEL_EVENT_OLD, currentVal);
   emit('change', currentVal);
   return currentVal;
 }
@@ -282,7 +282,7 @@ watch(
 );
 
 if (!properties.modelValue) {
-  emit(UPDATE_MODEL_EVENT, 0);
+  emit(UPDATE_MODEL_EVENT_OLD, 0);
 }
 
 defineExpose({

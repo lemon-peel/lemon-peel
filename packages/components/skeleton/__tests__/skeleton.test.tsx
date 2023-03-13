@@ -56,7 +56,7 @@ describe('Skeleton.vue', () => {
 
   it('should render default slots', () => {
     const wrapper = mount(Skeleton, {
-      data: () => ({ loading: false }),
+      props: { loading: false },
       slots: {
         default: () => AXIOM,
       },
@@ -79,7 +79,7 @@ describe('Skeleton.vue', () => {
   });
 
   it('should throttle rendering', async () => {
-    const wrapper = mount(Skeleton, { data: () => ({ throttle: 500 }) });
+    const wrapper = mount(Skeleton, { props: { throttle: 500 } });
 
     expect((wrapper.vm as SkeletonInstance).uiLoading).toBe(false);
 

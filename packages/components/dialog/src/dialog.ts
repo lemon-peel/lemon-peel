@@ -1,5 +1,5 @@
 import { buildProps, isBoolean } from '@lemon-peel/utils';
-import { UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
+import { UPDATE_MODEL_EVENT_OLD } from '@lemon-peel/constants';
 import { dialogContentProps } from './dialogContent';
 
 import type { ExtractPropTypes, PropType } from 'vue';
@@ -33,7 +33,7 @@ export const dialogEmits = {
   opened: () => true,
   close: () => true,
   closed: () => true,
-  [UPDATE_MODEL_EVENT]: (value: boolean) => isBoolean(value),
+  [UPDATE_MODEL_EVENT_OLD]: (value: boolean) => isBoolean(value),
   openAutoFocus: () => true,
   closeAutoFocus: () => true,
 };

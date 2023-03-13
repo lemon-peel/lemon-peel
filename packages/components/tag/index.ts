@@ -1,6 +1,6 @@
 import { withInstall } from '@lemon-peel/utils';
 
-import Tag from './src/tag.vue';
+import Tag from './src/Tag.vue';
 
 export const LpTag = withInstall(Tag);
 export default LpTag;

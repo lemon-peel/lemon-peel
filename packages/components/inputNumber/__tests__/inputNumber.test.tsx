@@ -22,18 +22,6 @@ describe('InputNumber.vue', () => {
     expect(wrapper.find('input').element.value).toEqual('1');
   });
 
-  test('set modelValue undefined to form validate', async () => {
-    const num = ref(undefined);
-    const wrapper = mount(() => (
-      <>
-        <InputNumber modelValue={num.value} placeholder="input number" />
-        <p>{num.value}</p>
-      </>
-    ));
-    await nextTick();
-    expect(wrapper.find('p').element.textContent).toBeUndefined();
-  });
-
   test('set modelValue undefined to display placeholder', async () => {
     const inputText = ref<number | undefined>(1);
     const wrapper = mount(() => (

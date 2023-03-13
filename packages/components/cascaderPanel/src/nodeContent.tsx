@@ -1,6 +1,6 @@
 
 import { defineComponent, getCurrentInstance } from 'vue';
-import { useNamespace } from '@lemon-peel/hooks/src';
+import { useNamespace } from '@lemon-peel/hooks';
 import type CascaderNode from './Node.vue';
 export default defineComponent({
   name: 'NodeContent',

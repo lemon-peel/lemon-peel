@@ -1,4 +1,4 @@
-import { useNamespace } from '@lemon-peel/hooks/src';
+import { useNamespace } from '@lemon-peel/hooks';
 import { useCurrent } from './current';
 import { useExpand } from './expand';
 import { useTree } from './tree';

@@ -1,7 +1,7 @@
 import { computed, defineComponent, getCurrentInstance, h, nextTick, onMounted, onUpdated, ref, resolveDynamicComponent, unref } from 'vue';
 import { isClient } from '@vueuse/core';
 import { hasOwn, isNumber, isString } from '@lemon-peel/utils';
-import { useNamespace } from '@lemon-peel/hooks/src';
+import { useNamespace } from '@lemon-peel/hooks';
 import { useCache } from '../hooks/useCache';
 import useWheel from '../hooks/useWheel';
 import Scrollbar from '../components/Scrollbar';

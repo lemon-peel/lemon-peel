@@ -32,7 +32,7 @@ const TestComp = defineComponent({
           ns.be(), // return empty string
           ns.em(), // return empty string
           ns.bem(), // return empty string
-          ns.is('hover', undefined), // return empty string
+          ns.is('hover', false), // return empty string
           ns.is('clicked', false), // return empty string
         ]}
         style={{ ...cssVar, ...cssVarBlock }}

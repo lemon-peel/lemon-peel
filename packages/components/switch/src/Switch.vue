@@ -68,7 +68,7 @@ import { isPromise } from '@vue/shared';
 import { addUnit, debugWarn, isBoolean, throwError } from '@lemon-peel/utils';
 import LpIcon from '@lemon-peel/components/icon';
 import { Loading } from '@element-plus/icons-vue';
-import { CHANGE_EVENT, INPUT_EVENT, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
+import { CHANGE_EVENT, INPUT_EVENT, UPDATE_MODEL_EVENT_OLD } from '@lemon-peel/constants';
 import { useDisabled, useFormItem, useFormItemInputId, useNamespace, useSize } from '@lemon-peel/hooks';
 import { switchEmits, switchProps } from './switch';
 import type { CSSProperties } from 'vue';
@@ -126,7 +126,7 @@ watch(
 );
 
 if (![props.activeValue, props.inactiveValue].includes(actualValue.value)) {
-  emit(UPDATE_MODEL_EVENT, props.inactiveValue);
+  emit(UPDATE_MODEL_EVENT_OLD, props.inactiveValue);
   emit(CHANGE_EVENT, props.inactiveValue);
   emit(INPUT_EVENT, props.inactiveValue);
 }
@@ -141,7 +141,7 @@ watch(checked, val => {
 
 const handleChange = () => {
   const val = checked.value ? props.inactiveValue : props.activeValue;
-  emit(UPDATE_MODEL_EVENT, val);
+  emit(UPDATE_MODEL_EVENT_OLD, val);
   emit(CHANGE_EVENT, val);
   emit(INPUT_EVENT, val);
   nextTick(() => {

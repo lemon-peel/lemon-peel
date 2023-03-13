@@ -12,10 +12,10 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, nextTick, provide, toRefs, watch } from 'vue';
+import { computed, nextTick, provide, reactive, toRefs, watch } from 'vue';
 import { pick } from 'lodash-es';
 
-import { UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
+import { UPDATE_MODEL_EVENT, UPDATE_MODEL_EVENT_OLD } from '@lemon-peel/constants';
 import { debugWarn } from '@lemon-peel/utils';
 import { useFormItem, useFormItemInputId, useNamespace } from '@lemon-peel/hooks';
 import { checkboxGroupContextKey } from '@lemon-peel/tokens';
@@ -44,31 +44,31 @@ const changeEvent = async (value: CheckboxValueType[]) => {
   emit('change', value);
 };
 
-const modelValue = computed({
-  get() {
-    return props.modelValue;
-  },
-  set(value: CheckboxValueType[]) {
-    changeEvent(value);
-  },
-});
+const providePropKeys = [
+  'value',
+  'size',
+  'disabled',
+  'validateEvent',
+  'fill',
+  'textColor',
+] as const;
 
-provide(checkboxGroupContextKey, {
-  ...pick(toRefs(props), [
-    'size',
-    'min',
-    'max',
-    'disabled',
-    'validateEvent',
-    'fill',
-    'textColor',
-  ]),
-  modelValue,
+const  provideObj = reactive({
+  ...pick(props, providePropKeys),
   changeEvent,
 });
 
+provide(
+  checkboxGroupContextKey,
+  provideObj,
+);
+
+watch(props, () => {
+  Object.assign(provideObj, pick(props, providePropKeys));
+});
+
 watch(
-  () => props.modelValue,
+  () => props.value,
   () => {
     if (props.validateEvent) {
       formItem?.validate('change').catch(error => debugWarn(error));

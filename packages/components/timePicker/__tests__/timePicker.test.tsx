@@ -702,11 +702,11 @@ describe('TimePicker(range)', () => {
       },
     );
 
+
     await nextTick();
 
-    expect((wrapper.findComponent(Picker).vm as any).elPopperOptions).toEqual(
-      LpPopperOptions,
-    );
+    expect((wrapper.findComponent(Picker).vm as any).lpPopperOptions)
+      .toEqual(LpPopperOptions);
   });
 
   it('am/pm mode avoid render redundant content', async () => {

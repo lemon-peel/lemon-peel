@@ -1,6 +1,6 @@
 import { computed, defineComponent, h, renderSlot } from 'vue';
 import { buildProps } from '@lemon-peel/utils';
-import { useNamespace } from '@lemon-peel/hooks/src';
+import { useNamespace } from '@lemon-peel/hooks';
 
 import type { ExtractPropTypes } from 'vue';
 

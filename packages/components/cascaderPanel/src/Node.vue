@@ -30,6 +30,7 @@
     <lp-radio
       v-else-if="checkStrictly"
       :model-value="checkedNodeId"
+      :value="node.uid"
       :label="node.uid"
       :disabled="isDisabled"
       @update:model-value="(handleSelectCheck as any)"

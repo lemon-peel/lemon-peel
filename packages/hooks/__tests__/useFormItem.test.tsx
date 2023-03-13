@@ -13,7 +13,7 @@ import type { FormContext, FormItemContext } from '@lemon-peel/tokens';
 
 const AXIOM = 'Rem is the best girl';
 
-const mountComponent = (setup = NOOP, options = {}) =>
+const doMount = (setup = NOOP, options = {}) =>
   mount(
     defineComponent({
       setup,
@@ -26,13 +26,13 @@ const mountComponent = (setup = NOOP, options = {}) =>
 
 describe('use-form-item', () => {
   it('should return local value', () => {
-    const wrapper = mountComponent();
+    const wrapper = doMount();
     expect(wrapper.find('.lp-button').exists()).toBe(true);
   });
 
   it('should return props.size instead of injected.size', () => {
     const propSize = 'small';
-    const wrapper = mountComponent(
+    const wrapper = doMount(
       () => {
         provide(formItemContextKey, {
           size: 'large',
@@ -48,7 +48,7 @@ describe('use-form-item', () => {
 
   it('should return fallback.size instead inject.size', () => {
     const fallbackSize = 'small';
-    const wrapper = mountComponent(() => {
+    const wrapper = doMount(() => {
       provide(buttonGroupContextKey, {
         size: fallbackSize,
       });
@@ -63,7 +63,7 @@ describe('use-form-item', () => {
 
   it('should return formItem.size instead form.size', () => {
     const itemSize = 'small';
-    const wrapper = mountComponent(() => {
+    const wrapper = doMount(() => {
       provide(formItemContextKey, {
         size: itemSize,
       } as FormItemContext);

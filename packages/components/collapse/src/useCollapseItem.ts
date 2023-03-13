@@ -1,5 +1,5 @@
 import { computed, inject, ref, unref } from 'vue';
-import { useNamespace } from '@lemon-peel/hooks/src';
+import { useNamespace } from '@lemon-peel/hooks';
 import { generateId } from '@lemon-peel/utils';
 import { collapseContextKey } from '@lemon-peel/tokens';
 

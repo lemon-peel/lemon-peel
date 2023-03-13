@@ -1,6 +1,6 @@
 import { defineComponent, inject } from 'vue';
 import { addUnit, buildProps, getNormalizedProps } from '@lemon-peel/utils';
-import { useNamespace } from '@lemon-peel/hooks/src';
+import { useNamespace } from '@lemon-peel/hooks';
 import { descriptionsKey } from './token';
 
 import type { VNode } from 'vue';
@@ -65,8 +65,8 @@ export default defineComponent({
             style={style}
             class={[ns.e('cell'), align]}
             colSpan={span}>
-              <span class={[ns.e('label'), labelClassName]}>label</span>
-              <span class={[ns.e('content'), className]}>content</span>
+              <span class={[ns.e('label'), labelClassName]}>{label}</span>
+              <span class={[ns.e('content'), className]}>{content}</span>
             </td>;
     };
   },

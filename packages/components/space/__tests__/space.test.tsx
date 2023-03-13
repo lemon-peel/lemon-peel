@@ -24,22 +24,16 @@ describe('Space.vue', () => {
 
   it('sizes', async () => {
     const warnHandler = vi.fn();
-    const wrapper = mount(
-      Space,
-      {
-        data: () => ({ size: 'large' }),
-        slots: {
-          default: () => Array.from({ length: 2 }).map((_, idx) => {
-            return `test${idx}`;
-          }),
-        },
-        global: {
-          config: {
-            warnHandler,
-          },
-        },
+    const wrapper = mount(Space, {
+      props: { size: 'large' },
+      slots: {
+        default: () => (Array
+          .from({ length: 2 })
+          .map((_, idx) => (`test${idx}`))),
       },
-    );
+      global: { config: { warnHandler } },
+    });
+
 
     await nextTick();
     expect(wrapper.find('.lp-space__item').attributes('style')).toContain(
@@ -78,17 +72,14 @@ describe('Space.vue', () => {
 
   it('should render with spacer', async () => {
     const stringSpacer = '|';
-    const wrapper = mount(
-      Space,
-      {
-        data: () => ({ size: 'large', spacer: stringSpacer }),
-        slots: {
-          default: () => Array.from({ length: 2 }).map((_, idx) => {
-            return `test${idx}`;
-          }),
-        },
+    const wrapper = mount(Space, {
+      props: { size: 'large', spacer: stringSpacer },
+      slots: {
+        default: () => Array.from({ length: 2 }).map((_, idx) => {
+          return `test${idx}`;
+        }),
       },
-    );
+    });
 
     await nextTick();
     expect(wrapper.element.children).toHaveLength(3);
@@ -109,17 +100,14 @@ describe('Space.vue', () => {
   });
 
   it('fill', async () => {
-    const wrapper = mount(
-      Space,
-      {
-        data: () => ({ fill: true }),
-        slots: {
-          default: () => (Array.from({ length: 2 }).map((_, idx) => {
-            return `test${idx}`;
-          })),
-        },
+    const wrapper = mount(Space, {
+      props: { fill: true },
+      slots: {
+        default: () => (Array.from({ length: 2 }).map((_, idx) => {
+          return `test${idx}`;
+        })),
       },
-    );
+    });
 
     await nextTick();
     expect(wrapper.find('.lp-space').attributes('style')).toContain(

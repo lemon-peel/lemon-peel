@@ -1,5 +1,5 @@
 import { buildProps, isNumber, isString, mutable } from '@lemon-peel/utils';
-import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT_OLD } from '@lemon-peel/constants';
 import type { ExtractPropTypes, PropType } from 'vue';
 import type { Arrayable } from '@lemon-peel/utils';
 
@@ -19,7 +19,7 @@ export const collapseProps = buildProps({
 export type CollapseProps = ExtractPropTypes<typeof collapseProps>;
 
 export const collapseEmits = {
-  [UPDATE_MODEL_EVENT]: emitChangeFn,
+  [UPDATE_MODEL_EVENT_OLD]: emitChangeFn,
   [CHANGE_EVENT]: emitChangeFn,
 };
 export type CollapseEmits = typeof collapseEmits;

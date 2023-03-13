@@ -1,7 +1,7 @@
 import { computed, defineComponent, getCurrentInstance, h, provide, ref, watch } from 'vue';
 import { ArrowLeft, ArrowRight } from '@element-plus/icons-vue';
 import { buildProps, debugWarn, iconPropType, mutable } from '@lemon-peel/utils';
-import { useLocale, useNamespace } from '@lemon-peel/hooks/src';
+import { useLocale, useNamespace } from '@lemon-peel/hooks';
 import { elPaginationKey } from '@lemon-peel/tokens';
 
 import Previous from './components/Prev.vue';

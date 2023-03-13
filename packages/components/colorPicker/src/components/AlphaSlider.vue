@@ -1,21 +1,7 @@
 <template>
   <div :class="[ns.b(), ns.is('vertical', vertical)]">
-    <div
-      ref="bar"
-      :class="ns.e('bar')"
-      :style="{
-        background,
-      }"
-      @click="handleClick"
-    />
-    <div
-      ref="thumb"
-      :class="ns.e('thumb')"
-      :style="{
-        left: thumbLeft + 'px',
-        top: thumbTop + 'px',
-      }"
-    />
+    <div ref="bar" :class="ns.e('bar')" :style="{ background, }" @click="handleClick" />
+    <div ref="thumb" :class="ns.e('thumb')" :style="{ left: thumbLeft + 'px', top: thumbTop + 'px', }" />
   </div>
 </template>
 
@@ -60,20 +46,6 @@ export default defineComponent({
     const thumbTop = ref(0);
     const background = ref<string>();
 
-    watch(
-      () => props.color.get('alpha'),
-      () => {
-        update();
-      },
-    );
-    watch(
-      () => props.color.value,
-      () => {
-        update();
-      },
-    );
-
-    //methods
     function getThumbLeft() {
       if (!thumb.value) return 0;
 
@@ -108,13 +80,27 @@ export default defineComponent({
       return '';
     }
 
-    function handleClick(event: MouseEvent | TouchEvent) {
-      const target = event.target;
-
-      if (target !== thumb.value) {
-        handleDrag(event);
-      }
+    function update() {
+      thumbLeft.value = getThumbLeft();
+      thumbTop.value = getThumbTop();
+      background.value = getBackground();
     }
+
+    watch(
+      () => props.color.get('alpha'),
+      () => {
+        update();
+      },
+    );
+
+    watch(
+      () => props.color.value,
+      () => {
+        update();
+      },
+    );
+
+    //methods
 
     function handleDrag(event: MouseEvent | TouchEvent) {
       if (!bar.value || !thumb.value) return;
@@ -152,10 +138,12 @@ export default defineComponent({
       }
     }
 
-    function update() {
-      thumbLeft.value = getThumbLeft();
-      thumbTop.value = getThumbTop();
-      background.value = getBackground();
+    function handleClick(event: MouseEvent | TouchEvent) {
+      const target = event.target;
+
+      if (target !== thumb.value) {
+        handleDrag(event);
+      }
     }
 
     // mounded

@@ -1,7 +1,7 @@
 import { placements } from '@popperjs/core';
 import { buildProps, isArray, isNumber } from '@lemon-peel/utils';
-import { CHANGE_EVENT, INPUT_EVENT, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
-import { useSizeProp } from '@lemon-peel/hooks/src';
+import { CHANGE_EVENT, INPUT_EVENT, UPDATE_MODEL_EVENT_OLD } from '@lemon-peel/constants';
+import { useSizeProp } from '@lemon-peel/hooks';
 
 import type { Arrayable } from '@lemon-peel/utils';
 import type { ExtractPropTypes, PropType } from 'vue';
@@ -52,7 +52,7 @@ const isValidValue = (value: Arrayable<number>) =>
   isNumber(value) || (isArray(value) && value.every(isNumber));
 
 export const sliderEmits = {
-  [UPDATE_MODEL_EVENT]: isValidValue,
+  [UPDATE_MODEL_EVENT_OLD]: isValidValue,
   [INPUT_EVENT]: isValidValue,
   [CHANGE_EVENT]: isValidValue,
 };

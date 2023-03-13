@@ -127,16 +127,11 @@ describe('CascaderPanel.vue', () => {
     const handleChange = vi.fn();
     const handleExpandChange = vi.fn();
     const value = ref<any[]>([]);
-    const wrapper = mount(CascaderPanel, {
-      props: {
-        props: {},
-        modelValue: value.value,
-        ['update:modelValue']: (val: any[]) => (value.value = val),
-        options: NORMAL_OPTIONS,
-        onChange: handleChange,
-        onExpandChange: handleExpandChange,
-      },
-    });
+    const wrapper = mount(() => <CascaderPanel
+      v-model={value.value}
+      options={NORMAL_OPTIONS}
+      onChange={handleChange}
+      onExpandChange={handleExpandChange} />);
 
     const options = wrapper.findAll(NODE);
     const [bjNode, zjNode, , gdNode] = options;

@@ -1,6 +1,6 @@
 import { computed, defineComponent } from 'vue';
 import { buildProps, isString } from '@lemon-peel/utils';
-import { useNamespace } from '@lemon-peel/hooks/src';
+import { useNamespace } from '@lemon-peel/hooks';
 import type { CSSProperties, ExtractPropTypes, PropType } from 'vue';
 
 export const sliderMarkerProps = buildProps({

@@ -1,5 +1,5 @@
 import type { InjectionKey, Ref } from 'vue';
-import type { CssNamespace } from '@lemon-peel/hooks/src';
+import type { CssNamespace } from '@lemon-peel/hooks';
 import type { KeyType } from './types';
 
 export type TableV2Context = {

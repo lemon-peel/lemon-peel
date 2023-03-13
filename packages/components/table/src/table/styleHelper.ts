@@ -1,6 +1,6 @@
 import { computed, nextTick, onMounted, ref, unref, watch, watchEffect } from 'vue';
 import { useEventListener, useResizeObserver } from '@vueuse/core';
-import { useSize } from '@lemon-peel/hooks/src';
+import { useSize } from '@lemon-peel/hooks';
 
 // import type { NormalizedWheelEvent } from 'normalize-wheel-es';
 import type { TableProps, TableVM } from './defaults';

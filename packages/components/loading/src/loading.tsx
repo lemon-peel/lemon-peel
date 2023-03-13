@@ -1,6 +1,6 @@
 import { Transition, createApp, reactive, ref, toRefs, vShow, withCtx, withDirectives } from 'vue';
-import { useNamespace } from '@lemon-peel/hooks/src';
-import { removeClass } from '@lemon-peel/utils';
+import { useNamespace } from '@lemon-peel/hooks';
+import { isString, removeClass } from '@lemon-peel/utils';
 
 import type { ComponentPublicInstance, ToRefs } from 'vue';
 import type { LoadingOptionsResolved, LoadingParentElement } from './types';
@@ -36,15 +36,16 @@ export function createLoadingComponent(options: LoadingOptionsResolved) {
     destroySelf();
   }
 
-  const elLoadingComponent = {
+  const LpLoadingComponent = {
     name: 'LpLoading',
     setup() {
       return () => {
         const Svg = data.spinner || data.svg;
         const spinner = <svg
           class='circular'
-          viewBox={data.svgViewBox || '0 0 50 50'}>
-          { Svg || <circle class='path' cx='25' cy='25' r='20' fill='none'></circle> }
+          viewBox={data.svgViewBox || '0 0 50 50'}
+          { ...(Svg && isString(Svg) ? { innerHTML: Svg } : {}) }>
+          { Svg ? null : <circle class='path' cx='25' cy='25' r='20' fill='none'></circle> }
         </svg>;
 
         const spinnerText = data.text
@@ -73,7 +74,7 @@ export function createLoadingComponent(options: LoadingOptionsResolved) {
     },
   };
 
-  const loadingInstance = createApp(elLoadingComponent);
+  const loadingInstance = createApp(LpLoadingComponent);
 
   const vm: ComponentPublicInstance = loadingInstance.mount(document.createElement('div'));
 

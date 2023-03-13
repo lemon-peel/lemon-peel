@@ -1,5 +1,5 @@
 import type { InjectionKey, Ref } from 'vue';
-import type { useNamespace } from '@lemon-peel/hooks/src';
+import type { useNamespace } from '@lemon-peel/hooks';
 
 export type TooltipV2Context = {
   onClose: () => void;

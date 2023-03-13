@@ -117,12 +117,10 @@ describe('Input.vue', () => {
       await nextTick();
       expect(nativeInput.value).toMatchInlineSnapshot(`"哈哈1👌3😄"`);
       expect(elCount.text()).toMatchInlineSnapshot(`"6 / 4"`);
-      expect([...vm.$el.classList]).toMatchInlineSnapshot(`
-        [
-          "lp-textarea",
-          "is-exceed",
-        ]
-      `);
+      expect([...vm.$el.classList]).toMatchObject([
+        'lp-textarea',
+        'is-exceed',
+      ]);
     });
   });
 

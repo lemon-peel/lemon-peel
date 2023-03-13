@@ -104,7 +104,7 @@
             ]"
             @keydown.enter="showPicker('month')"
             @click="showPicker('month')"
-          >{{ t(`el.datepicker.month${month + 1}`) }}</span>
+          >{{ t(`lp.datepicker.month${month + 1}`) }}</span>
           <span :class="dpNs.e('next-btn')">
             <button
               v-show="currentView === 'date'"

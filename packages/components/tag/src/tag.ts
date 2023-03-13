@@ -1,6 +1,6 @@
 import { buildProps } from '@lemon-peel/utils';
 import { componentSizes } from '@lemon-peel/constants';
-import type Tag from './tag.vue';
+import type Tag from './Tag.vue';
 
 import type { ExtractPropTypes } from 'vue';
 

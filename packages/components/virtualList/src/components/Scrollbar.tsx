@@ -3,7 +3,7 @@ import { computed, defineComponent, onBeforeUnmount, reactive, ref, unref, watch
 import { BAR_MAP } from '@lemon-peel/components/scrollbar';
 import { cAF, rAF } from '@lemon-peel/utils';
 
-import { useNamespace } from '@lemon-peel/hooks/src';
+import { useNamespace } from '@lemon-peel/hooks';
 import { HORIZONTAL, SCROLLBAR_MIN_SIZE, ScrollbarDirKey } from '../defaults';
 import { virtualizedScrollbarProps } from '../props';
 import { renderThumbStyle } from '../utils';

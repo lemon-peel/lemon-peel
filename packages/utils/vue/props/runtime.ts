@@ -3,10 +3,9 @@ import { fromPairs } from 'lodash-es';
 
 import { hasOwn } from '../../objects';
 import { isObject } from '../../types';
+import { lpPropKey } from './types';
 
 import type { LpProp, LpPropConvert, LpPropFinalized, LpPropInput, LpPropMergeType, IfLpProp, IfNativePropType, NativePropType } from './types';
-
-export const lpPropKey = '__lpPropKey';
 
 export const isLpProp = (value: unknown): value is LpProp<any, any, any> =>
   isObject(value) && !!(value as any)[lpPropKey];

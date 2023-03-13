@@ -1,5 +1,5 @@
 import { buildProps } from '@lemon-peel/utils';
-import { useSizeProp } from '@lemon-peel/hooks/src';
+import { useSizeProp } from '@lemon-peel/hooks';
 
 import type Description from './Description.vue';
 

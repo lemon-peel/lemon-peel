@@ -82,8 +82,8 @@ const {
 const { t } = useLocale();
 
 const i18nDate = computed(() => {
-  const pickedMonth = `el.datepicker.month${date.value.format('M')}`;
-  return `${date.value.year()} ${t('el.datepicker.year')} ${t(pickedMonth)}`;
+  const pickedMonth = `lp.datepicker.month${date.value.format('M')}`;
+  return `${date.value.year()} ${t('lp.datepicker.year')} ${t(pickedMonth)}`;
 });
 
 defineExpose({

@@ -34,8 +34,8 @@
   </lp-scrollbar>
 </template>
 
-<script lang="ts" setup>
-import { computed, defineComponent, getCurrentInstance, inject, ref } from 'vue';
+<script lang="tsx" setup>
+import { computed, Fragment, getCurrentInstance, inject, ref } from 'vue';
 import LpScrollbar from '@lemon-peel/components/scrollbar';
 import { useLocale, useNamespace } from '@lemon-peel/hooks';
 import { generateId } from '@lemon-peel/utils';
@@ -48,9 +48,7 @@ import type { default as CascaderNode } from './node';
 import type { PropType } from 'vue';
 import type { Nullable } from '@lemon-peel/utils';
 
-defineOptions({
-  name: 'LpCascaderMenu',
-});
+defineOptions({ name: 'LpCascaderMenu' });
 
 const props = defineProps({
   nodes: {
@@ -109,9 +107,9 @@ const handleMouseMove = (e: MouseEvent) => {
     const bottom = top + activeNode.offsetHeight;
 
     hoverZone.value.innerHTML = `
-          <path style="pointer-events: auto;" fill="transparent" d="M${startX} ${top} L${offsetWidth} 0 V${top} Z" />
-          <path style="pointer-events: auto;" fill="transparent" d="M${startX} ${bottom} L${offsetWidth} ${offsetHeight} V${bottom} Z" />
-        `;
+      <path style="pointer-events: auto;" fill="transparent" d="M${startX} ${top} L${offsetWidth} 0 V${top} Z" />
+      <path style="pointer-events: auto;" fill="transparent" d="M${startX} ${bottom} L${offsetWidth} ${offsetHeight} V${bottom} Z" />
+    `;
   } else if (!hoverTimer) {
     hoverTimer = window.setTimeout(
       clearHoverZone,

@@ -1,7 +1,9 @@
-import type { ComponentInfo, ComponentResolver, SideEffectsInfo } from 'unplugin-vue-components';
-import { compare } from 'compare-versions';
-import { kebabCase } from 'unplugin-vue-components';
 import { getPackageInfo, isPackageExists } from 'local-pkg';
+import { camelCase, kebabCase } from 'unplugin-vue-components';
+import { compare } from 'compare-versions';
+import { lowerFirst } from 'lodash-es';
+
+import type { ComponentInfo, ComponentResolver, SideEffectsInfo } from 'unplugin-vue-components';
 
 export async function getPkgVersion(pkgName: string, defaultVersion: string): Promise<string> {
   try {
@@ -82,7 +84,7 @@ function getSideEffectsLegacy(
   } else if (importStyle === true || importStyle === 'css') {
     return [
       'lemon-peel/lib/theme-chalk/base.css',
-      `lemon-peel/lib/theme-chalk/el-${partialName}.css`,
+      `lemon-peel/lib/theme-chalk/lp-${partialName}.css`,
     ];
   }
 }
@@ -93,9 +95,9 @@ function getSideEffects(dirName: string, options: LemonPeelResolverOptionsResolv
   const esComponentsFolder = 'lemon-peel/es/components';
 
   if (importStyle === 'sass')
-    return ssr ? `${themeFolder}/src/${dirName}.scss` : `${esComponentsFolder}/${dirName}/style/index`;
+    return ssr ? `${themeFolder}/src/${dirName}.scss` : `${esComponentsFolder}/${lowerFirst(camelCase(dirName))}/style/index`;
   else if (importStyle === true || importStyle === 'css')
-    return ssr ? `${themeFolder}/el-${dirName}.css` : `${esComponentsFolder}/${dirName}/style/css`;
+    return ssr ? `${themeFolder}/lp-${dirName}.css` : `${esComponentsFolder}/${lowerFirst(camelCase(dirName))}/style/css`;
 }
 
 function resolveComponent(name: string, options: LemonPeelResolverOptionsResolved): ComponentInfo | undefined {

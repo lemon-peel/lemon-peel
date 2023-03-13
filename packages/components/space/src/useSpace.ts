@@ -1,6 +1,6 @@
 import { computed, ref, watchEffect } from 'vue';
 import { isArray, isNumber } from '@lemon-peel/utils';
-import { useNamespace } from '@lemon-peel/hooks/src';
+import { useNamespace } from '@lemon-peel/hooks';
 
 import type { SpaceProps } from './space';
 import type { CSSProperties, StyleValue } from 'vue';

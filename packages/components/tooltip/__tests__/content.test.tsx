@@ -9,7 +9,7 @@ import {
   expect,
   it,
 } from 'vitest';
-import { usePopperContainer } from '@lemon-peel/hooks/src';
+import { usePopperContainer } from '@lemon-peel/hooks';
 import { TOOLTIP_INJECTION_KEY } from '@lemon-peel/tokens';
 import { genTooltipProvides } from '../test-helper/provides';
 import LpTooltipContent from '../src/Content.vue';

@@ -4,9 +4,9 @@ import { computed, nextTick, reactive, ref, shallowRef, toRaw, triggerRef, watch
 import { isObject, toRawType } from '@vue/shared';
 import { get, isEqual, debounce as lodashDebounce } from 'lodash-es';
 import { isClient } from '@vueuse/core';
-import { CHANGE_EVENT, EVENT_CODE, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
+import { CHANGE_EVENT, EVENT_CODE, UPDATE_MODEL_EVENT_OLD } from '@lemon-peel/constants';
 import { debugWarn, getComponentSize, isFunction, isKorean, isNumber, isString, scrollIntoView } from '@lemon-peel/utils';
-import { useFormItem, useLocale, useNamespace, useSize } from '@lemon-peel/hooks/src';
+import { useFormItem, useLocale, useNamespace, useSize } from '@lemon-peel/hooks';
 
 import type { ComponentPublicInstance, ExtractPropTypes, Ref, ShallowRef, SetupContext } from 'vue';
 import type LpTooltip from '@lemon-peel/components/tooltip';
@@ -567,7 +567,7 @@ export function useSelect(props: Readonly<ExtractPropTypes<typeof selectProps>>,
     if (ele.value.length <= 0 && !toggleLastOptionHitState()) {
       const value = [...(props.modelValue as Array<any>)];
       value.pop();
-      emit(UPDATE_MODEL_EVENT, value);
+      emit(UPDATE_MODEL_EVENT_OLD, value);
       emitChange(value);
     }
 
@@ -581,7 +581,7 @@ export function useSelect(props: Readonly<ExtractPropTypes<typeof selectProps>>,
     if (index > -1 && !selectDisabled.value) {
       const value = [...(props.modelValue as Array<any>)];
       value.splice(index, 1);
-      emit(UPDATE_MODEL_EVENT, value);
+      emit(UPDATE_MODEL_EVENT_OLD, value);
       emitChange(value);
       emit('remove-tag', tag.value);
     }
@@ -596,7 +596,7 @@ export function useSelect(props: Readonly<ExtractPropTypes<typeof selectProps>>,
         if (item.isDisabled) value.push(item.value);
       }
     }
-    emit(UPDATE_MODEL_EVENT, value);
+    emit(UPDATE_MODEL_EVENT_OLD, value);
     emitChange(value);
     states.hoverIndex = -1;
     states.visible = false;
@@ -645,7 +645,7 @@ export function useSelect(props: Readonly<ExtractPropTypes<typeof selectProps>>,
       ) {
         value.push(option.value);
       }
-      emit(UPDATE_MODEL_EVENT, value);
+      emit(UPDATE_MODEL_EVENT_OLD, value);
       emitChange(value);
       if (option.created) {
         states.query = '';
@@ -654,7 +654,7 @@ export function useSelect(props: Readonly<ExtractPropTypes<typeof selectProps>>,
       }
       if (props.filterable) input.value?.focus();
     } else {
-      emit(UPDATE_MODEL_EVENT, option.value);
+      emit(UPDATE_MODEL_EVENT_OLD, option.value);
       emitChange(option.value);
       states.visible = false;
     }

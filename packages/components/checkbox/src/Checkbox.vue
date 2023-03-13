@@ -24,33 +24,14 @@
       :aria-checked="indeterminate ? 'mixed' : undefined"
     >
       <input
-        v-if="trueLabel || falseLabel"
         :id="inputId"
-        v-model="model"
-        :class="ns.e('original')"
         type="checkbox"
+        :class="ns.e('original')"
         :aria-hidden="indeterminate ? 'true' : 'false'"
         :name="name"
-        :tabindex="tabindex"
         :disabled="isDisabled"
-        :true-value="trueLabel"
-        :false-value="falseLabel"
-        @change="handleChange"
-        @focus="isFocused = true"
-        @blur="isFocused = false"
-      >
-      <input
-        v-else
-        :id="inputId"
-        v-model="model"
-        :class="ns.e('original')"
-        type="checkbox"
-        :aria-hidden="indeterminate ? 'true' : 'false'"
-        :disabled="isDisabled"
-        :value="label"
-        :name="name"
         :tabindex="tabindex"
-        @change="handleChange"
+        @change="onChange"
         @focus="isFocused = true"
         @blur="isFocused = false"
       >
@@ -67,11 +48,9 @@
 import { useSlots } from 'vue';
 import { useNamespace } from '@lemon-peel/hooks';
 import { checkboxEmits, checkboxProps } from './checkbox';
-import { useCheckbox } from './composables';
+import { useCheckbox } from './useCheckbox';
 
-defineOptions({
-  name: 'LpCheckbox',
-});
+defineOptions({ name: 'LpCheckbox' });
 
 const props = defineProps(checkboxProps);
 const emit = defineEmits(checkboxEmits);
@@ -85,10 +64,13 @@ const {
   isFocused,
   checkboxSize,
   hasOwnLabel,
-  model,
-  handleChange,
+  onChange,
   onClickRoot,
-} = useCheckbox(props, slots);
+} = useCheckbox(props, slots, emit);
 
 const ns = useNamespace('checkbox');
+
+defineExpose({
+  checked: isChecked,
+});
 </script>

@@ -1,5 +1,5 @@
 import { defineComponent, provide, renderSlot } from 'vue';
-import { useNamespace } from '@lemon-peel/hooks/src';
+import { useNamespace } from '@lemon-peel/hooks';
 
 const Timeline = defineComponent({
   name: 'LpTimeline',

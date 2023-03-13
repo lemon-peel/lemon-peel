@@ -1,8 +1,8 @@
 import { computed, getCurrentInstance, nextTick, onMounted, ref, watch } from 'vue';
 import { isClient, useTimeoutFn } from '@vueuse/core';
 
-import { defaultNamespace, useGlobalConfig, useId, useLockscreen, useZIndex } from '@lemon-peel/hooks/src';
-import { UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
+import { defaultNamespace, useGlobalConfig, useId, useLockscreen, useZIndex } from '@lemon-peel/hooks';
+import { UPDATE_MODEL_EVENT_OLD } from '@lemon-peel/constants';
 import { addUnit } from '@lemon-peel/utils';
 
 import type { CSSProperties, Ref, SetupContext } from 'vue';
@@ -56,7 +56,7 @@ export const useDialog = (
 
   function afterLeave() {
     emit('closed');
-    emit(UPDATE_MODEL_EVENT, false);
+    emit(UPDATE_MODEL_EVENT_OLD, false);
     if (props.destroyOnClose) {
       rendered.value = false;
     }

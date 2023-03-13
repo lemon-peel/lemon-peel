@@ -1,7 +1,7 @@
 import { nextTick, ref } from 'vue';
 import { mount } from '@vue/test-utils';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { POPPER_CONTAINER_SELECTOR, useZIndex } from '@lemon-peel/hooks/src';
+import { POPPER_CONTAINER_SELECTOR, useZIndex } from '@lemon-peel/hooks';
 import { rAF } from '@lemon-peel/test-utils/tick';
 import { LpPopperTrigger } from '@lemon-peel/components/popper';
 import Popover from '../src/Popover.vue';

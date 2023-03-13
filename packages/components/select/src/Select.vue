@@ -2,7 +2,7 @@
   <div
     ref="selectWrapper"
     v-click-outside:[popperPaneRef]="handleClose"
-    :class="wrapperKls"
+    :class="[wrapperKls, nsSelect.b('ssss')]"
     @mouseenter="handleMouseEnter"
     @mouseleave="handleMouseLeave"
     @click.stop="toggleMenu"
@@ -258,7 +258,7 @@ import LpTooltip from '@lemon-peel/components/tooltip';
 import LpScrollbar from '@lemon-peel/components/scrollbar';
 import LpTag, { tagProps } from '@lemon-peel/components/tag';
 import LpIcon from '@lemon-peel/components/icon';
-import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT_OLD } from '@lemon-peel/constants';
 
 import LpOption from './Option.vue';
 import LpSelectMenu from './SelectDropdown.vue';
@@ -279,6 +279,7 @@ const props = defineProps(selectProps);
 const emit = defineEmits(selectEmits);
 
 const nsSelect = useNamespace('select');
+console.log(nsSelect);
 const nsInput = useNamespace('input');
 const { t } = useLocale();
 const states = useSelectStates(props);
@@ -440,14 +441,14 @@ onMounted(() => {
 });
 
 if (props.multiple && !Array.isArray(props.modelValue)) {
-  emit(UPDATE_MODEL_EVENT, []);
+  emit(UPDATE_MODEL_EVENT_OLD, []);
 }
 
 if (!props.multiple && Array.isArray(props.modelValue)) {
-  emit(UPDATE_MODEL_EVENT, '');
+  emit(UPDATE_MODEL_EVENT_OLD, '');
 }
 
-const popperPaneReference = computed(() => {
+const popperPaneRef = computed(() => {
   return tooltipRef.value?.popperRef?.contentRef;
 });
 

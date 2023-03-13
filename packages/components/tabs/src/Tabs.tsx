@@ -1,10 +1,10 @@
 import { defineComponent, getCurrentInstance, nextTick, provide, ref, renderSlot, watch } from 'vue';
 import { buildProps, isNumber, isString, isUndefined } from '@lemon-peel/utils';
-import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
+import { EVENT_CODE, UPDATE_MODEL_EVENT_OLD } from '@lemon-peel/constants';
 import LpIcon from '@lemon-peel/components/icon';
 import { Plus } from '@element-plus/icons-vue';
 import { tabsRootContextKey } from '@lemon-peel/tokens';
-import { useNamespace, useOrderedChildren } from '@lemon-peel/hooks/src';
+import { useNamespace, useOrderedChildren } from '@lemon-peel/hooks';
 import TabNav from './TabNav';
 
 import type { TabNavInstance } from './TabNav';
@@ -39,7 +39,7 @@ const isPaneName = (value: unknown): value is string | number =>
   isString(value) || isNumber(value);
 
 export const tabsEmits = {
-  [UPDATE_MODEL_EVENT]: (name: TabPaneName) => isPaneName(name),
+  [UPDATE_MODEL_EVENT_OLD]: (name: TabPaneName) => isPaneName(name),
   tabClick: (pane: TabsPaneContext, event_: Event) => event_ instanceof Event,
   tabChange: (name: TabPaneName) => isPaneName(name),
   edit: (paneName: TabPaneName | undefined, action: 'remove' | 'add') =>
@@ -74,7 +74,7 @@ export default defineComponent({
 
     const changeCurrentName = (value: TabPaneName) => {
       currentName.value = value;
-      emit(UPDATE_MODEL_EVENT, value);
+      emit(UPDATE_MODEL_EVENT_OLD, value);
       emit('tabChange', value);
     };
 

@@ -1,6 +1,7 @@
 import type { ExtractPropTypes, PropType } from 'vue';
 import type { IfNever, UnknownToNever, WritableArray } from './util';
-import type { lpPropKey } from './runtime';
+
+export const lpPropKey = '__lpPropKey';
 
 type Value<T> = T[keyof T];
 
@@ -131,7 +132,7 @@ export type LpProp<Type, Default, Required> = {
 } & IfNever<Default, unknown, { readonly default: Default }>;
 
 /**
- * Determine if it is `EpProp`
+ * Determine if it is `LpProp`
  */
 export type IfLpProp<T, Y, N> = T extends { [lpPropKey]: true } ? Y : N;
 

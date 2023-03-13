@@ -1,4 +1,4 @@
-import type { CssNamespace } from '@lemon-peel/hooks/src';
+import type { CssNamespace } from '@lemon-peel/hooks';
 import { buildProp, buildProps } from '@lemon-peel/utils';
 import { componentSizes } from '@lemon-peel/constants';
 

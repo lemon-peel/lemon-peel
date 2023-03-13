@@ -5,7 +5,7 @@ import { mount } from '@vue/test-utils';
 import { describe, expect, test, vi } from 'vitest';
 import { TypeComponentsMap } from '@lemon-peel/utils';
 import { EVENT_CODE } from '@lemon-peel/constants';
-import { useZIndex } from '@lemon-peel/hooks/src';
+import { useZIndex } from '@lemon-peel/hooks';
 import { notificationTypes } from '../src/notification';
 import Notification from '../src/Notification.vue';
 

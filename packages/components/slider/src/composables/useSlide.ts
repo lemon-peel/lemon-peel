@@ -1,6 +1,6 @@
 import { computed, nextTick, ref, shallowRef } from 'vue';
-import { CHANGE_EVENT, INPUT_EVENT, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
-import { useFormItem } from '@lemon-peel/hooks/src';
+import { CHANGE_EVENT, INPUT_EVENT, UPDATE_MODEL_EVENT_OLD } from '@lemon-peel/constants';
+import { useFormItem } from '@lemon-peel/hooks';
 import type { CSSProperties, Ref, SetupContext } from 'vue';
 import type { Arrayable } from '@lemon-peel/utils';
 import type { SliderEmits, SliderInitData, SliderProps } from '../slider';
@@ -109,7 +109,7 @@ export const useSlide = (
   };
 
   const emitUpdate = (val: Arrayable<number>) => {
-    emit(UPDATE_MODEL_EVENT, val);
+    emit(UPDATE_MODEL_EVENT_OLD, val);
     emit(INPUT_EVENT, val);
   };
 

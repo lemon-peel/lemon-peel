@@ -2,7 +2,7 @@ import { Row } from '../components';
 import { tryCall } from '../utils';
 
 import type { FunctionalComponent, UnwrapNestedRefs } from 'vue';
-import type { CssNamespace } from '@lemon-peel/hooks/src';
+import type { CssNamespace } from '@lemon-peel/hooks';
 import type { UseTableReturn } from '../useTable';
 import type { TableV2Props } from '../table';
 import type { TableGridRowSlotParams } from '../tableGrid';

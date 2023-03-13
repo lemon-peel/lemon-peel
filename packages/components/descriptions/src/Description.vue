@@ -76,7 +76,7 @@ const getRows = () => {
   let totalSpan = 0; // all spans number of item
 
   for (const [index, node] of children.entries()) {
-    const span = node.props!.span || 1;
+    const span = node.props?.span || 1;
 
     if (index < children.length - 1) {
       totalSpan += span > count ? count : span;

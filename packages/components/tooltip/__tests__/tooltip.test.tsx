@@ -6,6 +6,7 @@ import { LpPopperTrigger } from '@lemon-peel/components/popper';
 import Tooltip from '../src/Tooltip.vue';
 
 import type { VNode } from 'vue';
+import type { LpTooltipProps } from '../src/tooltip';
 
 vi.mock('@lemon-peel/utils/error', () => ({
   debugWarn: vi.fn(),
@@ -13,19 +14,21 @@ vi.mock('@lemon-peel/utils/error', () => ({
 
 const AXIOM = 'Rem is the best girl';
 
-describe('<LpTooltip />', () => {
-  const createComponent = (props = {}, content: string | VNode = '') =>
-    mount(
-      Tooltip,
-      {
-        ...props,
-        slots: {
-          default: () => AXIOM,
-          content: () => content,
-        },
-        attachTo: document.body,
+describe('LpTooltip', () => {
+  const createComponent = (
+    props: Partial<LpTooltipProps> = {},
+    content: string | VNode = '',
+  ) => {
+    return mount(Tooltip, {
+      props,
+      slots: {
+        default: () => AXIOM,
+        content: () => content,
       },
-    );
+      attachTo: document.body,
+    });
+  };
+
   let wrapper: ReturnType<typeof createComponent>;
   const findTrigger = () => wrapper.findComponent(LpPopperTrigger);
 
@@ -40,6 +43,7 @@ describe('<LpTooltip />', () => {
       await nextTick();
       expect(findTrigger().text()).toContain(AXIOM);
     });
+
     it('content should teleport according appendTo', async () => {
       const el = document.createElement('div');
       el.id = 'test';

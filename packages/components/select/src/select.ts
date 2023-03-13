@@ -3,7 +3,7 @@ import { tagProps } from '@lemon-peel/components/tag';
 import { CircleClose, ArrowDown } from '@element-plus/icons-vue';
 import { isValidComponentSize, iconPropType, buildProps } from '@lemon-peel/utils';
 import { useTooltipContentProps } from '@lemon-peel/components/tooltip';
-import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT_OLD } from '@lemon-peel/constants';
 
 import type { PropType } from 'vue';
 import type { ComponentSize } from '@lemon-peel/constants/size';
@@ -104,7 +104,7 @@ export const selectProps = buildProps({
 });
 
 export const selectEmits = [
-  UPDATE_MODEL_EVENT,
+  UPDATE_MODEL_EVENT_OLD,
   CHANGE_EVENT,
   'remove-tag',
   'clear',

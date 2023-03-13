@@ -17,7 +17,7 @@ function destroyLoadingInstance(loadingInstance: LoadingInstance) {
 }
 
 const doMount = (render: () => VNode | null) => {
-  return mount(render, { global: { directives: { loading: vLoading } } });
+  return mount(render, { global: { directives: { loading: vLoading } }, attachTo: 'body' });
 };
 
 describe('Loading', () => {
@@ -106,7 +106,7 @@ describe('Loading', () => {
   test('text directive', async () => {
     const loading = ref(true);
     const wrapper = doMount(() => (
-      <div v-loading={loading.value} element-loading-text="loading..." />
+      <div v-loading={loading.value} lp-loading-text="loading..." />
     ));
 
     await nextTick();
@@ -118,7 +118,7 @@ describe('Loading', () => {
     const wrapper = doMount(() => (
       <div
         v-loading={loading.value}
-        element-loading-custom-class="loading-custom-class"
+        lp-loading-custom-class="loading-custom-class"
       />
     ));
 
@@ -130,7 +130,7 @@ describe('Loading', () => {
     const loading = ref(true);
     const svg = '<path class="custom-path" d="M 30 15"/>';
     const wrapper = doMount(() => (
-      <div v-loading={loading.value} element-loading-svg={svg} />
+      <div v-loading={loading.value} lp-loading-svg={svg} />
     ));
 
     await nextTick();

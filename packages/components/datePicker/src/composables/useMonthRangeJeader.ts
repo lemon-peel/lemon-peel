@@ -1,5 +1,5 @@
 import { computed } from 'vue';
-import { useLocale } from '@lemon-peel/hooks/src';
+import { useLocale } from '@lemon-peel/hooks';
 import type { Ref, ToRef } from 'vue';
 import type { Dayjs } from 'dayjs';
 

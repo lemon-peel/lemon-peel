@@ -5,7 +5,7 @@
       ns.is('disabled', disabled),
       ns.is('focus', focus),
       ns.is('bordered', border),
-      ns.is('checked', modelValue === label),
+      ns.is('checked', isChecked),
       ns.m(size),
     ]"
   >
@@ -13,19 +13,20 @@
       :class="[
         ns.e('input'),
         ns.is('disabled', disabled),
-        ns.is('checked', modelValue === label),
+        ns.is('checked', isChecked),
       ]"
     >
       <input
         ref="radioRef"
+        type="radio"
         :class="ns.e('original')"
         :name="name || radioGroup?.name"
-        :disabled="disabled"
         :value="value"
-        type="radio"
+        :disabled="disabled"
+        :checked="isChecked"
         @focus="focus = true"
         @blur="focus = false"
-        @change="handleChange"
+        @change="onChange"
       >
       <span :class="ns.e('inner')" />
     </span>
@@ -42,7 +43,7 @@ import { nextTick } from 'vue';
 import { useNamespace } from '@lemon-peel/hooks';
 
 import { radioEmits, radioProps } from './radio';
-import { useRadio } from './useRadio';
+import { useRadio, wrappedGuard } from './useRadio';
 
 defineOptions({
   name: 'LpRadio',
@@ -50,17 +51,7 @@ defineOptions({
 
 const props = defineProps(radioProps);
 const emit = defineEmits(radioEmits);
-
 const ns = useNamespace('radio');
 
-const { radioRef, radioGroup, focus, size, disabled, modelValue } =
-  useRadio(props);
-
-function handleChange() {
-  nextTick(() => emit('change', modelValue.value));
-}
-
-defineExpose({
-  modelValue,
-});
+const { radioRef, radioGroup, isChecked, focus, size, disabled, onChange } = useRadio(props, emit as any);
 </script>

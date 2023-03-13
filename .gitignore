@@ -19,3 +19,6 @@ packages/lemon-peel/version.ts
 cypress/screenshots/*
 cypress/videos/*
 tmp
+
+
+**/playgroud/*.test.*

@@ -1,5 +1,5 @@
 import { defineComponent, inject } from 'vue';
-import { useNamespace } from '@lemon-peel/hooks/src';
+import { useNamespace } from '@lemon-peel/hooks';
 import { ROOT_TREE_INJECTION_KEY, treeNodeContentProps } from './virtualTree';
 
 export default defineComponent({

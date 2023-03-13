@@ -1,10 +1,10 @@
 
 import { computed, nextTick, toRefs, watch } from 'vue';
 import { isEqual, pick } from 'lodash-es';
-import { UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
+import { UPDATE_MODEL_EVENT_OLD } from '@lemon-peel/constants';
 import { buildProps, isFunction } from '@lemon-peel/utils';
 import { selectProps } from '@lemon-peel/components/select';
-import { useNamespace } from '@lemon-peel/hooks/src';
+import { useNamespace } from '@lemon-peel/hooks';
 import LpTree, { treeProps } from '@lemon-peel/components/tree';
 
 import { isValidArray, isValidValue, toValidArray, treeFind } from './utils';
@@ -204,7 +204,7 @@ export const useTree = (
       const dataValue = getNodeValByProp('value', data);
       if (props.checkStrictly) {
         emit(
-          UPDATE_MODEL_EVENT,
+          UPDATE_MODEL_EVENT_OLD,
           // Checking for changes may come from `check-on-node-click`
           props.multiple
             ? params.checkedKeys
@@ -216,7 +216,7 @@ export const useTree = (
         // only can select leaf node
         if (props.multiple) {
           emit(
-            UPDATE_MODEL_EVENT,
+            UPDATE_MODEL_EVENT_OLD,
             (tree.value as InstanceType<typeof LpTree>).getCheckedKeys(true),
           );
         } else {
@@ -242,7 +242,7 @@ export const useTree = (
             );
 
           emit(
-            UPDATE_MODEL_EVENT,
+            UPDATE_MODEL_EVENT_OLD,
             firstLeafKey === props.modelValue || hasCheckedChild
               ? undefined
               : firstLeafKey,

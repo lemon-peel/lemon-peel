@@ -68,7 +68,7 @@ import { vRepeatClick } from '@lemon-peel/directives';
 import { useDisabled, useFormItem, useLocale, useNamespace, useSize } from '@lemon-peel/hooks';
 import { debugWarn, isNumber, isString, isUndefined } from '@lemon-peel/utils';
 import { ArrowDown, ArrowUp, Minus, Plus } from '@element-plus/icons-vue';
-import { CHANGE_EVENT, INPUT_EVENT, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
+import { CHANGE_EVENT, INPUT_EVENT, UPDATE_MODEL_EVENT_OLD } from '@lemon-peel/constants';
 import { inputNumberEmits, inputNumberProps } from './inputNumber';
 
 import type { InputInstance } from '@lemon-peel/components/input';
@@ -199,7 +199,7 @@ const verifyValue = (
   }
   if (newVal > max || newVal < min) {
     newVal = newVal > max ? max : min;
-    update && emit(UPDATE_MODEL_EVENT, newVal);
+    update && emit(UPDATE_MODEL_EVENT_OLD, newVal);
   }
   return newVal;
 };
@@ -209,7 +209,7 @@ const setCurrentValue = (value: number | string | null | undefined) => {
   const newVal = verifyValue(value);
   if (oldVal === newVal) return;
   data.userInput = null;
-  emit(UPDATE_MODEL_EVENT, newVal!);
+  emit(UPDATE_MODEL_EVENT_OLD, newVal!);
   emit(CHANGE_EVENT, newVal!, oldVal!);
   if (props.validateEvent) {
     formItem?.validate?.('change').catch(error => debugWarn(error));
@@ -292,7 +292,7 @@ onMounted(() => {
     if (Number.isNaN(val)) {
       val = null;
     }
-    emit(UPDATE_MODEL_EVENT, val!);
+    emit(UPDATE_MODEL_EVENT_OLD, val!);
   }
 });
 onUpdated(() => {

@@ -1,5 +1,5 @@
 import { computed, inject } from 'vue';
-import { useNamespace } from '@lemon-peel/hooks/src';
+import { useNamespace } from '@lemon-peel/hooks';
 
 import { getRowIdentity } from '../util';
 import { STORE_INJECTION_KEY, TABLE_INJECTION_KEY } from '../tokens';

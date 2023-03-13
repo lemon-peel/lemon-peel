@@ -13,13 +13,14 @@
   </div>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, nextTick, onBeforeUpdate, onMounted, provide, reactive, ref, VNode, watch } from 'vue';
+<script lang="tsx">
+import { computed, defineComponent, Fragment, nextTick, onBeforeUpdate, onMounted, provide, reactive, ref, VNode, watch } from 'vue';
 import { cloneDeep, flattenDeep, isEqual } from 'lodash-es';
 import { isClient } from '@vueuse/core';
 import { castArray, focusNode, getSibling, isEmpty, scrollIntoView, unique } from '@lemon-peel/utils';
-import { CHANGE_EVENT, EVENT_CODE, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
+import { CHANGE_EVENT, EVENT_CODE, UPDATE_MODEL_EVENT_OLD } from '@lemon-peel/constants';
 import { useNamespace } from '@lemon-peel/hooks';
+import { LpRadioGroup } from '@lemon-peel/components/radio';
 
 import LpCascaderMenu from './Menu.vue';
 import Store from './store';
@@ -28,7 +29,7 @@ import { CommonProps, useCascaderConfig } from './config';
 import { checkNode, getMenuIndex, sortByOriginalOrder } from './utils';
 import { CASCADER_PANEL_INJECTION_KEY } from './types';
 
-import type { PropType } from 'vue';
+import type { PropType, FunctionalComponent } from 'vue';
 import type { Nullable } from '@lemon-peel/utils';
 import type { default as CascaderNode, CascaderNodeValue, CascaderOption, CascaderValue, RenderLabel } from './node';
 
@@ -44,7 +45,7 @@ export default defineComponent({
     border: { type: Boolean, default: true },
     renderLabel: { type: Function as PropType<RenderLabel>, default: undefined },
   },
-  emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT, 'close', 'expand-change'],
+  emits: [UPDATE_MODEL_EVENT_OLD, CHANGE_EVENT, 'close', 'expand-change'],
   setup(props, { emit, slots }) {
     // for interrupt sync check status in lazy mode
     let manualChecked = false;
@@ -61,7 +62,7 @@ export default defineComponent({
     const checkedNodes = ref<CascaderNode[]>([]);
 
     const isHoverMenu = computed(() => config.value.expandTrigger === 'hover');
-    const renderLabelFunction = computed(() => props.renderLabel || slots.default);
+    const renderLabelFn = computed(() => props.renderLabel || slots.default);
 
     const lazyLoad: LpCascaderPanelContext['lazyLoad'] = (node, callback) => {
       const cfg = config.value;
@@ -79,6 +80,13 @@ export default defineComponent({
 
       cfg.lazyLoad(node, resolve as any);
     };
+
+
+    const wrapComponent = computed<FunctionalComponent>(() => {
+      return (localProps, { slots }) => config.value.checkStrictly
+        ? (<LpRadioGroup {...localProps}>{slots.default?.()}</LpRadioGroup>)
+        : <Fragment>{slots.default?.()}</Fragment>;
+    });
 
     const expandNode: LpCascaderPanelContext['expandNode'] = (node, silent) => {
       const { level } = node;
@@ -295,7 +303,7 @@ export default defineComponent({
         checkedNodes,
         isHoverMenu,
         initialLoaded,
-        renderLabelFn: renderLabelFunction,
+        renderLabelFn,
         lazyLoad,
         expandNode,
         handleCheckChange,
@@ -322,7 +330,7 @@ export default defineComponent({
       () => checkedValue.value,
       value => {
         if (!isEqual(value, props.modelValue)) {
-          emit(UPDATE_MODEL_EVENT, value);
+          emit(UPDATE_MODEL_EVENT_OLD, value);
           emit(CHANGE_EVENT, value);
         }
       },

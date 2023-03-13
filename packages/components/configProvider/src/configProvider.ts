@@ -1,6 +1,6 @@
 import { defineComponent, renderSlot, watch } from 'vue';
 import { buildProps } from '@lemon-peel/utils';
-import { provideGlobalConfig, useSizeProp } from '@lemon-peel/hooks/src';
+import { provideGlobalConfig, useSizeProp } from '@lemon-peel/hooks';
 
 import type { ExtractPropTypes, PropType } from 'vue';
 import type { ExperimentalFeatures } from '@lemon-peel/tokens';

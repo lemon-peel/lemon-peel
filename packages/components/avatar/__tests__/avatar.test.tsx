@@ -44,8 +44,8 @@ describe('Avatar.vue', () => {
 
   test('image fallback', async () => {
     const wrapper = mount(Avatar, {
-      // props: { src: IMAGE_FAIL },
-      // slots: { default: () => 'fallback' },
+      props: { src: IMAGE_FAIL },
+      slots: { default: () => 'fallback' },
     });
 
     await nextTick();

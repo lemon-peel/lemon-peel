@@ -1,5 +1,5 @@
 import type { InjectionKey, SetupContext } from 'vue';
-import type { CssNamespace } from '@lemon-peel/hooks/src';
+import type { CssNamespace } from '@lemon-peel/hooks';
 
 interface DatePickerContext {
   slots: SetupContext['slots'];

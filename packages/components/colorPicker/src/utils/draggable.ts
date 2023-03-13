@@ -20,8 +20,10 @@ export function draggable(element: HTMLElement, options: DraggableOptions) {
     document.removeEventListener('mouseup', upFn);
     document.removeEventListener('touchmove', moveFn);
     document.removeEventListener('touchend', upFn);
+    /* eslint-disable unicorn/prefer-add-event-listener */
     document.onselectstart = null;
     document.ondragstart = null;
+    /* eslint-enable unicorn/prefer-add-event-listener */
 
     isDragging = false;
 
@@ -31,8 +33,8 @@ export function draggable(element: HTMLElement, options: DraggableOptions) {
   const downFn = function (event: MouseEvent | TouchEvent) {
     if (isDragging) return;
     event.preventDefault();
-    document.onselectstart = () => false;
-    document.ondragstart = () => false;
+    document.addEventListener('selectstart', () => false);
+    document.addEventListener('dragstart', () => false);
     document.addEventListener('mousemove', moveFn);
     document.addEventListener('mouseup', upFn);
     document.addEventListener('touchmove', moveFn);

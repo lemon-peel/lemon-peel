@@ -1,7 +1,7 @@
 import { onMounted, onUpdated, shallowRef, watch } from 'vue';
 import { useEventListener } from '@vueuse/core';
 import { EVENT_CODE } from '@lemon-peel/constants';
-import { useNamespace } from '@lemon-peel/hooks/src';
+import { useNamespace } from '@lemon-peel/hooks';
 import type TreeStore from './treeStore';
 
 import type { Ref } from 'vue';

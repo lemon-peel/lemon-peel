@@ -5,7 +5,7 @@ import { placeholderSign } from '../private';
 import { enforceUnit, tryCall } from '../utils';
 
 import type { FunctionalComponent, UnwrapNestedRefs } from 'vue';
-import type { CssNamespace } from '@lemon-peel/hooks/src';
+import type { CssNamespace } from '@lemon-peel/hooks';
 import type { TableV2HeaderRowCellRendererParams } from '../components';
 import type { UseTableReturn } from '../useTable';
 import type { TableV2Props as TableV2Props } from '../table';

@@ -1,7 +1,7 @@
 import { getCurrentInstance, inject, ref, unref, watch } from 'vue';
 import { isArray } from '@lemon-peel/utils';
 import { ROOT_PICKER_INJECTION_KEY } from '@lemon-peel/tokens';
-import { useLocale, useNamespace } from '@lemon-peel/hooks/src';
+import { useLocale, useNamespace } from '@lemon-peel/hooks';
 import { getDefaultValue, isValidRange } from '../utils';
 import { useShortcut } from './useShortcut';
 
