@@ -1,30 +1,35 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
-import { markRaw, nextTick } from 'vue';
+import { markRaw, nextTick, ref } from 'vue';
 import { mount } from '@vue/test-utils';
 import { describe, expect, test, vi } from 'vitest';
 import { rAF } from '@lemon-peel/test-utils/tick';
 import { Delete } from '@element-plus/icons-vue';
 import { merge } from 'lodash-es';
+import type { ComponentMountingOptions } from 'packages/test-utils/makeMount';
 import triggerCompositeClick from '@lemon-peel/test-utils/compositeClick';
+
 import Dialog from '../src/Dialog.vue';
 
-import type { MountingOptions } from '@vue/test-utils';
-import type { Mutable } from '@lemon-peel/utils';
-import type { DialogProps } from '../src/dialog';
-
 const AXIOM = 'Rem is the best girl';
+type DialogMountingOptions = ComponentMountingOptions<typeof Dialog>;
 
-const doMount = (props: MountingOptions<Partial<Mutable<DialogProps>>>) => {
-  return mount(
-    Dialog,
-    merge({}, { props: { modelValue: true }, slots: { default: () => AXIOM } }, props),
-  );
+const defaultProps: DialogMountingOptions['props'] = {
+  visible: true,
+  vSlots: { default: () => (AXIOM) },
 };
+
+function doMount(
+  props: DialogMountingOptions['props'] = {},
+  options: DialogMountingOptions = {},
+) {
+  return mount(
+    () => <Dialog {...merge(defaultProps, props)} />,
+    { attachTo: 'body', ...options },
+  );
+}
 
 describe('Dialog.vue', () => {
   test('render test', async () => {
-    const wrapper = doMount({});
+    const wrapper = doMount();
 
     await nextTick();
     await rAF();
@@ -34,20 +39,12 @@ describe('Dialog.vue', () => {
 
   test('dialog should have a title and header when it has been given', async () => {
     const HEADER = 'I am header';
-    const wrapper = mount(
-      Dialog,
-      { props: { modelValue: true }, slots: { default: () => AXIOM, header: () => HEADER } },
-    );
+    const wrapper = doMount({ vSlots: { header: () => HEADER } });
 
     await nextTick();
     expect(wrapper.find('.lp-dialog__header').text()).toBe(HEADER);
 
-    mount(
-      Dialog,
-      <Dialog modelValue={true} title={HEADER}>
-        {AXIOM}
-      </Dialog>,
-    );
+    mount(() => <Dialog visible={true} title={HEADER}>{AXIOM}</Dialog>);
     await nextTick();
 
     expect(wrapper.find('.lp-dialog__header').text()).toBe(HEADER);
@@ -55,7 +52,7 @@ describe('Dialog.vue', () => {
 
   test('dialog header should have slot props', async () => {
     const wrapper = doMount({
-      slots: {
+      vSlots: {
         header: ({ titleId, titleClass, close }: { titleId: string, titleClass: string, close: () => void }) => (
           <button data-title-id={titleId} data-title-class={titleClass} onClick={close} />
         ),
@@ -65,9 +62,7 @@ describe('Dialog.vue', () => {
     await nextTick();
     const headerButton = wrapper.find('button');
     expect(headerButton.attributes()['data-title-id']).toBeTruthy();
-    expect(headerButton.attributes()['data-title-class']).toBe(
-      'lp-dialog__title',
-    );
+    expect(headerButton.attributes()['data-title-class']).toBe('lp-dialog__title');
     expect(wrapper.emitted().close).toBeFalsy();
     headerButton.trigger('click');
     await nextTick();
@@ -76,7 +71,7 @@ describe('Dialog.vue', () => {
 
   test('dialog should have a footer when footer has been given', async () => {
     const wrapper = doMount({
-      slots: { footer: () => AXIOM },
+      vSlots: { footer: () => AXIOM },
     });
 
     await nextTick();
@@ -166,27 +161,29 @@ describe('Dialog.vue', () => {
     });
 
     test('should open and close with delay', async () => {
-      const wrapper = doMount({ props: { openDelay: 2000, closeDelay: 200, modelValue: false } });
+      const visible = ref(true);
+      const wrapper = mount(
+        () => <Dialog visible={visible.value} vSlots={defaultProps.vSlots} openDelay={200} closeDelay={200} />,
+        { attachTo: 'body' },
+      );
 
-      expect(wrapper.vm.visible).toBe(false);
-
-      await wrapper.setProps({
-        modelValue: true,
-      });
+      const dialog = wrapper.findComponent(Dialog);
+      expect(dialog.vm.isVisible).toBe(false);
     });
 
     test('should destroy on close', async () => {
-      const wrapper = doMount({ props:{ destroyOnClose: true } });
-      expect(wrapper.vm.visible).toBe(true);
+      const visible = ref(true);
+      const wrapper = mount(
+        () => <Dialog visible={visible.value} destroyOnClose={true} vSlots={defaultProps.vSlots} />,
+        { attachTo: 'body' },
+      );
+      const dialog = wrapper.findComponent(Dialog);
+      expect(dialog.vm.isVisible).toBe(true);
       await nextTick();
       await rAF();
       await nextTick();
       await wrapper.find('.lp-dialog__headerbtn').trigger('click');
-      await wrapper.setProps({
-        // manually setting this prop because that Transition is not available in testing,
-        // updating model value event was emitted via transition hooks.
-        modelValue: false,
-      });
+      visible.value = false;
       await nextTick();
       await rAF();
       await nextTick();
@@ -198,14 +195,13 @@ describe('Dialog.vue', () => {
       const onClose = vi.fn();
       const onClosed = vi.fn();
       const wrapper = doMount({
-        props: {
-          ['onUpdate:modelValue']: (value: boolean) => (visible = value),
-          onClose,
-          onClosed,
-        },
+        onClose,
+        onClosed,
+        ['onUpdate:visible']: (value: boolean) => (visible = value),
       });
 
-      expect(wrapper.vm.visible).toBe(true);
+      const dialog = wrapper.findComponent(Dialog);
+      expect(dialog.vm.isVisible).toBe(true);
       await nextTick();
       await rAF();
       await nextTick();
@@ -251,7 +247,7 @@ describe('Dialog.vue', () => {
 
     test('missing title attribute should point to header slot content', async () => {
       const wrapper = doMount({
-        slots: {
+        vSlots: {
           header: ({
             titleId,
             titleClass,
@@ -271,13 +267,12 @@ describe('Dialog.vue', () => {
     });
 
     test('aria-describedby should point to modal body', async () => {
-      const wrapper = mount(<Dialog modelValue={true}>{AXIOM}</Dialog>);
+      const wrapper = mount(() => <Dialog visible={true}>{AXIOM}</Dialog>);
       await nextTick();
       const dialog = wrapper.find('[role="dialog"]');
       const dialogBody = wrapper.find('.lp-dialog__body');
-      expect(dialog.attributes()['aria-describedby']).toBe(
-        dialogBody.attributes().id,
-      );
+      expect(dialog.attributes()['aria-describedby'])
+        .toBe(dialogBody.attributes().id);
     });
   });
 });

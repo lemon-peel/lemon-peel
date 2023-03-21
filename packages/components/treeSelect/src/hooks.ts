@@ -1,7 +1,7 @@
 
 import { computed, nextTick, toRefs, watch } from 'vue';
 import { isEqual, pick } from 'lodash-es';
-import { UPDATE_MODEL_EVENT_OLD } from '@lemon-peel/constants';
+import { UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
 import { buildProps, isFunction } from '@lemon-peel/utils';
 import { selectProps } from '@lemon-peel/components/select';
 import { useNamespace } from '@lemon-peel/hooks';
@@ -78,7 +78,7 @@ export const useTree = (
   { select, tree, key }: TreeRefs,
 ) => {
   watch(
-    () => props.modelValue,
+    () => props.value,
     () => {
       if (props.showCheckbox) {
         nextTick(() => {
@@ -87,10 +87,10 @@ export const useTree = (
             treeIns &&
             !isEqual(
               treeIns.getCheckedKeys(),
-              toValidArray(props.modelValue),
+              toValidArray(props.value),
             )
           ) {
-            treeIns.setCheckedKeys(toValidArray(props.modelValue));
+            treeIns.setCheckedKeys(toValidArray(props.value));
           }
         });
       }
@@ -118,7 +118,7 @@ export const useTree = (
     )) : data[propVal as string];
   };
 
-  const defaultExpandedParentKeys = toValidArray(props.modelValue)
+  const defaultExpandedParentKeys = toValidArray(props.value)
     .map(value => {
       return treeFind(
         props.data || [],
@@ -204,7 +204,7 @@ export const useTree = (
       const dataValue = getNodeValByProp('value', data);
       if (props.checkStrictly) {
         emit(
-          UPDATE_MODEL_EVENT_OLD,
+          UPDATE_MODEL_EVENT,
           // Checking for changes may come from `check-on-node-click`
           props.multiple
             ? params.checkedKeys
@@ -216,7 +216,7 @@ export const useTree = (
         // only can select leaf node
         if (props.multiple) {
           emit(
-            UPDATE_MODEL_EVENT_OLD,
+            UPDATE_MODEL_EVENT,
             (tree.value as InstanceType<typeof LpTree>).getCheckedKeys(true),
           );
         } else {
@@ -234,16 +234,16 @@ export const useTree = (
 
           // unselect when any child checked
           const hasCheckedChild =
-            isValidValue(props.modelValue) &&
+            isValidValue(props.value) &&
             !!treeFind(
               [data],
-              data => getNodeValByProp('value', data) === props.modelValue,
+              data => getNodeValByProp('value', data) === props.value,
               data => getNodeValByProp('children', data),
             );
 
           emit(
-            UPDATE_MODEL_EVENT_OLD,
-            firstLeafKey === props.modelValue || hasCheckedChild
+            UPDATE_MODEL_EVENT,
+            firstLeafKey === props.value || hasCheckedChild
               ? undefined
               : firstLeafKey,
           );

@@ -30,7 +30,7 @@ export const selectProps = {
   loading: Boolean,
   loadingText: String,
   label: String,
-  modelValue: [Array, String, Number, Boolean, Object] as PropType<ModelValue>,
+  value: [Array, String, Number, Boolean, Object] as PropType<ModelValue>,
   multiple: Boolean,
   multipleLimit: { type: Number, default: 0 },
   name: String,

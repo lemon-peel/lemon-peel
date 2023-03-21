@@ -7,7 +7,7 @@ import { elPaginationKey } from '@lemon-peel/tokens';
 import Previous from './components/Prev.vue';
 import Next from './components/Next.vue';
 import Sizes from './components/Sizes.vue';
-import Jumper from './components/jumper.vue';
+import Jumper from './components/Jumper.vue';
 import Total from './components/Total.vue';
 import Pager from './components/Pager.vue';
 

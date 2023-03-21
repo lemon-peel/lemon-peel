@@ -2,7 +2,6 @@ import { computed, getCurrentInstance, nextTick, onMounted, ref, watch } from 'v
 import { isClient, useTimeoutFn } from '@vueuse/core';
 
 import { defaultNamespace, useGlobalConfig, useId, useLockscreen, useZIndex } from '@lemon-peel/hooks';
-import { UPDATE_MODEL_EVENT_OLD } from '@lemon-peel/constants';
 import { addUnit } from '@lemon-peel/utils';
 
 import type { CSSProperties, Ref, SetupContext } from 'vue';
@@ -19,7 +18,7 @@ export const useDialog = (
   let lastPosition = '';
   const titleId = useId();
   const bodyId = useId();
-  const visible = ref(false);
+  const isVisible = ref(false);
   const closed = ref(false);
   const rendered = ref(false); // when desctroyOnClose is true, we initialize it as false vise versa
   const zIndex = ref(props.zIndex || nextZIndex());
@@ -56,7 +55,7 @@ export const useDialog = (
 
   function afterLeave() {
     emit('closed');
-    emit(UPDATE_MODEL_EVENT_OLD, false);
+    emit('update:visible', false);
     if (props.destroyOnClose) {
       rendered.value = false;
     }
@@ -68,7 +67,7 @@ export const useDialog = (
 
   function doOpen() {
     if (!isClient) return;
-    visible.value = true;
+    isVisible.value = true;
   }
 
   function open() {
@@ -83,7 +82,7 @@ export const useDialog = (
   }
 
   function doClose() {
-    visible.value = false;
+    isVisible.value = false;
   }
 
   function close() {
@@ -101,7 +100,7 @@ export const useDialog = (
     function hide(shouldCancel?: boolean) {
       if (shouldCancel) return;
       closed.value = true;
-      visible.value = false;
+      isVisible.value = false;
     }
 
     if (props.beforeClose) {
@@ -132,7 +131,7 @@ export const useDialog = (
   }
 
   if (props.lockScroll) {
-    useLockscreen(visible);
+    useLockscreen(isVisible);
   }
 
   function onCloseRequested() {
@@ -142,7 +141,7 @@ export const useDialog = (
   }
 
   watch(
-    () => props.modelValue,
+    () => props.visible,
     value => {
       if (value) {
         closed.value = false;
@@ -158,7 +157,7 @@ export const useDialog = (
         });
       } else {
         // this.$el.removeEventListener('scroll', this.updatePopper
-        if (visible.value) {
+        if (isVisible.value) {
           close();
         }
       }
@@ -179,8 +178,8 @@ export const useDialog = (
   );
 
   onMounted(() => {
-    if (props.modelValue) {
-      visible.value = true;
+    if (props.visible) {
+      isVisible.value = true;
       rendered.value = true; // enables lazy rendering
       open();
     }
@@ -204,7 +203,7 @@ export const useDialog = (
     style,
     overlayDialogStyle,
     rendered,
-    visible,
+    isVisible,
     zIndex,
   };
 };

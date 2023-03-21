@@ -109,21 +109,21 @@ const isEqual = (selected: unknown, target: unknown) => {
   }
 };
 
-const isItemSelected = (modelValue: any[] | any, target: Option) => {
+const isItemSelected = (value: any[] | any, target: Option) => {
   const { valueKey } = select.props;
   if (select.props.multiple) {
-    return contains(modelValue, get(target, valueKey));
+    return contains(value, get(target, valueKey));
   }
-  return isEqual(modelValue, get(target, valueKey));
+  return isEqual(value, get(target, valueKey));
 };
 
-const isItemDisabled = (modelValue: any[] | any, selected: boolean) => {
+const isItemDisabled = (value: any[] | any, selected: boolean) => {
   const { disabled, multiple, multipleLimit } = select.props;
   return (
     disabled ||
         (!selected &&
           (multiple
-            ? multipleLimit > 0 && modelValue.length >= multipleLimit
+            ? multipleLimit > 0 && value.length >= multipleLimit
             : false))
   );
 };
@@ -148,7 +148,7 @@ const Item: FunctionalComponent<ItemProps<any>> = props => {
   const { index, data, style } = props;
   const sized = unref(isSized);
   const { itemSize, estimatedSize } = unref(listProps);
-  const { modelValue } = select.props;
+  const { value } = select.props;
   const { onSelect, onHover } = select;
   const item = data[index];
   if (item.type === 'Group') {
@@ -161,8 +161,8 @@ const Item: FunctionalComponent<ItemProps<any>> = props => {
     );
   }
 
-  const isSelected = isItemSelected(modelValue, item);
-  const isDisabled = isItemDisabled(modelValue, isSelected);
+  const isSelected = isItemSelected(value, item);
+  const isDisabled = isItemDisabled(value, isSelected);
   const isHovering = isItemHovering(index);
   return (<OptionItem
     {...props}

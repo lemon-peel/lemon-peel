@@ -1,5 +1,5 @@
 import { watch } from 'vue';
-import { INPUT_EVENT, UPDATE_MODEL_EVENT_OLD } from '@lemon-peel/constants';
+import { INPUT_EVENT, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
 import { debugWarn, throwError } from '@lemon-peel/utils';
 import type { ComputedRef, SetupContext } from 'vue';
 import type { Arrayable } from '@lemon-peel/utils';
@@ -15,14 +15,14 @@ export const useWatch = (
   elFormItem: FormItemContext,
 ) => {
   const emitUpdate = (val: Arrayable<number>) => {
-    emit(UPDATE_MODEL_EVENT_OLD, val);
+    emit(UPDATE_MODEL_EVENT, val);
     emit(INPUT_EVENT, val);
   };
 
   const valueChanged = () => {
     return props.range ? ![minValue.value, maxValue.value].every(
       (item, index) => item === (initData.oldValue as number[])[index],
-    ) : props.modelValue !== initData.oldValue;
+    ) : props.value !== initData.oldValue;
   };
 
   const setValues = () => {
@@ -30,7 +30,7 @@ export const useWatch = (
       throwError('Slider', 'min should not be greater than max.');
       return;
     }
-    const val = props.modelValue;
+    const val = props.value;
     if (props.range && Array.isArray(val)) {
       if (val[1] < props.min) {
         emitUpdate([props.min, props.min]);
@@ -79,7 +79,7 @@ export const useWatch = (
   );
 
   watch(
-    () => props.modelValue,
+    () => props.value,
     (val, oldVal) => {
       if (
         initData.dragging ||

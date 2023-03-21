@@ -44,15 +44,15 @@ export function useOption(props: OptionProps, states: OptionStates) {
   };
 
   const itemSelected = computed(() => {
-    return select.props.multiple ? contains(select.props.modelValue as unknown[], props.value) : isEqual(props.value, select.props.modelValue);
+    return select.props.multiple ? contains(select.props.value as unknown[], props.value) : isEqual(props.value, select.props.value);
   });
 
   const limitReached = computed(() => {
     if (select.props.multiple) {
-      const modelValue = (select.props.modelValue || []) as unknown[];
+      const value = (select.props.value || []) as unknown[];
       return (
         !itemSelected.value &&
-        modelValue.length >= select.props.multipleLimit! && select.props.multipleLimit! > 0
+        value.length >= select.props.multipleLimit! && select.props.multipleLimit! > 0
       );
     } else {
       return false;

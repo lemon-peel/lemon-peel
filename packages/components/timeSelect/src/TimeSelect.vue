@@ -1,7 +1,7 @@
 <template>
   <lp-select
     ref="select"
-    :model-value="value"
+    :value="value"
     :disabled="isDisabled"
     :clearable="clearable"
     :clear-icon="clearIcon"
@@ -10,7 +10,7 @@
     :placeholder="placeholder"
     default-first-option
     :filterable="editable"
-    @update:model-value="(event: Event) => $emit('update:modelValue', event)"
+    @update:value="(event: Event) => $emit(UPDATE_MODEL_EVENT, event)"
     @change="(event: Event) => $emit('change', event)"
     @blur="(event: Event) => $emit('blur', event)"
     @focus="(event: Event) => $emit('focus', event)"
@@ -38,6 +38,7 @@ import customParseFormat from 'dayjs/plugin/customParseFormat.js';
 import { LpSelect, LpOption } from '@lemon-peel/components/select';
 import LpIcon from '@lemon-peel/components/icon';
 import { useDisabled, useNamespace } from '@lemon-peel/hooks';
+import { UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
 import { timeSelectProps } from './timeSelect';
 import { compareTime, formatTime, nextTime, parseTime } from './utils';
 
@@ -47,7 +48,7 @@ defineOptions({
   name: 'LpTimeSelect',
 });
 
-defineEmits(['change', 'blur', 'focus', 'update:modelValue']);
+const emit = defineEmits(['change', 'blur', 'focus', UPDATE_MODEL_EVENT]);
 
 const props = defineProps(timeSelectProps);
 
@@ -56,7 +57,7 @@ const select = ref<InstanceType<typeof LpSelect>>(null as any);
 
 const isDisabled = useDisabled();
 
-const value = computed(() => props.modelValue);
+const value = computed(() => props.value);
 const start = computed(() => {
   const time = parseTime(props.start);
   return time ? formatTime(time) : null;

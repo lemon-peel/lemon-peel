@@ -1,10 +1,10 @@
-import { nextTick } from 'vue'
-import { mount } from '@vue/test-utils'
-import { describe, expect, test, vi } from 'vitest'
-import Collapse from '../src/Collapse.vue'
-import CollapseItem from '../src/CollapseItem.vue'
-import type { VueWrapper } from '@vue/test-utils'
-import type { CollapseItemInstance } from '../src/instance'
+import { nextTick } from 'vue';
+import { mount } from '@vue/test-utils';
+import { describe, expect, test, vi } from 'vitest';
+import Collapse from '../src/Collapse.vue';
+import CollapseItem from '../src/CollapseItem.vue';
+import type { VueWrapper } from '@vue/test-utils';
+import type { CollapseItemInstance } from '../src/instance';
 
 describe('Collapse.vue', () => {
   test('create', async () => {
@@ -12,11 +12,11 @@ describe('Collapse.vue', () => {
       data() {
         return {
           activeNames: ['1'],
-        }
+        };
       },
       render() {
         return (
-          <Collapse v-model={this.activeNames}>
+          <Collapse v-model:value={this.activeNames}>
             <CollapseItem title="title1" name="1">
               <div class="content">111</div>
             </CollapseItem>
@@ -30,39 +30,39 @@ describe('Collapse.vue', () => {
               <div class="content">444</div>
             </CollapseItem>
           </Collapse>
-        )
+        );
       },
-    })
+    });
 
-    const vm = wrapper.vm
-    const collapseWrapper = wrapper.findComponent(Collapse)
+    const vm = wrapper.vm;
+    const collapseWrapper = wrapper.findComponent(Collapse);
     const collapseItemWrappers = collapseWrapper.findAllComponents(
-      CollapseItem
-    ) as VueWrapper<CollapseItemInstance>[]
+      CollapseItem,
+    ) as VueWrapper<CollapseItemInstance>[];
     const collapseItemHeaderEls = vm.$el.querySelectorAll(
-      '.lp-collapse-item__header'
-    )
-    expect(collapseItemWrappers[0].vm.isActive).toBe(true)
+      '.lp-collapse-item__header',
+    );
+    expect(collapseItemWrappers[0].vm.isActive).toBe(true);
 
-    collapseItemHeaderEls[2].click()
-    await nextTick()
-    expect(collapseItemWrappers[0].vm.isActive).toBe(true)
-    expect(collapseItemWrappers[2].vm.isActive).toBe(true)
-    collapseItemHeaderEls[0].click()
-    await nextTick()
-    expect(collapseItemWrappers[0].vm.isActive).toBe(false)
-  })
+    collapseItemHeaderEls[2].click();
+    await nextTick();
+    expect(collapseItemWrappers[0].vm.isActive).toBe(true);
+    expect(collapseItemWrappers[2].vm.isActive).toBe(true);
+    collapseItemHeaderEls[0].click();
+    await nextTick();
+    expect(collapseItemWrappers[0].vm.isActive).toBe(false);
+  });
 
   test('accordion', async () => {
     const wrapper = mount({
       data() {
         return {
           activeNames: ['1'],
-        }
+        };
       },
       render() {
         return (
-          <Collapse accordion v-model={this.activeNames}>
+          <Collapse accordion v-model:value={this.activeNames}>
             <CollapseItem title="title1" name="1">
               <div class="content">111</div>
             </CollapseItem>
@@ -76,41 +76,41 @@ describe('Collapse.vue', () => {
               <div class="content">444</div>
             </CollapseItem>
           </Collapse>
-        )
+        );
       },
-    })
+    });
 
-    const vm = wrapper.vm
-    const collapseWrapper = wrapper.findComponent(Collapse)
+    const vm = wrapper.vm;
+    const collapseWrapper = wrapper.findComponent(Collapse);
     const collapseItemWrappers = collapseWrapper.findAllComponents(
-      CollapseItem
-    ) as VueWrapper<CollapseItemInstance>[]
+      CollapseItem,
+    ) as VueWrapper<CollapseItemInstance>[];
     const collapseItemHeaderEls = vm.$el.querySelectorAll(
-      '.lp-collapse-item__header'
-    )
-    expect(collapseItemWrappers[0].vm.isActive).toBe(true)
+      '.lp-collapse-item__header',
+    );
+    expect(collapseItemWrappers[0].vm.isActive).toBe(true);
 
-    collapseItemHeaderEls[2].click()
-    await nextTick()
-    expect(collapseItemWrappers[0].vm.isActive).toBe(false)
-    expect(collapseItemWrappers[2].vm.isActive).toBe(true)
-    collapseItemHeaderEls[0].click()
-    await nextTick()
-    expect(collapseItemWrappers[0].vm.isActive).toBe(true)
-    expect(collapseItemWrappers[2].vm.isActive).toBe(false)
-  })
+    collapseItemHeaderEls[2].click();
+    await nextTick();
+    expect(collapseItemWrappers[0].vm.isActive).toBe(false);
+    expect(collapseItemWrappers[2].vm.isActive).toBe(true);
+    collapseItemHeaderEls[0].click();
+    await nextTick();
+    expect(collapseItemWrappers[0].vm.isActive).toBe(true);
+    expect(collapseItemWrappers[2].vm.isActive).toBe(false);
+  });
 
   test('event:change', async () => {
-    const onChange = vi.fn()
+    const onChange = vi.fn();
     const wrapper = mount({
       data() {
         return {
           activeNames: ['1'],
-        }
+        };
       },
       render() {
         return (
-          <Collapse v-model={this.activeNames} onChange={onChange}>
+          <Collapse v-model:value={this.activeNames} onChange={onChange}>
             <CollapseItem title="title1" name="1">
               <div class="content">111</div>
             </CollapseItem>
@@ -124,47 +124,47 @@ describe('Collapse.vue', () => {
               <div class="content">444</div>
             </CollapseItem>
           </Collapse>
-        )
+        );
       },
-    })
+    });
 
-    const vm = wrapper.vm
-    const collapseWrapper = wrapper.findComponent(Collapse)
+    const vm = wrapper.vm;
+    const collapseWrapper = wrapper.findComponent(Collapse);
     const collapseItemWrappers = collapseWrapper.findAllComponents(
-      CollapseItem
-    ) as VueWrapper<CollapseItemInstance>[]
+      CollapseItem,
+    ) as VueWrapper<CollapseItemInstance>[];
     const collapseItemHeaderEls = vm.$el.querySelectorAll(
-      '.lp-collapse-item__header'
-    )
-    expect(collapseItemWrappers[0].vm.isActive).toBe(true)
-    expect(vm.activeNames).toEqual(['1'])
-    expect(onChange).not.toHaveBeenCalled()
-    collapseItemHeaderEls[2].click()
-    await nextTick()
-    expect(onChange).toHaveBeenCalledTimes(1)
-    expect(collapseItemWrappers[0].vm.isActive).toBe(true)
-    expect(collapseItemWrappers[2].vm.isActive).toBe(true)
-    expect(vm.activeNames).toEqual(['1', '3'])
-    collapseItemHeaderEls[0].click()
-    await nextTick()
-    expect(onChange).toHaveBeenCalledTimes(2)
-    expect(collapseItemWrappers[0].vm.isActive).toBe(false)
-    expect(vm.activeNames).toEqual(['3'])
-  })
+      '.lp-collapse-item__header',
+    );
+    expect(collapseItemWrappers[0].vm.isActive).toBe(true);
+    expect(vm.activeNames).toEqual(['1']);
+    expect(onChange).not.toHaveBeenCalled();
+    collapseItemHeaderEls[2].click();
+    await nextTick();
+    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(collapseItemWrappers[0].vm.isActive).toBe(true);
+    expect(collapseItemWrappers[2].vm.isActive).toBe(true);
+    expect(vm.activeNames).toEqual(['1', '3']);
+    collapseItemHeaderEls[0].click();
+    await nextTick();
+    expect(onChange).toHaveBeenCalledTimes(2);
+    expect(collapseItemWrappers[0].vm.isActive).toBe(false);
+    expect(vm.activeNames).toEqual(['3']);
+  });
 
-  test('deep watch modelValue', async () => {
+  test('deep watch vModel:value', async () => {
     const wrapper = mount({
       data() {
         return {
           activeNames: ['1'],
-        }
+        };
       },
       mounted() {
-        this.activeNames.push('2')
+        this.activeNames.push('2');
       },
       render() {
         return (
-          <Collapse v-model={this.activeNames}>
+          <Collapse v-model:value={this.activeNames}>
             <CollapseItem title="title1" name="1">
               <div class="content">111</div>
             </CollapseItem>
@@ -178,16 +178,16 @@ describe('Collapse.vue', () => {
               <div class="content">444</div>
             </CollapseItem>
           </Collapse>
-        )
+        );
       },
-    })
+    });
 
-    await nextTick()
-    const collapseWrapper = wrapper.findComponent(Collapse)
+    await nextTick();
+    const collapseWrapper = wrapper.findComponent(Collapse);
     const collapseItemWrappers = collapseWrapper.findAllComponents(
-      CollapseItem
-    ) as VueWrapper<CollapseItemInstance>[]
-    expect(collapseItemWrappers[0].vm.isActive).toBe(true)
-    expect(collapseItemWrappers[1].vm.isActive).toBe(true)
-  })
-})
+      CollapseItem,
+    ) as VueWrapper<CollapseItemInstance>[];
+    expect(collapseItemWrappers[0].vm.isActive).toBe(true);
+    expect(collapseItemWrappers[1].vm.isActive).toBe(true);
+  });
+});

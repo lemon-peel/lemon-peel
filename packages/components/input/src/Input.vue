@@ -161,7 +161,7 @@ import { LpIcon } from '@lemon-peel/components/icon';
 import { CircleClose, Hide as IconHide, View as IconView } from '@element-plus/icons-vue';
 import { NOOP, ValidateComponentsMap, debugWarn, isKorean, isObject } from '@lemon-peel/utils';
 import { useAttrs, useCursor, useDisabled, useFormItem, useFormItemInputId, useNamespace, useSize } from '@lemon-peel/hooks';
-import { UPDATE_MODEL_EVENT_OLD } from '@lemon-peel/constants';
+import { UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
 
 import { calcTextareaHeight } from './utils';
 import { inputEmits, inputProps } from './input';
@@ -237,7 +237,7 @@ const textareaStyle = computed(() => ([
 ] as StyleValue[]));
 
 const nativeInputValue = computed(() =>
-  isNil(props.modelValue) ? '' : String(props.modelValue),
+  isNil(props.value) ? '' : String(props.value),
 );
 const showClear = computed(
   () =>
@@ -338,7 +338,7 @@ const handleInput = async (event: Event) => {
     return;
   }
 
-  emit(UPDATE_MODEL_EVENT_OLD, value);
+  emit(UPDATE_MODEL_EVENT, value);
   emit('input', value);
 
   // ensure native input value is controlled
@@ -417,14 +417,14 @@ const select = () => {
 };
 
 const clear = () => {
-  emit(UPDATE_MODEL_EVENT_OLD, '');
+  emit(UPDATE_MODEL_EVENT, '');
   emit('change', '');
   emit('clear');
   emit('input', '');
 };
 
 watch(
-  () => props.modelValue,
+  () => props.value,
   () => {
     nextTick(() => resizeTextarea());
     if (props.validateEvent) {

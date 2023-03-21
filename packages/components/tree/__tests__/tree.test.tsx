@@ -1,84 +1,67 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
-import { nextTick } from 'vue';
+import { nextTick, ref } from 'vue';
 import { mount } from '@vue/test-utils';
 import { describe, expect, test, vi } from 'vitest';
 import defineGetter from '@lemon-peel/test-utils/defineGetter';
 
 import Tree from '../src/Tree.vue';
+
 import type Node from '../src/model/node';
-import type { TreeKey, TreeNodeData } from '../src/tree';
+import type { ComponentMountingOptions } from '@lemon-peel/test-utils/makeMount';
+import type { FilterNodeMethodFunction } from '../src/tree';
+import type { LoadFunction, TreeNodeContentRender, TreeKey, TreeNodeData } from '../src/tree';
 
 const ALL_NODE_COUNT = 9;
+
+const defaultData = [
+  {
+    id: 1,
+    label: '一级 1',
+    children: [
+      {
+        id: 11,
+        label: '二级 1-1',
+        children: [{ id: 111, label: '三级 1-1' }],
+      },
+    ],
+  },
+  {
+    id: 2,
+    label: '一级 2',
+    children: [
+      { id: 21, label: '二级 2-1' },
+      { id: 22, label: '二级 2-2' },
+    ],
+  },
+  {
+    id: 3,
+    label: '一级 3',
+    children: [
+      { id: 31, label: '二级 3-1' },
+      { id: 32, label: '二级 3-2' },
+    ],
+  },
+];
+
+const defaultProps = { children: 'children', label: 'label' };
+const defaultExpandedKeys = [] as TreeKey[];
+const defaultCheckedKeys = [] as TreeKey[];
 
 const getTreeVm = (props = '', options = {}) => {
   const wrapper = mount(
     Object.assign(
       {
-        components: {
-          'lp-tree': Tree,
-        },
-        template: `
-      <lp-tree ref="tree" :data="data" ${props}></lp-tree>
-    `,
+        components: { 'lp-tree': Tree },
+        template: `<lp-tree ref="tree" :data="data" ${props}></lp-tree>`,
         data() {
           return {
             currentNode: null,
             nodeExpended: false,
-            defaultExpandedKeys: [] as TreeKey[],
-            defaultCheckedKeys: [],
             clickedNode: null as (TreeNodeData | null),
             count: 1,
-            data: [
-              {
-                id: 1,
-                label: '一级 1',
-                children: [
-                  {
-                    id: 11,
-                    label: '二级 1-1',
-                    children: [
-                      {
-                        id: 111,
-                        label: '三级 1-1',
-                      },
-                    ],
-                  },
-                ],
-              },
-              {
-                id: 2,
-                label: '一级 2',
-                children: [
-                  {
-                    id: 21,
-                    label: '二级 2-1',
-                  },
-                  {
-                    id: 22,
-                    label: '二级 2-2',
-                  },
-                ],
-              },
-              {
-                id: 3,
-                label: '一级 3',
-                children: [
-                  {
-                    id: 31,
-                    label: '二级 3-1',
-                  },
-                  {
-                    id: 32,
-                    label: '二级 3-2',
-                  },
-                ],
-              },
-            ],
-            defaultProps: {
-              children: 'children',
-              label: 'label',
-            },
+            data: defaultData,
+            defaultCheckedKeys,
+            defaultExpandedKeys,
+            defaultProps,
           };
         },
       },
@@ -88,95 +71,88 @@ const getTreeVm = (props = '', options = {}) => {
   return { wrapper, vm: wrapper.vm };
 };
 
+type MountingOptionsTree = ComponentMountingOptions<typeof Tree>;
+const getTreeWrap = (props: MountingOptionsTree['props'] = {}, options: MountingOptionsTree = {}) => {
+  return mount(Tree, {
+    props: {
+      currentNode: null,
+      nodeExpended: false,
+      defaultExpandedKeys: [] as TreeKey[],
+      defaultCheckedKeys: [],
+      clickedNode: null as (TreeNodeData | null),
+      count: 1,
+      data: defaultData,
+      // props: defaultProps as any,
+      ...props,
+    },
+    attachTo: 'body',
+    ...options,
+  });
+};
+
 const getDisableTreeVm = (props = '', options = {}) => {
   const wrapper = mount(
-    Object.assign(
-      {
-        components: {
-          'lp-tree': Tree,
-        },
-        template: `
-      <lp-tree ref="tree" :data="data" ${props}></lp-tree>
-    `,
-        data() {
-          return {
-            defaultExpandedKeys: [],
-            defaultCheckedKeys: [],
-            clickedNode: null,
-            count: 1,
-            data: [
-              {
-                id: 1,
-                label: '一级 1',
-                children: [
-                  {
-                    id: 11,
-                    label: '二级 1-1',
-                    children: [
-                      {
-                        id: 111,
-                        label: '三级 1-1',
-                        disabled: true,
-                      },
-                    ],
-                  },
-                ],
-              },
-              {
-                id: 2,
-                label: '一级 2',
-                children: [
-                  {
-                    id: 21,
-                    label: '二级 2-1',
-                  },
-                  {
-                    id: 22,
-                    label: '二级 2-2',
-                  },
-                ],
-              },
-              {
-                id: 3,
-                label: '一级 3',
-                children: [
-                  {
-                    id: 31,
-                    label: '二级 3-1',
-                  },
-                  {
-                    id: 32,
-                    label: '二级 3-2',
-                  },
-                ],
-              },
-            ],
-            defaultProps: {
-              children: 'children',
-              label: 'label',
-              disabled: 'disabled',
+    Object.assign({
+      components: { 'lp-tree': Tree },
+      template: `<lp-tree ref="tree" :data="data" ${props}></lp-tree>`,
+      data() {
+        return {
+          defaultExpandedKeys: [],
+          defaultCheckedKeys: [],
+          clickedNode: null,
+          count: 1,
+          data: [
+            {
+              id: 1,
+              label: '一级 1',
+              children: [
+                {
+                  id: 11,
+                  label: '二级 1-1',
+                  children: [
+                    { id: 111, label: '三级 1-1', disabled: true },
+                  ],
+                },
+              ],
             },
-          };
-        },
+            {
+              id: 2,
+              label: '一级 2',
+              children: [
+                { id: 21, label: '二级 2-1' },
+                { id: 22, label: '二级 2-2' },
+              ],
+            },
+            {
+              id: 3,
+              label: '一级 3',
+              children: [
+                { id: 31, label: '二级 3-1' },
+                { id: 32, label: '二级 3-2' },
+              ],
+            },
+          ],
+          defaultProps: { children: 'children', label: 'label', disabled: 'disabled' },
+        };
       },
-      options,
-    ),
+    }, options),
   );
   return { wrapper, vm: wrapper.vm };
 };
 
 describe('Tree.vue', () => {
   test('create', async () => {
-    const { wrapper, vm } = getTreeVm(
-      `:props="defaultProps" default-expand-all`,
-    );
+    const wrapper = getTreeWrap({
+      props: defaultProps,
+      defaultExpandAll: true,
+    });
 
     expect(wrapper.find('.lp-tree').exists()).toBeTruthy();
     expect(wrapper.findAll('.lp-tree > .lp-tree-node').length).toEqual(3);
     expect(wrapper.findAll('.lp-tree .lp-tree-node').length).toEqual(
       ALL_NODE_COUNT,
     );
-    vm.data[1].children = [{ label: '二级 2-1' }] as any;
+    wrapper.vm.data[1].children = [{ label: '二级 2-1' }] as any;
     await nextTick();
     expect(wrapper.findAll('.lp-tree .lp-tree-node').length).toEqual(
       ALL_NODE_COUNT - 1,
@@ -184,17 +160,15 @@ describe('Tree.vue', () => {
   });
 
   test('click node', async () => {
-    const { wrapper, vm } = getTreeVm(
-      `:props="defaultProps" @node-click="handleNodeClick"`,
-      {
-        methods: {
-          // TODO remove any
-          handleNodeClick(this: any, data: TreeNodeData) {
-            this.clickedNode = data;
-          },
-        },
-      },
-    );
+    const clickedNode = ref<TreeNodeData | null>(null);
+    const onNodeClick = (data: TreeNodeData) => {
+      clickedNode.value = data;
+    };
+
+    const wrapper = getTreeWrap({
+      props: defaultProps,
+      onNodeClick,
+    });
 
     const firstNodeContentWrapper = wrapper.find('.lp-tree-node__content');
     const firstNodeWrapper = wrapper.find('.lp-tree-node');
@@ -202,7 +176,7 @@ describe('Tree.vue', () => {
     await firstNodeContentWrapper.trigger('click');
     await nextTick(); // because node click method to expaned is async
 
-    expect(vm.clickedNode?.label).toEqual('一级 1');
+    expect(clickedNode.value?.label).toEqual('一级 1');
     expect(firstNodeWrapper.classes('is-expanded')).toBe(true);
     expect(firstNodeWrapper.classes('is-current')).toBe(true);
 
@@ -317,10 +291,10 @@ describe('Tree.vue', () => {
       `:props="defaultProps" :filter-node-method="filterNode"`,
       {
         methods: {
-          filterNode(value, data) {
+          filterNode: ((value, data) => {
             if (!value) return true;
             return data.label.includes(value);
-          },
+          }) as FilterNodeMethodFunction,
         },
       },
     );
@@ -333,26 +307,31 @@ describe('Tree.vue', () => {
   });
 
   test('autoExpandParent = true', async () => {
-    const { wrapper } = getTreeVm(
-      `:props="defaultProps" :default-expanded-keys="defaultExpandedKeys" node-key="id"`,
+    const expandedKeys = ref(defaultExpandedKeys);
+    const wrapper = getTreeWrap(
       {
-        created() {
-          this.defaultExpandedKeys = [111];
-        },
+        props: defaultProps,
+        defaultExpandedKeys: expandedKeys.value,
+        nodeKey: 'id',
       },
+      { created: () => { expandedKeys.value = [111]; } },
     );
+
     expect(wrapper.findAll('.lp-tree-node.is-expanded').length).toEqual(3);
   });
 
   test('autoExpandParent = false', async () => {
-    const { wrapper } = getTreeVm(
-      `:props="defaultProps" :default-expanded-keys="defaultExpandedKeys" node-key="id" :auto-expand-parent="false"`,
+    const expandedKeys = ref(defaultExpandedKeys);
+    const wrapper = getTreeWrap(
       {
-        created() {
-          this.defaultExpandedKeys = [11];
-        },
+        props: defaultProps,
+        defaultExpandedKeys: expandedKeys.value,
+        nodeKey: 'id',
+        autoExpandParent: false,
       },
+      { created: () => { expandedKeys.value = [111]; } },
     );
+
     expect(wrapper.findAll('.lp-tree-node.is-expanded').length).toEqual(0);
 
     const firstNodeContentWrapper = wrapper.find('.lp-tree-node__content');
@@ -363,26 +342,25 @@ describe('Tree.vue', () => {
   });
 
   test('defaultCheckedKeys & check-strictly = false', async () => {
-    const { wrapper } = getTreeVm(
-      `:props="defaultProps" default-expand-all show-checkbox :default-checked-keys="defaultCheckedKeys" node-key="id"`,
-      {
-        created() {
-          this.defaultCheckedKeys = [1];
-        },
-      },
-    );
+    const wrapper = getTreeWrap({
+      props: defaultProps,
+      defaultExpandAll: true,
+      showCheckbox: true,
+      defaultCheckedKeys: [1],
+      nodeKey: 'id',
+    });
     expect(wrapper.findAll('.lp-checkbox .is-checked').length).toEqual(3);
   });
 
   test('defaultCheckedKeys & check-strictly', async () => {
-    const { wrapper } = getTreeVm(
-      `:props="defaultProps" default-expand-all show-checkbox :default-checked-keys="defaultCheckedKeys" node-key="id" check-strictly`,
-      {
-        created() {
-          this.defaultCheckedKeys = [1];
-        },
-      },
-    );
+    const wrapper = getTreeWrap({
+      props: defaultProps,
+      defaultExpandAll: true,
+      showCheckbox: true,
+      defaultCheckedKeys: [1],
+      nodeKey: 'id',
+      checkStrictly: true,
+    });
     expect(wrapper.findAll('.lp-checkbox .is-checked').length).toEqual(1);
   });
 
@@ -560,9 +538,9 @@ describe('Tree.vue', () => {
     const tree = treeWrapper.vm as InstanceType<typeof Tree>;
 
     tree.setCurrentKey(111);
-    expect(tree.store.currentNode.data.id).toEqual(111);
+    expect(tree.store.currentNode!.data.id).toEqual(111);
 
-    tree.setCurrentKey(null);
+    tree.setCurrentKey();
     expect(tree.store.currentNode).toEqual(null);
   });
 
@@ -577,7 +555,7 @@ describe('Tree.vue', () => {
     await nextTick();
     expect(wrapper.find('.is-current').exists()).toBeTruthy();
 
-    tree.setCurrentKey(null);
+    tree.setCurrentKey();
     await nextTick();
     expect(wrapper.find('.is-current').exists()).toBeFalsy();
   });
@@ -618,13 +596,10 @@ describe('Tree.vue', () => {
     const treeWrapper = wrapper.findComponent(Tree);
     const tree = treeWrapper.vm as InstanceType<typeof Tree>;
 
-    tree.setCurrentNode({
-      id: 111,
-      label: '三级 1-1',
-    } as Node);
-    expect(tree.store.currentNode.data.id).toEqual(111);
+    tree.setCurrentNode({ id: 111, label: '三级 1-1' } as Node);
+    expect(tree.store.currentNode!.data.id).toEqual(111);
 
-    tree.setCurrentKey(null);
+    tree.setCurrentKey();
     expect(tree.store.currentNode).toEqual(null);
   });
 
@@ -642,7 +617,7 @@ describe('Tree.vue', () => {
     await nextTick();
     expect(wrapper.find('.is-current').exists()).toBeTruthy();
 
-    tree.setCurrentKey(null);
+    tree.setCurrentKey();
     await nextTick();
     expect(wrapper.find('.is-current').exists()).toBeFalsy();
   });
@@ -696,7 +671,7 @@ describe('Tree.vue', () => {
     tree.setCurrentKey(111);
     expect(tree.getCurrentKey()).toEqual(111);
 
-    tree.setCurrentKey(null);
+    tree.setCurrentKey();
     expect(tree.getCurrentKey()).toEqual(null);
   });
 
@@ -708,7 +683,7 @@ describe('Tree.vue', () => {
     const tree = treeWrapper.vm as InstanceType<typeof Tree>;
 
     tree.setCurrentKey(111);
-    expect(tree.getCurrentNode().id).toEqual(111);
+    expect(tree.getCurrentNode()?.id).toEqual(111);
   });
 
   test('getNode', async () => {
@@ -726,7 +701,7 @@ describe('Tree.vue', () => {
     const tree = treeWrapper.vm as InstanceType<typeof Tree>;
 
     tree.setCurrentKey(1);
-    expect(tree.getCurrentNode().id).toEqual(1);
+    expect(tree.getCurrentNode()?.id).toEqual(1);
     tree.remove(1);
 
     expect(tree.data[0].id).toEqual(2);
@@ -809,18 +784,17 @@ describe('Tree.vue', () => {
   });
 
   test('render content', async () => {
-    const { wrapper } = getTreeVm(
-      `:props="defaultProps" :render-content="renderContent"`,
-      {
-        methods: {
-          renderContent(h, node) {
-            return h('div', { class: 'custom-content' }, [
-              h('button', { class: 'lp-button' }, [node.node.label]),
-            ]);
-          },
-        },
-      },
-    );
+    const renderContent: TreeNodeContentRender = (h, opts) => {
+      return h('div', { class: 'custom-content' }, [
+        h('button', { class: 'lp-button' }, [opts.node.label]),
+      ]);
+    };
+
+    const wrapper = getTreeWrap({
+      props: defaultProps,
+      renderContent,
+    });
+
     const firstNodeWrapper = wrapper.find('.lp-tree-node__content');
     expect(firstNodeWrapper.find('.custom-content').exists()).toBe(true);
 
@@ -842,25 +816,17 @@ describe('Tree.vue', () => {
   });
 
   test('scoped slot', async () => {
-    const { wrapper } = getTreeVm('', {
-      template: `
-        <lp-tree ref="tree" :data="data">
-          <template #default="scope">
-            <div class="custom-tree-template">
-              <span>{{ scope.node.label }}</span>
-              <button></button>
-            </div>
-          </template>
-        </lp-tree>
-      `,
-      methods: {
-        renderContent(h, node) {
-          return h('div', { class: 'custom-content' }, [
-            h('button', { class: 'lp-button' }, [node.node.label]),
-          ]);
+    const wrapper = getTreeWrap({}, {
+      slots: {
+        default(scope: { node: Node }) {
+          return <div class="custom-tree-template">
+            <span>{scope.node.label}</span>
+            <button></button>
+          </div>;
         },
       },
     });
+
     const firstNodeWrapper = wrapper.find('.custom-tree-template');
     expect(firstNodeWrapper.exists()).toBe(true);
     const spanWrapper = firstNodeWrapper.find('span');
@@ -871,29 +837,26 @@ describe('Tree.vue', () => {
   });
 
   test('load node', async () => {
-    const { wrapper } = getTreeVm(
-      `:props="defaultProps" lazy :load="loadNode" show-checkbox`,
-      {
-        methods: {
-          loadNode(node, resolve) {
-            if (node.level === 0) {
-              return resolve([{ label: 'region1' }, { label: 'region2' }]);
-            }
-            if (node.level > 4) return resolve([]);
-            setTimeout(() => {
-              resolve([
-                {
-                  label: `zone${this.count++}`,
-                },
-                {
-                  label: `zone${this.count++}`,
-                },
-              ]);
-            }, 50);
-          },
-        },
-      },
-    );
+    let count = 0;
+    const loadNode: LoadFunction = (node, resolve) => {
+      if (node.level === 0) {
+        return resolve([{ label: 'region1' }, { label: 'region2' }]);
+      }
+      if (node.level > 4) return resolve([]);
+      setTimeout(() => {
+        resolve([
+          { label: `zone${++count}` },
+          { label: `zone${++count}` },
+        ]);
+      }, 50);
+    };
+
+    const wrapper = getTreeWrap({
+      props: defaultProps,
+      lazy: true,
+      showCheckbox: true,
+      load: loadNode,
+    });
 
     let nodeWrappers = wrapper.findAll('.lp-tree-node__content');
 
@@ -908,34 +871,26 @@ describe('Tree.vue', () => {
   });
 
   test('lazy defaultChecked', async () => {
-    const { wrapper } = getTreeVm(
-      `:props="defaultProps" node-key="id" lazy :load="loadNode" show-checkbox`,
-      {
-        methods: {
-          loadNode(node, resolve) {
-            if (node.level === 0) {
-              return resolve([
-                { label: 'region1', id: this.count++ },
-                { label: 'region2', id: this.count++ },
-              ]);
-            }
-            if (node.level > 4) return resolve([]);
-            setTimeout(() => {
-              resolve([
-                {
-                  label: `zone${this.count}`,
-                  id: this.count++,
-                },
-                {
-                  label: `zone${this.count}`,
-                  id: this.count++,
-                },
-              ]);
-            }, 50);
-          },
-        },
-      },
-    );
+    let count = 0;
+    const loadNode: LoadFunction = (node, resolve) => {
+      if (node.level === 0) {
+        resolve([{ label: 'region1', id: count++ }, { label: 'region2', id: count++ }]);
+      } else if (node.level > 4) {
+        resolve([]);
+      } else {
+        setTimeout(() => {
+          resolve([{ label: `zone${count}`, id: count++ }, { label: `zone${count}`, id: count++ }]);
+        }, 50);
+      }
+    };
+
+    const wrapper = getTreeWrap({
+      props: defaultProps,
+      lazy: true,
+      showCheckbox: true,
+      nodeKey: 'id',
+      load: loadNode,
+    });
 
     const treeWrapper = wrapper.findComponent(Tree);
     const tree = treeWrapper.vm as InstanceType<typeof Tree>;
@@ -955,34 +910,27 @@ describe('Tree.vue', () => {
   });
 
   test('lazy expandOnChecked', async () => {
-    const { wrapper } = getTreeVm(
-      `:props="defaultProps" node-key="id" lazy :load="loadNode" show-checkbox check-descendants`,
-      {
-        methods: {
-          loadNode(node, resolve) {
-            if (node.level === 0) {
-              return resolve([
-                { label: 'region1', id: this.count++ },
-                { label: 'region2', id: this.count++ },
-              ]);
-            }
-            if (node.level > 2) return resolve([]);
-            setTimeout(() => {
-              resolve([
-                {
-                  label: `zone${this.count}`,
-                  id: this.count++,
-                },
-                {
-                  label: `zone${this.count}`,
-                  id: this.count++,
-                },
-              ]);
-            }, 10);
-          },
-        },
-      },
-    );
+    let count = 0;
+    const loadNode: LoadFunction = (node, resolve) => {
+      if (node.level === 0) {
+        resolve([{ label: 'region1', id: count++ }, { label: 'region2', id: count++ }]);
+      } else if (node.level > 2) {
+        resolve([]);
+      } else {
+        setTimeout(() => {
+          resolve([{ label: `zone${count}`, id: count++ }, { label: `zone${count}`, id: count++ }]);
+        }, 10);
+      }
+    };
+
+    const wrapper = getTreeWrap({
+      props: defaultProps,
+      lazy: true,
+      showCheckbox: true,
+      nodeKey: 'id',
+      load: loadNode,
+      checkDescendants: true,
+    });
 
     const treeWrapper = wrapper.findComponent(Tree);
     const tree = treeWrapper.vm as InstanceType<typeof Tree>;
@@ -996,34 +944,26 @@ describe('Tree.vue', () => {
   });
 
   test('lazy without expandOnChecked', async () => {
-    const { wrapper } = getTreeVm(
-      `:props="defaultProps" node-key="id" lazy :load="loadNode" show-checkbox`,
-      {
-        methods: {
-          loadNode(node, resolve) {
-            if (node.level === 0) {
-              return resolve([
-                { label: 'region1', id: this.count++ },
-                { label: 'region2', id: this.count++ },
-              ]);
-            }
-            if (node.level > 4) return resolve([]);
-            setTimeout(() => {
-              resolve([
-                {
-                  label: `zone${this.count}`,
-                  id: this.count++,
-                },
-                {
-                  label: `zone${this.count}`,
-                  id: this.count++,
-                },
-              ]);
-            }, 50);
-          },
-        },
-      },
-    );
+    let count = 0;
+    const loadNode: LoadFunction = (node, resolve) => {
+      if (node.level === 0) {
+        resolve([{ label: 'region1', id: count++ }, { label: 'region2', id: count++ }]);
+      } else if (node.level > 4) {
+        resolve([]);
+      } else {
+        setTimeout(() => {
+          resolve([{ label: `zone${count}`, id: count++ }, { label: `zone${count}`, id: count++ }]);
+        }, 50);
+      }
+    };
+
+    const wrapper = getTreeWrap({
+      props: defaultProps,
+      lazy: true,
+      showCheckbox: true,
+      nodeKey: 'id',
+      load: loadNode,
+    });
 
     const treeWrapper = wrapper.findComponent(Tree);
     const tree = treeWrapper.vm as InstanceType<typeof Tree>;
@@ -1051,60 +991,61 @@ describe('Tree.vue', () => {
   });
 
   test('handleNodeOpen & handleNodeClose', async () => {
-    const { wrapper, vm } = getTreeVm(
-      `:props="defaultProps" lazy :load="loadNode" @node-expand="handleNodeOpen" @node-collapse="handleNodeClose"`,
-      {
-        methods: {
-          loadNode(node, resolve) {
-            if (node.level === 0) {
-              return resolve([{ label: 'region1' }, { label: 'region2' }]);
-            }
-            if (node.level > 4) return resolve([]);
-            nextTick(() => {
-              resolve([
-                {
-                  label: `zone${this.count++}`,
-                },
-                {
-                  label: `zone${this.count++}`,
-                },
-              ]);
-            });
-          },
-          handleNodeOpen(data) {
-            this.currentNode = data;
-            this.nodeExpended = true;
-          },
-          handleNodeClose(data) {
-            this.currentNode = data;
-            this.nodeExpended = false;
-          },
-        },
-      },
-    );
+    let count = 0;
+    const loadNode: LoadFunction = (node, resolve) => {
+      if (node.level === 0) {
+        resolve([{ label: 'region1' }, { label: 'region2' }]);
+      } else if (node.level > 4) {
+        resolve([]);
+      } else {
+        nextTick(() => {
+          resolve([{ label: `zone${count++}` }, { label: `zone${count++}` }]);
+        });
+      }
+    };
+
+    const currentNode = ref<TreeNodeData | null>(null);
+    const nodeExpended = ref(false);
+
+    const onNodeExpand = (data: TreeNodeData) => {
+      currentNode.value = data;
+      nodeExpended.value = true;
+    };
+    const onNodeCollapse = (data: TreeNodeData) => {
+      currentNode.value = data;
+      nodeExpended.value = false;
+    };
+
+    const wrapper = getTreeWrap({
+      props: defaultProps,
+      lazy: true,
+      load: loadNode,
+      onNodeExpand,
+      onNodeCollapse,
+    });
 
     const firstNodeContentWrapper = wrapper.find('.lp-tree-node__content');
     const firstNodeWrapper = wrapper.find('.lp-tree-node');
 
-    expect(firstNodeWrapper.find('.lp-tree-node__children').exists()).toBe(
-      false,
-    );
+    expect(firstNodeWrapper.find('.lp-tree-node__children').exists())
+      .toBe(false);
 
     await firstNodeContentWrapper.trigger('click');
     await nextTick(); // first next tick for UI update
     await nextTick(); // second next tick for triggering loadNode
     await nextTick(); // third next tick for updating props.node.expanded
 
-    expect(vm.nodeExpended).toEqual(true);
-    expect(vm.currentNode.label).toEqual('region1');
+
+    expect(nodeExpended.value).toEqual(true);
+    expect(currentNode.value?.label).toEqual('region1');
 
     await firstNodeContentWrapper.trigger('click');
     await nextTick();
     await nextTick();
     await nextTick();
 
-    expect(vm.nodeExpended).toEqual(false);
-    expect(vm.currentNode.label).toEqual('region1');
+    expect(nodeExpended.value).toEqual(false);
+    expect(currentNode.value?.label).toEqual('region1');
   });
 
   test('updateKeyChildren', async () => {
@@ -1248,11 +1189,7 @@ describe('Tree.vue', () => {
                   id: 11,
                   label: '二级 1-1',
                   children: [
-                    {
-                      id: 111,
-                      label: '三级 1-1',
-                      disabled: true,
-                    },
+                    { id: 111, label: '三级 1-1', disabled: true },
                   ],
                 },
               ],
@@ -1262,36 +1199,20 @@ describe('Tree.vue', () => {
               label: '一级 2',
               disabled: true,
               children: [
-                {
-                  id: 21,
-                  label: '二级 2-1',
-                },
-                {
-                  id: 22,
-                  label: '二级 2-2',
-                },
+                { id: 21, label: '二级 2-1' },
+                { id: 22, label: '二级 2-2' },
               ],
             },
             {
               id: 3,
               label: '一级 3',
               children: [
-                {
-                  id: 31,
-                  label: '二级 3-1',
-                },
-                {
-                  id: 32,
-                  label: '二级 3-2',
-                },
+                { id: 31, label: '二级 3-1' },
+                { id: 32, label: '二级 3-2' },
               ],
             },
           ],
-          defaultProps: {
-            children: 'children',
-            label: 'label',
-            disabled: 'disabled',
-          },
+          defaultProps: { children: 'children', label: 'label', disabled: 'disabled' },
         };
       },
     });
@@ -1357,15 +1278,9 @@ describe('Tree.vue', () => {
             hasChild = false;
           }
 
-          let data: { name: string }[];
-          data = hasChild ? [
-            {
-              name: `zone${++this.count}`,
-            },
-            {
-              name: `zone${++this.count}`,
-            },
-          ] : [];
+          const data: { name: string }[] = hasChild
+            ? [{ name: `zone${++this.count}` }, { name: `zone${++this.count}` }]
+            : [];
           resolve(data);
         },
       },

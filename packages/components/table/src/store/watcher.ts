@@ -66,7 +66,7 @@ export const useWatcher = memoize((table: TableVM) => {
   const leafColumns: Ref<TableColumnCtx[]> = ref([]);
   const fixedLeafColumns: Ref<TableColumnCtx[]> = ref([]);
   const rightFixedLeafColumns: Ref<TableColumnCtx[]> = ref([]);
-  const leafColumnsLength = ref(0);
+  const leafColumnsLength: Ref<number> = ref(0);
   const fixedLeafColumnsLength = ref(0);
   const rightFixedLeafColumnsLength = ref(0);
   const isAllSelected = ref(false);
@@ -372,7 +372,7 @@ export const useWatcher = memoize((table: TableVM) => {
     execSort();
   };
 
-  const clearFilter = (columnKeys: string | string[]) => {
+  const clearFilter = (columnKeys?: string | string[]) => {
     const { tableHeaderRef } = table.refs as TableRefs;
 
     if (!tableHeaderRef) return;

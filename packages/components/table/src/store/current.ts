@@ -38,7 +38,7 @@ export const useCurrent = memoize((table: TableVM) => {
     currentRowKey.value = null;
   };
 
-  const updateCurrentRow = (row: DefaultRow) => {
+  const updateCurrentRow = (row?: DefaultRow) => {
     const oldCurrentRow = currentRow.value;
 
     if (row && row !== oldCurrentRow) {

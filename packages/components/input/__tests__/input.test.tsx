@@ -1,5 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
 import { nextTick, ref } from 'vue';
 import { mount } from '@vue/test-utils';
 import { afterEach, describe, expect, test, vi } from 'vitest';
@@ -24,7 +22,7 @@ describe('Input.vue', () => {
         maxlength={5}
         placeholder="请输入内容"
         onFocus={handleFocus}
-        modelValue={input.value}
+        value={input.value}
       />
     ));
 
@@ -64,7 +62,7 @@ describe('Input.vue', () => {
           class="test-exceed"
           maxlength="4"
           showWordLimit
-          v-model={inputVal.value}
+          v-model:value={inputVal.value}
         />
       ));
       const vm = wrapper.vm;
@@ -101,7 +99,7 @@ describe('Input.vue', () => {
           type="textarea"
           maxlength="4"
           showWordLimit
-          v-model={inputVal.value}
+          v-model:value={inputVal.value}
         />
       ));
       const vm = wrapper.vm;
@@ -166,7 +164,7 @@ describe('Input.vue', () => {
     const type = ref('text');
     const val = ref('123');
 
-    const wrapper = mount(() => <Input type={type.value} v-model={val.value} />);
+    const wrapper = mount(() => <Input type={type.value} v-model:value={val.value} />);
     const vm = wrapper.vm;
     expect(vm.$el.querySelector('input').value).toMatchInlineSnapshot(`"123"`);
     type.value = 'textarea';
@@ -195,28 +193,28 @@ describe('Input.vue', () => {
         <Input
           class="test-text"
           type="text"
-          v-model={input1.value}
+          v-model:value={input1.value}
           maxlength="10"
           showWordLimit={show.value}
         />
         <Input
           class="test-textarea"
           type="textarea"
-          v-model={input2.value}
+          v-model:value={input2.value}
           maxlength="10"
           showWordLimit
         />
         <Input
           class="test-password"
           type="password"
-          v-model={input3.value}
+          v-model:value={input3.value}
           maxlength="10"
           showWordLimit
         />
         <Input
           class="test-initial-exceed"
           type="text"
-          v-model={input4.value}
+          v-model:value={input4.value}
           maxlength="2"
           showWordLimit
         />
@@ -263,7 +261,7 @@ describe('Input.vue', () => {
     };
 
     const wrapper = mount(() => (
-      <Input v-model={val.value} formatter={formatter} parser={parser} />
+      <Input v-model:value={val.value} formatter={formatter} parser={parser} />
     ));
 
     const vm = wrapper.vm;
@@ -274,7 +272,7 @@ describe('Input.vue', () => {
   describe('Input Methods', () => {
     test('method:select', async () => {
       const testContent = ref('test');
-      const wrapper = mount(() => <Input v-model={testContent.value} />);
+      const wrapper = mount(() => <Input v-model:value={testContent.value} />);
 
       const input = wrapper.find('input').element;
       // mock selectionRange behaviour, due to jsdom's reason this case cannot run well, may be fixed later using headlesschrome or puppeteer
@@ -305,7 +303,7 @@ describe('Input.vue', () => {
               ref="textarea"
               autosize={{ minRows: 1, maxRows: 1 }}
               type="textarea"
-              v-model={text.value}
+              v-model:value={text.value}
             />
           ),
       });
@@ -330,7 +328,7 @@ describe('Input.vue', () => {
       const wrapper = mount(() => (
         <Input
           placeholder="请输入内容"
-          modelValue={content.value}
+          value={content.value}
           onFocus={handleFocus}
           onBlur={handleBlur}
         />
@@ -357,7 +355,7 @@ describe('Input.vue', () => {
       const wrapper = mount(() => (
         <Input
           placeholder="请输入内容"
-          modelValue={content.value}
+          value={content.value}
           onChange={handleChange}
         />
       ));
@@ -387,7 +385,7 @@ describe('Input.vue', () => {
         <Input
           placeholder="请输入内容"
           clearable
-          v-model={content.value}
+          v-model:value={content.value}
           onClear={handleClear}
           onInput={handleInput}
         />
@@ -412,7 +410,7 @@ describe('Input.vue', () => {
         <Input
           placeholder="请输入内容"
           clearable
-          modelValue={content.value}
+          value={content.value}
           onInput={handleInput}
         />
       ));
@@ -434,12 +432,7 @@ describe('Input.vue', () => {
 
   test('non-emit event such as keyup should work', async () => {
     const handleKeyup = vi.fn();
-    const wrapper = mount(Input, {
-      attrs: {
-        onKeyup: handleKeyup,
-      },
-    });
-
+    const wrapper = mount(() => <Input onKeyup={handleKeyup} />);
     await wrapper.find('input').trigger('keyup');
     expect(handleKeyup).toBeCalledTimes(1);
   });
@@ -470,7 +463,7 @@ describe('Input.vue', () => {
       const wrapper = mount(() => (
         <Input
           type="textarea"
-          modelValue={content.value}
+          value={content.value}
           onKeydown={handleKeydown}
         />
       ));
@@ -483,7 +476,7 @@ describe('Input.vue', () => {
   test('show-password icon', async () => {
     const password = ref('123456');
     const wrapper = mount(() => (
-      <Input type="password" modelValue={password.value} show-password />
+      <Input type="password" value={password.value} show-password />
     ));
 
     const icon = wrapper.find('.lp-input__icon.lp-input__password');

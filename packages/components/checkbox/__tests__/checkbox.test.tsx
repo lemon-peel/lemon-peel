@@ -63,7 +63,7 @@ describe('Checkbox', () => {
     test('checkbox with label attribute', async () => {
       const checked = ref(false);
       const wrapper = mount(() => (
-        <Checkbox v-model={checked.value} disabled label="a" value="a" />
+        <Checkbox v-model:checked={checked.value} disabled label="a" value="a" />
       ));
 
       expect(wrapper.classes()).toContain('is-disabled');
@@ -155,7 +155,7 @@ describe('Checkbox', () => {
     expect(checkList.value).toContain('b');
   });
 
-  test('checkbox group without modelValue', async () => {
+  test('checkbox group without vModel:value', async () => {
     const checkList = ref([]);
     const wrapper = mount(() => (
       <CheckboxGroup v-model:value={checkList.value}>
@@ -176,7 +176,7 @@ describe('Checkbox', () => {
     const data = ref<CheckboxValueType[]>([]);
     const onChange = (val: CheckboxValueType[]) => (data.value = val);
     const wrapper = mount(() => (
-      <CheckboxGroup v-model={checkList.value} onChange={onChange}>
+      <CheckboxGroup v-model:value={checkList.value} onChange={onChange}>
         <Checkbox label="a" value="a" />
         <Checkbox label="b" value="b" />
       </CheckboxGroup>
@@ -334,7 +334,7 @@ describe('Check Button', () => {
   test('button group tag', () => {
     const checkList = ref(['a', 'b']);
     const wrapper = mount(() => (
-      <CheckboxGroup v-model={checkList.value} tag="tr">
+      <CheckboxGroup v-model:value={checkList.value} tag="tr">
         <CheckboxButton label="a" ref="a" />
         <CheckboxButton label="b" ref="b" />
         <CheckboxButton label="c" ref="c" />

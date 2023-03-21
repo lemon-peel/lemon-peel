@@ -12,10 +12,10 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, nextTick, provide, reactive, toRefs, watch } from 'vue';
+import { nextTick, provide, reactive, watch } from 'vue';
 import { pick } from 'lodash-es';
 
-import { UPDATE_MODEL_EVENT, UPDATE_MODEL_EVENT_OLD } from '@lemon-peel/constants';
+import { UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
 import { debugWarn } from '@lemon-peel/utils';
 import { useFormItem, useFormItemInputId, useNamespace } from '@lemon-peel/hooks';
 import { checkboxGroupContextKey } from '@lemon-peel/tokens';

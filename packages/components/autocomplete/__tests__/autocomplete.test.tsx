@@ -68,7 +68,7 @@ const doMount = (
       return () => (
         <Autocomplete
           ref="autocomplete"
-          v-model={state.value}
+          v-model:value={state.value}
           {
             ...{
               ...props,
@@ -226,7 +226,7 @@ describe('Autocomplete.vue', () => {
     expect(target.suggestions.length).toBe(4);
   });
 
-  test('valueKey / modelValue', async () => {
+  test('valueKey / vModel:value', async () => {
     const wrapper = doMount();
     await nextTick();
 
@@ -236,12 +236,12 @@ describe('Autocomplete.vue', () => {
 
     await target.handleSelect({ value: 'Go', tag: 'go' });
 
-    expect(target.modelValue).toBe('Go');
+    expect(target.value).toBe('Go');
 
     await wrapper.setProps({ valueKey: 'tag' });
 
     await target.handleSelect({ value: 'Go', tag: 'go' });
-    expect(target.modelValue).toBe('go');
+    expect(target.value).toBe('go');
   });
 
   test('hideLoading', async () => {

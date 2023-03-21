@@ -28,12 +28,12 @@ describe('Slider', () => {
 
   it('create', () => {
     const wrapper = mount(Slider);
-    expect(wrapper.props().modelValue).toBe(0);
+    expect(wrapper.props().value).toBe(0);
   });
 
   it('should not exceed min and max', async () => {
     const value = ref(60);
-    mount(() => <Slider v-model={value.value} min={50} />);
+    mount(() => <Slider v-model:value={value.value} min={50} />);
 
     await nextTick();
     value.value = 40;
@@ -46,14 +46,14 @@ describe('Slider', () => {
 
   it('sizes', () => {
     const value = ref(0);
-    const wrapper = mount(() => <Slider v-model={value.value} size="small" />);
+    const wrapper = mount(() => <Slider v-model:value={value.value} size="small" />);
 
     expect(wrapper.find('.lp-slider--small').exists()).toBe(true);
   });
 
   it('show tooltip', () => {
     const value = ref(0);
-    const wrapper = mount(() => <Slider v-model={value.value} />);
+    const wrapper = mount(() => <Slider v-model:value={value.value} />);
 
     const slider = wrapper.findComponent({ name: 'LpSliderButton' });
     slider.vm.handleMouseEnter();
@@ -67,7 +67,7 @@ describe('Slider', () => {
     const wrapper = mount({
       setup() {
         return () => (
-          <Slider ref="slider" v-model={value.value} show-tooltip={false} />
+          <Slider ref="slider" v-model:value={value.value} show-tooltip={false} />
         );
       },
     });
@@ -80,7 +80,7 @@ describe('Slider', () => {
     const value = ref(0);
     const formatTooltip = (val: number) => `$${val}`;
     const wrapper = mount(() => (
-      <Slider v-model={value.value} format-tooltip={formatTooltip} />
+      <Slider v-model:value={value.value} format-tooltip={formatTooltip} />
     ));
 
     const slider = wrapper.findComponent({ name: 'LpSliderButton' });
@@ -109,7 +109,7 @@ describe('Slider', () => {
       const wrapper = mount(
         () => (
           <div style="width: 200px;">
-            <Slider v-model={value.value} vertical={false} />
+            <Slider v-model:value={value.value} vertical={false} />
           </div>
         ),
         {
@@ -152,7 +152,7 @@ describe('Slider', () => {
       const wrapper = mount(
         () => (
           <div style="width: 200px;">
-            <Slider v-model={value.value} vertical={true} />
+            <Slider v-model:value={value.value} vertical={true} />
           </div>
         ),
         {
@@ -191,7 +191,7 @@ describe('Slider', () => {
   describe('accessibility', () => {
     it('left/right arrows', async () => {
       const value = ref(0);
-      const wrapper = mount(() => <Slider v-model={value.value} />);
+      const wrapper = mount(() => <Slider v-model:value={value.value} />);
 
       const slider = wrapper.findComponent({ name: 'LpSliderButton' });
 
@@ -210,7 +210,7 @@ describe('Slider', () => {
 
     it('up/down arrows', async () => {
       const value = ref(0.1);
-      const wrapper = mount(() => <Slider v-model={value.value} />);
+      const wrapper = mount(() => <Slider v-model:value={value.value} />);
 
       const slider = wrapper.findComponent({ name: 'LpSliderButton' });
 
@@ -228,7 +228,7 @@ describe('Slider', () => {
     it('page up/down keys', async () => {
       const value = ref(-1);
       const wrapper = mount(() => (
-        <Slider v-model={value.value} min={-5} max={10} />
+        <Slider v-model:value={value.value} min={-5} max={10} />
       ));
 
       const slider = wrapper.findComponent({ name: 'LpSliderButton' });
@@ -248,7 +248,7 @@ describe('Slider', () => {
     it('home/end keys', async () => {
       const value = ref(0);
       const wrapper = mount(() => (
-        <Slider v-model={value.value} min={-5} max={10} />
+        <Slider v-model:value={value.value} min={-5} max={10} />
       ));
 
       const slider = wrapper.findComponent({ name: 'LpSliderButton' });
@@ -270,7 +270,7 @@ describe('Slider', () => {
     const wrapper = mount(
       () => (
         <div style="width: 200px;">
-          <Slider v-model={value.value} min={0} max={1} step={0.1} />
+          <Slider v-model:value={value.value} min={0} max={1} step={0.1} />
         </div>
       ),
       {
@@ -310,7 +310,7 @@ describe('Slider', () => {
   it('click', async () => {
     vi.useRealTimers();
     const value = ref(0);
-    const wrapper = mount(() => <Slider v-model={value.value} />);
+    const wrapper = mount(() => <Slider v-model:value={value.value} />);
 
     const mockClientWidth = vi
       .spyOn(wrapper.find('.lp-slider__runway').element, 'clientWidth', 'get')
@@ -325,11 +325,11 @@ describe('Slider', () => {
   it('change event', async () => {
     vi.useRealTimers();
     const value = ref(0);
-    const data = ref<SliderProps['modelValue']>(0);
-    const onChange = (val: SliderProps['modelValue']) => (data.value = val);
+    const data = ref<SliderProps['value']>(0);
+    const onChange = (val: SliderProps['value']) => (data.value = val);
     const wrapper = mount(() => (
       <div style="width: 200px">
-        <Slider v-model={value.value} onChange={onChange} />
+        <Slider v-model:value={value.value} onChange={onChange} />
       </div>
     ));
 
@@ -358,11 +358,11 @@ describe('Slider', () => {
   it('input event', async () => {
     vi.useRealTimers();
     const value = ref(0);
-    const data = ref<SliderProps['modelValue']>(0);
-    const onInput = (val: SliderProps['modelValue']) => (data.value = val);
+    const data = ref<SliderProps['value']>(0);
+    const onInput = (val: SliderProps['value']) => (data.value = val);
     const wrapper = mount(() => (
       <div style="width: 200px">
-        <Slider v-model={value.value} onInput={onInput} />
+        <Slider v-model:value={value.value} onInput={onInput} />
       </div>
     ));
 
@@ -392,7 +392,7 @@ describe('Slider', () => {
   it('disabled', async () => {
     vi.useRealTimers();
     const value = ref(0);
-    const wrapper = mount(() => <Slider v-model={value.value} disabled />);
+    const wrapper = mount(() => <Slider v-model:value={value.value} disabled />);
 
     const mockClientWidth = vi
       .spyOn(wrapper.find('.lp-slider__runway').element, 'clientWidth', 'get')
@@ -422,7 +422,7 @@ describe('Slider', () => {
 
   it('show input', async () => {
     const value = ref(0);
-    const wrapper = mount(() => <Slider v-model={value.value} show-input />);
+    const wrapper = mount(() => <Slider v-model:value={value.value} show-input />);
 
     const increaseButton = wrapper.find('.lp-input-number__increase');
     await increaseButton.trigger('mousedown');
@@ -441,7 +441,7 @@ describe('Slider', () => {
     vi.useRealTimers();
     const value = ref(0);
     const wrapper = mount(
-      () => <Slider height="200px" v-model={value.value} vertical />,
+      () => <Slider height="200px" v-model:value={value.value} vertical />,
       {
         attachTo: document.body,
       },
@@ -476,7 +476,7 @@ describe('Slider', () => {
         setup() {
           onMounted(() => (show.value = true));
           return () =>
-            show.value && <Slider v-model={value.value} min={10} show-input />;
+            show.value && <Slider v-model:value={value.value} min={10} show-input />;
         },
       },
       {
@@ -491,7 +491,7 @@ describe('Slider', () => {
   describe('range', () => {
     it('basic ranged slider', () => {
       const value = ref([10, 20]);
-      const wrapper = mount(() => <Slider v-model={value.value} range />);
+      const wrapper = mount(() => <Slider v-model:value={value.value} range />);
 
       const sliders = wrapper.findAllComponents({ name: 'LpSliderButton' });
       expect(sliders.length).toBe(2);
@@ -499,7 +499,7 @@ describe('Slider', () => {
 
     it('should not exceed min and max', async () => {
       const value = ref([50, 60]);
-      mount(() => <Slider v-model={value.value} min={50} range />);
+      mount(() => <Slider v-model:value={value.value} min={50} range />);
 
       await nextTick();
 
@@ -518,7 +518,7 @@ describe('Slider', () => {
       const wrapper = mount(
         () => (
           <div style="width: 200px;">
-            <Slider v-model={value.value} range />
+            <Slider v-model:value={value.value} range />
           </div>
         ),
         {
@@ -555,7 +555,7 @@ describe('Slider', () => {
       const max = ref(100);
       const value = ref([50, 80]);
       mount(() => (
-        <Slider v-model={value.value} min={min.value} max={max.value} range />
+        <Slider v-model:value={value.value} min={min.value} max={max.value} range />
       ));
 
       await nextTick();
@@ -573,7 +573,7 @@ describe('Slider', () => {
     it('show stops', async () => {
       const value = ref([30, 60]);
       const wrapper = mount(() => (
-        <Slider v-model={value.value} step={10} range show-stops />
+        <Slider v-model:value={value.value} step={10} range show-stops />
       ));
 
       await nextTick();
@@ -596,7 +596,7 @@ describe('Slider', () => {
       });
       const wrapper = mount(() => (
         <Slider
-          v-model={value.value}
+          v-model:value={value.value}
           min={20}
           step={10}
           marks={marksValue.value}

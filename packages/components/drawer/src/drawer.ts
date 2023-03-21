@@ -9,21 +9,11 @@ export const drawerProps = buildProps({
     default: 'rtl',
     values: ['ltr', 'rtl', 'ttb', 'btt'],
   },
-  size: {
-    type: [String, Number],
-    default: '30%',
-  },
-  withHeader: {
-    type: Boolean,
-    default: true,
-  },
-  modalFade: {
-    type: Boolean,
-    default: true,
-  },
+  size: { type: [String, Number], default: '30%' },
+  withHeader: { type: Boolean, default: true },
+  modalFade: { type: Boolean, default: true },
 } as const);
 
 export type DrawerProps = ExtractPropTypes<typeof drawerProps>;
-
 
 export { dialogEmits as drawerEmits } from '@lemon-peel/components/dialog';

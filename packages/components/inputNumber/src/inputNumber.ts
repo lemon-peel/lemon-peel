@@ -1,41 +1,22 @@
 import { isNil } from 'lodash-es';
 import { useSizeProp } from '@lemon-peel/hooks';
 import { buildProps, isNumber } from '@lemon-peel/utils';
-import { CHANGE_EVENT, INPUT_EVENT, UPDATE_MODEL_EVENT_OLD } from '@lemon-peel/constants';
+import { CHANGE_EVENT, INPUT_EVENT, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
 import type { ExtractPropTypes } from 'vue';
 import type InputNumber from './InputNumber.vue';
 
 export const inputNumberProps = buildProps({
-  id: {
-    type: String,
-    default: undefined,
-  },
-  step: {
-    type: Number,
-    default: 1,
-  },
+  id: { type: String, default: undefined },
+  step: { type: Number, default: 1 },
   stepStrictly: Boolean,
-  max: {
-    type: Number,
-    default: Number.POSITIVE_INFINITY,
-  },
-  min: {
-    type: Number,
-    default: Number.NEGATIVE_INFINITY,
-  },
-  modelValue: Number,
+  max: { type: Number, default: Number.POSITIVE_INFINITY },
+  min: { type: Number, default: Number.NEGATIVE_INFINITY },
+  value: Number,
   readonly: Boolean,
   disabled: Boolean,
   size: useSizeProp,
-  controls: {
-    type: Boolean,
-    default: true,
-  },
-  controlsPosition: {
-    type: String,
-    default: '',
-    values: ['', 'right'],
-  },
+  controls: { type: Boolean, default: true },
+  controlsPosition: { type: String, default: '', values: ['', 'right'] },
   valueOnClear: {
     type: [String, Number, null],
     validator: (val: 'min' | 'max' | number | null) =>
@@ -50,10 +31,7 @@ export const inputNumberProps = buildProps({
     validator: (val: number) =>
       val >= 0 && val === Number.parseInt(`${val}`, 10),
   },
-  validateEvent: {
-    type: Boolean,
-    default: true,
-  },
+  validateEvent: { type: Boolean, default: true },
 } as const);
 export type InputNumberProps = ExtractPropTypes<typeof inputNumberProps>;
 
@@ -64,7 +42,7 @@ export const inputNumberEmits = {
   focus: (e: FocusEvent) => e instanceof FocusEvent,
   [INPUT_EVENT]: (val: number | null | undefined) =>
     isNumber(val) || isNil(val),
-  [UPDATE_MODEL_EVENT_OLD]: (val: number | undefined) =>
+  [UPDATE_MODEL_EVENT]: (val: number | undefined) =>
     isNumber(val) || isNil(val),
 };
 export type InputNumberEmits = typeof inputNumberEmits;

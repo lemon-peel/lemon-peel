@@ -18,7 +18,7 @@ export async function doubleWait() {
   await nextTick();
 }
 
-export const mount = (opt: any) =>
+export const doMount = (opt: any) =>
   _mount<any>(opt, {
     attachTo: 'body',
   });

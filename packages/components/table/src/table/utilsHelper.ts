@@ -3,7 +3,7 @@ import type { Store } from '../store';
 import type { DefaultRow, Sort } from './defaults';
 
 function useUtils(store: Store) {
-  const setCurrentRow = (row: DefaultRow) => {
+  const setCurrentRow = (row?: DefaultRow) => {
     store.actions.setCurrentRow(row);
   };
 
@@ -11,7 +11,7 @@ function useUtils(store: Store) {
     return store.watcher.getSelectionRows();
   };
 
-  const toggleRowSelection = (row: DefaultRow, selected: boolean) => {
+  const toggleRowSelection = (row: DefaultRow, selected = false) => {
     store.watcher.toggleRowSelection(row, selected, false);
     store.watcher.updateAllSelected();
   };
@@ -20,7 +20,7 @@ function useUtils(store: Store) {
     store.watcher.clearSelection();
   };
 
-  const clearFilter = (columnKeys: string[]) => {
+  const clearFilter = (columnKeys?: string[]) => {
     store.watcher.clearFilter(columnKeys);
   };
 

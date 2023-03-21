@@ -160,12 +160,10 @@ describe('Popover.vue', () => {
         setup() {
           const visible = ref(false);
           return () => (
-            <Popover v-model={[visible.value, 'visible']} trigger="click">
-              {{
-                default: () => AXIOM,
-                reference: () => <button>click me</button>,
-              }}
-            </Popover>
+            <Popover v-model:visible={visible.value} trigger="click" vSlots={{
+              default: () => AXIOM,
+              reference: () => <button>click me</button>,
+            }} />
           );
         },
       },

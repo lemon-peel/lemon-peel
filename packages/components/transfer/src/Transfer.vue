@@ -124,7 +124,7 @@ const panelFilterPlaceholder = computed(
 );
 
 watch(
-  () => props.modelValue,
+  () => props.value,
   () => {
     if (props.validateEvent) {
       formItem?.validate?.('change').catch(error => debugWarn(error));

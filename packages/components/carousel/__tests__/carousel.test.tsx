@@ -1,6 +1,6 @@
 import { nextTick, reactive } from 'vue';
 import { mount } from '@vue/test-utils';
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, test } from 'vitest';
 import Carousel from '../src/Carousel.vue';
 import CarouselItem from '../src/CarouselItem.vue';
 
@@ -42,7 +42,7 @@ describe('Carousel', () => {
     wrapper.unmount();
   });
 
-  it('create', () => {
+  test('create', () => {
     wrapper = createComponent({
       ref: 'carousel',
     });
@@ -53,7 +53,7 @@ describe('Carousel', () => {
     expect(wrapper.findAll('.lp-carousel__item').length).toEqual(3);
   });
 
-  it('auto play', async () => {
+  test('auto play', async () => {
     wrapper = createComponent({
       interval: 50,
     });
@@ -66,7 +66,7 @@ describe('Carousel', () => {
     expect(items[1].classList.contains('is-active')).toBeTruthy();
   });
 
-  it('initial index', async () => {
+  test('initial index', async () => {
     wrapper = createComponent({
       autoplay: false,
       'initial-index': 1,
@@ -82,7 +82,7 @@ describe('Carousel', () => {
     ).toBeTruthy();
   });
 
-  it('reset timer', async () => {
+  test('reset timer', async () => {
     wrapper = createComponent({
       interval: 500,
     });
@@ -97,7 +97,7 @@ describe('Carousel', () => {
     expect(items[1].classList.contains('is-active')).toBeTruthy();
   });
 
-  it('change', async () => {
+  test('change', async () => {
     const state = reactive({
       val: -1,
       oldVal: -1,
@@ -117,14 +117,14 @@ describe('Carousel', () => {
     expect(state.oldVal).toBe(0);
   });
 
-  it('label', async () => {
+  test('label', async () => {
     wrapper = createComponent(undefined, 3, true);
     await nextTick();
     expect(wrapper.find('.lp-carousel__button span').text()).toBe('1');
   });
 
   describe('manual control', () => {
-    it('hover', async () => {
+    test('hover', async () => {
       wrapper = createComponent({
         autoplay: false,
       });
@@ -142,7 +142,7 @@ describe('Carousel', () => {
     });
   });
 
-  it('card', async () => {
+  test('card', async () => {
     wrapper = createComponent(
       {
         autoplay: false,
@@ -168,7 +168,7 @@ describe('Carousel', () => {
     expect(items[6].classList.contains('is-active')).toBeTruthy();
   });
 
-  it('vertical direction', () => {
+  test('vertical direction', () => {
     wrapper = createComponent({
       ref: 'carousel',
       autoplay: false,
@@ -182,7 +182,7 @@ describe('Carousel', () => {
     expect(items[0].style.transform.includes('translateY')).toBeTruthy();
   });
 
-  it('pause auto play on hover', async () => {
+  test('pause auto play on hover', async () => {
     wrapper = createComponent({
       interval: 50,
       'pause-on-hover': false,
@@ -195,7 +195,8 @@ describe('Carousel', () => {
     await wait(60);
     expect(items[1].classList.contains('is-active')).toBeTruthy();
   });
-  it('should guarantee order of indicators', async () => {
+
+  test('should guarantee order of indicators', async () => {
     const data = reactive([1, 2, 3, 4]);
     wrapper = mount({
       setup() {

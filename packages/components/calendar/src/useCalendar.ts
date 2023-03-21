@@ -2,7 +2,7 @@ import { computed, ref } from 'vue';
 import dayjs from 'dayjs';
 import { useLocale } from '@lemon-peel/hooks';
 import { debugWarn } from '@lemon-peel/utils';
-import { INPUT_EVENT, UPDATE_MODEL_EVENT_OLD } from '@lemon-peel/constants';
+import { INPUT_EVENT, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
 
 import type { ComputedRef, SetupContext } from 'vue';
 import type { Dayjs } from 'dayjs';
@@ -66,7 +66,7 @@ export const useCalendar = (
 
   const realSelectedDay = computed<Dayjs | undefined>({
     get() {
-      if (!props.modelValue) return selectedDay.value;
+      if (!props.value) return selectedDay.value;
       return date.value;
     },
     set(value) {
@@ -75,7 +75,7 @@ export const useCalendar = (
       const result = value.toDate();
 
       emit(INPUT_EVENT, result);
-      emit(UPDATE_MODEL_EVENT_OLD, result);
+      emit(UPDATE_MODEL_EVENT, result);
     },
   });
 
@@ -141,7 +141,7 @@ export const useCalendar = (
   });
 
   date = computed(() => {
-    return props.modelValue ? dayjs(props.modelValue).locale(lang.value) : (
+    return props.value ? dayjs(props.value).locale(lang.value) : (
       realSelectedDay.value ||
         (validatedRange.value.length > 0 ? validatedRange.value[0][0] : now)
     );

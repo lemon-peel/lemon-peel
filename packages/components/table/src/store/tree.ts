@@ -15,8 +15,6 @@ export type TreeNodeMap = Record<string, TreeNode>;
 export const useTree = memoize((table: TableVM) => {
   const watcher = lazyProxy(() => useWatcher(table));
   const expand = lazyProxy(() => useExpand(table));
-
-
   const tableProps = table.props as TableProps;
   const tableData = computed(() => tableProps.data);
   const rowKey = computed(() => tableProps.rowKey);
@@ -197,24 +195,24 @@ export const useTree = memoize((table: TableVM) => {
     }
   };
 
-  const loadData = (row: DefaultRow, key: string, data: DefaultRow[]) => {
+  const loadData = async (row: DefaultRow, key: string, all: DefaultRow[]) => {
     const { load } = tableProps;
     if (load && !treeData.value[key].loaded) {
       treeData.value[key].loading = true;
-      load(row, data, data => {
-        if (!Array.isArray(data)) {
-          throw new TypeError('[LpTable] data must be an array');
-        }
+      const data = await load(row, key, all);
 
-        treeData.value[key].loading = false;
-        treeData.value[key].loaded = true;
-        treeData.value[key].expanded = true;
-        if (data.length > 0) {
-          lazyTreeNodeMap.value[key] = data;
-        }
+      if (!Array.isArray(data)) {
+        throw new TypeError('[LpTable] data must be an array');
+      }
 
-        table.emit('expand-change', row, true);
-      });
+      treeData.value[key].loading = false;
+      treeData.value[key].loaded = true;
+      treeData.value[key].expanded = true;
+      if (data.length > 0) {
+        lazyTreeNodeMap.value[key] = data;
+      }
+
+      table.emit('expand-change', row, true);
     }
   };
 

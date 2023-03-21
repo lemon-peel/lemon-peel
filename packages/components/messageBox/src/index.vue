@@ -96,7 +96,7 @@
                 <lp-input
                   :id="inputId"
                   ref="inputRef"
-                  v-model="inputValue"
+                  valuenputValue"
                   :type="inputType"
                   :placeholder="inputPlaceholder"
                   :aria-invalid="validateError"

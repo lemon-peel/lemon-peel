@@ -14,7 +14,7 @@ import { rAF } from '@lemon-peel/test-utils/tick';
 import Input from '@lemon-peel/components/input';
 import Form from '../src/Form.vue';
 import FormItem from '../src/FormItem.vue';
-import DynamicFormItem from '../mocks/mock-data';
+import DynamicFormItem from '../mocks/mockData';
 
 import type { VueWrapper } from '@vue/test-utils';
 import type { SpyInstance } from 'vitest';
@@ -41,7 +41,7 @@ describe('LpFormItem', () => {
             <Input
               class="input"
               ref={inputRef}
-              v-model={model.email}
+              v-model:value={model.email}
               validateEvent={false}
             />
           </FormItem>

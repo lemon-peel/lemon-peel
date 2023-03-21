@@ -1,4 +1,4 @@
-import Cascader from './src/Index.vue';
+import Cascader from './src/Cascader.vue';
 import type { App } from 'vue';
 import type { SFCWithInstall } from '@lemon-peel/utils';
 

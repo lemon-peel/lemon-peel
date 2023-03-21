@@ -4,7 +4,7 @@ import { computed, nextTick, reactive, ref, shallowRef, toRaw, triggerRef, watch
 import { isObject, toRawType } from '@vue/shared';
 import { get, isEqual, debounce as lodashDebounce } from 'lodash-es';
 import { isClient } from '@vueuse/core';
-import { CHANGE_EVENT, EVENT_CODE, UPDATE_MODEL_EVENT_OLD } from '@lemon-peel/constants';
+import { CHANGE_EVENT, EVENT_CODE, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
 import { debugWarn, getComponentSize, isFunction, isKorean, isNumber, isString, scrollIntoView } from '@lemon-peel/utils';
 import { useFormItem, useLocale, useNamespace, useSize } from '@lemon-peel/hooks';
 
@@ -26,7 +26,7 @@ export function useSelectStates(props: Readonly<ExtractPropTypes<typeof selectPr
     visible: false,
     softFocus: false,
     selectedLabel: '' as OptionProps['label'],
-    hoverIndex: 0,
+    hoverIndex: -1,
     query: '' as OptionProps['label'],
     previousQuery: null as Nullable<OptionProps['label']>,
     inputHovering: false,
@@ -73,10 +73,10 @@ export function useSelect(props: Readonly<ExtractPropTypes<typeof selectProps>>,
 
   const showClose = computed(() => {
     const hasValue = props.multiple
-      ? Array.isArray(props.modelValue) && props.modelValue.length > 0
-      : props.modelValue !== undefined &&
-        props.modelValue !== null &&
-        props.modelValue !== '';
+      ? Array.isArray(props.value) && props.value.length > 0
+      : props.value !== undefined &&
+        props.value !== null &&
+        props.value !== '';
 
     const criteria =
       props.clearable &&
@@ -210,6 +210,7 @@ export function useSelect(props: Readonly<ExtractPropTypes<typeof selectProps>>,
    * find and highlight first option as default selected
    */
   const checkDefaultFirstOption = () => {
+    console.info('fdfs');
     const optionsInDropdown = optionsArray.value.filter(
       n => n.visible && !n.disabled && !n.groupDisabled,
     );
@@ -233,6 +234,7 @@ export function useSelect(props: Readonly<ExtractPropTypes<typeof selectProps>>,
     nextTick(() => {
       if (states.visible) tooltipRef.value?.updatePopper?.();
     });
+
     states.hoverIndex = -1;
     if (props.multiple && props.filterable) {
       nextTick(() => {
@@ -242,6 +244,7 @@ export function useSelect(props: Readonly<ExtractPropTypes<typeof selectProps>>,
         resetInputHeight();
       });
     }
+
     if (props.remote && isFunction(props.remoteMethod)) {
       states.hoverIndex = -1;
       props.remoteMethod(val);
@@ -255,6 +258,7 @@ export function useSelect(props: Readonly<ExtractPropTypes<typeof selectProps>>,
       triggerRef(queryChange);
       triggerRef(groupQueryChange);
     }
+
     if (
       props.defaultFirstOption &&
       (props.filterable || props.remote) &&
@@ -302,7 +306,7 @@ export function useSelect(props: Readonly<ExtractPropTypes<typeof selectProps>>,
     if (props.multiple) {
       states.selectedLabel = '';
     } else {
-      const option = getOption(props.modelValue);
+      const option = getOption(props.value);
       states.selectedLabel = option.currentLabel!;
       states.selected = option;
       if (props.filterable) states.query = states.selectedLabel;
@@ -310,8 +314,8 @@ export function useSelect(props: Readonly<ExtractPropTypes<typeof selectProps>>,
     }
 
     const result: any[] = [];
-    if (Array.isArray(props.modelValue)) {
-      for (const value of props.modelValue) {
+    if (Array.isArray(props.value)) {
+      for (const value of props.value) {
         result.push(getOption(value));
       }
     }
@@ -323,7 +327,7 @@ export function useSelect(props: Readonly<ExtractPropTypes<typeof selectProps>>,
   };
 
   watch(
-    () => props.modelValue,
+    () => props.value,
     (val, oldVal) => {
       if (props.multiple) {
         resetInputHeight();
@@ -505,8 +509,8 @@ export function useSelect(props: Readonly<ExtractPropTypes<typeof selectProps>>,
     handleQueryChange(e.target.value);
   }, debounce.value);
 
-  const emitChange = (val: typeof props.modelValue) => {
-    if (!isEqual(props.modelValue, val)) {
+  const emitChange = (val: typeof props.value) => {
+    if (!isEqual(props.value, val)) {
       emit(CHANGE_EVENT, val);
     }
   };
@@ -528,13 +532,13 @@ export function useSelect(props: Readonly<ExtractPropTypes<typeof selectProps>>,
   const deletePrevTag = (e: KeyboardEvent) => {
     const ele = e.target as HTMLInputElement;
     if (ele.value.length <= 0 && !toggleLastOptionHitState()) {
-      const value = [...(props.modelValue as Array<any>)];
+      const value = [...(props.value as Array<any>)];
       value.pop();
-      emit(UPDATE_MODEL_EVENT_OLD, value);
+      emit(UPDATE_MODEL_EVENT, value);
       emitChange(value);
     }
 
-    if (ele.value.length === 1 && (props.modelValue as string).length === 0) {
+    if (ele.value.length === 1 && (props.value as string).length === 0) {
       states.currentPlaceholder = states.cachedPlaceHolder;
     }
   };
@@ -542,9 +546,9 @@ export function useSelect(props: Readonly<ExtractPropTypes<typeof selectProps>>,
   const deleteTag = (event: Event, tag: SelectOptionProxy) => {
     const index = states.selected.indexOf(tag);
     if (index > -1 && !selectDisabled.value) {
-      const value = [...(props.modelValue as Array<any>)];
+      const value = [...(props.value as Array<any>)];
       value.splice(index, 1);
-      emit(UPDATE_MODEL_EVENT_OLD, value);
+      emit(UPDATE_MODEL_EVENT, value);
       emitChange(value);
       emit('remove-tag', tag.value);
     }
@@ -559,7 +563,7 @@ export function useSelect(props: Readonly<ExtractPropTypes<typeof selectProps>>,
         if (item.isDisabled) value.push(item.value);
       }
     }
-    emit(UPDATE_MODEL_EVENT_OLD, value);
+    emit(UPDATE_MODEL_EVENT, value);
     emitChange(value);
     states.hoverIndex = -1;
     states.visible = false;
@@ -599,7 +603,7 @@ export function useSelect(props: Readonly<ExtractPropTypes<typeof selectProps>>,
 
   const handleOptionSelect = (option: SelectOptionProxy, byClick = false) => {
     if (props.multiple) {
-      const value = [...(props.modelValue as Array<any>)];
+      const value = [...(props.value as Array<any>)];
       const optionIndex = getValueIndex(value, option.value);
       if (optionIndex > -1) {
         value.splice(optionIndex, 1);
@@ -609,7 +613,7 @@ export function useSelect(props: Readonly<ExtractPropTypes<typeof selectProps>>,
       ) {
         value.push(option.value);
       }
-      emit(UPDATE_MODEL_EVENT_OLD, value);
+      emit(UPDATE_MODEL_EVENT, value);
       emitChange(value);
       states.query = '';
       handleQueryChange('');
@@ -617,7 +621,7 @@ export function useSelect(props: Readonly<ExtractPropTypes<typeof selectProps>>,
 
       if (props.filterable) input.value?.focus();
     } else {
-      emit(UPDATE_MODEL_EVENT_OLD, option.value);
+      emit(UPDATE_MODEL_EVENT, option.value);
       emitChange(option.value);
       states.visible = false;
     }

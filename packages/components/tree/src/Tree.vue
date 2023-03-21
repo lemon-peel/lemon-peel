@@ -241,7 +241,7 @@ const getNode = (data: TreeKey | TreeNodeData): Node => {
   return store.value.getNode(data);
 };
 
-const remove = (data: TreeNodeData | Node) => {
+const remove = (data: TreeKey | TreeNodeData) => {
   store.value.remove(data);
 };
 
@@ -295,6 +295,7 @@ provide(rootTreeKey, {
 provide(formItemContextKey, undefined);
 
 defineExpose({
+  store,
   filter,
   updateKeyChildren,
   getCheckedNodes,

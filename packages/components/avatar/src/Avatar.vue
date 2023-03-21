@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, watch } from 'vue';
+import { computed, defineExpose, ref, reactive, watch } from 'vue';
 import { useNamespace } from '@lemon-peel/hooks';
 import { addUnit, isNumber, isString } from '@lemon-peel/utils';
 import { avatarEmits, avatarProps } from './avatar';
@@ -32,7 +32,6 @@ const props = defineProps(avatarProps);
 const emit = defineEmits(avatarEmits);
 
 const ns = useNamespace('avatar');
-
 const hasLoadError = ref(false);
 
 const avatarClass = computed(() => {
@@ -63,12 +62,13 @@ watch(
   () => (hasLoadError.value = false),
 );
 
+
 function handleError(e: Event) {
   hasLoadError.value = true;
   emit('error', e);
 }
 
-defineExpose(
-  { hasLoadError },
-);
+defineExpose({
+  hasLoadError,
+});
 </script>

@@ -16,7 +16,7 @@ const makeRange = (start: number, end: number) => {
   return result;
 };
 
-const _mount = (render: () => VNode) => {
+const doMount = (render: () => VNode) => {
   return mount(render, { attachTo: document.body });
 };
 
@@ -28,8 +28,8 @@ describe('Datetime Picker', () => {
   it('both picker show correct formated value (extract date-format and time-format from format property', async () => {
     const value = ref(new Date(2018, 2, 5, 10, 15, 24));
     const format = ref('YYYY/MM/DD HH:mm A');
-    const wrapper = _mount(() => (
-      <DatePicker v-model={value.value} type="datetime" format={format.value} />
+    const wrapper = doMount(() => (
+      <DatePicker v-model:value={value.value} type="datetime" format={format.value} />
     ));
 
     const input = wrapper.find('input');
@@ -56,8 +56,8 @@ describe('Datetime Picker', () => {
 
   it('both picker show correct value', async () => {
     const value = ref(new Date(2000, 9, 1, 10, 0, 1));
-    const wrapper = _mount(() => (
-      <DatePicker v-model={value.value} type="datetime" />
+    const wrapper = doMount(() => (
+      <DatePicker v-model:value={value.value} type="datetime" />
     ));
 
     const input = wrapper.find('input');
@@ -97,8 +97,8 @@ describe('Datetime Picker', () => {
 
   it('click now button', async () => {
     const value = ref('');
-    const wrapper = _mount(() => (
-      <DatePicker v-model={value.value} type="datetime" />
+    const wrapper = doMount(() => (
+      <DatePicker v-model:value={value.value} type="datetime" />
     ));
 
     const input = wrapper.find('input');
@@ -115,8 +115,8 @@ describe('Datetime Picker', () => {
 
   it('time-picker select && input time && input date', async () => {
     const value = ref('');
-    const wrapper = _mount(() => (
-      <DatePicker v-model={value.value} type="datetime" />
+    const wrapper = doMount(() => (
+      <DatePicker v-model:value={value.value} type="datetime" />
     ));
 
     expect(value.value).toBe('');
@@ -124,10 +124,8 @@ describe('Datetime Picker', () => {
     input.trigger('blur');
     input.trigger('focus');
     await nextTick();
-    const input_ = document.querySelectorAll(
-      '.lp-date-picker__editor-wrap input',
-    )[1] as HTMLElement;
-    input_.focus();
+    const inputEl = document.querySelectorAll('.lp-date-picker__editor-wrap input')[1] as HTMLElement;
+    inputEl.focus();
     await nextTick();
     const timePanel = document.querySelector('.lp-time-panel');
     expect(
@@ -165,12 +163,8 @@ describe('Datetime Picker', () => {
     let isDisable = true;
     const value = ref('');
     const disabledDate = () => isDisable;
-    const wrapper = _mount(() => (
-      <DatePicker
-        v-model={value.value}
-        type="datetime"
-        disabledDate={disabledDate}
-      />
+    const wrapper = doMount(() => (
+      <DatePicker v-model:value={value.value} type="datetime" disabledDate={disabledDate} />
     ));
 
     const input = wrapper.find('input');
@@ -194,8 +188,8 @@ describe('Datetime Picker', () => {
 
   it('confirm button honors picked date', async () => {
     const value = ref(new Date(2000, 9, 1, 12, 0, 0));
-    const wrapper = _mount(() => (
-      <DatePicker v-model={value.value} type="datetime" />
+    const wrapper = doMount(() => (
+      <DatePicker v-model:value={value.value} type="datetime" />
     ));
 
     const input = wrapper.find('input');
@@ -259,9 +253,9 @@ describe('Datetime Picker', () => {
       return [];
     };
     const value = ref(new Date(2019, 0, 1, 18, 50));
-    const wrapper = _mount(() => (
+    const wrapper = doMount(() => (
       <DatePicker
-        v-model={value.value}
+        v-model:value={value.value}
         type="datetime"
         disabledHours={disabledHoursData}
         disabledMinutes={disabledMinutesData}
@@ -291,12 +285,8 @@ describe('Datetime Picker', () => {
   it('defaultTime takes effect when the type is datetime', async () => {
     const value = ref('');
     const defaultTime = ref(new Date(2000, 1, 1, 12, 24, 48));
-    const wrapper = _mount(() => (
-      <DatePicker
-        v-model={value.value}
-        type="datetime"
-        default-time={defaultTime.value}
-      />
+    const wrapper = doMount(() => (
+      <DatePicker v-model:value={value.value} type="datetime" default-time={defaultTime.value} />
     ));
 
     const input = wrapper.find('input');
@@ -325,12 +315,8 @@ describe('Datetime Picker', () => {
   it('defaultTime only takes effect when time is not selected', async () => {
     const value = ref('');
     const defaultTime = ref(new Date(2000, 1, 1, 12, 0, 0));
-    const wrapper = _mount(() => (
-      <DatePicker
-        v-model={value.value}
-        type="datetime"
-        default-time={defaultTime.value}
-      />
+    const wrapper = doMount(() => (
+      <DatePicker v-model:value={value.value} type="datetime" default-time={defaultTime.value} />
     ));
 
     const input = wrapper.find('input');
@@ -361,9 +347,9 @@ describe('Datetimerange', () => {
       new Date(2000, 10, 8, 10, 10),
       new Date(2000, 10, 11, 10, 10),
     ]);
-    const wrapper = _mount(() => (
+    const wrapper = doMount(() => (
       <DatePicker
-        v-model={value.value}
+        v-model:value={value.value}
         type="datetimerange"
         default-time={new Date(2020, 1, 1, 1, 1, 1)}
         format="YYYY/MM/DD HH:mm A"
@@ -423,8 +409,8 @@ describe('Datetimerange', () => {
 
   it('input date', async () => {
     const value = ref<string[]>([]);
-    const wrapper = _mount(() => (
-      <DatePicker v-model={value.value} type="datetimerange" />
+    const wrapper = doMount(() => (
+      <DatePicker v-model:value={value.value} type="datetimerange" />
     ));
 
     const input = wrapper.find('input');
@@ -475,8 +461,8 @@ describe('Datetimerange', () => {
 
   it('select time', async () => {
     const value = ref('');
-    const wrapper = _mount(() => (
-      <DatePicker v-model={value.value} type="datetimerange" />
+    const wrapper = doMount(() => (
+      <DatePicker v-model:value={value.value} type="datetimerange" />
     ));
 
     expect(value.value).toBe('');
@@ -509,12 +495,8 @@ describe('Datetimerange', () => {
     const disabledDate = (date: Date) => {
       return date.getTime() < new Date(2000, 9, 1).getTime(); // 2000-10-01
     };
-    const wrapper = _mount(() => (
-      <DatePicker
-        v-model={value.value}
-        type="datetimerange"
-        disabledDate={disabledDate}
-      />
+    const wrapper = doMount(() => (
+      <DatePicker v-model:value={value.value} type="datetimerange" disabledDate={disabledDate} />
     ));
 
     const input = wrapper.find('input');
@@ -564,12 +546,8 @@ describe('Datetimerange', () => {
       }
       return disabledHoursArr;
     };
-    const wrapper = _mount(() => (
-      <DatePicker
-        v-model={value.value}
-        type="datetimerange"
-        disabledHours={disabledHoursData}
-      />
+    const wrapper = doMount(() => (
+      <DatePicker v-model:value={value.value} type="datetimerange" disabledHours={disabledHoursData} />
     ));
 
     const input = wrapper.find('input');
@@ -613,8 +591,8 @@ describe('Datetimerange', () => {
   it('select same date, different time', async () => {
     const leftSelect = ['10', '59', '59'];
     const value = ref<string[]>([]);
-    const wrapper = _mount(() => (
-      <DatePicker v-model={value.value} type="datetimerange" />
+    const wrapper = doMount(() => (
+      <DatePicker v-model:value={value.value} type="datetimerange" />
     ));
 
     const input = wrapper.find('input');
@@ -692,7 +670,7 @@ describe('Datetimerange', () => {
 
   describe('form item accessibility integration', () => {
     it('automatic id attachment', async () => {
-      const wrapper = _mount(() => (
+      const wrapper = doMount(() => (
         <LpFormItem label="Foobar" data-test-ref="item">
           <DatePicker type="datetime" />
         </LpFormItem>
@@ -709,7 +687,7 @@ describe('Datetimerange', () => {
     });
 
     it('specified id attachment', async () => {
-      const wrapper = _mount(() => (
+      const wrapper = doMount(() => (
         <LpFormItem label="Foobar" data-test-ref="item">
           <DatePicker type="datetime" id="foobar" />
         </LpFormItem>
@@ -727,7 +705,7 @@ describe('Datetimerange', () => {
     });
 
     it('form item role is group when multiple inputs', async () => {
-      const wrapper = _mount(() => (
+      const wrapper = doMount(() => (
         <LpFormItem label="Foobar" data-test-ref="item">
           <DatePicker type="datetime" />
           <DatePicker type="datetime" />
@@ -742,8 +720,8 @@ describe('Datetimerange', () => {
 
   it('display value', async () => {
     const value = ref([undefined, undefined]);
-    const wrapper = _mount(() => (
-      <DatePicker v-model={value.value} type="datetimerange" />
+    const wrapper = doMount(() => (
+      <DatePicker v-model:value={value.value} type="datetimerange" />
     ));
 
     await nextTick();

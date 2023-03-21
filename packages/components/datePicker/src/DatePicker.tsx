@@ -15,6 +15,7 @@ import { CommonPicker, DEFAULT_FORMATS_DATE, DEFAULT_FORMATS_DATEPICKER, timePic
 
 import { datePickerProps } from './props/datePicker';
 import { getPanel } from './panelUtils';
+import { UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
 
 dayjs.extend(localeData);
 dayjs.extend(advancedFormat);
@@ -33,7 +34,7 @@ export default defineComponent({
     ...timePickerDefaultProps,
     ...datePickerProps,
   },
-  emits: ['update:modelValue'],
+  emits: [UPDATE_MODEL_EVENT],
   setup(props, { expose, emit, slots }) {
     const ns = useNamespace('picker-panel');
 
@@ -59,7 +60,7 @@ export default defineComponent({
     expose(refProps);
 
     const onModelValueUpdated = (value: any) => {
-      emit('update:modelValue', value);
+      emit(UPDATE_MODEL_EVENT, value);
     };
 
     return () => {
@@ -77,7 +78,7 @@ export default defineComponent({
           format={format}
           type={props.type}
           ref={commonPicker}
-          onUpdate:modelValue={onModelValueUpdated}
+          onUpdate:value={onModelValueUpdated}
         >
           {{
             default: (scopedProps: /**FIXME: remove any type */ any) => (

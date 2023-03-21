@@ -11,21 +11,21 @@ describe('InputNumber.vue', () => {
   test('create', async () => {
     const num = ref(1);
     const wrapper = mount(() => (
-      <InputNumber label="描述文字" v-model={num.value} />
+      <InputNumber label="描述文字" v-model:value={num.value} />
     ));
     expect(wrapper.find('input').exists()).toBe(true);
   });
 
-  test('modelValue', () => {
+  test('vModel:value', () => {
     const inputText = ref(1);
-    const wrapper = mount(() => <InputNumber modelValue={inputText.value} />);
+    const wrapper = mount(() => <InputNumber value={inputText.value} />);
     expect(wrapper.find('input').element.value).toEqual('1');
   });
 
-  test('set modelValue undefined to display placeholder', async () => {
+  test('set vModel:value undefined to display placeholder', async () => {
     const inputText = ref<number | undefined>(1);
     const wrapper = mount(() => (
-      <InputNumber modelValue={inputText.value} placeholder="input number" />
+      <InputNumber value={inputText.value} placeholder="input number" />
     ));
     expect(wrapper.find('input').element.value).toEqual('1');
     inputText.value = undefined;
@@ -38,7 +38,7 @@ describe('InputNumber.vue', () => {
 
   test('min', async () => {
     const num = ref(1);
-    const wrapper = mount(() => <InputNumber min={3} v-model={num.value} />);
+    const wrapper = mount(() => <InputNumber min={3} v-model:value={num.value} />);
     expect(wrapper.find('input').element.value).toEqual('3');
     wrapper.find('.lp-input-number__decrease').trigger('mousedown');
     document.dispatchEvent(mouseup);
@@ -48,7 +48,7 @@ describe('InputNumber.vue', () => {
 
   test('max', async () => {
     const num = ref(5);
-    const wrapper = mount(() => <InputNumber max={3} v-model={num.value} />);
+    const wrapper = mount(() => <InputNumber max={3} v-model:value={num.value} />);
     expect(wrapper.find('input').element.value).toEqual('3');
     wrapper.find('.lp-input-number__increase').trigger('mousedown');
     document.dispatchEvent(mouseup);
@@ -58,7 +58,7 @@ describe('InputNumber.vue', () => {
 
   test('step, increase and decrease', async () => {
     const num = ref(0);
-    const wrapper = mount(() => <InputNumber v-model={num.value} step={2} />);
+    const wrapper = mount(() => <InputNumber v-model:value={num.value} step={2} />);
     wrapper.find('.lp-input-number__decrease').trigger('mousedown');
     document.dispatchEvent(mouseup);
     await nextTick();
@@ -76,7 +76,7 @@ describe('InputNumber.vue', () => {
   test('step-strictly', async () => {
     const num = ref(0);
     const wrapper = mount(() => (
-      <InputNumber step-strictly={true} step={2} v-model={num.value} />
+      <InputNumber step-strictly={true} step={2} v-model:value={num.value} />
     ));
     await wrapper.find('input').setValue(3);
     expect(wrapper.find('input').element.value).toEqual('4');
@@ -85,7 +85,7 @@ describe('InputNumber.vue', () => {
   test('value decimals miss prop precision', async () => {
     const num = ref(0.2);
     const wrapper = mount(() => (
-      <InputNumber step-strictly={true} step={0.1} v-model={num.value} />
+      <InputNumber step-strictly={true} step={0.1} v-model:value={num.value} />
     ));
     const elInputNumber = wrapper.findComponent({ name: 'LpInputNumber' }).vm;
     elInputNumber.increase();
@@ -101,7 +101,7 @@ describe('InputNumber.vue', () => {
   describe('precision accuracy 2', () => {
     const num = ref(0);
     const wrapper = mount(() => (
-      <InputNumber precision={2} v-model={num.value} />
+      <InputNumber precision={2} v-model:value={num.value} />
     ));
     it.each([
       [1.111_111_111_1, '1.11'],
@@ -125,7 +125,7 @@ describe('InputNumber.vue', () => {
   describe('precision accuracy 3', () => {
     const num = ref(0);
     const wrapper = mount(() => (
-      <InputNumber precision={3} v-model={num.value} />
+      <InputNumber precision={3} v-model:value={num.value} />
     ));
     it.each([
       [1.111_111_111_1, '1.111'],
@@ -149,7 +149,7 @@ describe('InputNumber.vue', () => {
     const num = ref(0);
     const handleFocus = vi.fn();
     const wrapper = mount(() => (
-      <InputNumber readonly v-model={num.value} onFocus={handleFocus} />
+      <InputNumber readonly v-model:value={num.value} onFocus={handleFocus} />
     ));
 
     wrapper.find('.lp-input__inner').trigger('focus');
@@ -170,7 +170,7 @@ describe('InputNumber.vue', () => {
   test('disabled', async () => {
     const num = ref(0);
     const wrapper = mount(() => (
-      <InputNumber disabled={true} v-model={num.value} />
+      <InputNumber disabled={true} v-model:value={num.value} />
     ));
     wrapper.find('.lp-input-number__decrease').trigger('mousedown');
     document.dispatchEvent(mouseup);
@@ -185,7 +185,7 @@ describe('InputNumber.vue', () => {
   test('controls', async () => {
     const num = ref(0);
     const wrapper = mount(() => (
-      <InputNumber controls={false} v-model={num.value} />
+      <InputNumber controls={false} v-model:value={num.value} />
     ));
     expect(wrapper.find('.lp-input-number__increase').exists()).toBe(false);
     expect(wrapper.find('.lp-input-number__decrease').exists()).toBe(false);
@@ -194,7 +194,7 @@ describe('InputNumber.vue', () => {
   test('controls-position', async () => {
     const num = ref(0);
     const wrapper = mount(() => (
-      <InputNumber controls-position="right" v-model={num.value} />
+      <InputNumber controls-position="right" v-model:value={num.value} />
     ));
     expect(wrapper.findComponent(ArrowDown).exists()).toBe(true);
     expect(wrapper.findComponent(ArrowUp).exists()).toBe(true);
@@ -204,7 +204,7 @@ describe('InputNumber.vue', () => {
     const handleInput = vi.fn();
     const num = ref(0);
     const wrapper = mount(() => (
-      <InputNumber v-model={num.value} onInput={handleInput} />
+      <InputNumber v-model:value={num.value} onInput={handleInput} />
     ));
     const inputWrapper = wrapper.find('input');
     const nativeInput = inputWrapper.element;
@@ -227,7 +227,7 @@ describe('InputNumber.vue', () => {
 
   test('change-event', async () => {
     const num = ref(0);
-    const wrapper = mount(() => <InputNumber v-model={num.value} />);
+    const wrapper = mount(() => <InputNumber v-model:value={num.value} />);
     wrapper.find('.lp-input-number__increase').trigger('mousedown');
     document.dispatchEvent(mouseup);
     await nextTick();
@@ -236,7 +236,7 @@ describe('InputNumber.vue', () => {
       1, 0,
     ]);
     expect(
-      wrapper.getComponent(InputNumber).emitted('update:modelValue'),
+      wrapper.getComponent(InputNumber).emitted('update:value'),
     ).toHaveLength(1);
     wrapper.find('.lp-input-number__increase').trigger('mousedown');
     document.dispatchEvent(mouseup);
@@ -245,21 +245,20 @@ describe('InputNumber.vue', () => {
     expect(wrapper.getComponent(InputNumber).emitted().change[1]).toEqual([
       2, 1,
     ]);
-    expect(
-      wrapper.getComponent(InputNumber).emitted('update:modelValue'),
-    ).toHaveLength(2);
+    expect(wrapper.getComponent(InputNumber).emitted('update:value'))
+      .toHaveLength(2);
   });
 
   test('blur-event', async () => {
     const num = ref(0);
-    const wrapper = mount(() => <InputNumber v-model={num.value} />);
+    const wrapper = mount(() => <InputNumber v-model:value={num.value} />);
     await wrapper.find('input').trigger('blur');
     expect(wrapper.getComponent(InputNumber).emitted('blur')).toHaveLength(1);
   });
 
   test('focus-event', async () => {
     const num = ref(0);
-    const wrapper = mount(() => <InputNumber v-model={num.value} />);
+    const wrapper = mount(() => <InputNumber v-model:value={num.value} />);
     await wrapper.find('input').trigger('focus');
     expect(wrapper.getComponent(InputNumber).emitted('focus')).toHaveLength(1);
   });
@@ -267,7 +266,7 @@ describe('InputNumber.vue', () => {
   test('clear with :value-on-clear="null"', async () => {
     const num = ref(2);
     const wrapper = mount(() => (
-      <InputNumber v-model={num.value} min={1} max={10} />
+      <InputNumber v-model:value={num.value} min={1} max={10} />
     ));
     const elInput = wrapper.findComponent({ name: 'LpInputNumber' }).vm;
     elInput.handleInputChange('');
@@ -293,7 +292,7 @@ describe('InputNumber.vue', () => {
   test('clear with value-on-clear="min"', async () => {
     const num = ref(2);
     const wrapper = mount(() => (
-      <InputNumber value-on-clear="min" v-model={num.value} min={1} max={10} />
+      <InputNumber value-on-clear="min" v-model:value={num.value} min={1} max={10} />
     ));
     const elInput = wrapper.findComponent({ name: 'LpInputNumber' }).vm;
     elInput.handleInputChange('');
@@ -313,7 +312,7 @@ describe('InputNumber.vue', () => {
   test('clear with value-on-clear="max"', async () => {
     const num = ref(2);
     const wrapper = mount(() => (
-      <InputNumber value-on-clear="max" v-model={num.value} min={1} max={10} />
+      <InputNumber value-on-clear="max" v-model:value={num.value} min={1} max={10} />
     ));
     const elInput = wrapper.findComponent({ name: 'LpInputNumber' }).vm;
     elInput.handleInputChange('');
@@ -333,7 +332,7 @@ describe('InputNumber.vue', () => {
   test('clear with :value-on-clear="5"', async () => {
     const num = ref(2);
     const wrapper = mount(() => (
-      <InputNumber value-on-clear={5} v-model={num.value} min={1} max={10} />
+      <InputNumber value-on-clear={5} v-model:value={num.value} min={1} max={10} />
     ));
     const elInput = wrapper.findComponent({ name: 'LpInputNumber' }).vm;
     elInput.handleInputChange('');
@@ -350,7 +349,7 @@ describe('InputNumber.vue', () => {
     expect(num.value).toBe(4);
   });
 
-  test('check increase and decrease button when modelValue not in [min, max]', async () => {
+  test('check increase and decrease button when vModel:value not in [min, max]', async () => {
     const num1 = ref(-5);
     const num2 = ref(15);
     const wrapper = mount({
@@ -359,13 +358,13 @@ describe('InputNumber.vue', () => {
           <>
             <InputNumber
               ref="inputNumber1"
-              v-model={num1.value}
+              vModel:value={num1.value}
               min={1}
               max={10}
             />
             <InputNumber
               ref="inputNumber2"
-              v-model={num2.value}
+              vModel:value={num2.value}
               min={1}
               max={10}
             />

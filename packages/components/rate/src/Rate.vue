@@ -50,7 +50,7 @@
 </template>
 <script lang="ts" setup>
 import { computed, inject, markRaw, ref, watch } from 'vue';
-import { EVENT_CODE, UPDATE_MODEL_EVENT_OLD } from '@lemon-peel/constants';
+import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
 import { hasClass, isArray, isObject, isString } from '@lemon-peel/utils';
 import { formContextKey, formItemContextKey } from '@lemon-peel/tokens';
 import { LpIcon } from '@lemon-peel/components/icon';
@@ -83,31 +83,31 @@ defineOptions({
   name: 'LpRate',
 });
 
-const properties = defineProps(rateProps);
+const props = defineProps(rateProps);
 const emit = defineEmits(rateEmits);
 
 const formContext = inject(formContextKey, null);
-const formItemContext = inject(formItemContextKey);
+const formItemContext = inject(formItemContextKey, null);
 const rateSize = useSize();
 const ns = useNamespace('rate');
-const { inputId, isLabeledByFormItem } = useFormItemInputId(properties, {
+const { inputId, isLabeledByFormItem } = useFormItemInputId(props, {
   formItemContext,
 });
 
-const currentValue = ref(properties.modelValue);
+const currentValue = ref(props.value);
 const hoverIndex = ref(-1);
 const pointerAtLeftHalf = ref(true);
 
 const rateClasses = computed(() => [ns.b(), ns.m(rateSize.value)]);
-const rateDisabled = computed(() => properties.disabled || formContext?.disabled);
+const rateDisabled = computed(() => props.disabled || formContext?.disabled);
 const colorMap = computed(() =>
-  isArray(properties.colors)
+  isArray(props.colors)
     ? {
-      [properties.lowThreshold]: properties.colors[0],
-      [properties.highThreshold]: { value: properties.colors[1], excluded: true },
-      [properties.max]: properties.colors[2],
+      [props.lowThreshold]: props.colors[0],
+      [props.highThreshold]: { value: props.colors[1], excluded: true },
+      [props.max]: props.colors[2],
     }
-    : properties.colors,
+    : props.colors,
 );
 const activeColor = computed(() => {
   const color = getValueFromMap(currentValue.value, colorMap.value);
@@ -116,33 +116,33 @@ const activeColor = computed(() => {
 });
 const rateStyles = computed(() => {
   return ns.cssVarBlock({
-    'void-color': properties.voidColor,
-    'disabled-void-color': properties.disabledVoidColor,
+    'void-color': props.voidColor,
+    'disabled-void-color': props.disabledVoidColor,
     'fill-color': activeColor.value,
   }) as CSSProperties;
 });
 
 const text = computed(() => {
   let result = '';
-  if (properties.showScore) {
-    result = properties.scoreTemplate.replace(
+  if (props.showScore) {
+    result = props.scoreTemplate.replace(
       /{\s*value\s*}/,
-      rateDisabled.value ? `${properties.modelValue}` : `${currentValue.value}`,
+      rateDisabled.value ? `${props.value}` : `${currentValue.value}`,
     );
-  } else if (properties.showText) {
-    result = properties.texts[Math.ceil(currentValue.value) - 1];
+  } else if (props.showText) {
+    result = props.texts[Math.ceil(currentValue.value) - 1];
   }
   return result;
 });
 const valueDecimal = computed(
-  () => properties.modelValue * 100 - Math.floor(properties.modelValue) * 100,
+  () => props.value * 100 - Math.floor(props.value) * 100,
 );
 
 const decimalStyle = computed(() => {
   let width = '';
   if (rateDisabled.value) {
     width = `${valueDecimal.value}%`;
-  } else if (properties.allowHalf) {
+  } else if (props.allowHalf) {
     width = '50%';
   }
   return {
@@ -151,32 +151,32 @@ const decimalStyle = computed(() => {
   };
 });
 const componentMap = computed(() => {
-  let icons = isArray(properties.icons) ? [...properties.icons] : { ...properties.icons };
+  let icons = isArray(props.icons) ? [...props.icons] : { ...props.icons };
   icons = markRaw(icons) as
     | Array<string | Component>
     | Record<number, string | Component>;
   return isArray(icons)
     ? {
-      [properties.lowThreshold]: icons[0],
-      [properties.highThreshold]: {
+      [props.lowThreshold]: icons[0],
+      [props.highThreshold]: {
         value: icons[1],
         excluded: true,
       },
-      [properties.max]: icons[2],
+      [props.max]: icons[2],
     }
     : icons;
 });
 const decimalIconComponent = computed(() =>
-  getValueFromMap(properties.modelValue, componentMap.value),
+  getValueFromMap(props.value, componentMap.value),
 );
 const voidComponent = computed(() =>
   rateDisabled.value
-    ? (isString(properties.disabledVoidIcon)
-      ? properties.disabledVoidIcon
-      : (markRaw(properties.disabledVoidIcon) as typeof iconPropType))
-    : (isString(properties.voidIcon)
-      ? properties.voidIcon
-      : (markRaw(properties.voidIcon) as typeof iconPropType)),
+    ? (isString(props.disabledVoidIcon)
+      ? props.disabledVoidIcon
+      : (markRaw(props.disabledVoidIcon) as typeof iconPropType))
+    : (isString(props.voidIcon)
+      ? props.voidIcon
+      : (markRaw(props.voidIcon) as typeof iconPropType)),
 );
 const activeComponent = computed(() =>
   getValueFromMap(currentValue.value, componentMap.value),
@@ -186,10 +186,10 @@ function showDecimalIcon(item: number) {
   const showWhenDisabled =
     rateDisabled.value &&
     valueDecimal.value > 0 &&
-    item - 1 < properties.modelValue &&
-    item > properties.modelValue;
+    item - 1 < props.value &&
+    item > props.value;
   const showWhenAllowHalf =
-    properties.allowHalf &&
+    props.allowHalf &&
     pointerAtLeftHalf.value &&
     item - 0.5 <= currentValue.value &&
     item > currentValue.value;
@@ -197,13 +197,13 @@ function showDecimalIcon(item: number) {
 }
 
 function emitValue(value: number) {
-  // if allow clear, and selected value is same as modelValue, reset value to 0
-  if (properties.clearable && value === properties.modelValue) {
+  // if allow clear, and selected value is same as vModel:value, reset value to 0
+  if (props.clearable && value === props.value) {
     value = 0;
   }
 
-  emit(UPDATE_MODEL_EVENT_OLD, value);
-  if (properties.modelValue !== value) {
+  emit(UPDATE_MODEL_EVENT, value);
+  if (props.value !== value) {
     emit('change', value);
   }
 }
@@ -212,7 +212,7 @@ function selectValue(value: number) {
   if (rateDisabled.value) {
     return;
   }
-  if (properties.allowHalf && pointerAtLeftHalf.value) {
+  if (props.allowHalf && pointerAtLeftHalf.value) {
     emitValue(currentValue.value);
   } else {
     emitValue(value);
@@ -226,17 +226,17 @@ function handleKey(e: KeyboardEvent) {
   let currentVal = currentValue.value;
   const code = e.code;
   if (code === EVENT_CODE.up || code === EVENT_CODE.right) {
-    currentVal += properties.allowHalf ? 0.5 : 1;
+    currentVal += props.allowHalf ? 0.5 : 1;
     e.stopPropagation();
     e.preventDefault();
   } else if (code === EVENT_CODE.left || code === EVENT_CODE.down) {
-    currentVal -= properties.allowHalf ? 0.5 : 1;
+    currentVal -= props.allowHalf ? 0.5 : 1;
     e.stopPropagation();
     e.preventDefault();
   }
   currentVal = currentVal < 0 ? 0 : currentVal;
-  currentVal = currentVal > properties.max ? properties.max : currentVal;
-  emit(UPDATE_MODEL_EVENT_OLD, currentVal);
+  currentVal = currentVal > props.max ? props.max : currentVal;
+  emit(UPDATE_MODEL_EVENT, currentVal);
   emit('change', currentVal);
   return currentVal;
 }
@@ -245,7 +245,7 @@ function setCurrentValue(value: number, event: MouseEvent) {
   if (rateDisabled.value) {
     return;
   }
-  if (properties.allowHalf) {
+  if (props.allowHalf) {
     // TODO: use cache via computed https://github.com/element-plus/element-plus/pull/5456#discussion_r786472092
     let target = event.target as HTMLElement;
     if (hasClass(target, ns.e('item'))) {
@@ -266,23 +266,23 @@ function resetCurrentValue() {
   if (rateDisabled.value) {
     return;
   }
-  if (properties.allowHalf) {
-    pointerAtLeftHalf.value = properties.modelValue !== Math.floor(properties.modelValue);
+  if (props.allowHalf) {
+    pointerAtLeftHalf.value = props.value !== Math.floor(props.value);
   }
-  currentValue.value = properties.modelValue;
+  currentValue.value = props.value;
   hoverIndex.value = -1;
 }
 
 watch(
-  () => properties.modelValue,
+  () => props.value,
   value => {
     currentValue.value = value;
-    pointerAtLeftHalf.value = properties.modelValue !== Math.floor(properties.modelValue);
+    pointerAtLeftHalf.value = props.value !== Math.floor(props.value);
   },
 );
 
-if (!properties.modelValue) {
-  emit(UPDATE_MODEL_EVENT_OLD, 0);
+if (!props.value) {
+  emit(UPDATE_MODEL_EVENT, 0);
 }
 
 defineExpose({

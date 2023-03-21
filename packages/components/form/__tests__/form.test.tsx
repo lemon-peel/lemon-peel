@@ -8,7 +8,7 @@ import { LpCheckbox as Checkbox, LpCheckboxGroup as CheckboxGroup } from '@lemon
 import Input from '@lemon-peel/components/input';
 import Form from '../src/Form.vue';
 import FormItem from '../src/FormItem.vue';
-import DynamicDomainForm, { formatDomainError } from '../mocks/mock-data';
+import DynamicDomainForm, { formatDomainError } from '../mocks/mockData';
 
 import type { MockedFunction } from 'vitest';
 import type { VueWrapper } from '@vue/test-utils';
@@ -36,7 +36,7 @@ describe('Form', () => {
         return () => (
           <Form ref="form" model={form} labelWidth="80px">
             <FormItem label="Activity Name">
-              <Input v-model={form.name} />
+              <Input v-model:value={form.name} />
             </FormItem>
           </Form>
         );
@@ -61,10 +61,10 @@ describe('Form', () => {
             labelPosition={labelPosition.value as any}
           >
             <FormItem label="Name">
-              <Input v-model={form.name} />
+              <Input v-model:value={form.name} />
             </FormItem>
             <FormItem label="Intro">
-              <Input v-model={form.intro} />
+              <Input v-model:value={form.intro} />
             </FormItem>
           </Form>
         );
@@ -115,16 +115,16 @@ describe('Form', () => {
             model={form}
           >
             <FormItem label="名称">
-              <Input v-model={form.name} />
+              <Input v-model:value={form.name} />
             </FormItem>
             <FormItem label="活动区域" label-width="auto">
-              <Input v-model={form.region} />
+              <Input v-model:value={form.region} />
             </FormItem>
             <FormItem
               label="活动形式(我是一个很长很长很长很长的label)"
               label-width="auto"
             >
-              <Input v-model={form.type} />
+              <Input v-model:value={form.type} />
             </FormItem>
           </Form>
         );
@@ -164,10 +164,10 @@ describe('Form', () => {
         return () => (
           <Form ref="form" model={form} inline>
             <FormItem>
-              <Input v-model={form.name} />
+              <Input v-model:value={form.name} />
             </FormItem>
             <FormItem>
-              <Input v-model={form.address} />
+              <Input v-model:value={form.address} />
             </FormItem>
           </Form>
         );
@@ -187,26 +187,26 @@ describe('Form', () => {
           <div>
             <Form model={form} labelPosition="top" ref="labelTop">
               <FormItem>
-                <Input v-model={form.name} />
+                <Input v-model:value={form.name} />
               </FormItem>
               <FormItem>
-                <Input v-model={form.address} />
+                <Input v-model:value={form.address} />
               </FormItem>
             </Form>
             <Form model={form} labelPosition="left" ref="labelLeft">
               <FormItem>
-                <Input v-model={form.name} />
+                <Input v-model:value={form.name} />
               </FormItem>
               <FormItem>
-                <Input v-model={form.address} />
+                <Input v-model:value={form.address} />
               </FormItem>
             </Form>
             <Form model={form} ref="labelRight">
               <FormItem>
-                <Input v-model={form.name} />
+                <Input v-model:value={form.name} />
               </FormItem>
               <FormItem>
-                <Input v-model={form.address} />
+                <Input v-model:value={form.address} />
               </FormItem>
             </Form>
           </div>
@@ -235,7 +235,7 @@ describe('Form', () => {
             <div>
               <Form model={form} size="small" ref="labelSmall">
                 <FormItem>
-                  <Input v-model={form.name} />
+                  <Input v-model:value={form.name} />
                 </FormItem>
               </Form>
             </div>
@@ -268,7 +268,7 @@ describe('Form', () => {
                 max: 6,
               }}
             >
-              <Input v-model={form.name} />
+              <Input v-model:value={form.name} />
             </FormItem>
           </Form>
         );
@@ -322,13 +322,13 @@ describe('Form', () => {
         return () => (
           <Form ref="form" model={form} rules={rules}>
             <FormItem label="name" prop="name">
-              <Input v-model={form.name} ref="fieldName" />
+              <Input v-model:value={form.name} ref="fieldName" />
             </FormItem>
             <FormItem label="address" prop="address">
-              <Input v-model={form.address} ref="fieldAddr" />
+              <Input v-model:value={form.address} ref="fieldAddr" />
             </FormItem>
             <FormItem label="type" prop="type">
-              <CheckboxGroup v-model={form.type}>
+              <CheckboxGroup v-model:value={form.type}>
                 <Checkbox label="type1" name="type" />
                 <Checkbox label="type2" name="type" />
                 <Checkbox label="type3" name="type" />
@@ -393,13 +393,13 @@ describe('Form', () => {
         return () => (
           <Form ref="form" model={form} rules={rules}>
             <FormItem label="name" prop="name" ref="name">
-              <Input v-model={form.name} />
+              <Input v-model:value={form.name} />
             </FormItem>
             <FormItem label="address" prop="address" ref="address">
-              <Input v-model={form.address} />
+              <Input v-model:value={form.address} />
             </FormItem>
             <FormItem label="type" prop="type">
-              <CheckboxGroup v-model={form.type}>
+              <CheckboxGroup v-model:value={form.type}>
                 <Checkbox label="type1" name="type" />
                 <Checkbox label="type2" name="type" />
                 <Checkbox label="type3" name="type" />
@@ -484,10 +484,10 @@ describe('Form', () => {
             onSubmit="return false"
           >
             <FormItem prop="name" label="name">
-              <Input v-model={form.name} />
+              <Input v-model:value={form.name} />
             </FormItem>
             <FormItem prop="age" label="age">
-              <Input v-model={form.age} />
+              <Input v-model:value={form.age} />
             </FormItem>
           </Form>
         );
@@ -535,7 +535,7 @@ describe('Form', () => {
         return () => (
           <Form ref="formRef" model={form} rules={rules.value}>
             <FormItem ref="age" prop="age" label="age">
-              <Input v-model={form.age} />
+              <Input v-model:value={form.age} />
             </FormItem>
           </Form>
         );

@@ -12,14 +12,14 @@ export const useComputedData = (props: TransferProps) => {
 
   const sourceData = computed(() =>
     props.data.filter(
-      item => !props.modelValue.includes(item[propsAlias.value.key]),
+      item => !props.value.includes(item[propsAlias.value.key]),
     ),
   );
 
   const targetData = computed(() => {
     return props.targetOrder === 'original' ? props.data.filter(item =>
-      props.modelValue.includes(item[propsAlias.value.key]),
-    ) : props.modelValue.reduce(
+      props.value.includes(item[propsAlias.value.key]),
+    ) : props.value.reduce(
       (arr: TransferDataItem[], cur: TransferKey) => {
         const val = dataObj.value[cur];
         if (val) {

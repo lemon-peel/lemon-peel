@@ -7,7 +7,7 @@
       @before-leave="beforeLeave"
     >
       <lp-overlay
-        v-show="visible"
+        v-show="isVisible"
         custom-mask-event
         :mask="modal"
         :overlay-class="modalClass"
@@ -27,7 +27,7 @@
         >
           <lp-focus-trap
             loop
-            :trapped="visible"
+            :trapped="isVisible"
             focus-start-el="container"
             @focus-after-trapped="onOpenAutoFocus"
             @focus-after-released="onCloseAutoFocus"
@@ -88,8 +88,8 @@ defineOptions({
   inheritAttrs: false,
 });
 
-const props = defineProps(dialogProps);
 defineEmits(dialogEmits);
+const props = defineProps(dialogProps);
 const slots = useSlots();
 
 const ns = useNamespace('dialog');
@@ -98,7 +98,7 @@ const headerRef = ref<HTMLElement | null>(null);
 const dialogContentRef = ref();
 
 const {
-  visible,
+  isVisible,
   titleId,
   bodyId,
   style,
@@ -131,7 +131,7 @@ const draggable = computed(() => props.draggable && !props.fullscreen);
 
 defineExpose({
   /** @description whether the dialog is visible */
-  visible,
+  isVisible,
   dialogContentRef,
 });
 </script>

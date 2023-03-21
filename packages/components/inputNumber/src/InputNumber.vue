@@ -40,7 +40,7 @@
       ref="input"
       type="number"
       :step="step"
-      :model-value="displayValue"
+      :value="displayValue"
       :placeholder="placeholder"
       :readonly="readonly"
       :disabled="inputNumberDisabled"
@@ -68,7 +68,7 @@ import { vRepeatClick } from '@lemon-peel/directives';
 import { useDisabled, useFormItem, useLocale, useNamespace, useSize } from '@lemon-peel/hooks';
 import { debugWarn, isNumber, isString, isUndefined } from '@lemon-peel/utils';
 import { ArrowDown, ArrowUp, Minus, Plus } from '@element-plus/icons-vue';
-import { CHANGE_EVENT, INPUT_EVENT, UPDATE_MODEL_EVENT_OLD } from '@lemon-peel/constants';
+import { CHANGE_EVENT, INPUT_EVENT, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
 import { inputNumberEmits, inputNumberProps } from './inputNumber';
 
 import type { InputInstance } from '@lemon-peel/components/input';
@@ -89,7 +89,7 @@ interface Data {
   userInput: null | number | string;
 }
 const data = reactive<Data>({
-  currentValue: props.modelValue,
+  currentValue: props.value,
   userInput: null,
 });
 
@@ -110,7 +110,7 @@ const getPrecision = (value: number | null | undefined) => {
 const numPrecision = computed(() => {
   const stepPrecision = getPrecision(props.step);
   if (isUndefined(props.precision)) {
-    return Math.max(getPrecision(props.modelValue), stepPrecision);
+    return Math.max(getPrecision(props.value), stepPrecision);
   } else {
     if (stepPrecision > props.precision) {
       debugWarn(
@@ -146,12 +146,12 @@ const ensurePrecision = (val: number, coefficient: 1 | -1 = 1) => {
 
 const minDisabled = computed(
   () =>
-    isNumber(props.modelValue) &&
-    ensurePrecision(props.modelValue, -1)! < props.min,
+    isNumber(props.value) &&
+    ensurePrecision(props.value, -1)! < props.min,
 );
 const maxDisabled = computed(
   () =>
-    isNumber(props.modelValue) && ensurePrecision(props.modelValue)! > props.max,
+    isNumber(props.value) && ensurePrecision(props.value)! > props.max,
 );
 
 const controlsAtRight = computed(() => {
@@ -199,7 +199,7 @@ const verifyValue = (
   }
   if (newVal > max || newVal < min) {
     newVal = newVal > max ? max : min;
-    update && emit(UPDATE_MODEL_EVENT_OLD, newVal);
+    update && emit(UPDATE_MODEL_EVENT, newVal);
   }
   return newVal;
 };
@@ -209,7 +209,7 @@ const setCurrentValue = (value: number | string | null | undefined) => {
   const newVal = verifyValue(value);
   if (oldVal === newVal) return;
   data.userInput = null;
-  emit(UPDATE_MODEL_EVENT_OLD, newVal!);
+  emit(UPDATE_MODEL_EVENT, newVal!);
   emit(CHANGE_EVENT, newVal!, oldVal!);
   if (props.validateEvent) {
     formItem?.validate?.('change').catch(error => debugWarn(error));
@@ -264,7 +264,7 @@ const handleBlur = (event: MouseEvent | FocusEvent) => {
 };
 
 watch(
-  () => props.modelValue,
+  () => props.value,
   value => {
     data.currentValue = verifyValue(value, true);
     data.userInput = null;
@@ -272,7 +272,7 @@ watch(
   { immediate: true },
 );
 onMounted(() => {
-  const { min, max, modelValue } = props;
+  const { min, max, value } = props;
   const innerInput = input.value?.input as HTMLInputElement;
   innerInput.setAttribute('role', 'spinbutton');
   if (Number.isFinite(max)) {
@@ -287,12 +287,12 @@ onMounted(() => {
   }
   innerInput.setAttribute('aria-valuenow', String(data.currentValue));
   innerInput.setAttribute('aria-disabled', String(inputNumberDisabled.value));
-  if (!isNumber(modelValue) && modelValue != null) {
-    let val: number | null = Number(modelValue);
+  if (!isNumber(value) && value != null) {
+    let val: number | null = Number(value);
     if (Number.isNaN(val)) {
       val = null;
     }
-    emit(UPDATE_MODEL_EVENT_OLD, val!);
+    emit(UPDATE_MODEL_EVENT, val!);
   }
 });
 onUpdated(() => {

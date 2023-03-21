@@ -193,7 +193,7 @@ export const useActions = memoize((table: TableVM) => {
       watcher.states.hoverRow.value = index;
     },
 
-    setCurrentRow(row: DefaultRow) {
+    setCurrentRow(row?: DefaultRow) {
       current.updateCurrentRow(row);
     },
   };

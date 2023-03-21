@@ -29,7 +29,7 @@
       <lp-input
         ref="inputRef"
         v-bind="attrs"
-        :model-value="modelValue"
+        :value="value"
         @input="handleInput"
         @change="handleChange"
         @focus="handleFocus"
@@ -101,7 +101,7 @@ import { debounce } from 'lodash-es';
 import { onClickOutside } from '@vueuse/core';
 import { useAttrs, useDisabled, useNamespace } from '@lemon-peel/hooks';
 import { generateId, isArray, throwError } from '@lemon-peel/utils';
-import { CHANGE_EVENT, INPUT_EVENT, UPDATE_MODEL_EVENT_OLD } from '@lemon-peel/constants';
+import { CHANGE_EVENT, INPUT_EVENT, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
 import { autocompleteEmits, autocompleteProps } from './autoComplete';
 import { Loading } from '@element-plus/icons-vue';
 import LpIcon from '@lemon-peel/components/icon';
@@ -204,7 +204,7 @@ const handleInput = (value: string) => {
   const valuePresented = !!value;
 
   emit(INPUT_EVENT, value);
-  emit(UPDATE_MODEL_EVENT_OLD, value);
+  emit(UPDATE_MODEL_EVENT, value);
 
   suggestionDisabled.value = false;
   activated.value ||= valuePresented;
@@ -239,7 +239,7 @@ const handleFocus = (event_: FocusEvent) => {
   emit('focus', event_);
   // fix https://github.com/element-plus/element-plus/issues/8278
   if (props.triggerOnFocus && !readonly) {
-    debouncedGetData(String(props.modelValue));
+    debouncedGetData(String(props.value));
   }
 };
 
@@ -250,13 +250,13 @@ const handleBlur = (event_: FocusEvent) => {
 
 const handleClear = () => {
   activated.value = false;
-  emit(UPDATE_MODEL_EVENT_OLD, '');
+  emit(UPDATE_MODEL_EVENT, '');
   emit('clear');
 };
 
 const handleSelect = async (item: any) => {
   emit(INPUT_EVENT, item[props.valueKey]);
-  emit(UPDATE_MODEL_EVENT_OLD, item[props.valueKey]);
+  emit(UPDATE_MODEL_EVENT, item[props.valueKey]);
   emit('select', item);
   suggestions.value = [];
   highlightedIndex.value = -1;
@@ -270,7 +270,7 @@ const handleKeyEnter = async () => {
   ) {
     handleSelect(suggestions.value[highlightedIndex.value]);
   } else if (props.selectWhenUnmatched) {
-    emit('select', { value: props.modelValue });
+    emit('select', { value: props.value });
     suggestions.value = [];
     highlightedIndex.value = -1;
   }

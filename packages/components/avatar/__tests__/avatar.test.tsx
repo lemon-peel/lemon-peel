@@ -1,6 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
-import { markRaw, nextTick } from 'vue';
+import { markRaw, nextTick, ref } from 'vue';
 import { mount } from '@vue/test-utils';
 import { describe, expect, test } from 'vitest';
 import { User } from '@element-plus/icons-vue';
@@ -43,42 +41,40 @@ describe('Avatar.vue', () => {
   });
 
   test('image fallback', async () => {
-    const wrapper = mount(Avatar, {
-      props: { src: IMAGE_FAIL },
-      slots: { default: () => 'fallback' },
-    });
-
+    const wrapper = mount(() => <Avatar src={IMAGE_FAIL} alt={''}>fallback</Avatar>);
     await nextTick();
-    expect(wrapper.emitted('error')).toBeDefined();
+    const wrap = wrapper.findComponent(Avatar);
+    expect(wrap.emitted('error')).toBeDefined();
     await nextTick();
-    expect(wrapper.text()).toBe('fallback');
-    expect(wrapper.find('img').exists()).toBe(false);
+    expect(wrap.text()).toBe('fallback');
+    expect(wrap.find('img').exists()).toBe(false);
   });
 
   test('image fit', () => {
     const fits = ['fill', 'contain', 'cover', 'none', 'scale-down'] as const;
     for (const fit of fits) {
-      const wrapper = mount(Avatar, {
-        props: { src: IMAGE_SUCCESS, fit },
-      });
-      expect(wrapper.find('img').attributes('style')).toContain(
-        `object-fit: ${fit};`,
-      );
+      const wrapper = mount(() => <Avatar src={IMAGE_SUCCESS} fit={fit}></Avatar>);
+      expect(wrapper.find('img').attributes('style')).toContain(`object-fit: ${fit};`);
     }
   });
 
   test('src changed', async () => {
-    const wrapper = mount(Avatar, {
-      slots: { default: () => 'fallback' },
-    });
+    const src = ref('');
+    const wrapper = mount(
+      () => <Avatar src={src.value}>fallback</Avatar>,
+      { attachTo: 'body' },
+    );
 
-    expect(wrapper.vm.hasLoadError).toBe(false);
-    await wrapper.setProps({ src: IMAGE_FAIL });
+    const wrap = wrapper.findComponent(Avatar);
+    expect(wrap.vm.hasLoadError).toBe(false);
+    src.value = IMAGE_FAIL;
     // wait error event trigger
     await nextTick();
-    expect(wrapper.vm.hasLoadError).toBe(true);
-    await wrapper.setProps({ src: IMAGE_SUCCESS });
-    expect(wrapper.vm.hasLoadError).toBe(false);
-    expect(wrapper.find('img').exists()).toBe(true);
+    await nextTick();
+    expect(wrap.vm.hasLoadError).toBe(true);
+    src.value = IMAGE_SUCCESS;
+    await nextTick();
+    expect(wrap.vm.hasLoadError).toBe(false);
+    expect(wrap.find('img').exists()).toBe(true);
   });
 });

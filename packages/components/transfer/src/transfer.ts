@@ -1,6 +1,6 @@
 import { isNil } from 'lodash-es';
 import { buildProps, isArray, mutable } from '@lemon-peel/utils';
-import { CHANGE_EVENT, UPDATE_MODEL_EVENT_OLD } from '@lemon-peel/constants';
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
 
 import type { ExtractPropTypes, h as H, PropType, VNode } from 'vue';
 import type Transfer from './Transfer.vue';
@@ -43,7 +43,7 @@ export const transferProps = buildProps({
   leftDefaultChecked: { type: Array as PropType<TransferKey[]>, default: () => [] },
   rightDefaultChecked: { type: Array as PropType<TransferKey[]>, default: () => [] },
   renderContent: { type: Function as PropType<RenderContent> },
-  modelValue: { type: Array as PropType<TransferKey[]>, default: () => [] },
+  value: { type: Array as PropType<TransferKey[]>, default: () => [] },
   format: { type: Object as PropType<TransferFormat>, default: () => ({}) },
   filterable: Boolean,
   props: {
@@ -68,7 +68,7 @@ export const transferEmits = {
     movedKeys: TransferKey[],
   ) =>
     [value, movedKeys].every(isArray) && ['left', 'right'].includes(direction),
-  [UPDATE_MODEL_EVENT_OLD]: (value: TransferKey[]) => isArray(value),
+  [UPDATE_MODEL_EVENT]: (value: TransferKey[]) => isArray(value),
   [LEFT_CHECK_CHANGE_EVENT]: transferCheckedChangeFn,
   [RIGHT_CHECK_CHANGE_EVENT]: transferCheckedChangeFn,
 };

@@ -1,26 +1,19 @@
 import { placements } from '@popperjs/core';
 import { buildProps, isNumber } from '@lemon-peel/utils';
-import { UPDATE_MODEL_EVENT_OLD } from '@lemon-peel/constants';
+import { UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
 import type { ExtractPropTypes, Ref } from 'vue';
 import type Button from './Button.vue';
 
 export const sliderButtonProps = buildProps({
-  modelValue: {
-    type: Number,
-    default: 0,
-  },
+  value: { type: Number, default: 0 },
   vertical: Boolean,
   tooltipClass: String,
-  placement: {
-    type: String,
-    values: placements,
-    default: 'top',
-  },
+  placement: { type: String, values: placements, default: 'top' },
 } as const);
 export type SliderButtonProps = ExtractPropTypes<typeof sliderButtonProps>;
 
 export const sliderButtonEmits = {
-  [UPDATE_MODEL_EVENT_OLD]: (value: number) => isNumber(value),
+  [UPDATE_MODEL_EVENT]: (value: number) => isNumber(value),
 };
 export type SliderButtonEmits = typeof sliderButtonEmits;
 

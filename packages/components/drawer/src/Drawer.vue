@@ -79,8 +79,8 @@
   </teleport>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, ref } from 'vue';
+<script lang="ts" setup>
+import { computed, defineProps, ref } from 'vue';
 import { Close } from '@element-plus/icons-vue';
 import { LpOverlay } from '@lemon-peel/components/overlay';
 import { useDialog } from '@lemon-peel/components/dialog';
@@ -93,37 +93,30 @@ import { drawerEmits, drawerProps } from './drawer';
 
 import type { Ref } from 'vue';
 
-export default defineComponent({
-  name: 'LpDrawer',
-  components: {
-    LpOverlay,
-    LpFocusTrap,
-    LpIcon,
-    Close,
-  },
-  props: drawerProps,
-  emits: drawerEmits,
+defineOptions({ name: 'LpDrawer' });
 
-  setup(props, { slots }) {
-    const drawerRef: Ref<HTMLElement> = ref(null as any);
-    const focusStartRef: Ref<HTMLElement> = ref(null as any);
-    const ns = useNamespace('drawer');
-    const { t } = useLocale();
+const props = defineProps(drawerProps);
+const emit = defineEmits(drawerEmits);
 
-    const isHorizontal = computed(
-      () => props.direction === 'rtl' || props.direction === 'ltr',
-    );
-    const drawerSize = computed(() => addUnit(props.size));
+const drawerRef: Ref<HTMLElement> = ref(null as any);
+const focusStartRef: Ref<HTMLElement> = ref(null as any);
+const ns = useNamespace('drawer');
+const { t } = useLocale();
 
-    return {
-      ...useDialog(props, drawerRef),
-      drawerRef,
-      focusStartRef,
-      isHorizontal,
-      drawerSize,
-      ns,
-      t,
-    };
-  },
-});
+const isHorizontal = computed(
+  () => props.direction === 'rtl' || props.direction === 'ltr',
+);
+const drawerSize = computed(() => addUnit(props.size));
+
+const {
+  titleId,
+  bodyId,
+  rendered,
+  beforeLeave,
+  afterEnter,
+  afterLeave,
+  onModalClick,
+  onCloseRequested,
+  handleClose,
+} = useDialog(props, drawerRef);
 </script>

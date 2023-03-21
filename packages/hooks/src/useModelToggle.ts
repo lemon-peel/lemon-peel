@@ -33,7 +33,7 @@ export const createModelToggleComposable = <T extends string>(name: T) => {
   const updateEventKeyRaw = `onUpdate:${name}` as const;
   const useModelToggleEmits = [updateEventKey];
 
-  const useModelToggleProperties = {
+  const useModelToggleProps = {
     [name]: modelProperty,
     [updateEventKeyRaw]: modelEvent,
   } as UseModelTogglePropsRaw<T>;
@@ -178,13 +178,13 @@ export const createModelToggleComposable = <T extends string>(name: T) => {
 
   return {
     useModelToggle,
-    useModelToggleProps: useModelToggleProperties,
+    useModelToggleProps,
     useModelToggleEmits,
   };
 };
 
 const { useModelToggle, useModelToggleProps, useModelToggleEmits } =
-  createModelToggleComposable('modelValue');
+  createModelToggleComposable('value');
 
 export { useModelToggle, useModelToggleEmits, useModelToggleProps };
 

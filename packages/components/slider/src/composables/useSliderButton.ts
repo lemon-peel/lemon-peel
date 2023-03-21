@@ -1,6 +1,6 @@
 import { computed, inject, ref, watch, nextTick } from 'vue';
 import { debounce } from 'lodash-es';
-import { EVENT_CODE, UPDATE_MODEL_EVENT_OLD } from '@lemon-peel/constants';
+import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
 import { sliderContextKey } from '@lemon-peel/tokens';
 import type { CSSProperties, ComputedRef, Ref, SetupContext } from 'vue';
 import type { SliderProps } from '../slider';
@@ -24,8 +24,8 @@ const useTooltip = (
 
   const formatValue = computed(() => {
     return (
-      (enableFormat.value && formatTooltip.value!(props.modelValue)) ||
-      props.modelValue
+      (enableFormat.value && formatTooltip.value!(props.value)) ||
+      props.value
     );
   });
 
@@ -72,7 +72,7 @@ export const useSliderButton = (
 
   const currentPosition = computed(() => {
     return `${
-      ((props.modelValue - min.value) / (max.value - min.value)) * 100
+      ((props.value - min.value) / (max.value - min.value)) * 100
     }%`;
   });
 
@@ -136,12 +136,12 @@ export const useSliderButton = (
       steps * lengthPerStep * (max.value - min.value) * 0.01 + min.value;
     value = Number.parseFloat(value.toFixed(precision.value));
 
-    if (value !== props.modelValue) {
-      emit(UPDATE_MODEL_EVENT_OLD, value);
+    if (value !== props.value) {
+      emit(UPDATE_MODEL_EVENT, value);
     }
 
-    if (!initData.dragging && props.modelValue !== initData.oldValue) {
-      initData.oldValue = props.modelValue;
+    if (!initData.dragging && props.value !== initData.oldValue) {
+      initData.oldValue = props.value;
     }
 
     await nextTick();

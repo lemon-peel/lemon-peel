@@ -29,7 +29,7 @@
         <div :class="ns.be('dropdown', 'btns')">
           <span :class="ns.be('dropdown', 'value')">
             <lp-input
-              v-model="customInput"
+              :value="customInput"
               :validate-event="false"
               size="small"
               @keyup.enter="handleConfirm"
@@ -67,7 +67,7 @@
         :aria-label="buttonAriaLabel"
         :aria-labelledby="buttonAriaLabelledby"
         :aria-description="
-          t('lp.colorpicker.description', { color: modelValue || '' })
+          t('lp.colorpicker.description', { color: value || '' })
         "
         :tabindex="tabindex"
         @keydown.enter="handleTrigger"
@@ -82,13 +82,13 @@
               }"
             >
               <lp-icon
-                v-show="modelValue || showPanelColor"
+                v-show="value || showPanelColor"
                 :class="[ns.be('picker', 'icon'), ns.is('icon-arrow-down')]"
               >
                 <arrow-down />
               </lp-icon>
               <lp-icon
-                v-if="!modelValue && !showPanelColor"
+                v-if="!value && !showPanelColor"
                 :class="[ns.be('picker', 'empty'), ns.is('icon-close')]"
               >
                 <close />
@@ -106,7 +106,7 @@ import { computed, nextTick, onMounted, provide, reactive, ref, watch } from 'vu
 import { debounce } from 'lodash-es';
 import { ClickOutside as vClickOutside } from '@lemon-peel/directives';
 import { useDisabled, useFormItem, useFormItemInputId, useLocale, useNamespace, useSize } from '@lemon-peel/hooks';
-import { UPDATE_MODEL_EVENT_OLD } from '@lemon-peel/constants';
+import { UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
 import { debugWarn } from '@lemon-peel/utils';
 import { ArrowDown, Close } from '@element-plus/icons-vue';
 import { LpButton } from '@lemon-peel/components/button';
@@ -148,14 +148,14 @@ const sv = ref<InstanceType<typeof SvPanel>>();
 const alpha = ref<InstanceType<typeof AlphaSlider>>();
 const popper = ref<TooltipInstance>();
 
-// active-change is used to prevent modelValue changes from triggering.
+// active-change is used to prevent vModel:value changes from triggering.
 let shouldActiveChange = true;
 
 const color = reactive(
   new Color({
     enableAlpha: props.showAlpha,
     format: props.colorFormat || '',
-    value: props.modelValue,
+    value: props.value,
   }),
 ) as Color;
 
@@ -175,14 +175,14 @@ function displayedRgb(colorObject: Color, showAlpha: boolean) {
 }
 
 const displayedColor = computed(() => {
-  if (!props.modelValue && !showPanelColor.value) {
+  if (!props.value && !showPanelColor.value) {
     return 'transparent';
   }
   return displayedRgb(color, props.showAlpha);
 });
 
 const currentColor = computed(() => {
-  return !props.modelValue && !showPanelColor.value ? '' : color.value;
+  return !props.value && !showPanelColor.value ? '' : color.value;
 });
 
 const buttonAriaLabel = computed<string | undefined>(() => {
@@ -203,8 +203,8 @@ const debounceSetShowPicker = debounce(setShowPicker, 100);
 
 function resetColor() {
   nextTick(() => {
-    if (props.modelValue) {
-      color.fromString(props.modelValue);
+    if (props.value) {
+      color.fromString(props.value);
     } else {
       color.value = '';
       nextTick(() => {
@@ -230,18 +230,18 @@ function handleConfirm() {
 
 function confirmValue() {
   const value = color.value;
-  emit(UPDATE_MODEL_EVENT_OLD, value);
+  emit(UPDATE_MODEL_EVENT, value);
   emit('change', value);
   if (props.validateEvent) {
     formItem?.validate('change').catch(error => debugWarn(error));
   }
   debounceSetShowPicker(false);
-  // check if modelValue change, if not change, then reset color.
+  // check if vModel:value change, if not change, then reset color.
   nextTick(() => {
     const newColor = new Color({
       enableAlpha: props.showAlpha,
       format: props.colorFormat || '',
-      value: props.modelValue,
+      value: props.value,
     });
     if (!color.compare(newColor)) {
       resetColor();
@@ -251,22 +251,22 @@ function confirmValue() {
 
 function clear() {
   debounceSetShowPicker(false);
-  emit(UPDATE_MODEL_EVENT_OLD, null);
+  emit(UPDATE_MODEL_EVENT, null);
   emit('change', null);
-  if (props.modelValue !== null && props.validateEvent) {
+  if (props.value !== null && props.validateEvent) {
     formItem?.validate('change').catch(error => debugWarn(error));
   }
   resetColor();
 }
 
 onMounted(() => {
-  if (props.modelValue) {
+  if (props.value) {
     customInput.value = currentColor.value;
   }
 });
 
 watch(
-  () => props.modelValue,
+  () => props.value,
   newValue => {
     if (!newValue) {
       showPanelColor.value = false;
@@ -289,7 +289,7 @@ watch(
 watch(
   () => color.value,
   () => {
-    if (!props.modelValue && !showPanelColor.value) {
+    if (!props.value && !showPanelColor.value) {
       showPanelColor.value = true;
     }
   },

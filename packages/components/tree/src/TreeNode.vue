@@ -44,7 +44,7 @@
       </lp-icon>
       <lp-checkbox
         v-if="showCheckbox"
-        :model-value="node.checked"
+        :checked="node.checked"
         :indeterminate="node.indeterminate"
         :disabled="!!node.disabled"
         @click.stop
@@ -109,17 +109,11 @@ defineOptions({
 
 const props  = defineProps({
   node: { type: Node, default: () => ({}) },
-  props: {
-    type: Object as PropType<TreeOptionProps>,
-    default: () => ({}),
-  },
+  props: { type: Object as PropType<TreeOptionProps>, default: () => ({}) },
   accordion: Boolean,
   renderContent: { type: Function as PropType<TreeNodeContentRender>, default: undefined },
   renderAfterExpand: Boolean,
-  showCheckbox: {
-    type: Boolean,
-    default: false,
-  },
+  showCheckbox: { type: Boolean, default: false },
 });
 
 const emit = defineEmits(['node-expand']);

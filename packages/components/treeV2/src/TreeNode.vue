@@ -37,7 +37,7 @@
       </lp-icon>
       <lp-checkbox
         v-if="showCheckbox"
-        :model-value="checked"
+        :checked="checked"
         :indeterminate="indeterminate"
         :disabled="disabled"
         @change="handleCheckChange"

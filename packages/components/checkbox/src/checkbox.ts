@@ -7,7 +7,7 @@ import type Checkbox from './Checkbox.vue';
 export type CheckboxValueType = string | number | boolean;
 
 export const checkboxProps = buildProps({
-  value: { type: [Number, String, Object], required: true },
+  value: { type: [Number, String, Object], default: null },
   label: { type: [String, Boolean, Number, Object] },
   indeterminate: Boolean,
   disabled: Boolean,

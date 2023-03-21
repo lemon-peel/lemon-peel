@@ -25,7 +25,7 @@ describe('Transfer', () => {
   it('default target list', () => {
     const value = ref([1, 4]);
     const wrapper = mount(() => (
-      <Transfer v-model={value.value} data={getTestData()} />
+      <Transfer v-model:value={value.value} data={getTestData()} />
     ));
     const LpTransfer: any = wrapper.findComponent({ name: 'LpTransfer' });
     expect(LpTransfer.vm.sourceData.length).toBe(13);
@@ -39,7 +39,7 @@ describe('Transfer', () => {
 
     const wrapper = mount(() => (
       <Transfer
-        v-model={value.value}
+        v-model:value={value.value}
         filterable
         data={getTestData()}
         filter-method={method}
@@ -55,7 +55,7 @@ describe('Transfer', () => {
     const value = ref([1, 4]);
     const wrapper = mount(() => (
       <Transfer
-        v-model={value.value}
+        v-model:value={value.value}
         leftDefaultChecked={[2, 3]}
         rightDefaultChecked={[1]}
         data={getTestData()}
@@ -85,7 +85,7 @@ describe('Transfer', () => {
 
     const wrapper = mount(() => (
       <Transfer
-        v-model={state.value}
+        v-model:value={state.value}
         titles={state.titles as [string, string]}
         format={state.format}
         renderContent={renderFunc}
@@ -104,7 +104,7 @@ describe('Transfer', () => {
   it('check', () => {
     const value = ref([]);
     const wrapper = mount(() => (
-      <Transfer v-model={value.value} data={getTestData()} />
+      <Transfer v-model:value={value.value} data={getTestData()} />
     ));
 
     const leftList: any = wrapper.findComponent({ name: 'LpTransferPanel' });
@@ -117,7 +117,7 @@ describe('Transfer', () => {
       const value = ref([1, 4]);
       const wrapper = mount(() => (
         <Transfer
-          v-model={value.value}
+          v-model:value={value.value}
           leftDefaultChecked={[2, 3]}
           data={getTestData()}
         />
@@ -141,7 +141,7 @@ describe('Transfer', () => {
       const value = ref([1, 4]);
       const wrapper = mount(() => (
         <Transfer
-          v-model={value.value}
+          v-model:value={value.value}
           leftDefaultChecked={[2, 3]}
           target-order="push"
           data={getTestData()}
@@ -166,7 +166,7 @@ describe('Transfer', () => {
       const value = ref([1, 4]);
       const wrapper = mount(() => (
         <Transfer
-          v-model={value.value}
+          v-model:value={value.value}
           leftDefaultChecked={[2, 3]}
           target-order="unshift"
           data={getTestData()}
@@ -193,7 +193,7 @@ describe('Transfer', () => {
       const value = ref([]);
       const wrapper = mount(() => (
         <Transfer
-          v-model={value.value}
+          v-model:value={value.value}
           filterable={true}
           data={getTestData()}
         />

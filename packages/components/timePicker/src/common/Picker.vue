@@ -26,7 +26,7 @@
         :id="(id as string | undefined)"
         ref="inputRef"
         container-role="combobox"
-        :model-value="(displayValue as string)"
+        :value="displayValue"
         :name="name"
         :size="pickerSize"
         :disabled="pickerDisabled"
@@ -177,7 +177,7 @@ import LpInput from '@lemon-peel/components/input';
 import LpIcon from '@lemon-peel/components/icon';
 import LpTooltip from '@lemon-peel/components/tooltip';
 import { debugWarn, isArray } from '@lemon-peel/utils';
-import { EVENT_CODE } from '@lemon-peel/constants';
+import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
 import { Calendar, Clock } from '@element-plus/icons-vue';
 
 import { formatter, parseDate, valueEquals } from '../utils';
@@ -196,7 +196,7 @@ defineOptions({
 
 const props = defineProps(timePickerDefaultProps);
 const emit = defineEmits([
-  'update:modelValue',
+  UPDATE_MODEL_EVENT,
   'change',
   'focus',
   'blur',
@@ -219,14 +219,14 @@ const refPopper = ref<TooltipInstance>();
 const inputRef = ref<HTMLElement | ComponentPublicInstance>();
 const pickerVisible = ref(false);
 const pickerActualVisible = ref(false);
-const valueOnOpen = ref<TimePickerDefaultProps['modelValue'] | null>(null);
+const valueOnOpen = ref<TimePickerDefaultProps['value'] | null>(null);
 
 let hasJustTabExitedInput = false;
 let ignoreFocusEvent = false;
 const userInput = ref<UserInput>(null);
 
 const emitChange = (
-  val: TimePickerDefaultProps['modelValue'] | null,
+  val: TimePickerDefaultProps['value'] | null,
   isClear?: boolean,
 ) => {
   // determine user real change only
@@ -241,19 +241,19 @@ watch(pickerVisible, val => {
   if (val) {
     nextTick(() => {
       if (val) {
-        valueOnOpen.value = props.modelValue;
+        valueOnOpen.value = props.value;
       }
     });
   } else {
     userInput.value = null;
     nextTick(() => {
-      emitChange(props.modelValue);
+      emitChange(props.value);
     });
   }
 });
 
 const emitInput = (input: SingleOrRange<DateModelType | Dayjs> | null) => {
-  if (!valueEquals(props.modelValue, input)) {
+  if (!valueEquals(props.value, input)) {
     let formatted;
     if (isArray(input)) {
       formatted = input.map(item =>
@@ -262,9 +262,10 @@ const emitInput = (input: SingleOrRange<DateModelType | Dayjs> | null) => {
     } else if (input) {
       formatted = formatter(input, props.valueFormat, lang.value);
     }
-    emit('update:modelValue', input ? formatted : input, lang.value);
+    emit(UPDATE_MODEL_EVENT, input ? formatted : input, lang.value);
   }
 };
+
 const emitKeydown = (e: KeyboardEvent) => {
   emit('keydown', e);
 };
@@ -394,9 +395,9 @@ const formatDayjsToString = (value: DayOrDays) => {
 };
 
 const valueIsEmpty = computed(() => {
-  const { modelValue } = props;
+  const { value } = props;
   return (
-    !modelValue || (isArray(modelValue) && modelValue.filter(Boolean).length === 0)
+    !value || (isArray(value) && value.filter(Boolean).length === 0)
   );
 });
 
@@ -407,9 +408,9 @@ const parsedValue = computed(() => {
       dayOrDays = pickerOptions.value.getDefaultValue();
     }
   } else {
-    dayOrDays = isArray(props.modelValue) ? props.modelValue.map(d =>
+    dayOrDays = isArray(props.value) ? props.value.map(d =>
       parseDate(d, props.valueFormat, lang.value),
-    ) as [Dayjs, Dayjs] : parseDate(props.modelValue, props.valueFormat, lang.value)!;
+    ) as [Dayjs, Dayjs] : parseDate(props.value, props.valueFormat, lang.value)!;
   }
 
   if (pickerOptions.value.getRangeAvailableTime) {
@@ -434,25 +435,27 @@ const parsedValue = computed(() => {
 const isTimePicker = computed(() => props.type.startsWith('time'));
 const isDatesPicker = computed(() => props.type === 'dates');
 
-const displayValue = computed<UserInput>(() => {
+const displayValue = computed<string>(() => {
   if (!pickerOptions.value.panelReady) return '';
   const formattedValue = formatDayjsToString(parsedValue.value);
   if (isArray(userInput.value)) {
     return [
       userInput.value[0] || (formattedValue && formattedValue[0]) || '',
       userInput.value[1] || (formattedValue && formattedValue[1]) || '',
-    ];
+    ].toString();
   } else if (userInput.value !== null) {
     return userInput.value;
-  }
-  if (!isTimePicker.value && valueIsEmpty.value) return '';
-  if (!pickerVisible.value && valueIsEmpty.value) return '';
-  if (formattedValue) {
+  } else if (!isTimePicker.value && valueIsEmpty.value) {
+    return '';
+  } else if (!pickerVisible.value && valueIsEmpty.value) {
+    return '';
+  } else if (formattedValue) {
     return isDatesPicker.value
       ? (formattedValue as Array<string>).join(', ')
-      : formattedValue;
+      : formattedValue.toString();
+  } else {
+    return '';
   }
-  return '';
 });
 
 const isValidValue = (value: DayOrDays) => {

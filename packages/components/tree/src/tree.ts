@@ -113,10 +113,9 @@ export interface TreeOptionProps {
   label?: string | ((data: TreeNodeData, node: Node) => string);
   disabled?: string | ((data: TreeNodeData, node: Node) => string);
   isLeaf?: string | ((data: TreeNodeData, node: Node) => boolean);
-  class?: (
-    data: TreeNodeData,
-    node: Node
-  ) => string | { [key: string]: boolean } | string;
+  class?: string
+  | { [key: string]: boolean }
+  | ((data: TreeNodeData, node: Node) => string);
 }
 
 export declare type RenderContentFunction = (
@@ -141,10 +140,7 @@ export declare type AllowDropFunction = (
   type: AllowDropType
 ) => boolean;
 
-export type LoadFunction = (
-  rootNode: Node,
-  loadedCallback: (data: TreeData) => void
-) => void;
+export type LoadFunction = (rootNode: Node, loadedCallback: (data: TreeData) => void) => void;
 
 export declare type FilterValue = any;
 

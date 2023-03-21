@@ -124,7 +124,7 @@ export default class TreeStore {
     refNode.parent?.insertAfter({ data }, refNode);
   }
 
-  remove(data: TreeNodeData | Node): void {
+  remove(data: TreeKey | TreeNodeData): void {
     const node = this.getNode(data);
 
     if (node && node.parent) {

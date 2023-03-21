@@ -1,6 +1,6 @@
-import type { InjectionKey, VNode } from 'vue';
+import type { InjectionKey } from 'vue';
 import type { Nullable } from '@lemon-peel/utils';
-import type { default as CascaderNode, CascaderOption, CascaderProps } from './node';
+import type { default as CascaderNode, CascaderOption, CascaderProps, RenderLabel } from './node';
 
 
 export type CascaderNodeValue = string | number;
@@ -14,10 +14,6 @@ export type IsDisabled = (data: CascaderOption, node: CascaderNode) => boolean;
 export type IsLeaf = (data: CascaderOption, node: CascaderNode) => boolean;
 export type Resolve = (dataList?: CascaderOption[]) => void;
 export type LazyLoad = (node: CascaderNode, resolve: Resolve) => void;
-export type RenderLabel = (argument: {
-  node: CascaderNode;
-  data: CascaderOption;
-}) => VNode | VNode[];
 
 export interface Tag {
   node?: CascaderNode;

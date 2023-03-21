@@ -1,6 +1,6 @@
 import { defineComponent, getCurrentInstance, nextTick, provide, ref, renderSlot, watch } from 'vue';
 import { buildProps, isNumber, isString, isUndefined } from '@lemon-peel/utils';
-import { EVENT_CODE, UPDATE_MODEL_EVENT_OLD } from '@lemon-peel/constants';
+import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
 import LpIcon from '@lemon-peel/components/icon';
 import { Plus } from '@element-plus/icons-vue';
 import { tabsRootContextKey } from '@lemon-peel/tokens';
@@ -19,7 +19,7 @@ export const tabsProps = buildProps({
   activeName: { type: [String, Number] },
   closable: Boolean,
   addable: Boolean,
-  modelValue: { type: [String, Number] },
+  value: { type: [String, Number] },
   editable: Boolean,
   tabPosition: {
     type: String,
@@ -39,7 +39,7 @@ const isPaneName = (value: unknown): value is string | number =>
   isString(value) || isNumber(value);
 
 export const tabsEmits = {
-  [UPDATE_MODEL_EVENT_OLD]: (name: TabPaneName) => isPaneName(name),
+  [UPDATE_MODEL_EVENT]: (name: TabPaneName) => isPaneName(name),
   tabClick: (pane: TabsPaneContext, event_: Event) => event_ instanceof Event,
   tabChange: (name: TabPaneName) => isPaneName(name),
   edit: (paneName: TabPaneName | undefined, action: 'remove' | 'add') =>
@@ -69,12 +69,12 @@ export default defineComponent({
 
     const nav$ = ref<TabNavInstance>();
     const currentName = ref<TabPaneName>(
-      props.modelValue ?? props.activeName ?? '0',
+      props.value ?? props.activeName ?? '0',
     );
 
     const changeCurrentName = (value: TabPaneName) => {
       currentName.value = value;
-      emit(UPDATE_MODEL_EVENT_OLD, value);
+      emit(UPDATE_MODEL_EVENT, value);
       emit('tabChange', value);
     };
 
@@ -119,12 +119,12 @@ export default defineComponent({
 
     watch(
       () => props.activeName,
-      modelValue => setCurrentName(modelValue),
+      val => setCurrentName(val),
     );
 
     watch(
-      () => props.modelValue,
-      modelValue => setCurrentName(modelValue),
+      () => props.value,
+      val => setCurrentName(val),
     );
 
     watch(currentName, async () => {

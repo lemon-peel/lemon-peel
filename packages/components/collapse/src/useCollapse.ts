@@ -1,7 +1,7 @@
 import { computed, provide, ref, watch } from 'vue';
 import { ensureArray } from '@lemon-peel/utils';
 import { useNamespace } from '@lemon-peel/hooks';
-import { CHANGE_EVENT, UPDATE_MODEL_EVENT_OLD } from '@lemon-peel/constants';
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
 import { collapseContextKey } from '@lemon-peel/tokens';
 
 import type { SetupContext } from 'vue';
@@ -11,12 +11,12 @@ export const useCollapse = (
   props: CollapseProps,
   emit: SetupContext<CollapseEmits>['emit'],
 ) => {
-  const activeNames = ref(ensureArray(props.modelValue));
+  const activeNames = ref(ensureArray(props.value));
 
   const setActiveNames = (_activeNames: CollapseActiveName[]) => {
     activeNames.value = _activeNames;
     const value = props.accordion ? activeNames.value[0] : activeNames.value;
-    emit(UPDATE_MODEL_EVENT_OLD, value);
+    emit(UPDATE_MODEL_EVENT, value);
     emit(CHANGE_EVENT, value);
   };
 
@@ -37,8 +37,8 @@ export const useCollapse = (
   };
 
   watch(
-    () => props.modelValue,
-    () => (activeNames.value = ensureArray(props.modelValue)),
+    () => props.value,
+    () => (activeNames.value = ensureArray(props.value)),
     { deep: true },
   );
 

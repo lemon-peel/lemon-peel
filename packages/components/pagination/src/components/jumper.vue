@@ -7,10 +7,10 @@
       :min="1"
       :max="pageCount"
       :disabled="disabled"
-      :model-value="innerValue"
+      :value="innerValue"
       :validate-event="false"
       type="number"
-      @update:model-value="handleInput"
+      @update:value="handleInput"
       @change="handleChange"
     />
     {{ t('lp.pagination.pageClassifier') }}

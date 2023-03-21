@@ -26,7 +26,7 @@
       <slider-button
         :id="!range ? inputId : undefined"
         ref="firstButton"
-        :model-value="firstValue"
+        :value="firstValue"
         :vertical="vertical"
         :tooltip-class="tooltipClass"
         :placement="placement"
@@ -43,12 +43,12 @@
         :aria-valuetext="firstValueText"
         :aria-orientation="vertical ? 'vertical' : 'horizontal'"
         :aria-disabled="sliderDisabled"
-        @update:model-value="setFirstValue"
+        @update:value="setFirstValue"
       />
       <slider-button
         v-if="range"
         ref="secondButton"
-        :model-value="secondValue"
+        :value="secondValue"
         :vertical="vertical"
         :tooltip-class="tooltipClass"
         :placement="placement"
@@ -60,7 +60,7 @@
         :aria-valuetext="secondValueText"
         :aria-orientation="vertical ? 'vertical' : 'horizontal'"
         :aria-disabled="sliderDisabled"
-        @update:model-value="setSecondValue"
+        @update:value="setSecondValue"
       />
       <div v-if="showStops">
         <div
@@ -92,7 +92,7 @@
     <lp-input-number
       v-if="showInput && !range"
       ref="input"
-      :model-value="firstValue"
+      :value="firstValue"
       :class="ns.e('input')"
       :step="step"
       :disabled="sliderDisabled"
@@ -101,7 +101,7 @@
       :max="max"
       :debounce="debounce"
       :size="sliderInputSize"
-      @update:model-value="setFirstValue"
+      @update:value="setFirstValue"
       @change="emitChange"
     />
   </div>

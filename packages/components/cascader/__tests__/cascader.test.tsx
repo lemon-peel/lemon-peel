@@ -7,7 +7,7 @@ import { ArrowDown, Check, CircleClose } from '@element-plus/icons-vue';
 import { POPPER_CONTAINER_SELECTOR } from '@lemon-peel/hooks';
 import { hasClass } from '@lemon-peel/utils';
 import LpForm, { LpFormItem } from '@lemon-peel/components/form';
-import Cascader from '../src/Index.vue';
+import Cascader from '../src/Cascader.vue';
 
 import type { VNode } from 'vue';
 
@@ -52,10 +52,11 @@ const SUGGESTION_ITEM = '.lp-cascader__suggestion-item';
 const SUGGESTION_PANEL = '.lp-cascader__suggestion-panel';
 const DROPDOWN = '.lp-cascader__dropdown';
 
-const _mount = (render: () => VNode) =>
-  mount(render, {
+const doMount = (render: () => VNode) => {
+  return mount(render, {
     attachTo: document.body,
   });
+};
 
 afterEach(() => {
   document.body.innerHTML = '';
@@ -64,7 +65,7 @@ afterEach(() => {
 describe('Cascader.vue', () => {
   test('toggle popper visible', async () => {
     const handleVisibleChange = vi.fn();
-    const wrapper = _mount(() => (
+    const wrapper = doMount(() => (
       <Cascader onVisibleChange={handleVisibleChange} />
     ));
 
@@ -86,9 +87,9 @@ describe('Cascader.vue', () => {
     const handleExpandChange = vi.fn();
     const value = ref([]);
 
-    const wrapper = _mount(() => (
+    const wrapper = doMount(() => (
       <Cascader
-        v-model={value.value}
+        v-model:value={value.value}
         options={OPTIONS}
         onChange={handleChange}
         onExpandChange={handleExpandChange}
@@ -110,8 +111,8 @@ describe('Cascader.vue', () => {
 
   test('with default value', async () => {
     const value = ref(['zhejiang', 'hangzhou']);
-    const wrapper = _mount(() => (
-      <Cascader v-model={value.value} options={OPTIONS} />
+    const wrapper = doMount(() => (
+      <Cascader v-model:value={value.value} options={OPTIONS} />
     ));
 
     await nextTick();
@@ -124,8 +125,8 @@ describe('Cascader.vue', () => {
   test('options change', async () => {
     const value = ref(['zhejiang', 'hangzhou']);
     const options = ref(OPTIONS);
-    const wrapper = _mount(() => (
-      <Cascader v-model={value.value} options={options.value} />
+    const wrapper = doMount(() => (
+      <Cascader v-model:value={value.value} options={options.value} />
     ));
 
     options.value = [];
@@ -135,7 +136,7 @@ describe('Cascader.vue', () => {
 
   test('disabled', async () => {
     const handleVisibleChange = vi.fn();
-    const wrapper = _mount(() => (
+    const wrapper = doMount(() => (
       <Cascader disabled onVisibleChange={handleVisibleChange} />
     ));
 
@@ -145,15 +146,15 @@ describe('Cascader.vue', () => {
   });
 
   test('custom placeholder', async () => {
-    const wrapper = _mount(() => <Cascader placeholder={AXIOM} />);
+    const wrapper = doMount(() => <Cascader placeholder={AXIOM} />);
 
     expect(wrapper.find('input').attributes().placeholder).toBe(AXIOM);
   });
 
   test('clearable', async () => {
-    const wrapper = _mount(() => (
+    const wrapper = doMount(() => (
       <Cascader
-        modelValue={['zhejiang', 'hangzhou']}
+        value={['zhejiang', 'hangzhou']}
         clearable
         options={OPTIONS}
       />
@@ -174,9 +175,9 @@ describe('Cascader.vue', () => {
   });
 
   test('show last level label', async () => {
-    const wrapper = _mount(() => (
+    const wrapper = doMount(() => (
       <Cascader
-        modelValue={['zhejiang', 'hangzhou']}
+        value={['zhejiang', 'hangzhou']}
         showAllLevels={false}
         options={OPTIONS}
       />
@@ -192,8 +193,8 @@ describe('Cascader.vue', () => {
       ['zhejiang', 'ningbo'],
     ]);
     const props = { multiple: true };
-    const wrapper = _mount(() => (
-      <Cascader v-model={value.value} props={props} options={OPTIONS} />
+    const wrapper = doMount(() => (
+      <Cascader v-model:value={value.value} props={props} options={OPTIONS} />
     ));
 
     await nextTick();
@@ -209,9 +210,9 @@ describe('Cascader.vue', () => {
 
   test('collapse tags', async () => {
     const props = { multiple: true };
-    const wrapper = _mount(() => (
+    const wrapper = doMount(() => (
       <Cascader
-        modelValue={[
+        value={[
           ['zhejiang', 'hangzhou'],
           ['zhejiang', 'ningbo'],
           ['zhejiang', 'wenzhou'],
@@ -232,9 +233,9 @@ describe('Cascader.vue', () => {
 
   test('collapse tags tooltip', async () => {
     const props = { multiple: true };
-    const wrapper = _mount(() => (
+    const wrapper = doMount(() => (
       <Cascader
-        modelValue={[
+        value={[
           ['zhejiang', 'hangzhou'],
           ['zhejiang', 'ningbo'],
           ['zhejiang', 'wenzhou'],
@@ -257,9 +258,9 @@ describe('Cascader.vue', () => {
 
   test('tag type', async () => {
     const props = { multiple: true };
-    const wrapper = _mount(() => (
+    const wrapper = doMount(() => (
       <Cascader
-        modelValue={[['zhejiang', 'hangzhou']]}
+        value={[['zhejiang', 'hangzhou']]}
         tagType="success"
         props={props}
         options={OPTIONS}
@@ -272,8 +273,8 @@ describe('Cascader.vue', () => {
 
   test('filterable', async () => {
     const value = ref([]);
-    const wrapper = _mount(() => (
-      <Cascader v-model={value.value} filterable options={OPTIONS} />
+    const wrapper = doMount(() => (
+      <Cascader v-model:value={value.value} filterable options={OPTIONS} />
     ));
 
     const input = wrapper.find('input');
@@ -302,9 +303,9 @@ describe('Cascader.vue', () => {
   test('filterable in multiple mode', async () => {
     const value = ref([]);
     const props = { multiple: true };
-    const wrapper = _mount(() => (
+    const wrapper = doMount(() => (
       <Cascader
-        v-model={value.value}
+        v-model:value={value.value}
         props={props}
         filterable
         options={OPTIONS}
@@ -329,7 +330,7 @@ describe('Cascader.vue', () => {
       const { text, value } = node;
       return text.includes(keyword) || value.includes(keyword);
     });
-    const wrapper = _mount(() => (
+    const wrapper = doMount(() => (
       <Cascader filterMethod={filterMethod} filterable options={OPTIONS} />
     ));
 
@@ -343,8 +344,8 @@ describe('Cascader.vue', () => {
 
   test('filterable keyboard selection', async () => {
     const value = ref([]);
-    const wrapper = _mount(() => (
-      <Cascader v-model={value.value} filterable options={OPTIONS} />
+    const wrapper = doMount(() => (
+      <Cascader v-model:value={value.value} filterable options={OPTIONS} />
     ));
 
     const input = wrapper.find('input');
@@ -371,8 +372,8 @@ describe('Cascader.vue', () => {
     it('should mount on popper container', async () => {
       expect(document.body.innerHTML).toBe('');
       const value = ref([]);
-      _mount(() => (
-        <Cascader v-model={value.value} filterable options={OPTIONS} />
+      doMount(() => (
+        <Cascader v-model:value={value.value} filterable options={OPTIONS} />
       ));
 
       await nextTick();
@@ -384,9 +385,9 @@ describe('Cascader.vue', () => {
     it('should not mount on the popper container', async () => {
       expect(document.body.innerHTML).toBe('');
       const value = ref([]);
-      _mount(() => (
+      doMount(() => (
         <Cascader
-          v-model={value.value}
+          v-model:value={value.value}
           filterable
           teleported={false}
           options={OPTIONS}
@@ -405,11 +406,11 @@ describe('Cascader.vue', () => {
       name: new Array<string>(),
     });
 
-    const wrapper = _mount(() => (
+    const wrapper = doMount(() => (
       <LpForm model={model}>
         <LpFormItem label="Activity name" prop="name">
           <Cascader
-            v-model={model.name}
+            v-model:value={model.name}
             options={OPTIONS}
             filterable
             placeholder={AXIOM}

@@ -161,7 +161,7 @@
           <lp-input
             :id="id"
             ref="reference"
-            v-model="selectedLabel"
+            :value="selectedLabel"
             type="text"
             :placeholder="currentPlaceholder"
             :name="name"
@@ -242,7 +242,7 @@ import LpTooltip from '@lemon-peel/components/tooltip';
 import LpScrollbar from '@lemon-peel/components/scrollbar';
 import LpTag, { tagProps } from '@lemon-peel/components/tag';
 import LpIcon from '@lemon-peel/components/icon';
-import { CHANGE_EVENT, UPDATE_MODEL_EVENT_OLD } from '@lemon-peel/constants';
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
 
 import LpOption from './Option.vue';
 import LpSelectDropdown from './SelectDropdown.vue';
@@ -266,14 +266,6 @@ const nsSelect = useNamespace('select');
 const nsInput = useNamespace('input');
 const { t } = useLocale();
 const states = useSelectStates(props);
-
-watchEffect(
-  () => {
-    if (states.hoverIndex === -1) {
-      throw new Error('cg -1');
-    }
-  },
-);
 
 const {
   optionsArray,
@@ -398,8 +390,8 @@ onMounted(() => {
         props.placeholder || t('lp.select.placeholder');
   if (
     props.multiple &&
-        Array.isArray(props.modelValue) &&
-        props.modelValue.length > 0
+        Array.isArray(props.value) &&
+        props.value.length > 0
   ) {
     currentPlaceholder.value = '';
   }
@@ -426,12 +418,12 @@ onMounted(() => {
   setSelected();
 });
 
-if (props.multiple && !Array.isArray(props.modelValue)) {
-  emit(UPDATE_MODEL_EVENT_OLD, []);
+if (props.multiple && !Array.isArray(props.value)) {
+  emit(UPDATE_MODEL_EVENT, []);
 }
 
-if (!props.multiple && Array.isArray(props.modelValue)) {
-  emit(UPDATE_MODEL_EVENT_OLD, '');
+if (!props.multiple && Array.isArray(props.value)) {
+  emit(UPDATE_MODEL_EVENT, '');
 }
 
 const popperPaneRef = computed(() => {

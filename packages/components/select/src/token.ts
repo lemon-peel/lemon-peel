@@ -14,7 +14,7 @@ export interface SelectContext {
     multiple?: boolean;
     multipleLimit?: number;
     valueKey?: string;
-    modelValue?: string | number | unknown | unknown[];
+    value?: string | number | unknown | unknown[];
     popperClass?: string;
     remote?: boolean;
     fitInputWidth?: boolean;

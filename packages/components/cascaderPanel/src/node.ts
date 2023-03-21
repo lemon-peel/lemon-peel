@@ -10,6 +10,7 @@ export type CascaderValue =
   | CascaderNodeValue
   | CascaderNodePathValue
   | (CascaderNodeValue | CascaderNodePathValue)[];
+
 export type CascaderConfig = Required<CascaderProps>;
 export type ExpandTrigger = 'click' | 'hover';
 export type IsDisabled = (data: CascaderOption, node: Node) => boolean;
@@ -25,7 +26,7 @@ export interface CascaderOption extends Record<string, unknown> {
   leaf?: boolean;
 }
 
-export type RenderLabel = (argument: {
+export type RenderLabel = (arg: {
   node: Node;
   data: CascaderOption;
 }) => VNode | VNode[];

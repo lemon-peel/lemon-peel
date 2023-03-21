@@ -1,4 +1,4 @@
-import { CHANGE_EVENT, UPDATE_MODEL_EVENT_OLD } from '@lemon-peel/constants';
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
 import { usePropsAlias } from './usePropsAlias';
 
 import type { SetupContext } from 'vue';
@@ -16,12 +16,12 @@ export const useMove = (
     direction: TransferDirection,
     movedKeys: TransferKey[],
   ) => {
-    emit(UPDATE_MODEL_EVENT_OLD, value);
+    emit(UPDATE_MODEL_EVENT, value);
     emit(CHANGE_EVENT, value, direction, movedKeys);
   };
 
   const addToLeft = () => {
-    const currentValue = [...props.modelValue];
+    const currentValue = [...props.value];
 
     for (const item of checkedState.rightChecked) {
       const index = currentValue.indexOf(item);
@@ -33,14 +33,14 @@ export const useMove = (
   };
 
   const addToRight = () => {
-    let currentValue = [...props.modelValue];
+    let currentValue = [...props.value];
 
     const itemsToBeMoved = props.data
       .filter((item: TransferDataItem) => {
         const itemKey = item[propsAlias.value.key];
         return (
           checkedState.leftChecked.includes(itemKey) &&
-          !props.modelValue.includes(itemKey)
+          !props.value.includes(itemKey)
         );
       })
       .map(item => item[propsAlias.value.key]);

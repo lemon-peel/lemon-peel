@@ -30,7 +30,7 @@ describe('Rate.vue', () => {
 
   it('allow half', async () => {
     const value = ref(0);
-    const wrapper = mount(() => <Rate v-model={value.value} allowHalf />);
+    const wrapper = mount(() => <Rate v-model:value={value.value} allowHalf />);
     const vm = wrapper.getComponent(Rate).vm as RateInstance;
 
     const secondStar = wrapper.findAll('.lp-rate__item')[1]
@@ -48,7 +48,7 @@ describe('Rate.vue', () => {
     const wrapper = mount(Rate, {
       props: {
         showText: true,
-        modelValue: 4,
+        value: 4,
         texts: ['1', '2', '3', '4', '5'],
       },
     });
@@ -59,17 +59,17 @@ describe('Rate.vue', () => {
   it('value change', async () => {
     const wrapper = mount(Rate, {
       props: {
-        modelValue: 0,
+        value: 0,
       },
     });
     const vm = wrapper.vm;
-    await wrapper.setProps({ modelValue: 3 });
-    expect(vm.modelValue).toMatchInlineSnapshot('3');
+    await wrapper.setProps({ value: 3 });
+    expect(vm.value).toMatchInlineSnapshot('3');
   });
 
   it('click', () => {
     const value1 = ref(0);
-    const wrapper = mount(() => <Rate v-model={value1.value} />);
+    const wrapper = mount(() => <Rate v-model:value={value1.value} />);
 
     const thirdStar = wrapper.findAll('.lp-rate__item')[2]
       .element as HTMLElement;
@@ -81,7 +81,7 @@ describe('Rate.vue', () => {
   it('colors', () => {
     const value = ref(4);
     const wrapper = mount(() => (
-      <Rate v-model={value.value} colors={['#99A9BF', '#F7BA2A', '#FF9900']} />
+      <Rate v-model:value={value.value} colors={['#99A9BF', '#F7BA2A', '#FF9900']} />
     ));
 
     const rateEl = wrapper.find('.lp-rate').element as HTMLElement;
@@ -97,7 +97,7 @@ describe('Rate.vue', () => {
       changeCount.value++;
     };
     const wrapper = mount(() => (
-      <Rate v-model={value.value} onChange={handleChange} />
+      <Rate v-model:value={value.value} onChange={handleChange} />
     ));
 
     const fourthStar = wrapper.findAll('.lp-rate__item')[3]
@@ -120,7 +120,7 @@ describe('Rate.vue', () => {
       changeCount.value++;
     };
     const wrapper = mount(() => (
-      <Rate v-model={value.value} clearable onChange={handleChange} />
+      <Rate v-model:value={value.value} clearable onChange={handleChange} />
     ));
 
     const fourthStar = wrapper.findAll('.lp-rate__item')[3]

@@ -1,9 +1,9 @@
 
-import { describe, expect, it, vi } from 'vitest';
+import { describe, expect, test, vi } from 'vitest';
 import triggerEvent from '@lemon-peel/test-utils/triggerEvent';
 import LpTable from '../src/table/Table.vue';
 import LpTableColumn from '../src/tableColumn';
-import { doubleWait, getTestData, mount } from './tableTestCommon';
+import { doubleWait, getTestData, doMount } from './tableTestCommon';
 
 vi.mock('lodash-es', async () => {
   return {
@@ -26,7 +26,7 @@ describe('table column', () => {
       opts?: Record<string, any>,
       tableProps?: string,
     ) {
-      return mount(
+      return doMount(
         Object.assign(
           {
             components: {
@@ -51,7 +51,7 @@ describe('table column', () => {
       );
     };
 
-    it('label', async () => {
+    test('label', async () => {
       const wrapper = createTable('label="啊哈哈哈"', 'label="啊啦啦啦"');
       await doubleWait();
       const ths = wrapper
@@ -63,7 +63,7 @@ describe('table column', () => {
       wrapper.unmount();
     });
 
-    it('width', async () => {
+    test('width', async () => {
       const wrapper = createTable('width="123px"', ':width="102"', 'width="39"');
       await doubleWait();
       const ths = wrapper
@@ -76,7 +76,7 @@ describe('table column', () => {
       wrapper.unmount();
     });
 
-    it('fixed', async () => {
+    test('fixed', async () => {
       const wrapper = createTable(
         'fixed label="test1" width="100px"',
         'fixed="right" label="test2"',
@@ -118,7 +118,7 @@ describe('table column', () => {
       wrapper.unmount();
     });
 
-    it('resizable', async () => {
+    test('resizable', async () => {
       const wrapper = createTable(
         'resizable',
         ':resizable="false"',
@@ -134,7 +134,7 @@ describe('table column', () => {
       wrapper.unmount();
     });
 
-    it('formatter', async () => {
+    test('formatter', async () => {
       const wrapper = createTable(':formatter="renderCell"', '', '', '', {
         methods: {
           renderCell(row: any) {
@@ -153,14 +153,14 @@ describe('table column', () => {
       wrapper.unmount();
     });
 
-    it('show-overflow-tooltip', async () => {
+    test('show-overflow-tooltip', async () => {
       const wrapper = createTable('show-overflow-tooltip');
       await doubleWait();
       expect(wrapper.findAll('.lp-tooltip').length).toEqual(5);
       wrapper.unmount();
     });
 
-    it('show-tooltip-when-overflow', async () => {
+    test('show-tooltip-when-overflow', async () => {
       // old version prop name
       const wrapper = createTable('show-tooltip-when-overflow');
       await doubleWait();
@@ -168,7 +168,7 @@ describe('table column', () => {
       wrapper.unmount();
     });
 
-    it('align', async () => {
+    test('align', async () => {
       const wrapper = createTable(
         'align="left"',
         'align="right"',
@@ -182,7 +182,7 @@ describe('table column', () => {
       wrapper.unmount();
     });
 
-    it('class-name', async () => {
+    test('class-name', async () => {
       const wrapper = createTable(
         'class-name="column-1"',
         'class-name="column-2 column-class-a"',
@@ -196,8 +196,8 @@ describe('table column', () => {
       wrapper.unmount();
     });
 
-    it('selectable === false & check selectAll status', async () => {
-      const wrapper = mount({
+    test('selectable === false & check selectAll status', async () => {
+      const wrapper = doMount({
         components: {
           LpTable,
           LpTableColumn,
@@ -236,7 +236,7 @@ describe('table column', () => {
 
     describe('type', () => {
       const createTable = function (type: string) {
-        return mount({
+        return doMount({
           components: {
             LpTable,
             LpTableColumn,
@@ -270,21 +270,21 @@ describe('table column', () => {
       describe('= selection', () => {
         const wrapper = createTable('selection');
 
-        it('render', async () => {
+        test('render', async () => {
           await doubleWait();
           expect(wrapper.findAll('.lp-checkbox').length).toEqual(
             getTestData().length + 1,
           );
         });
 
-        it('select all', async () => {
+        test('select all', async () => {
           wrapper.find('.lp-checkbox').trigger('click');
           await doubleWait();
           expect(wrapper.vm.selected.length).toEqual(5);
           wrapper.unmount();
         });
 
-        it('select one', async () => {
+        test('select one', async () => {
           const wrapper2 = createTable('selection');
 
           await doubleWait();
@@ -300,7 +300,7 @@ describe('table column', () => {
       describe('= index', () => {
         const wrapper = createTable('index');
 
-        it('render', async () => {
+        test('render', async () => {
           await doubleWait();
           expect(
             wrapper
@@ -313,7 +313,7 @@ describe('table column', () => {
 
       describe('= expand', () => {
         const createInstance = function (extra = '') {
-          return mount({
+          return doMount({
             components: {
               LpTableColumn,
               LpTable,
@@ -350,7 +350,7 @@ describe('table column', () => {
           });
         };
 
-        it('works', async () => {
+        test('works', async () => {
           const wrapper = createInstance();
           await doubleWait();
           expect(wrapper.findAll('td.lp-table__expand-column').length).toEqual(
@@ -362,14 +362,14 @@ describe('table column', () => {
     });
 
     describe('sortable', () => {
-      it('render', async () => {
+      test('render', async () => {
         const wrapper = createTable('', '', '', 'sortable');
         await doubleWait();
         expect(wrapper.findAll('.caret-wrapper').length).toEqual(1);
         wrapper.unmount();
       });
 
-      it('sortable orders', async () => {
+      test('sortable orders', async () => {
         const wrapper = createTable(
           '',
           '',
@@ -396,7 +396,7 @@ describe('table column', () => {
         wrapper.unmount();
       });
 
-      it('sortable method', async () => {
+      test('sortable method', async () => {
         const wrapper = createTable(
           'sortable :sort-method="sortMethod"',
           '',
@@ -436,7 +436,7 @@ describe('table column', () => {
         wrapper.unmount();
       });
 
-      it('sortable by method', async () => {
+      test('sortable by method', async () => {
         const wrapper = createTable('sortable :sort-by="sortBy"', '', '', '', {
           methods: {
             sortBy(a: any) {
@@ -463,7 +463,7 @@ describe('table column', () => {
         wrapper.unmount();
       });
 
-      it('sortable by property', async () => {
+      test('sortable by property', async () => {
         const wrapper = createTable(
           'sortable sort-by="runtime"',
           '',
@@ -494,7 +494,7 @@ describe('table column', () => {
     describe('click sortable column', () => {
       const wrapper = createTable('', '', '', 'sortable');
 
-      it('ascending', async () => {
+      test('ascending', async () => {
         const elm = wrapper.find('.caret-wrapper');
 
         elm.trigger('click');
@@ -511,7 +511,7 @@ describe('table column', () => {
         ]);
       });
 
-      it('descending', async () => {
+      test('descending', async () => {
         const elm = wrapper.find('.caret-wrapper');
 
         elm.trigger('click');
@@ -530,8 +530,8 @@ describe('table column', () => {
       });
     });
 
-    it('change column configuration', async () => {
-      const wrapper = mount({
+    test('change column configuration', async () => {
+      const wrapper = doMount({
         components: {
           LpTable,
           LpTableColumn,
@@ -590,8 +590,8 @@ describe('table column', () => {
   });
 
   describe('multi level column', () => {
-    it('should works', async () => {
-      const wrapper = mount({
+    test('should works', async () => {
+      const wrapper = doMount({
         components: {
           LpTable,
           LpTableColumn,
@@ -625,8 +625,8 @@ describe('table column', () => {
       wrapper.unmount();
     });
 
-    it('should works', async () => {
-      const wrapper = mount({
+    test('should works', async () => {
+      const wrapper = doMount({
         components: {
           LpTable,
           LpTableColumn,
@@ -668,8 +668,8 @@ describe('table column', () => {
       wrapper.unmount();
     });
 
-    it('should work in one column', async () => {
-      const wrapper = mount({
+    test('should work in one column', async () => {
+      const wrapper = doMount({
         components: {
           LpTable,
           LpTableColumn,
@@ -700,8 +700,8 @@ describe('table column', () => {
       wrapper.unmount();
     });
 
-    it('should work with fixed', async () => {
-      const wrapper = mount({
+    test('should work with fixed', async () => {
+      const wrapper = doMount({
         components: {
           LpTable,
           LpTableColumn,
@@ -762,7 +762,7 @@ describe('table column', () => {
       wrapper.unmount();
     });
 
-    it('lp-table-column should callback itself', async () => {
+    test('lp-table-column should callback itself', async () => {
       const TableColumn = {
         name: 'TableColumn',
         components: {
@@ -830,19 +830,19 @@ describe('table column', () => {
           };
         },
       };
-      const wrapper = mount(App);
+      const wrapper = doMount(App);
       await doubleWait();
       expect(wrapper.find('.lp-table__header-wrapper').text()).toMatch('姓名');
       expect(wrapper.find('.lp-table__header-wrapper').text()).toMatch('地址');
     });
 
-    it('should not rendered other components in hidden-columns', async () => {
+    test('should not rendered other components in hidden-columns', async () => {
       const Comp = {
         template: `
           <div class="other-component"></div>
         `,
       };
-      const wrapper = mount({
+      const wrapper = doMount({
         components: {
           LpTableColumn,
           LpTable,
@@ -867,7 +867,7 @@ describe('table column', () => {
       ).toBeFalsy();
     });
 
-    it('should not rendered text in hidden-columns', async () => {
+    test('should not rendered text in hidden-columns', async () => {
       const TableColumn = {
         name: 'TableColumn',
         components: {
@@ -881,7 +881,7 @@ describe('table column', () => {
           </lp-table-column>
         `,
       };
-      const wrapper = mount({
+      const wrapper = doMount({
         components: {
           LpTableColumn,
           LpTable,
@@ -908,8 +908,8 @@ describe('table column', () => {
   });
 
   describe('dynamic column attribtes', () => {
-    it('label', async () => {
-      const wrapper = mount({
+    test('label', async () => {
+      const wrapper = doMount({
         components: {
           LpTable,
           LpTableColumn,
@@ -944,8 +944,8 @@ describe('table column', () => {
       });
     });
 
-    it('align', async () => {
-      const wrapper = mount({
+    test('align', async () => {
+      const wrapper = doMount({
         components: {
           LpTable,
           LpTableColumn,
@@ -977,8 +977,8 @@ describe('table column', () => {
         wrapper.unmount();
       });
     });
-    it('header-align', async () => {
-      const wrapper = mount({
+    test('header-align', async () => {
+      const wrapper = doMount({
         components: {
           LpTable,
           LpTableColumn,
@@ -1036,8 +1036,8 @@ describe('table column', () => {
       wrapper.unmount();
     });
 
-    it('width', async () => {
-      const wrapper = mount({
+    test('width', async () => {
+      const wrapper = doMount({
         components: {
           LpTable,
           LpTableColumn,
@@ -1078,8 +1078,8 @@ describe('table column', () => {
       wrapper.unmount();
     });
 
-    it('min-width', async () => {
-      const wrapper = mount({
+    test('min-width', async () => {
+      const wrapper = doMount({
         components: {
           LpTable,
           LpTableColumn,
@@ -1120,8 +1120,8 @@ describe('table column', () => {
       wrapper.unmount();
     });
 
-    it('fixed', async () => {
-      const wrapper = mount({
+    test('fixed', async () => {
+      const wrapper = doMount({
         components: {
           LpTable,
           LpTableColumn,
@@ -1154,8 +1154,8 @@ describe('table column', () => {
       wrapper.unmount();
     });
 
-    it('prop', async () => {
-      const wrapper = mount({
+    test('prop', async () => {
+      const wrapper = doMount({
         components: {
           LpTable,
           LpTableColumn,
@@ -1272,7 +1272,7 @@ describe('table column', () => {
     };
 
     const createTable = function (methods: Record<string, any>) {
-      return mount(
+      return doMount(
         Object.assign({
           components: {
             LpTable,
@@ -1323,7 +1323,7 @@ describe('table column', () => {
       );
     };
 
-    it('selectable index parameter should be correct', async () => {
+    test('selectable index parameter should be correct', async () => {
       const result: boolean[] = [];
       const wrapper = createTable({
         selectable(row: any, index: number) {

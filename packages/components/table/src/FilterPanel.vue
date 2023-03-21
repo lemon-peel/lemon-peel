@@ -17,7 +17,7 @@
         <div :class="ns.e('content')">
           <lp-scrollbar :wrap-class="ns.e('wrap')">
             <lp-checkbox-group
-              v-model="filteredValue"
+              v-model:value="filteredValue"
               :class="ns.e('checkbox-group')"
             >
               <lp-checkbox

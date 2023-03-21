@@ -44,7 +44,7 @@ export const timePickerDefaultProps = buildProps({
   disabled: { type: Boolean, default: false },
   placeholder: { type: String, default: '' },
   popperOptions: { type: Object as PropType<Partial<Options>>, default: () => ({}) },
-  modelValue: { type: [Date, Array, String, Number] as PropType<ModelValueType>, default: '' },
+  value: { type: [Date, Array, String, Number] as PropType<ModelValueType>, default: '' },
   rangeSeparator: { type: String, default: '-' },
   startPlaceholder: String,
   endPlaceholder: String,

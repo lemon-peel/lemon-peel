@@ -1,12 +1,12 @@
 import { Star, StarFilled } from '@element-plus/icons-vue';
-import { CHANGE_EVENT, UPDATE_MODEL_EVENT_OLD } from '@lemon-peel/constants';
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
 import { buildProps, iconPropType, isNumber, isValidComponentSize, mutable } from '@lemon-peel/utils';
 import type { ComponentSize } from '@lemon-peel/constants';
 import type { Component, ExtractPropTypes, PropType } from 'vue';
 import type Rate from './Rate.vue';
 
 export const rateProps = buildProps({
-  modelValue: { type: Number, default: 0 },
+  value: { type: Number, default: 0 },
   id: { type: String, default: undefined },
   lowThreshold: { type: Number, default: 2 },
   highThreshold: { type: Number, default: 4 },
@@ -40,7 +40,7 @@ export type RateProps = ExtractPropTypes<typeof rateProps>;
 
 export const rateEmits = {
   [CHANGE_EVENT]: (value: number) => isNumber(value),
-  [UPDATE_MODEL_EVENT_OLD]: (value: number) => isNumber(value),
+  [UPDATE_MODEL_EVENT]: (value: number) => isNumber(value),
 };
 export type RateEmits = typeof rateEmits;
 

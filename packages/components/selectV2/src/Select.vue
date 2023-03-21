@@ -40,7 +40,7 @@
             <slot name="prefix" />
           </div>
           <div v-if="multiple" :class="nsSelectV2.e('selection')">
-            <template v-if="collapseTags && modelValue.length > 0">
+            <template v-if="collapseTags && value.length > 0">
               <div :class="nsSelectV2.e('selected-item')">
                 <lp-tag
                   :closable="
@@ -59,7 +59,7 @@
                   >{{ states.cachedOptions[0]?.label }}</span>
                 </lp-tag>
                 <lp-tag
-                  v-if="modelValue.length > 1"
+                  v-if="value.length > 1"
                   :closable="false"
                   :size="collapseTagSize"
                   type="info"
@@ -79,7 +79,7 @@
                         :style="{
                           maxWidth: `${tagMaxWidth}px`,
                         }"
-                      >+ {{ modelValue.length - 1 }}</span>
+                      >+ {{ value.length - 1 }}</span>
                     </template>
                     <template #content>
                       <div :class="nsSelectV2.e('selection')">
@@ -116,7 +116,7 @@
                     :style="{
                       maxWidth: `${tagMaxWidth}px`,
                     }"
-                  >+ {{ modelValue.length - 1 }}</span>
+                  >+ {{ value.length - 1 }}</span>
                 </lp-tag>
               </div>
             </template>
@@ -172,7 +172,7 @@
                 type="text"
                 :name="name"
                 :unselectable="expanded ? 'on' : undefined"
-                @update:modelValue="onUpdateInputValue"
+                @update:value="onUpdateInputValue"
                 @focus="handleFocus"
                 @blur="handleBlur"
                 @input="(onInput as any)"
@@ -249,7 +249,7 @@
               nsSelectV2.e('placeholder'),
               nsSelectV2.is(
                 'transparent',
-                multiple ? modelValue.length === 0 : !hasModelValue
+                multiple ? value.length === 0 : !hasModelValue
               ),
             ]"
           >
@@ -327,7 +327,7 @@ const props = defineProps(selectProps);
 const emit = defineEmits(selectEmits);
 
 const modelValue = computed(() => {
-  const { modelValue: rawModelValue, multiple } = props;
+  const { value: rawModelValue, multiple } = props;
   const fallback = multiple ? [] : undefined;
   // When it is array, we check if this is multi-select.
   // Based on the result we get

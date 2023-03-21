@@ -1,7 +1,7 @@
 <template>
   <span :class="ns.e('sizes')">
     <lp-select
-      :model-value="innerPageSize"
+      :value="innerPageSize"
       :disabled="disabled"
       :popper-class="popperClass"
       :size="size"

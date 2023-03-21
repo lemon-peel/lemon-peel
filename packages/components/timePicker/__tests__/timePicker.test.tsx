@@ -54,7 +54,7 @@ describe('TimePicker', () => {
     const format = ref('hh-mm:ss A');
     const value = ref(new Date(2016, 9, 10, 18, 40));
     const wrapper = mount(() => (
-      <TimePicker format={format.value} v-model={value.value} />
+      <TimePicker format={format.value} v-model:value={value.value} />
     ));
 
     await nextTick();
@@ -80,7 +80,7 @@ describe('TimePicker', () => {
 
   it('select time', async () => {
     const value = ref<Date>('' as any);
-    const wrapper = mount(() => <TimePicker v-model={value.value} />);
+    const wrapper = mount(() => <TimePicker v-model:value={value.value} />);
 
     const input = wrapper.find('input');
     input.trigger('blur');
@@ -116,7 +116,7 @@ describe('TimePicker', () => {
 
   it('click confirm / cancel button', async () => {
     const value = ref('');
-    const wrapper = mount(() => <TimePicker v-model={value.value} />);
+    const wrapper = mount(() => <TimePicker v-model:value={value.value} />);
 
     const input = wrapper.find('input');
     input.trigger('blur');
@@ -134,7 +134,7 @@ describe('TimePicker', () => {
 
   it('should update oldValue when visible change', async () => {
     const value = ref(new Date(2016, 9, 10, 18, 40));
-    const wrapper = mount(() => <TimePicker v-model={value.value} />);
+    const wrapper = mount(() => <TimePicker v-model:value={value.value} />);
 
     // show picker panel
     const input = wrapper.find('input');
@@ -181,7 +181,7 @@ describe('TimePicker', () => {
   it('set format', async () => {
     const value = ref('');
     const wrapper = mount(() => (
-      <TimePicker v-model={value.value} format="HH:mm" />
+      <TimePicker v-model:value={value.value} format="HH:mm" />
     ));
 
     const input = wrapper.find('input');
@@ -204,7 +204,7 @@ describe('TimePicker', () => {
     const value = ref(new Date(2016, 9, 10, 18, 40));
     const wrapper = mount(() => (
       <TimePicker
-        v-model={value.value}
+        v-model:value={value.value}
         onChange={changeHandler}
         onFocus={focusHandler}
         onBlur={blurHandler}
@@ -238,7 +238,7 @@ describe('TimePicker', () => {
     expect(changeHandler).toHaveBeenCalledTimes(0)
     ;(document.querySelector('.lp-time-panel__btn.confirm') as any).click();
     await nextTick();
-    await nextTick(); // onchange is triggered by props.modelValue update
+    await nextTick(); // onchange is triggered by props.vModel:value update
     expect(changeHandler).toHaveBeenCalledTimes(1);
   });
 
@@ -279,7 +279,7 @@ describe('TimePicker', () => {
     const value = ref('');
     const wrapper = mount(() => (
       <TimePicker
-        v-model={value.value}
+        v-model:value={value.value}
         disabled-hours={disabledHoursData}
         disabled-minutes={disabledMinutesData}
         disabled-seconds={disabledSeconds}
@@ -318,7 +318,7 @@ describe('TimePicker', () => {
 
   it('ref focus', async () => {
     const value = ref(new Date(2016, 9, 10, 18, 40));
-    const wrapper = mount(() => <TimePicker v-model={value.value} />);
+    const wrapper = mount(() => <TimePicker v-model:value={value.value} />);
 
     await nextTick();
     wrapper.findComponent(TimePicker).vm.$.exposed!.focus();
@@ -334,7 +334,7 @@ describe('TimePicker', () => {
 
   it('ref blur', async () => {
     const value = ref(new Date(2016, 9, 10, 18, 40));
-    const wrapper = mount(() => <TimePicker v-model={value.value} />);
+    const wrapper = mount(() => <TimePicker v-model:value={value.value} />);
     const timePickerExposed = wrapper.findComponent(TimePicker).vm.$.exposed;
 
     await nextTick();
@@ -350,7 +350,7 @@ describe('TimePicker', () => {
 
   it('ref handleOpen', async () => {
     const value = ref(new Date(2016, 9, 10, 18, 40));
-    const wrapper = mount(() => <TimePicker v-model={value.value} />);
+    const wrapper = mount(() => <TimePicker v-model:value={value.value} />);
     const timePickerExposed = wrapper.findComponent(TimePicker).vm.$.exposed!;
 
     await nextTick();
@@ -366,7 +366,7 @@ describe('TimePicker', () => {
     vi.useFakeTimers();
 
     const value = ref(new Date(2016, 9, 10, 18, 40));
-    const wrapper = mount(() => <TimePicker v-model={value.value} />);
+    const wrapper = mount(() => <TimePicker v-model:value={value.value} />);
     const timePickerExposed = wrapper.findComponent(TimePicker).vm.$.exposed!;
 
     await nextTick();
@@ -393,7 +393,7 @@ describe('TimePicker', () => {
     });
     mount(() => (
       <TimePicker
-        v-model={value.value}
+        v-model:value={value.value}
         disabled-hours={disabledHours.value}
         value-format="YYYY-MM-DD HH:mm:ss"
       />
@@ -440,7 +440,7 @@ describe('TimePicker', () => {
     const wrapper = mount(
       () => (
         <TimePicker
-          v-model={value.value}
+          v-model:value={value.value}
           disabled-hours={disabledHours}
           arrow-control
         />
@@ -495,7 +495,7 @@ describe('TimePicker(range)', () => {
       new Date(2016, 9, 10, 19, 40),
     ]);
     const wrapper = mount(
-      () => <TimePicker v-model={value.value} size="small" is-range={true} />,
+      () => <TimePicker v-model:value={value.value} size="small" is-range={true} />,
       {
         attachTo: document.body,
       },
@@ -526,7 +526,7 @@ describe('TimePicker(range)', () => {
     const wrapper = mount(
       () => (
         <TimePicker
-          v-model={value.value}
+          v-model:value={value.value}
           default-value={defaultValue.value}
           is-range={true}
         />
@@ -557,7 +557,7 @@ describe('TimePicker(range)', () => {
       new Date(2016, 9, 10, 15, 40),
     ];
     const value = ref(cancelDates);
-    const wrapper = mount(() => <TimePicker v-model={value.value} is-range />, {
+    const wrapper = mount(() => <TimePicker v-model:value={value.value} is-range />, {
       attachTo: document.body,
     });
 
@@ -591,7 +591,7 @@ describe('TimePicker(range)', () => {
       new Date(2016, 9, 10, 9, 40),
       new Date(2016, 9, 10, 15, 40),
     ]);
-    const wrapper = mount(() => <TimePicker v-model={value.value} is-range />);
+    const wrapper = mount(() => <TimePicker v-model:value={value.value} is-range />);
 
     const findInputWrapper = () => wrapper.find('.lp-date-editor');
     const findClear = () => wrapper.find('.lp-range__close-icon');
@@ -620,7 +620,7 @@ describe('TimePicker(range)', () => {
     };
     const wrapper = mount(() => (
       <TimePicker
-        v-model={value.value}
+        v-model:value={value.value}
         is-range
         disabled-hours={disabledHours}
       />
@@ -657,7 +657,7 @@ describe('TimePicker(range)', () => {
   it('arrow key', async () => {
     const value = ref(new Date(2016, 9, 10, 18, 40));
     const wrapper = mount(() => (
-      <TimePicker v-model={value.value} format="YYYY-MM-DD HH:mm:ss" />
+      <TimePicker v-model:value={value.value} format="YYYY-MM-DD HH:mm:ss" />
     ));
 
     const input = wrapper.find('input');
@@ -686,7 +686,7 @@ describe('TimePicker(range)', () => {
     const wrapper = mount(
       () => (
         <TimePicker
-          v-model={value.value}
+          v-model:value={value.value}
           format="YYYY-MM-DD HH:mm:ss"
           popper-options={options.value}
         />
@@ -714,7 +714,7 @@ describe('TimePicker(range)', () => {
     const wrapper = mount(
       () => (
         <TimePicker
-          v-model={timeRange.value}
+          v-model:value={timeRange.value}
           is-range
           range-separator="To"
           start-placeholder="Start time"
@@ -818,7 +818,7 @@ describe('TimePicker(range)', () => {
 
     beforeEach(() => {
       const value = ref(new Date(2016, 9, 10, 18, 40));
-      wrapper = mount(() => <TimePicker v-model={value.value} ref="input" />, {
+      wrapper = mount(() => <TimePicker v-model:value={value.value} ref="input" />, {
         attachTo: document.body,
       }) as any;
     });
@@ -862,7 +862,7 @@ describe('TimePicker(range)', () => {
 
   it('display value', async () => {
     const value = ref([undefined, undefined]);
-    const wrapper = mount(() => <TimePicker v-model={value.value} is-range />);
+    const wrapper = mount(() => <TimePicker v-model:value={value.value} is-range />);
 
     await nextTick();
 

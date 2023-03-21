@@ -2,7 +2,7 @@
   <div :class="ns.b('panel')">
     <p :class="ns.be('panel', 'header')">
       <lp-checkbox
-        v-model="allChecked"
+        v-model:checked="allChecked"
         :indeterminate="isIndeterminate"
         :validate-event="false"
         @change="handleAllCheckedChange"
@@ -15,7 +15,7 @@
     <div :class="[ns.be('panel', 'body'), ns.is('with-footer', hasFooter)]">
       <lp-input
         v-if="filterable"
-        v-model="query"
+        v-model:value="query"
         :class="ns.be('panel', 'filter')"
         size="default"
         :placeholder="placeholder"
@@ -27,7 +27,7 @@
       />
       <lp-checkbox-group
         v-show="!hasNoMatch && !isEmpty(data)"
-        v-model="checked"
+        v-model:value="checked"
         :validate-event="false"
         :class="[ns.is('filterable', filterable), ns.be('panel', 'list')]"
       >

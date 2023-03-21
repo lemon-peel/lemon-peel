@@ -1,93 +1,36 @@
 import { buildProps, iconPropType, isBoolean, isNumber, isString, isValidComponentSize } from '@lemon-peel/utils';
-import { CHANGE_EVENT, INPUT_EVENT, UPDATE_MODEL_EVENT_OLD } from '@lemon-peel/constants';
+import { CHANGE_EVENT, INPUT_EVENT, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
 import type { ComponentSize } from '@lemon-peel/constants';
 import type Switch from './Switch.vue';
 import type { ExtractPropTypes, PropType } from 'vue';
 
 export const switchProps = buildProps({
-  modelValue: {
-    type: [Boolean, String, Number],
-    default: false,
-  },
-  value: {
-    type: [Boolean, String, Number],
-    default: false,
-  },
-  disabled: {
-    type: Boolean,
-    default: false,
-  },
-  width: {
-    type: [String, Number],
-    default: '',
-  },
-  inlinePrompt: {
-    type: Boolean,
-    default: false,
-  },
-  activeIcon: {
-    type: iconPropType,
-  },
-  inactiveIcon: {
-    type: iconPropType,
-  },
-  activeText: {
-    type: String,
-    default: '',
-  },
-  inactiveText: {
-    type: String,
-    default: '',
-  },
-  activeColor: {
-    type: String,
-    default: '',
-  },
-  inactiveColor: {
-    type: String,
-    default: '',
-  },
-  borderColor: {
-    type: String,
-    default: '',
-  },
-  activeValue: {
-    type: [Boolean, String, Number],
-    default: true,
-  },
-  inactiveValue: {
-    type: [Boolean, String, Number],
-    default: false,
-  },
-  name: {
-    type: String,
-    default: '',
-  },
-  validateEvent: {
-    type: Boolean,
-    default: true,
-  },
+  value: { type: [Boolean, String, Number], default: false },
+  disabled: { type: Boolean, default: false },
+  width: { type: [String, Number], default: '' },
+  inlinePrompt: { type: Boolean, default: false },
+  checkedIcon: { type: iconPropType },
+  uncheckedIcon: { type: iconPropType },
+  checkedText: { type: String, default: '' },
+  uncheckedText: { type: String, default: '' },
+  checkedColor: { type: String, default: '' },
+  uncheckedColor: { type: String, default: '' },
+  borderColor: { type: String, default: '' },
+  checkedValue: { type: [Boolean, String, Number], default: true },
+  uncheckedValue: { type: [Boolean, String, Number], default: false },
+  name: { type: String, default: '' },
+  validateEvent: { type: Boolean, default: true },
   id: String,
-  loading: {
-    type: Boolean,
-    default: false,
-  },
-  beforeChange: {
-    type: Function as PropType<() => Promise<boolean> | boolean>,
-  },
-  size: {
-    type: String as PropType<ComponentSize>,
-    validator: isValidComponentSize,
-  },
-  tabindex: {
-    type: [String, Number],
-  },
+  loading: { type: Boolean, default: false },
+  beforeChange: { type: Function as PropType<() => Promise<boolean> | boolean> },
+  size: { type: String as PropType<ComponentSize>, validator: isValidComponentSize },
+  tabindex: { type: [String, Number] },
 } as const);
 
 export type SwitchProps = ExtractPropTypes<typeof switchProps>;
 
 export const switchEmits = {
-  [UPDATE_MODEL_EVENT_OLD]: (val: boolean | string | number) =>
+  [UPDATE_MODEL_EVENT]: (val: boolean | string | number) =>
     isBoolean(val) || isString(val) || isNumber(val),
   [CHANGE_EVENT]: (val: boolean | string | number) =>
     isBoolean(val) || isString(val) || isNumber(val),

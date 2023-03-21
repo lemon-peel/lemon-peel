@@ -1,5 +1,6 @@
 import { defineComponent, provide, ref } from 'vue';
 import dayjs from 'dayjs';
+import { UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
 import customParseFormat from 'dayjs/plugin/customParseFormat.js';
 import { DEFAULT_FORMATS_TIME } from './constants';
 import Picker from './common/Picker.vue';
@@ -19,14 +20,14 @@ export default defineComponent({
       default: false,
     },
   },
-  emits: ['update:modelValue'],
+  emits: [UPDATE_MODEL_EVENT],
   setup(props, context) {
     const commonPicker = ref<InstanceType<typeof Picker>>();
     const [type, Panel] = props.isRange
       ? ['timerange', TimeRangePanel]
       : ['time', TimePickPanel];
 
-    const modelUpdater = (value: any) => context.emit('update:modelValue', value);
+    const modelUpdater = (value: any) => context.emit(UPDATE_MODEL_EVENT, value);
     provide('LpPopperOptions', props.popperOptions);
     context.expose({
       /**
@@ -64,7 +65,7 @@ export default defineComponent({
           ref={commonPicker}
           type={type}
           format={format}
-          onUpdate:modelValue={modelUpdater}
+          onUpdate:value={modelUpdater}
         >
           {{
             default: (attrs: any) => <Panel {...attrs} />,

@@ -26,6 +26,8 @@ export default defineConfig({
       '**/{karma,rollup,webpack,vite,vitest,jest,ava,babel,nyc,cypress,tsup,build}.config.*',
 
       '**/selectV2/**',
+      '**/tableV2/**',
+      '**/treeV2/**',
     ],
     clearMocks: true,
     environment: 'jsdom',

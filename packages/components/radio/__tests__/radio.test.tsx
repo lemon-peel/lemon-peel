@@ -63,7 +63,7 @@ describe('Radio', () => {
     function handleChange(val: RadioGroupProps['value']) {
       changeData.value = val;
     }
-    mount(() => (<RadioGroup v-model={radio.value}>
+    mount(() => (<RadioGroup v-model:value={radio.value}>
       <Radio value="3" label="3" onChange={handleChange} />
     </RadioGroup>));
     radio.value = '3';
@@ -143,7 +143,7 @@ describe('Radio group', () => {
       data.value = val;
     }
     const wrapper = mount(() => (
-      <RadioGroup v-model={radio.value} onChange={onChange}>
+      <RadioGroup v-model:value={radio.value} onChange={onChange}>
         <Radio value={3}>3</Radio>
         <Radio value={6}>6</Radio>
         <Radio value={9}>9</Radio>
@@ -161,7 +161,7 @@ describe('Radio group', () => {
     function onChange(val: RadioGroupProps['value']) {
       data.value = val;
     }
-    mount(() => (<RadioGroup v-model={radio.value} onChange={onChange}>
+    mount(() => (<RadioGroup v-model:value={radio.value} onChange={onChange}>
         <Radio value={3}>3</Radio>
         <Radio value={6} ref="radio2">6</Radio>
         <Radio value={9}>9</Radio>
@@ -242,7 +242,6 @@ describe('Radio Button', () => {
 
     const radio2 = wrapper.findAll('.lp-radio-button input').at(1)!;
     await radio2.trigger('click');
-    console.log(radio.value);
     expect(radio.value).toEqual(6);
   });
 
@@ -253,7 +252,7 @@ describe('Radio Button', () => {
       data.value = val;
     }
     mount(() => (
-      <RadioGroup v-model={radio.value} onChange={onChange}>
+      <RadioGroup v-model:value={radio.value} onChange={onChange}>
         <RadioButton value={3} ref="radio1">3</RadioButton>
         <RadioButton value={6} ref="radio2">6</RadioButton>
         <RadioButton value={9}>9</RadioButton>
@@ -267,7 +266,8 @@ describe('Radio Button', () => {
 
   it('size', () => {
     const radio = ref(3);
-    const wrapper = mount(() => (<RadioGroup v-model={radio.value} size="large">
+    const wrapper = mount(() => (
+      <RadioGroup v-model:value={radio.value} size="large">
         <RadioButton value={3} ref="radio1">3</RadioButton>
         <RadioButton value={6} ref="radio2">6</RadioButton>
         <RadioButton value={9}>9</RadioButton>

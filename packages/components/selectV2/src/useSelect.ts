@@ -3,7 +3,7 @@ import { isArray, isFunction, isObject } from '@vue/shared';
 import { get, isEqual, isNil, debounce as lodashDebounce } from 'lodash-es';
 import { useResizeObserver } from '@vueuse/core';
 import { useFormItem, useLocale, useNamespace, useSize } from '@lemon-peel/hooks';
-import { CHANGE_EVENT, UPDATE_MODEL_EVENT_OLD } from '@lemon-peel/constants';
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
 import { ValidateComponentsMap, debugWarn, escapeStringRegexp } from '@lemon-peel/utils';
 import { ArrowUp } from '@element-plus/icons-vue';
 
@@ -119,12 +119,12 @@ const useSelect = (props: ExtractPropTypes<typeof selectProps>, emit: SetupConte
   });
 
   const hasModelValue = computed(() => {
-    return !isNil(props.modelValue);
+    return !isNil(props.value);
   });
 
   const showClearBtn = computed(() => {
     const hasValue = props.multiple
-      ? Array.isArray(props.modelValue) && props.modelValue.length > 0
+      ? Array.isArray(props.value) && props.value.length > 0
       : hasModelValue.value;
 
     const criteria =
@@ -209,8 +209,8 @@ const useSelect = (props: ExtractPropTypes<typeof selectProps>, emit: SetupConte
   });
 
   const shouldShowPlaceholder = computed(() => {
-    if (isArray(props.modelValue)) {
-      return props.modelValue.length === 0 && !states.displayInputValue;
+    if (isArray(props.value)) {
+      return props.value.length === 0 && !states.displayInputValue;
     }
 
     // when it's not multiple mode, we only determine this flag based on filterable and expanded
@@ -220,7 +220,7 @@ const useSelect = (props: ExtractPropTypes<typeof selectProps>, emit: SetupConte
 
   const currentPlaceholder = computed(() => {
     const str = props.placeholder || t('lp.select.placeholder');
-    return props.multiple || isNil(props.modelValue)
+    return props.multiple || isNil(props.value)
       ? str
       : states.selectedLabel;
   });
@@ -231,16 +231,16 @@ const useSelect = (props: ExtractPropTypes<typeof selectProps>, emit: SetupConte
   // the index with current value in options
   const indexRef = computed<number>(() => {
     if (props.multiple) {
-      const len = (props.modelValue as []).length;
-      if ((props.modelValue as Array<any>).length > 0) {
+      const len = (props.value as []).length;
+      if ((props.value as Array<any>).length > 0) {
         return filteredOptions.value.findIndex(
-          o => o.value === props.modelValue[len - 1],
+          o => o.value === props.value[len - 1],
         );
       }
     } else {
-      if (props.modelValue) {
+      if (props.value) {
         return filteredOptions.value.findIndex(
-          o => o.value === props.modelValue,
+          o => o.value === props.value,
         );
       }
     }
@@ -354,13 +354,13 @@ const useSelect = (props: ExtractPropTypes<typeof selectProps>, emit: SetupConte
   };
 
   const emitChange = (val: any | any[]) => {
-    if (!isEqual(props.modelValue, val)) {
+    if (!isEqual(props.value, val)) {
       emit(CHANGE_EVENT, val);
     }
   };
 
   const update = (val: any) => {
-    emit(UPDATE_MODEL_EVENT_OLD, val);
+    emit(UPDATE_MODEL_EVENT, val);
     emitChange(val);
     states.previousValue = val?.toString();
   };
@@ -417,7 +417,7 @@ const useSelect = (props: ExtractPropTypes<typeof selectProps>, emit: SetupConte
 
   const onSelect = (option: Option, idx: number, byClick = true) => {
     if (props.multiple) {
-      let selectedOptions = [...(props.modelValue as any[])];
+      let selectedOptions = [...(props.value as any[])];
 
       const index = getValueIndex(selectedOptions, getValueKey(option));
       if (index > -1) {
@@ -469,12 +469,12 @@ const useSelect = (props: ExtractPropTypes<typeof selectProps>, emit: SetupConte
 
   const deleteTag = (event: MouseEvent, tag: Option) => {
     const { valueKey } = props;
-    const index = (props.modelValue as Array<any>).indexOf(get(tag, valueKey));
+    const index = (props.value as Array<any>).indexOf(get(tag, valueKey));
 
     if (index > -1 && !selectDisabled.value) {
       const value = [
-        ...(props.modelValue as Array<unknown>).slice(0, index),
-        ...(props.modelValue as Array<unknown>).slice(index + 1),
+        ...(props.value as Array<unknown>).slice(0, index),
+        ...(props.value as Array<unknown>).slice(index + 1),
       ];
       states.cachedOptions.splice(index, 1);
       update(value);
@@ -531,7 +531,7 @@ const useSelect = (props: ExtractPropTypes<typeof selectProps>, emit: SetupConte
   const handleDel = (e: KeyboardEvent) => {
     if (states.displayInputValue.length === 0) {
       e.preventDefault();
-      const selected = [...(props.modelValue as Array<any>)];
+      const selected = [...(props.value as Array<any>)];
       selected.pop();
       removeNewOption(states.cachedOptions.pop()!);
       update(selected);
@@ -539,7 +539,7 @@ const useSelect = (props: ExtractPropTypes<typeof selectProps>, emit: SetupConte
   };
 
   const handleClear = () => {
-    const emptyValue = isArray(props.modelValue) ? [] : undefined;
+    const emptyValue = isArray(props.value) ? [] : undefined;
 
     states.softFocus = true;
     if (props.multiple) {
@@ -638,11 +638,11 @@ const useSelect = (props: ExtractPropTypes<typeof selectProps>, emit: SetupConte
   const initStates = () => {
     resetHoveringIndex();
     if (props.multiple) {
-      if ((props.modelValue as Array<any>).length > 0) {
+      if ((props.value as Array<any>).length > 0) {
         let initHovering = false;
         states.cachedOptions.length = 0;
-        states.previousValue = props.modelValue.toString()
-        ;for (const selected of (props.modelValue as Array<any>)) {
+        states.previousValue = props.value.toString()
+        ;for (const selected of (props.value as Array<any>)) {
           const itemIndex = filteredOptions.value.findIndex(
             option => getValueKey(option) === selected,
           );
@@ -662,16 +662,16 @@ const useSelect = (props: ExtractPropTypes<typeof selectProps>, emit: SetupConte
       }
     } else {
       if (hasModelValue.value) {
-        states.previousValue = props.modelValue;
+        states.previousValue = props.value;
         const options = filteredOptions.value;
         const selectedItemIndex = options.findIndex(
-          option => getValueKey(option) === getValueKey(props.modelValue),
+          option => getValueKey(option) === getValueKey(props.value),
         );
         if (~selectedItemIndex) {
           states.selectedLabel = options[selectedItemIndex].label;
           updateHoveringIndex(selectedItemIndex);
         } else {
-          states.selectedLabel = `${props.modelValue}`;
+          states.selectedLabel = `${props.value}`;
         }
       } else {
         states.selectedLabel = '';
@@ -699,7 +699,7 @@ const useSelect = (props: ExtractPropTypes<typeof selectProps>, emit: SetupConte
   });
 
   watch(
-    () => props.modelValue,
+    () => props.value,
     (val, oldVal) => {
       if (!val || val.toString() !== states.previousValue) {
         initStates();

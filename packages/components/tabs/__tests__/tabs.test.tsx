@@ -61,7 +61,7 @@ describe('Tabs.vue', () => {
       activeName.value = tab.paneName;
     };
     const wrapper = mount(() => (
-      <Tabs v-model={activeName.value} onTabClick={handleClick}>
+      <Tabs v-model:value={activeName.value} onTabClick={handleClick}>
         <TabPane name="a" label="label-1">
           A
         </TabPane>
@@ -231,7 +231,7 @@ describe('Tabs.vue', () => {
     const wrapper = mount(() => (
       <Tabs
         ref="tabs"
-        v-model={editableTabsValue.value}
+        v-model:value={editableTabsValue.value}
         type="card"
         editable
         onEdit={handleTabsEdit}
@@ -317,7 +317,7 @@ describe('Tabs.vue', () => {
     const wrapper = mount(() => (
       <Tabs
         ref="tabs"
-        v-model={editableTabsValue.value}
+        v-model:value={editableTabsValue.value}
         type="card"
         addable
         closable
@@ -545,7 +545,7 @@ describe('Tabs.vue', () => {
   test('should work with lazy', async () => {
     const activeName = ref('A');
     const wrapper = mount(() => (
-      <Tabs v-model={activeName.value} ref="tabs">
+      <Tabs v-model:value={activeName.value} ref="tabs">
         <TabPane label="label-1" lazy name="A">
           A
         </TabPane>
@@ -580,7 +580,7 @@ describe('Tabs.vue', () => {
       });
     };
     const wrapper = mount(() => (
-      <Tabs ref="tabs" v-model={activeName.value} beforeLeave={beforeLeave}>
+      <Tabs ref="tabs" v-model:value={activeName.value} beforeLeave={beforeLeave}>
         <TabPane name="tab-A" label="label-1">
           A
         </TabPane>
@@ -613,7 +613,7 @@ describe('Tabs.vue', () => {
   test('keyboard event', async () => {
     const activeName = ref('second');
     const wrapper = mount(() => (
-      <Tabs v-model={activeName.value}>
+      <Tabs v-model:value={activeName.value}>
         <TabPane label="label-1" name="first" disabled>
           A
         </TabPane>
@@ -663,7 +663,7 @@ describe('Tabs.vue', () => {
     }
     const activeName = ref('0');
     const wrapper = mount(() => (
-      <Tabs v-model={activeName.value}>
+      <Tabs v-model:value={activeName.value}>
         {tabs.value.map(item => (
           <TabPane key={item} label={item} name={item} />
         ))}
@@ -702,7 +702,7 @@ describe('Tabs.vue', () => {
       activeName.value = tab.paneName;
     };
     const wrapper = mount(() => (
-      <Tabs v-model={activeName.value} onTabClick={handleClick}>
+      <Tabs v-model:value={activeName.value} onTabClick={handleClick}>
         <TabPane name={0} label="label-1">
           A
         </TabPane>
@@ -734,7 +734,7 @@ describe('Tabs.vue', () => {
       activeName.value = tab.paneName;
     };
     const wrapper = mount(() => (
-      <Tabs v-model={activeName.value} onTabClick={handleClick}>
+      <Tabs v-model:value={activeName.value} onTabClick={handleClick}>
         <TabPane name={0} label="n-0">
           number-0
         </TabPane>

@@ -27,7 +27,7 @@
           <span :class="dpNs.e('editor-wrap')">
             <lp-input
               :placeholder="t('lp.datepicker.selectDate')"
-              :model-value="visibleDate"
+              :value="visibleDate"
               size="small"
               :validate-event="false"
               @input="(val: any) => (userInputDate = val)"
@@ -40,7 +40,7 @@
           >
             <lp-input
               :placeholder="t('lp.datepicker.selectTime')"
-              :model-value="visibleTime"
+              :value="visibleTime"
               size="small"
               :validate-event="false"
               @focus="onTimePickerInputFocus"

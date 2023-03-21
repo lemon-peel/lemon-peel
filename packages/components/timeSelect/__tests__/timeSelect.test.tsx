@@ -27,7 +27,7 @@ describe('TimeSelect', () => {
 
   it('set default value', async () => {
     const value = ref('14:30');
-    const wrapper = mount(() => <TimeSelect v-model={value.value} />);
+    const wrapper = mount(() => <TimeSelect v-model:value={value.value} />);
 
     const input = wrapper.find('input');
     input.trigger('blur');
@@ -62,7 +62,7 @@ describe('TimeSelect', () => {
 
   it('set value update', async () => {
     const value = ref('10:00');
-    const wrapper = mount(() => <TimeSelect v-model={value.value} />);
+    const wrapper = mount(() => <TimeSelect v-model:value={value.value} />);
 
     await nextTick();
     const input = wrapper.find('input');
@@ -81,7 +81,7 @@ describe('TimeSelect', () => {
 
   it('update value', async () => {
     const value = ref('10:00');
-    const wrapper = mount(() => <TimeSelect v-model={value.value} />);
+    const wrapper = mount(() => <TimeSelect v-model:value={value.value} />);
 
     await nextTick();
     const vm = wrapper.findComponent({ name: 'LpTimeSelect' }).vm;
@@ -104,7 +104,7 @@ describe('TimeSelect', () => {
     const value = ref('10:00');
     const disabled = ref(false);
     const wrapper = mount(() => (
-      <TimeSelect v-model={value.value} disabled={disabled.value} />
+      <TimeSelect v-model:value={value.value} disabled={disabled.value} />
     ));
 
     const select = wrapper.findComponent({ name: 'LpSelect' });
@@ -119,7 +119,7 @@ describe('TimeSelect', () => {
     const value = ref('10:00');
     const editable = ref(false);
     const wrapper = mount(() => (
-      <TimeSelect v-model={value.value} editable={editable.value} />
+      <TimeSelect v-model:value={value.value} editable={editable.value} />
     ));
 
     const select = wrapper.findComponent({ name: 'LpSelect' });
@@ -166,7 +166,7 @@ describe('TimeSelect', () => {
     const value = ref('');
     const wrapper = mount(() => (
       <TimeSelect
-        v-model={value.value}
+        v-model:value={value.value}
         start="13:00"
         step="00:30"
         end="13:30"

@@ -49,7 +49,7 @@ const Comp = defineComponent({
           <button class="toggle" onClick={toggle}>
             toggle
           </button>
-          {indicator.value || props.modelValue ? <div>{AXIOM}</div> : undefined}
+          {indicator.value || props.value ? <div>{AXIOM}</div> : undefined}
         </>
       );
     };
@@ -127,14 +127,14 @@ describe('use-model-toggle', () => {
     expect(onShow).not.toHaveBeenCalled();
   });
 
-  it('should bind with modelValue', async () => {
+  it('should bind with vModel:value', async () => {
     wrapper.unmount();
 
     const model = ref(false);
     const disabled = ref(false);
     wrapper = mount({
       setup: () => () =>
-        <Comp v-model={model.value} disabled={disabled.value} />,
+        <Comp v-model:value={model.value} disabled={disabled.value} />,
     });
 
     expect(wrapper.findComponent(Comp).text()).not.toContain(AXIOM);

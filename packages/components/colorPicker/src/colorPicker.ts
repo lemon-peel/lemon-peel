@@ -1,13 +1,13 @@
 import { isNil } from 'lodash-es';
 import { buildProps, isString } from '@lemon-peel/utils';
 import { useSizeProp } from '@lemon-peel/hooks';
-import { CHANGE_EVENT, UPDATE_MODEL_EVENT_OLD } from '@lemon-peel/constants';
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
 
 import type { ComputedRef, ExtractPropTypes, InjectionKey, PropType } from 'vue';
 import type ColorPicker from './ColorPicker.vue';
 
 export const colorPickerProps = buildProps({
-  modelValue: String,
+  value: String,
   id: String,
   showAlpha: Boolean,
   colorFormat: String,
@@ -21,7 +21,7 @@ export const colorPickerProps = buildProps({
 } as const);
 
 export const colorPickerEmits = {
-  [UPDATE_MODEL_EVENT_OLD]: (value: string | null) => isString(value) || isNil(value),
+  [UPDATE_MODEL_EVENT]: (value: string | null) => isString(value) || isNil(value),
   [CHANGE_EVENT]: (value: string | null) => isString(value) || isNil(value),
   activeChange: (value: string | null) => isString(value) || isNil(value),
 };

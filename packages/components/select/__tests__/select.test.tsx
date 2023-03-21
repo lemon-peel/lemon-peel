@@ -97,11 +97,10 @@ const getSelectVm = (
       { value: 5, label: '北京烤鸭', disabled: false },
     ];
   }
-
   return doMount(`
     <lp-select
       ref="select"
-      v-model="value"
+      v-model:value="value"
       :multiple="multiple"
       :multiple-limit="multipleLimit"
       :popper-class="popperClass"
@@ -203,7 +202,7 @@ const getGroupSelectVm = (
     `
     <lp-select
       ref="select"
-      v-model="value"
+      v-model:value="value"
       :multiple="multiple"
       :multiple-limit="multipleLimit"
       :popper-class="popperClass"
@@ -258,9 +257,9 @@ describe('Select', () => {
   });
 
   test('create', async () => {
-    wrapper = doMount(`<lp-select v-model="value"></lp-select>`, () => ({
-      value: '',
-    }));
+    wrapper = doMount(
+      `<lp-select v-model:value="value"></lp-select>`,
+      () => ({ value: '' }));
     expect(wrapper.classes()).toContain('lp-select');
     expect(findInnerInput().placeholder).toBe('Select');
     const select = wrapper.findComponent(LpSelect);
@@ -296,7 +295,7 @@ describe('Select', () => {
       { value: '选项2', label: '双皮奶' },
     ];
     wrapper = mount(
-      () => <LpSelect v-model={value.value}>
+      () => <LpSelect v-model:value={value.value}>
         { options.map(item => <LpSelectOption label={item.label} key={item.value} value={item.value} />)}
       </LpSelect>,
       { attachTo: 'body' },
@@ -308,7 +307,7 @@ describe('Select', () => {
   test('set default value to object', async () => {
     wrapper = doMount(
       `
-      <lp-select v-model="value">
+      <lp-select v-model:value="value">
         <lp-option
           v-for="item in options"
           :label="item.label"
@@ -333,7 +332,7 @@ describe('Select', () => {
   test('custom label', async () => {
     wrapper = doMount(
       `
-      <lp-select v-model="value">
+      <lp-select v-model:value="value">
         <lp-option
           v-for="item in options"
           :label="item.name"
@@ -364,7 +363,7 @@ describe('Select', () => {
   test('custom label with object', async () => {
     wrapper = doMount(
       `
-      <lp-select v-model="value" value-key="id">
+      <lp-select v-model:value="value" value-key="id">
         <lp-option
           v-for="item in options"
           :label="item.name"
@@ -397,7 +396,7 @@ describe('Select', () => {
   test('sync set value and options', async () => {
     wrapper = doMount(
       `
-    <lp-select v-model="value">
+    <lp-select v-model:value="value">
       <lp-option
         v-for="item in options"
         :label="item.label"
@@ -435,7 +434,7 @@ describe('Select', () => {
   test('single select', async () => {
     wrapper = doMount(
       `
-      <lp-select v-model="value" @change="handleChange">
+      <lp-select v-model:value="value" @change="handleChange">
         <lp-option
           v-for="item in options"
           :label="item.label"
@@ -577,7 +576,7 @@ describe('Select', () => {
   test('visible event', async () => {
     wrapper = doMount(
       `
-    <lp-select v-model="value" @visible-change="handleVisibleChange">
+    <lp-select v-model:value="value" @visible-change="handleVisibleChange">
       <lp-option
         v-for="item in options"
         :label="item.label"
@@ -747,7 +746,7 @@ describe('Select', () => {
 
   test('multiple select when content overflow', async () => {
     wrapper = doMount(
-      `<lp-select v-model="selectedList" multiple placeholder="请选择">
+      `<lp-select v-model:value="selectedList" multiple placeholder="请选择">
         <lp-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
       </lp-select>`,
       () => ({
@@ -797,7 +796,7 @@ describe('Select', () => {
 
   test('multiple select with collapseTags when content overflow', async () => {
     wrapper = doMount(
-      `<lp-select v-model="selectedList" multiple collapseTags placeholder="请选择">
+      `<lp-select v-model:value="selectedList" multiple collapseTags placeholder="请选择">
         <lp-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
       </lp-select>`,
       () => ({
@@ -844,7 +843,7 @@ describe('Select', () => {
   test('multiple select with collapseTagsTooltip', async () => {
     wrapper = doMount(
       `
-      <lp-select v-model="selectedList" multiple collapseTags collapse-tags-tooltip placeholder="请选择">
+      <lp-select v-model:value="selectedList" multiple collapseTags collapse-tags-tooltip placeholder="请选择">
         <lp-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
         </lp-option>
       </lp-select>
@@ -894,7 +893,7 @@ describe('Select', () => {
   test('multiple remove-tag', async () => {
     wrapper = doMount(
       `
-      <lp-select v-model="value" multiple @remove-tag="handleRemoveTag">
+      <lp-select v-model:value="value" multiple @remove-tag="handleRemoveTag">
         <lp-option
           v-for="item in options"
           :label="item.label"
@@ -973,7 +972,7 @@ describe('Select', () => {
         handleBlur,
       }),
     );
-    const select = wrapper.findComponent({ name: 'ElSelect' });
+    const select = wrapper.findComponent(LpSelect);
     const input = select.find('input');
 
     expect(input.exists()).toBe(true);
@@ -1033,7 +1032,7 @@ describe('Select', () => {
     let callCount = 0;
     wrapper = doMount(
       `
-    <lp-select v-model="value" @change="change" ref="select">
+    <lp-select v-model:value="value" @change="change" ref="select">
       <lp-option label="1" value="1" />
       <lp-option label="2" value="2" />
       <lp-option label="3" value="3" />
@@ -1054,7 +1053,7 @@ describe('Select', () => {
   test('render slot `empty`', async () => {
     wrapper = doMount(
       `
-      <lp-select v-model="value">
+      <lp-select v-model:value="value">
         <template #empty>
           <div class="empty-slot">EmptySlot</div>
         </template>
@@ -1072,7 +1071,7 @@ describe('Select', () => {
   test('should set placeholder to label of selected option when filterable is true and multiple is false', async () => {
     wrapper = doMount(
       `
-      <lp-select ref="select" v-model="value" filterable>
+      <lp-select ref="select" v-model:value="value" filterable>
         <lp-option label="test" value="test" />
       </lp-select>`,
       () => ({ value: 'test' }),
@@ -1089,7 +1088,7 @@ describe('Select', () => {
   test('default value is null or undefined', async () => {
     wrapper = doMount(
       `
-    <lp-select v-model="value">
+    <lp-select v-model:value="value">
       <lp-option
         v-for="item in options"
         :label="item.label"
@@ -1123,7 +1122,7 @@ describe('Select', () => {
   test('emptyText error show', async () => {
     wrapper = doMount(
       `
-    <lp-select :model-value="value" filterable placeholder="Select">
+    <lp-select :value="value" filterable placeholder="Select">
       <lp-option
         v-for="item in options"
         :key="item.value"
@@ -1133,26 +1132,11 @@ describe('Select', () => {
     </lp-select>`,
       () => ({
         options: [
-          {
-            value: 'Option1',
-            label: 'Option1',
-          },
-          {
-            value: 'Option2',
-            label: 'Option2',
-          },
-          {
-            value: 'Option3',
-            label: 'Option3',
-          },
-          {
-            value: 'Option4',
-            label: 'Option4',
-          },
-          {
-            value: 'Option5',
-            label: 'Option5',
-          },
+          { value: 'Option1', label: 'Option1' },
+          { value: 'Option2', label: 'Option2' },
+          { value: 'Option3', label: 'Option3' },
+          { value: 'Option4', label: 'Option4' },
+          { value: 'Option5', label: 'Option5' },
         ],
         value: 'test',
       }),
@@ -1173,7 +1157,7 @@ describe('Select', () => {
     wrapper = mount({
       template: `
       <lp-select
-        v-model="value"
+        v-model:value="value"
         multiple
         filterable
         remote
@@ -1308,7 +1292,7 @@ describe('Select', () => {
   test('disabled group', async () => {
     wrapper = doMount(
       `
-    <lp-select v-model="value">
+    <lp-select v-model:value="value">
       <lp-group-option
         v-for="group in options"
         :key="group.label"
@@ -1364,7 +1348,7 @@ describe('Select', () => {
   test('tag of disabled option is not closable', async () => {
     wrapper = doMount(
       `
-    <lp-select v-model="vendors" multiple :collapse-tags="isCollapsed" :clearable="isClearable" placeholder="Select Business Unit">
+    <lp-select v-model:value="vendors" multiple :collapse-tags="isCollapsed" :clearable="isClearable" placeholder="Select Business Unit">
     <lp-option
       v-for="(vendor, index) in options"
       :key="index"
@@ -1447,7 +1431,7 @@ describe('Select', () => {
   test('tag type', async () => {
     wrapper = doMount(
       `
-      <lp-select v-model="value" multiple tag-type="success">
+      <lp-select v-model:value="value" multiple tag-type="success">
         <lp-option
           v-for="item in options"
           :key="item.value"
@@ -1479,20 +1463,19 @@ describe('Select', () => {
     expect(wrapper.find('.lp-tag').classes()).toContain('lp-tag--success');
   });
 
-  test('modelValue should be deep reactive in multiple mode', async () => {
+  test('vModel:value should be deep reactive in multiple mode', async () => {
     wrapper = doMount(
-      `
-    <lp-select v-model="modelValue" multiple>
-      <lp-option
-        v-for="option in options"
-        :key="option.value"
-        :value="option.value"
-        :label="option.label"
-      >
-      </lp-option>
-    </lp-select>`,
+      `<lp-select v-model:value="value" multiple>
+        <lp-option
+          v-for="option in options"
+          :key="option.value"
+          :value="option.value"
+          :label="option.label"
+        >
+        </lp-option>
+      </lp-select>`,
       () => ({
-        modelValue: [1],
+        value: [1],
         options: [
           { label: 'Test 1', value: 1 },
           { label: 'Test 2', value: 2 },
@@ -1505,7 +1488,7 @@ describe('Select', () => {
     await nextTick();
     expect(wrapper.findAll('.lp-tag').length).toBe(1);
 
-    vm.modelValue.splice(0, 1);
+    vm.value.splice(0, 1);
 
     await nextTick();
     expect(wrapper.findAll('.lp-tag').length).toBe(0);
@@ -1514,13 +1497,10 @@ describe('Select', () => {
   test('should reset placeholder after clear when both multiple and filterable are true', async () => {
     const placeholder = 'placeholder';
     wrapper = doMount(
-      `
-    <lp-select v-model="modelValue" multiple filterable placeholder=${placeholder}>
-      <lp-option label="1" value="1" />
-    </lp-select>`,
-      () => ({
-        modelValue: ['1'],
-      }),
+      `<lp-select v-model:value="value" multiple filterable placeholder=${placeholder}>
+        <lp-option label="1" value="1" />
+      </lp-select>`,
+      () => ({ value: ['1'] }),
     );
     await nextTick();
 
@@ -1688,18 +1668,17 @@ describe('Select', () => {
     it('should mount on popper container', async () => {
       expect(document.body.innerHTML).toBe('');
       wrapper = doMount(
-        `
-      <lp-select v-model="modelValue" multiple>
-        <lp-option
-          v-for="option in options"
-          :key="option.value"
-          :value="option.value"
-          :label="option.label"
-        >
-        </lp-option>
-      </lp-select>`,
+        `<lp-select v-model:value="value" multiple>
+          <lp-option
+            v-for="option in options"
+            :key="option.value"
+            :value="option.value"
+            :label="option.label"
+          >
+          </lp-option>
+        </lp-select>`,
         () => ({
-          modelValue: [1],
+          value: [1],
           options: [
             { label: 'Test 1', value: 1 },
             { label: 'Test 2', value: 2 },
@@ -1717,7 +1696,7 @@ describe('Select', () => {
       expect(document.body.innerHTML).toBe('');
       wrapper = doMount(
         `
-      <lp-select v-model="modelValue" multiple :teleported="false">
+      <lp-select v-model:value="value" multiple :teleported="false">
         <lp-option
           v-for="option in options"
           :key="option.value"
@@ -1727,7 +1706,7 @@ describe('Select', () => {
         </lp-option>
       </lp-select>`,
         () => ({
-          modelValue: [1],
+          value: [1],
           options: [
             { label: 'Test 1', value: 1 },
             { label: 'Test 2', value: 2 },
@@ -1744,23 +1723,22 @@ describe('Select', () => {
 
   it('multiple select has an initial value', async () => {
     const options = [{ value: `value:Alaska`, label: `label:Alaska` }];
-    const modelValue = [{ value: `value:Alaska`, label: `label:Alaska` }];
+    const value = [{ value: `value:Alaska`, label: `label:Alaska` }];
     const wrapper = doMount(
-      `
-    <lp-select v-model="modelValue"
-      multiple
-      value-key="value"
-      filterable>
-      <lp-option
-        v-for="option in options"
-        :key="option.value"
-        :value="option.value"
-        :label="option.label"
-      >
-      </lp-option>
-    </lp-select>`,
+      `<lp-select v-model:value="value"
+        multiple
+        value-key="value"
+        filterable>
+        <lp-option
+          v-for="option in options"
+          :key="option.value"
+          :value="option.value"
+          :label="option.label"
+        >
+        </lp-option>
+      </lp-select>`,
       () => ({
-        modelValue,
+        value,
         options,
       }),
     );
@@ -1810,12 +1788,12 @@ describe('Select', () => {
     it('automatic id attachment', async () => {
       const wrapper = doMount(
         `<lp-form-item label="Foobar" data-test-ref="item">
-          <lp-select v-model="modelValue">
+          <lp-select v-model:value="value">
             <lp-option label="1" value="1" />
           </lp-select>
         </lp-form-item>`,
         () => ({
-          modelValue: 1,
+          value: 1,
         }),
       );
 
@@ -1830,12 +1808,12 @@ describe('Select', () => {
     it('specified id attachment', async () => {
       const wrapper = doMount(
         `<lp-form-item label="Foobar" data-test-ref="item">
-          <lp-select id="foobar" v-model="modelValue">
+          <lp-select id="foobar" v-model:value="value">
             <lp-option label="1" value="1" />
           </lp-select>
         </lp-form-item>`,
         () => ({
-          modelValue: 1,
+          value: 1,
         }),
       );
 
@@ -1851,15 +1829,15 @@ describe('Select', () => {
     it('form item role is group when multiple inputs', async () => {
       const wrapper = doMount(
         `<lp-form-item label="Foobar" data-test-ref="item">
-          <lp-select v-model="modelValue">
+          <lp-select v-model:value="value">
             <lp-option label="1" value="1" />
           </lp-select>
-          <lp-select v-model="modelValue">
+          <lp-select v-model:value="value">
             <lp-option label="1" value="1" />
           </lp-select>
         </lp-form-item>`,
         () => ({
-          modelValue: 1,
+          value: 1,
         }),
       );
 

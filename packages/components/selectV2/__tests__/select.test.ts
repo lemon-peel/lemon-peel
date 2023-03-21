@@ -121,22 +121,14 @@ const createSelect = (
         :reserve-keyword="reserveKeyword"
         :scrollbar-always-on="scrollbarAlwaysOn"
         :teleported="teleported"
-        ${
-  options.methods && options.methods.filterMethod
-    ? `:filter-method="filterMethod"`
-    : ''
-}
-        ${
-  options.methods && options.methods.remoteMethod
-    ? `:remote-method="remoteMethod"`
-    : ''
-}
+        ${ options.methods && options.methods.filterMethod ? `:filter-method="filterMethod"` : '' }
+        ${ options.methods && options.methods.remoteMethod ? `:remote-method="remoteMethod"` : ''}
         @change="onChange"
         @visible-change="onVisibleChange"
         @remove-tag="onRemoveTag"
         @focus="onFocus"
         @blur="onBlur"
-        v-model="value">
+        v-model:value="value">
         ${defaultSlot}
         ${emptySlot}
       </lp-select>
@@ -183,7 +175,6 @@ function getOptions(): HTMLElement[] {
   );
 }
 
-// skipped
 describe('Select', () => {
   afterEach(() => {
     document.body.innerHTML = '';
@@ -661,8 +652,8 @@ describe('Select', () => {
     });
   });
 
-  describe('manually set modelValue', () => {
-    it('set modelValue in single select', async () => {
+  describe('manually set vModel:value', () => {
+    it('set vModel:value in single select', async () => {
       const wrapper = createSelect({
         data: () => {
           return {
@@ -695,7 +686,7 @@ describe('Select', () => {
       expect(placeholder.text()).toBe('a0');
     });
 
-    it('set modelValue in multiple select', async () => {
+    it('set vModel:value in multiple select', async () => {
       const wrapper = createSelect({
         data: () => {
           return {
@@ -1152,13 +1143,10 @@ describe('Select', () => {
     expect(wrapper.findAll('.lp-tag').length).toBe(1);
   });
 
-  it('modelValue should be deep reactive in multiple mode', async () => {
+  it('vModel:value should be deep reactive in multiple mode', async () => {
     const wrapper = createSelect({
       data() {
-        return {
-          multiple: true,
-          value: ['option_1', 'option_2', 'option_3'],
-        };
+        return { multiple: true, value: ['option_1', 'option_2', 'option_3'] };
       },
     });
     await nextTick();

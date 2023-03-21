@@ -62,9 +62,11 @@ export type TableVM = ComponentInternalInstance & TableExpose;
 
 export type ColumnCls = string | ((data: { row: DefaultRow, rowIndex: number }) => string);
 
+export type RowStyleGenerator = (data: { row: DefaultRow, rowIndex: number }) => CSSProperties | null;
+
 export type ColumnStyle =
   | CSSProperties
-  | ((data: { row: DefaultRow, rowIndex: number }) => CSSProperties);
+  | RowStyleGenerator;
 
 type CellCls =
   | string
@@ -98,7 +100,7 @@ export type SpanMethod = {
   );
 };
 
-export type TableLoadFunc = (row: DefaultRow, data: any[], resolve: (data: DefaultRow[]) => void) => DefaultRow;
+export type TableLoadChildren<T = DefaultRow> = (row: T, key: any, data: any[]) => Promise<T>;
 
 export interface Sort {
   prop: string;
@@ -183,7 +185,7 @@ export const tableProps = buildProps({
     default: () => ({ hasChildren: 'hasChildren', children: 'children' }),
   },
   lazy: Boolean,
-  load: { type: Function as PropType<TableLoadFunc> },
+  load: { type: Function as PropType<TableLoadChildren> },
   style: { type: Object as PropType<CSSProperties>, default: () => ({}) },
   className: { type: String, default: '' },
   tableLayout: { type: String as PropType<Layout>, default: 'fixed' },

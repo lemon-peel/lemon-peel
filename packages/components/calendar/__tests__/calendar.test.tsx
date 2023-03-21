@@ -20,7 +20,7 @@ describe('Calendar.vue', () => {
     const wrapper = mount({
       data: () => ({ value: new Date('2019-04-01') }),
       render() {
-        return <Calendar v-model={this.value} />;
+        return <Calendar v-model:value={this.value} />;
       },
     });
     const titleEl = wrapper.find('.lp-calendar__title');
@@ -114,7 +114,7 @@ describe('Calendar.vue', () => {
     const wrapper = mount({
       data: () => ({ value: new Date('2019-04-01') }),
       render() {
-        return <Calendar v-model={this.value} />;
+        return <Calendar v-model:value={this.value} />;
       },
     });
     const head = wrapper.element.querySelector('.lp-calendar-table thead');
@@ -130,7 +130,7 @@ describe('Calendar.vue', () => {
     const wrapper = mount({
       data: () => ({ value: new Date('2019-09-01') }),
       render() {
-        return <Calendar v-model={this.value} />;
+        return <Calendar v-model:value={this.value} />;
       },
     });
     const head = wrapper.element.querySelector('.lp-calendar-table thead');
@@ -151,7 +151,7 @@ describe('Calendar.vue', () => {
       render() {
         return (
           <Calendar
-            v-model={this.value}
+            v-model:value={this.value}
             range={[new Date(2019, 1, 3), new Date(2019, 2, 23)]}
           />
         );
@@ -169,7 +169,7 @@ describe('Calendar.vue', () => {
     const wrapper = mount({
       data: () => ({ value: new Date('2019-04-01') }),
       render() {
-        return <Calendar v-model={this.value} />;
+        return <Calendar v-model:value={this.value} />;
       },
     });
     await nextTick();

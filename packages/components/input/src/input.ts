@@ -1,6 +1,6 @@
 import { isString } from '@vue/shared';
 import { buildProps, iconPropType, mutable } from '@lemon-peel/utils';
-import { UPDATE_MODEL_EVENT_OLD } from '@lemon-peel/constants';
+import { UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
 import { useSizeProp } from '@lemon-peel/hooks';
 import type Input from './Input.vue';
 import type { ExtractPropTypes, PropType, StyleValue } from 'vue';
@@ -12,7 +12,7 @@ export const inputProps = buildProps({
   id: { type: String, default: undefined },
   size: useSizeProp,
   disabled: Boolean,
-  modelValue: { type: [String, Number, Object] as PropType<string | number | null | undefined>, default: '' },
+  value: { type: [String, Number, Object] as PropType<string | number | null | undefined>, default: '' },
   type: { type: String, default: 'text' },
   resize: { type: String, values: ['none', 'both', 'horizontal', 'vertical'] },
   autosize: { type: [Boolean, Object] as PropType<InputAutoSize>, default: false },
@@ -37,7 +37,7 @@ export const inputProps = buildProps({
 export type InputProps = ExtractPropTypes<typeof inputProps>;
 
 export const inputEmits = {
-  [UPDATE_MODEL_EVENT_OLD]: (value: string) => isString(value),
+  [UPDATE_MODEL_EVENT]: (value: string) => isString(value),
   input: (value: string) => isString(value),
   change: (value: string) => isString(value),
   focus: (evt: FocusEvent) => evt instanceof FocusEvent,

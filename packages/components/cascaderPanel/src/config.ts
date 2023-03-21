@@ -3,9 +3,10 @@ import { NOOP } from '@vue/shared';
 
 import type { PropType } from 'vue';
 import type { CascaderConfig, CascaderOption, CascaderProps, CascaderValue } from './node';
+import { buildProps } from '@lemon-peel/utils';
 
-export const CommonProps = {
-  modelValue: [Number, String, Array] as PropType<CascaderValue>,
+export const commonProps = buildProps({
+  value: { type: [Number, String, Array] as PropType<CascaderValue> },
   options: {
     type: Array as PropType<CascaderOption[]>,
     default: () => [] as CascaderOption[],
@@ -14,7 +15,7 @@ export const CommonProps = {
     type: Object as PropType<CascaderProps>,
     default: () => ({} as CascaderProps),
   },
-};
+});
 
 export const DefaultProps: CascaderConfig = {
   expandTrigger: 'click',

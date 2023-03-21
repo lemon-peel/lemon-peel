@@ -65,8 +65,8 @@ export const cellForced: Record<string, CellRenders> = {
         indeterminate:
           store.states.selection.value.length > 0 &&
           !store.states.isAllSelected.value,
-        'onUpdate:modelValue': store.watcher.toggleAllSelection,
-        modelValue: store.states.isAllSelected.value,
+        'onUpdate:checked': store.watcher.toggleAllSelection,
+        checked: store.states.isAllSelected.value,
       }} />;
     },
     renderCell({ row, column, store, rowIndex }: RenderRowData) {
@@ -79,7 +79,7 @@ export const cellForced: Record<string, CellRenders> = {
           store.actions.rowSelectedChanged(row);
         },
         onClick: (event: Event) => event.stopPropagation(),
-        modelValue: store.watcher.isSelected(row),
+        checked: store.watcher.isSelected(row),
       }}/>;
     },
     sortable: false,

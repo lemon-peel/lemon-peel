@@ -9,36 +9,36 @@
       :aria-checked="checked"
       :aria-disabled="switchDisabled"
       :name="name"
-      :true-value="activeValue"
-      :false-value="inactiveValue"
+      :true-value="checkedValue"
+      :false-value="uncheckedValue"
       :disabled="switchDisabled"
       :tabindex="tabindex"
       @change="handleChange"
       @keydown.enter="switchValue"
     >
     <span
-      v-if="!inlinePrompt && (inactiveIcon || inactiveText)"
+      v-if="!inlinePrompt && (uncheckedIcon || uncheckedText)"
       :class="[
         ns.e('label'),
         ns.em('label', 'left'),
         ns.is('active', !checked),
       ]"
     >
-      <lp-icon v-if="inactiveIcon"><component :is="inactiveIcon" /></lp-icon>
-      <span v-if="!inactiveIcon && inactiveText" :aria-hidden="checked">{{
-        inactiveText
+      <lp-icon v-if="uncheckedIcon"><component :is="uncheckedIcon" /></lp-icon>
+      <span v-if="!uncheckedIcon && uncheckedText" :aria-hidden="checked">{{
+        uncheckedText
       }}</span>
     </span>
     <span ref="core" :class="ns.e('core')" :style="coreStyle">
       <div v-if="inlinePrompt" :class="ns.e('inner')">
-        <template v-if="activeIcon || inactiveIcon">
+        <template v-if="checkedIcon || uncheckedIcon">
           <lp-icon :class="ns.is('icon')">
-            <component :is="checked ? activeIcon : inactiveIcon" />
+            <component :is="checked ? checkedIcon : uncheckedIcon" />
           </lp-icon>
         </template>
-        <template v-else-if="activeText || inactiveText">
+        <template v-else-if="checkedText || uncheckedText">
           <span :class="ns.is('text')" :aria-hidden="!checked">
-            {{ checked ? activeText : inactiveText }}
+            {{ checked ? checkedText : uncheckedText }}
           </span>
         </template>
       </div>
@@ -47,16 +47,16 @@
       </div>
     </span>
     <span
-      v-if="!inlinePrompt && (activeIcon || activeText)"
+      v-if="!inlinePrompt && (checkedIcon || checkedText)"
       :class="[
         ns.e('label'),
         ns.em('label', 'right'),
         ns.is('active', checked),
       ]"
     >
-      <lp-icon v-if="activeIcon"><component :is="activeIcon" /></lp-icon>
-      <span v-if="!activeIcon && activeText" :aria-hidden="!checked">{{
-        activeText
+      <lp-icon v-if="checkedIcon"><component :is="checkedIcon" /></lp-icon>
+      <span v-if="!checkedIcon && checkedText" :aria-hidden="!checked">{{
+        checkedText
       }}</span>
     </span>
   </div>
@@ -68,7 +68,7 @@ import { isPromise } from '@vue/shared';
 import { addUnit, debugWarn, isBoolean, throwError } from '@lemon-peel/utils';
 import LpIcon from '@lemon-peel/components/icon';
 import { Loading } from '@element-plus/icons-vue';
-import { CHANGE_EVENT, INPUT_EVENT, UPDATE_MODEL_EVENT_OLD } from '@lemon-peel/constants';
+import { CHANGE_EVENT, INPUT_EVENT, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
 import { useDisabled, useFormItem, useFormItemInputId, useNamespace, useSize } from '@lemon-peel/hooks';
 import { switchEmits, switchProps } from './switch';
 import type { CSSProperties } from 'vue';
@@ -91,14 +91,14 @@ const { inputId } = useFormItemInputId(props, {
 });
 
 const switchDisabled = useDisabled(computed(() => props.loading));
-const isControlled = ref(props.modelValue !== false);
+const isControlled = ref(props.value !== false);
 const input = ref<HTMLInputElement>();
 const core = ref<HTMLSpanElement>();
 
 const actualValue = computed(() => {
-  return isControlled.value ? props.modelValue : props.value;
+  return isControlled.value ? props.value : props.value;
 });
-const checked = computed(() => actualValue.value === props.activeValue);
+const checked = computed(() => actualValue.value === props.checkedValue);
 
 const switchKls = computed(() => [
   ns.b(),
@@ -112,7 +112,7 @@ const coreStyle = computed<CSSProperties>(() => ({
 }));
 
 watch(
-  () => props.modelValue,
+  () => props.value,
   () => {
     isControlled.value = true;
   },
@@ -125,10 +125,10 @@ watch(
   },
 );
 
-if (![props.activeValue, props.inactiveValue].includes(actualValue.value)) {
-  emit(UPDATE_MODEL_EVENT_OLD, props.inactiveValue);
-  emit(CHANGE_EVENT, props.inactiveValue);
-  emit(INPUT_EVENT, props.inactiveValue);
+if (![props.checkedValue, props.uncheckedValue].includes(actualValue.value)) {
+  emit(UPDATE_MODEL_EVENT, props.uncheckedValue);
+  emit(CHANGE_EVENT, props.uncheckedValue);
+  emit(INPUT_EVENT, props.uncheckedValue);
 }
 
 watch(checked, val => {
@@ -140,8 +140,8 @@ watch(checked, val => {
 });
 
 const handleChange = () => {
-  const val = checked.value ? props.inactiveValue : props.activeValue;
-  emit(UPDATE_MODEL_EVENT_OLD, val);
+  const val = checked.value ? props.uncheckedValue : props.checkedValue;
+  emit(UPDATE_MODEL_EVENT, val);
   emit(CHANGE_EVENT, val);
   emit(INPUT_EVENT, val);
   nextTick(() => {
@@ -188,8 +188,8 @@ const switchValue = () => {
 
 const styles = computed(() => {
   return ns.cssVarBlock({
-    ...(props.activeColor ? { 'on-color': props.activeColor } : null),
-    ...(props.inactiveColor ? { 'off-color': props.inactiveColor } : null),
+    ...(props.checkedColor ? { 'on-color': props.checkedColor } : null),
+    ...(props.uncheckedColor ? { 'off-color': props.uncheckedColor } : null),
     ...(props.borderColor ? { 'border-color': props.borderColor } : null),
   });
 });

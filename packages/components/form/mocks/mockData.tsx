@@ -5,8 +5,8 @@ import Form from '../src/Form.vue';
 import FormItem from '../src/FormItem.vue';
 
 interface DomainItem {
-  key: number
-  value: string
+  key: number;
+  value: string;
 }
 
 const DynamicDomainForm = defineComponent({
@@ -60,7 +60,7 @@ const DynamicDomainForm = defineComponent({
     return () => (
       <Form
         ref={formRef}
-        model={{ ...model.value, ...(propsModel.value || {}) }}
+        model={{ ...model.value, ...propsModel.value }}
       >
         {model.value.domains.map((domain, index) => {
           return (
@@ -75,7 +75,7 @@ const DynamicDomainForm = defineComponent({
                 trigger: 'blur',
               }}
             >
-              <Input v-model={domain.value} />
+              <Input v-model:value={domain.value} />
               <Button
                 class={`delete-domain ${index}`}
                 onClick={e => {

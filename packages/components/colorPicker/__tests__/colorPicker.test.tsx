@@ -36,7 +36,7 @@ describe('Color-picker', () => {
   it('should show alpha slider when show-alpha=true', async () => {
     const color = ref('#20A0FF');
     const wrapper = mount(() => (
-      <ColorPicker v-model={color.value} show-alpha={true} />
+      <ColorPicker v-model:value={color.value} show-alpha={true} />
     ));
 
     await wrapper.find('.lp-color-picker__trigger').trigger('click');
@@ -46,7 +46,7 @@ describe('Color-picker', () => {
   });
   it('should show correct rgb value', async () => {
     const color = ref('#20A0FF');
-    const wrapper = mount(() => <ColorPicker v-model={color.value} />);
+    const wrapper = mount(() => <ColorPicker v-model:value={color.value} />);
 
     await wrapper.find('.lp-color-picker__trigger').trigger('click');
     await nextTick();
@@ -59,7 +59,7 @@ describe('Color-picker', () => {
   it('should show correct hex value contains alpha', async () => {
     const color = ref('#20A0FFEE');
     const wrapper = mount(() => (
-      <ColorPicker v-model={color.value} color-format="hex" show-alpha />
+      <ColorPicker v-model:value={color.value} color-format="hex" show-alpha />
     ));
 
     await wrapper.find('.lp-color-picker__trigger').trigger('click');
@@ -72,7 +72,7 @@ describe('Color-picker', () => {
   });
   it('should pick a color when confirm button click', async () => {
     const color = ref(null);
-    const wrapper = mount(() => <ColorPicker v-model={color.value} />);
+    const wrapper = mount(() => <ColorPicker v-model:value={color.value} />);
 
     await wrapper.find('.lp-color-picker__trigger').trigger('click');
     document.querySelector<HTMLElement>('.lp-color-dropdown__btn')?.click();
@@ -83,7 +83,7 @@ describe('Color-picker', () => {
   it('should pick a color contains alpha when confirm button click', async () => {
     const color = ref(null);
     const wrapper = mount(() => (
-      <ColorPicker v-model={color.value} color-format="hex" show-alpha />
+      <ColorPicker v-model:value={color.value} color-format="hex" show-alpha />
     ));
 
     await wrapper.find('.lp-color-picker__trigger').trigger('click');
@@ -94,7 +94,7 @@ describe('Color-picker', () => {
   });
   it('should init the right color when open', async () => {
     const color = ref('#0F0');
-    const wrapper = mount(() => <ColorPicker v-model={color.value} />);
+    const wrapper = mount(() => <ColorPicker v-model:value={color.value} />);
 
     const colorPickerWrapper = wrapper.findComponent(ColorPicker);
     const hueSlideWrapper = colorPickerWrapper.findComponent({ ref: 'hue' });
@@ -120,7 +120,7 @@ describe('Color-picker', () => {
   });
   it('should show color picker when click trigger', async () => {
     const color = ref('#0F0');
-    const wrapper = mount(() => <ColorPicker v-model={color.value} />);
+    const wrapper = mount(() => <ColorPicker v-model:value={color.value} />);
 
     await wrapper.find('.lp-color-picker__trigger').trigger('click');
     const dropdown = document.querySelector('.lp-color-dropdown');
@@ -129,7 +129,7 @@ describe('Color-picker', () => {
   });
   it('should clear a color when clear button click', async () => {
     const color = ref('#0F0');
-    const wrapper = mount(() => <ColorPicker v-model={color.value} />);
+    const wrapper = mount(() => <ColorPicker v-model:value={color.value} />);
 
     await wrapper.find('.lp-color-picker__trigger').trigger('click');
     const clearBtn = document.querySelector<HTMLElement>(
@@ -141,7 +141,7 @@ describe('Color-picker', () => {
   });
   it('should change hue when clicking the hue bar', async () => {
     const color = ref('#F00');
-    const wrapper = mount(() => <ColorPicker v-model={color.value} />);
+    const wrapper = mount(() => <ColorPicker v-model:value={color.value} />);
 
     await wrapper.find('.lp-color-picker__trigger').trigger('click');
     const colorPickerWrapper = wrapper.findComponent(ColorPicker);
@@ -176,7 +176,7 @@ describe('Color-picker', () => {
   });
   it('should change hue when saturation is zero', async () => {
     const color = ref('20A0FF');
-    const wrapper = mount(() => <ColorPicker v-model={color.value} />);
+    const wrapper = mount(() => <ColorPicker v-model:value={color.value} />);
 
     await wrapper.find('.lp-color-picker__trigger').trigger('click');
     const colorPickerWrapper = wrapper.findComponent(ColorPicker);
@@ -217,7 +217,7 @@ describe('Color-picker', () => {
   it('should change alpha when clicking the alpha bar', async () => {
     const color = ref('#F00');
     const wrapper = mount(() => (
-      <ColorPicker v-model={color.value} show-alpha />
+      <ColorPicker v-model:value={color.value} show-alpha />
     ));
 
     await wrapper.find('.lp-color-picker__trigger').trigger('click');
@@ -255,7 +255,7 @@ describe('Color-picker', () => {
   it('should change saturation and value when clicking the sv-panel', async () => {
     const color = ref('hsv(0, 50%, 50%)');
     const wrapper = mount(() => (
-      <ColorPicker v-model={color.value} show-alpha color-format="hsv" />
+      <ColorPicker v-model:value={color.value} show-alpha color-format="hsv" />
     ));
 
     await wrapper.find('.lp-color-picker__trigger').trigger('click');
@@ -286,7 +286,7 @@ describe('Color-picker', () => {
       '#892345',
     ]);
     const wrapper = mount(() => (
-      <ColorPicker v-model={color.value} show-alpha predefine={colors.value} />
+      <ColorPicker v-model:value={color.value} show-alpha predefine={colors.value} />
     ));
 
     await wrapper.find('.lp-color-picker__trigger').trigger('click');
@@ -336,7 +336,7 @@ describe('Color-picker', () => {
       '#892345',
     ]);
     const wrapper = mount(() => (
-      <ColorPicker v-model={color.value} show-alpha predefine={colors.value} />
+      <ColorPicker v-model:value={color.value} show-alpha predefine={colors.value} />
     ));
 
     await wrapper.find('.lp-color-picker__trigger').trigger('click');
@@ -396,7 +396,7 @@ describe('Color-picker', () => {
     const onActiveChange = vi.fn();
     const color = ref('#20A0FF');
     const wrapper = mount(() => (
-      <ColorPicker modelValue={color.value} onActiveChange={onActiveChange} />
+      <ColorPicker value={color.value} onActiveChange={onActiveChange} />
     ));
 
     await nextTick();

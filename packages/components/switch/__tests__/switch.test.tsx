@@ -77,8 +77,8 @@ describe('Switch.vue', () => {
   test('switch with icons', () => {
     const wrapper = mount(() => (
       <Switch
-        activeIcon={markRaw(Checked)}
-        inactiveIcon={markRaw(CircleClose)}
+        checkedIcon={markRaw(Checked)}
+        uncheckedIcon={markRaw(CircleClose)}
       />
     ));
 
@@ -88,7 +88,7 @@ describe('Switch.vue', () => {
   test('value correctly update', async () => {
     const value = ref(true);
     const wrapper = mount(() => (
-      <Switch v-model={value.value} activeColor="#0f0" inactiveColor="#f00" />
+      <Switch v-model:value={value.value} checkedColor="#0f0" uncheckedColor="#f00" />
     ));
     const vm = wrapper.vm;
     expect(vm.$el.style.getPropertyValue('--lp-switch-on-color')).toEqual(
@@ -114,20 +114,20 @@ describe('Switch.vue', () => {
       target.value = val;
     };
     const wrapper = mount(() => (
-      <Switch v-model={value.value} onUpdate:modelValue={handleChange} />
+      <Switch v-model:value={value.value} onUpdate:value={handleChange} />
     ));
 
     expect(target.value).toEqual(1);
     const coreWrapper = wrapper.find('.lp-switch__core');
     await coreWrapper.trigger('click');
     const switchWrapper = wrapper.findComponent(Switch);
-    expect(switchWrapper.emitted()['update:modelValue']).toBeTruthy();
+    expect(switchWrapper.emitted()['update:value']).toBeTruthy();
     expect(target.value).toEqual(false);
   });
 
   test('disabled switch should not respond to user click', async () => {
     const value = ref(true);
-    const wrapper = mount(() => <Switch disabled v-model={value.value} />);
+    const wrapper = mount(() => <Switch disabled v-model:value={value.value} />);
 
     expect(value.value).toEqual(true);
     const coreWrapper = wrapper.find('.lp-switch__core');
@@ -142,7 +142,7 @@ describe('Switch.vue', () => {
     const wrapper = mount(() => (
       <div>
         <Switch
-          v-model={value.value}
+          v-model:value={value.value}
           active-value={onValue.value}
           inactive-value={offValue.value}
         />
@@ -163,7 +163,7 @@ describe('Switch.vue', () => {
     const wrapper = mount(() => (
       <div>
         <Switch
-          v-model={value.value}
+          v-model:value={value.value}
           active-value={onValue.value}
           inactive-value={offValue.value}
         />
@@ -196,8 +196,8 @@ describe('Switch.vue', () => {
     expect(inputEl.checked).toEqual(true);
   });
 
-  test('model-value is the single source of truth', async () => {
-    const wrapper = mount(() => <Switch model-value={true} />);
+  test('vModel:value is the single source of truth', async () => {
+    const wrapper = mount(() => <Switch value={true} />);
 
     const vm = wrapper.vm;
     const coreWrapper = wrapper.find('.lp-switch__core');
@@ -219,7 +219,7 @@ describe('Switch.vue', () => {
     const value = ref(false);
     const wrapper = mount(() => (
       <div>
-        <Switch v-model={value.value} />
+        <Switch v-model:value={value.value} />
       </div>
     ));
     const vm = wrapper.vm;
@@ -251,7 +251,7 @@ describe('Switch.vue', () => {
     const wrapper = mount(() => (
       <div>
         <Switch
-          v-model={value.value}
+          v-model:value={value.value}
           loading={loading.value}
           beforeChange={beforeChange}
         />
@@ -292,7 +292,7 @@ describe('Switch.vue', () => {
     };
     const wrapper = mount(() => (
       <div>
-        <Switch v-model={value.value} beforeChange={beforeChange} />
+        <Switch v-model:value={value.value} beforeChange={beforeChange} />
       </div>
     ));
 
