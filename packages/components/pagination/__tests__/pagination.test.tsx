@@ -290,7 +290,7 @@ describe('Pagination', () => {
         'pagination',
       );
       expect(wrapper.find('.lp-pagination').attributes('role')).toBe(
-        'pagination',
+        'navigation',
       );
       expect(
         wrapper.find('.lp-pagination .btn-prev').attributes('aria-disabled'),

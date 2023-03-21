@@ -31,7 +31,6 @@ export const selectProps = buildProps({
   disabled: Boolean,
   clearable: Boolean,
   filterable: Boolean,
-  allowCreate: Boolean,
   loading: Boolean,
   popperClass: {
     type: String,

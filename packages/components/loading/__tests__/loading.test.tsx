@@ -24,6 +24,7 @@ describe('Loading', () => {
   let loadingInstance: LoadingInstance; let loadingInstance2: LoadingInstance;
 
   afterEach(() => {
+    document.body.innerHTML = '';
     destroyLoadingInstance(loadingInstance);
     destroyLoadingInstance(loadingInstance2);
   });

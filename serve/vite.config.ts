@@ -9,7 +9,6 @@ import mkcert from 'vite-plugin-mkcert';
 import glob from 'fast-glob';
 import VueMacros from 'unplugin-vue-macros/vite';
 import esbuild from 'rollup-plugin-esbuild';
-import AutoImport from 'unplugin-auto-import/vite';
 import eslint from 'vite-plugin-eslint';
 import checker from 'vite-plugin-checker';
 
@@ -159,15 +158,15 @@ export default defineConfig(async ({ mode }) => {
         },
       }) as any,
       // vite.config.ts
-      AutoImport({
-        include: [/\.[jt]sx?$/, /\.vue$/],
-        vueTemplate: true,
-        imports: [
-          'vue',
-          { 'lemon-peel': lpComponentList },
-        ],
-        dts: 'auto-imports.d.ts',
-      }),
+      // AutoImport({
+      //   include: [/\.[jt]sx?$/, /\.vue$/],
+      //   vueTemplate: true,
+      //   imports: [
+      //     'vue',
+      //     { 'lemon-peel': lpComponentList },
+      //   ],
+      //   dts: 'auto-imports.d.ts',
+      // }),
       esbuildPlugin(),
       Components({
         include: `${__dirname}/**`,

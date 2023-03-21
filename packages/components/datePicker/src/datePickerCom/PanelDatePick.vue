@@ -26,7 +26,7 @@
         <div v-if="showTime" :class="dpNs.e('time-header')">
           <span :class="dpNs.e('editor-wrap')">
             <lp-input
-              :placeholder="t('el.datepicker.selectDate')"
+              :placeholder="t('lp.datepicker.selectDate')"
               :model-value="visibleDate"
               size="small"
               :validate-event="false"
@@ -39,7 +39,7 @@
             :class="dpNs.e('editor-wrap')"
           >
             <lp-input
-              :placeholder="t('el.datepicker.selectTime')"
+              :placeholder="t('lp.datepicker.selectTime')"
               :model-value="visibleTime"
               size="small"
               :validate-event="false"
@@ -67,7 +67,7 @@
           <span :class="dpNs.e('prev-btn')">
             <button
               type="button"
-              :aria-label="t(`el.datepicker.prevYear`)"
+              :aria-label="t(`lp.datepicker.prevYear`)"
               class="d-arrow-left"
               :class="ppNs.e('icon-btn')"
               @click="moveByYear(false)"
@@ -77,7 +77,7 @@
             <button
               v-show="currentView === 'date'"
               type="button"
-              :aria-label="t(`el.datepicker.prevMonth`)"
+              :aria-label="t(`lp.datepicker.prevMonth`)"
               :class="ppNs.e('icon-btn')"
               class="arrow-left"
               @click="moveByMonth(false)"
@@ -109,7 +109,7 @@
             <button
               v-show="currentView === 'date'"
               type="button"
-              :aria-label="t(`el.datepicker.nextMonth`)"
+              :aria-label="t(`lp.datepicker.nextMonth`)"
               :class="ppNs.e('icon-btn')"
               class="arrow-right"
               @click="moveByMonth(true)"
@@ -118,7 +118,7 @@
             </button>
             <button
               type="button"
-              :aria-label="t(`el.datepicker.nextYear`)"
+              :aria-label="t(`lp.datepicker.nextYear`)"
               :class="ppNs.e('icon-btn')"
               class="d-arrow-right"
               @click="moveByYear(true)"

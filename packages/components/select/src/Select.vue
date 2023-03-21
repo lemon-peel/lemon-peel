@@ -106,12 +106,7 @@
             </span>
             <!-- <div> -->
             <transition v-if="!collapseTags" @after-leave="resetInputHeight">
-              <span
-                :class="[
-                  nsSelect.b('tags-wrapper'),
-                  { 'has-prefix': prefixWidth && selected.length },
-                ]"
-              >
+              <span :class="[nsSelect.b('tags-wrapper'), { 'has-prefix': prefixWidth && selected.length }]">
                 <lp-tag
                   v-for="item in selected"
                   :key="getValueKey(item)"
@@ -187,7 +182,7 @@
             @keydown.down.stop.prevent="navigateOptions('next')"
             @keydown.up.stop.prevent="navigateOptions('prev')"
             @keydown.enter.stop.prevent="selectOption"
-            @keydown.esc="handleKeydownEscape as any"
+            @keydown.esc="($event) => handleKeydownEscape($event as KeyboardEvent)"
             @keydown.tab="visible = false"
           >
             <template v-if="$slots.prefix" #prefix>
@@ -214,42 +209,31 @@
         </div>
       </template>
       <template #content>
-        <lp-select-menu>
+        <lp-select-dropdown>
           <lp-scrollbar
             v-show="options.size > 0 && !loading"
             ref="scrollbar"
             tag="ul"
             :wrap-class="nsSelect.be('dropdown', 'wrap')"
             :view-class="nsSelect.be('dropdown', 'list')"
-            :class="[
-              nsSelect.is(
-                'empty',
-                !allowCreate && Boolean(query) && filteredOptionsCount === 0
-              ),
-            ]"
+            :class="[nsSelect.is('empty', Boolean(query) && filteredOptionsCount === 0)]"
           >
-            <lp-option v-if="showNewOption" :value="query" :created="true" />
             <slot />
           </lp-scrollbar>
-          <template
-            v-if="
-              emptyText &&
-                (!allowCreate || loading || (allowCreate && options.size === 0))
-            "
-          >
+          <template v-if="emptyText && (loading || options.size === 0)">
             <slot v-if="$slots.empty" name="empty" />
             <p v-else :class="nsSelect.be('dropdown', 'empty')">
               {{ emptyText }}
             </p>
           </template>
-        </lp-select-menu>
+        </lp-select-dropdown>
       </template>
     </lp-tooltip>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { computed, nextTick, onMounted, provide, reactive, toRefs, unref } from 'vue';
+import { computed, nextTick, onMounted, provide, reactive, toRefs, unref, useSlots, watch, watchEffect } from 'vue';
 import { useResizeObserver } from '@vueuse/core';
 import { ClickOutside } from '@lemon-peel/directives';
 import { useFocus, useLocale, useNamespace } from '@lemon-peel/hooks';
@@ -261,7 +245,7 @@ import LpIcon from '@lemon-peel/components/icon';
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT_OLD } from '@lemon-peel/constants';
 
 import LpOption from './Option.vue';
-import LpSelectMenu from './SelectDropdown.vue';
+import LpSelectDropdown from './SelectDropdown.vue';
 import { useSelect, useSelectStates } from './useSelect';
 import { selectKey } from './token';
 import { selectEmits, selectProps } from './select';
@@ -279,10 +263,18 @@ const props = defineProps(selectProps);
 const emit = defineEmits(selectEmits);
 
 const nsSelect = useNamespace('select');
-console.log(nsSelect);
 const nsInput = useNamespace('input');
 const { t } = useLocale();
 const states = useSelectStates(props);
+
+watchEffect(
+  () => {
+    if (states.hoverIndex === -1) {
+      throw new Error('cg -1');
+    }
+  },
+);
+
 const {
   optionsArray,
   selectSize,
@@ -295,7 +287,6 @@ const {
   deleteTag,
   deleteSelected,
   handleOptionSelect,
-  scrollToOption,
   setSelected,
   resetInputHeight,
   managePlaceholder,
@@ -303,9 +294,7 @@ const {
   selectDisabled,
   iconComponent,
   iconReverse,
-  showNewOption,
   emptyText,
-  toggleLastOptionHitState,
   resetInputState,
   handleComposition,
   onOptionCreate,
@@ -353,7 +342,6 @@ const {
   isOnComposition,
   isSilentBlur,
   options,
-  cachedOptions,
   optionsCount,
   prefixWidth,
   tagInMultiLine,
@@ -384,26 +372,24 @@ const tagTextStyle = computed(() => {
   return { maxWidth: `${maxWidth}px` };
 });
 
-provide(
-  selectKey,
-  reactive({
-    props,
-    options,
-    optionsArray,
-    cachedOptions,
-    optionsCount,
-    filteredOptionsCount,
-    hoverIndex,
-    handleOptionSelect,
-    onOptionCreate,
-    onOptionDestroy,
-    selectWrapper,
-    selected,
-    setSelected,
-    queryChange,
-    groupQueryChange,
-  }) as unknown as SelectContext,
-);
+const sCtx: SelectContext = reactive({
+  props,
+  options,
+  optionsArray,
+  optionsCount,
+  filteredOptionsCount,
+  hoverIndex,
+  handleOptionSelect,
+  onOptionCreate,
+  onOptionDestroy,
+  selectWrapper,
+  selected,
+  setSelected,
+  queryChange,
+  groupQueryChange,
+});
+
+provide(selectKey, sCtx);
 
 const slots = useSlots();
 
@@ -452,7 +438,7 @@ const popperPaneRef = computed(() => {
   return tooltipRef.value?.popperRef?.contentRef;
 });
 
-defineExpose({
+defineExpose(reactive({
   options,
   focus,
   blur,
@@ -461,5 +447,5 @@ defineExpose({
   handleOptionSelect,
   handleResize,
   selectedLabel,
-});
+}));
 </script>

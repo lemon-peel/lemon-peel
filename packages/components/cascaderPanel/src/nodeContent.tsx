@@ -13,6 +13,6 @@ export default defineComponent({
 
     return () => (<span class={ns.e('label')}>
       {renderLabelFn ? renderLabelFn({ node, data }) : label}
-      </span>);
+    </span>);
   },
 });

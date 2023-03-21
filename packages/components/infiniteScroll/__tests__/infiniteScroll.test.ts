@@ -1,15 +1,17 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
 import { nextTick, ref } from 'vue';
 import { mount } from '@vue/test-utils';
 import { afterAll, afterEach, beforeAll, describe, expect, test, vi } from 'vitest';
 import defineGetter from '@lemon-peel/test-utils/defineGetter';
 import makeScroll from '@lemon-peel/test-utils/makeScroll';
 import tick from '@lemon-peel/test-utils/tick';
-import InfiniteScroll, { DEFAULT_DELAY, SCOPE } from '../src';
 
-vi.mock('lodash-es', () => {
+import InfiniteScroll, { DEFAULT_DELAY, SCOPE } from '../src';
+import type { InfiniteScrollElement } from '../src';
+
+vi.mock('lodash-es', async () => {
+  const actual: any = await vi.importActual('lodash-es');
   return {
+    ...actual,
     throttle: vi.fn(fn => {
       fn.cancel = vi.fn();
       fn.flush = vi.fn();
@@ -103,7 +105,7 @@ describe('InfiniteScroll', () => {
       setup,
     });
 
-    const el = wrapper.element;
+    const el = wrapper.element as unknown as InfiniteScrollElement;
 
     // wait to ensure initial full check has finished
     await tick(INITIAL_TICK);
@@ -132,7 +134,7 @@ describe('InfiniteScroll', () => {
       setup,
     });
 
-    const el = wrapper.element;
+    const el = wrapper.element as unknown as InfiniteScrollElement;
 
     await nextTick();
     expect(el[SCOPE].delay).toBe(CUSTOM_DELAY);
@@ -196,7 +198,7 @@ describe('InfiniteScroll', () => {
       setup,
     });
 
-    const el = wrapper.element;
+    const el = wrapper.element as unknown as InfiniteScrollElement;
     const { documentElement } = document;
 
     // wait to ensure initial full check has finished
@@ -247,7 +249,7 @@ describe('InfiniteScroll', () => {
     restoreClientHeight();
     restoreScrollHeight();
 
-    wrapper.vm.$refs.ulRef.LpInfiniteScroll.instance.count++;
+    (wrapper.vm.$refs.ulRef as InfiniteScrollElement).LpInfiniteScroll.instance.count++;
     await nextTick();
     expect(countListItem(wrapper)).toBe(INITIAL_VALUE);
   });

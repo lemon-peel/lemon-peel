@@ -6,6 +6,7 @@
 </template>
 
 <script lang="ts" setup>
+import { computed } from 'vue';
 import type { PropType } from 'vue';
 
 import type { TableColumnCtx } from './tableColumn/defaults';
@@ -20,12 +21,12 @@ const props = defineProps({
 });
 
 const isAuto = computed(() => {
-  props.tableLayout === 'auto';
+  return props.tableLayout === 'auto';
 });
 
 const renderColumns = computed(() => {
   let columns = props.columns || [];
-  if (isAuto && columns.every(c => c.width === undefined)) {
+  if (isAuto.value && columns.every(c => c.width === undefined)) {
     columns = [];
   }
   return columns;
@@ -38,7 +39,7 @@ const getPropsData = (column: TableColumnCtx) => {
     name: undefined as any,
   };
 
-  if (isAuto) {
+  if (isAuto.value) {
     propsData.style = {
       width: `${column.width}px`,
     };

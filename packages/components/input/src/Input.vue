@@ -174,6 +174,7 @@ defineOptions({
   name: 'LpInput',
   inheritAttrs: false,
 });
+
 const props = defineProps(inputProps);
 const emit = defineEmits(inputEmits);
 

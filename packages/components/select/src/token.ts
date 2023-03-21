@@ -1,11 +1,12 @@
-import type { InjectionKey, Ref } from 'vue';
+import type { InjectionKey } from 'vue';
+import type { OptionProps } from './option';
 
 interface SelectGroupContext {
   disabled: boolean;
 }
 
 export interface QueryChangeCtx {
-  query: string;
+  query: OptionProps['label'];
 }
 
 export interface SelectContext {
@@ -18,10 +19,9 @@ export interface SelectContext {
     remote?: boolean;
     fitInputWidth?: boolean;
   };
-  queryChange: Ref<QueryChangeCtx>;
-  groupQueryChange: Ref<string>;
+  queryChange: QueryChangeCtx;
+  groupQueryChange: string;
   selectWrapper: HTMLElement;
-  cachedOptions: Map<any, any>;
   hoverIndex: number;
   optionsCount: number;
   filteredOptionsCount: number;
@@ -30,25 +30,24 @@ export interface SelectContext {
   selected: any | any[];
   setSelected(): void;
   onOptionCreate(vm: SelectOptionProxy): void;
-  onOptionDestroy(key: number | string | Record<string, any>, vm: SelectOptionProxy): void;
+  onOptionDestroy(key: OptionProps['value'], vm: SelectOptionProxy): void;
   handleOptionSelect(vm: unknown, byClick: boolean): void;
 }
 
 // For individual build sharing injection key, we had to make `Symbol` to string
-export const selectGroupKey =
-  'ElSelectGroup' as unknown as InjectionKey<SelectGroupContext>;
+export const selectGroupKey = Symbol('LpSelectGroup') as InjectionKey<SelectGroupContext>;
 
-export const selectKey = 'LpSelect' as unknown as InjectionKey<SelectContext>;
+export const selectKey = Symbol('LpSelect') as InjectionKey<SelectContext>;
 
 export interface SelectOptionProxy {
-  value: string | number | Record<string, string>;
-  label: string | number;
-  created: boolean;
-  disabled: boolean;
-  currentLabel: string;
+  $el: HTMLElement;
+  value?: OptionProps['value'];
+  label: OptionProps['label'];
+  groupDisabled: boolean;
+  disabled: OptionProps['disabled'];
+  currentLabel: OptionProps['label'];
   itemSelected: boolean;
   isDisabled: boolean;
-  select: SelectContext;
   hoverItem: () => void;
   visible: boolean;
   hover: boolean;

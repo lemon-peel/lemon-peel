@@ -14,26 +14,28 @@
       inExpandingPath && 'in-active-path',
       inCheckedPath && 'in-checked-path',
     ]"
-    @mouseenter="handleHoverExpand"
-    @focus="handleHoverExpand"
-    @click="handleClick"
+    @mouseenter="onHoverExpand"
+    @focus="onHoverExpand"
+    @click="onClick"
   >
     <!-- prefix -->
     <lp-checkbox
       v-if="multiple"
-      :model-value="node.checked"
+      :value="node.uid"
+      :checked="node.checked"
       :indeterminate="node.indeterminate"
       :disabled="isDisabled"
       @click.stop
-      @update:model-value="(handleSelectCheck as any)"
+      @update:checked="(onSelectCheck as any)"
     />
+
     <lp-radio
       v-else-if="checkStrictly"
-      :model-value="checkedNodeId"
+      :checked="checkedNodeId === node.uid"
       :value="node.uid"
       :label="node.uid"
       :disabled="isDisabled"
-      @update:model-value="(handleSelectCheck as any)"
+      @update:checked="(onSelectCheck as any)"
       @click.stop
     >
       <!--
@@ -133,20 +135,20 @@ export default defineComponent({
       });
     };
 
-    const handleExpand = () => {
+    const onExpand = () => {
       const { node } = props;
       // do not exclude leaf node because the menus expanded might have to reset
       if (!expandable.value || node.loading) return;
       node.loaded ? doExpand() : doLoad();
     };
 
-    const handleHoverExpand = (e: Event) => {
+    const onHoverExpand = (e: Event) => {
       if (!isHoverMenu.value) return;
-      handleExpand();
+      onExpand();
       !isLeaf.value && emit('expand', e);
     };
 
-    const handleCheck = (checked: boolean) => {
+    const onCheck = (checked: boolean) => {
       if (props.node.loaded) {
         doCheck(checked);
         !checkStrictly.value && doExpand();
@@ -155,7 +157,7 @@ export default defineComponent({
       }
     };
 
-    const handleClick = () => {
+    const onClick = () => {
       if (isHoverMenu.value && !isLeaf.value) return;
 
       if (
@@ -164,20 +166,20 @@ export default defineComponent({
         !checkStrictly.value &&
         !multiple.value
       ) {
-        handleCheck(true);
+        onCheck(true);
       } else {
-        handleExpand();
+        onExpand();
       }
     };
 
-    const handleSelectCheck = (checked: boolean) => {
+    const onSelectCheck = (checked: boolean) => {
       if (checkStrictly.value) {
         doCheck(checked);
         if (props.node.loaded) {
           doExpand();
         }
       } else {
-        handleCheck(checked);
+        onCheck(checked);
       }
     };
 
@@ -193,11 +195,12 @@ export default defineComponent({
       inExpandingPath,
       inCheckedPath,
       ns,
-      handleHoverExpand,
-      handleExpand,
-      handleClick,
-      handleCheck,
-      handleSelectCheck,
+
+      onHoverExpand,
+      onExpand,
+      onClick,
+      onCheck,
+      onSelectCheck,
     };
   },
 });

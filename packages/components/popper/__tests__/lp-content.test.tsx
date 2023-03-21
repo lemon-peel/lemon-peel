@@ -1,5 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
 import { nextTick, ref } from 'vue';
 import { mount } from '@vue/test-utils';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
@@ -16,16 +14,18 @@ const popperInjection = {
   contentRef: ref(),
 };
 
-const mountContent = (props = {}) =>
-  mount(<LpContent {...props}>{AXIOM}</LpContent>, {
-    global: {
-      provide: {
-        [POPPER_INJECTION_KEY as symbol]: popperInjection,
-      },
+const mountContent = (props = {}) => {
+  return mount(
+    LpContent as any,
+    {
+      props,
+      slots: { default: () => AXIOM },
+      global: { provide: { [POPPER_INJECTION_KEY as symbol]: popperInjection } },
     },
-  });
+  );
+};
 
-describe('<LpPopperContent />', () => {
+describe('LpPopperContent', () => {
   describe('with triggerRef provided', () => {
     const triggerKls = 'lp-popper__trigger';
     let wrapper: VueWrapper<PopperContentInstance>;

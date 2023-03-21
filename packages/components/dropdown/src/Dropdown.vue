@@ -77,7 +77,7 @@
           :class="ns.e('caret-button')"
           :disabled="disabled"
           :tabindex="tabindex"
-          :aria-label="t('el.dropdown.toggleDropdown')"
+          :aria-label="t('lp.dropdown.toggleDropdown')"
         >
           <lp-icon :class="ns.e('icon')"><arrow-down /></lp-icon>
         </lp-button>
@@ -89,7 +89,8 @@
 <script lang="ts" setup>
 import { computed, defineComponent, getCurrentInstance, provide, ref, toRef, unref } from 'vue';
 import LpButton from '@lemon-peel/components/button';
-import type LpTooltip from '@lemon-peel/components/tooltip';
+// eslint-disable-next-line @typescript-eslint/consistent-type-imports
+import LpTooltip from '@lemon-peel/components/tooltip';
 import LpScrollbar from '@lemon-peel/components/scrollbar';
 import LpIcon from '@lemon-peel/components/icon';
 import LpRovingFocusGroup from '@lemon-peel/components/rovingFocusGroup';
@@ -195,7 +196,7 @@ provide(DROPDOWN_INJECTION_KEY, {
   onItemLeave,
 });
 
-provide('elDropdown', {
+provide('lpDropdown', {
   instance: vm,
   dropdownSize,
   handleClick,
@@ -214,4 +215,9 @@ const onFocusAfterTrapped = (e: Event) => {
 const handlerMainButtonClick = (event: MouseEvent) => {
   emit('click', event);
 };
+
+defineExpose({
+  open: handleOpen,
+  close: handleClose,
+});
 </script>

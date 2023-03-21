@@ -1,7 +1,7 @@
 <template>
   <table
     role="grid"
-    :aria-label="t('el.datepicker.dateTablePrompt')"
+    :aria-label="t('lp.datepicker.dateTablePrompt')"
     cellspacing="0"
     cellpadding="0"
     :class="[ns.b(), { 'is-week-mode': selectionMode === 'week' }]"
@@ -17,7 +17,7 @@
           v-for="(week, key) in WEEKS"
           :key="key"
           scope="col"
-          :aria-label="t('el.datepicker.weeksFull.' + week)"
+          :aria-label="t('lp.datepicker.weeksFull.' + week)"
         >
           {{ t('lp.datepicker.weeks.' + week) }}
         </th>

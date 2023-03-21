@@ -11,7 +11,7 @@ const AXIOM = 'Rem is the best girl';
 const mockGetFile = (element: HTMLInputElement, files: File[]) =>
   vi.spyOn(element, 'files', 'get').mockImplementation((): any => files);
 
-describe('<upload />', () => {
+describe('Upload', () => {
   afterEach(() => {
     vi.restoreAllMocks();
   });
@@ -139,7 +139,10 @@ describe('<upload />', () => {
       });
       const wrapper = mount(
         UploadContent,
-        { httpRequest, onProgress },
+        {
+          props: { httpRequest, onProgress },
+          attachTo: 'body',
+        },
       );
 
       const fileList = [new File(['content'], 'test-file.txt')];

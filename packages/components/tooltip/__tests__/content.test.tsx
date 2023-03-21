@@ -1,14 +1,6 @@
 import { nextTick } from 'vue';
 import { mount } from '@vue/test-utils';
-import {
-  afterAll,
-  afterEach,
-  beforeAll,
-  beforeEach,
-  describe,
-  expect,
-  it,
-} from 'vitest';
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test } from 'vitest';
 import { usePopperContainer } from '@lemon-peel/hooks';
 import { TOOLTIP_INJECTION_KEY } from '@lemon-peel/tokens';
 import { genTooltipProvides } from '../test-helper/provides';
@@ -18,7 +10,7 @@ import type { VueWrapper } from '@vue/test-utils';
 
 const AXIOM = 'rem is the best girl';
 
-describe('<LpTooltipContent />', () => {
+describe('LpTooltipContent', () => {
   const {
     controlled,
     id,
@@ -94,7 +86,7 @@ describe('<LpTooltipContent />', () => {
   });
 
   describe('rendering', () => {
-    it('should render nothing initially when not controlled', async () => {
+    test('should render nothing initially when not controlled', async () => {
       wrapper = createComponent();
       await nextTick();
 
@@ -102,7 +94,7 @@ describe('<LpTooltipContent />', () => {
     });
 
     describe('persistent content', () => {
-      it('should be able to inherit style', async () => {
+      test('should be able to inherit style', async () => {
         const customStyle = {
           position: 'absolute',
         };
@@ -117,7 +109,7 @@ describe('<LpTooltipContent />', () => {
     });
 
     describe('content rendering', () => {
-      it('should not show the content when disabled', async () => {
+      test('should not show the content when disabled', async () => {
         wrapper = createComponent({
           disabled: true,
         });
@@ -137,7 +129,7 @@ describe('<LpTooltipContent />', () => {
         await nextTick();
       });
 
-      it('should be able to enter trigger', async () => {
+      test('should be able to enter trigger', async () => {
         const { vm } = wrapper;
         expect(onOpen).not.toHaveBeenCalled();
         const enterEvent = new MouseEvent('mouseenter');
@@ -149,7 +141,7 @@ describe('<LpTooltipContent />', () => {
         expect(onClose).toHaveBeenCalled();
       });
 
-      it('should not trigger close event when the trigger is not hover', async () => {
+      test('should not trigger close event when the trigger is not hover', async () => {
         const { vm } = wrapper;
 
         trigger.value = 'click';
@@ -160,7 +152,7 @@ describe('<LpTooltipContent />', () => {
         expect(onClose).not.toHaveBeenCalled();
       });
 
-      it('should be able to stop triggering when controlled', async () => {
+      test('should be able to stop triggering when controlled', async () => {
         controlled.value = true;
         await nextTick();
         const { vm } = wrapper;
@@ -183,13 +175,13 @@ describe('<LpTooltipContent />', () => {
           };
         });
 
-        it('should not close the content after click outside when trigger is hover', async () => {
+        test('should not close the content after click outside when trigger is hover', async () => {
           document.body.click();
           await nextTick();
           expect(onClose).not.toHaveBeenCalled();
         });
 
-        it('should not close the content after click outside when controlled', async () => {
+        test('should not close the content after click outside when controlled', async () => {
           controlled.value = true;
           trigger.value = 'click';
           await nextTick();
@@ -199,7 +191,7 @@ describe('<LpTooltipContent />', () => {
           expect(onClose).not.toHaveBeenCalled();
         });
 
-        it('should close component after click outside', async () => {
+        test('should close component after click outside', async () => {
           trigger.value = 'click';
           wrapper.vm.onAfterShow();
           await nextTick();
@@ -213,7 +205,7 @@ describe('<LpTooltipContent />', () => {
       });
     });
 
-    it('should append to', async () => {
+    test('should append to', async () => {
       const el = document.createElement('div');
       const id = 'test_id';
       el.id = id;

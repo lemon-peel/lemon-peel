@@ -37,7 +37,7 @@ const breadcrumbContext = inject(breadcrumbKey, null)!;
 const ns = useNamespace('breadcrumb');
 
 const { separator, separatorIcon } = toRefs(breadcrumbContext);
-const router = instance.appContext.config.globalProperties.$router as Router;
+const router = instance.proxy?.$router as Router;
 
 const link = ref<HTMLSpanElement>();
 

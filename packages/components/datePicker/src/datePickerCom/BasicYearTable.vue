@@ -1,7 +1,7 @@
 <template>
   <table
     role="grid"
-    :aria-label="t('el.datepicker.yearTablePrompt')"
+    :aria-label="t('lp.datepicker.yearTablePrompt')"
     :class="ns.b()"
     @click="handleYearTableClick"
   >

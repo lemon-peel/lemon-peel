@@ -183,6 +183,7 @@ function getOptions(): HTMLElement[] {
   );
 }
 
+// skipped
 describe('Select', () => {
   afterEach(() => {
     document.body.innerHTML = '';

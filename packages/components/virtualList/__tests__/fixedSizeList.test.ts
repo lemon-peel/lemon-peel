@@ -1,5 +1,5 @@
 
-import { nextTick } from 'vue';
+import { nextTick, unref } from 'vue';
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest';
 import makeMount from '@lemon-peel/test-utils/makeMount';
 import makeScroll from '@lemon-peel/test-utils/makeScroll';
@@ -38,6 +38,7 @@ const doMount = makeMount(
       width: 50,
       onItemRendered,
     },
+    attachTo: 'body',
   },
 );
 
@@ -90,21 +91,14 @@ describe('<fixed-size-list />', () => {
 
     expect(wrapper.find(ITEM_SELECTOR).text()).toContain(0);
 
-    await makeScroll(
-      (wrapper.vm.$refs.listRef as ListRef).windowRef.value,
-      'scrollTop',
-      0,
-    );
+    await makeScroll(unref((wrapper.vm.$refs.listRef as ListRef).windowRef), 'scrollTop', 0);
     expect(wrapper.find(ITEM_SELECTOR).text()).toContain(0);
 
     await wrapper.setProps({
       layout: HORIZONTAL,
     });
 
-    await makeScroll(
-      (wrapper.vm.$refs.listRef as ListRef).windowRef.value,
-      'scrollLeft',
-      0,
+    await makeScroll(unref((wrapper.vm.$refs.listRef as ListRef).windowRef), 'scrollLeft', 0,
     );
 
     expect(wrapper.find(ITEM_SELECTOR).text()).toContain(0);
@@ -122,7 +116,7 @@ describe('<fixed-size-list />', () => {
     expect(wrapper.findAll(ITEM_SELECTOR)).toHaveLength(7);
     expect(onItemRendered).toHaveBeenCalledTimes(1);
 
-    makeScroll(windowRef.value, 'scrollTop', 100);
+    makeScroll(unref(windowRef), 'scrollTop', 100);
     await nextTick();
     // from index 3(item 4) + 4 visible items + 3 cache items = index 10
     // the total items rendered is 3 + 4 + 1 (index 3) inclusive
@@ -170,7 +164,7 @@ describe('<fixed-size-list />', () => {
     expect(wrapper.findAll(ITEM_SELECTOR)).toHaveLength(5);
 
     const { windowRef } = wrapper.vm.$refs.listRef as ListRef;
-    makeScroll(windowRef.value, 'scrollLeft', 100);
+    makeScroll(unref(windowRef), 'scrollLeft', 100);
     await nextTick();
     expect(wrapper.findAll(ITEM_SELECTOR)).toHaveLength(6);
     expect(wrapper.find(ITEM_SELECTOR).text()).toContain(3);

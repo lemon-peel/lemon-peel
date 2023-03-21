@@ -33,7 +33,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, getCurrentInstance, provide, ref, watch, useSlots } from 'vue';
+import { computed, getCurrentInstance, provide, ref, shallowRef, watch, useSlots } from 'vue';
 import { iconPropType } from '@lemon-peel/utils';
 import { useLocale, useNamespace } from '@lemon-peel/hooks';
 import { formItemContextKey } from '@lemon-peel/tokens';

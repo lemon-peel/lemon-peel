@@ -182,7 +182,7 @@ export const useTree = (
         if (!getNodeValByProp('disabled', data)) {
           const option = select.value.options.get(
             getNodeValByProp('value', data),
-          );
+          )!;
           select.value.handleOptionSelect(option, true);
         }
       } else if (props.expandOnClickNode) {

@@ -1,25 +1,25 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
 import { mount } from '@vue/test-utils';
 import { describe, expect, it, vi } from 'vitest';
 import { Check } from '@element-plus/icons-vue';
 import Breadcrumb from '../src/Breadcrumb.vue';
 import BreadcrumbItem from '../src/BreadcrumbItem.vue';
-import type { VNode } from 'vue';
 
-const doMount = (render: () => VNode, $router = {}) =>
-  mount(render, {
+import type { VNode } from 'vue';
+import type { Router } from 'vue-router';
+
+const doMount = (render: () => VNode, router = {}) => {
+  return mount(render as any, {
+    attachTo: 'body',
     global: {
-      provide: {
-        breadcrumb: {},
-      },
+      provide: { breadcrumb: {} },
       config: {
         globalProperties: {
-          $router,
-        },
+          $router: router as unknown as Router,
+        } as any,
       },
     },
   });
+};
 
 describe('Breadcrumb.vue', () => {
   it('separator', () => {
@@ -78,28 +78,20 @@ describe('Breadcrumb.vue', () => {
             <BreadcrumbItem to="/path">A</BreadcrumbItem>
           </Breadcrumb>
         ),
-        {
-          replace,
-          push,
-        },
+        { replace, push },
       );
       await wrapper.find('.lp-breadcrumb__inner').trigger('click');
       expect(push).toHaveBeenCalled();
+
       wrapper.unmount();
       wrapper = doMount(
         () => (
           <Breadcrumb>
-            <BreadcrumbItem to="/path" replace>
-              A
-            </BreadcrumbItem>
+            <BreadcrumbItem to="/path" replace>A</BreadcrumbItem>
           </Breadcrumb>
         ),
-        {
-          replace,
-          push,
-        },
+        { replace, push },
       );
-
       await wrapper.find('.lp-breadcrumb__inner').trigger('click');
       expect(replace).toHaveBeenCalled();
     });

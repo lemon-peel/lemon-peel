@@ -24,14 +24,13 @@ import { useNamespace } from '@lemon-peel/hooks';
 
 import { useOption } from './useOption';
 import type { SelectOptionProxy } from './token';
-import { optionProps } from './option';
+import { optionProps, OptionProps } from './option';
 
 defineOptions({
   name: 'LpOption',
 });
 
 const props = defineProps(optionProps);
-
 
 const ns = useNamespace('select');
 const states = reactive({
@@ -44,38 +43,41 @@ const states = reactive({
 
 const { currentLabel, itemSelected, isDisabled, select, hoverItem } = useOption(props, states);
 const { visible, hover } = toRefs(states);
+const vm = getCurrentInstance()!;
 
-const vm = getCurrentInstance()!.proxy;
-
-select.onOptionCreate(vm as unknown as SelectOptionProxy);
-
-onBeforeUnmount(() => {
-  const key = (vm as unknown as SelectOptionProxy).value;
-  const { selected } = select;
-  const selectedOptions = select.props.multiple ? selected : [selected];
-  const doesSelected = selectedOptions.some((item: SelectOptionProxy) => {
-    return item.value === (vm as unknown as SelectOptionProxy).value;
-  });
-  // if option is not selected, remove it from cache
-  nextTick(() => {
-    if (select.cachedOptions.get(key) === vm && !doesSelected) {
-      select.cachedOptions.delete(key);
-    }
-  });
-  select.onOptionDestroy(key, vm as any);
+const sop: SelectOptionProxy = reactive({
+  ...toRefs(props),
+  ...toRefs(states),
+  $el: vm.vnode.el as HTMLElement,
+  currentLabel,
+  itemSelected,
+  isDisabled,
+  select,
+  hoverItem,
+  // eslint-disable-next-line @typescript-eslint/no-use-before-define
+  selectOptionClick,
 });
 
 function selectOptionClick() {
   if (props.disabled !== true && states.groupDisabled !== true) {
-    select.handleOptionSelect(vm, true);
+    select.handleOptionSelect(sop, true);
   }
 }
 
+select.onOptionCreate(sop);
+
+onBeforeUnmount(() => {
+  const key = sop.value;
+  const { selected } = select;
+  const selectedOptions = select.props.multiple ? selected : [selected];
+  const doesSelected = selectedOptions.some((item: SelectOptionProxy) => {
+    return item.value === sop.value;
+  });
+
+  select.onOptionDestroy(key, sop);
+});
+
 defineExpose({
-  currentLabel,
-  value: props.value,
-  isDisabled,
   visible,
-  created: true,
 });
 </script>

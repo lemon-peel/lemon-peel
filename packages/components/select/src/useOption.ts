@@ -1,14 +1,13 @@
-import { computed, getCurrentInstance, inject, toRaw, unref, watch } from 'vue';
+import { computed, getCurrentInstance, inject, toRaw, watch } from 'vue';
 import { get } from 'lodash-es';
 import { escapeStringRegexp } from '@lemon-peel/utils';
 
 import { selectGroupKey, selectKey } from './token';
 
-import type { Ref, ExtractPropTypes } from 'vue';
-import type { optionProps, OptionStates } from './option';
+import type { OptionStates, OptionProps } from './option';
 import type { QueryChangeCtx } from './token';
 
-export function useOption(props: Readonly<ExtractPropTypes<typeof optionProps>>, states: OptionStates) {
+export function useOption(props: OptionProps, states: OptionStates) {
   // inject
   const select = inject(selectKey)!;
   const selectGroup = inject(selectGroupKey, { disabled: false });
@@ -60,8 +59,8 @@ export function useOption(props: Readonly<ExtractPropTypes<typeof optionProps>>,
     }
   });
 
-  const currentLabel = computed(() => {
-    return props.label || (isObject.value ? '' : props.value);
+  const currentLabel = computed<OptionProps['label']>(() => {
+    return props.label || (isObject.value ? '' : props.value!.toString());
   });
 
   const currentValue = computed(() => {
@@ -83,7 +82,7 @@ export function useOption(props: Readonly<ExtractPropTypes<typeof optionProps>>,
   watch(
     () => currentLabel.value,
     () => {
-      if (!props.created && !select.props.remote) select.setSelected();
+      if (!select.props.remote) select.setSelected();
     },
   );
 
@@ -97,7 +96,7 @@ export function useOption(props: Readonly<ExtractPropTypes<typeof optionProps>>,
         select.onOptionCreate(instance.proxy as any);
       }
 
-      if (!props.created && !remote) {
+      if (!remote) {
         if (
           valueKey &&
           typeof val === 'object' &&
@@ -119,16 +118,17 @@ export function useOption(props: Readonly<ExtractPropTypes<typeof optionProps>>,
     { immediate: true },
   );
 
-  const { queryChange } = toRaw(select);
-  watch(queryChange, (changes: Ref<QueryChangeCtx>) => {
-    const { query } = unref(changes);
-
-    const regexp = new RegExp(escapeStringRegexp(query), 'i');
-    states.visible = regexp.test(currentLabel.value as string) || props.created;
-    if (!states.visible) {
-      select.filteredOptionsCount--;
-    }
-  });
+  watch(
+    () => select.queryChange,
+    (changes: QueryChangeCtx) => {
+      const { query } = changes;
+      const regexp = new RegExp(escapeStringRegexp(`${query}`), 'i');
+      states.visible = regexp.test(currentLabel.value as string);
+      if (!states.visible) {
+        select.filteredOptionsCount--;
+      }
+    },
+  );
 
   return {
     select,

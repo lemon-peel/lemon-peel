@@ -53,7 +53,7 @@
                 v-if="showClose"
                 type="button"
                 :class="ns.e('headerbtn')"
-                :aria-label="t('el.messagebox.close')"
+                :aria-label="t('lp.messagebox.close')"
                 @click="
                   handleAction(distinguishCancelAndClose ? 'close' : 'cancel')
                 "

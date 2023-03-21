@@ -20,6 +20,7 @@ import { computed, ref, watch } from 'vue';
 import { useNamespace } from '@lemon-peel/hooks';
 import { addUnit, isNumber, isString } from '@lemon-peel/utils';
 import { avatarEmits, avatarProps } from './avatar';
+import LpIcon from '@lemon-peel/components/icon';
 
 import type { CSSProperties } from 'vue';
 

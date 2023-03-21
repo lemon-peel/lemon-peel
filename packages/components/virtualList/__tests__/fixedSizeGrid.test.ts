@@ -205,42 +205,15 @@ describe('<fixed-size-grid />', () => {
 
   describe('error handling', () => {
     it('should throw when column-width is not number', () => {
-      const errorHandler = vi.fn();
-
-      mount({
-        props: {
-          columnWidth: '1',
-        },
-        global: {
-          config: {
-            errorHandler,
-            warnHandler() {
-              // suppress warning
-            },
-          },
-        },
-      });
-
-      expect(errorHandler).toHaveBeenCalled();
+      expect(() => {
+        mount({ props: { columnWidth: '1' } });
+      }).toThrowError(/string was given/);
     });
 
     it('should throw when row-height is not number', () => {
-      const errorHandler = vi.fn();
-      mount({
-        props: {
-          rowHeight: '1',
-        },
-        global: {
-          config: {
-            errorHandler,
-            warnHandler() {
-              // suppress warning
-            },
-          },
-        },
-      });
-
-      expect(errorHandler).toHaveBeenCalled();
+      expect(() => {
+        mount({ props: { rowHeight: '1' } });
+      }).toThrowError(/string was given/);
     });
   });
 });

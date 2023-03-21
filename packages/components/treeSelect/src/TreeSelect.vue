@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, defineComponent, onMounted, reactive, ref } from 'vue';
+import { computed, onMounted, reactive, ref, useAttrs, useSlots } from 'vue';
 import { pick } from 'lodash-es';
 import { forceType, unrefs } from '@lemon-peel/utils';
 import type LpSelect from '@lemon-peel/components/select';

@@ -26,7 +26,7 @@ type ScrollOptions = {
 };
 
 type InfiniteScrollCallback = () => void;
-type InfiniteScrollElement = HTMLElement & {
+export type InfiniteScrollElement = HTMLElement & {
   [SCOPE]: {
     container: HTMLElement | Window;
     containerEl: HTMLElement;

@@ -28,7 +28,7 @@ const doMount = (template: string, data: () => any, otherObj?: ComponentOptions)
     template,
     data,
     ...otherObj,
-  });
+  }, { attachTo: 'body' });
 
 describe('Dropdown', () => {
   afterEach(() => {
@@ -37,22 +37,20 @@ describe('Dropdown', () => {
 
   test('create', async () => {
     const wrapper = doMount(
-      `
-        <lp-dropdown ref="b" placement="right">
-          <span class="lp-dropdown-link" ref="a">
-            dropdown<i class="lp-icon-arrow-down lp-icon--right"></i>
-          </span>
-          <template #dropdown>
-            <lp-dropdown-menu>
-              <lp-dropdown-item>Apple</lp-dropdown-item>
-              <lp-dropdown-item>Orange</lp-dropdown-item>
-              <lp-dropdown-item>Cherry</lp-dropdown-item>
-              <lp-dropdown-item disabled>Peach</lp-dropdown-item>
-              <lp-dropdown-item divided>Pear</lp-dropdown-item>
-            </lp-dropdown-menu>
-          </template>
-        </lp-dropdown>
-      `,
+      `<lp-dropdown ref="b" placement="right">
+        <span class="lp-dropdown-link" ref="a">
+          dropdown<i class="lp-icon-arrow-down lp-icon--right"></i>
+        </span>
+        <template #dropdown>
+          <lp-dropdown-menu>
+            <lp-dropdown-item>Apple</lp-dropdown-item>
+            <lp-dropdown-item>Orange</lp-dropdown-item>
+            <lp-dropdown-item>Cherry</lp-dropdown-item>
+            <lp-dropdown-item disabled>Peach</lp-dropdown-item>
+            <lp-dropdown-item divided>Pear</lp-dropdown-item>
+          </lp-dropdown-menu>
+        </template>
+      </lp-dropdown>`,
       () => ({}),
     );
     await nextTick();
@@ -75,8 +73,7 @@ describe('Dropdown', () => {
   test('menu click', async () => {
     const commandHandler = vi.fn();
     const wrapper = doMount(
-      `
-      <lp-dropdown ref="b" @command="commandHandler" placement="right">
+      `<lp-dropdown ref="b" @command="commandHandler" placement="right">
         <span class="lp-dropdown-link" ref="a">
           dropdown<i class="lp-icon-arrow-down lp-icon--right"></i>
         </span>
@@ -89,8 +86,7 @@ describe('Dropdown', () => {
             <lp-dropdown-item command="e">Pear</lp-dropdown-item>
           </lp-dropdown-menu>
         </template>
-      </lp-dropdown>
-      `,
+      </lp-dropdown>`,
       () => ({
         myCommandObject: { name: 'CommandC' },
         name: '',
@@ -106,13 +102,8 @@ describe('Dropdown', () => {
     const triggerElm = wrapper.find('.lp-tooltip__trigger');
     await triggerElm.trigger(MOUSE_ENTER_EVENT);
     await nextTick();
-    await wrapper
-      .findComponent({ ref: 'c' })
-      .findComponent({
-        name: 'DropdownItemImpl',
-      })
-      .find('.lp-dropdown-menu__item')
-      .trigger('click');
+    await wrapper.findAllComponents(DropdownItem).at(2)!
+      .find('.lp-dropdown-menu__item').trigger('click');
     await nextTick();
     expect(commandHandler).toHaveBeenCalled();
   });
@@ -191,8 +182,7 @@ describe('Dropdown', () => {
 
   test('handleOpen and handleClose', async () => {
     const wrapper = doMount(
-      `
-      <lp-dropdown trigger="click" ref="refDropdown" placement="right">
+      `<lp-dropdown trigger="click" ref="refDropdown" placement="right">
         <span class="lp-dropdown-link" ref="a">
           dropdown<i class="lp-icon-arrow-down lp-icon--right"></i>
         </span>
@@ -205,22 +195,17 @@ describe('Dropdown', () => {
             <lp-dropdown-item command="e">Pear</lp-dropdown-item>
           </lp-dropdown-menu>
         </template>
-      </lp-dropdown>
-      `,
-      () => ({
-        name: '',
-      }),
+      </lp-dropdown>`,
+      () => ({ name: '' }),
     );
     await nextTick();
     const dropdown = wrapper.vm;
-    const content = wrapper.findComponent(LpTooltip).vm as InstanceType<
-      typeof LpTooltip
-    >;
+    const content = wrapper.findComponent(LpTooltip).vm as InstanceType<typeof LpTooltip>;
     expect(content.open).toBe(false);
-    await dropdown.$refs.refDropdown.handleOpen();
+    await dropdown.$refs.refDropdown.open();
     await rAF();
     expect(content.open).toBe(true);
-    await dropdown.$refs.refDropdown.handleClose();
+    await dropdown.$refs.refDropdown.close();
     await rAF();
     expect(content.open).toBe(false);
   });

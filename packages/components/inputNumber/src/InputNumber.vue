@@ -13,7 +13,7 @@
       v-if="controls"
       v-repeat-click="decrease"
       role="button"
-      :aria-label="t('el.inputNumber.decrease')"
+      :aria-label="t('lp.inputNumber.decrease')"
       :class="[ns.e('decrease'), ns.is('disabled', minDisabled)]"
       @keydown.enter="decrease"
     >
@@ -26,7 +26,7 @@
       v-if="controls"
       v-repeat-click="increase"
       role="button"
-      :aria-label="t('el.inputNumber.increase')"
+      :aria-label="t('lp.inputNumber.increase')"
       :class="[ns.e('increase'), ns.is('disabled', maxDisabled)]"
       @keydown.enter="increase"
     >

@@ -1474,7 +1474,7 @@ describe('MonthRange', () => {
     await nextTick();
 
     expect(
-      (wrapper.findComponent(CommonPicker).vm as any).elPopperOptions,
+      (wrapper.findComponent(CommonPicker).vm as any).lpPopperOptions,
     ).toEqual(LpPopperOptions);
   });
 

@@ -29,7 +29,7 @@
               <lp-input
                 size="small"
                 :disabled="rangeState.selecting"
-                :placeholder="t('el.datepicker.startDate')"
+                :placeholder="t('lp.datepicker.startDate')"
                 :class="drpNs.e('editor')"
                 :model-value="minVisibleDate"
                 :validate-event="false"
@@ -45,7 +45,7 @@
                 size="small"
                 :class="drpNs.e('editor')"
                 :disabled="rangeState.selecting"
-                :placeholder="t('el.datepicker.startTime')"
+                :placeholder="t('lp.datepicker.startTime')"
                 :model-value="minVisibleTime"
                 :validate-event="false"
                 @focus="minTimePickerVisible = true"
@@ -71,7 +71,7 @@
                 size="small"
                 :class="drpNs.e('editor')"
                 :disabled="rangeState.selecting"
-                :placeholder="t('el.datepicker.endDate')"
+                :placeholder="t('lp.datepicker.endDate')"
                 :model-value="maxVisibleDate"
                 :readonly="!minDate"
                 :validate-event="false"
@@ -87,7 +87,7 @@
                 size="small"
                 :class="drpNs.e('editor')"
                 :disabled="rangeState.selecting"
-                :placeholder="t('el.datepicker.endTime')"
+                :placeholder="t('lp.datepicker.endTime')"
                 :model-value="maxVisibleTime"
                 :readonly="!minDate"
                 :validate-event="false"
@@ -349,14 +349,14 @@ const timeUserInput = ref<UserInput>({
 });
 
 const leftLabel = computed(() => {
-  return `${leftDate.value.year()} ${t('el.datepicker.year')} ${t(
-    `el.datepicker.month${leftDate.value.month() + 1}`,
+  return `${leftDate.value.year()} ${t('lp.datepicker.year')} ${t(
+    `lp.datepicker.month${leftDate.value.month() + 1}`,
   )}`;
 });
 
 const rightLabel = computed(() => {
-  return `${rightDate.value.year()} ${t('el.datepicker.year')} ${t(
-    `el.datepicker.month${rightDate.value.month() + 1}`,
+  return `${rightDate.value.year()} ${t('lp.datepicker.year')} ${t(
+    `lp.datepicker.month${rightDate.value.month() + 1}`,
   )}`;
 });
 

@@ -142,7 +142,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, getCurrentInstance, nextTick, provide } from 'vue';
+import { computed, getCurrentInstance, nextTick, onBeforeUnmount, provide } from 'vue';
 import { Mousewheel as vMousewheel } from '@lemon-peel/directives';
 import { useLocale, useNamespace } from '@lemon-peel/hooks';
 import { debounce } from 'lodash-es';

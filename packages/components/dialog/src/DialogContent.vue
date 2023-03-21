@@ -20,7 +20,7 @@
       </slot>
       <button
         v-if="showClose"
-        :aria-label="t('el.dialog.close')"
+        :aria-label="t('lp.dialog.close')"
         :class="ns.e('headerbtn')"
         type="button"
         @click="$emit('close')"

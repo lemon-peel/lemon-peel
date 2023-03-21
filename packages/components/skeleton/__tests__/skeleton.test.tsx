@@ -26,14 +26,9 @@ describe('Skeleton.vue', () => {
   });
 
   it('should render with animation', () => {
-    const wrapper = mount(Skeleton, { data: () => ({ animated: true }) });
+    const wrapper = mount(Skeleton, { props: { animated: true } });
 
-    expect(wrapper.classes()).toMatchInlineSnapshot(`
-      [
-        "lp-skeleton",
-        "is-animated",
-      ]
-    `);
+    expect(wrapper.classes()).toEqual(['lp-skeleton', 'is-animated']);
   });
 
   it('should render x times', async () => {
@@ -49,7 +44,7 @@ describe('Skeleton.vue', () => {
   });
 
   it('should render x rows', () => {
-    const wrapper = mount(Skeleton, { data: () => ({ rows: 4 }) });
+    const wrapper = mount(Skeleton, { props: { rows: 4 } });
 
     expect(wrapper.findAll('.lp-skeleton__p')).toHaveLength(5);
   });

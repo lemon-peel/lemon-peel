@@ -66,12 +66,15 @@ export default defineComponent({
 
     const lazyLoad: LpCascaderPanelContext['lazyLoad'] = (node, callback) => {
       const cfg = config.value;
-      node != new Node({}, cfg, undefined, true);
+      node = node ?? new Node({}, cfg, undefined, true);
       node!.loading = true;
+      const oldIndeterminate = node!.indeterminate;
+      node!.indeterminate = true;
 
       const resolve = (dataList: CascaderOption[]) => {
         const parent = node!.root ? null : node;
         dataList && store?.appendNodes(dataList, parent as any);
+        node!.indeterminate = oldIndeterminate;
         node!.loading = false;
         node!.loaded = true;
         node!.childrenData ||= [];
@@ -156,33 +159,34 @@ export default defineComponent({
       const leafOnly = !checkStrictly;
 
       if (
-        !initialLoaded.value ||
-    manualChecked ||
-    (!forced && isEqual(modelValue, checkedValue.value))
+        !initialLoaded.value
+        || manualChecked
+        || (!forced && isEqual(modelValue, checkedValue.value))
       )
         return;
 
-      if (lazy && !loaded) {
-        const values: CascaderNodeValue[] = unique(flattenDeep(castArray(modelValue) as CascaderNodeValue[]));
-
-        const nodes = values
-          .map(value => store?.getNodeByValue(value))
-          .filter(node => !!node && (node as Node).loaded && node.loading) as Node[];
-
-        if (nodes.length > 0) {
-          for (const node of nodes) {
-            lazyLoad(node, () => syncCheckedValue(false, forced));
-          }
-        } else {
-          syncCheckedValue(true, forced);
-        }
-      } else {
+      if (!lazy || loaded) {
         const values = multiple ? castArray(modelValue) : [modelValue];
         const nodes = unique(
           values.map(value => store?.getNodeByValue(value as any, leafOnly)),
         ) as Node[];
         syncMenuState(nodes, forced);
         checkedValue.value = cloneDeep(modelValue) as any;
+        return;
+      }
+
+      const values: CascaderNodeValue[] = unique(flattenDeep(castArray(modelValue) as CascaderNodeValue[]));
+
+      const nodes = values
+        .map(value => store?.getNodeByValue(value))
+        .filter(node => !!node && !(node as Node).loaded && !node.loading) as Node[];
+
+      if (nodes.length > 0) {
+        for (const node of nodes) {
+          lazyLoad(node, () => syncCheckedValue(false, forced));
+        }
+      } else {
+        syncCheckedValue(true, forced);
       }
     };
 

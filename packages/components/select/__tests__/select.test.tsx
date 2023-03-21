@@ -1,4 +1,4 @@
-import { markRaw, nextTick } from 'vue';
+import { markRaw, nextTick, ref } from 'vue';
 import { mount } from '@vue/test-utils';
 import { afterEach, describe, expect, it, test, vi } from 'vitest';
 import { EVENT_CODE } from '@lemon-peel/constants';
@@ -6,14 +6,16 @@ import { ArrowDown, CaretTop, CircleClose } from '@element-plus/icons-vue';
 import { POPPER_CONTAINER_ID } from '@lemon-peel/hooks';
 import { hasClass } from '@lemon-peel/utils';
 import { LpFormItem } from '@lemon-peel/components/form';
-import Select from '../src/Select.vue';
-import Group from '../src/OptionGroup.vue';
-import Option from '../src/Option.vue';
+import LpSelect from '../src/Select.vue';
+import LpOptionGroup from '../src/OptionGroup.vue';
+import LpSelectOption from '../src/Option.vue';
+import LpSelectDropdown from '../src/SelectDropdown.vue';
 
 
 vi.mock('lodash-es', async () => {
+  const actual: any = await vi.importActual('lodash-es');
   return {
-    ...((await vi.importActual('lodash-es')) as Record<string, any>),
+    ...actual,
     debounce: vi.fn(fn => {
       fn.cancel = vi.fn();
       fn.flush = vi.fn();
@@ -28,7 +30,6 @@ interface SelectProps {
   multiple?: boolean;
   clearable?: boolean;
   filterable?: boolean;
-  allowCreate?: boolean;
   remote?: boolean;
   collapseTags?: boolean;
   automaticDropdown?: boolean;
@@ -43,9 +44,9 @@ const doMount = (template: string, data: any = () => ({}), otherObj?: any) =>
   mount(
     {
       components: {
-        'lp-select': Select,
-        'lp-option': Option,
-        'lp-group-option': Group,
+        'lp-select': LpSelect,
+        'lp-option': LpSelectOption,
+        'lp-group-option': LpOptionGroup,
         'lp-form-item': LpFormItem,
       },
       template,
@@ -64,7 +65,7 @@ function getOptions(): HTMLElement[] {
 }
 
 type OptionProps = {
-  value: string;
+  value: number | string;
   label: string;
   disabled: boolean;
 };
@@ -78,7 +79,6 @@ const getSelectVm = (
     'clearable',
     'defaultFirstOption',
     'filterable',
-    'allowCreate',
     'remote',
     'collapseTags',
     'automaticDropdown',
@@ -90,36 +90,15 @@ const getSelectVm = (
   configs.multipleLimit = configs.multipleLimit || 0;
   if (!options) {
     options = [
-      {
-        value: '选项1',
-        label: '黄金糕',
-        disabled: false,
-      },
-      {
-        value: '选项2',
-        label: '双皮奶',
-        disabled: false,
-      },
-      {
-        value: '选项3',
-        label: '蚵仔煎',
-        disabled: false,
-      },
-      {
-        value: '选项4',
-        label: '龙须面',
-        disabled: false,
-      },
-      {
-        value: '选项5',
-        label: '北京烤鸭',
-        disabled: false,
-      },
+      { value: 1, label: '黄金糕', disabled: false },
+      { value: 2, label: '双皮奶', disabled: false },
+      { value: 3, label: '蚵仔煎', disabled: false },
+      { value: 4, label: '龙须面', disabled: false },
+      { value: 5, label: '北京烤鸭', disabled: false },
     ];
   }
 
-  return doMount(
-    `
+  return doMount(`
     <lp-select
       ref="select"
       v-model="value"
@@ -130,7 +109,6 @@ const getSelectVm = (
       :default-first-option="defaultFirstOption"
       :filterable="filterable"
       :collapse-tags="collapseTags"
-      :allow-create="allowCreate"
       :filterMethod="filterMethod"
       :remote="remote"
       :loading="loading"
@@ -147,25 +125,24 @@ const getSelectVm = (
       </lp-option>
     </lp-select>
   `,
-    () => ({
-      options,
-      multiple: configs.multiple,
-      multipleLimit: configs.multipleLimit,
-      clearable: configs.clearable,
-      defaultFirstOption: configs.defaultFirstOption,
-      filterable: configs.filterable,
-      collapseTags: configs.collapseTags,
-      allowCreate: configs.allowCreate,
-      popperClass: configs.popperClass,
-      automaticDropdown: configs.automaticDropdown,
-      fitInputWidth: configs.fitInputWidth,
-      loading: false,
-      filterMethod: configs.filterMethod,
-      remote: configs.remote,
-      remoteMethod: configs.remoteMethod,
-      value: configs.multiple ? [] : '',
-      size: configs.size || 'default',
-    }),
+  () => ({
+    options,
+    multiple: configs.multiple,
+    multipleLimit: configs.multipleLimit,
+    clearable: configs.clearable,
+    defaultFirstOption: configs.defaultFirstOption,
+    filterable: configs.filterable,
+    collapseTags: configs.collapseTags,
+    popperClass: configs.popperClass,
+    automaticDropdown: configs.automaticDropdown,
+    fitInputWidth: configs.fitInputWidth,
+    loading: false,
+    filterMethod: configs.filterMethod,
+    remote: configs.remote,
+    remoteMethod: configs.remoteMethod,
+    value: configs.multiple ? [] : '',
+    size: configs.size || 'default',
+  }),
   );
 };
 
@@ -184,7 +161,6 @@ const getGroupSelectVm = (
     'multiple',
     'clearable',
     'filterable',
-    'allowCreate',
     'remote',
     'collapseTags',
     'automaticDropdown',
@@ -194,54 +170,34 @@ const getGroupSelectVm = (
   }
   configs.multipleLimit = configs.multipleLimit || 0;
   if (!options) {
-    options = [
-      {
-        label: 'Australia',
-        options: [
-          { value: 'Sydney', label: 'Sydney' },
-          { value: 'Melbourne', label: 'Melbourne' },
-        ],
-      },
-      {
-        label: 'China',
-        options: [
-          { value: 'Shanghai', label: 'Shanghai' },
-          { value: 'Shenzhen', label: 'Shenzhen' },
-          { value: 'Guangzhou', label: 'Guangzhou' },
-          { value: 'Dalian', label: 'Dalian' },
-        ],
-      },
-      {
-        label: 'India',
-        options: [
-          {
-            value: 'Mumbai',
-            label: 'Mumbai',
-          },
-          {
-            value: 'Delhi',
-            label: 'Delhi',
-          },
-          {
-            value: 'Bangalore',
-            label: 'Bangalore',
-          },
-        ],
-      },
-      {
-        label: 'Indonesia',
-        options: [
-          {
-            value: 'Bandung',
-            label: 'Bandung',
-          },
-          {
-            value: 'Jakarta',
-            label: 'Jakarta',
-          },
-        ],
-      },
-    ];
+    options = [{
+      label: 'Australia',
+      options: [
+        { value: 'Sydney', label: 'Sydney' },
+        { value: 'Melbourne', label: 'Melbourne' },
+      ],
+    }, {
+      label: 'China',
+      options: [
+        { value: 'Shanghai', label: 'Shanghai' },
+        { value: 'Shenzhen', label: 'Shenzhen' },
+        { value: 'Guangzhou', label: 'Guangzhou' },
+        { value: 'Dalian', label: 'Dalian' },
+      ],
+    }, {
+      label: 'India',
+      options: [
+        { value: 'Mumbai', label: 'Mumbai' },
+        { value: 'Delhi', label: 'Delhi' },
+        { value: 'Bangalore', label: 'Bangalore' },
+      ],
+    }, {
+      label: 'Indonesia',
+      options: [
+        { value: 'Bandung', label: 'Bandung' },
+        { value: 'Jakarta', label: 'Jakarta' },
+      ],
+    }];
   }
   return doMount(
     `
@@ -254,7 +210,6 @@ const getGroupSelectVm = (
       :clearable="clearable"
       :filterable="filterable"
       :collapse-tags="collapseTags"
-      :allow-create="allowCreate"
       :filterMethod="filterMethod"
       :remote="remote"
       :loading="loading"
@@ -281,7 +236,6 @@ const getGroupSelectVm = (
       clearable: configs.clearable,
       filterable: configs.filterable,
       collapseTags: configs.collapseTags,
-      allowCreate: configs.allowCreate,
       popperClass: configs.popperClass,
       automaticDropdown: configs.automaticDropdown,
       fitInputWidth: configs.fitInputWidth,
@@ -309,7 +263,7 @@ describe('Select', () => {
     }));
     expect(wrapper.classes()).toContain('lp-select');
     expect(findInnerInput().placeholder).toBe('Select');
-    const select = wrapper.findComponent(Select);
+    const select = wrapper.findComponent(LpSelect);
     await select.trigger('mouseenter');
     await select.trigger('click');
     await nextTick();
@@ -331,38 +285,23 @@ describe('Select', () => {
 
   test('custom dropdown class', () => {
     wrapper = getSelectVm({ popperClass: 'custom-dropdown' });
-    const dropdown = wrapper.findComponent({ name: 'ElSelectDropdown' });
+    const dropdown = wrapper.findComponent({ name: 'LpSelectDropdown' });
     expect(dropdown.classes()).toContain('custom-dropdown');
   });
 
   test('default value', async () => {
-    wrapper = doMount(
-      `
-      <lp-select v-model="value">
-        <lp-option
-          v-for="item in options"
-          :label="item.label"
-          :key="item.value"
-          :value="item.value">
-        </lp-option>
-      </lp-select>
-    `,
-      () => ({
-        options: [
-          {
-            value: '选项1',
-            label: '黄金糕',
-          },
-          {
-            value: '选项2',
-            label: '双皮奶',
-          },
-        ],
-        value: '选项2',
-      }),
+    const value = ref('选项2');
+    const options = [
+      { value: '选项1', label: '黄金糕' },
+      { value: '选项2', label: '双皮奶' },
+    ];
+    wrapper = mount(
+      () => <LpSelect v-model={value.value}>
+        { options.map(item => <LpSelectOption label={item.label} key={item.value} value={item.value} />)}
+      </LpSelect>,
+      { attachTo: 'body' },
     );
     await nextTick();
-
     expect(findInnerInput().value).toBe('双皮奶');
   });
 
@@ -380,22 +319,10 @@ describe('Select', () => {
     `,
       () => ({
         options: [
-          {
-            value: {
-              value: '选项1',
-            },
-            label: '黄金糕',
-          },
-          {
-            value: {
-              value: '选项2',
-            },
-            label: '双皮奶',
-          },
+          { value: { value: '选项1' }, label: '黄金糕' },
+          { value: { value: '选项2' }, label: '双皮奶' },
         ],
-        value: {
-          value: '选项2',
-        },
+        value: { value: '选项2' },
       }),
     );
     await nextTick();
@@ -606,7 +533,7 @@ describe('Select', () => {
       },
     ];
     wrapper = getGroupSelectVm({}, optionGroupData);
-    const options = wrapper.findAllComponents(Option);
+    const options = wrapper.findAllComponents(LpSelectOption);
     expect(options[0].classes('is-disabled')).toBeTruthy();
   });
 
@@ -616,40 +543,23 @@ describe('Select', () => {
         label: 'Australia',
         disabled: true,
         options: [
-          {
-            value: 'Sydney',
-            label: 'Sydney',
-          },
-          {
-            value: 'Melbourne',
-            label: 'Melbourne',
-          },
+          { value: 'Sydney', label: 'Sydney' },
+          { value: 'Melbourne', label: 'Melbourne' },
         ],
       },
       {
         label: 'China',
         options: [
-          {
-            value: 'Shanghai',
-            label: 'Shanghai',
-          },
-          {
-            value: 'Shenzhen',
-            label: 'Shenzhen',
-          },
-          {
-            value: 'Guangzhou',
-            label: 'Guangzhou',
-          },
-          {
-            value: 'Dalian',
-            label: 'Dalian',
-          },
+          { value: 'Shanghai', label: 'Shanghai' },
+          { value: 'Shenzhen', label: 'Shenzhen' },
+          { value: 'Guangzhou', label: 'Guangzhou' },
+          { value: 'Dalian', label: 'Dalian' },
         ],
       },
     ];
+
     wrapper = getGroupSelectVm({}, optionGroupData);
-    const select = wrapper.findComponent({ name: 'ElSelect' });
+    const select = wrapper.findComponent(LpSelect);
     const vm = select.vm as any;
     let i = 8;
     while (i--) {
@@ -688,7 +598,7 @@ describe('Select', () => {
         },
       },
     );
-    const select = wrapper.findComponent({ name: 'ElSelect' });
+    const select = wrapper.findComponent(LpSelect);
     const vm = wrapper.vm as any;
     const selectVm = select.vm as any;
     selectVm.visible = true;
@@ -699,7 +609,7 @@ describe('Select', () => {
   test('keyboard operations', async () => {
     vi.useFakeTimers();
     wrapper = getSelectVm();
-    const select = wrapper.findComponent({ name: 'ElSelect' });
+    const select = wrapper.findComponent(LpSelect);
     const vm = select.vm as any;
     let i = 8;
     while (i--) {
@@ -712,7 +622,7 @@ describe('Select', () => {
     expect(vm.hoverIndex).toBe(3);
     vm.selectOption();
     await nextTick();
-    expect((wrapper.vm as any).value).toBe('选项4');
+    expect((wrapper.vm as any).value).toBe(4);
     vm.toggleMenu();
 
     vi.runAllTimers();
@@ -726,7 +636,7 @@ describe('Select', () => {
 
   test('clearable', async () => {
     wrapper = getSelectVm({ clearable: true });
-    const select = wrapper.findComponent({ name: 'ElSelect' });
+    const select = wrapper.findComponent(LpSelect);
     const vm = wrapper.vm as any;
     const selectVm = select.vm as any;
     vm.value = '选项1';
@@ -762,7 +672,7 @@ describe('Select', () => {
 
   test('fitInputWidth', async () => {
     wrapper = getSelectVm({ fitInputWidth: true });
-    const selectWrapper = wrapper.findComponent({ name: 'ElSelect' });
+    const selectWrapper = wrapper.findComponent(LpSelect);
     const selectDom = selectWrapper.element;
     const selectRect = {
       height: 40,
@@ -774,10 +684,8 @@ describe('Select', () => {
     const mockSelectWidth = vi
       .spyOn(selectDom, 'getBoundingClientRect')
       .mockReturnValue(selectRect as DOMRect);
-    const dropdown = wrapper.findComponent({ name: 'ElSelectDropdown' });
-    dropdown.vm.minWidth = `${
-      selectWrapper.element.getBoundingClientRect().width
-    }px`;
+    const dropdown = wrapper.findComponent(LpSelectDropdown);
+    dropdown.vm.minWidth = `${selectWrapper.element.getBoundingClientRect().width}px`;
     await nextTick();
     expect((dropdown.element as HTMLElement).style.width).toBe('221px');
     mockSelectWidth.mockRestore();
@@ -788,7 +696,7 @@ describe('Select', () => {
       filterable: true,
       defaultFirstOption: true,
     });
-    const select = wrapper.findComponent({ name: 'ElSelect' });
+    const select = wrapper.findComponent(LpSelect);
     const selectVm = select.vm as any;
     const input = wrapper.find('input');
     input.element.focus();
@@ -800,30 +708,15 @@ describe('Select', () => {
 
   test('check default first option when the very first option is disabled', async () => {
     const demoOptions = [
-      {
-        value: 'HTML',
-        label: 'HTML',
-        disabled: true,
-      },
-      {
-        value: 'CSS',
-        label: 'CSS',
-        disabled: false,
-      },
-      {
-        value: 'JavaScript',
-        label: 'JavaScript',
-        disabled: false,
-      },
+      { value: 'HTML', label: 'HTML', disabled: true },
+      { value: 'CSS', label: 'CSS', disabled: false },
+      { value: 'JavaScript', label: 'JavaScript', disabled: false },
     ];
     wrapper = getSelectVm(
-      {
-        filterable: true,
-        defaultFirstOption: true,
-      },
+      { filterable: true, defaultFirstOption: true },
       demoOptions,
     );
-    const select = wrapper.findComponent({ name: 'ElSelect' });
+    const select = wrapper.findComponent(LpSelect);
     const selectVm = select.vm as any;
     const input = wrapper.find('input');
     input.element.focus();
@@ -833,61 +726,6 @@ describe('Select', () => {
     expect(selectVm.hoverIndex).toBe(2);
     selectVm.navigateOptions('next');
     expect(selectVm.hoverIndex).toBe(1); // index 0 was skipped
-  });
-
-  test('allow create', async () => {
-    wrapper = getSelectVm({ filterable: true, allowCreate: true });
-    const select = wrapper.findComponent({ name: 'ElSelect' });
-    const selectVm = select.vm as any;
-    const input = wrapper.find('input');
-    input.element.focus();
-    selectVm.selectedLabel = 'new';
-    selectVm.debouncedOnInputChange();
-    await nextTick();
-    const options = [...getOptions()];
-    const target = options.find(option => option.textContent === 'new')!;
-    target.click();
-    expect((wrapper.vm as any).value).toBe('new');
-  });
-
-  test('allow create async option', async () => {
-    const options = [
-      {
-        value: '选项1',
-        label: '黄金糕',
-      },
-      {
-        value: '选项2',
-        label: '双皮奶',
-      },
-    ];
-    wrapper = doMount(
-      `
-      <lp-select
-        v-model="value"
-        filterable
-        allowCreate
-      >
-        <lp-option
-          v-for="item in options"
-          :label="item.label"
-          :key="item.value"
-          :value="item.value">
-        </lp-option>
-      </lp-select>
-    `,
-      () => ({
-        options: [],
-        value: '选项2',
-      }),
-    );
-
-    await nextTick();
-    expect(getOptions()).toHaveLength(1);
-    await wrapper.setData({
-      options,
-    });
-    expect(getOptions()).toHaveLength(options.length);
   });
 
   test('multiple select', async () => {
@@ -909,43 +747,32 @@ describe('Select', () => {
 
   test('multiple select when content overflow', async () => {
     wrapper = doMount(
-      `
-      <lp-select v-model="selectedList" multiple placeholder="请选择">
-        <lp-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-        </lp-option>
-      </lp-select>
-    `,
+      `<lp-select v-model="selectedList" multiple placeholder="请选择">
+        <lp-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+      </lp-select>`,
       () => ({
         options: [
           {
             value: '选项1',
-            label:
-              '黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕',
+            label: '黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕',
           },
           {
             value: '选项2',
-            label:
-              '双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶',
+            label: '双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶',
           },
           {
             value: '选项3',
             label: '蚵仔煎蚵仔煎蚵仔煎蚵仔煎蚵仔煎蚵仔煎',
           },
-          {
-            value: '选项4',
-            label: '龙须面',
-          },
-          {
-            value: '选项5',
-            label: '北京烤鸭',
-          },
+          { value: '选项4', label: '龙须面' },
+          { value: '选项5', label: '北京烤鸭' },
         ],
         selectedList: [],
       }),
     );
     await wrapper.find('.select-trigger').trigger('click');
     const options = getOptions();
-    const selectWrapper = wrapper.findComponent(Select);
+    const selectWrapper = wrapper.findComponent(LpSelect);
     const inputWrapper = selectWrapper.findComponent({ ref: 'reference' });
     const inputDom = inputWrapper.element;
     const mockInputWidth = vi
@@ -970,43 +797,30 @@ describe('Select', () => {
 
   test('multiple select with collapseTags when content overflow', async () => {
     wrapper = doMount(
-      `
-      <lp-select v-model="selectedList" multiple collapseTags placeholder="请选择">
-        <lp-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-        </lp-option>
-      </lp-select>
-    `,
+      `<lp-select v-model="selectedList" multiple collapseTags placeholder="请选择">
+        <lp-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+      </lp-select>`,
       () => ({
         options: [
           {
             value: '选项1',
-            label:
-              '黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕',
+            label: '黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕黄金糕',
           },
           {
             value: '选项2',
-            label:
-              '双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶',
+            label: '双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶双皮奶',
           },
-          {
-            value: '选项3',
-            label: '蚵仔煎蚵仔煎蚵仔煎蚵仔煎蚵仔煎蚵仔煎',
-          },
-          {
-            value: '选项4',
-            label: '龙须面',
-          },
-          {
-            value: '选项5',
-            label: '北京烤鸭',
-          },
+          { value: '选项3', label: '蚵仔煎蚵仔煎蚵仔煎蚵仔煎蚵仔煎蚵仔煎' },
+          { value: '选项4', label: '龙须面' },
+          { value: '选项5', label: '北京烤鸭' },
         ],
         selectedList: [],
       }),
     );
+
     await wrapper.find('.select-trigger').trigger('click');
     const options = getOptions();
-    const selectWrapper = wrapper.findComponent(Select);
+    const selectWrapper = wrapper.findComponent(LpSelect);
     const inputWrapper = selectWrapper.findComponent({ ref: 'reference' });
     const inputDom = inputWrapper.element;
     const mockInputWidth = vi
@@ -1375,12 +1189,12 @@ describe('Select', () => {
           :value="item"
         />
       </lp-select>`,
-      components: { LpSelect: Select, LpOption: Option },
+      components: { LpSelect, LpOption: LpSelectOption },
       data() {
         return {
-          options: <OptionProps[]>[],
+          options: [] as OptionProps[],
           value: [],
-          list: <OptionProps[]>[],
+          list: [] as OptionProps[],
           loading: false,
           states: [
             'Alabama',
@@ -1798,11 +1612,11 @@ describe('Select', () => {
     test('filterable is true with grouping', async () => {
       wrapper = getGroupSelectVm({ filterable: true });
       await wrapper.find('.select-trigger').trigger('click');
-      const vm = wrapper.findComponent(Select).vm;
+      const vm = wrapper.findComponent(LpSelect).vm;
       const event = { target: { value: 'sh' } };
       vm.debouncedQueryChange(event);
       await nextTick();
-      const groups = wrapper.findAllComponents(Group);
+      const groups = wrapper.findAllComponents(LpOptionGroup);
       expect(
         groups.filter(group => {
           const vm = group.vm as any;
@@ -1956,10 +1770,10 @@ describe('Select', () => {
 
   test('should reset selectedLabel when toggle multiple', async () => {
     wrapper = getSelectVm({ multiple: false });
-    const select = wrapper.findComponent({ name: 'ElSelect' });
+    const select = wrapper.findComponent(LpSelect);
     const vm = wrapper.vm as any;
     const selectVm = select.vm as any;
-    vm.value = '选项1';
+    vm.value = 1;
     await nextTick();
     expect(selectVm.selectedLabel).toBe('黄金糕');
     vm.multiple = true;

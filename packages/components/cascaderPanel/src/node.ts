@@ -200,19 +200,19 @@ export class Node {
   }
 
   setCheckState(checked: boolean) {
-    const totalNumber = this.children.length;
-    const checkedNumber = this.children.reduce((c, p) => {
+    const totalNum = this.children.length;
+    const checkedNum = this.children.reduce((c, p) => {
       return c + (p.checked ? 1 : (p.indeterminate ? 0.5 : 0));
     }, 0);
 
-    this.checked =
-      this.loaded &&
-      this.children
+    this.checked = this.loaded
+      && this.children
         .filter(child => !child.isDisabled)
-        .every(child => child.loaded && child.checked) &&
-      checked;
+        .every(child => child.loaded && child.checked)
+      && checked;
+
     this.indeterminate =
-      this.loaded && checkedNumber !== totalNumber && checkedNumber > 0;
+      this.loaded && checkedNum !== totalNum && checkedNum > 0;
   }
 
   doCheck(checked: boolean) {

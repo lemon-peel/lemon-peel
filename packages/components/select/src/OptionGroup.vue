@@ -66,7 +66,7 @@ export default defineComponent({
     const { groupQueryChange } = toRaw(select);
 
     watch(
-      groupQueryChange,
+      () => select.groupQueryChange,
       () => {
         visible.value = children.value.some(option => option.visible === true);
       },

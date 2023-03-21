@@ -229,7 +229,6 @@ describe('Radio Button', () => {
     const data = ref<RadioGroupProps['value']>(0);
 
     const onChange = (val: RadioGroupProps['value']) => {
-      console.info('cc:', val);
       data.value = val;
     };
 

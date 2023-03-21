@@ -12,14 +12,12 @@ import type { ComponentPublicInstance, ExtractPropTypes, Ref, ShallowRef, SetupC
 import type LpTooltip from '@lemon-peel/components/tooltip';
 import type { QueryChangeCtx, SelectOptionProxy } from './token';
 import type { selectProps } from './select';
+import type { OptionProps } from './option';
 
 export function useSelectStates(props: Readonly<ExtractPropTypes<typeof selectProps>>) {
   const { t } = useLocale();
   return reactive({
-    options: new Map(),
-    cachedOptions: new Map<any, SelectOptionProxy>(),
-    createdLabel: null as Nullable<any>,
-    createdSelected: false,
+    options: new Map<OptionProps['value'], SelectOptionProxy>(),
     selected: props.multiple ? ([] as SelectOptionProxy[]) : ({} as any),
     inputLength: 20,
     inputWidth: 0,
@@ -27,10 +25,10 @@ export function useSelectStates(props: Readonly<ExtractPropTypes<typeof selectPr
     filteredOptionsCount: 0,
     visible: false,
     softFocus: false,
-    selectedLabel: '',
-    hoverIndex: -1,
-    query: '',
-    previousQuery: null as Nullable<string>,
+    selectedLabel: '' as OptionProps['label'],
+    hoverIndex: 0,
+    query: '' as OptionProps['label'],
+    previousQuery: null as Nullable<OptionProps['label']>,
     inputHovering: false,
     cachedPlaceHolder: '',
     currentPlaceholder: t('lp.select.placeholder'),
@@ -59,7 +57,7 @@ export function useSelect(props: Readonly<ExtractPropTypes<typeof selectProps>>,
   const input: Ref<HTMLInputElement | null> = ref(null);
   const tooltipRef: Ref<InstanceType<typeof LpTooltip> | null> = ref(null);
   const tags: Ref<HTMLElement | null> = ref(null);
-  const selectWrapper: Ref<HTMLElement | null> = ref(null);
+  const selectWrapper: Ref<HTMLElement> = ref(null as any);
   const scrollbar: Ref<{ handleScroll: () => void } | null> = ref(null);
   const hoverOption: Ref<SelectOptionProxy | null> = ref(null);
   const queryChange: ShallowRef<QueryChangeCtx> = shallowRef({ query: '' });
@@ -123,26 +121,6 @@ export function useSelect(props: Readonly<ExtractPropTypes<typeof selectProps>>,
   });
 
   const optionsArray = computed(() => [...states.options.values()]);
-
-  const cachedOptionsArray = computed(() =>
-    [...states.cachedOptions.values()],
-  );
-
-  const showNewOption = computed(() => {
-    const hasExistingOption = optionsArray.value
-      .filter(option => {
-        return !option.created;
-      })
-      .some(option => {
-        return option.currentLabel === states.query;
-      });
-    return (
-      props.filterable &&
-      props.allowCreate &&
-      states.query !== '' &&
-      !hasExistingOption
-    );
-  });
 
   const selectSize = useSize();
 
@@ -230,27 +208,19 @@ export function useSelect(props: Readonly<ExtractPropTypes<typeof selectProps>>,
 
   /**
    * find and highlight first option as default selected
-   * @remark
-   * - if the first option in dropdown list is user-created,
-   *   it would be at the end of the optionsArray
-   *   so find it and set hover.
-   *   (NOTE: there must be only one user-created option in dropdown list with query)
-   * - if there's no user-created option in list, just find the first one as usual
-   *   (NOTE: exclude options that are disabled or in disabled-group)
    */
   const checkDefaultFirstOption = () => {
     const optionsInDropdown = optionsArray.value.filter(
-      n => n.visible && !n.disabled && !n.states.groupDisabled,
+      n => n.visible && !n.disabled && !n.groupDisabled,
     );
-    const userCreatedOption = optionsInDropdown.find(n => n.created);
     const firstOriginOption = optionsInDropdown[0];
     states.hoverIndex = getValueIndex(
       optionsArray.value,
-      userCreatedOption || firstOriginOption,
+      optionsInDropdown || firstOriginOption,
     );
   };
 
-  const handleQueryChange = async (val: string) => {
+  const handleQueryChange = async (val: OptionProps['label']) => {
     if (states.previousQuery === val || states.isOnComposition) return;
     if (
       states.previousQuery === null &&
@@ -301,20 +271,17 @@ export function useSelect(props: Readonly<ExtractPropTypes<typeof selectProps>>,
     const isNull = toRawType(value).toLowerCase() === 'null';
     const isUndefined = toRawType(value).toLowerCase() === 'undefined';
 
-    for (let i = states.cachedOptions.size - 1; i >= 0; i--) {
-      const cachedOption = cachedOptionsArray.value[i];
+    for (let i = states.options.size - 1; i >= 0; i--) {
+      const cur = optionsArray.value[i];
       const isEqualValue = isObjectValue
-        ? get(cachedOption.value, props.valueKey) === get(value, props.valueKey)
-        : cachedOption.value === value;
+        ? get(cur.value, props.valueKey) === get(value, props.valueKey)
+        : cur.value === value;
       if (isEqualValue) {
-        option = {
-          value,
-          currentLabel: cachedOption.currentLabel,
-          isDisabled: cachedOption.isDisabled,
-        } as Partial<SelectOptionProxy>;
+        option = cur;
         break;
       }
     }
+
     if (option) return option;
     const label = isObjectValue
       ? value.label
@@ -336,23 +303,19 @@ export function useSelect(props: Readonly<ExtractPropTypes<typeof selectProps>>,
       states.selectedLabel = '';
     } else {
       const option = getOption(props.modelValue);
-      if (option.created) {
-        states.createdLabel = option.value!;
-        states.createdSelected = true;
-      } else {
-        states.createdSelected = false;
-      }
       states.selectedLabel = option.currentLabel!;
       states.selected = option;
       if (props.filterable) states.query = states.selectedLabel;
       return;
     }
+
     const result: any[] = [];
     if (Array.isArray(props.modelValue)) {
       for (const value of props.modelValue) {
         result.push(getOption(value));
       }
     }
+
     states.selected = result;
     nextTick(() => {
       resetInputHeight();
@@ -461,10 +424,7 @@ export function useSelect(props: Readonly<ExtractPropTypes<typeof selectProps>>,
 
         if (!props.multiple) {
           if (states.selected) {
-            states.selectedLabel = props.filterable &&
-              props.allowCreate &&
-              states.createdSelected &&
-              states.createdLabel ? states.createdLabel : states.selected.currentLabel;
+            states.selectedLabel =  states.selected.currentLabel;
             if (props.filterable) states.query = states.selectedLabel;
           }
 
@@ -510,7 +470,10 @@ export function useSelect(props: Readonly<ExtractPropTypes<typeof selectProps>>,
   watch(
     () => states.hoverIndex,
     val => {
-      hoverOption.value = isNumber(val) && val > -1 ? optionsArray.value[val] || {} : {};
+      hoverOption.value = isNumber(val) && val > -1
+        ? optionsArray.value[val] || null
+        : null;
+
       for (const option of optionsArray.value) {
         option.hover = hoverOption.value === option;
       }
@@ -617,6 +580,7 @@ export function useSelect(props: Readonly<ExtractPropTypes<typeof selectProps>>,
       const options = optionsArray.value.filter(
         item => item.value === targetOption.value,
       );
+
       if (options.length > 0) {
         target = options[0].$el;
       }
@@ -647,11 +611,10 @@ export function useSelect(props: Readonly<ExtractPropTypes<typeof selectProps>>,
       }
       emit(UPDATE_MODEL_EVENT_OLD, value);
       emitChange(value);
-      if (option.created) {
-        states.query = '';
-        handleQueryChange('');
-        states.inputLength = 20;
-      }
+      states.query = '';
+      handleQueryChange('');
+      states.inputLength = 20;
+
       if (props.filterable) input.value?.focus();
     } else {
       emit(UPDATE_MODEL_EVENT_OLD, option.value);
@@ -670,7 +633,6 @@ export function useSelect(props: Readonly<ExtractPropTypes<typeof selectProps>>,
     states.optionsCount++;
     states.filteredOptionsCount++;
     states.options.set(vm.value, vm);
-    states.cachedOptions.set(vm.value, vm);
   };
 
   const onOptionDestroy = (key: any, vm: SelectOptionProxy) => {
@@ -806,7 +768,7 @@ export function useSelect(props: Readonly<ExtractPropTypes<typeof selectProps>>,
       const option = optionsArray.value[states.hoverIndex];
       if (
         option.disabled === true ||
-        option.states.groupDisabled === true ||
+        option.groupDisabled === true ||
         !option.visible
       ) {
         navigateOptions(direction);
@@ -839,7 +801,6 @@ export function useSelect(props: Readonly<ExtractPropTypes<typeof selectProps>>,
     showClose,
     iconComponent,
     iconReverse,
-    showNewOption,
     collapseTagSize,
     setSelected,
     managePlaceholder,

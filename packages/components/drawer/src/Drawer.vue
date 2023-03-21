@@ -56,7 +56,7 @@
               </slot>
               <button
                 v-if="showClose"
-                :aria-label="t('el.drawer.close')"
+                :aria-label="t('lp.drawer.close')"
                 :class="ns.e('close-btn')"
                 type="button"
                 @click="handleClose"

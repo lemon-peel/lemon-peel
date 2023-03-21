@@ -1,22 +1,14 @@
-import type { PropType } from 'vue';
+import type { PropType, ExtractPropTypes } from 'vue';
 import { buildProps } from '@lemon-peel/utils';
 import type Option from './Option.vue';
 
 export const optionProps = buildProps({
-  value: {
-    required: true,
-    type: [String, Number, Boolean, Object] as PropType<string | number | boolean | Record<string, any>>,
-  },
-  label: {
-    type: [String, Number] as PropType<string | number>,
-    default: '',
-  },
-  created: Boolean,
-  disabled: {
-    type: Boolean,
-    default: false,
-  },
+  value: { required: true, type: [String, Number, Boolean, Object] as PropType<string | number | boolean | Record<string, any>> },
+  label: { type: [String, Number] as PropType<string | number>, default: '' },
+  disabled: { type: Boolean, default: false },
 });
+
+export type OptionProps = Readonly<ExtractPropTypes<typeof optionProps>>;
 
 export type OptionStates = {
   index: number;

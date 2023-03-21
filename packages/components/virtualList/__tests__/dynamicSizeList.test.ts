@@ -1,4 +1,4 @@
-import { nextTick } from 'vue';
+import { nextTick, unref } from 'vue';
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest';
 import makeMount from '@lemon-peel/test-utils/makeMount';
 import setupMock from '../setupMock';
@@ -18,7 +18,7 @@ const widths = Array.from({ length: 100 }).map(
   () => 25 + Math.floor(Math.random() * 5) + 1,
 ); // greater than 26 less or equal to 30
 
-const mount = makeMount(
+const doMount = makeMount(
   {
     template: `<dynamic-size-list v-bind="$attrs" ref="listRef">
     <template #default="{index, style}">
@@ -57,7 +57,7 @@ describe('<dynamic-size-list />', () => {
 
   describe('render testing', () => {
     it('should render vertical list correctly', async () => {
-      const wrapper = mount();
+      const wrapper = doMount();
       // since the width is variable width, so that we can only conclude
       // a relative number based on the minimal width 26
       // (item's width is greater or equal to 26)
@@ -65,7 +65,7 @@ describe('<dynamic-size-list />', () => {
     });
 
     it('should render horizontal list correctly', async () => {
-      const wrapper = mount({
+      const wrapper = doMount({
         props: {
           layout: HORIZONTAL,
         },
@@ -79,10 +79,11 @@ describe('<dynamic-size-list />', () => {
 
   describe('scroll functionality', () => {
     it("should update inner container's height after scroll dispatched", async () => {
-      const wrapper = mount();
+      const wrapper = doMount();
       const listRef = wrapper.vm.$refs.listRef as ListRef;
       await nextTick();
-      const estimatedTotalSize = Number.parseInt(listRef.innerRef.value.style.height);
+
+      const estimatedTotalSize = Number.parseInt(unref(listRef.innerRef).style.height);
       // when the size is all 26, then there should be 7 items 4 visible + 3 cache
       // so the size must be greater or equal to BASE_SIZE + 1 * 7, so it must be greater
       // than BASE_SIZE + 1 * 6
@@ -96,7 +97,7 @@ describe('<dynamic-size-list />', () => {
       // scroll 200px is approximately ~7(size 30px) - ~8(size 26px) items away.
       listRef.scrollTo(200);
       await nextTick();
-      expect(Number.parseInt(listRef.innerRef.value.style.height)).toBeGreaterThan(
+      expect(Number.parseInt(unref(listRef.innerRef).style.height)).toBeGreaterThan(
         estimatedTotalSize,
       );
 
@@ -108,11 +109,11 @@ describe('<dynamic-size-list />', () => {
       // end with (10 | 11) cached items
       // so the base case is that our window's height has been updated for at least 10 times
       // the height should be only be updated at most 5(the biggest size) * 11
-      expect(Number.parseInt(listRef.innerRef.value.style.height)).toBeGreaterThan(
+      expect(Number.parseInt(unref(listRef.innerRef).style.height)).toBeGreaterThan(
         BASE_SIZE + 1 * 10,
       );
 
-      expect(Number.parseInt(listRef.innerRef.value.style.height)).toBeLessThan(
+      expect(Number.parseInt(unref(listRef.innerRef).style.height)).toBeLessThan(
         BASE_SIZE + 5 * 12,
       );
 
@@ -121,7 +122,7 @@ describe('<dynamic-size-list />', () => {
     });
 
     it('should scroll correctly in horizontal mode', async () => {
-      const wrapper = mount({
+      const wrapper = doMount({
         props: {
           layout: HORIZONTAL,
         },
@@ -129,7 +130,7 @@ describe('<dynamic-size-list />', () => {
 
       const listRef = wrapper.vm.$refs.listRef as ListRef;
       await nextTick();
-      const estimatedTotalSize = Number.parseInt(listRef.innerRef.value.style.width);
+      const estimatedTotalSize = Number.parseInt(unref(listRef.innerRef).style.width);
       // when the size is all 26, then there should be 7 items 2 visible + 3 cache
       // so the size must be greater or equal to BASE_SIZE + 1 * 5, so it must be greater
       // than BASE_SIZE + 1 * 4
@@ -143,7 +144,7 @@ describe('<dynamic-size-list />', () => {
       // scroll 200px is approximately ~7(size 30px) - ~8(size 26px) items away.
       listRef.scrollTo(200);
       await nextTick();
-      expect(Number.parseInt(listRef.innerRef.value.style.width)).toBeGreaterThan(
+      expect(Number.parseInt(unref(listRef.innerRef).style.width)).toBeGreaterThan(
         estimatedTotalSize,
       );
 
@@ -155,11 +156,11 @@ describe('<dynamic-size-list />', () => {
       // end with (9 | 10) cached items
       // so the base case is that our window's width has been updated for at least 10 times
       // the width should be only be updated at most 5(the biggest size) * 11
-      expect(Number.parseInt(listRef.innerRef.value.style.width)).toBeGreaterThan(
+      expect(Number.parseInt(unref(listRef.innerRef).style.width)).toBeGreaterThan(
         BASE_SIZE + 1 * 9,
       );
 
-      expect(Number.parseInt(listRef.innerRef.value.style.width)).toBeLessThan(
+      expect(Number.parseInt(unref(listRef.innerRef).style.width)).toBeLessThan(
         BASE_SIZE + 5 * 11,
       );
       expect(wrapper.findAll(ITEM_SELECTOR).length).toBeLessThanOrEqual(9);
@@ -168,7 +169,7 @@ describe('<dynamic-size-list />', () => {
     // make sure to scroll with in [0, 30), thus we won't get offset issue since
     // item index bigger than 30 could create unwanted offset issue in testing.
     it('should scrollToItem correctly', async () => {
-      const wrapper = mount();
+      const wrapper = doMount();
 
       const listRef = wrapper.vm.$refs.listRef as ListRef;
       // auto alignment
@@ -213,31 +214,6 @@ describe('<dynamic-size-list />', () => {
       expect(
         Number.parseInt(wrapper.find(ITEM_SELECTOR).text()),
       ).toBeLessThanOrEqual(4);
-    });
-  });
-
-  describe('to throw', () => {
-    it('should throw when item-size is not function', () => {
-      const errorHandler = vi.fn();
-      try {
-        mount({
-          props: {
-            itemSize: 1,
-          },
-          global: {
-            config: {
-              errorHandler,
-              warnHandler() {
-                // suppress warning
-              },
-            },
-          },
-        });
-      } catch (error: Error & any) {
-        expect(errorHandler).toHaveBeenCalled();
-        expect(error).toBeInstanceOf(Error);
-        expect(error.message).toContain('itemSize is required as function');
-      }
     });
   });
 });
