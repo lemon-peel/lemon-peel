@@ -11,7 +11,7 @@ export const commonProps = buildProps({
     type: Array as PropType<CascaderOption[]>,
     default: () => [] as CascaderOption[],
   },
-  props: {
+  config: {
     type: Object as PropType<CascaderProps>,
     default: () => ({} as CascaderProps),
   },
@@ -24,17 +24,17 @@ export const DefaultProps: CascaderConfig = {
   emitPath: true, // wether to emit an array of all levels value in which node is located
   lazy: false,
   lazyLoad: NOOP,
-  value: 'value',
-  label: 'label',
-  children: 'children',
+  valueKey: 'value',
+  labelKey: 'label',
+  childrenKey: 'children',
   leaf: 'leaf',
   disabled: 'disabled',
   hoverThreshold: 500,
 };
 
-export const useCascaderConfig = (props: { props: CascaderProps }) => {
+export const useCascaderConfig = (props: { config: CascaderProps }) => {
   return computed(() => ({
     ...DefaultProps,
-    ...props.props,
+    ...props.config,
   }));
 };

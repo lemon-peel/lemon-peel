@@ -27,18 +27,9 @@ const OPTIONS = [
     value: 'zhejiang',
     label: 'Zhejiang',
     children: [
-      {
-        value: 'hangzhou',
-        label: 'Hangzhou',
-      },
-      {
-        value: 'ningbo',
-        label: 'Ningbo',
-      },
-      {
-        value: 'wenzhou',
-        label: 'Wenzhou',
-      },
+      { value: 'hangzhou', label: 'Hangzhou' },
+      { value: 'ningbo', label: 'Ningbo' },
+      { value: 'wenzhou', label: 'Wenzhou' },
     ],
   },
 ];
@@ -54,7 +45,7 @@ const DROPDOWN = '.lp-cascader__dropdown';
 
 const doMount = (render: () => VNode) => {
   return mount(render, {
-    attachTo: document.body,
+    attachTo: 'body',
   });
 };
 
@@ -97,12 +88,11 @@ describe('Cascader.vue', () => {
     ));
 
     const trigger = wrapper.find(TRIGGER);
-
-    await trigger.trigger('click')
-    ;(document.querySelector(NODE) as HTMLElement).click();
+    await trigger.trigger('click');
+    (document.querySelector(NODE) as HTMLElement).click();
     await nextTick();
-    expect(handleExpandChange).toBeCalledWith(['zhejiang'])
-    ;(document.querySelectorAll(NODE)[1] as HTMLElement).click();
+    expect(handleExpandChange).toBeCalledWith(['zhejiang']);
+    (document.querySelectorAll(NODE)[1] as HTMLElement).click();
     await nextTick();
     expect(handleChange).toBeCalledWith(['zhejiang', 'hangzhou']);
     expect(value.value).toEqual(['zhejiang', 'hangzhou']);
@@ -192,9 +182,9 @@ describe('Cascader.vue', () => {
       ['zhejiang', 'hangzhou'],
       ['zhejiang', 'ningbo'],
     ]);
-    const props = { multiple: true };
+    const config = { multiple: true };
     const wrapper = doMount(() => (
-      <Cascader v-model:value={value.value} props={props} options={OPTIONS} />
+      <Cascader v-model:value={value.value} config={config} options={OPTIONS} />
     ));
 
     await nextTick();
@@ -218,7 +208,7 @@ describe('Cascader.vue', () => {
           ['zhejiang', 'wenzhou'],
         ]}
         collapseTags
-        props={props}
+        config={props}
         options={OPTIONS}
       />
     ));
@@ -242,7 +232,7 @@ describe('Cascader.vue', () => {
         ]}
         collapseTags
         collapseTagsTooltip
-        props={props}
+        config={props}
         options={OPTIONS}
       />
     ));
@@ -262,7 +252,7 @@ describe('Cascader.vue', () => {
       <Cascader
         value={[['zhejiang', 'hangzhou']]}
         tagType="success"
-        props={props}
+        config={props}
         options={OPTIONS}
       />
     ));
@@ -306,7 +296,7 @@ describe('Cascader.vue', () => {
     const wrapper = doMount(() => (
       <Cascader
         v-model:value={value.value}
-        props={props}
+        config={props}
         filterable
         options={OPTIONS}
       />

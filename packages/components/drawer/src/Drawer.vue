@@ -7,7 +7,7 @@
       @before-leave="beforeLeave"
     >
       <lp-overlay
-        v-show="visible"
+        v-show="isVisible"
         :mask="modal"
         :overlay-class="modalClass"
         :z-index="zIndex"
@@ -15,7 +15,7 @@
       >
         <lp-focus-trap
           loop
-          :trapped="visible"
+          :trapped="isVisible"
           :focus-trap-el="drawerRef"
           :focus-start-el="focusStartRef"
           @release-requested="onCloseRequested"
@@ -109,6 +109,7 @@ const isHorizontal = computed(
 const drawerSize = computed(() => addUnit(props.size));
 
 const {
+  isVisible,
   titleId,
   bodyId,
   rendered,
@@ -119,4 +120,14 @@ const {
   onCloseRequested,
   handleClose,
 } = useDialog(props, drawerRef);
+
+defineExpose({
+  isVisible,
+  rendered,
+  afterEnter,
+  afterLeave,
+  onModalClick,
+  onCloseRequested,
+  handleClose,
+});
 </script>

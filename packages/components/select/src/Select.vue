@@ -2,7 +2,7 @@
   <div
     ref="selectWrapper"
     v-click-outside:[popperPaneRef]="handleClose"
-    :class="[wrapperKls, nsSelect.b('ssss')]"
+    :class="[wrapperKls]"
     @mouseenter="handleMouseEnter"
     @mouseleave="handleMouseLeave"
     @click.stop="toggleMenu"
@@ -161,7 +161,7 @@
           <lp-input
             :id="id"
             ref="reference"
-            :value="selectedLabel"
+            v-model:value="selectedLabel"
             type="text"
             :placeholder="currentPlaceholder"
             :name="name"
@@ -244,7 +244,7 @@ import LpTag, { tagProps } from '@lemon-peel/components/tag';
 import LpIcon from '@lemon-peel/components/icon';
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
 
-import LpOption from './Option.vue';
+import LpOptions from './options';
 import LpSelectDropdown from './SelectDropdown.vue';
 import { useSelect, useSelectStates } from './useSelect';
 import { selectKey } from './token';
@@ -438,6 +438,7 @@ defineExpose(reactive({
   debouncedQueryChange,
   handleOptionSelect,
   handleResize,
+  selected,
   selectedLabel,
 }));
 </script>

@@ -88,7 +88,7 @@ defineOptions({
   inheritAttrs: false,
 });
 
-defineEmits(dialogEmits);
+const emit = defineEmits(dialogEmits);
 const props = defineProps(dialogProps);
 const slots = useSlots();
 

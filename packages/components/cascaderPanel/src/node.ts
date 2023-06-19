@@ -38,9 +38,9 @@ export interface CascaderProps {
   emitPath?: boolean;
   lazy?: boolean;
   lazyLoad?: LazyLoad;
-  value?: string;
-  label?: string;
-  children?: string;
+  valueKey?: string;
+  labelKey?: string;
+  childrenKey?: string;
   disabled?: string | IsDisabled;
   leaf?: string | IsLeaf;
   hoverThreshold?: number;
@@ -97,13 +97,15 @@ export class Node {
     readonly parent?: Node,
     readonly root = false,
   ) {
-    const { value: valueKey, label: labelKey, children: childrenKey } = config;
+    const { valueKey, labelKey, childrenKey } = config;
+
+    this.value = data[valueKey] as CascaderNodeValue;
+    this.level = root ? 0 : (parent ? parent.level + 1 : 1);
+    this.label = data[labelKey] as string;
+
     const childrenData = data[childrenKey] as ChildrenData;
     const pathNodes = calculatePathNodes(this);
 
-    this.level = root ? 0 : (parent ? parent.level + 1 : 1);
-    this.value = data[valueKey] as CascaderNodeValue;
-    this.label = data[labelKey] as string;
     this.pathNodes = pathNodes;
     this.pathValues = pathNodes.map(node => node.value);
     this.pathLabels = pathNodes.map(node => node.label);

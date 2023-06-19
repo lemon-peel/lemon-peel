@@ -238,7 +238,7 @@ describe('CascaderPanel.vue', () => {
   test('expand by hover', async () => {
     const props: CascaderProps = { expandTrigger: 'hover' };
     const wrapper = mount(() => (
-      <CascaderPanel options={DISABLED_OPTIONS} props={props} />
+      <CascaderPanel options={DISABLED_OPTIONS} config={props} />
     ));
 
     const [zjNode, jsNode] = wrapper.findAll(NODE).slice(1);
@@ -257,7 +257,7 @@ describe('CascaderPanel.vue', () => {
       <CascaderPanel
         v-model:value={value.value}
         options={NORMAL_OPTIONS}
-        props={props}
+        config={props}
       />
     ));
 
@@ -284,7 +284,7 @@ describe('CascaderPanel.vue', () => {
     ];
     const props = { emitPath: false };
     const wrapper = mount(() => (
-      <CascaderPanel v-model:value={value.value} options={options} props={props} />
+      <CascaderPanel v-model:value={value.value} options={options} config={props} />
     ));
 
     await nextTick();
@@ -308,7 +308,7 @@ describe('CascaderPanel.vue', () => {
       <CascaderPanel
         v-model:value={value.value}
         options={NORMAL_OPTIONS}
-        props={props}
+        config={props}
       />
     ), { attachTo: 'body' });
 
@@ -347,7 +347,7 @@ describe('CascaderPanel.vue', () => {
       <CascaderPanel
         value={[['beijing']]}
         options={DISABLED_OPTIONS}
-        props={props}
+        config={props}
       />
     ));
 
@@ -369,7 +369,7 @@ describe('CascaderPanel.vue', () => {
       <CascaderPanel
         v-model:value={value.value}
         options={NORMAL_OPTIONS}
-        props={props}
+        config={props}
       />
     ), { attachTo: 'body' });
 
@@ -385,7 +385,7 @@ describe('CascaderPanel.vue', () => {
       checkStrictly: true,
     };
     const wrapper = mount(() => (
-      <CascaderPanel options={DISABLED_OPTIONS} props={props} />
+      <CascaderPanel options={DISABLED_OPTIONS} config={props} />
     ));
 
     const [bjNode, , jsNode] = wrapper.findAll(NODE);
@@ -412,7 +412,7 @@ describe('CascaderPanel.vue', () => {
       <CascaderPanel
         v-model:value={value.value}
         options={NORMAL_OPTIONS}
-        props={props}
+        config={props}
       />
     ), { attachTo: 'body' });
 
@@ -433,9 +433,9 @@ describe('CascaderPanel.vue', () => {
   test('custom props', async () => {
     const value = ref([]);
     const props = {
-      value: 'id',
-      label: 'name',
-      children: 'areas',
+      valueKey: 'id',
+      labelKey: 'name',
+      childrenKey: 'areas',
       disabled: 'invalid',
       leaf: (data: typeof CUSTOM_PROPS_OPTIONS[0]) => !data.areas?.length,
     };
@@ -443,7 +443,7 @@ describe('CascaderPanel.vue', () => {
       <CascaderPanel
         v-model:value={value.value}
         options={CUSTOM_PROPS_OPTIONS}
-        props={props as any}
+        config={props as any}
       />
     ));
 
@@ -464,7 +464,7 @@ describe('CascaderPanel.vue', () => {
     vi.useFakeTimers();
     const value = ref([]);
     const wrapper = mount(() => (
-      <CascaderPanel v-model:value={value.value} props={{ lazy: true, lazyLoad }} />
+      <CascaderPanel v-model:value={value.value} config={{ lazy: true, lazyLoad }} />
     ), { attachTo: 'body' });
 
     vi.runAllTimers();
@@ -488,7 +488,7 @@ describe('CascaderPanel.vue', () => {
   test('lazy load with default primitive value', async () => {
     vi.useFakeTimers();
     const wrapper = mount(() => (
-      <CascaderPanel value={[1, 2]} props={{ lazy: true, lazyLoad }} />
+      <CascaderPanel value={[1, 2]} config={{ lazy: true, lazyLoad }} />
     ), { attachTo: 'body' });
 
     vi.runAllTimers();
@@ -518,7 +518,7 @@ describe('CascaderPanel.vue', () => {
       },
     };
     const wrapper = mount(() => (
-      <CascaderPanel value={value} props={props} />
+      <CascaderPanel value={value} config={props} />
     ));
 
     vi.runAllTimers();
@@ -551,7 +551,7 @@ describe('CascaderPanel.vue', () => {
       },
     };
 
-    const wrapper = mount(() => <CascaderPanel props={props} />);
+    const wrapper = mount(() => <CascaderPanel config={props} />);
 
     vi.runAllTimers();
     await nextTick();
@@ -591,7 +591,7 @@ describe('CascaderPanel.vue', () => {
         }, 1000);
       },
     };
-    const wrapper = mount(() => <CascaderPanel props={props} />, { attachTo: 'body' });
+    const wrapper = mount(() => <CascaderPanel config={props} />, { attachTo: 'body' });
 
     vi.runAllTimers();
     await nextTick();
@@ -620,7 +620,7 @@ describe('CascaderPanel.vue', () => {
     const wrapper = mount(() => (
       <CascaderPanel
         options={NORMAL_OPTIONS}
-        props={props}
+        config={props}
         value={[['shanghai', 'shanghai']]}
       />
     ));

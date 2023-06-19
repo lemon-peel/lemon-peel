@@ -62,6 +62,7 @@ export function useSelect(props: Readonly<ExtractPropTypes<typeof selectProps>>,
   const hoverOption: Ref<SelectOptionProxy | null> = ref(null);
   const queryChange: ShallowRef<QueryChangeCtx> = shallowRef({ query: '' });
   const groupQueryChange = shallowRef('');
+  const optionList = ref<string[]>([]);
 
   const { form, formItem } = useFormItem();
 
@@ -210,18 +211,19 @@ export function useSelect(props: Readonly<ExtractPropTypes<typeof selectProps>>,
    * find and highlight first option as default selected
    */
   const checkDefaultFirstOption = () => {
-    console.info('fdfs');
-    const optionsInDropdown = optionsArray.value.filter(
+    const optionsInDropdown = optionsArray.value.find(
       n => n.visible && !n.disabled && !n.groupDisabled,
     );
-    const firstOriginOption = optionsInDropdown[0];
+    const firstOriginOption = optionsInDropdown;
+
     states.hoverIndex = getValueIndex(
       optionsArray.value,
-      optionsInDropdown || firstOriginOption,
+      firstOriginOption,
     );
   };
 
   const handleQueryChange = async (val: OptionProps['label']) => {
+    console.info(val);
     if (states.previousQuery === val || states.isOnComposition) return;
     if (
       states.previousQuery === null &&

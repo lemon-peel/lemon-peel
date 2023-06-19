@@ -131,19 +131,16 @@ describe('Drawer', () => {
       `<lp-drawer :title='title' v-model:visible='visible' :append-to-body='false' :destroy-on-close='true' ref='drawer'>
         <span>${content}</span>
       </lp-drawer>`,
-      () => ({
-        title,
-        visible: true,
-      }),
+      () => ({ title, visible: true }),
     );
-    const vm = wrapper.vm as any;
+    const vm = wrapper.vm;
 
     await nextTick();
     await rAF();
     await nextTick();
-    expect(wrapper.find('.lp-drawer__body span').element.textContent).toEqual(
-      content,
-    );
+    expect(wrapper.find('.lp-drawer__body span').element.textContent)
+      .toEqual(content);
+
     vm.$refs.drawer.handleClose();
     await nextTick();
     await rAF();
@@ -156,10 +153,7 @@ describe('Drawer', () => {
       `<lp-drawer :title='title' v-model:visible='visible' :append-to-body='false' :destroy-on-close='true' ref='drawer'>
         <span>${content}</span>
       </lp-drawer>`,
-      () => ({
-        title,
-        visible: true,
-      }),
+      () => ({ title, visible: true }),
     );
     await nextTick();
     await rAF();

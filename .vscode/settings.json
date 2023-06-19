@@ -13,6 +13,5 @@
     "**/toolkit/**",
     "**/docs",
     "**/serve",
-  ],
-  "testing.automaticallyOpenPeekView": "never"
+  ]
 }

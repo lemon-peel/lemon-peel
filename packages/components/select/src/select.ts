@@ -29,10 +29,7 @@ export const selectProps = buildProps({
   clearable: Boolean,
   filterable: Boolean,
   loading: Boolean,
-  popperClass: {
-    type: String,
-    default: '',
-  },
+  popperClass: { type: String, default: '' },
   remote: Boolean,
   loadingText: String,
   noMatchText: String,

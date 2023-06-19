@@ -96,7 +96,7 @@
                 <lp-input
                   :id="inputId"
                   ref="inputRef"
-                  valuenputValue"
+                  :value="inputValue"
                   :type="inputType"
                   :placeholder="inputPlaceholder"
                   :aria-invalid="validateError"

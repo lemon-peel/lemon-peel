@@ -41,6 +41,6 @@ export interface LpCascaderPanelContext {
 }
 
 export const CASCADER_PANEL_INJECTION_KEY: InjectionKey<LpCascaderPanelContext> =
-  Symbol();
+  Symbol('cascader-panel');
 
 export { type ExpandTrigger, type default as CascaderNode, type CascaderOption, type CascaderProps } from './node';

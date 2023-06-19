@@ -1,8 +1,8 @@
-import { existsSync, readFileSync, writeFileSync } from 'fs';
+import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 
-const app = 'src/App.vue';
+const btn = 'src/Button.vue';
 const example = 'template.vue';
 
-if (!existsSync(app)) {
-  writeFileSync(app, readFileSync(example));
+if (!existsSync(btn)) {
+  writeFileSync(btn, readFileSync(example));
 }

@@ -150,7 +150,7 @@
         ref="panel"
         v-model:value="checkedValue"
         :options="options"
-        :props="props"
+        :config="config"
         :border="false"
         :render-label="$slots.default"
         @expand-change="handleExpandChange"
@@ -288,7 +288,8 @@ const realSize = useSize();
 const tagSize = computed(() =>
   ['small'].includes(realSize.value) ? 'small' : 'default',
 );
-const multiple = computed(() => !!props.props.multiple);
+
+const multiple = computed(() => !!props.config.multiple);
 const isMutable = computed(() => !props.filterable || multiple.value);
 const searchKeyword = computed(() =>
   multiple.value ? searchInputValue.value : inputValue.value,
@@ -428,7 +429,7 @@ const calculatePresentTags = () => {
 const calculateSuggestions = () => {
   const { filterMethod, showAllLevels, separator } = props;
   const res = panel.value
-    ?.getFlattedNodes(!props.props.checkStrictly)
+    ?.getFlattedNodes(!props.config.checkStrictly)
     ?.filter(node => {
       if (node.isDisabled) return false;
       node.calcText(showAllLevels, separator);
