@@ -9,7 +9,7 @@ export type ForwardRefInjectionContext = {
 };
 
 export const FORWARD_REF_INJECTION_KEY: InjectionKey<ForwardRefInjectionContext> =
-  Symbol('elForwardRef');
+  Symbol('lpForwardRef');
 
 export const useForwardRef = <T>(forwardReference: Ref<T | null>) => {
   const setForwardReference = (element: T) => {

@@ -12,9 +12,9 @@ function wrapTextContent(s: string | VNode) {
   return <span class={ns.e('content')}>{s}</span>;
 }
 
-function findFirstLegitChild(node: VNode[] | undefined): VNode | null {
-  if (!node) return null;
-  const children = node as VNode[];
+function findFirstLegitChild(arr: VNode[] | undefined): VNode | null {
+  if (!arr) return null;
+  const children = arr as VNode[];
   for (const child of children) {
     /**
      * when user uses h(Fragment, [text]) to render plain string,

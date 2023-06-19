@@ -10,7 +10,7 @@ export const popconfirmProps = buildProps({
   confirmButtonText: String,
   cancelButtonText: String,
   confirmButtonType: { type: String, values: buttonTypes, default: 'primary' },
-  cancelButtonType: { type: String, values: buttonTypes, default: 'text' },
+  cancelButtonType: { type: String, values: buttonTypes, default: '' },
   icon: { type: iconPropType, default: () => QuestionFilled },
   iconColor: { type: String, default: '#f90' },
   hideIcon: { type: Boolean, default: false },

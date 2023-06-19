@@ -34,21 +34,19 @@
 
 <script lang="ts" setup>
 import { computed, getCurrentInstance, provide, ref, shallowRef, watch, useSlots } from 'vue';
-import { iconPropType } from '@lemon-peel/utils';
 import { useLocale, useNamespace } from '@lemon-peel/hooks';
 import { formItemContextKey } from '@lemon-peel/tokens';
-import TreeStore from './model/treeStore';
 import { getNodeKey as getNodeKeyUtil, handleCurrentChange } from './model/util';
 import { useNodeExpandEventBroadcast } from './model/useNodeExpandEventBroadcast';
 import { useDragNodeHandler } from './model/useDragNode';
 import { useKeydown } from './model/useKeydown';
 import { treeEmits, treeProps } from './tree';
 import { rootTreeKey } from './tokens';
+import TreeStore from './model/treeStore';
 import LpTreeNode from './TreeNode.vue';
 
 import type Node from './model/node';
 import type { ComponentInternalInstance, PropType, SetupContext } from 'vue';
-import type { Nullable } from '@lemon-peel/utils';
 import type { TreeData, TreeKey, TreeNodeData } from './tree';
 
 defineOptions({
@@ -63,23 +61,7 @@ const slots = useSlots();
 const { t } = useLocale();
 const ns = useNamespace('tree');
 
-const store = shallowRef<TreeStore>(
-  new TreeStore({
-    key: props.nodeKey!,
-    data: props.data,
-    lazy: props.lazy,
-    props: props.props,
-    load: props.load!,
-    currentNodeKey: props.currentNodeKey!,
-    checkStrictly: props.checkStrictly,
-    checkDescendants: props.checkDescendants,
-    defaultCheckedKeys: props.defaultCheckedKeys!,
-    defaultExpandedKeys: props.defaultExpandedKeys!,
-    autoExpandParent: props.autoExpandParent,
-    defaultExpandAll: props.defaultExpandAll,
-    filterNodeMethod: props.filterNodeMethod!,
-  }),
-);
+const store = ref<TreeStore>(new TreeStore(props, emit));
 
 const root = ref<Node>(store.value.root);
 const currentNode = ref<Node>();
@@ -114,14 +96,14 @@ watch(
 );
 
 watch(
-  () => props.defaultCheckedKeys,
+  () => props.checkedKeys,
   newValue => {
-    store.value.setDefaultCheckedKey(newValue!);
+    store.value.setDefaultCheckedKeys(newValue!);
   },
 );
 
 watch(
-  () => props.defaultExpandedKeys,
+  () => props.expandedKeys,
   newValue => {
     store.value.setDefaultExpandedKeys(newValue!);
   },
@@ -129,17 +111,8 @@ watch(
 
 watch(
   () => props.data,
-  newValue => {
-    store.value.setData(newValue);
-  },
+  store.value.onDataChange,
   { deep: true },
-);
-
-watch(
-  () => props.checkStrictly,
-  newValue => {
-    store.value.checkStrictly = newValue;
-  },
 );
 
 const filter = (val: any) => {
@@ -237,7 +210,7 @@ const setCurrentKey = (key?: TreeKey, shouldAutoExpandParent = true) => {
   );
 };
 
-const getNode = (data: TreeKey | TreeNodeData): Node => {
+const getNode = (data: TreeKey | TreeNodeData) => {
   return store.value.getNode(data);
 };
 
@@ -309,6 +282,7 @@ defineExpose({
   getCurrentNode,
   setCurrentKey,
   setCurrentNode,
+  getNodePath,
   getNode,
   remove,
   append,

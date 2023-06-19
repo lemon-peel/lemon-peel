@@ -5,7 +5,6 @@ import { escapeStringRegexp } from '@lemon-peel/utils';
 import { selectGroupKey, selectKey } from './token';
 
 import type { OptionStates, OptionProps } from './option';
-import type { QueryChangeCtx } from './token';
 
 export function useOption(props: OptionProps, states: OptionStates) {
   // inject
@@ -120,8 +119,7 @@ export function useOption(props: OptionProps, states: OptionStates) {
 
   watch(
     () => select.queryChange,
-    (changes: QueryChangeCtx) => {
-      const { query } = changes;
+    query => {
       const regexp = new RegExp(escapeStringRegexp(`${query}`), 'i');
       states.visible = regexp.test(currentLabel.value as string);
       if (!states.visible) {

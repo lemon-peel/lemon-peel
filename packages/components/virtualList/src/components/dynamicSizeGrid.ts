@@ -50,7 +50,6 @@ const getItemFromCache = (
     }
 
     for (let i = lastVisited + 1; i <= index; i++) {
-      // console.log(i, sizer(i))
       const size = sizer(i);
 
       cachedItems[i] = {
@@ -329,7 +328,6 @@ const DynamicSizeGrid = createGrid({
       }
 
       if (isNumber(rowIndex)) {
-        // console.log(rowIndex)
         cache.value.lastVisitedRowIndex = Math.min(
           cache.value.lastVisitedRowIndex,
           rowIndex - 1,

@@ -28,7 +28,7 @@
     >
       <lp-input
         ref="inputRef"
-        v-bind="attrs"
+        v-bind="$attrs"
         :value="value"
         @input="handleInput"
         @change="handleChange"
@@ -123,7 +123,6 @@ defineOptions({
 const props = defineProps(autocompleteProps);
 const emit = defineEmits(autocompleteEmits);
 
-const attrs = useAttrs();
 const rawAttrs = useRawAttrs();
 const disabled = useDisabled();
 const ns = useNamespace('autocomplete');

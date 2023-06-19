@@ -5,10 +5,6 @@ interface SelectGroupContext {
   disabled: boolean;
 }
 
-export interface QueryChangeCtx {
-  query: OptionProps['label'];
-}
-
 export interface SelectContext {
   props: {
     multiple?: boolean;
@@ -19,7 +15,7 @@ export interface SelectContext {
     remote?: boolean;
     fitInputWidth?: boolean;
   };
-  queryChange: QueryChangeCtx;
+  queryChange: OptionProps['label'];
   groupQueryChange: string;
   selectWrapper: HTMLElement;
   hoverIndex: number;

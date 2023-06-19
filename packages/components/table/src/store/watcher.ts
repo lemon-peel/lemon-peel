@@ -196,7 +196,7 @@ export const useWatcher = memoize((table: TableVM) => {
 
   const toggleRowSelection = (
     row: DefaultRow,
-    selected: boolean,
+    selected?: boolean,
     emitChange = true,
   ) => {
     const changed = toggleRowStatus(selection.value, row, selected);
@@ -239,8 +239,8 @@ export const useWatcher = memoize((table: TableVM) => {
       const rowIndex = index + childrenCount;
       if (selectable.value) {
         if (
-          selectable.value.call(null, row, rowIndex) &&
-          toggleRowStatus(selection.value, row, value)
+          selectable.value.call(null, row, rowIndex)
+          && toggleRowStatus(selection.value, row, value)
         ) {
           selectionChanged = true;
         }

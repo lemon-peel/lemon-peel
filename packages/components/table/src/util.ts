@@ -260,7 +260,7 @@ export function compose<T = any>(...funcs: ((...args: [T]) => T)[]) {
 export function toggleRowStatus<T extends DefaultRow = DefaultRow>(
   statusArr: T[],
   row: T,
-  newVal: boolean,
+  newVal?: boolean,
 ): boolean {
   let changed = false;
   const index = statusArr.indexOf(row);
@@ -530,7 +530,7 @@ export function getFixedColumnOffset(
 }
 
 export function ensurePosition(style: Record<string, number | string>, key: string) {
-  if (!Number.isNaN(style[key])) {
+  if (style && !Number.isNaN(style[key])) {
     style[key] = `${style[key]}px`;
   }
 }

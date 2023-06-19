@@ -159,14 +159,14 @@ export const useActions = memoize((table: TableVM) => {
 
     sort(options: Sort) {
       const { prop, order, init } = options;
-      if (prop) {
-        const column = unref(watcher.states.columns).find((column: TableColumnCtx) => column.property === prop);
-        if (column) {
-          column.order = order;
-          watcher.updateSort(column, prop, order);
-          this.changeSortCondition({ init });
-        }
-      }
+      const column = unref(watcher.states.columns)
+        .find((column: TableColumnCtx) => column.property === prop);
+
+      if (!column) return;
+
+      column.order = order;
+      watcher.updateSort(column, prop, order);
+      this.changeSortCondition({ init });
     },
 
     filterChange(options: Filter) {
@@ -185,7 +185,7 @@ export const useActions = memoize((table: TableVM) => {
     },
 
     rowSelectedChanged(row: DefaultRow) {
-      watcher.toggleRowSelection(row, false);
+      watcher.toggleRowSelection(row);
       watcher.updateAllSelected();
     },
 

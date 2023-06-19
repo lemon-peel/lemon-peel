@@ -1,14 +1,8 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
-import { nextTick } from 'vue';
+import { nextTick, ref } from 'vue';
 import { mount } from '@vue/test-utils';
 import { describe, expect, test, vi } from 'vitest';
-import {
-  IMAGE_FAIL,
-  IMAGE_SUCCESS,
-  mockImageEvent,
-} from '@lemon-peel/test-utils/mock';
-import Image from '../src/Image.vue';
+import { IMAGE_FAIL, IMAGE_SUCCESS, mockImageEvent } from '@lemon-peel/test-utils/mock';
+import LpImage from '../src/Image.vue';
 import type { AnchorHTMLAttributes, ImgHTMLAttributes } from 'vue';
 import type { ImageProps } from '../src/image';
 
@@ -27,7 +21,7 @@ describe('Image.vue', () => {
   mockImageEvent();
 
   test('render test', () => {
-    const wrapper = mount(Image);
+    const wrapper = mount(() => <LpImage src={IMAGE_SUCCESS} />);
     expect(wrapper.find('.lp-image').exists()).toBe(true);
   });
 
@@ -39,7 +33,7 @@ describe('Image.vue', () => {
           alt,
           src: IMAGE_SUCCESS,
         };
-        return () => <Image {...props} />;
+        return () => <LpImage {...props} />;
       },
     });
     expect(wrapper.find('.lp-image__placeholder').exists()).toBe(true);
@@ -51,27 +45,19 @@ describe('Image.vue', () => {
   });
 
   test('image load error test', async () => {
-    const wrapper = mount(Image, {
-      props: {
-        src: IMAGE_FAIL,
-      },
-    });
+    const wrapper = mount(() => <LpImage src={IMAGE_FAIL} />);
     await doubleWait();
-    expect(wrapper.emitted('error')).toBeDefined();
+    const img = wrapper.findComponent(LpImage);
+    expect(img.emitted('error')).toBeDefined();
     expect(wrapper.find('.lp-image__inner').exists()).toBe(false);
     expect(wrapper.find('img').exists()).toBe(false);
     expect(wrapper.find('.lp-image__error').exists()).toBe(true);
   });
 
   test('image load sequence success test', async () => {
-    const wrapper = mount(Image, {
-      props: {
-        src: IMAGE_FAIL,
-      },
-    });
-    wrapper.setProps({
-      src: IMAGE_SUCCESS,
-    });
+    const src = ref(IMAGE_FAIL);
+    const wrapper = mount(() => <LpImage src={src.value} />);
+    src.value = IMAGE_SUCCESS;
     expect(wrapper.find('.lp-image__placeholder').exists()).toBe(true);
     await doubleWait();
     expect(wrapper.emitted('error')).toBeUndefined();
@@ -84,7 +70,7 @@ describe('Image.vue', () => {
   test('imageStyle fit test', async () => {
     const fits = ['fill', 'contain', 'cover', 'none', 'scale-down'] as const;
     for (const fit of fits) {
-      const wrapper = mount(() => <Image src={IMAGE_SUCCESS} fit={fit} />);
+      const wrapper = mount(() => <LpImage src={IMAGE_SUCCESS} fit={fit} />);
       await doubleWait();
       expect(wrapper.find('img').attributes('style')).toContain(
         `object-fit: ${fit};`,
@@ -98,7 +84,7 @@ describe('Image.vue', () => {
       src: IMAGE_SUCCESS,
       previewSrcList: Array.from<string>({ length: 3 }).fill(IMAGE_SUCCESS),
     };
-    const wrapper = mount(() => <Image {...props} />);
+    const wrapper = mount(() => <LpImage {...props} />);
     await doubleWait();
     expect(wrapper.find('img').classes()).toContain('lp-image__preview');
   });
@@ -109,7 +95,7 @@ describe('Image.vue', () => {
       previewSrcList: Array.from<string>({ length: 3 }).fill(IMAGE_FAIL),
       initialIndex: 1,
     };
-    const wrapper = mount(() => <Image {...props} />);
+    const wrapper = mount(() => <LpImage {...props} />);
     await doubleWait();
     await wrapper.find('.lp-image__inner').trigger('click');
     expect(
@@ -118,7 +104,7 @@ describe('Image.vue', () => {
   });
 
   test('native loading attributes', async () => {
-    const wrapper = mount(Image, {
+    const wrapper = mount(LpImage as any, {
       props: {
         src: IMAGE_SUCCESS,
         loading: 'eager',
@@ -140,7 +126,7 @@ describe('Image.vue', () => {
       src: IMAGE_SUCCESS,
       referrerpolicy: 'origin',
     };
-    const wrapper = mount(() => <Image {...props} />);
+    const wrapper = mount(() => <LpImage {...props} />);
     await doubleWait();
     expect(wrapper.find('img').attributes('alt')).toBe(alt);
     expect(wrapper.find('img').attributes('referrerpolicy')).toBe('origin');
@@ -152,7 +138,7 @@ describe('Image.vue', () => {
       src: IMAGE_SUCCESS,
       onClick: () => (result = true),
     };
-    const wrapper = mount(() => <Image {...props} />);
+    const wrapper = mount(() => <LpImage {...props} />);
     await doubleWait();
     await wrapper.find('.lp-image__inner').trigger('click');
     expect(result).toBeTruthy();
@@ -164,7 +150,7 @@ describe('Image.vue', () => {
       src: IMAGE_SUCCESS,
       onLoad: handleLoad,
     };
-    const wrapper = mount(() => <Image {...props} />);
+    const wrapper = mount(() => <LpImage {...props} />);
     await doubleWait();
     expect(wrapper.find('.lp-image__inner').exists()).toBe(true);
     expect(handleLoad).toBeCalled();

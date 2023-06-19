@@ -1,5 +1,4 @@
 import { nextTick } from 'vue';
-import { mount as _mount } from '@vue/test-utils';
 import { vi } from 'vitest';
 
 vi.mock('lodash-es', async () => {
@@ -17,11 +16,6 @@ export async function doubleWait() {
   await nextTick();
   await nextTick();
 }
-
-export const doMount = (opt: any) =>
-  _mount<any>(opt, {
-    attachTo: 'body',
-  });
 
 export function getTestData() {
   return [

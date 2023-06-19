@@ -1,19 +1,17 @@
 <!-- eslint-disable vue/require-v-for-key -->
 <template>
   <colgroup>
-    <col v-for="item in columns" v-bind="getPropsData(item)">
+    <col v-for="item in renderColumns" v-bind="getPropsData(item)">
   </colgroup>
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue';
+import { computed, unref } from 'vue';
 import type { PropType } from 'vue';
 
 import type { TableColumnCtx } from './tableColumn/defaults';
 
-defineOptions({
-  name: 'HColGroup',
-});
+defineOptions({ name: 'HColGroup' });
 
 const props = defineProps({
   columns: { type: Array as PropType<TableColumnCtx[]>, required: true },
@@ -33,15 +31,16 @@ const renderColumns = computed(() => {
 });
 
 const getPropsData = (column: TableColumnCtx) => {
-  const propsData = {
+  const propsData: Record<string, any> = {
     key: `${props.tableLayout}_${column.id}`,
     style: {},
+    rawWidth: column.width,
     name: undefined as any,
   };
 
   if (isAuto.value) {
     propsData.style = {
-      width: `${column.width}px`,
+      width: `${unref(column.width)}px`,
     };
   } else {
     propsData.name = column.id;

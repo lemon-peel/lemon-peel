@@ -65,7 +65,7 @@ export const cellForced: Record<string, CellRenders> = {
         indeterminate:
           store.states.selection.value.length > 0 &&
           !store.states.isAllSelected.value,
-        'onUpdate:checked': store.watcher.toggleAllSelection,
+        'onUpdate:checked': store.actions.toggleAllSelection,
         checked: store.states.isAllSelected.value,
       }} />;
     },
@@ -75,10 +75,10 @@ export const cellForced: Record<string, CellRenders> = {
           ? !column.selectable.call(null, row, rowIndex)
           : false,
         size: store.states.tableSize.value,
-        onChange: () => {
+        'onUpdate:checked': () => {
           store.actions.rowSelectedChanged(row);
         },
-        onClick: (event: Event) => event.stopPropagation(),
+        onClick: (e: Event) => e.stopPropagation(),
         checked: store.watcher.isSelected(row),
       }}/>;
     },
@@ -106,8 +106,8 @@ export const cellForced: Record<string, CellRenders> = {
     renderHeader({ column }: { column: TableColumnCtx }) {
       return column.label || '';
     },
-    renderCell({ row, store, table, expanded }: RenderRowData) {
-      const { ns } = table;
+    renderCell({ row, store, expanded }: RenderRowData) {
+      const { ns } = store;
       const classes = [ns.e('expand-icon')];
       if (expanded) {
         classes.push(ns.em('expand-icon', 'expanded'));
@@ -137,7 +137,7 @@ export function defaultRenderCell({ row, column, rowIndex }: RenderRowData) {
 }
 
 export function treeCellPrefix(
-  { row, treeNode, store }: RenderRowData,
+  { row, store, treeNode }: RenderRowData,
   createPlacehoder = false,
 ) {
   const { ns } = store;
@@ -164,7 +164,7 @@ export function treeCellPrefix(
 
     ele.push(<div {...{ class: expandClasses, onClick: callback }}>
       <LpIcon class={{ [ns.is('loading')]: treeNode.loading }}>
-        {treeNode.loading ? Loading : ArrowRight}
+        {treeNode.loading ? <Loading /> : <ArrowRight />}
       </LpIcon>
     </div>);
   } else {

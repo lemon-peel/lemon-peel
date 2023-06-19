@@ -1,7 +1,7 @@
 <template>
   <thead :class="{ [ns.is('group')]: isGroup }">
     <template v-for="(subColumns, rowIndex) in columnRows" :key="rowIndex">
-      <tr :class="getHeaderRowClass(rowIndex)" :style="getHeaderRowStyle(rowIndex)">'
+      <tr :class="getHeaderRowClass(rowIndex)" :style="getHeaderRowStyle(rowIndex)">
         <th v-for="(column, cellIndex) in subColumns" :key="`${column.id}-thead`"
             :colspan="column.colSpan"
             :class="getHeaderCellClass( rowIndex, cellIndex, subColumns, column)"
@@ -15,7 +15,7 @@
         >
           <div :class="['cell', column.filteredValue && column.filteredValue.length > 0 ? 'highlight' : '']">
             <template v-if="column.renderHeader">
-              <component :is="column.renderHeader({ column, cellIndex })" />
+              <component :is="column.renderHeader({ store, column, cellIndex })" />
             </template>
             <template v-else>{{ column.label }}</template>
 
@@ -24,10 +24,10 @@
               <i class="sort-caret descending" @click="handleSortClick($event, column, 'descending')" />
             </span>
 
-            <FilterPanel v-if="column.filterable"
-                         :column="column"
-                         :up-data-column="(key: string, value: any) => { column[key as 'filterOpened'] = value }"
-                         :placement="column.filterPlacement || 'bottom-start'"
+            <filter-panel v-if="column.filterable"
+                          :column="column"
+                          :up-data-column="(key: string, value: any) => { column[key as 'filterOpened'] = value }"
+                          :placement="column.filterPlacement || 'bottom-start'"
             />
           </div>
         </th>
@@ -37,7 +37,7 @@
 </template>
 
 <script lang="tsx" setup>
-import { inject, nextTick, onMounted, ref } from 'vue';
+import { getCurrentInstance, inject, nextTick, onMounted, ref } from 'vue';
 import { useNamespace } from '@lemon-peel/hooks';
 
 import { STORE_INJECTION_KEY, TABLE_INJECTION_KEY } from '../tokens';
@@ -45,10 +45,10 @@ import { tableHeaderProps } from './tableHeader';
 
 import useLayoutObserver from '../layout/layoutObserver';
 import useEvent from './eventHelper';
-import useStyle from './style.helper';
+import useStyle from './styleHelper';
 import useUtils from './utilsHelper';
-
-import type FilterPanel from '../FilterPanel.vue';
+// eslint-disable-next-line @typescript-eslint/consistent-type-imports
+import FilterPanel from '../FilterPanel.vue';
 
 defineOptions({ name: 'LpTableHeader' });
 
@@ -58,7 +58,9 @@ const emit = defineEmits([]);
 const table = inject(TABLE_INJECTION_KEY)!;
 const store = inject(STORE_INJECTION_KEY)!;
 const ns = useNamespace('table');
+const vm = getCurrentInstance()!;
 const filterPanels = ref<Record<string, InstanceType<typeof FilterPanel>>>({});
+(vm as any).filterPanels = filterPanels;
 const { onColumnsChange, onScrollableChange } = useLayoutObserver(table);
 
 onMounted(async () => {

@@ -12,9 +12,9 @@ import { POPPER_CONTAINER_SELECTOR } from '@lemon-peel/hooks';
 import Select from '../src/Select.vue';
 import type { VueWrapper } from '@vue/test-utils';
 
-vi.mock('lodash-unified', async () => {
+vi.mock('lodash-es', async () => {
   return {
-    ...((await vi.importActual('lodash-unified')) as Record<string, any>),
+    ...((await vi.importActual('lodash-es')) as Record<string, any>),
     debounce: vi.fn(fn => {
       fn.cancel = vi.fn();
       fn.flush = vi.fn();

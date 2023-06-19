@@ -107,21 +107,23 @@
             <!-- <div> -->
             <transition v-if="!collapseTags" @after-leave="resetInputHeight">
               <span :class="[nsSelect.b('tags-wrapper'), { 'has-prefix': prefixWidth && selected.length }]">
-                <lp-tag
-                  v-for="item in selected"
-                  :key="getValueKey(item)"
-                  :closable="!selectDisabled && !item.isDisabled"
-                  :size="collapseTagSize"
-                  :hit="item.hitState"
-                  :type="tagType"
-                  disable-transitions
-                  @close="deleteTag($event, item)"
-                >
-                  <span
-                    :class="nsSelect.e('tags-text')"
-                    :style="{ maxWidth: inputWidth - 75 + 'px' }"
-                  >{{ item.currentLabel }}</span>
-                </lp-tag>
+                <template v-if="selected && selected.length">
+                  <lp-tag
+                    v-for="item in selected"
+                    :key="getValueKey(item)"
+                    :closable="!selectDisabled && !item.isDisabled"
+                    :size="collapseTagSize"
+                    :hit="item.hitState"
+                    :type="tagType"
+                    disable-transitions
+                    @close="deleteTag($event, item)"
+                  >
+                    <span
+                      :class="nsSelect.e('tags-text')"
+                      :style="{ maxWidth: inputWidth - 75 + 'px' }"
+                    >{{ item.currentLabel }}</span>
+                  </lp-tag>
+                </template>
               </span>
             </transition>
             <!-- </div> -->
@@ -244,7 +246,6 @@ import LpTag, { tagProps } from '@lemon-peel/components/tag';
 import LpIcon from '@lemon-peel/components/icon';
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
 
-import LpOptions from './options';
 import LpSelectDropdown from './SelectDropdown.vue';
 import { useSelect, useSelectStates } from './useSelect';
 import { selectKey } from './token';
@@ -440,5 +441,6 @@ defineExpose(reactive({
   handleResize,
   selected,
   selectedLabel,
+  dropMenuVisible,
 }));
 </script>

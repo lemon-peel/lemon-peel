@@ -45,6 +45,7 @@ function useStyle() {
         column,
       });
     }
+
     const fixedStyle = getFixedColumnOffset(
       columnIndex,
       column.fixed,

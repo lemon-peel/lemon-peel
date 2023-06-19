@@ -1,11 +1,11 @@
 import { nextTick, ref } from 'vue';
 import { mount } from '@vue/test-utils';
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 import { POPPER_INJECTION_KEY } from '@lemon-peel/tokens';
 import LpContent from '../src/Content.vue';
 
 import type { VueWrapper } from '@vue/test-utils';
-import type { PopperContentInstance } from '../src/content';
+import type { PopperContentInstance, PopperContentProps } from '../src/content';
 
 const AXIOM = 'rem is the best girl';
 const popperInjection = {
@@ -14,15 +14,12 @@ const popperInjection = {
   contentRef: ref(),
 };
 
-const mountContent = (props = {}) => {
-  return mount(
-    LpContent as any,
-    {
-      props,
-      slots: { default: () => AXIOM },
-      global: { provide: { [POPPER_INJECTION_KEY as symbol]: popperInjection } },
-    },
-  );
+const mountContent = (props: Partial<PopperContentProps> = {}) => {
+  return mount(LpContent as any, {
+    props,
+    slots: { default: () => AXIOM },
+    global: { provide: { [POPPER_INJECTION_KEY as symbol]: popperInjection } },
+  });
 };
 
 describe('LpPopperContent', () => {
@@ -42,7 +39,7 @@ describe('LpPopperContent', () => {
       wrapper?.unmount();
     });
 
-    it('should mount the component correctly and set popperInstance correctly', async () => {
+    test('should mount the component correctly and set popperInstance correctly', async () => {
       wrapper = mountContent();
       await nextTick();
 
@@ -54,7 +51,7 @@ describe('LpPopperContent', () => {
       expect(wrapper.vm.contentStyle[1]).toBeUndefined();
     });
 
-    it('should be able to be pure and themed', async () => {
+    test('should be able to be pure and themed', async () => {
       wrapper = mountContent();
       await nextTick();
 
@@ -66,7 +63,7 @@ describe('LpPopperContent', () => {
       expect(wrapper.classes()).toEqual(['lp-popper', 'is-pure', 'is-custom']);
     });
 
-    it('should be able to set customized styles', async () => {
+    test('should be able to set customized styles', async () => {
       wrapper = mountContent();
       await nextTick();
 
@@ -80,7 +77,7 @@ describe('LpPopperContent', () => {
       expect(wrapper.vm.contentStyle[1]).toEqual(style);
     });
 
-    it('should be able to emit events', async () => {
+    test('should be able to emit events', async () => {
       wrapper = mountContent();
       await nextTick();
 
@@ -95,7 +92,7 @@ describe('LpPopperContent', () => {
     });
 
     describe('instantiate popper instance', () => {
-      it('should be able to update the current instance', async () => {
+      test('should be able to update the current instance', async () => {
         wrapper = mountContent();
         await nextTick();
 
@@ -114,7 +111,7 @@ describe('LpPopperContent', () => {
         wrapper.vm.$forceUpdate();
       });
 
-      it('should be able to update the reference node', async () => {
+      test('should be able to update the reference node', async () => {
         wrapper = mountContent();
         await nextTick();
 

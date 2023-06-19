@@ -52,7 +52,6 @@
             ref="tableHeaderRef"
             :border="border"
             :default-sort="defaultSort"
-            :store="store"
             @set-drag-visible="setDragVisible"
           />
         </table>
@@ -84,7 +83,6 @@
               ref="tableHeaderRef"
               :border="border"
               :default-sort="defaultSort"
-              :store="store"
               @set-drag-visible="setDragVisible"
             />
             <table-body
@@ -92,7 +90,6 @@
               :row-class-name="rowClassName"
               :tooltip-effect="tooltipEffect"
               :row-style="rowStyle"
-              :store="store"
               :stripe="stripe"
             />
           </table>
@@ -125,7 +122,6 @@
         <table-footer
           :border="border"
           :default-sort="defaultSort"
-          :store="store"
           :style="tableBodyStyles"
           :sum-text="computedSumText"
           :summary-method="summaryMethod"
@@ -158,7 +154,7 @@ import useUtils from './utilsHelper';
 import useStyle from './styleHelper';
 
 import { useScrollbar } from '../composables/useScrollbar';
-import { TABLE_INJECTION_KEY } from '../tokens';
+import { STORE_INJECTION_KEY, TABLE_INJECTION_KEY } from '../tokens';
 
 import type { TableVM } from './defaults';
 import useStore from '../store';
@@ -172,17 +168,25 @@ const emit = defineEmits(tableEmits);
 
 const { t } = useLocale();
 const ns = useNamespace('table');
-const vm = getCurrentInstance()! as TableVM;
-provide(TABLE_INJECTION_KEY, vm);
+const tableProxy = getCurrentInstance()! as unknown as TableVM;
 
-const store = useStore(vm);
+const store = useStore(tableProxy);
+provide(STORE_INJECTION_KEY, store);
 
 const layout = new TableLayout({
-  table: vm,
+  table: tableProxy,
   store,
   fit: props.fit,
   showHeader: props.showHeader,
 });
+
+const updateTableScrollY = () => {
+  nextTick(() => layout.updateScrollY.apply(layout));
+};
+
+tableProxy.updateTableScrollY = updateTableScrollY;
+
+tableProxy.layout = layout;
 
 const isEmpty = computed(() => (store.states.data.value || []).length === 0);
 
@@ -220,7 +224,7 @@ const {
   scrollbarViewStyle,
   tableInnerStyle,
   scrollbarStyle,
-} = useStyle(props, layout, store, vm);
+} = useStyle(props, layout, store, tableProxy);
 
 const { scrollBarRef, scrollTo, setScrollLeft, setScrollTop } =
       useScrollbar();
@@ -237,17 +241,14 @@ const computedEmptyText = computed(() => {
 
 const tableId = `${ns.namespace.value}-table_${tableIdSeed++}`;
 
-vm.tableId = tableId;
-vm.state = {
+tableProxy.tableId = tableId;
+tableProxy.state = {
   isGroup,
   resizeState,
   doLayout,
   debouncedUpdateLayout,
 };
-
-const updateTableScrollY = () => {
-  nextTick(() => layout.updateScrollY.apply(layout));
-};
+provide(TABLE_INJECTION_KEY, tableProxy);
 
 onBeforeUnmount(() => {
   store.clear();
@@ -292,7 +293,7 @@ defineExpose({
   sort,
   t,
   setDragVisible,
-  context: vm,
+  context: tableProxy,
   computedSumText,
   computedEmptyText,
   tableLayout,

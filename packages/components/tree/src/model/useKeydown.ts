@@ -65,7 +65,7 @@ export function useKeydown({ elRef }: UseKeydownOption, store: Ref<TreeStore>) {
               : currentIndex - 1);
         const startIndex = nextIndex;
         while (true) {
-          if (store.value.getNode(treeItems.value[nextIndex].dataset.key as TreeKey).canFocus)
+          if (store.value.getNode(treeItems.value[nextIndex].dataset.key as TreeKey)?.canFocus)
             break;
           nextIndex--;
           if (nextIndex === startIndex) {
@@ -86,7 +86,7 @@ export function useKeydown({ elRef }: UseKeydownOption, store: Ref<TreeStore>) {
         const startIndex = nextIndex;
         while (true) {
           if (
-            store.value.getNode(treeItems.value[nextIndex].dataset.key as TreeKey).canFocus
+            store.value.getNode(treeItems.value[nextIndex].dataset.key as TreeKey)?.canFocus
           )
             break;
           nextIndex++;

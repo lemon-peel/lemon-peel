@@ -16,26 +16,16 @@
       <div v-if="multiple">
         <div :class="ns.e('content')">
           <lp-scrollbar :wrap-class="ns.e('wrap')">
-            <lp-checkbox-group
-              v-model:value="filteredValue"
-              :class="ns.e('checkbox-group')"
-            >
-              <lp-checkbox
-                v-for="filter in filters"
-                :key="filter.value"
-                :label="filter.value"
-              >
+            <lp-checkbox-group v-model:value="filteredValue" :class="ns.e('checkbox-group')">
+              <lp-checkbox v-for="filter in filters" :key="filter.value" :value="filter.value">
                 {{ filter.text }}
               </lp-checkbox>
             </lp-checkbox-group>
           </lp-scrollbar>
         </div>
         <div :class="ns.e('bottom')">
-          <button
-            :class="{ [ns.is('disabled')]: filteredValue.length === 0 }"
-            :disabled="filteredValue.length === 0"
-            type="button"
-            @click="handleConfirm"
+          <button :class="{ [ns.is('disabled')]: filteredValue.length === 0 }" :disabled="filteredValue.length === 0"
+                  type="button" @click="handleConfirm"
           >
             {{ t('lp.table.confirmFilter') }}
           </button>
@@ -46,13 +36,7 @@
       </div>
       <ul v-else :class="ns.e('list')">
         <li
-          :class="[
-            ns.e('list-item'),
-            {
-              [ns.is('active')]:
-                filterValue === undefined || filterValue === null,
-            },
-          ]"
+          :class="[ ns.e('list-item'), { [ns.is('active')]: filterValue === undefined || filterValue === null }]"
           @click="handleSelect()"
         >
           {{ t('lp.table.clearFilter') }}
@@ -68,6 +52,7 @@
         </li>
       </ul>
     </template>
+
     <template #default>
       <span
         v-click-outside:[popperPaneRef]="hideFilterPanel"
@@ -88,21 +73,20 @@
 
 <script lang="ts" setup>
 import { computed, getCurrentInstance, inject, ref, unref, watch } from 'vue';
-import LpCheckbox from '@lemon-peel/components/checkbox';
+import LpCheckbox, { LpCheckboxGroup } from '@lemon-peel/components/checkbox';
 import { LpIcon } from '@lemon-peel/components/icon';
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue';
 import { ClickOutside as vClickOutside } from '@lemon-peel/directives';
 import { useLocale, useNamespace } from '@lemon-peel/hooks';
-import type LpTooltip from '@lemon-peel/components/tooltip';
+// eslint-disable-next-line @typescript-eslint/consistent-type-imports
+import LpTooltip from '@lemon-peel/components/tooltip';
 import LpScrollbar from '@lemon-peel/components/scrollbar';
-import type { Placement } from '@lemon-peel/components/popper';
 
+import type { Placement } from '@lemon-peel/components/popper';
 import type { PropType, WritableComputedRef } from 'vue';
 import type { Filter, TableColumnCtx } from './tableColumn/defaults';
 import type { TableHeaderInstance } from './tableHeader';
 import { STORE_INJECTION_KEY } from './tokens';
-
-const { CheckboxGroup: LpCheckboxGroup } = LpCheckbox;
 
 const props = defineProps({
   placement: { type: String as PropType<Placement>, default: 'bottom-start' },
@@ -127,15 +111,10 @@ const filters = computed(() => {
 
 const filteredValue: WritableComputedRef<string[]> = computed({
   get() {
-    if (props.column) {
-      return props.column.filteredValue || [] as string[];
-    }
-    return [] as string[];
+    return props.column.filteredValue || [] as string[];
   },
   set(value: string[]) {
-    if (props.column) {
-      props.upDataColumn('filteredValue', value);
-    }
+    props.upDataColumn('filteredValue', value);
   },
 });
 

@@ -19,10 +19,10 @@ describe('Switch.vue', () => {
 
   test('create', () => {
     const props = {
-      activeText: 'on',
-      inactiveText: 'off',
-      activeColor: '#0f0',
-      inactiveColor: '#f00',
+      checkedText: 'on',
+      uncheckedText: 'off',
+      checkedColor: '#0f0',
+      uncheckedColor: '#f00',
       width: 100,
     };
     const wrapper = mount(() => <Switch {...props} />);
@@ -53,10 +53,10 @@ describe('Switch.vue', () => {
   test('inline prompt', () => {
     const props = {
       inlinePrompt: true,
-      activeText: 'on',
-      inactiveText: 'off',
-      activeColor: '#0f0',
-      inactiveColor: '#f00',
+      checkedText: 'on',
+      uncheckedText: 'off',
+      checkedColor: '#0f0',
+      uncheckedColor: '#f00',
       width: 100,
     };
     const wrapper = mount(() => <Switch {...props} />);
@@ -143,8 +143,8 @@ describe('Switch.vue', () => {
       <div>
         <Switch
           v-model:value={value.value}
-          active-value={onValue.value}
-          inactive-value={offValue.value}
+          checked-value={onValue.value}
+          unchecked-value={offValue.value}
         />
       </div>
     ));
@@ -156,7 +156,7 @@ describe('Switch.vue', () => {
     expect(value.value).toEqual('100');
   });
 
-  test('default switch active-value is false', async () => {
+  test('default switch checked-value is false', async () => {
     const value = ref(false);
     const onValue = ref(false);
     const offValue = ref(true);
@@ -164,8 +164,8 @@ describe('Switch.vue', () => {
       <div>
         <Switch
           v-model:value={value.value}
-          active-value={onValue.value}
-          inactive-value={offValue.value}
+          checked-value={onValue.value}
+          unchecked-value={offValue.value}
         />
       </div>
     ));

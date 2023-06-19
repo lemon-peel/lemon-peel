@@ -34,9 +34,7 @@
         :class="[
           ns.be('node', 'expand-icon'),
           ns.is('leaf', node.isLeaf),
-          {
-            expanded: !node.isLeaf && expanded,
-          },
+          { expanded: !node.isLeaf && expanded },
         ]"
         @click.stop="handleExpandIconClick"
       >
@@ -216,8 +214,8 @@ const handleExpandIconClick = () => {
   }
 };
 
-const handleCheckChange = (value: any, ev: { target: { checked: boolean } }) => {
-  props.node.setChecked(ev.target.checked, !tree.props.checkStrictly);
+const handleCheckChange = (checked: any) => {
+  props.node.setChecked(checked, !tree.props.checkStrictly);
   nextTick(() => {
     const store = tree.store.value;
     tree.ctx.emit('check', props.node.data, {
@@ -240,9 +238,7 @@ const handleClick = (e: MouseEvent) => {
   }
 
   if (tree.props.checkOnClickNode && !props.node.disabled) {
-    handleCheckChange(null, {
-      target: { checked: !props.node.checked },
-    });
+    handleCheckChange(!props.node.checked);
   }
   tree.ctx.emit('node-click', props.node.data, props.node, instance, e);
 };

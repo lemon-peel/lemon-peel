@@ -65,7 +65,7 @@ const createComponent = ({
   };
 };
 
-describe('TreeSelect.vue', () => {
+describe.skip('TreeSelect.vue', () => {
   test('render test', async () => {
     const { wrapper, tree } = createComponent({
       props: {

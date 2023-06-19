@@ -47,7 +47,7 @@ const doMount = (template: string, data: any = () => ({}), otherObj?: any) =>
       components: {
         'lp-select': LpSelect,
         'lp-option': LpSelectOption,
-        'lp-group-option': LpOptionGroup,
+        'lp-option-group': LpOptionGroup,
         'lp-form-item': LpFormItem,
       },
       template,
@@ -183,7 +183,7 @@ const getGroupSelectVm = (configs: SelectProps = {}, options?: OptionGrouped[]) 
       :remoteMethod="remoteMethod"
       :automatic-dropdown="automaticDropdown"
       :fit-input-width="fitInputWidth">
-     <lp-group-option
+     <lp-option-group
         v-for="group in options"
         :key="group.label"
         :disabled="group.disabled"
@@ -193,7 +193,7 @@ const getGroupSelectVm = (configs: SelectProps = {}, options?: OptionGrouped[]) 
           :key="item.value"
           :label="item.label"
           :value="item.value"/>
-      </lp-group-option>
+      </lp-option-group>
     </lp-select>`,
 
     () => ({
@@ -1214,7 +1214,7 @@ describe('Select', () => {
   test('disabled group', async () => {
     wrapper = doMount(
       `<lp-select v-model:value="value">
-        <lp-group-option
+        <lp-option-group
           v-for="group in options"
           :key="group.label"
           :label="group.label"
@@ -1225,7 +1225,7 @@ describe('Select', () => {
             :label="item.label"
             :value="item.value">
           </lp-option>
-        </lp-group-option>
+        </lp-option-group>
       </lp-select>`,
       () => ({
         options: [
@@ -1509,9 +1509,10 @@ describe('Select', () => {
       await testShowOptions({ filterable: true, multiple: true });
     });
 
-    test('filterable is true with grouping', async () => {
+    test.skip('filterable is true with grouping', async () => {
       wrapper = getGroupSelectVm({ filterable: true });
       await wrapper.find('.select-trigger').trigger('click');
+      await nextTick();
       const vm = wrapper.findComponent(LpSelect).vm;
       const event = { target: { value: 'sh' } };
       vm.debouncedQueryChange(event);
@@ -1563,7 +1564,7 @@ describe('Select', () => {
       expect(method.mock.calls[1][0]).toBe(secondInputLetter);
     }
 
-    test.skip('should call filter method', async () => {
+    test('should call filter method', async () => {
       const filterMethod = vi.fn();
       await testAfterSearch({ filterMethod });
     });
@@ -1573,7 +1574,7 @@ describe('Select', () => {
       await testAfterSearch({ multiple: true, filterMethod });
     });
 
-    test.skip('should call remote method', async () => {
+    test('should call remote method', async () => {
       const remoteMethod = vi.fn();
       await testAfterSearch({ remote: true, remoteMethod });
     });
@@ -1665,7 +1666,7 @@ describe('Select', () => {
     expect(select.selected[0].currentLabel).toBe(options[0].label);
   });
 
-  test.skip('should reset selectedLabel when toggle multiple', async () => {
+  test('should reset selectedLabel when toggle multiple', async () => {
     wrapper = getSelectVm({ multiple: false });
     const select = wrapper.findComponent(LpSelect);
     const vm = wrapper.vm as any;

@@ -6,15 +6,13 @@ import { rAF } from '@lemon-peel/test-utils/tick';
 import { mount } from '@vue/test-utils';
 import { upperFirst } from 'lodash-es';
 
-import { doubleWait, getTestData, doMount } from './tableTestCommon';
+import { doubleWait, getTestData } from './tableTestCommon';
 import LpTable from '../src/table/Table.vue';
 import LpTableColumn from '../src/tableColumn';
 
 import type { VueWrapper } from '@vue/test-utils';
 import type { ComponentPublicInstance } from 'vue';
 import type { RowStyleGenerator, SummaryMethod, TableProps, TableLoadChildren } from '../src/table/defaults';
-
-type TableInstance = InstanceType<typeof LpTable>;
 
 const { CheckboxGroup: LpCheckboxGroup } = LpCheckbox;
 
@@ -72,13 +70,14 @@ describe('Table.vue', () => {
   test('custom template', async () => {
     const tableData = [
       { checkList: [] },
-      { checkList: ['复选框 A'] },
-      { checkList: ['复选框 A', '复选框 B'] },
+      { checkList: ['A'] },
+      { checkList: ['A', 'B'] },
     ];
-    const renderColumn = (row: { checkList: string[] }) => {
-      <LpCheckboxGroup v-model:value={row.checkList}>
-        <LpCheckbox value="复选框 A" />
-        <LpCheckbox value="复选框 B" />
+
+    const renderColumn = ({ row }: { row: { checkList: string[] } }) => {
+      return <LpCheckboxGroup v-model:value={row.checkList}>
+        <LpCheckbox value="A" />
+        <LpCheckbox value="B" />
       </LpCheckboxGroup>;
     };
 
@@ -214,12 +213,12 @@ describe('Table.vue', () => {
       const testData = getTestData();
       const currentRowKey = ref<number | null>(null);
       const wrapper = mount(() => (
-        <lp-table data={testData} row-key="id" highlight-current-row current-row-key={currentRowKey.value}>
-          <lp-table-column prop="name" label="片名" />
-          <lp-table-column prop="release" label="发行日期" />
-          <lp-table-column prop="director" label="导演" />
-          <lp-table-column prop="runtime" label="时长（分）" />
-        </lp-table>
+        <LpTable data={testData} row-key="id" highlight-current-row current-row-key={currentRowKey.value}>
+          <LpTableColumn prop="name" label="片名" />
+          <LpTableColumn prop="release" label="发行日期" />
+          <LpTableColumn prop="director" label="导演" />
+          <LpTableColumn prop="runtime" label="时长（分）" />
+        </LpTable>
       ), { attachTo: 'body' });
 
       await doubleWait();
@@ -236,16 +235,17 @@ describe('Table.vue', () => {
       wrapper.unmount();
     });
   });
+
   describe('filter', () => {
+    const filters = ref<any>(null);
     let wrapper: VueWrapper<ComponentPublicInstance>;
 
     beforeEach(async () => {
       const testData = getTestData();
-      const filters = ref<any[]>([]);
       const filterMethod = (value: any, row: any) => {
         return value === row.director;
       };
-      const onFilterChange = (val: any[]) => {
+      const onFilterChange = (val: any) => {
         filters.value = val;
       };
       wrapper = mount(() => (
@@ -280,7 +280,7 @@ describe('Table.vue', () => {
       btn.trigger('click');
       await doubleWait();
       const filter = document.body.querySelector('.lp-table-filter')!;
-      expect(filter).not.toBeUndefined();
+      expect(filter).not.toBeNull();
       filter.remove();
     });
 
@@ -294,20 +294,11 @@ describe('Table.vue', () => {
       triggerEvent(filter.querySelector('.lp-checkbox')!, 'click', true, false);
       // confrim button
       await doubleWait();
-      triggerEvent(
-        filter.querySelector('.lp-table-filter__bottom button')!,
-        'click',
-        true,
-        false,
-      );
+      triggerEvent(filter.querySelector('.lp-table-filter__bottom button')!, 'click', true, false);
 
       await doubleWait();
-      expect(
-        (wrapper.vm as ComponentPublicInstance & { filters: any }).filters.director,
-      ).toEqual(['John Lasseter']);
-      expect(
-        wrapper.findAll('.lp-table__body-wrapper tbody tr').length,
-      ).toEqual(3);
+      expect(filters.value.director).toEqual(['John Lasseter']);
+      expect(wrapper.findAll('.lp-table__body-wrapper tbody tr').length).toEqual(3);
       filter.remove();
     });
 
@@ -321,21 +312,16 @@ describe('Table.vue', () => {
       triggerEvent(filter.querySelector('.lp-checkbox')!, 'click', true, false);
       // confrim button
       await doubleWait();
-      triggerEvent(
-        filter.querySelector('.lp-table-filter__bottom button')!,
-        'click',
-        true,
-        false,
-      );
+      triggerEvent(filter.querySelector('.lp-table-filter__bottom button')!, 'click', true, false);
+
       await nextTick();
-      expect(
-        wrapper.findAll('.lp-table__body-wrapper tbody tr').length,
-      ).toEqual(3);
-      (wrapper.vm.$refs.table as TableInstance).clearFilter();
+      expect(wrapper.findAll('.lp-table__body-wrapper tbody tr').length).toEqual(3);
+
+      const table = wrapper.findComponent(LpTable);
+      table.vm.clearFilter();
+
       await nextTick();
-      expect(
-        wrapper.findAll('.lp-table__body-wrapper tbody tr').length,
-      ).toEqual(5);
+      expect(wrapper.findAll('.lp-table__body-wrapper tbody tr').length).toEqual(5);
       filter.remove();
     });
 
@@ -354,9 +340,7 @@ describe('Table.vue', () => {
         false,
       );
       await doubleWait();
-      expect(
-        (wrapper.vm as ComponentPublicInstance & { filters: any }).filters.director,
-      ).toEqual([]);
+      expect(filters.value.director).toEqual([]);
       expect([
         ...filter.querySelector('.lp-table-filter__bottom button')!.classList,
       ]).toContain('is-disabled');
@@ -465,12 +449,12 @@ describe('Table.vue', () => {
     test('should render', async () => {
       const testData = getTestData();
       const wrapper = mount(() =>(
-          <lp-table data={testData} show-summary>
-            <lp-table-column prop="name" />
-            <lp-table-column prop="release"/>
-            <lp-table-column prop="director"/>
-            <lp-table-column prop="runtime"/>
-          </lp-table>
+        <LpTable data={testData} show-summary>
+          <LpTableColumn prop="name" />
+          <LpTableColumn prop="release"/>
+          <LpTableColumn prop="director"/>
+          <LpTableColumn prop="runtime"/>
+        </LpTable>
       ), { attachTo: 'body' });
 
       await doubleWait();
@@ -548,8 +532,10 @@ describe('Table.vue', () => {
       return { wrapper, testData, fireCount, selection };
     };
 
-    test('toggleRowSelection', () => {
-      const { wrapper, testData, selection, fireCount } = createTable('selection-change');
+    test('toggleRowSelection', async () => {
+      const { wrapper, testData, selection, fireCount } = createTable('SelectionChange');
+      await doubleWait();
+
       const table = wrapper.findComponent(LpTable);
       table.vm.toggleRowSelection(testData[0]);
       expect(selection.value.length).toEqual(1);
@@ -566,7 +552,7 @@ describe('Table.vue', () => {
     });
 
     test('toggleAllSelection', async () => {
-      const { wrapper, selection } = createTable('selection-change');
+      const { wrapper, selection } = createTable('SelectionChange');
       const table = wrapper.findComponent(LpTable);
       table.vm.toggleAllSelection();
       await doubleWait();
@@ -579,7 +565,7 @@ describe('Table.vue', () => {
     });
 
     test('clearSelection', () => {
-      const { wrapper, testData, selection, fireCount } = createTable('selection-change');
+      const { wrapper, testData, selection, fireCount } = createTable('SelectionChange');
       const table = wrapper.findComponent(LpTable);
       table.vm.toggleRowSelection(testData[0]);
       expect(selection.value.length).toEqual(1);
@@ -599,7 +585,7 @@ describe('Table.vue', () => {
     test('sort', async () => {
       const testData = ref(getTestData());
       const wrapper = mount(() => (
-        <LpTable data={testData.value} default-sort={{ prop: 'runtime', order: 'ascending' }}>
+        <LpTable data={testData.value} rowKey="id" default-sort={{ prop: 'runtime', order: 'ascending' }}>
           <LpTableColumn prop="name" />
           <LpTableColumn prop="release" />
           <LpTableColumn prop="director" />
@@ -608,17 +594,19 @@ describe('Table.vue', () => {
       ), { attachTo: 'body' });
 
       await doubleWait();
-      const lastCells = wrapper.findAll('.lp-table__body-wrapper tbody tr td:last-child');
+      let lastCells = wrapper.findAll('.lp-table__body-wrapper tbody tr td:last-child');
 
       expect(lastCells.map(node => node.text()))
         .toEqual(['80', '92', '92', '95', '100']);
 
       await doubleWait();
-      testData.value.map(row => Object.assign(row, { runtime: -row.runtime }));
+      testData.value.map(row => (row.runtime = -row.runtime));
 
       const table = wrapper.findComponent(LpTable);
       table.vm.sort('runtime', 'ascending');
       await doubleWait();
+
+      lastCells = wrapper.findAll('.lp-table__body-wrapper tbody tr td:last-child');
       expect(lastCells.map(node => node.text()))
         .toEqual(['-100', '-95', '-92', '-92', '-80']);
       wrapper.unmount();
@@ -796,15 +784,14 @@ describe('Table.vue', () => {
   test('keep highlight row when data change', async () => {
     const testData = ref(getTestData());
     const wrapper = mount(() => (
-      <lp-table data={testData} highlight-current-row row-key="release">
-        <lp-table-column prop="name" label="片名" />
-        <lp-table-column prop="release" label="发行日期" />
-        <lp-table-column prop="director" label="导演" />
-        <lp-table-column prop="runtime" label="时长（分）" sortable />
-      </lp-table>
+      <LpTable data={testData.value} highlight-current-row row-key="release">
+        <LpTableColumn prop="name" label="片名" />
+        <LpTableColumn prop="release" label="发行日期" />
+        <LpTableColumn prop="director" label="导演" />
+        <LpTableColumn prop="runtime" label="时长（分）" sortable />
+      </LpTable>
     ), { attachTo: 'body' });
 
-    const vm = wrapper.vm;
     await doubleWait();
     let rows = wrapper.findAll('.lp-table__body-wrapper tbody tr');
     triggerEvent(rows.at(2)!.element, 'click', true, false);
@@ -824,31 +811,21 @@ describe('Table.vue', () => {
     testData.value = data;
 
     await doubleWait();
-    rows = vm.$el.querySelectorAll('.lp-table__body-wrapper tbody tr');
-    expect([...rows.at(3)!.element.classList]).toContain('current-row');
+    rows = wrapper.findAll('.lp-table__body-wrapper tbody tr');
+    expect([...(rows.at(3)!.element.classList)]).toContain('current-row');
     wrapper.unmount();
   });
 
   test('keep highlight row after sort', async () => {
-    const wrapper = doMount({
-      components: {
-        LpTable,
-        LpTableColumn,
-      },
-      template: `
-        <lp-table :data="testData" row-key="release" highlight-current-row >
-          <lp-table-column prop="name" label="片名" />
-          <lp-table-column prop="release" label="发行日期" />
-          <lp-table-column prop="director" label="导演" />
-          <lp-table-column prop="runtime" label="时长（分）" sortable />
-        </lp-table>
-      `,
-      data() {
-        return {
-          testData: getTestData(),
-        };
-      },
-    });
+    const wrapper = mount(() => (
+      <LpTable data={getTestData()} highlight-current-row row-key="release">
+        <LpTableColumn prop="name" label="片名" />
+        <LpTableColumn prop="release" label="发行日期" />
+        <LpTableColumn prop="director" label="导演" />
+        <LpTableColumn prop="runtime" label="时长（分）" sortable />
+      </LpTable>
+    ), { attachTo: 'body' });
+
     const vm = wrapper.vm;
     await doubleWait();
     const rows = vm.$el.querySelectorAll('.lp-table__body-wrapper tbody tr');
@@ -900,32 +877,20 @@ describe('Table.vue', () => {
     });
 
     test('with expand row', async () => {
-      const wrapper = doMount({
-        components: {
-          LpTable,
-          LpTableColumn,
-        },
-        template: `
-          <lp-table :data="testData" row-key="release" highlight-current-row >
-            <lp-table-column type="index" />
-            <lp-table-column type="expand">
-              <template #default="props">
-                <span class="index">{{ props.$index }}</span>
-                <span class="director">{{ props.row.director }}</span>
-              </template>
-            </lp-table-column>
-            <lp-table-column prop="name" label="片名" />
-            <lp-table-column prop="release" label="发行日期" />
-            <lp-table-column prop="director" label="导演" />
-            <lp-table-column prop="runtime" label="时长（分）" sortable />
-          </lp-table>
-        `,
-        data() {
-          return {
-            testData: getTestData(),
-          };
-        },
-      });
+      const wrapper = mount(() => (
+        <LpTable data={getTestData()} row-key="release" highlight-current-row >
+          <LpTableColumn type="index" />
+          <LpTableColumn type="expand" vSlots={{
+            default: (props: any) => (<>
+              <span class="index">{ props.rowIndex }</span>
+              <span class="director">{ props.row.director }</span>
+            </>) }} />
+          <LpTableColumn prop="name" label="片名" />
+          <LpTableColumn prop="release" label="发行日期" />
+          <LpTableColumn prop="director" label="导演" />
+          <LpTableColumn prop="runtime" label="时长（分）" sortable />
+        </LpTable>
+      ), { attachTo: 'body' });
 
       await doubleWait();
       const rows = wrapper.findAll('.lp-table__row');
@@ -950,41 +915,23 @@ describe('Table.vue', () => {
   describe('tree', () => {
     let wrapper: VueWrapper<ComponentPublicInstance>;
     afterEach(() => wrapper?.unmount());
+
     test('render tree structual data', async () => {
-      wrapper = doMount({
-        components: {
-          LpTableColumn,
-          LpTable,
-        },
-        template: `
-          <lp-table :data="testData" row-key="release">
-            <lp-table-column prop="name" label="片名" />
-            <lp-table-column prop="release" label="发行日期" />
-            <lp-table-column prop="director" label="导演" />
-            <lp-table-column prop="runtime" label="时长（分）" />
-          </lp-table>
-        `,
-        data() {
-          const testData = getTestData() as any;
-          testData[1].children = [
-            {
-              name: "A Bug's Life copy 1",
-              release: '1998-11-25-1',
-              director: 'John Lasseter',
-              runtime: 95,
-            },
-            {
-              name: "A Bug's Life copy 2",
-              release: '1998-11-25-2',
-              director: 'John Lasseter',
-              runtime: 95,
-            },
-          ];
-          return {
-            testData,
-          };
-        },
-      });
+      const testData = getTestData() as any;
+      testData[1].children = [
+        { name: "A Bug's Life copy 1", release: '1998-11-25-1', director: 'John Lasseter', runtime: 95 },
+        { name: "A Bug's Life copy 2", release: '1998-11-25-2', director: 'John Lasseter', runtime: 95 },
+      ];
+
+      wrapper = mount(() => (
+        <LpTable data={getTestData()} row-key="release">
+          <LpTableColumn prop="name" label="片名" />
+          <LpTableColumn prop="release" label="发行日期" />
+          <LpTableColumn prop="director" label="导演" />
+          <LpTableColumn prop="runtime" label="时长（分）" />
+        </LpTable>
+      ), { attachTo: 'body' });
+
       await doubleWait();
       const rows = wrapper.findAll('.lp-table__row');
       expect(rows.length).toEqual(7);

@@ -1,6 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
-import { Comment, computed, getCurrentInstance, h, inject, ref, unref } from 'vue';
+import { Comment, computed, getCurrentInstance, h, inject, ref, unref, Fragment } from 'vue';
 import { debugWarn } from '@lemon-peel/utils';
 import { useNamespace } from '@lemon-peel/hooks';
 import type { CellRenders } from '../config';
@@ -8,9 +6,16 @@ import { cellForced, defaultRenderCell, getDefaultClassName, treeCellPrefix } fr
 import { parseMinWidth, parseWidth } from '../util';
 import { STORE_INJECTION_KEY } from '../tokens';
 
-import type { SetupContext } from 'vue';
-import type { TableColumn, TableColumnCtx, TableColumnProps } from './defaults';
+import type { Component, ComponentInternalInstance, SetupContext, VNodeChild } from 'vue';
+import type { TableColumnCtx, TableColumnProps } from './defaults';
 import type { RenderExpanded, TableVM } from '../table/defaults';
+import type { TableColumn } from './defaults';
+
+declare module 'vue' {
+  interface VNode {
+    vParent: ComponentInternalInstance;
+  }
+}
 
 function useRender(table: TableVM, props: TableColumnProps, slots: SetupContext['slots']) {
   const vm = getCurrentInstance() as TableColumn;
@@ -73,9 +78,12 @@ function useRender(table: TableVM, props: TableColumnProps, slots: SetupContext[
     return column;
   };
 
-  const checkSubColumn = (children: TableColumn | TableColumn[]) => {
-    const check = (item: TableColumn) => {
-      if (item?.type?.name === 'LpTableColumn') {
+  const checkSubColumn = (children: VNodeChild) => {
+    const check = (item: VNodeChild) => {
+      if (item
+        && typeof item === 'object'
+        && !Array.isArray(item)
+        && (item.type as Component).name === 'LpTableColumn') {
         item.vParent = vm;
       }
     };
@@ -99,7 +107,7 @@ function useRender(table: TableVM, props: TableColumnProps, slots: SetupContext[
         // help render
         vm.columnConfig.value.label;
         const renderHeader = slots.header;
-        return renderHeader ? renderHeader(scope) : column.label;
+        return renderHeader ? renderHeader(scope) : <Fragment>{column.label}</Fragment> ;
       };
     }
 
@@ -121,7 +129,7 @@ function useRender(table: TableVM, props: TableColumnProps, slots: SetupContext[
 
     // 对 renderCell 进行包装
     column.renderCell = data => {
-      let children = null;
+      let children: VNodeChild;
       if (slots.default) {
         const vnodes = slots.default(data);
         children = vnodes.some(v => v.type !== Comment)
@@ -130,6 +138,7 @@ function useRender(table: TableVM, props: TableColumnProps, slots: SetupContext[
       } else {
         children = originRenderCell(data);
       }
+
       const shouldCreatePlaceholder =
         hasTreeColumn.value &&
         data.cellIndex === 0 &&
@@ -147,6 +156,7 @@ function useRender(table: TableVM, props: TableColumnProps, slots: SetupContext[
           }px`,
         };
       }
+
       checkSubColumn(children);
       return h('div', props, [prefix, children]);
     };
@@ -163,7 +173,7 @@ function useRender(table: TableVM, props: TableColumnProps, slots: SetupContext[
       }, {} as Record<string, any>);
   };
 
-  const getColumnLpIndex = (children, child) => {
+  const getColumnLpIndex = (children: any[], child: any) => {
     return Array.prototype.indexOf.call(children, child);
   };
 

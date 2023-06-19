@@ -10,6 +10,7 @@ export const sliderButtonProps = buildProps({
   tooltipClass: String,
   placement: { type: String, values: placements, default: 'top' },
 } as const);
+
 export type SliderButtonProps = ExtractPropTypes<typeof sliderButtonProps>;
 
 export const sliderButtonEmits = {

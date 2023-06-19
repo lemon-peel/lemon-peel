@@ -157,7 +157,7 @@ export const tableProps = buildProps({
   fit: { type: Boolean, default: true },
   stripe: Boolean,
   border: Boolean,
-  rowKey: { type: [String, Function] as PropType<string | ((row: object) => string)>, required: true },
+  rowKey: { type: [String, Function] as PropType<string | ((row: object) => string)>, default: 'id' },
   showHeader: { type: Boolean, default: true },
   showSummary: Boolean,
   sumText: String,

@@ -1,21 +1,21 @@
-import { nextTick, reactive } from 'vue';
+import { nextTick, ref, reactive } from 'vue';
 import { mount } from '@vue/test-utils';
 import { NOOP } from '@vue/shared';
-import { beforeEach, describe, expect, it, test, vi } from 'vitest';
+import { beforeEach, afterEach, describe, expect, it, test, vi } from 'vitest';
+
 import { POPPER_CONTAINER_SELECTOR } from '@lemon-peel/hooks';
 import { LpFormItem as FormItem } from '@lemon-peel/components/form';
+
 import Autocomplete from '../src/AutoComplete.vue';
 import type { AutocompleteProps } from '../src/autoComplete';
 
-// vi.unmock('lodash');
-
 vi.useFakeTimers();
 
-const doMount = (
+function doMount(
   props: Partial<AutocompleteProps> = {},
   type: 'fn-cb' | 'fn-promise' | 'fn-arr' | 'fn-async' | 'arr' = 'fn-cb',
-) =>
-  mount({
+) {
+  return mount({
     setup() {
       const state = reactive({
         value: '',
@@ -25,16 +25,15 @@ const doMount = (
           { value: 'JavaScript', tag: 'javascript' },
           { value: 'Python', tag: 'python' },
         ],
-        payload: props,
       });
 
-      function filterList(queryString: string) {
+      const filterList = (queryString: string) => {
         return queryString
           ? state.list.filter(
             i => i.value.indexOf(queryString.toLowerCase()) === 0,
           )
           : state.list;
-      }
+      };
 
       const querySearch = (() => {
         switch (type) {
@@ -66,57 +65,68 @@ const doMount = (
       })();
 
       return () => (
-        <Autocomplete
-          ref="autocomplete"
-          v-model:value={state.value}
-          {
-            ...{
-              ...props,
-              fetchSuggestions: props.fetchSuggestions || querySearch,
-            }
+      <Autocomplete
+        ref="autocomplete"
+        v-model:value={state.value}
+        {
+          ...{
+            ...props,
+            fetchSuggestions: props.fetchSuggestions || querySearch,
           }
-        />
+        }
+      />
       );
     },
+  }, {
+    attachTo: document.body,
   });
+}
 
 describe('Autocomplete.vue', () => {
+  let wrapper: ReturnType<typeof doMount>;
+
   beforeEach(() => {
     document.body.innerHTML = '';
   });
 
+  afterEach(() => {
+    wrapper?.unmount();
+  });
+
   test('placeholder', async () => {
-    const wrapper = doMount();
+    const placeholder = ref('placeholder1');
+    wrapper = doMount({
+      placeholder: 'placeholder',
+    });
     await nextTick();
 
-    await wrapper.setProps({ placeholder: 'autocomplete' });
+    wrapper.setProps({ placeholder: 'autocomplete' });
+    await nextTick();
     expect(wrapper.find('input').attributes('placeholder')).toBe('autocomplete');
 
-    await wrapper.setProps({ placeholder: 'placeholder' });
+    wrapper.setProps({ placeholder: 'placeholder' });
+    await nextTick();
     expect(wrapper.find('input').attributes('placeholder')).toBe('placeholder');
   });
 
   test('triggerOnFocus', async () => {
     const fetchSuggestions = vi.fn();
-    const wrapper = doMount({
-      debounce: 10,
-      fetchSuggestions,
+    wrapper = doMount({
+      triggerOnFocus: false,
+      fetchSuggestions: fetchSuggestions as any,
     });
     await nextTick();
 
-    await wrapper.setProps({ triggerOnFocus: false });
-    await wrapper.find('input').trigger('focus');
-    vi.runAllTimers();
+    const input = wrapper.find('input');
     await nextTick();
-    expect(fetchSuggestions).toHaveBeenCalledTimes(0);
-
-    await wrapper.find('input').trigger('blur');
+    expect(fetchSuggestions).toBeCalledTimes(0);
 
     await wrapper.setProps({ triggerOnFocus: true });
-    await wrapper.find('input').trigger('focus');
+    await input.trigger('focus');
     vi.runAllTimers();
     await nextTick();
-    expect(fetchSuggestions).toHaveBeenCalledTimes(1);
+
+    expect(fetchSuggestions).toBeCalledTimes(1);
   });
 
   test('popperClass', async () => {
@@ -145,18 +155,19 @@ describe('Autocomplete.vue', () => {
   test('debounce / fetchSuggestions', async () => {
     const fetchSuggestions = vi.fn();
     const wrapper = doMount({
-      debounce: 5,
+      debounce: 500,
       fetchSuggestions: fetchSuggestions as any,
     });
     await nextTick();
 
-    await wrapper.find('input').trigger('focus');
-    await wrapper.find('input').trigger('blur');
-    await wrapper.find('input').trigger('focus');
-    await wrapper.find('input').trigger('blur');
-    await wrapper.find('input').trigger('focus');
-    await wrapper.find('input').trigger('blur');
-    await wrapper.find('input').trigger('focus');
+    const input = wrapper.find('input');
+    await input.trigger('focus');
+    await input.trigger('blur');
+    await input.trigger('focus');
+    await input.trigger('blur');
+    await input.trigger('focus');
+    await input.trigger('blur');
+    await input.trigger('focus');
     expect(fetchSuggestions).toHaveBeenCalledTimes(0);
     vi.runAllTimers();
     await nextTick();

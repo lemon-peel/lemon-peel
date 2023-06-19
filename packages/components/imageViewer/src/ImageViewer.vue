@@ -7,7 +7,7 @@
         :class="ns.e('wrapper')"
         :style="{ zIndex: computedZIndex }"
       >
-        <div :class="ns.e('mask')" @click.self="hideOnClickModal && hide()" />
+        <div :class="ns.e('mask')" @click.self="onClickMask" />
 
         <!-- CLOSE -->
         <span :class="[ns.e('btn'), ns.e('close')]" @click="hide">
@@ -195,6 +195,10 @@ function hide() {
   unregisterEventListener();
   emit('close');
 }
+
+const onClickMask = () => {
+  props.hideOnClickModal && hide();
+};
 
 function reset() {
   transform.value = {

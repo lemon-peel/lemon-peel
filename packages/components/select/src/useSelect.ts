@@ -10,7 +10,7 @@ import { useFormItem, useLocale, useNamespace, useSize } from '@lemon-peel/hooks
 
 import type { ComponentPublicInstance, ExtractPropTypes, Ref, ShallowRef, SetupContext } from 'vue';
 import type LpTooltip from '@lemon-peel/components/tooltip';
-import type { QueryChangeCtx, SelectOptionProxy } from './token';
+import type { SelectOptionProxy } from './token';
 import type { selectProps } from './select';
 import type { OptionProps } from './option';
 
@@ -60,9 +60,8 @@ export function useSelect(props: Readonly<ExtractPropTypes<typeof selectProps>>,
   const selectWrapper: Ref<HTMLElement> = ref(null as any);
   const scrollbar: Ref<{ handleScroll: () => void } | null> = ref(null);
   const hoverOption: Ref<SelectOptionProxy | null> = ref(null);
-  const queryChange: ShallowRef<QueryChangeCtx> = shallowRef({ query: '' });
+  const queryChange: ShallowRef<string> = shallowRef('');
   const groupQueryChange = shallowRef('');
-  const optionList = ref<string[]>([]);
 
   const { form, formItem } = useFormItem();
 
@@ -86,11 +85,13 @@ export function useSelect(props: Readonly<ExtractPropTypes<typeof selectProps>>,
       hasValue;
     return criteria;
   });
+
   const iconComponent = computed(() =>
     props.remote && props.filterable && !props.remoteShowSuffix
       ? ''
       : props.suffixIcon,
   );
+
   const iconReverse = computed(() =>
     ns.is(
       'reverse',
@@ -223,7 +224,7 @@ export function useSelect(props: Readonly<ExtractPropTypes<typeof selectProps>>,
   };
 
   const handleQueryChange = async (val: OptionProps['label']) => {
-    console.info(val);
+
     if (states.previousQuery === val || states.isOnComposition) return;
     if (
       states.previousQuery === null &&
@@ -255,7 +256,8 @@ export function useSelect(props: Readonly<ExtractPropTypes<typeof selectProps>>,
       triggerRef(groupQueryChange);
     } else {
       states.filteredOptionsCount = states.optionsCount;
-      queryChange.value.query = val;
+      queryChange.value = val.toString();
+      groupQueryChange.value = val.toString();
 
       triggerRef(queryChange);
       triggerRef(groupQueryChange);
@@ -396,7 +398,8 @@ export function useSelect(props: Readonly<ExtractPropTypes<typeof selectProps>>,
           }
           handleQueryChange(states.query);
           if (!props.multiple && !props.remote) {
-            queryChange.value.query = '';
+            queryChange.value = '';
+            groupQueryChange.value = '';
 
             triggerRef(queryChange);
             triggerRef(groupQueryChange);

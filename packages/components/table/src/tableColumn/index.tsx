@@ -1,5 +1,4 @@
 import { Fragment, defineComponent, getCurrentInstance, isVNode, onBeforeMount, onBeforeUnmount, onMounted, ref, inject } from 'vue';
-import LpCheckbox from '@lemon-peel/components/checkbox';
 import { isString } from '@lemon-peel/utils';
 
 import { compose, mergeOptions } from '../util';
@@ -17,9 +16,6 @@ let columnIdSeed = 1;
 
 export default defineComponent({
   name: 'LpTableColumn',
-  components: {
-    LpCheckbox,
-  },
   props: tableColumnProps,
   setup(props, { expose, slots }) {
     const instance = getCurrentInstance() as TableColumn;
@@ -35,7 +31,6 @@ export default defineComponent({
     const {
       columnId,
       isSubColumn,
-      realHeaderAlign,
       columnOrTableParent,
       setColumnWidth,
       setColumnForcedProps,
@@ -43,6 +38,7 @@ export default defineComponent({
       getPropsData,
       getColumnLpIndex,
       realAlign,
+      realHeaderAlign,
     } = useRender(table, props, slots);
 
     const parent = columnOrTableParent.value;

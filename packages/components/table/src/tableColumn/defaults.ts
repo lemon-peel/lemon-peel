@@ -2,6 +2,7 @@
 import { buildProps } from '@lemon-peel/utils';
 
 import type { ExtractPropTypes, ComponentInternalInstance, PropType, Ref, VNode, VNodeChild } from 'vue';
+import type { Placement } from '@lemon-peel/components/popper';
 import type { RenderHeaderData, RenderRowData } from '../table/defaults';
 import type { DefaultRow, TableVM } from '../table/defaults';
 import type { SortBy } from '../util';
@@ -50,7 +51,7 @@ export interface TableColumnCtx {
   filterMethod: FilterMethods;
   filteredValue: string[];
   filters: Filters;
-  filterPlacement: string;
+  filterPlacement: Placement;
   filterMultiple: boolean;
   index: number | ((index: number) => number);
   sortOrders: ('ascending' | 'descending' | null)[];

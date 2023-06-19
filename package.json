@@ -32,7 +32,7 @@
     "node": ">=12.22.0"
   },
   "peerDependencies": {
-    "vue": ">=3.2.0"
+    "vue": ">=3.2.47"
   },
   "dependencies": {
     "@ctrl/tinycolor": "^3.4.1",
@@ -48,8 +48,8 @@
     "@lemon-peel/tokens": "workspace:*",
     "@lemon-peel/utils": "workspace:*",
     "@popperjs/core": "^2.11.6",
-    "@vitest/browser": "^0.29.1",
-    "@vue/shared": "^3.2.45",
+    "@vitest/browser": "^0.31.0",
+    "@vue/shared": "^3.2.47",
     "@vueuse/core": "^9.10.0",
     "async-validator": "^4.2.5",
     "dayjs": "^1.11.5",
@@ -57,7 +57,8 @@
     "lemon-peel": "workspace:*",
     "lodash-es": "^4.17.21",
     "memoize-one": "^6.0.0",
-    "normalize-wheel-es": "^1.2.0"
+    "normalize-wheel-es": "^1.2.0",
+    "vue": "^3.2.47"
   },
   "devDependencies": {
     "@edge-runtime/vm": "^2.0.5",
@@ -75,9 +76,9 @@
     "@typescript-eslint/parser": "^5.46.1",
     "@vitejs/plugin-vue": "^4.0.0",
     "@vitejs/plugin-vue-jsx": "^3.0.0",
-    "@vitest/ui": "^0.29.1",
-    "@vue/runtime-core": "^3.2.45",
-    "@vue/test-utils": "^2.3.1",
+    "@vitest/ui": "^0.31.0",
+    "@vue/runtime-core": "^3.2.47",
+    "@vue/test-utils": "^2.3.2",
     "chalk": "^5.0.1",
     "concurrently": "^7.5.0",
     "consola": "^2.15.3",
@@ -99,8 +100,7 @@
     "unplugin-vue-define-options": "^1.1.1",
     "unplugin-vue-macros": "^1.9.1",
     "vite": "^4.1.4",
-    "vitest": "^0.29.2",
-    "vue": "^3.2.0",
+    "vitest": "^0.31.0",
     "vue-router": "^4.1.0"
   },
   "browserslist": [

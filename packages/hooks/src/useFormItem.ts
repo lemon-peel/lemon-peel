@@ -57,7 +57,7 @@ export const useFormItemInputId = (
           if (formItemContext?.removeInputId) {
             inputId.value && formItemContext.removeInputId(inputId.value);
             if (!disableIdManagement?.value && !disableGeneration && newId) {
-              formItemContext.addInputId(newId);
+              formItemContext.addInputId?.(newId);
             }
           }
           inputId.value = newId;

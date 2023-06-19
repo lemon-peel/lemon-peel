@@ -136,7 +136,7 @@ function useRender(props: TableBodyProps) {
       const renderExpanded = table.renderExpanded;
 
       if (expanded && !renderExpanded) {
-        console.error('[Element Error]renderExpanded is required.');
+        console.error('[Lemon Peel Error]renderExpanded is required.');
         return tr;
       } else if (expanded && renderExpanded) {
         // 使用二维数组，避免修改 $index

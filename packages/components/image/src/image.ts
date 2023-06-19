@@ -6,7 +6,7 @@ export const imageProps = buildProps({
   hideOnClickModal: { type: Boolean, default: false },
   src: { type: String, default: '' },
   fit: { type: String, values: ['', 'contain', 'cover', 'fill', 'none', 'scale-down'], default: '' },
-  loading: { type: String, values: ['eager', 'lazy'] },
+  loading: { type: String, values: ['eager', 'lazy', undefined] },
   lazy: { type: Boolean, default: false },
   scrollContainer: { type: [String, Object] as PropType<string | HTMLElement | undefined> },
   previewSrcList: { type: Array as PropType<string[]>, default: () => mutable([] as const) },

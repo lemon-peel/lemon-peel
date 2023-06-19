@@ -24,7 +24,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, onBeforeUnmount, onMounted, provide, ref, unref, watch } from 'vue';
+import { computed, inject, onBeforeUnmount, onMounted, provide, ref, unref, watch, watchEffect } from 'vue';
 import { NOOP } from '@vue/shared';
 import { isNil } from 'lodash-es';
 import { createPopper } from '@popperjs/core';
@@ -47,9 +47,8 @@ const emit = defineEmits(popperContentEmits);
 
 const props = defineProps(popperContentProps);
 
-const { popperInstanceRef, contentRef, triggerRef, role } = inject(
-  POPPER_INJECTION_KEY,
-)!;
+const { popperInstanceRef, contentRef, triggerRef, role } = inject(POPPER_INJECTION_KEY)!;
+
 const formItemContext = inject(formItemContextKey, null);
 const { nextZIndex } = useZIndex();
 const ns = useNamespace('popper');
@@ -57,6 +56,7 @@ const popperContentRef = ref<HTMLElement>(null as any);
 const focusStartRef = ref<'container' | 'first' | HTMLElement>('first');
 const arrowRef = ref<HTMLElement>();
 const arrowOffset = ref<number>();
+
 provide(POPPER_CONTENT_INJECTION_KEY, {
   arrowRef,
   arrowOffset,
@@ -168,61 +168,57 @@ onMounted(() => {
   let updateHandle: WatchStopHandle;
   watch(
     computedRef,
-    referenceElement => {
+    refEle => {
       updateHandle?.();
       const popperInstance = unref(popperInstanceRef);
       popperInstance?.destroy?.();
-      if (referenceElement) {
-        const popperContentElement = unref(popperContentRef) as HTMLElement;
-        contentRef.value = popperContentElement;
+      if (refEle) {
+        const popperContentEl = unref(popperContentRef) as HTMLElement;
+        contentRef.value = popperContentEl;
 
         popperInstanceRef.value = createPopperInstance({
-          referenceEl: referenceElement,
-          popperContentEl: popperContentElement,
+          referenceEl: refEle,
+          popperContentEl,
           arrowEl: unref(arrowRef),
         });
 
         updateHandle = watch(
-          () => referenceElement.getBoundingClientRect(),
+          () => refEle.getBoundingClientRect(),
           () => updatePopper(),
-          {
-            immediate: true,
-          },
+          { immediate: true },
         );
       } else {
         popperInstanceRef.value = undefined;
       }
-    },
-    {
+    }, {
       immediate: true,
-    },
-  );
+    });
 
   watch(
     () => props.triggerTargetEl,
-    (triggerTargetElement, previousTriggerTargetElement) => {
+    (triggerTargetEl, prevTriggerTargetEle) => {
       triggerTargetAriaStopWatch?.();
       triggerTargetAriaStopWatch = undefined;
 
-      const element = unref(triggerTargetElement || popperContentRef.value);
-      const previousElement = unref(previousTriggerTargetElement || popperContentRef.value);
+      const ele = unref(triggerTargetEl || popperContentRef.value);
+      const prevEle = unref(prevTriggerTargetEle || popperContentRef.value);
 
-      if (isElement(element)) {
+      if (isElement(ele)) {
         triggerTargetAriaStopWatch = watch(
           [role, () => props.ariaLabel, ariaModal, () => props.id],
           watches => {
             for (const [index, key] of ['role', 'aria-label', 'aria-modal', 'id'].entries()) {
               isNil(watches[index])
-                ? element.removeAttribute(key)
-                : element.setAttribute(key, watches[index]!);
+                ? ele.removeAttribute(key)
+                : ele.setAttribute(key, watches[index]!);
             }
           },
           { immediate: true },
         );
       }
-      if (previousElement !== element && isElement(previousElement)) {
+      if (prevEle !== ele && isElement(prevEle)) {
         for (const key of ['role', 'aria-label', 'aria-modal', 'id']) {
-          previousElement.removeAttribute(key);
+          prevEle.removeAttribute(key);
         }
       }
     },
@@ -259,7 +255,6 @@ defineExpose({
    * @description method for updating popper
    */
   updatePopper,
-
   /**
    * @description content style
    */

@@ -53,8 +53,8 @@ export interface FormItemContext extends FormItemProps {
   labelId: string;
   inputIds: string[];
   hasLabel: boolean;
-  addInputId: (id: string) => void;
-  removeInputId: (id: string) => void;
+  addInputId?: (id: string) => void;
+  removeInputId?: (id: string) => void;
   validate: (
     trigger: string,
     callback?: FormValidateCallback

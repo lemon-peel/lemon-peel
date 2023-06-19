@@ -11,7 +11,7 @@ import { isValidArray, isValidValue, toValidArray, treeFind } from './utils';
 import TreeSelectOption from './treeSelectOption';
 
 import type { ExtractPropTypes, SetupContext, Ref, h as vueRender } from 'vue';
-import type { FilterNodeMethodFunction, TreeNodeContentRender, LpTreeNode, TreeKey } from '@lemon-peel/components/tree';
+import type { FilterNodeFunc, TreeNodeContentRender, LpTreeNode, TreeKey } from '@lemon-peel/components/tree';
 import type Node from '@lemon-peel/components/tree/src/model/node';
 import type LpSelect from '@lemon-peel/components/select';
 import type { TreeNodeData } from './utils';
@@ -143,8 +143,8 @@ export const useTree = (
     // show current selected node only first time,
     // fix the problem of expanding multiple nodes when checking multiple nodes
     defaultExpandedKeys: computed(() => {
-      return props.defaultExpandedKeys
-        ? props.defaultExpandedKeys.concat(defaultExpandedParentKeys)
+      return props.expandedKeys
+        ? props.expandedKeys.concat(defaultExpandedParentKeys)
         : defaultExpandedParentKeys;
     }),
 
@@ -169,7 +169,7 @@ export const useTree = (
         return props.filterNodeMethod(value, data, node);
       if (!value) return true;
       return getNodeValByProp('label', data)?.includes(value);
-    }) as FilterNodeMethodFunction,
+    }) as FilterNodeFunc,
 
     onNodeClick: (data: TreeNodeData, node: Node, nodeIns: InstanceType<typeof LpTreeNode>) => {
       emit('node-click', data, node, nodeIns);

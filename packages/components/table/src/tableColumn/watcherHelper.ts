@@ -30,11 +30,11 @@ function useWatcher(props: TableColumnProps, columnConfig: Ref<Partial<TableColu
           () => props[alias],
           newVal => {
             let value: ValueOf<TableColumnCtx> = newVal;
-            if (alias === 'width' && key === 'realWidth') {
+            if (key === 'realWidth' && alias === 'width') {
               value = parseWidth(newVal);
             }
 
-            if (alias === 'minWidth' && key === 'realMinWidth') {
+            if (key === 'realMinWidth' && alias === 'minWidth') {
               value = parseMinWidth(newVal);
             }
 

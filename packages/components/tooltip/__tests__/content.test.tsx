@@ -1,6 +1,6 @@
 import { nextTick } from 'vue';
 import { mount } from '@vue/test-utils';
-import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test } from 'vitest';
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 import { usePopperContainer } from '@lemon-peel/hooks';
 import { TOOLTIP_INJECTION_KEY } from '@lemon-peel/tokens';
 import { genTooltipProvides } from '../test-helper/provides';
@@ -9,6 +9,8 @@ import LpTooltipContent from '../src/Content.vue';
 import type { VueWrapper } from '@vue/test-utils';
 
 const AXIOM = 'rem is the best girl';
+
+vi.stubGlobal('process.evn.NODE_ENV', 'test');
 
 describe('LpTooltipContent', () => {
   const {
@@ -68,14 +70,6 @@ describe('LpTooltipContent', () => {
   };
 
   let wrapper: VueWrapper<any>;
-  const OLD_ENV = process.env.NODE_ENV;
-  beforeAll(() => {
-    process.env.NODE_ENV = 'test';
-  });
-
-  afterAll(() => {
-    process.env.NODE_ENV = OLD_ENV;
-  });
 
   afterEach(() => {
     open.value = false;

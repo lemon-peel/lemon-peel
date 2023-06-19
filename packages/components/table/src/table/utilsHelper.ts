@@ -11,7 +11,7 @@ function useUtils(store: Store) {
     return store.watcher.getSelectionRows();
   };
 
-  const toggleRowSelection = (row: DefaultRow, selected = false) => {
+  const toggleRowSelection = (row: DefaultRow, selected?: boolean) => {
     store.watcher.toggleRowSelection(row, selected, false);
     store.watcher.updateAllSelected();
   };

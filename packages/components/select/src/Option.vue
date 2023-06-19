@@ -19,12 +19,12 @@
 </template>
 
 <script lang="ts" setup>
-import { getCurrentInstance, nextTick, onBeforeUnmount, reactive, toRefs } from 'vue';
+import { getCurrentInstance, onBeforeUnmount, reactive, toRefs } from 'vue';
 import { useNamespace } from '@lemon-peel/hooks';
 
 import { useOption } from './useOption';
 import type { SelectOptionProxy } from './token';
-import { optionProps, OptionProps } from './option';
+import { optionProps } from './option';
 
 defineOptions({
   name: 'LpOption',
@@ -48,7 +48,7 @@ const vm = getCurrentInstance()!;
 const sop: SelectOptionProxy = reactive({
   ...toRefs(props),
   ...toRefs(states),
-  $el: vm.vnode.el as HTMLElement,
+  $el: vm.vnode.el as any,
   currentLabel,
   itemSelected,
   isDisabled,
@@ -76,6 +76,12 @@ onBeforeUnmount(() => {
 
   select.onOptionDestroy(key, sop);
 });
+
+const inc = getCurrentInstance()!;
+
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+inc.isVisible = () => states.visible;
 
 defineExpose({
   visible,
