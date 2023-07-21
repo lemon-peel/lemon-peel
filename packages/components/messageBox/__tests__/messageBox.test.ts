@@ -142,6 +142,7 @@ describe('MessageBox', () => {
     const btn = document
       .querySelector(selector)!
       .querySelector('.lp-button--primary') as HTMLButtonElement;
+
     btn.click();
     await rAF();
     const msgbox = document.querySelector(selector) as HTMLElement;

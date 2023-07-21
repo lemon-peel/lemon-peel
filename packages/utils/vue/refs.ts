@@ -17,6 +17,8 @@ export function unrefs<T extends object>(origin: T) : Unrefs<T> {
   for (const pic of entries) {
     if (isRef(pic[1])) {
       noRefs[pic[0] as keyof T] = unref(pic[1]);
+    } else {
+      noRefs[pic[0] as keyof T] = pic[1];
     }
   }
 

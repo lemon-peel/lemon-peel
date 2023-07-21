@@ -17,7 +17,7 @@
           :key="key"
           type="button"
           :class="ppNs.e('shortcut')"
-          @click="handleShortcutClick(shortcut)"
+          @click="handleShortcutClick(shortcut as any)"
         >
           {{ shortcut.text }}
         </button>
@@ -189,7 +189,7 @@ import LpButton from '@lemon-peel/components/button';
 import { ClickOutside as vClickOutside } from '@lemon-peel/directives';
 import { useLocale, useNamespace } from '@lemon-peel/hooks';
 import LpInput from '@lemon-peel/components/input';
-import { TimePickPanel, extractDateFormat, extractTimeFormat } from '@lemon-peel/components/timePicker';
+import { TIME_PICKER_INJECTION_KEY, TimePickPanel, extractDateFormat, extractTimeFormat } from '@lemon-peel/components/timePicker';
 import { LpIcon } from '@lemon-peel/components/icon';
 import { isArray, isFunction } from '@lemon-peel/utils';
 import { EVENT_CODE } from '@lemon-peel/constants';
@@ -204,6 +204,7 @@ import type { SetupContext } from 'vue';
 import type { ConfigType, Dayjs } from 'dayjs';
 import type { PanelDatePickProps } from '../props/panelDatePick';
 import type { DateTableEmits, DatesPickerEmits, WeekPickerEmits } from '../props/basicDateTable';
+import type { Shortcut } from '../datePicker.type';
 
 type DatePickType = PanelDatePickProps['type'];
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -216,7 +217,7 @@ const attrs = useAttrs();
 const slots = useSlots();
 
 const { t, lang } = useLocale();
-const pickerBase = inject('EP_PICKER_BASE') as any;
+const pickerBase = inject(TIME_PICKER_INJECTION_KEY)!;
 const popper = inject(TOOLTIP_INJECTION_KEY);
 const { shortcuts, disabledDate, cellClassName, defaultTime, arrowControl } =
   pickerBase.props;
@@ -227,7 +228,7 @@ const currentViewRef = ref<{ focus: () => void }>();
 const innerDate = ref(dayjs().locale(lang.value));
 
 const defaultTimeD = computed(() => {
-  return dayjs(defaultTime).locale(lang.value);
+  return dayjs(defaultTime as Date).locale(lang.value);
 });
 
 const month = computed(() => {
@@ -368,26 +369,20 @@ const yearLabel = computed(() => {
   return `${year.value} ${yearTranslation}`;
 });
 
-type Shortcut = {
-  value: (() => Dayjs) | Dayjs;
-  onClick?: (ctx: Omit<SetupContext, 'expose'>) => void;
-};
-
 const handleShortcutClick = (shortcut: Shortcut) => {
   const shortcutValue = isFunction(shortcut.value)
     ? shortcut.value()
     : shortcut.value;
-  if (shortcutValue) {
-    emit(dayjs(shortcutValue).locale(lang.value));
-    return;
+
+  if (shortcutValue && !Array.isArray(shortcutValue)) {
+    return emit(dayjs(shortcutValue).locale(lang.value));
   }
-  if (shortcut.onClick) {
-    shortcut.onClick({
-      attrs,
-      slots,
-      emit: contextEmit as SetupContext['emit'],
-    });
-  }
+
+  shortcut.onClick?.({
+    attrs,
+    slots,
+    emit: contextEmit as SetupContext['emit'],
+  });
 };
 
 const keyboardMode = computed<string>(() => {
@@ -523,7 +518,7 @@ const footerVisible = computed(() => {
 });
 
 const getDefaultValue = () => {
-  const parseDate = dayjs(defaultValue.value).locale(lang.value);
+  const parseDate = dayjs(defaultValue.value as Date).locale(lang.value);
   if (!defaultValue.value) {
     const defaultTimeDValue = defaultTimeD.value;
     return dayjs()
@@ -542,7 +537,7 @@ const onConfirm = () => {
     // deal with the scenario where: user opens the date time picker, then confirm without doing anything
     let result = props.parsedValue as Dayjs;
     if (!result) {
-      const defaultTimeD = dayjs(defaultTime).locale(lang.value);
+      const defaultTimeD = dayjs(defaultTime as Date).locale(lang.value);
       const defaultValueD = getDefaultValue();
       result = defaultTimeD
         .year(defaultValueD.year())

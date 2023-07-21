@@ -102,6 +102,7 @@
 import { computed, inject, ref, toRef } from 'vue';
 import dayjs from 'dayjs';
 import LpIcon from '@lemon-peel/components/icon';
+import { TIME_PICKER_INJECTION_KEY } from '@lemon-peel/components/timePicker';
 import { useLocale } from '@lemon-peel/hooks';
 import { DArrowLeft, DArrowRight } from '@element-plus/icons-vue';
 import { panelMonthRangeEmits, panelMonthRangeProps } from '../props/panelMonthRange';
@@ -120,7 +121,7 @@ const emit = defineEmits(panelMonthRangeEmits);
 const unit = 'year';
 
 const { lang } = useLocale();
-const pickerBase = inject('EP_PICKER_BASE') as any;
+const pickerBase = inject(TIME_PICKER_INJECTION_KEY)!;
 const { shortcuts, disabledDate, format } = pickerBase.props;
 const defaultValue = toRef(pickerBase.props, 'defaultValue');
 const leftDate = ref(dayjs().locale(lang.value));

@@ -40,8 +40,10 @@ export function provideGlobalConfig(
   const inSetup = !!getCurrentInstance();
   const oldConfig = inSetup ? useGlobalConfig() : undefined;
 
-  const provideFunction = app?.provide ?? (inSetup ? provide : undefined);
-  if (!provideFunction) {
+  const provideFn: ((key: any, value: any) => any) | undefined
+    = app?.provide ?? (inSetup ? provide : undefined);
+
+  if (!provideFn) {
     debugWarn(
       'provideGlobalConfig',
       'provideGlobalConfig() can only be used inside setup().',
@@ -54,7 +56,8 @@ export function provideGlobalConfig(
     if (!oldConfig?.value) return cfg;
     return mergeConfig(oldConfig.value, cfg);
   });
-  provideFunction(configProviderContextKey, context);
+
+  provideFn?.(configProviderContextKey, context);
   if (global || !globalConfig.value) {
     globalConfig.value = context.value;
   }

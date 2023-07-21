@@ -35,6 +35,7 @@
 import { computed, nextTick, onMounted, onUpdated, provide, reactive, ref, watch } from 'vue';
 import { useEventListener, useResizeObserver } from '@vueuse/core';
 import { addUnit, debugWarn, isNumber, isObject } from '@lemon-peel/utils';
+import type { ScrollbarContext } from '@lemon-peel/tokens';
 import { scrollbarContextKey } from '@lemon-peel/tokens';
 import { useNamespace } from '@lemon-peel/hooks';
 
@@ -57,8 +58,8 @@ const ns = useNamespace('scrollbar');
 let stopResizeObserver: (() => void) | undefined;
 let stopResizeListener: (() => void) | undefined;
 
-const scrollbar$ = ref<HTMLDivElement>();
-const wrap$ = ref<HTMLDivElement>();
+const scrollbar$ = ref<HTMLDivElement>(null as any);
+const wrap$ = ref<HTMLDivElement>(null as any);
 const resize$ = ref<HTMLElement>();
 
 const sizeWidth = ref('0');
@@ -77,7 +78,7 @@ const style = computed<StyleValue>(() => {
 
 const handleScroll = () => {
   if (wrap$.value) {
-    barRef.value?.handleScroll(wrap$.value);
+    barRef.value?.handleScroll(wrap$.value as HTMLDivElement);
 
     emit('scroll', {
       scrollTop: wrap$.value.scrollTop,
@@ -156,7 +157,7 @@ watch(
       nextTick(() => {
         update();
         if (wrap$.value) {
-          barRef.value?.handleScroll(wrap$.value);
+          barRef.value?.handleScroll(wrap$.value as HTMLDivElement);
         }
       });
   },
@@ -167,7 +168,7 @@ provide(
   reactive({
     scrollbarElement: scrollbar$,
     wrapElement: wrap$,
-  }),
+  }) as ScrollbarContext,
 );
 
 onMounted(() => {

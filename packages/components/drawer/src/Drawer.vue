@@ -1,6 +1,6 @@
 <template>
-  <teleport to="body" :disabled="!appendToBody">
-    <transition
+  <Teleport to="body" :disabled="!appendToBody">
+    <Transition
       :name="ns.b('fade')"
       @after-enter="afterEnter"
       @after-leave="afterLeave"
@@ -75,12 +75,12 @@
           </div>
         </lp-focus-trap>
       </lp-overlay>
-    </transition>
-  </teleport>
+    </Transition>
+  </Teleport>
 </template>
 
 <script lang="ts" setup>
-import { computed, defineProps, ref } from 'vue';
+import { computed, ref } from 'vue';
 import { Close } from '@element-plus/icons-vue';
 import { LpOverlay } from '@lemon-peel/components/overlay';
 import { useDialog } from '@lemon-peel/components/dialog';
@@ -128,6 +128,6 @@ defineExpose({
   afterLeave,
   onModalClick,
   onCloseRequested,
-  handleClose,
+  close: handleClose,
 });
 </script>

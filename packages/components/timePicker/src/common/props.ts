@@ -3,9 +3,10 @@ import { useSizeProp } from '@lemon-peel/hooks';
 import { CircleClose } from '@element-plus/icons-vue';
 import { disabledTimeListsProps } from '../props/shared';
 
-import type { Component, ExtractPropTypes, PropType } from 'vue';
+import type { Component, ExtractPropTypes, InjectionKey, PropType } from 'vue';
 import type { Options } from '@popperjs/core';
 import type { Dayjs } from 'dayjs';
+import type { Shortcut } from '@lemon-peel/components/datePicker';
 
 export type SingleOrRange<T> = T | [T, T];
 export type DateModelType = number | string | Date;
@@ -52,9 +53,9 @@ export const timePickerDefaultProps = buildProps({
   defaultTime: { type: [Date, Array] as PropType<SingleOrRange<Date>> },
   isRange: { type: Boolean, default: false },
   ...disabledTimeListsProps,
-  disabledDate: { type: Function },
-  cellClassName: { type: Function },
-  shortcuts: { type: Array, default: () => [] },
+  disabledDate: { type: Function as PropType<(date: Date) => boolean> },
+  cellClassName: { type: Function as PropType<(date: Date) => string> },
+  shortcuts: { type: Array as PropType<Shortcut[]>, default: () => [] },
   arrowControl: { type: Boolean, default: false },
   label: { type: String, default: undefined },
   tabindex: { type: [String, Number] as PropType<string | number>, default: 0 },
@@ -75,3 +76,7 @@ export interface PickerOptions {
   handleClear: () => void;
   handleFocusPicker?: () => void;
 }
+
+export type PickerProps = Readonly<ExtractPropTypes<typeof timePickerDefaultProps>>;
+
+export const TIME_PICKER_INJECTION_KEY: InjectionKey<{ props: PickerProps }> = Symbol('LpTimePickerBase');

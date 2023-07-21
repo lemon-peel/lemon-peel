@@ -72,7 +72,7 @@
           :show-checkbox="showCheckbox"
           :node="child"
           :accordion="accordion"
-          :props="props"
+          :props="props.props"
           @node-expand="handleChildNodeExpand"
         />
       </div>
@@ -189,9 +189,9 @@ const getNodeKey = (node: Node): any => {
 
 const getNodeClass = (node: Node) => {
   const nodeClassFunc = props.props.class;
-  if (!nodeClassFunc) {
-    return {};
-  }
+
+  if (!nodeClassFunc)  return {};
+
   let className;
   if (isFunction(nodeClassFunc)) {
     const { data } = node;
@@ -225,22 +225,6 @@ const handleCheckChange = (checked: any) => {
       halfCheckedKeys: store.getHalfCheckedKeys(),
     });
   });
-};
-
-const handleClick = (e: MouseEvent) => {
-  handleCurrentChange(tree.store, tree.ctx.emit, () =>
-    tree.store.value.setCurrentNode(props.node),
-  );
-  tree.currentNode.value = props.node;
-
-  if (tree.props.expandOnClickNode) {
-    handleExpandIconClick();
-  }
-
-  if (tree.props.checkOnClickNode && !props.node.disabled) {
-    handleCheckChange(!props.node.checked);
-  }
-  tree.ctx.emit('node-click', props.node.data, props.node, instance, e);
 };
 
 const handleContextMenu = (event: Event) => {
@@ -285,7 +269,28 @@ const handleDragEnd = (event: DragEvent) => {
   dragEvents.treeNodeDragEnd(event);
 };
 
-defineExpose({
+const exposeProps = {
   handleExpandIconClick,
-});
+};
+
+Object.assign(instance, exposeProps);
+
+defineExpose(exposeProps);
+
+const handleClick = (e: MouseEvent) => {
+  handleCurrentChange(tree.store, tree.ctx.emit, () =>
+    tree.store.value.setCurrentNode(props.node),
+  );
+  tree.currentNode.value = props.node;
+
+  if (tree.props.expandOnClickNode) {
+    handleExpandIconClick();
+  }
+
+  if (tree.props.checkOnClickNode && !props.node.disabled) {
+    handleCheckChange(!props.node.checked);
+  }
+
+  tree.ctx.emit('node-click', props.node.data, props.node, instance, e);
+};
 </script>

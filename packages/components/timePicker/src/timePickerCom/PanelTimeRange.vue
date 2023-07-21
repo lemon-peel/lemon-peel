@@ -91,6 +91,7 @@ import { EVENT_CODE } from '@lemon-peel/constants';
 import { panelTimeRangeProps } from '../props/panelTimeRange';
 import { useTimePanel } from '../composables/useTimePanel';
 import { buildAvailableTimeSlotGetter, useOldValue } from '../composables/useTimePicker';
+import { TIME_PICKER_INJECTION_KEY } from '../common/props';
 import TimeSpinner from './BasicTimeSpinner.vue';
 
 import type { Dayjs } from 'dayjs';
@@ -109,7 +110,7 @@ const makeSelectRange = (start: number, end: number) => {
 const { t, lang } = useLocale();
 const nsTime = useNamespace('time');
 const nsPicker = useNamespace('picker');
-const pickerBase = inject('EP_PICKER_BASE') as any;
+const pickerBase = inject(TIME_PICKER_INJECTION_KEY)!;
 const {
   arrowControl,
   disabledHours,

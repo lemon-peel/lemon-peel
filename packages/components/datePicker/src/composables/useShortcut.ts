@@ -1,17 +1,10 @@
 import { getCurrentInstance, useAttrs, useSlots } from 'vue';
 import dayjs from 'dayjs';
-import { isFunction } from '@lemon-peel/utils';
+import { debugWarn, isFunction } from '@lemon-peel/utils';
 
-import type { SetupContext } from 'vue';
 import type { useLocale } from '@lemon-peel/hooks';
-import type { RangePickerSharedEmits } from '../props/shared';
+import type { Shortcut } from '../datePicker.type';
 
-// FIXME: extract this to `date-picker.ts`
-export type Shortcut = {
-  text: string;
-  value: [Date, Date] | (() => [Date, Date]);
-  onClick?: (ctx: Omit<SetupContext<RangePickerSharedEmits>, 'expose'>) => void;
-};
 
 export const useShortcut = (lang: ReturnType<typeof useLocale>['lang']) => {
   const { emit } = getCurrentInstance()!;
@@ -23,20 +16,22 @@ export const useShortcut = (lang: ReturnType<typeof useLocale>['lang']) => {
       ? shortcut.value()
       : shortcut.value;
 
+    if (shortcutValues && !Array.isArray(shortcutValues)) {
+      return debugWarn('LpDatePicker', 'shortcut value for date range picker should be array of date.');
+    }
+
     if (shortcutValues) {
-      emit('pick', [
+      return emit('pick', [
         dayjs(shortcutValues[0]).locale(lang.value),
         dayjs(shortcutValues[1]).locale(lang.value),
       ]);
-      return;
     }
-    if (shortcut.onClick) {
-      shortcut.onClick({
-        attrs,
-        slots,
-        emit,
-      });
-    }
+
+    shortcut.onClick?.({
+      attrs,
+      slots,
+      emit,
+    });
   };
 
   return handleShortcutClick;

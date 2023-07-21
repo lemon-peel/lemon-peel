@@ -1,3 +1,4 @@
+import type { PropType } from 'vue';
 import { computed, inject, ref, unref } from 'vue';
 import { formContextKey, formItemContextKey } from '@lemon-peel/tokens';
 import { buildProp } from '@lemon-peel/utils';
@@ -10,7 +11,7 @@ import type { ComponentSize } from '@lemon-peel/constants';
 import type { MaybeRef } from '@vueuse/core';
 
 export const useSizeProp = buildProp({
-  type: String,
+  type: String as PropType<ComponentSize>,
   values: componentSizes,
   required: false,
 } as const);

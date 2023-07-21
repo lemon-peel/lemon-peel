@@ -1,4 +1,4 @@
-import { markRaw, nextTick, ref } from 'vue';
+import { defineComponent, markRaw, nextTick, ref } from 'vue';
 import { mount } from '@vue/test-utils';
 import { afterEach, describe, expect, it, test, vi } from 'vitest';
 import { EVENT_CODE } from '@lemon-peel/constants';
@@ -1079,24 +1079,7 @@ describe('Select', () => {
 
   test('multiple select with remote load', async () => {
     vi.useFakeTimers();
-    wrapper = mount({
-      template: `<lp-select
-        v-model:value="value"
-        multiple
-        filterable
-        remote
-        reserve-keyword
-        placeholder="请输入关键词"
-        :remote-method="remoteMethod"
-        :loading="loading"
-      >
-        <lp-option
-          v-for="item in options"
-          :key="item.value"
-          :label="item.label"
-          :value="item"
-        />
-      </lp-select>`,
+    wrapper = mount(defineComponent({
       components: { LpSelect, LpOption: LpSelectOption },
       data() {
         return {
@@ -1178,7 +1161,24 @@ describe('Select', () => {
           }
         },
       },
-    });
+      template: `<lp-select
+        v-model:value="value"
+        multiple
+        filterable
+        remote
+        reserve-keyword
+        placeholder="请输入关键词"
+        :remote-method="remoteMethod"
+        :loading="loading"
+      >
+        <lp-option
+          v-for="item in options"
+          :key="item.value"
+          :label="item.label"
+          :value="item"
+        />
+      </lp-select>`,
+    }));
 
     const select = wrapper.findComponent(LpSelect).vm;
     select.debouncedQueryChange({
@@ -1787,7 +1787,7 @@ describe('Select', () => {
       await nextTick();
       expect(vm.value).toBe(1);
       expect(findInnerInput().value).toBe('y');
-      wrapper.vm.options = [
+      (wrapper.vm as any).options = [
         {
           label: 'group2',
           options: [

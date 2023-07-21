@@ -1,54 +1,42 @@
-/* eslint-disable import/first */
-let isClientMocked = false
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
+import { cAF, rAF } from '../index';
 
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { cAF, rAF } from '../index'
+// eslint-disable-next-line no-var
+var isClientMocked = false;
 
 vi.mock('@vueuse/core', () => ({
   get isClient() {
-    return isClientMocked
+    return isClientMocked;
   },
-}))
+}));
+
 
 describe('raf', () => {
   beforeEach(() => {
-    vi.useFakeTimers()
-  })
+    vi.useFakeTimers();
+  });
+
   afterEach(() => {
-    vi.useRealTimers()
-    vi.restoreAllMocks()
-  })
+    vi.useRealTimers();
+    vi.restoreAllMocks();
+  });
 
-  it('CSR should work', () => {
-    isClientMocked = true
+  test('CSR should work', () => {
+    isClientMocked = true;
 
-    const fn = vi.fn()
-    rAF(() => fn('first'))
-    vi.runAllTimers()
+    const fn = vi.fn();
+    rAF(() => fn('first'));
+    vi.runAllTimers();
     expect(fn.mock.calls).toMatchInlineSnapshot(`
       [
         [
           "first",
         ],
       ]
-    `)
+    `);
 
-    rAF(() => fn('second'))
-    vi.runAllTimers()
-    expect(fn.mock.calls).toMatchInlineSnapshot(`
-      [
-        [
-          "first",
-        ],
-        [
-          "second",
-        ],
-      ]
-    `)
-
-    const handle = rAF(() => fn('cancel'))
-    cAF(handle)
-    vi.runAllTimers()
+    rAF(() => fn('second'));
+    vi.runAllTimers();
     expect(fn.mock.calls).toMatchInlineSnapshot(`
       [
         [
@@ -58,25 +46,11 @@ describe('raf', () => {
           "second",
         ],
       ]
-    `)
-  })
+    `);
 
-  it('SSR should work', () => {
-    isClientMocked = false
-
-    const fn = vi.fn()
-    rAF(() => fn('first'))
-    vi.runAllTimers()
-    expect(fn.mock.calls).toMatchInlineSnapshot(`
-      [
-        [
-          "first",
-        ],
-      ]
-    `)
-
-    rAF(() => fn('second'))
-    vi.runAllTimers()
+    const handle = rAF(() => fn('cancel'));
+    cAF(handle);
+    vi.runAllTimers();
     expect(fn.mock.calls).toMatchInlineSnapshot(`
       [
         [
@@ -86,11 +60,25 @@ describe('raf', () => {
           "second",
         ],
       ]
-    `)
+    `);
+  });
 
-    const handle = rAF(() => fn('cancel'))
-    cAF(handle)
-    vi.runAllTimers()
+  test('SSR should work', () => {
+    isClientMocked = false;
+
+    const fn = vi.fn();
+    rAF(() => fn('first'));
+    vi.runAllTimers();
+    expect(fn.mock.calls).toMatchInlineSnapshot(`
+      [
+        [
+          "first",
+        ],
+      ]
+    `);
+
+    rAF(() => fn('second'));
+    vi.runAllTimers();
     expect(fn.mock.calls).toMatchInlineSnapshot(`
       [
         [
@@ -100,6 +88,20 @@ describe('raf', () => {
           "second",
         ],
       ]
-    `)
-  })
-})
+    `);
+
+    const handle = rAF(() => fn('cancel'));
+    cAF(handle);
+    vi.runAllTimers();
+    expect(fn.mock.calls).toMatchInlineSnapshot(`
+      [
+        [
+          "first",
+        ],
+        [
+          "second",
+        ],
+      ]
+    `);
+  });
+});

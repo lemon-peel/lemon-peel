@@ -49,10 +49,12 @@ const onMouseenter = composeEventHandlers(
   stopWhenControlledOrDisabled,
   whenTrigger(trigger, 'hover', onOpen),
 );
+
 const onMouseleave = composeEventHandlers(
   stopWhenControlledOrDisabled,
   whenTrigger(trigger, 'hover', onClose),
 );
+
 const onClick = composeEventHandlers(
   stopWhenControlledOrDisabled,
   whenTrigger(trigger, 'click', e => {

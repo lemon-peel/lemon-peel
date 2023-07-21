@@ -11,24 +11,15 @@
     role="tree"
   >
     <lp-tree-node
-      v-for="child in root.childNodes"
-      :key="getNodeKey(child)"
-      :node="child"
-      :props="props"
-      :accordion="accordion"
-      :render-after-expand="renderAfterExpand"
-      :show-checkbox="showCheckbox"
-      :render-content="renderContent"
-      @node-expand="handleNodeExpand"
+      v-for="child in childNodes" :key="getNodeKey(child)"
+      :node="child" :props="props.props" :accordion="accordion" :render-after-expand="renderAfterExpand"
+      :show-checkbox="showCheckbox" :render-content="renderContent"
+      @node-expand="onNodeExpand"
     />
     <div v-if="isEmpty" :class="ns.e('empty-block')">
       <span :class="ns.e('empty-text')">{{ emptyText ?? t('lp.tree.emptyText') }}</span>
     </div>
-    <div
-      v-show="dragState.showDropIndicator"
-      ref="dropIndicatorRef"
-      :class="ns.e('drop-indicator')"
-    />
+    <div v-show="dragState.showDropIndicator" ref="dropIndicatorRef" :class="ns.e('drop-indicator')" />
   </div>
 </template>
 
@@ -49,9 +40,7 @@ import type Node from './model/node';
 import type { ComponentInternalInstance, PropType, SetupContext } from 'vue';
 import type { TreeData, TreeKey, TreeNodeData } from './tree';
 
-defineOptions({
-  name: 'LpTree',
-});
+defineOptions({ name: 'LpTree' });
 
 const props = defineProps(treeProps);
 const emit = defineEmits(treeEmits);
@@ -63,7 +52,8 @@ const ns = useNamespace('tree');
 
 const store = ref<TreeStore>(new TreeStore(props, emit));
 
-const root = ref<Node>(store.value.root);
+const root = ref(store.value.root);
+const childNodes = store.value.root.childNodes;
 const currentNode = ref<Node>();
 const elRef = shallowRef<HTMLElement>(null as any);
 const dropIndicatorRef = shallowRef<HTMLElement>(null as any);
@@ -81,7 +71,7 @@ const { dragState } = useDragNodeHandler({
 useKeydown({ elRef }, store);
 
 const isEmpty = computed(() => {
-  const { childNodes } = root.value;
+  const childNodes = root.value.childNodes;
   return (
     !childNodes ||
         childNodes.every(({ visible }) => !visible)
@@ -103,7 +93,7 @@ watch(
 );
 
 watch(
-  () => props.expandedKeys,
+  () => props.defaultExpandedKeys,
   newValue => {
     store.value.setDefaultExpandedKeys(newValue!);
   },
@@ -111,7 +101,9 @@ watch(
 
 watch(
   () => props.data,
-  store.value.onDataChange,
+  newVal => {
+    store.value.onDataChange(newVal);
+  },
   { deep: true },
 );
 
@@ -162,15 +154,17 @@ const getCurrentKey = (): any => {
   return node ? node[props.nodeKey] : null;
 };
 
-const setCheckedNodes = (nodes: Node[], leafOnly?: boolean) => {
+const setCheckedNodes = (nodes: Node[], leafOnly = false) => {
   if (!props.nodeKey)
-    throw new Error('[Tree] nodeKey is required in setCheckedNodes');
+    throw new Error('[Tree] nodeKey is required when call setCheckedNodes');
+
   store.value.setCheckedNodes(nodes, leafOnly);
 };
 
-const setCheckedKeys = (keys: TreeKey[], leafOnly?: boolean) => {
+const setCheckedKeys = (keys: TreeKey[], leafOnly = false) => {
   if (!props.nodeKey)
-    throw new Error('[Tree] nodeKey is required in setCheckedKeys');
+    throw new Error('[Tree] nodeKey is required when call setCheckedKeys');
+
   store.value.setCheckedKeys(keys, leafOnly);
 };
 
@@ -192,7 +186,7 @@ const getHalfCheckedKeys = (): TreeKey[] => {
 
 const setCurrentNode = (node: Node, shouldAutoExpandParent = true) => {
   if (!props.nodeKey)
-    throw new Error('[Tree] nodeKey is required in setCurrentNode');
+    throw new Error('[Tree] nodeKey is required when call setCurrentNode');
 
   handleCurrentChange(
     store,
@@ -203,7 +197,7 @@ const setCurrentNode = (node: Node, shouldAutoExpandParent = true) => {
 
 const setCurrentKey = (key?: TreeKey, shouldAutoExpandParent = true) => {
   if (!props.nodeKey)
-    throw new Error('[Tree] nodeKey is required in setCurrentKey');
+    throw new Error('[Tree] nodeKey is required when call setCurrentKey');
 
   handleCurrentChange(store, emit as SetupContext['emit'], () =>
     store.value.setCurrentNodeKey(key, shouldAutoExpandParent),
@@ -239,7 +233,7 @@ const insertAfter = (
   store.value.insertAfter(data, referenceNode);
 };
 
-const handleNodeExpand = (
+const onNodeExpand = (
   nodeData: TreeNodeData,
   node: Node,
   instance: ComponentInternalInstance,
@@ -250,13 +244,13 @@ const handleNodeExpand = (
 
 const updateKeyChildren = (key: TreeKey, data: TreeData) => {
   if (!props.nodeKey)
-    throw new Error('[Tree] nodeKey is required in updateKeyChild');
+    throw new Error('[Tree] nodeKey is required when call updateKeyChild');
   store.value.updateChildren(key, data);
 };
 
 
 provide(rootTreeKey, {
-  ctx: { emit, slots: useSlots() },
+  ctx: { emit, slots },
   props,
   store,
   root,
@@ -265,7 +259,8 @@ provide(rootTreeKey, {
 });
 
 // eslint-disable-next-line unicorn/no-useless-undefined
-provide(formItemContextKey, undefined);
+// 阻止 injection 暴露到内部使用的组件
+provide(formItemContextKey, undefined as any);
 
 defineExpose({
   store,

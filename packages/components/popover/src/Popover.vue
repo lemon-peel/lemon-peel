@@ -18,12 +18,12 @@
     :aria-label="title"
     :effect="effect"
     :enterable="enterable"
-    :popper-class="kls"
+    :popper-class="popperClass"
     :popper-style="style"
     :teleported="teleported"
     :persistent="persistent"
     :gpu-acceleration="gpuAcceleration"
-    @update:visible="onUpdateVisible"
+    @update:visible="(onUpdateVisible as any)"
     @before-show="beforeEnter"
     @before-hide="beforeLeave"
     @show="afterEnter"
@@ -80,7 +80,7 @@ const style = computed(() => {
   ];
 });
 
-const kls = computed(() => {
+const popperClass = computed(() => {
   return [ns.b(), props.popperClass!, { [ns.m('plain')]: !!props.content }];
 });
 

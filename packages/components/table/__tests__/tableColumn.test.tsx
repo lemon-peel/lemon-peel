@@ -4,7 +4,7 @@ import { mount } from '@vue/test-utils';
 import { defineComponent, ref } from 'vue';
 import triggerEvent from '@lemon-peel/test-utils/triggerEvent';
 
-import { doubleWait, getTestData } from './tableTestCommon';
+import { doubleWait, getTestData } from './lib';
 import LpTableColumn from '../src/tableColumn';
 import LpTable from '../src/table/Table.vue';
 

@@ -12,12 +12,12 @@ export const FORWARD_REF_INJECTION_KEY: InjectionKey<ForwardRefInjectionContext>
   Symbol('lpForwardRef');
 
 export const useForwardRef = <T>(forwardReference: Ref<T | null>) => {
-  const setForwardReference = (element: T) => {
+  const setForwardRef = (element: T) => {
     forwardReference.value = element;
   };
 
   provide(FORWARD_REF_INJECTION_KEY, {
-    setForwardRef: setForwardReference,
+    setForwardRef: setForwardRef as ForwardReferenceSetter,
   });
 };
 

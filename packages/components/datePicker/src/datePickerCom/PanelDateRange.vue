@@ -155,8 +155,8 @@
             :min-date="minDate"
             :max-date="maxDate"
             :range-state="rangeState"
-            :disabled-date="disabledDate"
-            :cell-class-name="cellClassName"
+            :disabled-date="disabledDate as any"
+            :cell-class-name="cellClassName as any"
             @changerange="handleChangeRange"
             @pick="handleRangePick"
             @select="onSelect"
@@ -211,7 +211,7 @@
             :min-date="minDate"
             :max-date="maxDate"
             :range-state="rangeState"
-            :disabled-date="disabledDate"
+            :disabled-date="(disabledDate as any)"
             :cell-class-name="cellClassName"
             @changerange="handleChangeRange"
             @pick="handleRangePick"
@@ -251,7 +251,7 @@ import { isArray } from '@lemon-peel/utils';
 import { useLocale } from '@lemon-peel/hooks';
 import LpButton from '@lemon-peel/components/button';
 import LpInput from '@lemon-peel/components/input';
-import { TimePickPanel, extractDateFormat, extractTimeFormat } from '@lemon-peel/components/timePicker';
+import { TIME_PICKER_INJECTION_KEY, TimePickPanel, extractDateFormat, extractTimeFormat } from '@lemon-peel/components/timePicker';
 import LpIcon from '@lemon-peel/components/icon';
 
 import { ArrowLeft, ArrowRight, DArrowLeft, DArrowRight } from '@element-plus/icons-vue';
@@ -279,7 +279,7 @@ const emit = defineEmits([
 
 const unit = 'month';
 // FIXME: fix the type for ep picker
-const pickerBase = inject('EP_PICKER_BASE') as any;
+const pickerBase = inject(TIME_PICKER_INJECTION_KEY)!;
 const {
   disabledDate,
   cellClassName,
@@ -379,11 +379,11 @@ const rightMonth = computed(() => {
 const hasShortcuts = computed(() => !!shortcuts.value.length);
 
 const timeFormat = computed(() => {
-  return extractTimeFormat(format);
+  return extractTimeFormat(format!);
 });
 
 const dateFormat = computed(() => {
-  return extractDateFormat(format);
+  return extractDateFormat(format!);
 });
 
 const minVisibleDate = computed(() => {
@@ -514,7 +514,7 @@ const formatEmit = (emitDayjs: Dayjs | null, index?: number) => {
   if (!emitDayjs) return;
   if (defaultTime) {
     const defaultTimeD = dayjs(
-      defaultTime[index as number] || defaultTime,
+      (defaultTime as Date[])[index as number] || defaultTime,
     ).locale(lang.value);
     return defaultTimeD
       .year(emitDayjs.year())

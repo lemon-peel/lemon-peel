@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, defineExpose, inject, onMounted, ref, reactive } from 'vue';
+import { computed, inject, onMounted, ref, reactive } from 'vue';
 import { useResizeObserver } from '@vueuse/core';
 import { useNamespace } from '@lemon-peel/hooks';
 import { selectKey } from './token';

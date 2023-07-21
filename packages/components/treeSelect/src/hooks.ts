@@ -16,7 +16,11 @@ import type Node from '@lemon-peel/components/tree/src/model/node';
 import type LpSelect from '@lemon-peel/components/select';
 import type { TreeNodeData } from './utils';
 
-export const treeEmits = ['node-click'];
+export const treeSelectEmits = [
+  'node-click',
+  'check',
+  UPDATE_MODEL_EVENT,
+];
 
 export const treeSelectProps = buildProps({
   ...selectProps,
@@ -25,7 +29,7 @@ export const treeSelectProps = buildProps({
 
 export type TreeSelectProps = Readonly<ExtractPropTypes<typeof treeSelectProps>>;
 
-export type TreeContext = SetupContext<typeof treeEmits>;
+export type TreeContext = SetupContext<typeof treeSelectEmits>;
 export type TreeRefs = {
   select: Ref<InstanceType<typeof LpSelect>>;
   tree: Ref<InstanceType<typeof LpTree>>;
@@ -143,8 +147,8 @@ export const useTree = (
     // show current selected node only first time,
     // fix the problem of expanding multiple nodes when checking multiple nodes
     defaultExpandedKeys: computed(() => {
-      return props.expandedKeys
-        ? props.expandedKeys.concat(defaultExpandedParentKeys)
+      return props.defaultExpandedKeys
+        ? props.defaultExpandedKeys.concat(defaultExpandedParentKeys)
         : defaultExpandedParentKeys;
     }),
 

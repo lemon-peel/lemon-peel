@@ -1,5 +1,5 @@
 <template>
-  <lp-scrollbar
+  <lp-scroll-bar
     :key="menuId"
     tag="ul"
     role="menu"
@@ -31,12 +31,12 @@
       ref="hoverZone"
       :class="ns.e('hover-zone')"
     > {{}} </svg>
-  </lp-scrollbar>
+  </lp-scroll-bar>
 </template>
 
 <script lang="tsx" setup>
 import { computed, Fragment, getCurrentInstance, inject, ref } from 'vue';
-import LpScrollbar from '@lemon-peel/components/scrollbar';
+import LpScrollBar from '@lemon-peel/components/scrollbar';
 import { useLocale, useNamespace } from '@lemon-peel/hooks';
 import { generateId } from '@lemon-peel/utils';
 import { Loading } from '@element-plus/icons-vue';

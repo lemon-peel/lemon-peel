@@ -74,6 +74,7 @@
 import { computed, provide, ref, useSlots } from 'vue';
 import { LpOverlay } from '@lemon-peel/components/overlay';
 import { useNamespace, useSameTarget } from '@lemon-peel/hooks';
+import type { DialogContext } from '@lemon-peel/tokens';
 import { dialogInjectionKey } from '@lemon-peel/tokens';
 import LpFocusTrap from '@lemon-peel/components/focusTrap';
 
@@ -93,8 +94,8 @@ const props = defineProps(dialogProps);
 const slots = useSlots();
 
 const ns = useNamespace('dialog');
-const dialogRef: Ref<HTMLElement | null> = ref(null);
-const headerRef = ref<HTMLElement | null>(null);
+const dialogRef: Ref<HTMLElement> = ref(null as any);
+const headerRef = ref<HTMLElement>(null as any);
 const dialogContentRef = ref();
 
 const {
@@ -123,7 +124,7 @@ provide(dialogInjectionKey, {
   ns,
   rendered,
   style,
-});
+} as DialogContext);
 
 const overlayEvent = useSameTarget(onModalClick);
 

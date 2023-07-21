@@ -33,6 +33,7 @@ import { descriptionsKey } from './token';
 import { descriptionProps } from './description';
 import LpDescriptionsRow from './DescriptionsRow.vue';
 
+import type { IDescriptionsInject } from './descriptions.type';
 import type { Component, VNode } from 'vue';
 
 defineOptions({
@@ -47,7 +48,7 @@ const descriptionsSize = useSize();
 
 const slots = useSlots();
 
-provide(descriptionsKey, props);
+provide(descriptionsKey, props as IDescriptionsInject);
 
 const descriptionKls = computed(() => [ns.b(), ns.m(descriptionsSize.value)]);
 

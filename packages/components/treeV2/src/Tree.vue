@@ -66,7 +66,10 @@ provide(ROOT_TREE_INJECTION_KEY, {
   props,
   instance: getCurrentInstance()!,
 });
-provide(formItemContextKey, null);
+
+// 阻止 injection 暴露到内部使用的组件
+provide(formItemContextKey, null as any);
+
 const { t } = useLocale();
 const ns = useNamespace('tree');
 const {

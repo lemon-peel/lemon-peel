@@ -40,10 +40,12 @@
 <script lang="ts" setup>
 import { computed, inject, ref } from 'vue';
 import dayjs from 'dayjs';
+
 import { EVENT_CODE } from '@lemon-peel/constants';
 import { useLocale, useNamespace } from '@lemon-peel/hooks';
 import { isUndefined } from '@lemon-peel/utils';
 import { panelTimePickerProps } from '../props/panelTimePicker';
+import { TIME_PICKER_INJECTION_KEY } from '../common/props';
 
 import { useTimePanel } from '../composables/useTimePanel';
 import { buildAvailableTimeSlotGetter, useOldValue } from '../composables/useTimePicker';
@@ -56,7 +58,7 @@ const props = defineProps(panelTimePickerProps);
 const emit = defineEmits(['pick', 'select-range', 'set-picker-option']);
 
 // Injections
-const pickerBase = inject('EP_PICKER_BASE') as any;
+const pickerBase = inject(TIME_PICKER_INJECTION_KEY)!;
 const {
   arrowControl,
   disabledHours,
@@ -64,8 +66,9 @@ const {
   disabledSeconds,
   defaultValue,
 } = pickerBase.props;
+
 const { getAvailableHours, getAvailableMinutes, getAvailableSeconds } =
-  buildAvailableTimeSlotGetter(disabledHours, disabledMinutes, disabledSeconds);
+  buildAvailableTimeSlotGetter(disabledHours!, disabledMinutes!, disabledSeconds!);
 
 const ns = useNamespace('time');
 const { t, lang } = useLocale();
@@ -166,7 +169,7 @@ const formatToString = (value: Dayjs) => {
 };
 
 const getDefaultValue = () => {
-  return dayjs(defaultValue).locale(lang.value);
+  return dayjs(defaultValue as Date).locale(lang.value);
 };
 
 emit('set-picker-option', ['isValidValue', isValidValue]);

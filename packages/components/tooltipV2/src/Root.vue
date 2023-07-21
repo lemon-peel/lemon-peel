@@ -15,6 +15,7 @@ import {
 import { useTimeoutFn } from '@vueuse/core';
 import { useId, useNamespace } from '@lemon-peel/hooks';
 import { isNumber, isPropAbsent } from '@lemon-peel/utils';
+import type { TooltipV2Context } from '@lemon-peel/tokens';
 import { TOOLTIP_V2_OPEN, tooltipV2RootKey } from '@lemon-peel/tokens';
 import { tooltipV2RootProps } from './root';
 
@@ -101,7 +102,7 @@ provide(tooltipV2RootKey, {
   onClose,
   onDelayOpen,
   onOpen,
-});
+} as TooltipV2Context);
 
 defineExpose({
   /**

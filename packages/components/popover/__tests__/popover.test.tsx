@@ -1,6 +1,6 @@
 import { nextTick, ref } from 'vue';
 import { mount } from '@vue/test-utils';
-import { afterEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, describe, expect, test, vi } from 'vitest';
 import { POPPER_CONTAINER_SELECTOR, useZIndex } from '@lemon-peel/hooks';
 import { rAF } from '@lemon-peel/test-utils/tick';
 import { LpPopperTrigger } from '@lemon-peel/components/popper';
@@ -10,7 +10,7 @@ import type { PopoverProps } from '../src/popover';
 
 const AXIOM = 'Rem is the best girl';
 
-const _mount = (props?: Partial<PopoverProps>) =>
+const doMount = (props?: Partial<PopoverProps>) =>
   mount(
     {
       setup() {
@@ -21,9 +21,7 @@ const _mount = (props?: Partial<PopoverProps>) =>
         return () => <Popover {...props} v-slots={slots} />;
       },
     },
-    {
-      attachTo: document.body,
-    },
+    { attachTo: document.body },
   );
 
 describe('Popover.vue', () => {
@@ -38,21 +36,21 @@ describe('Popover.vue', () => {
     document.body.innerHTML = '';
   });
 
-  it('render test', () => {
-    wrapper = _mount();
+  test('render test', () => {
+    wrapper = doMount();
 
     expect(findContentComp().text()).toEqual(AXIOM);
   });
 
-  it('should render with title', () => {
+  test('should render with title', () => {
     const title = 'test title';
-    wrapper = _mount({ title });
+    wrapper = doMount({ title });
 
     expect(findContentComp().text()).toContain(title);
   });
 
-  it(`should modify popover's style with width`, async () => {
-    wrapper = _mount({ width: 200 });
+  test(`should modify popover's style with width`, async () => {
+    wrapper = doMount({ width: 200 });
 
     const popperContent = findContentComp();
     expect(getComputedStyle(popperContent.element).width).toBe('200px');
@@ -62,14 +60,14 @@ describe('Popover.vue', () => {
     expect(getComputedStyle(popperContent.element).width).toBe('100vw');
   });
 
-  it('the content should be overrode by slots', () => {
+  test('the content should be overrode by slots', () => {
     const content = 'test content';
-    wrapper = _mount({ content });
+    wrapper = doMount({ content });
 
     expect(findContentComp().text()).toContain(AXIOM);
   });
 
-  it('should render content when no slots were passed', () => {
+  test('should render content when no slots were passed', () => {
     const content = 'test content';
     const virtualRef = document.createElement('button');
     wrapper = mount(() => (
@@ -84,8 +82,8 @@ describe('Popover.vue', () => {
     expect(findContentComp().text()).toBe(content);
   });
 
-  it('popper z-index should be dynamical', () => {
-    wrapper = _mount();
+  test('popper z-index should be dynamical', () => {
+    wrapper = doMount();
 
     const { currentZIndex } = useZIndex();
     expect(
@@ -93,15 +91,15 @@ describe('Popover.vue', () => {
     ).toBeLessThanOrEqual(currentZIndex.value);
   });
 
-  it('defind hide method', async () => {
-    wrapper = _mount();
+  test('defind hide method', async () => {
+    wrapper = doMount();
     const vm = wrapper.findComponent(Popover).vm;
 
     expect(vm.hide).toBeDefined();
   });
 
-  it('should be able to emit after-enter and after-leave', async () => {
-    const wrapper = _mount({ trigger: 'click' });
+  test('should be able to emit after-enter and after-leave', async () => {
+    const wrapper = doMount({ trigger: 'click' });
 
     await nextTick();
     const trigger$ = wrapper.findComponent(LpPopperTrigger);
@@ -125,8 +123,8 @@ describe('Popover.vue', () => {
     );
   });
 
-  it('test visible controlled mode trigger invalid', async () => {
-    const wrapper = _mount({ visible: false, trigger: 'click' });
+  test('test visible controlled mode trigger invalid', async () => {
+    const wrapper = doMount({ visible: false, trigger: 'click' });
     await nextTick();
     const trigger$ = wrapper.findComponent(LpPopperTrigger);
     const triggerEl = trigger$.find('.lp-tooltip__trigger');
@@ -154,23 +152,20 @@ describe('Popover.vue', () => {
     expect(popoverDom.style.display).toBe('none');
   });
 
-  it('test v-model:visible', async () => {
+  test('test v-model:visible', async () => {
+    const visible = ref(false);
+    const onVisibleChange = (v: boolean) => {
+      (visible.value = v);
+    };
+
     const wrapper = mount(
-      {
-        setup() {
-          const visible = ref(false);
-          return () => (
-            <Popover v-model:visible={visible.value} trigger="click" vSlots={{
-              default: () => AXIOM,
-              reference: () => <button>click me</button>,
-            }} />
-          );
-        },
-      },
-      {
-        attachTo: document.body,
-      },
+      () => (<Popover visible={visible.value} onUpdate:visible={onVisibleChange} trigger="click" v-slots={{
+        default: () => AXIOM,
+        reference: () => <button>click me</button>,
+      }} />),
+      { attachTo: document.body },
     );
+
     await nextTick();
     const trigger$ = wrapper.findComponent(LpPopperTrigger);
     const triggerEl = trigger$.find('.lp-tooltip__trigger');
@@ -192,9 +187,9 @@ describe('Popover.vue', () => {
   });
 
   describe('teleported API', () => {
-    it('should mount on popper container', async () => {
+    test('should mount on popper container', async () => {
       expect(document.body.innerHTML).toBe('');
-      _mount();
+      doMount();
 
       await nextTick();
       expect(
@@ -202,9 +197,9 @@ describe('Popover.vue', () => {
       ).not.toBe('');
     });
 
-    it('should not mount on the popper container', async () => {
+    test('should not mount on the popper container', async () => {
       expect(document.body.innerHTML).toBe('');
-      _mount({ teleported: false });
+      doMount({ teleported: false });
 
       await nextTick();
       expect(

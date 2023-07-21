@@ -6,10 +6,12 @@ const component = defineComponent({
   setup(props, ctx) {
     const result = (LpOption.setup as NonNullable<any>)(props, ctx);
 
-    // use methods.selectOptionClick
-    delete result.selectOptionClick;
-
     const vm = (getCurrentInstance() as NonNullable<any>).proxy;
+
+    result.selectOptionClick = () => {
+      // $el.parentElement => lp-tree-node__content
+      vm.$el.parentElement.click();
+    };
 
     // Fix: https://github.com/element-plus/element-plus/issues/7917
     // `el-option` will delete the cache before unmount,
@@ -21,18 +23,12 @@ const component = defineComponent({
     // here restore the deleted node.
     // @link https://github.com/element-plus/element-plus/blob/6df6e49db07b38d6cc3b5e9a960782bd30879c11/packages/components/select/src/option.vue#L78
     nextTick(() => {
-      if (!result.select.cachedOptions.get(vm.value)) {
+      if (!result.select.options.get(vm.value)) {
         result.select.onOptionCreate(vm);
       }
     });
 
     return result;
-  },
-  methods: {
-    selectOptionClick() {
-      // $el.parentElement => lp-tree-node__content
-      this.$el.parentElement.click();
-    },
   },
 });
 

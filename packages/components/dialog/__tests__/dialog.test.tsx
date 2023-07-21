@@ -32,7 +32,7 @@ describe('Dialog.vue', () => {
 
   test('dialog should have a title and header when it has been given', async () => {
     const HEADER = 'I am header';
-    wrapper = mount(() => <Dialog visible={true} vSlots={{ header: () => HEADER }}>{AXIOM}</Dialog>);
+    wrapper = mount(() => <Dialog visible={true} v-slots={{ header: () => HEADER }}>{AXIOM}</Dialog>);
 
     await nextTick();
     expect(wrapper.find('.lp-dialog__header').text()).toBe(HEADER);
@@ -44,7 +44,7 @@ describe('Dialog.vue', () => {
   });
 
   test('dialog header should have slot props', async () => {
-    wrapper = mount(() => <Dialog visible={true} vSlots={{
+    wrapper = mount(() => <Dialog visible={true} v-slots={{
       header: ({ titleId, titleClass, close }: { titleId: string, titleClass: string, close: () => void }) => (
           <button data-title-id={titleId} data-title-class={titleClass} onClick={close} />
       ),
@@ -62,7 +62,7 @@ describe('Dialog.vue', () => {
   });
 
   test('dialog should have a footer when footer has been given', async () => {
-    wrapper = mount(() => <Dialog visible={true} vSlots={{ footer: () => AXIOM }}>{AXIOM}</Dialog>);
+    wrapper = mount(() => <Dialog visible={true} v-slots={{ footer: () => AXIOM }}>{AXIOM}</Dialog>);
 
     await nextTick();
     expect(wrapper.find('.lp-dialog__footer').exists()).toBe(true);
@@ -235,7 +235,7 @@ describe('Dialog.vue', () => {
     });
 
     test('missing title attribute should point to header slot content', async () => {
-      wrapper = mount(() => <Dialog visible={true} vSlots={{
+      wrapper = mount(() => <Dialog visible={true} v-slots={{
         header: ({
           titleId,
           titleClass,

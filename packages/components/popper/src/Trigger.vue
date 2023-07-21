@@ -66,9 +66,7 @@ onMounted(() => {
         triggerRef.value = unrefElement(virtualElement as HTMLElement);
       }
     },
-    {
-      immediate: true,
-    },
+    { immediate: true },
   );
 
   watch(
@@ -91,8 +89,8 @@ onMounted(() => {
             (element as HTMLElement).addEventListener(
               eventName.slice(2).toLowerCase(),
               handler,
-            )
-            ;(previousElement as HTMLElement)?.removeEventListener?.(
+            );
+            (previousElement as HTMLElement)?.removeEventListener?.(
               eventName.slice(2).toLowerCase(),
               handler,
             );
@@ -124,9 +122,7 @@ onMounted(() => {
         ]) previousElement.removeAttribute(key);
       }
     },
-    {
-      immediate: true,
-    },
+    { immediate: true },
   );
 });
 

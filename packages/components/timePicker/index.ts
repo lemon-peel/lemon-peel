@@ -1,5 +1,4 @@
-import TimePicker from './src/TimePicker';
-
+import TimePicker from './src/TimePicker.vue';
 
 import type { App } from 'vue';
 import type { SFCWithInstall } from '@lemon-peel/utils';

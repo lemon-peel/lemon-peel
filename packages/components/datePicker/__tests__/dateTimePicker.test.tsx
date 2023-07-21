@@ -1,10 +1,10 @@
 import { nextTick, ref } from 'vue';
 import { mount } from '@vue/test-utils';
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, test } from 'vitest';
 import dayjs from 'dayjs';
 import triggerEvent from '@lemon-peel/test-utils/triggerEvent';
 import { LpFormItem } from '@lemon-peel/components/form';
-import DatePicker from '../src/DatePicker';
+import DatePicker from '../src/DatePicker.vue';
 import type { VNode } from 'vue';
 
 const formatStr = 'YYYY-MM-DD HH:mm:ss';
@@ -25,7 +25,7 @@ afterEach(() => {
 });
 
 describe('Datetime Picker', () => {
-  it('both picker show correct formated value (extract date-format and time-format from format property', async () => {
+  test('both picker show correct formated value (extract date-format and time-format from format property', async () => {
     const value = ref(new Date(2018, 2, 5, 10, 15, 24));
     const format = ref('YYYY/MM/DD HH:mm A');
     const wrapper = doMount(() => (
@@ -54,11 +54,12 @@ describe('Datetime Picker', () => {
     expect(timeInput.value).toBe('10 am');
   });
 
-  it('both picker show correct value', async () => {
+  test('both picker show correct value', async () => {
     const value = ref(new Date(2000, 9, 1, 10, 0, 1));
-    const wrapper = doMount(() => (
-      <DatePicker v-model:value={value.value} type="datetime" />
-    ));
+    const wrapper = mount(
+      () => (<DatePicker v-model:value={value.value} type="datetime" />),
+      { attachTo: document.body },
+    );
 
     const input = wrapper.find('input');
     input.trigger('blur');
@@ -76,9 +77,7 @@ describe('Datetime Picker', () => {
     expect(dateInput.value).toBe('2000-10-01');
     expect(timeInput.value).toBe('10:00:01');
     // time spinner highlight is correct
-    let spinners = document.querySelectorAll(
-      '.lp-time-spinner ul li.is-active',
-    ) as NodeListOf<HTMLElement>;
+    let spinners = document.querySelectorAll<HTMLElement>('.lp-time-spinner ul li.is-active');
     expect(spinners[0].textContent).toBe('10');
     expect(spinners[1].textContent).toBe('00');
     expect(spinners[2].textContent).toBe('01');
@@ -95,7 +94,7 @@ describe('Datetime Picker', () => {
     expect(spinners[2].textContent).toBe('02');
   });
 
-  it('click now button', async () => {
+  test('click now button', async () => {
     const value = ref('');
     const wrapper = doMount(() => (
       <DatePicker v-model:value={value.value} type="datetime" />
@@ -113,7 +112,7 @@ describe('Datetime Picker', () => {
     expect(dayjs(value.value).diff(dayjs()) < 10).toBeTruthy();
   });
 
-  it('time-picker select && input time && input date', async () => {
+  test('time-picker select && input time && input date', async () => {
     const value = ref('');
     const wrapper = doMount(() => (
       <DatePicker v-model:value={value.value} type="datetime" />
@@ -159,7 +158,7 @@ describe('Datetime Picker', () => {
     expect(valueResult2.date()).toBe(2);
   });
 
-  it('now button: can not choose disabled date', async () => {
+  test('now button: can not choose disabled date', async () => {
     let isDisable = true;
     const value = ref('');
     const disabledDate = () => isDisable;
@@ -186,7 +185,7 @@ describe('Datetime Picker', () => {
     expect(value.value).not.toBe('');
   });
 
-  it('confirm button honors picked date', async () => {
+  test('confirm button honors picked date', async () => {
     const value = ref(new Date(2000, 9, 1, 12, 0, 0));
     const wrapper = doMount(() => (
       <DatePicker v-model:value={value.value} type="datetime" />
@@ -217,7 +216,7 @@ describe('Datetime Picker', () => {
     expect(dayjs(value.value).format(formatStr)).toBe('2000-10-01 12:00:00');
   });
 
-  it('selectableRange', async () => {
+  test('selectableRange', async () => {
     const disabledHoursArr = [
       0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 23,
     ];
@@ -282,7 +281,7 @@ describe('Datetime Picker', () => {
     expect(disabledMinutes.length).toBe(19);
   });
 
-  it('defaultTime takes effect when the type is datetime', async () => {
+  test('defaultTime takes effect when the type is datetime', async () => {
     const value = ref('');
     const defaultTime = ref(new Date(2000, 1, 1, 12, 24, 48));
     const wrapper = doMount(() => (
@@ -312,7 +311,7 @@ describe('Datetime Picker', () => {
     expect(spinners[2].textContent).toBe('48');
   });
 
-  it('defaultTime only takes effect when time is not selected', async () => {
+  test('defaultTime only takes effect when time is not selected', async () => {
     const value = ref('');
     const defaultTime = ref(new Date(2000, 1, 1, 12, 0, 0));
     const wrapper = doMount(() => (
@@ -342,7 +341,7 @@ describe('Datetime Picker', () => {
 });
 
 describe('Datetimerange', () => {
-  it('select daterange and default Time and input format', async () => {
+  test('select daterange and default Time and input format', async () => {
     const value = ref([
       new Date(2000, 10, 8, 10, 10),
       new Date(2000, 10, 11, 10, 10),
@@ -407,7 +406,7 @@ describe('Datetimerange', () => {
     expect((right.timeInput as HTMLInputElement).value).toBe('01:01 AM');
   });
 
-  it('input date', async () => {
+  test('input date', async () => {
     const value = ref<string[]>([]);
     const wrapper = doMount(() => (
       <DatePicker v-model:value={value.value} type="datetimerange" />
@@ -459,7 +458,7 @@ describe('Datetimerange', () => {
     expect(dayjs(value.value[0]).isBefore(value.value[1])).toBeTruthy();
   });
 
-  it('select time', async () => {
+  test('select time', async () => {
     const value = ref('');
     const wrapper = doMount(() => (
       <DatePicker v-model:value={value.value} type="datetimerange" />
@@ -490,7 +489,7 @@ describe('Datetimerange', () => {
     expect(value.value).not.toBe('');
   });
 
-  it('confirm honors disabledDate', async () => {
+  test('confirm honors disabledDate', async () => {
     const value = ref('');
     const disabledDate = (date: Date) => {
       return date.getTime() < new Date(2000, 9, 1).getTime(); // 2000-10-01
@@ -534,7 +533,7 @@ describe('Datetimerange', () => {
     expect(value.value).not.toBe('');
   });
 
-  it('selectableRange', async () => {
+  test('selectableRange', async () => {
     const disabledHoursArr = [
       0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 23,
     ];
@@ -588,7 +587,7 @@ describe('Datetimerange', () => {
     expect(disabledHours2).toStrictEqual(disabledHoursRightArr);
   });
 
-  it('select same date, different time', async () => {
+  test('select same date, different time', async () => {
     const leftSelect = ['10', '59', '59'];
     const value = ref<string[]>([]);
     const wrapper = doMount(() => (
@@ -669,7 +668,7 @@ describe('Datetimerange', () => {
   });
 
   describe('form item accessibility integration', () => {
-    it('automatic id attachment', async () => {
+    test('automatic id attachment', async () => {
       const wrapper = doMount(() => (
         <LpFormItem label="Foobar" data-test-ref="item">
           <DatePicker type="datetime" />
@@ -686,7 +685,7 @@ describe('Datetimerange', () => {
       );
     });
 
-    it('specified id attachment', async () => {
+    test('specified id attachment', async () => {
       const wrapper = doMount(() => (
         <LpFormItem label="Foobar" data-test-ref="item">
           <DatePicker type="datetime" id="foobar" />
@@ -704,7 +703,7 @@ describe('Datetimerange', () => {
       );
     });
 
-    it('form item role is group when multiple inputs', async () => {
+    test('form item role is group when multiple inputs', async () => {
       const wrapper = doMount(() => (
         <LpFormItem label="Foobar" data-test-ref="item">
           <DatePicker type="datetime" />
@@ -718,7 +717,7 @@ describe('Datetimerange', () => {
     });
   });
 
-  it('display value', async () => {
+  test('display value', async () => {
     const value = ref([undefined, undefined]);
     const wrapper = doMount(() => (
       <DatePicker v-model:value={value.value} type="datetimerange" />

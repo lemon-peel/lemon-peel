@@ -1,13 +1,13 @@
 import { computed, nextTick, ref } from 'vue';
 import { mount } from '@vue/test-utils';
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 import { rAF } from '@lemon-peel/test-utils/tick';
 import { LpFormItem } from '@lemon-peel/components/form';
 import triggerEvent from '@lemon-peel/test-utils/triggerEvent';
 import sleep from '@lemon-peel/test-utils/sleep';
 import dayjs from 'dayjs';
 
-import TimePicker from '../src/TimePicker';
+import TimePicker from '../src/TimePicker.vue';
 import Picker from '../src/common/Picker.vue';
 
 
@@ -30,7 +30,7 @@ afterEach(() => {
 });
 
 describe('TimePicker', () => {
-  it('create & custom class & style', async () => {
+  test('create & custom class & style', async () => {
     const placeholder = ref('test_');
     const readonly = ref(true);
     const wrapper = mount(() => (
@@ -50,7 +50,7 @@ describe('TimePicker', () => {
     expect(outterInput.attributes().style).toBeDefined();
   });
 
-  it('set format && default value && set AM/PM spinner && no $attr to panel', async () => {
+  test('set format && default value && set AM/PM spinner && no $attr to panel', async () => {
     const format = ref('hh-mm:ss A');
     const value = ref(new Date(2016, 9, 10, 18, 40));
     const wrapper = mount(() => (
@@ -78,7 +78,7 @@ describe('TimePicker', () => {
     expect(panel.classList.contains('customClass')).toBeFalsy();
   });
 
-  it('select time', async () => {
+  test('select time', async () => {
     const value = ref<Date>('' as any);
     const wrapper = mount(() => <TimePicker v-model:value={value.value} />);
 
@@ -114,7 +114,7 @@ describe('TimePicker', () => {
     expect(date.getSeconds()).toBe(20);
   });
 
-  it('click confirm / cancel button', async () => {
+  test('click confirm / cancel button', async () => {
     const value = ref('');
     const wrapper = mount(() => <TimePicker v-model:value={value.value} />);
 
@@ -132,7 +132,7 @@ describe('TimePicker', () => {
     expect(value.value).toBeInstanceOf(Date);
   });
 
-  it('should update oldValue when visible change', async () => {
+  test('should update oldValue when visible change', async () => {
     const value = ref(new Date(2016, 9, 10, 18, 40));
     const wrapper = mount(() => <TimePicker v-model:value={value.value} />);
 
@@ -178,7 +178,7 @@ describe('TimePicker', () => {
     expect(date.getSeconds()).toBe(20);
   });
 
-  it('set format', async () => {
+  test('set format', async () => {
     const value = ref('');
     const wrapper = mount(() => (
       <TimePicker v-model:value={value.value} format="HH:mm" />
@@ -195,7 +195,7 @@ describe('TimePicker', () => {
     expect(secondsDom).toBeUndefined();
   });
 
-  it('event change, focus, blur, keydown', async () => {
+  test('event change, focus, blur, keydown', async () => {
     const changeHandler = vi.fn();
     const focusHandler = vi.fn();
     const blurHandler = vi.fn();
@@ -242,7 +242,7 @@ describe('TimePicker', () => {
     expect(changeHandler).toHaveBeenCalledTimes(1);
   });
 
-  it('selectableRange ', async () => {
+  test('selectableRange ', async () => {
     // ['17:30:00 - 18:30:00', '18:50:00 - 20:30:00', '21:00:00 - 22:00:00']
     const disabledHoursArr = [
       0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 23,
@@ -316,7 +316,7 @@ describe('TimePicker', () => {
     expect(enabledSeconds).toEqual([0]);
   });
 
-  it('ref focus', async () => {
+  test('ref focus', async () => {
     const value = ref(new Date(2016, 9, 10, 18, 40));
     const wrapper = mount(() => <TimePicker v-model:value={value.value} />);
 
@@ -332,7 +332,7 @@ describe('TimePicker', () => {
     expect(attr).toEqual('false');
   });
 
-  it('ref blur', async () => {
+  test('ref blur', async () => {
     const value = ref(new Date(2016, 9, 10, 18, 40));
     const wrapper = mount(() => <TimePicker v-model:value={value.value} />);
     const timePickerExposed = wrapper.findComponent(TimePicker).vm.$.exposed;
@@ -348,7 +348,7 @@ describe('TimePicker', () => {
     expect(attr).toEqual('false');
   });
 
-  it('ref handleOpen', async () => {
+  test('ref handleOpen', async () => {
     const value = ref(new Date(2016, 9, 10, 18, 40));
     const wrapper = mount(() => <TimePicker v-model:value={value.value} />);
     const timePickerExposed = wrapper.findComponent(TimePicker).vm.$.exposed!;
@@ -362,7 +362,7 @@ describe('TimePicker', () => {
     expect(attr).toEqual('false');
   });
 
-  it('ref handleClose', async () => {
+  test('ref handleClose', async () => {
     vi.useFakeTimers();
 
     const value = ref(new Date(2016, 9, 10, 18, 40));
@@ -382,7 +382,7 @@ describe('TimePicker', () => {
     vi.useRealTimers();
   });
 
-  it('model value should sync when disabled-hours was updated', async () => {
+  test('model value should sync when disabled-hours was updated', async () => {
     const value = ref('2000-01-01 00:00:00');
     const minHour = ref('8');
     const disabledHours = computed(() => () => {
@@ -410,7 +410,7 @@ describe('TimePicker', () => {
     expect(value.value).toEqual('2000-01-01 09:00:00');
   });
 
-  it('picker-panel should not pop up when readonly', async () => {
+  test('picker-panel should not pop up when readonly', async () => {
     const wrapper = mount(() => <TimePicker readonly />);
 
     const input = wrapper.find('input');
@@ -421,7 +421,7 @@ describe('TimePicker', () => {
     );
   });
 
-  it('picker-panel should not pop up when disabled', async () => {
+  test('picker-panel should not pop up when disabled', async () => {
     const wrapper = mount(() => <TimePicker readonly />);
 
     const input = wrapper.find('input');
@@ -432,7 +432,7 @@ describe('TimePicker', () => {
     );
   });
 
-  it('can auto skip when disabled', async () => {
+  test('can auto skip when disabled', async () => {
     const disabledHours = () => [
       0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 23,
     ];
@@ -489,7 +489,7 @@ describe('TimePicker', () => {
 });
 
 describe('TimePicker(range)', () => {
-  it('create', async () => {
+  test('create', async () => {
     const value = ref([
       new Date(2016, 9, 10, 18, 40),
       new Date(2016, 9, 10, 19, 40),
@@ -517,7 +517,7 @@ describe('TimePicker(range)', () => {
     });
   });
 
-  it('default value', async () => {
+  test('default value', async () => {
     const value = ref('');
     const defaultValue = ref([
       new Date(2000, 9, 1, 10, 20, 0),
@@ -551,7 +551,7 @@ describe('TimePicker(range)', () => {
     });
   });
 
-  it('cancel button', async () => {
+  test('cancel button', async () => {
     const cancelDates = [
       new Date(2016, 9, 10, 9, 40),
       new Date(2016, 9, 10, 15, 40),
@@ -586,7 +586,7 @@ describe('TimePicker(range)', () => {
     });
   });
 
-  it('clear button', async () => {
+  test('clear button', async () => {
     const value = ref([
       new Date(2016, 9, 10, 9, 40),
       new Date(2016, 9, 10, 15, 40),
@@ -606,7 +606,7 @@ describe('TimePicker(range)', () => {
     expect(value.value).toEqual(null);
   });
 
-  it('selectableRange ', async () => {
+  test('selectableRange ', async () => {
     // left ['08:00:00 - 12:59:59'] right ['11:00:00 - 16:59:59']
     const value = ref([
       new Date(2016, 9, 10, 9, 40),
@@ -654,7 +654,7 @@ describe('TimePicker(range)', () => {
     expect(NextRightEndbledHours).toEqual([12, 13, 14, 15, 16]);
   });
 
-  it('arrow key', async () => {
+  test('arrow key', async () => {
     const value = ref(new Date(2016, 9, 10, 18, 40));
     const wrapper = mount(() => (
       <TimePicker v-model:value={value.value} format="YYYY-MM-DD HH:mm:ss" />
@@ -677,7 +677,7 @@ describe('TimePicker(range)', () => {
     expect(dayjs(initValue).diff(addOneHourOneMinute, 'minute')).toEqual(-61);
   });
 
-  it('should be able to inherit options from parent injection', async () => {
+  test('should be able to inherit options from parent injection', async () => {
     const LpPopperOptions = {
       strategy: 'fixed',
     };
@@ -709,7 +709,7 @@ describe('TimePicker(range)', () => {
       .toEqual(LpPopperOptions);
   });
 
-  it('am/pm mode avoid render redundant content', async () => {
+  test('am/pm mode avoid render redundant content', async () => {
     const timeRange = ref([]);
     const wrapper = mount(
       () => (
@@ -754,7 +754,7 @@ describe('TimePicker(range)', () => {
   });
 
   describe('form item accessibility integration', () => {
-    it('automatic id attachment', async () => {
+    test('automatic id attachment', async () => {
       const wrapper = mount(() => (
         <LpFormItem label="Foobar" data-test-ref="item">
           <TimePicker />
@@ -771,7 +771,7 @@ describe('TimePicker(range)', () => {
       );
     });
 
-    it('specified id attachment', async () => {
+    test('specified id attachment', async () => {
       const wrapper = mount(() => (
         <LpFormItem label="Foobar" data-test-ref="item">
           <TimePicker id="foobar" />
@@ -789,7 +789,7 @@ describe('TimePicker(range)', () => {
       );
     });
 
-    it('form item role is group when multiple inputs', async () => {
+    test('form item role is group when multiple inputs', async () => {
       const wrapper = mount(() => (
         <LpFormItem label="Foobar" data-test-ref="item">
           <TimePicker />
@@ -827,7 +827,7 @@ describe('TimePicker(range)', () => {
       wrapper.unmount();
     });
 
-    it('should be able to focus back and callout picker after clear', async () => {
+    test('should be able to focus back and callout picker after clear', async () => {
       await nextTick();
       const input = findInput();
       await input.trigger('mouseenter');
@@ -842,7 +842,7 @@ describe('TimePicker(range)', () => {
       expect(document.querySelector('.lp-time-panel')).toBeTruthy();
     });
 
-    it('should be able to focus back and callout picker after pick', async () => {
+    test('should be able to focus back and callout picker after pick', async () => {
       await nextTick();
       const picker = findPicker();
       const input = findInput();
@@ -860,8 +860,8 @@ describe('TimePicker(range)', () => {
     });
   });
 
-  it('display value', async () => {
-    const value = ref([undefined, undefined]);
+  test('display value', async () => {
+    const value = ref([null, null]);
     const wrapper = mount(() => <TimePicker v-model:value={value.value} is-range />);
 
     await nextTick();

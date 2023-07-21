@@ -12,7 +12,7 @@ import type { AutocompleteProps } from '../src/autoComplete';
 vi.useFakeTimers();
 
 function doMount(
-  props: Partial<AutocompleteProps> = {},
+  props: Partial<AutocompleteProps> & Partial<HTMLInputElement>  = {},
   type: 'fn-cb' | 'fn-promise' | 'fn-arr' | 'fn-async' | 'arr' = 'fn-cb',
 ) {
   return mount({

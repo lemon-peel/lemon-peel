@@ -81,22 +81,22 @@ export const useDialog = (
     }
   }
 
-  function doClose() {
+  function applyClose() {
     isVisible.value = false;
   }
 
-  function close() {
+  function doClose() {
     openTimer?.();
     closeTimer?.();
 
     if (props.closeDelay && props.closeDelay > 0) {
-      ({ stop: closeTimer } = useTimeoutFn(() => doClose(), props.closeDelay));
+      ({ stop: closeTimer } = useTimeoutFn(() => applyClose(), props.closeDelay));
     } else {
-      doClose();
+      applyClose();
     }
   }
 
-  function handleClose() {
+  function close() {
     function hide(shouldCancel?: boolean) {
       if (shouldCancel) return;
       closed.value = true;
@@ -106,13 +106,13 @@ export const useDialog = (
     if (props.beforeClose) {
       props.beforeClose(hide);
     } else {
-      close();
+      doClose();
     }
   }
 
   function onModalClick() {
     if (props.closeOnClickModal) {
-      handleClose();
+      close();
     }
   }
 
@@ -136,7 +136,7 @@ export const useDialog = (
 
   function onCloseRequested() {
     if (props.closeOnPressEscape) {
-      handleClose();
+      close();
     }
   }
 
@@ -158,7 +158,7 @@ export const useDialog = (
       } else {
         // this.$el.removeEventListener('scroll', this.updatePopper
         if (isVisible.value) {
-          close();
+          doClose();
         }
       }
     },
@@ -189,10 +189,10 @@ export const useDialog = (
     afterEnter,
     afterLeave,
     beforeLeave,
-    handleClose,
+    handleClose: close,
     onModalClick,
-    close,
-    doClose,
+    close: doClose,
+    doClose: applyClose,
     onOpenAutoFocus,
     onCloseAutoFocus,
     onCloseRequested,

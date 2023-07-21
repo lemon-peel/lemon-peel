@@ -13,28 +13,14 @@ export type RangeState = {
 };
 
 export const datePickerSharedProps = buildProps({
-  disabledDate: {
-    type: Function as PropType<(date: Date) => boolean>,
-  },
-  date: {
-    type: Object as PropType<Dayjs>,
-    required: true,
-  },
-  minDate: {
-    type: Object as PropType<Dayjs | null>,
-  },
-  maxDate: {
-    type: Object as PropType<Dayjs | null>,
-  },
-  parsedValue: {
-    type: [Object, Array] as PropType<Dayjs | Dayjs[]>,
-  },
+  disabledDate: { type: Function as PropType<(date: Date) => boolean>, required: false },
+  date: { type: Object as PropType<Dayjs>, required: true },
+  minDate: { type: Object as PropType<Dayjs | null> },
+  maxDate: { type: Object as PropType<Dayjs | null> },
+  parsedValue: { type: [Object, Array] as PropType<Dayjs | Dayjs[]> },
   rangeState: {
     type: Object as PropType<RangeState>,
-    default: () => ({
-      endDate: null,
-      selecting: false,
-    }),
+    default: () => ({ endDate: null, selecting: false }),
   },
 } as const);
 

@@ -1,4 +1,4 @@
-import type { Nullable } from './../../../utils/typescript';
+import type { Nullable } from '@lemon-peel/utils/typescript';
 
 import { computed, nextTick, reactive, ref, shallowRef, toRaw, triggerRef, watch } from 'vue';
 import { isObject, toRawType } from '@vue/shared';
@@ -618,6 +618,7 @@ export function useSelect(props: Readonly<ExtractPropTypes<typeof selectProps>>,
       ) {
         value.push(option.value);
       }
+
       emit(UPDATE_MODEL_EVENT, value);
       emitChange(value);
       states.query = '';

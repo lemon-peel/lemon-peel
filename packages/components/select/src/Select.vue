@@ -104,7 +104,7 @@
                 <span v-else :class="nsSelect.e('tags-text')">+ {{ selected.length - 1 }}</span>
               </lp-tag>
             </span>
-            <!-- <div> -->
+
             <transition v-if="!collapseTags" @after-leave="resetInputHeight">
               <span :class="[nsSelect.b('tags-wrapper'), { 'has-prefix': prefixWidth && selected.length }]">
                 <template v-if="selected && selected.length">
@@ -126,7 +126,7 @@
                 </template>
               </span>
             </transition>
-            <!-- </div> -->
+
             <input
               v-if="filterable"
               ref="input"
@@ -159,6 +159,7 @@
               @compositionend="handleComposition"
               @input="debouncedQueryChange"
             >
+
           </div>
           <lp-input
             :id="id"
@@ -210,9 +211,10 @@
           </lp-input>
         </div>
       </template>
+
       <template #content>
         <lp-select-dropdown>
-          <lp-scrollbar
+          <lp-scroll-bar
             v-show="options.size > 0 && !loading"
             ref="scrollbar"
             tag="ul"
@@ -221,7 +223,7 @@
             :class="[nsSelect.is('empty', Boolean(query) && filteredOptionsCount === 0)]"
           >
             <slot />
-          </lp-scrollbar>
+          </lp-scroll-bar>
           <template v-if="emptyText && (loading || options.size === 0)">
             <slot v-if="$slots.empty" name="empty" />
             <p v-else :class="nsSelect.be('dropdown', 'empty')">
@@ -241,7 +243,7 @@ import { ClickOutside } from '@lemon-peel/directives';
 import { useFocus, useLocale, useNamespace } from '@lemon-peel/hooks';
 import LpInput from '@lemon-peel/components/input';
 import LpTooltip from '@lemon-peel/components/tooltip';
-import LpScrollbar from '@lemon-peel/components/scrollbar';
+import LpScrollBar from '@lemon-peel/components/scrollbar';
 import LpTag, { tagProps } from '@lemon-peel/components/tag';
 import LpIcon from '@lemon-peel/components/icon';
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';

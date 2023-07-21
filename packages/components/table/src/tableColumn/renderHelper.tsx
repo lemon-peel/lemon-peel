@@ -129,6 +129,7 @@ function useRender(table: TableVM, props: TableColumnProps, slots: SetupContext[
 
     // 对 renderCell 进行包装
     column.renderCell = data => {
+      console.log('renderCell', data);
       let children: VNodeChild;
       if (slots.default) {
         const vnodes = slots.default(data);

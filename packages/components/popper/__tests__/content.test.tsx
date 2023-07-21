@@ -19,7 +19,7 @@ const mountContent = (props: Partial<PopperContentProps> = {}) => {
     props,
     slots: { default: () => AXIOM },
     global: { provide: { [POPPER_INJECTION_KEY as symbol]: popperInjection } },
-  });
+  }) as VueWrapper<PopperContentInstance>;
 };
 
 describe('LpPopperContent', () => {

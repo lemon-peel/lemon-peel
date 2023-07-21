@@ -26,7 +26,7 @@
         :id="(id as string | undefined)"
         ref="inputRef"
         container-role="combobox"
-        :value="displayValue"
+        :value="(displayValue as string)"
         :name="name"
         :size="pickerSize"
         :disabled="pickerDisabled"
@@ -169,7 +169,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, nextTick, provide, ref, unref, watch } from 'vue';
+import { computed, inject, nextTick, provide, ref, unref, useAttrs, watch } from 'vue';
 import { isEqual } from 'lodash-es';
 import { onClickOutside } from '@vueuse/core';
 import { useFormItem, useLocale, useNamespace, useSize } from '@lemon-peel/hooks';
@@ -181,7 +181,7 @@ import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
 import { Calendar, Clock } from '@element-plus/icons-vue';
 
 import { formatter, parseDate, valueEquals } from '../utils';
-import { timePickerDefaultProps } from './props';
+import { timePickerDefaultProps, TIME_PICKER_INJECTION_KEY } from './props';
 
 import type { ComponentPublicInstance } from 'vue';
 import type { Dayjs } from 'dayjs';
@@ -195,6 +195,7 @@ defineOptions({
 });
 
 const props = defineProps(timePickerDefaultProps);
+const attrs = useAttrs();
 const emit = defineEmits([
   UPDATE_MODEL_EVENT,
   'change',
@@ -223,7 +224,12 @@ const valueOnOpen = ref<TimePickerDefaultProps['value'] | null>(null);
 
 let hasJustTabExitedInput = false;
 let ignoreFocusEvent = false;
-const userInput = ref<UserInput>(null);
+
+const isRangeInput = computed(() => {
+  return props.type.includes('range');
+});
+
+const userInput = ref<UserInput>(isRangeInput.value ? [null, null] : null);
 
 const emitChange = (
   val: TimePickerDefaultProps['value'] | null,
@@ -245,7 +251,8 @@ watch(pickerVisible, val => {
       }
     });
   } else {
-    userInput.value = null;
+    userInput.value = isRangeInput.value ? [null, null] : null;
+
     nextTick(() => {
       emitChange(props.value);
     });
@@ -269,10 +276,6 @@ const emitInput = (input: SingleOrRange<DateModelType | Dayjs> | null) => {
 const emitKeydown = (e: KeyboardEvent) => {
   emit('keydown', e);
 };
-
-const isRangeInput = computed(() => {
-  return props.type.includes('range');
-});
 
 const refInput = computed<HTMLInputElement[]>(() => {
   if (inputRef.value) {
@@ -323,11 +326,13 @@ const onPick = (date: any = '', visible = false) => {
   let result;
   if (isArray(date)) {
     result = date.map(_ => _.toDate());
+    userInput.value = [null, null];
   } else {
     // clear btn emit null
     result = date ? date.toDate() : date;
+    userInput.value = null;
   }
-  userInput.value = null;
+
   emitInput(result);
 };
 
@@ -386,12 +391,12 @@ const pickerOptions = ref<Partial<PickerOptions>>({});
 
 const parseUserInputToDayjs = (value: UserInput) => {
   if (!value) return null;
-  return pickerOptions.value.parseUserInput!(value);
+  return pickerOptions.value.parseUserInput?.(value);
 };
 
 const formatDayjsToString = (value: DayOrDays) => {
   if (!value) return null;
-  return pickerOptions.value.formatToString!(value);
+  return pickerOptions.value.formatToString?.(value);
 };
 
 const valueIsEmpty = computed(() => {
@@ -435,14 +440,14 @@ const parsedValue = computed(() => {
 const isTimePicker = computed(() => props.type.startsWith('time'));
 const isDatesPicker = computed(() => props.type === 'dates');
 
-const displayValue = computed<string>(() => {
+const displayValue = computed<UserInput>(() => {
   if (!pickerOptions.value.panelReady) return '';
   const formattedValue = formatDayjsToString(parsedValue.value);
   if (isArray(userInput.value)) {
     return [
-      userInput.value[0] || (formattedValue && formattedValue[0]) || '',
-      userInput.value[1] || (formattedValue && formattedValue[1]) || '',
-    ].toString();
+      userInput.value[0] || (!valueIsEmpty.value && formattedValue && formattedValue[0]) || '',
+      userInput.value[1] || (!valueIsEmpty.value && formattedValue && formattedValue[1]) || '',
+    ];
   } else if (userInput.value !== null) {
     return userInput.value;
   } else if (!isTimePicker.value && valueIsEmpty.value) {
@@ -471,9 +476,10 @@ const handleChange = () => {
           ? value.map(_ => _.toDate())
           : value.toDate()) as DateOrDates,
       );
-      userInput.value = null;
+      userInput.value = isRangeInput.value ? [null, null] : null;
     }
   }
+
   if (userInput.value === '') {
     emitInput(null);
     emitChange(null);
@@ -538,15 +544,18 @@ const onMouseDownInput = async (event: MouseEvent) => {
     pickerVisible.value = true;
   }
 };
+
 const onMouseEnter = () => {
   if (props.readonly || pickerDisabled.value) return;
   if (!valueIsEmpty.value && props.clearable) {
     showClose.value = true;
   }
 };
+
 const onMouseLeave = () => {
   showClose.value = false;
 };
+
 const onTouchStartInput = (event: TouchEvent) => {
   if (props.readonly || pickerDisabled.value) return;
   if (
@@ -638,6 +647,7 @@ const handleKeydownInput = async (event: KeyboardEvent) => {
     pickerOptions.value.handleKeydownInput(event);
   }
 };
+
 const onUserInput = (e: string) => {
   userInput.value = e;
   // Temporary fix when the picker is dismissed and the input box
@@ -710,9 +720,7 @@ const onPanelChange = (
   emit('panel-change', value, mode, view);
 };
 
-provide('EP_PICKER_BASE', {
-  props,
-});
+provide(TIME_PICKER_INJECTION_KEY, { props });
 
 defineExpose({
   /**

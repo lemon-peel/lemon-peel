@@ -18,6 +18,9 @@ export default defineConfig({
     disabled: true,
   },
   test: {
+    include: [
+      '**/*.test.[jt]s?(x)',
+    ],
     exclude: [
       '**/node_modules/**',
       '**/dist/**',

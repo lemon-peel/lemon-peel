@@ -31,6 +31,7 @@
         :name="name"
         :disabled="isDisabled"
         :tabindex="tabindex"
+        :checked="isChecked"
         @change="onChange"
         @focus="isFocused = true"
         @blur="isFocused = false"

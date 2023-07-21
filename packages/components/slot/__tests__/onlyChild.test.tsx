@@ -4,9 +4,6 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import { debugWarn } from '@lemon-peel/utils';
 import { FORWARD_REF_INJECTION_KEY } from '@lemon-peel/hooks';
 import { OnlyChild } from '../src/onlyChild';
-import type { MountingOptions } from '@vue/test-utils';
-
-type Slot = NonNullable<NonNullable<MountingOptions<any>['slots']>['default']>;
 
 vi.mock('@lemon-peel/utils/error', () => ({
   debugWarn: vi.fn(),
@@ -19,7 +16,7 @@ const defaultProvide = {
     forwardRef: ref(null),
   },
 };
-const createComponent = (slot: Slot) => {
+const createComponent = (slot: any) => {
   return shallowMount(OnlyChild, {
     global: {
       provide: defaultProvide,

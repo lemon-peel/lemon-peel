@@ -9,6 +9,7 @@ import { EVENT_CODE } from '@lemon-peel/constants';
 import { useEscapeKeydown } from '@lemon-peel/hooks';
 import { isString } from '@lemon-peel/utils';
 import { createFocusOutPreventedEvent, focusFirstDescendant, focusableStack, getEdges, isFocusCausedByUserEvent, obtainAllFocusableElements, tryFocus, useFocusReason } from './utils';
+import type { FocusTrapInjectionContext } from './tokens';
 import { FOCUS_AFTER_RELEASED, FOCUS_AFTER_TRAPPED, FOCUS_AFTER_TRAPPED_OPTS, FOCUS_TRAP_INJECTION_KEY, ON_RELEASE_FOCUS_EVT, ON_TRAP_FOCUS_EVT } from './tokens';
 
 import type { PropType } from 'vue';
@@ -112,7 +113,7 @@ export default defineComponent({
     provide(FOCUS_TRAP_INJECTION_KEY, {
       focusTrapRef: forwardRef,
       onKeydown,
-    });
+    } as FocusTrapInjectionContext);
 
     watch(
       () => props.focusTrapEl,

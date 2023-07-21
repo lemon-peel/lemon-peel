@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts" setup>
-import { defineExpose, getCurrentInstance, inject, onMounted, provide, reactive, ref, toRefs, watch } from 'vue';
+import { getCurrentInstance, inject, onMounted, provide, reactive, ref, toRefs, watch } from 'vue';
 import { useNamespace } from '@lemon-peel/hooks';
 import { selectGroupKey, selectKey } from './token';
 

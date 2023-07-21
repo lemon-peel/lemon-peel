@@ -156,7 +156,7 @@
         @expand-change="handleExpandChange"
         @close="$nextTick(() => togglePopperVisible(false))"
       />
-      <lp-scrollbar
+      <lp-scroll-bar
         v-if="filterable"
         v-show="filtering"
         ref="suggestionPanel"
@@ -187,7 +187,7 @@
             {{ t('lp.cascader.noMatch') }}
           </li>
         </slot>
-      </lp-scrollbar>
+      </lp-scroll-bar>
     </template>
   </lp-tooltip>
 </template>
@@ -202,7 +202,7 @@ import { isClient, useCssVar, useResizeObserver } from '@vueuse/core';
 import LpCascaderPanel from '@lemon-peel/components/cascaderPanel';
 import LpInput from '@lemon-peel/components/input';
 import LpTooltip from '@lemon-peel/components/tooltip';
-import LpScrollbar from '@lemon-peel/components/scrollbar';
+import LpScrollBar from '@lemon-peel/components/scrollbar';
 /* eslint-enable @typescript-eslint/consistent-type-imports */
 import { useTooltipContentProps } from '@lemon-peel/components/tooltip';
 import LpTag, { tagProps } from '@lemon-peel/components/tag';
@@ -223,7 +223,7 @@ import type { CascaderNode, CascaderValue, Tag } from '@lemon-peel/components/ca
 type CascaderPanelType = InstanceType<typeof LpCascaderPanel>;
 type TooltipType = InstanceType<typeof LpTooltip>;
 type InputType = InstanceType<typeof LpInput>;
-type SuggestionPanelType = InstanceType<typeof LpScrollbar>;
+type SuggestionPanelType = InstanceType<typeof LpScrollBar>;
 
 const popperOptions: Partial<Options> = {
   modifiers: [

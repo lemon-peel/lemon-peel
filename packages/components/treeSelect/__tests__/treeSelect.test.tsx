@@ -1,12 +1,31 @@
 import { nextTick, ref } from 'vue';
 import { mount } from '@vue/test-utils';
 import { describe, expect, test, vi } from 'vitest';
-import TreeSelect from '../src/TreeSelect.vue';
+
+import LpSelect from '@lemon-peel/components/select';
+import LpTree from '@lemon-peel/components/tree';
 
 import type { RenderFunction } from 'vue';
-import type { VueWrapper } from '@vue/test-utils';
-import type LpSelect from '@lemon-peel/components/select';
-import type LpTree from '@lemon-peel/components/tree';
+
+import TreeSelect from '../src/TreeSelect.vue';
+import { cloneDeep } from 'lodash-es';
+
+const defaultData = [{
+  value: 1,
+  label: '一级 1',
+  children: [
+    {
+      value: 11,
+      label: '二级 1-1',
+      children: [
+        {
+          value: 111,
+          label: '三级 1-1',
+        },
+      ],
+    },
+  ],
+}];
 
 const createComponent = ({
   slots = {},
@@ -15,57 +34,29 @@ const createComponent = ({
   slots?: Record<string, any>;
   props?: typeof TreeSelect['props'];
 } = {}) => {
-  const wrapperRef = ref<InstanceType<typeof TreeSelect>>();
-  const value = props.value || ref('');
-  const data = ref([
-    {
-      value: 1,
-      label: '一级 1',
-      children: [
-        {
-          value: 11,
-          label: '二级 1-1',
-          children: [
-            {
-              value: 111,
-              label: '三级 1-1',
-            },
-          ],
-        },
-      ],
-    },
-  ]);
+  const value = ref(props.value || '');
+  const data = ref(cloneDeep(defaultData));
 
-  const wrapper = mount({
-    render() {
-      return (
-        <TreeSelect
+  const wrapper = mount(() => (
+    <TreeSelect
           data={data.value}
           renderAfterExpand={false}
           {...props}
-          value={value.value}
-          onUpdate:value={(val: string) => (value.value = val)}
-          ref={(val: InstanceType<typeof TreeSelect>) =>
-            (wrapperRef.value = val)
-          }
+          v-model:value={value.value}
           v-slots={slots}
         />
-      );
-    },
-  });
+  ), { attachTo: document.body });
 
   return {
+    value,
     wrapper,
-    getWrapperRef: () =>
-      new Promise<InstanceType<typeof TreeSelect>>(resolve =>
-        nextTick(() => resolve(wrapperRef.value!)),
-      ),
-    select: wrapper.findComponent({ name: 'LpSelect' }) as VueWrapper<InstanceType<typeof LpSelect>>,
-    tree: wrapper.findComponent({ name: 'LpTree' }) as VueWrapper<InstanceType<typeof LpTree>>,
+    treeSelect: wrapper.findComponent(TreeSelect),
+    select: wrapper.findComponent(LpSelect),
+    tree: wrapper.findComponent(LpTree),
   };
 };
 
-describe.skip('TreeSelect.vue', () => {
+describe('TreeSelect.vue', () => {
   test('render test', async () => {
     const { wrapper, tree } = createComponent({
       props: {
@@ -89,7 +80,7 @@ describe.skip('TreeSelect.vue', () => {
 
   test('vModel:value', async () => {
     const value = ref(1);
-    const { getWrapperRef, select, tree } = createComponent({
+    const { treeSelect, select, tree } = createComponent({
       props: {
         value,
         checkStrictly: true,
@@ -98,17 +89,15 @@ describe.skip('TreeSelect.vue', () => {
       },
     });
 
-    const wrapperRef = await getWrapperRef();
-
     await nextTick();
-    wrapperRef.
-      expect(select.vm.value).toBe(1);
-    expect(wrapperRef.getCheckedKeys()).toEqual([1]);
+
+    expect(select.vm.value).toBe(1);
+    expect(treeSelect.vm.getCheckedKeys()).toEqual([1]);
 
     value.value = 11;
     await nextTick(nextTick);
     expect(select.vm.value).toBe(11);
-    expect(wrapperRef.getCheckedKeys()).toEqual([11]);
+    expect(treeSelect.vm.getCheckedKeys()).toEqual([11]);
 
     await tree
       .findAll('.lp-select-dropdown__item')
@@ -116,21 +105,21 @@ describe.skip('TreeSelect.vue', () => {
       .trigger('click');
     await nextTick();
     expect(select.vm.value).toBe(111);
-    expect(wrapperRef.getCheckedKeys()).toEqual([111]);
+    expect(treeSelect.vm.getCheckedKeys()).toEqual([111]);
 
     await tree.find('.lp-tree-node__content').trigger('click');
     await nextTick();
     expect(select.vm.value).toBe(1);
-    expect(wrapperRef.getCheckedKeys()).toEqual([1]);
+    expect(treeSelect.vm.getCheckedKeys()).toEqual([1]);
 
     await tree.findAll('.lp-checkbox__original')[1].trigger('click');
     await nextTick();
     expect(select.vm.value).toBe(11);
-    expect(wrapperRef.getCheckedKeys()).toEqual([11]);
+    expect(treeSelect.vm.getCheckedKeys()).toEqual([11]);
   });
 
   test('disabled', async () => {
-    const { wrapper, tree } = createComponent({
+    const { wrapper, tree } = await createComponent({
       props: {
         data: [
           {
@@ -164,7 +153,7 @@ describe.skip('TreeSelect.vue', () => {
 
   test('multiple', async () => {
     const value = ref([1]);
-    const { getWrapperRef, select, tree } = createComponent({
+    const { treeSelect, select, tree } = createComponent({
       props: {
         value,
         checkStrictly: true,
@@ -174,16 +163,14 @@ describe.skip('TreeSelect.vue', () => {
       },
     });
 
-    const wrapperRef = await getWrapperRef();
-
     await nextTick();
     expect(select.vm.value).toEqual([1]);
-    expect(wrapperRef.getCheckedKeys()).toEqual([1]);
+    expect(treeSelect.vm.getCheckedKeys()).toEqual([1]);
 
     value.value = [11];
     await nextTick(nextTick);
     expect(select.vm.value).toEqual([11]);
-    expect(wrapperRef.getCheckedKeys()).toEqual([11]);
+    expect(treeSelect.vm.getCheckedKeys()).toEqual([11]);
 
     await tree
       .findAll('.lp-select-dropdown__item')
@@ -191,17 +178,17 @@ describe.skip('TreeSelect.vue', () => {
       .trigger('click');
     await nextTick();
     expect(select.vm.value).toEqual([11, 111]);
-    expect(wrapperRef.getCheckedKeys()).toEqual([11, 111]);
+    expect(treeSelect.vm.getCheckedKeys()).toEqual([11, 111]);
 
     await tree.find('.lp-tree-node__content').trigger('click');
     await nextTick();
     expect(select.vm.value).toEqual([1, 11, 111]);
-    expect(wrapperRef.getCheckedKeys()).toEqual([1, 11, 111]);
+    expect(treeSelect.vm.getCheckedKeys()).toEqual([1, 11, 111]);
 
     await tree.findAll('.lp-checkbox')[1].trigger('click');
     await nextTick();
     expect(select.vm.value).toEqual([1, 111]);
-    expect(wrapperRef.getCheckedKeys()).toEqual([1, 111]);
+    expect(treeSelect.vm.getCheckedKeys()).toEqual([1, 111]);
   });
 
   test('filter', async () => {
@@ -217,7 +204,7 @@ describe.skip('TreeSelect.vue', () => {
   });
 
   test('props', async () => {
-    const { wrapper, select, tree } = createComponent({
+    const { select, tree, value } = createComponent({
       props: {
         data: [
           {
@@ -233,7 +220,8 @@ describe.skip('TreeSelect.vue', () => {
 
     await nextTick();
     expect(tree.find('.lp-select-dropdown__item').text()).toBe('1');
-    await wrapper.setProps({ value: '2' });
+    value.value = '2';
+    await nextTick();
     expect(select.vm.selectedLabel).toBe('2');
   });
 
@@ -267,21 +255,19 @@ describe.skip('TreeSelect.vue', () => {
   });
 
   test('lazy', async () => {
+    vi.useFakeTimers();
     const { tree } = createComponent({
       props: {
-        data: [
-          {
-            value: 1,
-            label: 1,
-          },
-        ],
+        data: [{ value: 1, label: 1 }],
         lazy: true,
-        load: (node: object, resolve: (p: any) => any[]) => {
-          resolve([{ value: 2, label: 2, isLeaf: true }]);
+        async load() {
+          return [{ value: 2, label: 2, isLeaf: true }];
         },
       },
     });
 
+    vi.runAllTimers();
+    await nextTick();
     await nextTick();
     await tree.find('.lp-tree-node').trigger('click');
     await nextTick();
@@ -302,30 +288,30 @@ describe.skip('TreeSelect.vue', () => {
   });
 
   test('check-strictly showCheckbox click node', async () => {
-    const { getWrapperRef, select, tree } = createComponent({
+    const { treeSelect, select, tree } = createComponent({
       props: {
         checkStrictly: true,
         showCheckbox: true,
         multiple: true,
+        value: [],
       },
     });
 
-    const wrapperRef = await getWrapperRef();
     await tree.findAll('.lp-tree-node__content')[0].trigger('click');
     await nextTick();
     expect(select.vm.value).toEqual([]);
-    expect(wrapperRef.getCheckedKeys()).toEqual([]);
+    expect(treeSelect.vm.getCheckedKeys()).toEqual([]);
 
     await tree
       .findAll('.lp-tree-node__content .lp-checkbox')[0]
       .trigger('click');
     await nextTick();
     expect(select.vm.value).toEqual([1]);
-    expect(wrapperRef.getCheckedKeys()).toEqual([1]);
+    expect(treeSelect.vm.getCheckedKeys()).toEqual([1]);
   });
 
   test('check-strictly showCheckbox checkOnClickNode click node', async () => {
-    const { getWrapperRef, select, tree } = createComponent({
+    const { value, treeSelect, select, tree } = createComponent({
       props: {
         checkStrictly: true,
         showCheckbox: true,
@@ -334,19 +320,23 @@ describe.skip('TreeSelect.vue', () => {
       },
     });
 
-    const wrapperRef = await getWrapperRef();
+    await nextTick();
     await tree.findAll('.lp-tree-node__content')[0].trigger('click');
     await nextTick();
-    expect(select.vm.value).toEqual([1]);
-    expect(wrapperRef.getCheckedKeys()).toEqual([1]);
+    await nextTick();
+
+    expect(value.value).toEqual([1]);
+    expect(treeSelect.vm.getCheckedKeys()).toEqual([1]);
 
     await tree
       .findAll('.lp-tree-node__content .lp-checkbox')[0]
       .trigger('click');
     await nextTick();
     expect(select.vm.value).toEqual([]);
-    expect(wrapperRef.getCheckedKeys()).toEqual([]);
+    expect(treeSelect.vm.getCheckedKeys()).toEqual([]);
+    vi.useFakeTimers();
   });
+
 
   test('only show checkbox', async () => {
     const { select, tree } = createComponent({
@@ -402,22 +392,30 @@ describe.skip('TreeSelect.vue', () => {
   });
 
   test('expand-on-click-node', async () => {
-    const { wrapper, tree } = createComponent({
-      props: {
-        expandOnClickNode: false,
-        checkOnClickNode: true,
-      },
-    });
+    const value = ref('');
+    const expandOnClickNode = ref(false);
+    const wrapper = mount(() => (
+      <TreeSelect
+          data={cloneDeep(defaultData)}
+          renderAfterExpand={false}
+          expandOnClickNode={expandOnClickNode.value}
+          checkOnClickNode={true}
+          v-model:value={value.value}
+        />
+    ), { attachTo: document.body });
+
+    const tree = wrapper.findComponent(LpTree);
 
     await tree.findAll('.lp-tree-node__content')[0].trigger('click');
     expect(
       tree.findAll('.lp-tree-node__children')[0].attributes('style'),
     ).toContain('display: none;');
 
-    await wrapper.setProps({ expandOnClickNode: true });
+    expandOnClickNode.value = true;
+    await nextTick();
     await tree.findAll('.lp-tree-node__content')[0].trigger('click');
     expect(
-      tree.findAll('.lp-tree-node__children')[0].attributes('style'),
-    ).not.toContain('display: none;');
+      tree.findAll<HTMLElement>('.lp-tree-node__children')[0].element.style.display,
+    ).not.equal('none');
   });
 });

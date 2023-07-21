@@ -35,6 +35,7 @@ import type { default as CascaderNode, CascaderNodeValue, CascaderOption, Cascad
 
 import type { LpCascaderPanelContext } from './types';
 import { cascaderPanelEmits, cascaderPanelProps } from './panel';
+import { render } from 'vue';
 
 defineOptions({
   name: 'LpCascaderPanel',
@@ -305,7 +306,7 @@ provide(
     checkedNodes,
     isHoverMenu,
     initialLoaded,
-    renderLabelFn,
+    renderLabelFn: renderLabelFn.value as any,
     lazyLoad,
     expandNode,
     handleCheckChange,

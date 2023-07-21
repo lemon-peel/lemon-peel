@@ -1,5 +1,5 @@
-import { reactive } from 'vue';
-import { hasOwn } from '@lemon-peel/utils';
+import { reactive, ref } from 'vue';
+import { callAsAsync, hasOwn } from '@lemon-peel/utils';
 import { NODE_KEY, markNodeData } from './util';
 import type TreeStore from './treeStore';
 
@@ -122,7 +122,8 @@ class Node {
     // internal
     this.level = 0;
     this.loaded = false;
-    this.childNodes = [];
+    // 使用 ref 解决数据无法响应到视图的问题
+    this.childNodes = ref([]).value;
     this.loading = false;
 
     if (this.parent) {
@@ -140,6 +141,7 @@ class Node {
     store.registerNode(this);
 
     const treeProps = store.treeProps;
+
     const optionProps = treeProps.props;
     if (optionProps && optionProps.isLeaf !== undefined) {
       const isLeaf = getPropertyFromData(this, 'isLeaf');
@@ -148,7 +150,7 @@ class Node {
       }
     }
 
-    if (treeProps.lazy !== true && this.data) {
+    if (!treeProps.lazy && this.data) {
       this.setData(this.data);
 
       if (treeProps.defaultExpandAll) {
@@ -158,6 +160,7 @@ class Node {
     } else if (this.level > 0 && treeProps.lazy && treeProps.defaultExpandAll) {
       this.expand();
     }
+
     if (!Array.isArray(this.data)) {
       markNodeData(this, this.data);
     }
@@ -192,7 +195,7 @@ class Node {
     if (!Array.isArray(data)) markNodeData(this, data);
 
     this.data = data;
-    this.childNodes = [];
+    this.childNodes.length = 0;
 
     const children = this.level === 0 && Array.isArray(this.data)
       ? this.data
@@ -239,16 +242,13 @@ class Node {
   }
 
   contains(target: Node, deep = true): boolean {
-    return (this.childNodes || []).some(
+    return this.childNodes.some(
       child => child === target || (deep && child.contains(target)),
     );
   }
 
   remove(): void {
-    const parent = this.parent;
-    if (parent) {
-      this.remove();
-    }
+    this.parent?.removeChild(this);
   }
 
   insertChild(child?: FakeNode | Node, index?: number, batch?: boolean): void {
@@ -265,6 +265,7 @@ class Node {
           }
         }
       }
+
       Object.assign(child, {
         parent: this,
         store: this.store,
@@ -389,12 +390,12 @@ class Node {
   }
 
   shouldLoadData(): boolean {
-    return this.store.treeProps.lazy === true && !!(this.store.treeProps.load) && !this.loaded;
+    return this.store.treeProps.lazy && !!(this.store.treeProps.load) && !this.loaded;
   }
 
   updateLeafState(): void {
     if (
-      this.store.treeProps.lazy === true &&
+      this.store.treeProps.lazy &&
       this.loaded !== true &&
       this.isLeafByUser !== undefined
     ) {
@@ -406,7 +407,7 @@ class Node {
       !this.store.treeProps.lazy ||
       (this.store.treeProps.lazy === true && this.loaded === true)
     ) {
-      this.isLeaf = !childNodes || childNodes.length === 0;
+      this.isLeaf = childNodes.length === 0;
       return;
     }
     this.isLeaf = false;
@@ -539,16 +540,17 @@ class Node {
     ) {
       this.loading = true;
 
-      this.store.treeProps
-        .load(this)
+      callAsAsync(this.store.treeProps.load, this)
         .then(children => {
-          this.childNodes = [];
+          this.childNodes.length = 0;
 
           this.doCreateChildren(children, defaultProps);
           this.loaded = true;
           this.loading = false;
 
           this.updateLeafState();
+
+
           if (callback) {
             callback.call(this, children);
           }

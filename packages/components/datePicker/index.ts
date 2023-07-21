@@ -1,7 +1,9 @@
-import DatePicker from './src/DatePicker';
+import DatePicker from './src/DatePicker.vue';
 
 import type { App } from 'vue';
 import type { SFCWithInstall } from '@lemon-peel/utils';
+
+export type { Shortcut } from './src/datePicker.type';
 
 const withInstaller = DatePicker as SFCWithInstall<typeof DatePicker>;
 

@@ -1,6 +1,7 @@
 import { mount } from '@vue/test-utils';
 import { describe, expect, test } from 'vitest';
 import CheckTag from '../src/CheckTag.vue';
+import { ref } from 'vue';
 
 const AXIOM = 'Rem is the best girl';
 
@@ -13,27 +14,19 @@ describe('CheckTag.vue', () => {
   });
 
   test('functionality', async () => {
-    const wrapper = mount({
-      data: () => ({ checked: false }),
-      render() {
-        return (
-          <CheckTag
-            onChange={() => (this.checked = !this.checked)}
-            checked={this.checked}
-          >
-            {AXIOM}
-          </CheckTag>
-        );
-      },
-    });
+    const checked = ref(false);
+    const onChange = () => (checked.value = !checked.value);
+    const wrapper = mount(
+      () => (<CheckTag onChange={onChange} checked={checked.value}>{AXIOM}</CheckTag>),
+      { attachTo: document.body },
+    );
+
     expect(wrapper.text()).toEqual(AXIOM);
 
     await wrapper.find('.lp-check-tag').trigger('click');
-
-    expect(wrapper.vm.checked).toBe(true);
+    expect(checked.value).toBe(true);
 
     await wrapper.find('.lp-check-tag').trigger('click');
-
-    expect(wrapper.vm.checked).toBe(false);
+    expect(checked.value).toBe(false);
   });
 });

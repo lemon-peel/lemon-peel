@@ -2,7 +2,7 @@ import { mount } from '@vue/test-utils';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useTimeout } from '../src/useTimeout';
 
-const _mount = (cb: () => void) => {
+const doMount = (cb: () => void) => {
   return mount({
     setup() {
       const { cancelTimeout, registerTimeout } = useTimeout();
@@ -15,16 +15,17 @@ const _mount = (cb: () => void) => {
 };
 
 describe('use-timeout', () => {
+  let wrapper: ReturnType<typeof doMount>;
+  const cb = vi.fn();
+
   beforeEach(() => {
     vi.useFakeTimers();
-    wrapper = _mount(cb);
+    wrapper = doMount(cb);
   });
+
   afterEach(() => {
     vi.restoreAllMocks();
   });
-
-  let wrapper: ReturnType<typeof _mount>;
-  const cb = vi.fn();
 
   it('should register timeout correctly', async () => {
     expect(cb).not.toHaveBeenCalled();
@@ -34,7 +35,7 @@ describe('use-timeout', () => {
   });
 
   it('should cancel the timeout correctly', async () => {
-    wrapper.vm.cancelTimeout();
+    (wrapper.vm as unknown as { cancelTimeout: ReturnType<typeof useTimeout>['cancelTimeout'] }).cancelTimeout();
 
     vi.runOnlyPendingTimers();
 

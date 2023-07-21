@@ -1,3 +1,4 @@
+import { nextTick } from 'vue';
 import { mount } from '@vue/test-utils';
 import { describe, expect, test } from 'vitest';
 import { getCssVariable } from '@lemon-peel/test-utils/dom';
@@ -7,6 +8,7 @@ import Header from '../src/header.vue';
 import Main from '../src/main.vue';
 import Aside from '../src/aside.vue';
 import Footer from '../src/footer.vue';
+import { ref } from 'vue';
 
 const AXIOM = 'Rem is the best girl';
 
@@ -26,21 +28,20 @@ describe('Container.vue', () => {
     expect(wrapper.classes('is-vertical')).toBe(true);
   });
 
-  test('direction', () => {
-    const wrapper = mount({
-      data: () => ({ direction: 'horizontal' }),
-      render() {
-        return (
-          <Container direction={this.direction}>
-            <Header />
-            <Main />
-          </Container>
-        );
-      },
-    });
+  test('direction', async () => {
+    const direction = ref('horizontal');
+    const wrapper = mount(
+      () => (<Container direction={direction.value}>
+        <Header />
+        <Main />
+      </Container>),
+      { attachTo: document.body },
+    );
 
     expect(wrapper.vm.$el.classList.contains('is-vertical')).toBe(false);
-    wrapper.vm.direction = 'vertical';
+    direction.value = 'vertical';
+    await nextTick();
+
     wrapper.vm.$nextTick(() => {
       expect(wrapper.vm.$el.classList.contains('is-vertical')).toBe(true);
     });

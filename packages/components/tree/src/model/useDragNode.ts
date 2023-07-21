@@ -2,7 +2,7 @@ import { provide, shallowReactive } from 'vue';
 import { addClass, removeClass } from '@lemon-peel/utils';
 import { useNamespace } from '@lemon-peel/hooks';
 
-import type { InjectionKey, Ref, SetupContext, ShallowRef  } from 'vue';
+import type { InjectionKey, Ref, SetupContext  } from 'vue';
 import type { NodeDropType, TreeProps } from '../tree';
 import Node from './node';
 import type TreeStore from './treeStore';
@@ -36,7 +36,7 @@ export function useDragNodeHandler({
   emit: SetupContext['emit'];
   elRef: Ref<HTMLElement>;
   dropIndicatorRef: Ref<HTMLElement>;
-  store: ShallowRef<TreeStore>;
+  store: Ref<TreeStore>;
 }) {
   const ns = useNamespace('tree');
 

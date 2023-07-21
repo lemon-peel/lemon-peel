@@ -38,8 +38,8 @@ export const createCollectionWithScope = (name: string) => {
 
       provide(COLLECTION_INJECTION_KEY, {
         itemMap,
-        getItems,
-        collectionRef,
+        getItems: getItems as any,
+        collectionRef: collectionRef as any,
       });
     },
   };

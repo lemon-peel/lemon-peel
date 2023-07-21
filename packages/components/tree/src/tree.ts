@@ -15,6 +15,7 @@ export type TreeNodeOptions = {
 
 export type TreeNodeData = Record<string, any>;
 export type TreeKey = string | number;
+
 export interface TreeOptionProps {
   children?: string;
   label?: string | ((data: TreeNodeData, node: Node) => string);
@@ -65,7 +66,7 @@ export interface TreeStoreOptions {
   checkStrictly: boolean;
   checkDescendants: boolean;
   defaultCheckedKeys: TreeKey[];
-  expandedKeys: TreeKey[];
+  defaultExpandedKeys: TreeKey[];
   autoExpandParent: boolean;
   defaultExpandAll: boolean;
   filterNodeMethod: FilterNodeFunc;
@@ -97,7 +98,6 @@ export const treeProps = buildProps({
   defaultCheckedKeys: { type: Array as PropType<TreeKey[]>, default: () => [] },
   checkedKeys: { type: Array as PropType<TreeKey[]>, default: () => [] },
   defaultExpandedKeys: { type:  Array as PropType<TreeKey[]>, default: () => [] },
-  expandedKeys: { type:  Array as PropType<TreeKey[]>, default: () => [] },
 
   data: { type: Array as PropType<TreeNodeData[]>, default: () => [] },
   emptyText: { type: String, default: undefined },
@@ -137,6 +137,9 @@ export type TreeProps = Readonly<ExtractPropTypes<typeof treeProps>>;
 export const treeEmits = [
   'check',
   'select',
+  'current-change',
+  'check-change',
+  'load',
 
   'node-click',
   'node-contextmenu',

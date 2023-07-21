@@ -6,7 +6,7 @@ import { rAF } from '@lemon-peel/test-utils/tick';
 import { mount } from '@vue/test-utils';
 import { upperFirst } from 'lodash-es';
 
-import { doubleWait, getTestData } from './tableTestCommon';
+import { doubleWait, getTestData } from './lib';
 import LpTable from '../src/table/Table.vue';
 import LpTableColumn from '../src/tableColumn';
 
@@ -880,7 +880,7 @@ describe('Table.vue', () => {
       const wrapper = mount(() => (
         <LpTable data={getTestData()} row-key="release" highlight-current-row >
           <LpTableColumn type="index" />
-          <LpTableColumn type="expand" vSlots={{
+          <LpTableColumn type="expand" v-slots={{
             default: (props: any) => (<>
               <span class="index">{ props.rowIndex }</span>
               <span class="director">{ props.row.director }</span>
@@ -924,7 +924,7 @@ describe('Table.vue', () => {
       ];
 
       wrapper = mount(() => (
-        <LpTable data={getTestData()} row-key="release">
+        <LpTable data={getTestData()} default-expand-all row-key="release">
           <LpTableColumn prop="name" label="片名" />
           <LpTableColumn prop="release" label="发行日期" />
           <LpTableColumn prop="director" label="导演" />
@@ -951,7 +951,6 @@ describe('Table.vue', () => {
     });
 
     test('load substree row data', async () => {
-
       const testData = getTestData() as any;
       testData[testData.length - 1].children = [{
         name: "A Bug's Life copy 1",

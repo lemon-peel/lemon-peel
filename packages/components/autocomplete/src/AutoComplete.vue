@@ -66,7 +66,7 @@
         }"
         role="region"
       >
-        <lp-scrollbar
+        <lp-scroll-bar
           :id="listboxId"
           tag="ul"
           :wrap-class="ns.be('suggestion', 'wrap')"
@@ -89,7 +89,7 @@
               <slot :item="item">{{ item[valueKey] }}</slot>
             </li>
           </template>
-        </lp-scrollbar>
+        </lp-scroll-bar>
       </div>
     </template>
   </lp-tooltip>
@@ -106,7 +106,7 @@ import { autocompleteEmits, autocompleteProps } from './autoComplete';
 import { Loading } from '@element-plus/icons-vue';
 import LpIcon from '@lemon-peel/components/icon';
 import LpInput from '@lemon-peel/components/input';
-import LpScrollbar from '@lemon-peel/components/scrollbar';
+import LpScrollBar from '@lemon-peel/components/scrollbar';
 import LpTooltip from '@lemon-peel/components/tooltip';
 
 import type { StyleValue } from 'vue';

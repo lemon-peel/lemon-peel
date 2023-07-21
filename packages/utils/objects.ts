@@ -1,6 +1,9 @@
 import { get, set } from 'lodash-es';
+import { isPromise } from '@vue/shared';
+
 import type { Entries } from 'type-fest';
-import type { Arrayable } from './index';
+import type { Arrayable } from './typescript';
+
 
 export const keysOf = <T extends Record<string, any>>(object: T) => Object.keys(object) as Array<keyof T>;
 export const entriesOf = <T extends Record<string, any>>(array: T) => Object.entries(array) as Entries<T>;
@@ -30,4 +33,10 @@ export function lazyProxy<T extends () => any>(getter: T) {
     },
   });
   return proxy;
+}
+
+export function callAsAsync<T extends (...args: any[]) => any>(fn: T, ...args: Parameters<T>) {
+  const result = fn(...args);
+  if (isPromise(result)) return result;
+  return Promise.resolve(result);
 }

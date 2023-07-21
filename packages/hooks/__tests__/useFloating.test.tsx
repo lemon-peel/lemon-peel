@@ -1,4 +1,4 @@
-import { computed, nextTick, reactive, ref, watch } from 'vue';
+import { computed, defineComponent, nextTick, reactive, ref, watch } from 'vue';
 import { mount } from '@vue/test-utils';
 import { describe, expect, it } from 'vitest';
 import { rAF } from '@lemon-peel/test-utils/tick';
@@ -9,18 +9,14 @@ import type { Middleware, Placement, Strategy } from '@floating-ui/dom';
 
 describe('useFloating', () => {
   const createComponent = (arrow = false) => {
-    return mount({
+    return mount(defineComponent({
       setup() {
         const placement = ref<Placement>('bottom');
         const strategy = ref<Strategy>('fixed');
         const arrowRef: Ref<HTMLElement> = ref(null as any);
         const middleware = ref<Array<Middleware>>(
           arrow
-            ? [
-              arrowMiddleware({
-                arrowRef,
-              }),
-            ]
+            ? [arrowMiddleware({ arrowRef })]
             : [],
         );
 
@@ -32,11 +28,7 @@ describe('useFloating', () => {
           });
 
         const contentStyle = computed<CSSProperties>(() => {
-          return reactive({
-            position: strategy,
-            x,
-            y,
-          });
+          return reactive({ position: strategy, x, y });
         });
 
         watch(arrowRef, () => update());
@@ -61,7 +53,7 @@ describe('useFloating', () => {
           </div>
         );
       },
-    });
+    }), { attachTo: document.body });
   };
 
   let wrapper: ReturnType<typeof createComponent>;

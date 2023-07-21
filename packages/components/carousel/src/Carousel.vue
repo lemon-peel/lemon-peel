@@ -17,9 +17,9 @@
           @mouseleave="handleButtonLeave"
           @click.stop="throttledArrowClick(activeIndex - 1)"
         >
-          <LpIcon>
+          <lp-icon>
             <ArrowLeft />
-          </LpIcon>
+          </lp-icon>
         </button>
       </transition>
       <transition v-if="arrowDisplay" name="carousel-arrow-right">
@@ -34,9 +34,9 @@
           @mouseleave="handleButtonLeave"
           @click.stop="throttledArrowClick(activeIndex + 1)"
         >
-          <LpIcon>
+          <lp-icon>
             <ArrowRight />
-          </LpIcon>
+          </lp-icon>
         </button>
       </transition>
       <slot />

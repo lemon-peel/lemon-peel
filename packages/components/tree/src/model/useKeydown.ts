@@ -83,7 +83,9 @@ export function useKeydown({ elRef }: UseKeydownOption, store: Ref<TreeStore>) {
             : (currentIndex < treeItems.value.length - 1
               ? currentIndex + 1
               : 0);
+
         const startIndex = nextIndex;
+
         while (true) {
           if (
             store.value.getNode(treeItems.value[nextIndex].dataset.key as TreeKey)?.canFocus
@@ -99,6 +101,7 @@ export function useKeydown({ elRef }: UseKeydownOption, store: Ref<TreeStore>) {
           }
         }
       }
+
       nextIndex !== -1 && treeItems.value[nextIndex].focus();
     }
     if ([EVENT_CODE.left, EVENT_CODE.right].includes(code)) {

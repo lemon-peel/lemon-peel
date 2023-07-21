@@ -3,7 +3,6 @@ import { mount } from '@vue/test-utils';
 import { afterEach, describe, expect, test, vi } from 'vitest';
 import { cloneDeep } from 'lodash-es';
 import { rAF } from '@lemon-peel/test-utils/tick';
-import defineGetter from '@lemon-peel/test-utils/defineGetter';
 
 import Tree from '../src/Tree.vue';
 
@@ -18,7 +17,7 @@ const delay = (duration: number) => new Promise(resolve => setTimeout(resolve, d
 
 const ALL_NODE_COUNT = 9;
 
-const defaultData = [
+const defaultData: TreeNodeData[] = [
   {
     id: 1,
     label: '[1]',
@@ -55,7 +54,7 @@ type MountingOptionsTree = ComponentMountingOptions<typeof Tree>;
 
 const getTreeWrap = (props: MountingOptionsTree['props'] = {}, options: MountingOptionsTree = {}) => {
   return mount(
-    () => <Tree {...{ data: cloneDeep(defaultData), ...(props as any) } } vSlots={props!.vSlots} />,
+    () => <Tree {...{ data: cloneDeep(defaultData), ...(props as any) } } v-slots={props!.vSlots} />,
     { attachTo: 'body', ...options },
   );
 };
@@ -120,16 +119,16 @@ describe('Tree.vue', () => {
 
   test('create', async () => {
     const data = ref(cloneDeep(defaultData));
-    wrapper = getTreeWrap({
-      data: data.value,
-      nodeKey: 'id',
-      defaultExpandAll: true,
-    });
+    wrapper = mount(
+      () => <Tree data={data.value} nodeKey='id' defaultExpandAll={true} />,
+      { attachTo: 'body' },
+    );
 
+    await nextTick();
     expect(wrapper.find('.lp-tree').exists()).toBeTruthy();
     expect(wrapper.findAll('.lp-tree > .lp-tree-node').length).toEqual(3);
-    expect(wrapper.findAll('.lp-tree .lp-tree-node').length)
-      .toEqual(ALL_NODE_COUNT);
+    expect(wrapper.findAll('.lp-tree .lp-tree-node').length).toEqual(ALL_NODE_COUNT);
+
     data.value[1].children = [{ id: 21, label: '[2-1 n]' }] as any;
     await nextTick();
     expect(wrapper.findAll('.lp-tree .lp-tree-node').length)
@@ -222,10 +221,7 @@ describe('Tree.vue', () => {
   });
 
   test('defaultExpandedKeys', async () => {
-    wrapper = getTreeWrap({
-      expandedKeys: [1, 3],
-      nodeKey: 'id',
-    });
+    wrapper = getTreeWrap({ defaultExpandedKeys: [1, 3], nodeKey: 'id' });
     const expanedNodeWrappers = wrapper.findAll('.lp-tree-node.is-expanded');
     expect(expanedNodeWrappers.length).toEqual(2);
   });
@@ -235,7 +231,7 @@ describe('Tree.vue', () => {
     const expandedKeys = ref([1, 3]);
 
     wrapper = mount(
-      () => <Tree data={data.value} expandedKeys={expandedKeys.value} nodeKey={'id'} />,
+      () => <Tree data={data.value} defaultExpandedKeys={expandedKeys.value} nodeKey={'id'} />,
       { attachTo: document.body },
     );
 
@@ -276,9 +272,8 @@ describe('Tree.vue', () => {
   });
 
   test('autoExpandParent = true', async () => {
-    const expandedKeys = ref([111]);
     wrapper = getTreeWrap({
-      expandedKeys: expandedKeys.value,
+      defaultExpandedKeys: [111],
       nodeKey: 'id',
     });
 
@@ -307,7 +302,7 @@ describe('Tree.vue', () => {
     wrapper = getTreeWrap({
       defaultExpandAll: true,
       showCheckbox: true,
-      checkedKeys: [1],
+      defaultCheckedKeys: [1],
       nodeKey: 'id',
     });
     expect(wrapper.findAll('.lp-checkbox .is-checked').length).toEqual(3);
@@ -317,7 +312,7 @@ describe('Tree.vue', () => {
     wrapper = getTreeWrap({
       defaultExpandAll: true,
       showCheckbox: true,
-      checkedKeys: [1],
+      defaultCheckedKeys: [1],
       nodeKey: 'id',
       checkStrictly: true,
     });
@@ -380,7 +375,7 @@ describe('Tree.vue', () => {
     expect(args.checkedNodes.length).toEqual(3);
   });
 
-  test.skip('setCheckedNodes', async () => {
+  test('setCheckedNodes', async () => {
     wrapper = getTreeWrap({
       showCheckbox: true,
       nodeKey: 'id',
@@ -388,9 +383,7 @@ describe('Tree.vue', () => {
 
     const treeWrapper = wrapper.findComponent(Tree);
     const treeVm = treeWrapper.vm as InstanceType<typeof Tree>;
-    const secondNodeContentWrapper = wrapper.findAll(
-      '.lp-tree-node__content',
-    )[1];
+    const secondNodeContentWrapper = wrapper.findAll('.lp-tree-node__content').at(1)!;
     const secondNodeCheckWrapper = secondNodeContentWrapper.find('.lp-checkbox');
     await secondNodeCheckWrapper.trigger('click');
 
@@ -401,7 +394,7 @@ describe('Tree.vue', () => {
     expect(treeVm.getCheckedNodes().length).toEqual(0);
   });
 
-  test.skip('setCheckedKeys', async () => {
+  test('setCheckedKeys', async () => {
     wrapper = getTreeWrap({
       showCheckbox: true,
       nodeKey: 'id',
@@ -426,7 +419,7 @@ describe('Tree.vue', () => {
     expect(tree.getCheckedKeys().length).toEqual(1);
   });
 
-  test.skip('setCheckedKeys with checkStrictly', async () => {
+  test('setCheckedKeys with checkStrictly', async () => {
     wrapper = getTreeWrap({
       checkStrictly: true,
       showCheckbox: true, nodeKey:'id',
@@ -470,7 +463,7 @@ describe('Tree.vue', () => {
   });
 
 
-  test.skip('setCheckedKeys with leafOnly=false', async () => {
+  test('setCheckedKeys with leafOnly=false', async () => {
     wrapper = getTreeWrap({
       showCheckbox: true,
       nodeKey: 'id',
@@ -484,7 +477,7 @@ describe('Tree.vue', () => {
     expect(tree.getCheckedKeys().length).toEqual(6);
   });
 
-  test.skip('setCheckedKeys with leafOnly=true', async () => {
+  test('setCheckedKeys with leafOnly=true', async () => {
     wrapper = getTreeWrap({
       showCheckbox: true,
       nodeKey: 'id',
@@ -514,7 +507,7 @@ describe('Tree.vue', () => {
     expect(tree.store.currentNode).toEqual(null);
   });
 
-  test.skip('setCurrentKey should also auto expand parent', async () => {
+  test('setCurrentKey should also auto expand parent', async () => {
     wrapper = getTreeWrap({
       showCheckbox: true,
       nodeKey: 'id',
@@ -579,7 +572,7 @@ describe('Tree.vue', () => {
     expect(tree.store.currentNode).toEqual(null);
   });
 
-  test.skip('setCurrentNode should also auto expand parent', async () => {
+  test('setCurrentNode should also auto expand parent', async () => {
     wrapper = getTreeWrap({
       showCheckbox: true,
       nodeKey: 'id',
@@ -670,7 +663,7 @@ describe('Tree.vue', () => {
     expect(node.data.id).toEqual(111);
   });
 
-  test.skip('remove', async () => {
+  test('remove', async () => {
     wrapper = getTreeWrap({ nodeKey: 'id' });
 
     const treeWrapper = wrapper.findComponent(Tree);
@@ -681,7 +674,7 @@ describe('Tree.vue', () => {
     tree.remove(1);
 
     expect(tree.data[0].id).toEqual(2);
-    expect(tree.getNode(1)).toEqual(null);
+    expect(tree.getNode(1)).toEqual(undefined);
     expect(tree.getCurrentNode()).toEqual(null);
   });
 
@@ -783,7 +776,7 @@ describe('Tree.vue', () => {
     expect(buttonWrapper.text()).toEqual('[1]');
   });
 
-  test.skip('custom-node-class', async () => {
+  test('custom-node-class', async () => {
     wrapper = getTreeWrap({
       defaultExpandAll: true,
       highlightCurrent: true,
@@ -823,17 +816,22 @@ describe('Tree.vue', () => {
   });
 
   test('load node', async () => {
+    vi.useFakeTimers();
     let count = 0;
     const loadNode: TreeDataLoader = async node => {
       if (node.level === 0) {
-        return [{ label: 'region1' }, { label: 'region2' }];
+        return [
+          { label: 'region1', id: ++count },
+          { label: 'region2', id: ++count },
+        ];
       }
       if (node.level > 4) return [];
 
       await delay(50);
+
       return [
-        { label: `zone${++count}` },
-        { label: `zone${++count}` },
+        { label: `zone${++count}`, id: count },
+        { label: `zone${++count}`, id: count },
       ];
     };
 
@@ -843,32 +841,43 @@ describe('Tree.vue', () => {
       load: loadNode,
     });
 
+    await vi.runAllTimers();
+    await nextTick();
+
     let nodeWrappers = wrapper.findAll('.lp-tree-node__content');
 
     expect(nodeWrappers.length).toEqual(2);
-    vi.useFakeTimers();
-    await nodeWrappers[0].trigger('click');
-    vi.runAllTimers();
-    vi.useRealTimers();
-    await nextTick(); // wait load finish
+
+    nodeWrappers[0].trigger('click');
+
+    await vi.runAllTimers();
+    await nextTick();
+    await nextTick();
+
     nodeWrappers = wrapper.findAll('.lp-tree-node__content');
     expect(nodeWrappers.length).toEqual(4);
+    vi.useRealTimers();
   });
 
   test('lazy defaultChecked', async () => {
+    vi.useFakeTimers();
+
     let count = 0;
     const loadNode: TreeDataLoader = async node => {
       if (node.level === 0) {
-        return [{ label: 'region1', id: count++ }, { label: 'region2', id: count++ }];
-      } else if (node.level > 4) {
-        return [];
-      } else {
-        await delay(50);
         return [
-          { label: `zone${count}`, id: count++ },
-          { label: `zone${count}`, id: count++ },
+          { label: 'region1', id: ++count },
+          { label: 'region2', id: ++count },
         ];
       }
+      if (node.level > 4) return [];
+
+      await delay(50);
+
+      return [
+        { label: `zone${++count}`, id: count },
+        { label: `zone${++count}`, id: count },
+      ];
     };
 
     wrapper = getTreeWrap({
@@ -878,37 +887,50 @@ describe('Tree.vue', () => {
       load: loadNode,
     });
 
+    await vi.runAllTimers();
+    await nextTick();
+
     const treeWrapper = wrapper.findComponent(Tree);
     const tree = treeWrapper.vm;
     const firstNodeWrapper = treeWrapper.find('.lp-tree-node__content');
     expect(firstNodeWrapper.find('.is-indeterminate').exists()).toEqual(false);
 
-    tree.store.setCheckedKeys([3]);
-    vi.useFakeTimers();
-    await firstNodeWrapper.find('.lp-tree-node__expand-icon').trigger('click');
-    vi.runAllTimers();
-    vi.useRealTimers();
+    firstNodeWrapper.trigger('click');
+    await vi.runAllTimers();
+    await nextTick();
+
+    tree.setCheckedKeys([3]);
+    firstNodeWrapper.find('.lp-tree-node__expand-icon').trigger('click');
+
     await nextTick();
 
     expect(firstNodeWrapper.find('.is-indeterminate').exists()).toEqual(true);
-    const childWrapper = treeWrapper.findAll('.lp-tree-node__content')[1];
-    expect(childWrapper.find('input').element.checked).toEqual(true);
+    const input = treeWrapper.findAll<HTMLInputElement>('.lp-tree-node__children input').at(0)!;
+
+    expect(input.element.checked).toEqual(true);
+    vi.useRealTimers();
+
   });
 
-  test.skip('lazy expandOnChecked', async () => {
+  test('lazy expandOnChecked', async () => {
+    vi.useFakeTimers();
     let count = 0;
     const loadNode: TreeDataLoader = async node => {
       if (node.level === 0) {
-        return [{ label: 'region1', id: count++ }, { label: 'region2', id: count++ }];
-      } else if (node.level > 2) {
-        return [];
-      } else {
-        await delay(50);
         return [
-          { label: `zone${count}`, id: count++ },
-          { label: `zone${count}`, id: count++ },
+          { label: `region${++count}`, id: count },
+          { label: `region${++count}`, id: count },
         ];
       }
+
+      if (node.level > 2)  return [];
+
+      await delay(50);
+
+      return [
+        { label: `zone${++count}`, id: count },
+        { label: `zone${++count}`, id: count },
+      ];
     };
 
     wrapper = getTreeWrap({
@@ -919,31 +941,42 @@ describe('Tree.vue', () => {
       checkDescendants: true,
     });
 
-    const treeWrapper = wrapper.findComponent(Tree);
-    const tree = treeWrapper.vm as InstanceType<typeof Tree>;
-
-    vi.useFakeTimers();
-    tree.store.setCheckedKeys([1]);
-    vi.runAllTimers();
-    vi.useRealTimers();
+    await vi.runAllTimers();
     await nextTick();
+
+    const treeWrapper = wrapper.findComponent(Tree);
+    const tree = treeWrapper.vm;
+
+    tree.setCheckedKeys([1]);
+
+    await vi.runAllTimers();
+    await nextTick();
+
+    await vi.runAllTimers();
+    await nextTick();
+
     expect(tree.getCheckedKeys().length).toEqual(7);
+    vi.useRealTimers();
   });
 
-  test.skip('lazy without expandOnChecked', async () => {
+  test('lazy without expandOnChecked', async () => {
+    vi.useFakeTimers();
     let count = 0;
     const loadNode: TreeDataLoader = async node => {
       if (node.level === 0) {
-        return [{ label: 'region1', id: count++ }, { label: 'region2', id: count++ }];
-      } else if (node.level > 4) {
-        return [];
-      } else {
-        await delay(50);
         return [
-          { label: `zone${count}`, id: count++ },
-          { label: `zone${count}`, id: count++ },
+          { label: `region${++count}`, id: count },
+          { label: `region${++count}`, id: count },
         ];
       }
+
+      if (node.level > 4)  return [];
+
+      await delay(50);
+      return [
+        { label: `zone${++count}`, id: count },
+        { label: `zone${++count}`, id: count },
+      ];
     };
 
     wrapper = getTreeWrap({
@@ -952,6 +985,9 @@ describe('Tree.vue', () => {
       nodeKey: 'id',
       load: loadNode,
     });
+
+    await vi.runAllTimers();
+    await nextTick();
 
     const treeWrapper = wrapper.findComponent(Tree);
     const tree = treeWrapper.vm as InstanceType<typeof Tree>;
@@ -962,6 +998,7 @@ describe('Tree.vue', () => {
     const nodeWrappers = treeWrapper.findAll('.lp-tree-node__content');
     expect(nodeWrappers[0].find('input').element.checked).toEqual(true);
     expect(nodeWrappers.length).toEqual(2);
+    vi.useRealTimers();
   });
 
   test('accordion', async () => {
@@ -981,32 +1018,36 @@ describe('Tree.vue', () => {
   });
 
   test('handleNodeOpen & handleNodeClose', async () => {
+    vi.useFakeTimers();
     let count = 0;
-
     const loadNode: TreeDataLoader = async node => {
       if (node.level === 0) {
-        return [{ label: 'region1' }, { label: 'region2' }];
-      } else if (node.level > 4) {
-        return [];
-      } else {
-        await nextTick();
         return [
-          { label: `zone${count}`, id: count++ },
-          { label: `zone${count}`, id: count++ },
+          { label: `region${++count}`, id: count },
+          { label: `region${++count}`, id: count },
         ];
       }
+
+      if (node.level > 4)  return [];
+
+      await delay(50);
+      return [
+        { label: `zone${++count}`, id: count },
+        { label: `zone${++count}`, id: count },
+      ];
     };
 
-    const currentNode = ref<TreeNodeData | null>(null);
-    const nodeExpended = ref(false);
+    let currentNode: TreeNodeData | null = null;
+    let nodeExpended = false;
 
     const onNodeExpand = (data: TreeNodeData) => {
-      currentNode.value = data;
-      nodeExpended.value = true;
+      currentNode = data;
+      nodeExpended = true;
     };
+
     const onNodeCollapse = (data: TreeNodeData) => {
-      currentNode.value = data;
-      nodeExpended.value = false;
+      currentNode = data;
+      nodeExpended = false;
     };
 
     wrapper = getTreeWrap({
@@ -1016,6 +1057,9 @@ describe('Tree.vue', () => {
       onNodeCollapse,
     });
 
+    await vi.runAllTimers();
+    await nextTick();
+
     const firstNodeContentWrapper = wrapper.find('.lp-tree-node__content');
     const firstNodeWrapper = wrapper.find('.lp-tree-node');
 
@@ -1023,24 +1067,27 @@ describe('Tree.vue', () => {
       .toBe(false);
 
     await firstNodeContentWrapper.trigger('click');
+    await vi.runAllTimers();
     await nextTick(); // first next tick for UI update
     await nextTick(); // second next tick for triggering loadNode
     await nextTick(); // third next tick for updating props.node.expanded
 
 
-    expect(nodeExpended.value).toEqual(true);
-    expect(currentNode.value?.label).toEqual('region1');
+    expect(nodeExpended).toEqual(true);
+    expect(currentNode!.label).toEqual('region1');
 
     await firstNodeContentWrapper.trigger('click');
+    await vi.runAllTimers();
     await nextTick();
     await nextTick();
     await nextTick();
 
-    expect(nodeExpended.value).toEqual(false);
-    expect(currentNode.value?.label).toEqual('region1');
+    expect(nodeExpended).toEqual(false);
+    expect(currentNode!.label).toEqual('region1');
+    vi.useRealTimers();
   });
 
-  test.skip('updateKeyChildren', async () => {
+  test('updateKeyChildren', async () => {
     wrapper = getTreeWrap({
       nodeKey: 'id',
       defaultExpandAll: true,
@@ -1085,175 +1132,137 @@ describe('Tree.vue', () => {
     expect(treeWrappers[1].vm.getNode(4).data).toEqual(nodeData);
   });
 
-  test.skip('navigate with defaultExpandAll', () => {
+  test('navigate with defaultExpandAll', () => {
     wrapper = getTreeWrap({
       nodeKey: 'id',
       defaultExpandAll: true,
     });
+
     const tree = wrapper.findComponent(Tree);
     expect(
-      Object.values(
-        (tree.vm as InstanceType<typeof Tree>).store.nodesMap,
-      ).filter(item => item.canFocus).length,
+      Array.from(tree.vm.store.nodesMap.values())
+        .filter(item => item.canFocus).length,
     ).toBe(9);
   });
 
-  test.skip('navigate up', async () => {
-    wrapper = getTreeWrap({
-      nodeKey: 'id',
-    });
+  test('navigate up', async () => {
+    wrapper = getTreeWrap({ nodeKey: 'id' });
+
     let flag = false;
-    function handleFocus() {
-      return () => (flag = true);
-    }
+    const onFocus = () => (flag = true);
+
     await nextTick();
     const tree = wrapper.findComponent(Tree);
     const targetElement = wrapper.find('div[data-key="3"]').element;
     const fromElement = wrapper.find('div[data-key="1"]').element;
-    defineGetter(targetElement, 'focus', handleFocus)
-    ;(tree.vm as InstanceType<typeof Tree>).setCurrentKey(1);
+
+    targetElement.addEventListener('focus', onFocus);
+    tree.vm.setCurrentKey(1);
+
     expect(fromElement.classList.contains('is-focusable')).toBeTruthy();
+
     fromElement.dispatchEvent(
-      new KeyboardEvent('keydown', {
-        code: 'ArrowUp',
-        bubbles: true,
-        cancelable: false,
-      }),
+      new KeyboardEvent('keydown', { code: 'ArrowUp', bubbles: true, cancelable: false }),
     );
+
     expect(flag).toBe(true);
   });
 
-  test.skip('navigate down', async () => {
+  test('navigate down', async () => {
     wrapper = getTreeWrap({
       nodeKey: 'id',
       defaultExpandAll: true,
     });
 
     let flag = false;
-    function handleFocus() {
-      return () => (flag = true);
-    }
+    const onFocus = () => {
+      flag = true;
+    };
     await nextTick();
     const tree = wrapper.findComponent(Tree);
-    const targetElement = wrapper.find('div[data-key="2"]').element;
+    const targetElement = wrapper.find('div[data-key="11"]').element;
     const fromElement = wrapper.find('div[data-key="1"]').element;
-    defineGetter(targetElement, 'focus', handleFocus);
+
+    targetElement.addEventListener('focus', onFocus);
     (tree.vm as InstanceType<typeof Tree>).setCurrentKey(1);
     expect(fromElement.classList.contains('is-focusable')).toBeTruthy();
     fromElement.dispatchEvent(
-      new KeyboardEvent('keydown', {
-        code: 'ArrowDown',
-        bubbles: true,
-        cancelable: false,
-      }),
+      new KeyboardEvent('keydown', { code: 'ArrowDown', bubbles: true, cancelable: false }),
     );
     expect(flag).toBe(true);
   });
 
-  test.skip('navigate with disabled', async () => {
-    const data = ref([{
-      id: 1,
-      label: '[1]',
-      children: [
-        {
-          id: 11,
-          label: '[1-1]',
-          children: [
-            { id: 111, label: '[1-1-1]', disabled: true },
-          ],
-        },
-      ],
-    }, {
-      id: 2,
-      label: '[2]',
-      disabled: true,
-      children: [
-        { id: 21, label: '[2-1]' },
-        { id: 22, label: '[2-2]' },
-      ],
-    }, {
-      id: 3,
-      label: '[3]',
-      children: [
-        { id: 31, label: '[3-1]' },
-        { id: 32, label: '[3-2]' },
-      ],
-    }]);
+  test('navigate with disabled', async () => {
+    const data = cloneDeep(defaultData);
+    data[1].disabled = true;
 
     wrapper = getTreeWrap({
-      data: data.value,
+      data,
+      nodeKey: 'id',
     });
 
     let flag = false;
-    function handleFocus() {
-      return () => (flag = true);
-    }
+    const onFocus = () => (flag = true);
     await nextTick();
-    const tree = wrapper.findComponent({ name: 'ElTree' });
+    const tree = wrapper.findComponent(Tree);
     const targetElement = wrapper.find('div[data-key="3"]').element;
     const fromElement = wrapper.find('div[data-key="1"]').element;
-    defineGetter(targetElement, 'focus', handleFocus)
-    ;(tree.vm as InstanceType<typeof Tree>).setCurrentKey(1);
+    targetElement.addEventListener('focus', onFocus);
+    tree.vm.setCurrentKey(1);
     expect(fromElement.classList.contains('is-focusable')).toBeTruthy();
+
     fromElement.dispatchEvent(
-      new KeyboardEvent('keydown', {
-        code: 'ArrowDown',
-        bubbles: true,
-        cancelable: false,
-      }),
+      new KeyboardEvent('keydown', { code: 'ArrowDown', bubbles: true, cancelable: false }),
     );
     expect(flag).toBe(true);
   });
 
-  test.skip('navigate with lazy and without node-key', async () => {
-    const count = ref(0);
-
+  test('navigate with lazy and without node-key', async () => {
+    let count = 0;
     const loadNode: TreeDataLoader = async node => {
       if (node.level === 0) {
-        return [{ name: 'region1' }, { name: 'region2' }];
+        return [
+          { name: `region${++count}`, id: count },
+          { name: `region${++count}`, id: count },
+        ];
       }
 
       if (node.level > 3) return [];
 
-      let hasChild: boolean;
-      if (node.data.name === 'region1') {
-        hasChild = true;
-      } else if (node.data.name === 'region2') {
-        hasChild = false;
-      } else {
-        hasChild = false;
-      }
+      const hasChild = node.data.id === 1 ? true : false;
 
-      const data: { name: string }[] = hasChild
-        ? [{ name: `zone${++count.value}` }, { name: `zone${++count.value}` }]
-        : [];
-      return data;
+      return hasChild
+        ? [
+          { name: `zone${++count}`, id: count },
+          { name: `zone${++count}`, id: count },
+        ] : [];
     };
 
     wrapper = getTreeWrap({
       load: loadNode,
       lazy: true,
+      nodeKey: 'id',
       showCheckbox: true,
     });
 
     let flag = false;
-    function handleFocus() {
-      return () => (flag = !flag);
-    }
+    const onFocus = () => (flag = !flag);
     await nextTick();
-    const tree = wrapper.findComponent({ name: 'ElTree' });
+    const tree = wrapper.findComponent(Tree);
     const originElements = wrapper.findAll('div[data-key]');
-    const region1 = originElements[0].element;
-    const region2 = originElements[1].element;
-    defineGetter(region2, 'focus', handleFocus);
+    const region1 = originElements[0];
+    const region2 = originElements[1];
+
+    region2.element.addEventListener('focus', onFocus);
+
     // expand
-    region1.dispatchEvent(new MouseEvent('click'));
-    expect(region1.classList.contains('is-focusable')).toBeTruthy();
+    await region1.trigger('click');
+    expect(region1.element.classList.contains('is-focusable')).toBeTruthy();
     await nextTick();
     await nextTick();
-    expect(
-      Object.values((tree.vm as InstanceType<typeof Tree>).store.nodesMap),
-    ).toHaveLength(5); // The root node (void node) + 4 child nodes (region1, region2, zone1, zone2)
+
+    expect(tree.vm.store.nodesMap.size).toEqual(4); // The root node (void node) + 4 child nodes (region1, region2, zone1, zone2)
+
     expect(
       Object.values(
         Object.values(
@@ -1261,32 +1270,25 @@ describe('Tree.vue', () => {
         ).filter(item => item.canFocus).length === 4,
       ),
     ).toBeTruthy();
+
     // collapse
-    region1.dispatchEvent(new MouseEvent('click'));
+    region1.trigger('click');
     expect(
-      Object.values(
-        Object.values(
-          (tree.vm as InstanceType<typeof Tree>).store.nodesMap,
-        ).filter(item => item.canFocus).length === 2,
-      ),
+      Array.from(
+        tree.vm.store.nodesMap.values(),
+      ).filter(item => item.canFocus).length === 2,
     ).toBeTruthy();
+
     // ArrowDown, region2 focus
-    region1.dispatchEvent(
-      new KeyboardEvent('keydown', {
-        code: 'ArrowDown',
-        bubbles: true,
-        cancelable: false,
-      }),
+    region1.element.dispatchEvent(
+      new KeyboardEvent('keydown', { code: 'ArrowDown', bubbles: true, cancelable: false }),
     );
     expect(flag).toBe(true);
-    defineGetter(region1, 'focus', handleFocus);
+    region1.element.addEventListener('focus', onFocus);
+
     // ArrowDown, region1 focus
-    region2.dispatchEvent(
-      new KeyboardEvent('keydown', {
-        code: 'ArrowDown',
-        bubbles: true,
-        cancelable: false,
-      }),
+    region2.element.dispatchEvent(
+      new KeyboardEvent('keydown', { code: 'ArrowDown', bubbles: true, cancelable: false }),
     );
     expect(flag).toBe(false);
   });

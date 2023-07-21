@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, defineExpose, ref, reactive, watch } from 'vue';
+import { computed, ref, reactive, watch } from 'vue';
 import { useNamespace } from '@lemon-peel/hooks';
 import { addUnit, isNumber, isString } from '@lemon-peel/utils';
 import { avatarEmits, avatarProps } from './avatar';
