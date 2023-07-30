@@ -1,26 +1,26 @@
-import path from 'path';
+import path from 'node:path';
 import { PKG_NAME } from '@lemon-peel/build-constants';
-import { epOutput } from '@lemon-peel/build-utils';
+import { lpOutput } from '@lemon-peel/build-utils';
 
 import type { ModuleFormat } from 'rollup';
 
 export const modules = ['esm', 'cjs'] as const;
 export type Module = typeof modules[number];
 export interface BuildInfo {
-  module: 'ESNext' | 'CommonJS'
-  format: ModuleFormat
-  ext: 'mjs' | 'cjs' | 'js'
+  module: 'ESNext' | 'CommonJS';
+  format: ModuleFormat;
+  ext: 'mjs' | 'cjs' | 'js';
   output: {
     /** e.g: `es` */
-    name: string
+    name: string;
     /** e.g: `dist/lemon-peel/es` */
-    path: string
-  }
+    path: string;
+  };
 
   bundle: {
     /** e.g: `lemon-peel/es` */
-    path: string
-  }
+    path: string;
+  };
 }
 
 export const buildConfig: Record<Module, BuildInfo> = {
@@ -30,7 +30,7 @@ export const buildConfig: Record<Module, BuildInfo> = {
     ext: 'mjs',
     output: {
       name: 'es',
-      path: path.resolve(epOutput, 'es'),
+      path: path.resolve(lpOutput, 'es'),
     },
     bundle: {
       path: `${PKG_NAME}/es`,
@@ -42,7 +42,7 @@ export const buildConfig: Record<Module, BuildInfo> = {
     ext: 'js',
     output: {
       name: 'lib',
-      path: path.resolve(epOutput, 'lib'),
+      path: path.resolve(lpOutput, 'lib'),
     },
     bundle: {
       path: `${PKG_NAME}/lib`,

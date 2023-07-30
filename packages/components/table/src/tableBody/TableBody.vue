@@ -59,9 +59,10 @@ watch(store.states.hoverRow, (newVal: any, oldVal: any) => {
 
 const renderBody = () => {
   const data = store.states.data.value || [];
-  return data.reduce((all, row) => {
+  const nodes = data.reduce((all, row) => {
     return all.concat(renderWrappedRow(row, all.length));
   }, [] as VNode[]);
+  return nodes;
 };
 
 onUnmounted(() => {

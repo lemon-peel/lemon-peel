@@ -23,9 +23,9 @@ export const useTree = memoize((table: TableVM) => {
 
   const expandRowKeys = ref<string[]>([]);
   const indent = computed(() => tableProps.indent || 16);
-  const lazy = computed(() => tableProps.lazy || false);
+  const isLazy = computed(() => tableProps.lazy || false);
   const treeData = ref<TreeNodeMap>({});
-  const lazyTreeNodeMap = ref<Record<string, DefaultRow[]>>({});
+  const lazyTreeNodeDataStore = ref<Record<string, DefaultRow[]>>({});
 
   const normalize = (data: TableProps['data']) => {
     const res: TreeNodeMap = {};
@@ -37,8 +37,9 @@ export const useTree = memoize((table: TableVM) => {
           res[parentId] = {
             children: children.map(row => getRowIdentity(row, rowKey.value!)),
             level: level!,
+            lazy: !!parent[lazyColumnIdentifier.value],
           };
-        } else if (lazy.value) {
+        } else if (isLazy.value) {
           // 当 children 不存在且 lazy 为 true，该节点即为懒加载的节点
           res[parentId] = {
             children: [],
@@ -59,20 +60,21 @@ export const useTree = memoize((table: TableVM) => {
       : {};
   });
 
-  const normalizedLazyNode = computed(() => {
-    const keys = Object.keys(lazyTreeNodeMap.value);
+  const lazyNodeMap = computed(() => {
+    const keys = Object.keys(lazyTreeNodeDataStore.value);
     const res: TreeNodeMap = {};
     if (keys.length === 0) return res;
     keys.forEach(key => {
-      if (lazyTreeNodeMap.value[key].length) return;
+      if (lazyTreeNodeDataStore.value[key].length) return;
 
       const item: TreeNode = { children: [] as string[] };
 
-      lazyTreeNodeMap.value[key].forEach(row => {
+      lazyTreeNodeDataStore.value[key].forEach(row => {
         const currentRowKey = getRowIdentity(row, rowKey.value!);
         item.children.push(currentRowKey);
+
         if (row[lazyColumnIdentifier.value] && !res[currentRowKey]) {
-          res[currentRowKey] = { children: [] };
+          res[currentRowKey] = { children: [], lazy: true };
         }
       });
 
@@ -86,7 +88,7 @@ export const useTree = memoize((table: TableVM) => {
     ifExpandAll = expand.states.defaultExpandAll.value,
   ) => {
     const nested = normalizedData.value;
-    const lazyNode = normalizedLazyNode.value;
+    const lazyNode = lazyNodeMap.value;
     const keys = Object.keys(nested);
     const newTreeData: TreeNodeMap = {};
     if (!keys.length) {
@@ -99,13 +101,12 @@ export const useTree = memoize((table: TableVM) => {
     const rootLazyRowKeys = [] as string[];
 
     const getExpanded = (oldVal: TreeNode, key: string) => {
+      if (ifExpandAll) return true;
+
       if (ifChangeExpandRowKeys) {
-        return expandRowKeys.value ? ifExpandAll || expandRowKeys.value.includes(key) : !!(ifExpandAll || oldVal?.expanded);
+        return expandRowKeys.value ? expandRowKeys.value?.some(item => `${item}` === key) : !!oldVal?.expanded;
       } else {
-        const included =
-            ifExpandAll ||
-            (expandRowKeys.value && expandRowKeys.value.includes(key));
-        return !!(oldVal?.expanded || included);
+        return oldVal?.expanded || (expandRowKeys.value && expandRowKeys.value?.some(item => `${item}` === key));
       }
     };
 
@@ -125,7 +126,7 @@ export const useTree = memoize((table: TableVM) => {
 
     // 根据懒加载数据更新 treeData
     const lazyKeys = Object.keys(lazyNode);
-    if (lazy.value && lazyKeys.length > 0 && rootLazyRowKeys.length > 0) {
+    if (isLazy.value && lazyKeys.length > 0 && rootLazyRowKeys.length > 0) {
       lazyKeys.forEach(key => {
         const oldValue = oldTreeData[key];
         const lazyNodeChildren = lazyNode[key].children;
@@ -167,7 +168,7 @@ export const useTree = memoize((table: TableVM) => {
     },
   );
   watch(
-    () => normalizedLazyNode.value,
+    () => lazyNodeMap.value,
     () => {
       updateTreeData();
     },
@@ -175,18 +176,17 @@ export const useTree = memoize((table: TableVM) => {
 
   const updateTreeExpandKeys = (value: string[]) => {
     expandRowKeys.value = value;
-    updateTreeData();
   };
 
   const toggleTreeExpansion = (row: DefaultRow, expanded?: boolean) => {
     watcher.assertRowKey();
 
     const id = getRowIdentity(row, rowKey.value!);
-    const data = id && treeData.value[id];
+    const node = id && treeData.value[id];
 
-    if (id && data && 'expanded' in data) {
-      const oldExpanded = data.expanded;
-      expanded = expanded === undefined ? !data.expanded : expanded;
+    if (id && node && 'expanded' in node) {
+      const oldExpanded = node.expanded;
+      expanded = expanded === undefined ? !node.expanded : expanded;
       treeData.value[id].expanded = expanded;
       if (oldExpanded !== expanded) {
         table.emit('expand-change', row, expanded);
@@ -197,7 +197,7 @@ export const useTree = memoize((table: TableVM) => {
 
   const loadData = async (row: DefaultRow, key: string, all: DefaultRow[]) => {
     const { load } = tableProps;
-    if (load && !treeData.value[key].loaded) {
+    if (load) {
       treeData.value[key].loading = true;
       const data = await load(row, key, all);
 
@@ -208,8 +208,9 @@ export const useTree = memoize((table: TableVM) => {
       treeData.value[key].loading = false;
       treeData.value[key].loaded = true;
       treeData.value[key].expanded = true;
+
       if (data.length > 0) {
-        lazyTreeNodeMap.value[key] = data;
+        lazyTreeNodeDataStore.value[key] = data;
       }
 
       table.emit('expand-change', row, true);
@@ -219,8 +220,8 @@ export const useTree = memoize((table: TableVM) => {
   const loadOrToggle = (row: DefaultRow) => {
     watcher.assertRowKey();
     const id = getRowIdentity(row, rowKey.value!);
-    const data = treeData.value[id];
-    if (lazy.value && data && 'loaded' in data && !data.loaded) {
+    const node = treeData.value[id];
+    if (isLazy.value && node && node.lazy && !node.loaded) {
       loadData(row, id, tableData.value);
     } else {
       toggleTreeExpansion(row);
@@ -228,7 +229,6 @@ export const useTree = memoize((table: TableVM) => {
   };
 
   return {
-    loadData,
     loadOrToggle,
     toggleTreeExpansion,
     updateTreeExpandKeys,
@@ -238,8 +238,8 @@ export const useTree = memoize((table: TableVM) => {
       expandRowKeys,
       treeData,
       indent,
-      lazy,
-      lazyTreeNodeMap,
+      isLazy,
+      lazyTreeNodeMap: lazyTreeNodeDataStore,
       lazyColumnIdentifier,
       childrenColumnName,
     },

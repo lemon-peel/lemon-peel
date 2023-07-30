@@ -52,7 +52,7 @@ function useRender(props: TableBodyProps) {
 
     if (treeNode) {
       rowClasses.push(ns.em('row', `level-${treeNode.level}`));
-      display = !!treeNode.display;
+      display = !(treeNode.display === false);
     }
 
     const displayStyle = display
@@ -91,21 +91,10 @@ function useRender(props: TableBodyProps) {
 
         if (cellIndex === firstDefaultColumnIndex.value && treeNode) {
           data.treeNode = {
-            children: [],
+            ...treeNode,
             indent: (treeNode.level || 0) * indent.value,
             level: treeNode.level,
           };
-
-          if (typeof treeNode.expanded === 'boolean') {
-            data.treeNode.expanded = treeNode.expanded;
-            // 表明是懒加载
-            if ('loading' in treeNode) {
-              data.treeNode.loading = treeNode.loading;
-            }
-            if ('noLazyChildren' in treeNode) {
-              data.treeNode.noLazyChildren = treeNode.noLazyChildren;
-            }
-          }
         }
 
         const baseKey = `${rowIndex},${cellIndex}`;
@@ -161,82 +150,54 @@ function useRender(props: TableBodyProps) {
       // TreeTable 时，rowKey 必须由用户设定，不使用 getKeyOfRow 计算
       // 在调用 rowRender 函数时，仍然会计算 rowKey，不太好的操作
       const key = getRowIdentity(row, rowKey.value!);
-      let cur = treeData.value[key];
+      let node = treeData.value[key];
 
-      if (!cur) {
-        return [renderRow(row, rowIndex)];
-      }
+      if (!node) return [renderRow(row, rowIndex)];
 
-      const treeRowData: TreeNode = {
-        children: [],
-        expanded: cur.expanded,
-        level: cur.level,
-        display: true,
-      };
-
-      if (typeof cur.lazy === 'boolean') {
-        if (typeof cur.loaded === 'boolean' && cur.loaded) {
-          treeRowData.noLazyChildren = !(cur.children && cur.children.length > 0);
-        }
-        treeRowData.loading = cur.loading;
-      }
-
-      const nodeList = [renderRow(row, rowIndex, treeRowData)];
+      const nodeList = [renderRow(row, rowIndex, node)];
 
       // 渲染嵌套数据
       // currentRow 记录的是 index，所以还需主动增加 TreeTable 的 index
       let i = 0;
       const traverse = (children: DefaultRow[], parent: DefaultRow) => {
         if (!(children && children.length > 0 && parent)) return;
-        children.forEach(node => {
-          // 父节点的 display 状态影响子节点的显示状态
-          const innerTreeNode: TreeNode = {
-            children: [],
-            display: parent.display && parent.expanded,
-            level: parent.level + 1,
-            expanded: false,
-            noLazyChildren: false,
-            loading: false,
-          };
+        children.forEach(row => {
 
-          const childKey = getRowIdentity(node, rowKey.value!);
+          const childKey = getRowIdentity(row, rowKey.value!);
 
           if (childKey === undefined || childKey === null) {
             throw new Error('For nested data item, row-key is required.');
           }
 
-          cur = { ...treeData.value[childKey] };
+          node = treeData.value[childKey] || {
+            children: [],
+          };
+
+          // 父节点的 display 状态影响子节点的显示状态
           // 对于当前节点，分成有无子节点两种情况。
           // 如果包含子节点的，设置 expanded 属性。
           // 对于它子节点的 display 属性由它本身的 expanded 与 display 共同决定。
-          innerTreeNode.expanded = !!cur.expanded;
           // 懒加载的某些节点，level 未知
-          cur.level = cur.level || innerTreeNode.level;
-          cur.display = !!(cur.expanded && innerTreeNode.display);
-          if (typeof cur.lazy === 'boolean') {
-            if (typeof cur.loaded === 'boolean' && cur.loaded) {
-              innerTreeNode.noLazyChildren = !(
-                cur.children && cur.children.length > 0
-              );
-            }
-            innerTreeNode.loading = !!cur.loading;
-          }
+          Object.assign(node, {
+            display: parent.display && parent.expanded,
+            level: parent.level + 1,
+          });
 
           i++;
-          nodeList.push(renderRow(node, rowIndex + i, innerTreeNode));
+          nodeList.push(renderRow(row, rowIndex + i, node));
 
-          const nodes =
-          lazyTreeNodeMap.value[childKey] ||
-          node[childrenColumnName.value];
-          traverse(nodes, cur);
+          const nodes = lazyTreeNodeMap.value[childKey]
+            || row[childrenColumnName.value];
+
+          traverse(nodes, node);
         });
       };
 
       // 对于 root 节点，display 一定为 true
-      cur.display = true;
+      node.display = true;
       const nodes = lazyTreeNodeMap.value[key] || row[childrenColumnName.value];
-      traverse(nodes, cur);
 
+      traverse(nodes, node);
       return nodeList;
     };
 

@@ -70,7 +70,6 @@ export const cellForced: Record<string, CellRenders> = {
       }} />;
     },
     renderCell({ row, column, store, rowIndex }: RenderRowData) {
-      console.info('renderCell', column.selectable, row, rowIndex);
       return <LpCheckbox {...{
         disabled: column.selectable
           ? !column.selectable.call(null, row, rowIndex)
@@ -108,7 +107,6 @@ export const cellForced: Record<string, CellRenders> = {
       return column.label || '';
     },
     renderCell({ row, store, expanded }: RenderRowData) {
-      console.trace('renderCell', expanded);
       const { ns } = store;
       const classes = [ns.e('expand-icon')];
       if (expanded) {
@@ -121,7 +119,6 @@ export const cellForced: Record<string, CellRenders> = {
       };
 
       return <div class={classes} onClick={callback}>
-        12
         <LpIcon><ArrowRight /></LpIcon>
       </div>;
     },
@@ -150,24 +147,25 @@ export function treeCellPrefix(
   }
 
   const ele: VNode[] = [];
-  const callback = (e: MouseEvent) => {
+  const onClick = (e: MouseEvent) => {
     e.stopPropagation();
-    !treeNode.loading
+    treeNode && !treeNode.loading
       && store.tree.loadOrToggle(row);
   };
 
-  if (treeNode.indent) {
+  if (treeNode && treeNode.indent) {
     ele.push(<span class={ns.e('indent')} style={{ 'padding-left': `${treeNode.indent}px` }}></span>);
   }
-  if (typeof treeNode.expanded === 'boolean' && !treeNode.noLazyChildren) {
+
+  if (treeNode && (treeNode.children.length || treeNode.lazy)) {
     const expandClasses = [
       ns.e('expand-icon'),
-      treeNode.expanded ? ns.em('expand-icon', 'expanded') : '',
+      treeNode?.expanded ? ns.em('expand-icon', 'expanded') : '',
     ];
 
-    ele.push(<div {...{ class: expandClasses, onClick: callback }}>
-      <LpIcon class={{ [ns.is('loading')]: treeNode.loading }}>
-        {treeNode.loading ? <Loading /> : <ArrowRight />}
+    ele.push(<div {...{ class: expandClasses, onClick }}>
+      <LpIcon class={{ [ns.is('loading')]: !!(treeNode?.loading) }}>
+        {treeNode?.loading ? <Loading /> : <ArrowRight />}
       </LpIcon>
     </div>);
   } else {

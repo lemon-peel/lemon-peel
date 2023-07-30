@@ -8,8 +8,8 @@ import esbuild from 'rollup-plugin-esbuild';
 import glob from 'fast-glob';
 import { epRoot, excludeFiles, pkgRoot } from '@lemon-peel/build-utils';
 import { generateExternal, writeBundles } from '../utils';
-import { ElementPlusAlias } from '../plugins/lemon-peel-alias';
-import { buildConfigEntries, target } from '../build-info';
+import { ElementPlusAlias } from '../plugins/lemonPeelAlias';
+import { buildConfigEntries, target } from '../buildInfo';
 
 import type { OutputOptions } from 'rollup';
 

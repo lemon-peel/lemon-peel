@@ -1,7 +1,7 @@
 import { PKG_NAME, PKG_PREFIX } from '@lemon-peel/build-constants';
-import { buildConfig } from '../build-info';
+import { buildConfig } from '../buildInfo';
 
-import type { Module } from '../build-info';
+import type { Module } from '../buildInfo';
 
 /** used for type generator */
 export const pathRewriter = (module: Module) => {

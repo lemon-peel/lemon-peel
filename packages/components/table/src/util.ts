@@ -315,14 +315,10 @@ export function walkTreeNode<T extends DefaultRow>(
   };
 
   root.forEach(item => {
-    if (item[lazyKey]) {
-      cb(item, [], 0);
-      return;
-    }
+    if (item[lazyKey]) return cb(item, [], 0);
+
     const children = item[childrenKey];
-    if (!isNil(children)) {
-      walker(item, children, 0);
-    }
+    !isNil(children) && walker(item, children, 0);
   });
 }
 

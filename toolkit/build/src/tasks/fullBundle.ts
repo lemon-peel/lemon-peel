@@ -8,20 +8,20 @@ import vueJsx from '@vitejs/plugin-vue-jsx';
 import esbuild, { minify as minifyPlugin } from 'rollup-plugin-esbuild';
 import { parallel } from 'gulp';
 import glob from 'fast-glob';
-import { camelCase, upperFirst } from 'lodash';
+import { camelCase, upperFirst } from 'lodash-es';
 import { PKG_BRAND_NAME, PKG_CAMELCASE_LOCAL_NAME, PKG_CAMELCASE_NAME } from '@lemon-peel/build-constants';
-import { epOutput, epRoot, localeRoot } from '@lemon-peel/build-utils';
-import { version } from '../../../../packages/lemon-peel/version';
-import { ElementPlusAlias } from '../plugins/lemon-peel-alias';
+import { lpOutput, lpRoot, localeRoot } from '@lemon-peel/build-utils';
+import { version } from '../../../../packages/main/version';
+import { LemonPeelAlias } from '../plugins/lemonPeelAlias';
 import { formatBundleFilename, generateExternal, withTaskName, writeBundles } from '../utils';
-import { target } from '../build-info';
+import { target } from '../buildInfo';
 import type { Plugin } from 'rollup';
 
 const banner = `/*! ${PKG_BRAND_NAME} v${version} */\n`;
 
 async function buildFullEntry(minify: boolean) {
   const plugins: Plugin[] = [
-    ElementPlusAlias(),
+    LemonPeelAlias(),
     VueMacros({
       setupComponent: false,
       setupSFC: false,
@@ -60,7 +60,7 @@ async function buildFullEntry(minify: boolean) {
   }
 
   const bundle = await rollup({
-    input: path.resolve(epRoot, 'index.ts'),
+    input: path.resolve(lpRoot, 'index.ts'),
     plugins,
     external: await generateExternal({ full: true }),
     treeshake: true,
@@ -69,7 +69,7 @@ async function buildFullEntry(minify: boolean) {
     {
       format: 'umd',
       file: path.resolve(
-        epOutput,
+        lpOutput,
         'dist',
         formatBundleFilename('index.full', minify, 'js'),
       ),
@@ -84,7 +84,7 @@ async function buildFullEntry(minify: boolean) {
     {
       format: 'esm',
       file: path.resolve(
-        epOutput,
+        lpOutput,
         'dist',
         formatBundleFilename('index.full', minify, 'mjs'),
       ),
@@ -118,7 +118,7 @@ async function buildFullLocale(minify: boolean) {
         {
           format: 'umd',
           file: path.resolve(
-            epOutput,
+            lpOutput,
             'dist/locale',
             formatBundleFilename(filename, minify, 'js'),
           ),
@@ -130,7 +130,7 @@ async function buildFullLocale(minify: boolean) {
         {
           format: 'esm',
           file: path.resolve(
-            epOutput,
+            lpOutput,
             'dist/locale',
             formatBundleFilename(filename, minify, 'mjs'),
           ),

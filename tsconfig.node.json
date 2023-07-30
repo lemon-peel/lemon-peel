@@ -12,6 +12,7 @@
     "toolkit/**/*",
     "toolkit/**/*.json",
     "scripts/**/*",
+    "packages/main/*.ts",
     "packages/theme-chalk/*",
     "packages/lemon-peel/version.ts",
     "packages/lemon-peel/package.json"

@@ -1,5 +1,6 @@
 export * from './mock';
 export * from './dom';
+export * from './point';
 export { default as defineGetter } from './defineGetter';
 export { default as makeScroll } from './makeScroll';
 export { default as sleep } from './sleep';

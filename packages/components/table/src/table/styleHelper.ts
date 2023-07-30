@@ -58,19 +58,15 @@ function useStyle(props: TableProps, layout: TableLayout, store: Store, table: T
 
   watch(
     () => props.data,
-    data => {
-      store.actions.setData(data);
-    },
-    {
-      immediate: true,
-      deep: true,
-    },
+    data => store.actions.setData(data),
+    { immediate: true, deep: true },
   );
-  watchEffect(() => {
-    if (props.expandRowKeys) {
-      store.watcher.setExpandRowKeysAdapter(props.expandRowKeys);
-    }
-  });
+
+  watch(
+    () => props.expandRowKeys,
+    keys => keys && store.watcher.setExpandRowKeysAdapter(keys),
+    { immediate: true  },
+  );
 
   const handleMouseLeave = () => {
     store.actions.setHoverRow(null);

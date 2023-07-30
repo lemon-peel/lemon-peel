@@ -85,7 +85,6 @@ provide(ROOT_PICKER_INJECTION_KEY, {
 
 const commonPicker = ref<InstanceType<typeof CommonPicker>>();
 
-
 const onModelValueUpdated = (value: any) => {
   emit(UPDATE_MODEL_EVENT, value);
 };
@@ -98,7 +97,6 @@ const format = computed(() => {
 
 const realPanel = computed(() => getPanel(props.type));
 
-
 const focus = (focusStartInput = true) => {
   commonPicker.value?.focus(focusStartInput);
 };
@@ -107,7 +105,7 @@ const handleOpen = () => {
   commonPicker.value?.handleOpen();
 };
 
-const  handleClose = () => {
+const handleClose = () => {
   commonPicker.value?.handleClose();
 };
 

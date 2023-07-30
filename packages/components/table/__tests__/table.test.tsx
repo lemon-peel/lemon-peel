@@ -1,5 +1,5 @@
 import { nextTick, ref } from 'vue';
-import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, vi, test } from 'vitest';
 import LpCheckbox from '@lemon-peel/components/checkbox';
 import triggerEvent from '@lemon-peel/test-utils/triggerEvent';
 import { rAF } from '@lemon-peel/test-utils/tick';
@@ -27,7 +27,7 @@ vi.mock('lodash-es', async () => {
   };
 });
 
-describe('Table.vue', () => {
+describe('Table', () => {
   describe('rendering data is correct', () => {
     const testData = getTestData();
     const wrapper = mount(() => (
@@ -924,7 +924,7 @@ describe('Table.vue', () => {
       ];
 
       wrapper = mount(() => (
-        <LpTable data={getTestData()} default-expand-all row-key="release">
+        <LpTable data={testData} row-key="release">
           <LpTableColumn prop="name" label="片名" />
           <LpTableColumn prop="release" label="发行日期" />
           <LpTableColumn prop="director" label="导演" />
@@ -933,6 +933,8 @@ describe('Table.vue', () => {
       ), { attachTo: 'body' });
 
       await doubleWait();
+      await doubleWait();
+
       const rows = wrapper.findAll('.lp-table__row');
       expect(rows.length).toEqual(7);
       // validate placeholder
@@ -952,33 +954,26 @@ describe('Table.vue', () => {
 
     test('load substree row data', async () => {
       const testData = getTestData() as any;
-      testData[testData.length - 1].children = [{
+      const lastItem = testData[testData.length - 1];
+      lastItem.children = [{
+        id: lastItem.id * 10 + 1,
         name: "A Bug's Life copy 1",
         release: '2008-1-25-1',
         director: 'John Lasseter',
         runtime: 95,
       }];
+
       testData[1].hasChildren = true;
 
       const loadRow: TableLoadChildren = () => {
         return Promise.resolve([
-          {
-            name: "A Bug's Life copy 1",
-            release: '1998-11-25-1',
-            director: 'John Lasseter',
-            runtime: 95,
-          },
-          {
-            name: "A Bug's Life copy 2",
-            release: '1998-11-25-2',
-            director: 'John Lasseter',
-            runtime: 95,
-          },
+          { name: "A Bug's Life copy 1", release: '1998-11-25-1', director: 'John Lasseter', runtime: 95 },
+          { name: "A Bug's Life copy 2", release: '1998-11-25-2', director: 'John Lasseter', runtime: 95 },
         ] as any[]);
       };
 
       wrapper = mount(() => (
-        <LpTable data={testData} row-key="release" lazy load={loadRow}>
+        <LpTable data={testData} row-key="id" lazy load={loadRow}>
           <LpTableColumn prop="name" label="片名" />
           <LpTableColumn prop="release" label="发行日期" />
           <LpTableColumn prop="director" label="导演" />
@@ -987,6 +982,9 @@ describe('Table.vue', () => {
       ), { attachTo: 'body' });
 
       await doubleWait();
+
+      expect(wrapper.findAll('.lp-table__row').length).toEqual(6);
+
       const expandIcon = wrapper.find('.lp-table__expand-icon');
       expandIcon.trigger('click');
 
@@ -1054,28 +1052,28 @@ describe('Table.vue', () => {
 
     test('expand-row-keys & toggleRowExpansion', async () => {
       const testData = getTestData() as any;
-      testData[testData.length - 1].children = [
-        {
+      const lastItem = testData[testData.length - 1];
+      lastItem.children = [{
+        id: lastItem.id * 10 + 1,
+        name: "A Bug's Life copy 1",
+        release: '2003-5-30-1',
+        director: 'John Lasseter',
+        runtime: 95,
+        hasChildren: true,
+      }];
+
+      const loadRow: TableLoadChildren = () => {
+        return Promise.resolve([{
+          id: 511,
           name: "A Bug's Life copy 1",
-          release: '2003-5-30-1',
+          release: '2003-5-30-2',
           director: 'John Lasseter',
           runtime: 95,
-          hasChildren: true,
-        },
-      ];
-      const loadRow: TableLoadChildren = () => {
-        return Promise.resolve([
-          {
-            name: "A Bug's Life copy 1",
-            release: '2003-5-30-2',
-            director: 'John Lasseter',
-            runtime: 95,
-          },
-        ]);
+        }]);
       };
 
       wrapper = mount(() => (
-        <LpTable data={testData} row-key="release" lazy load={loadRow} expand-row-keys={['2003-5-30']}>
+        <LpTable data={testData} rowKey="id" lazy load={loadRow} expandRowKeys={[lastItem.id]}>
           <LpTableColumn prop="name" label="片名" />
           <LpTableColumn prop="release" label="发行日期" />
           <LpTableColumn prop="director" label="导演" />
@@ -1086,8 +1084,9 @@ describe('Table.vue', () => {
       await doubleWait();
       const childRows = wrapper.findAll('.lp-table__row--level-1');
       childRows.forEach(item => {
-        expect(item.attributes('style')).toBeUndefined();
+        expect(item.attributes('style')).toBe('');
       });
+
       const expandIcon = childRows[0].find('.lp-table__expand-icon');
       expandIcon.trigger('click');
       await doubleWait();
@@ -1108,7 +1107,7 @@ describe('Table.vue', () => {
       wrapper = mount(() => (
         <LpTable data={testData}>
           { showName.value ? (<LpTableColumn key="name" label="片名"
-            v-slots={{ defautl: ({ row }: any) => (<span class="name">{row.name}</span>) }} />) : null }
+            v-slots={{ default: ({ row }: any) => (<span class="name">{row.name}</span>) }} />) : null }
           <LpTableColumn key="release" label="发行日期"
           v-slots={{ default: ({ row }: any) => (<span class="release">{row.release}</span>) }}/>
         </LpTable>

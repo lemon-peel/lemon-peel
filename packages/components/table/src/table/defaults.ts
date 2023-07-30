@@ -124,7 +124,6 @@ export interface TreeNode {
   loaded?: boolean;
 
   lazy?: boolean;
-  noLazyChildren?: boolean;
 
   indent?: number;
   level?: number;

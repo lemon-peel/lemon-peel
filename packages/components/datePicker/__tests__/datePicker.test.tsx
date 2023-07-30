@@ -380,7 +380,8 @@ describe('DatePicker', () => {
     );
 
     await nextTick();
-    wrapper.findComponent(DatePicker).vm.focus();
+    const vm = wrapper.findComponent(DatePicker).vm;
+    vm.focus();
 
     await nextTick();
     const input = wrapper.find('input');
