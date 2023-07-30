@@ -8,8 +8,8 @@ import {
   main,
 } from 'components-helper';
 import {
-  epOutput,
-  epPackage,
+  lpOutput,
+  mainPackage,
   getPackageManifest,
   lpRoot,
 } from '@lemon-peel/build-utils';
@@ -28,13 +28,13 @@ const typeMap = {
 };
 
 const reComponentName: ReComponentName = title =>
-  `el-${hyphenate(title).replace(/ +/g, '-')}`;
+  `lp-${hyphenate(title).replace(/ +/g, '-')}`;
 
 const reDocUrl: ReDocUrl = (fileName, header) => {
   const docs = 'https://lemon-peel.org/en-US/component/';
-  const _header = header ? header.replaceAll(/\s+/g, '-').toLowerCase() : '';
+  const hash = header ? header.replaceAll(/\s+/g, '-').toLowerCase() : '';
 
-  return `${docs}${fileName}.html${_header ? '#' : ''}${_header}`;
+  return `${docs}${fileName}.html${hash ? '#' : ''}${hash}`;
 };
 
 const reWebTypesSource: ReWebTypesSource = title => {
@@ -59,8 +59,8 @@ const reAttribute: ReAttribute = (value, key) => {
   } else if (str === '' || /^(-|—)$/.test(str)) {
     return;
   } else if (key === 'Name' && /v-model:(.+)/.test(str)) {
-    const _str = str.match(/v-model:(.+)/);
-    return _str ? _str[1] : undefined;
+    const m = str.match(/v-model:(.+)/);
+    return m ? m[1] : undefined;
   } else if (key === 'Name' && /v-model/.test(str)) {
     return 'model-value';
   } else switch (key) {
@@ -104,17 +104,6 @@ const reAttribute: ReAttribute = (value, key) => {
   }
 };
 
-const reWebTypesType: ReWebTypesType = type => {
-  const isPublicType = isCommonType(type);
-  const symbol = getTypeSymbol(type);
-  const isUnion = isUnionType(symbol);
-  const module = findModule(symbol);
-
-  return isPublicType || !symbol || isUnion
-    ? type
-    : { name: type, source: { symbol, module } };
-};
-
 const findModule = (type: string): string | undefined => {
   let result: string | undefined;
 
@@ -131,11 +120,22 @@ const findModule = (type: string): string | undefined => {
   return result;
 };
 
+const reWebTypesType: ReWebTypesType = type => {
+  const isPublicType = isCommonType(type);
+  const symbol = getTypeSymbol(type);
+  const isUnion = isUnionType(symbol);
+  const module = findModule(symbol);
+
+  return isPublicType || !symbol || isUnion
+    ? type
+    : { name: type, source: { symbol, module } };
+};
+
 export const buildHelper: TaskFunction = done => {
-  const { name, version } = getPackageManifest(epPackage);
+  const { name, version } = getPackageManifest(mainPackage);
 
   const tagVer = process.env.TAG_VERSION;
-  const _version = tagVer
+  const ver = tagVer
     ? tagVer.startsWith('v')
       ? tagVer.slice(1)
       : tagVer
@@ -143,12 +143,12 @@ export const buildHelper: TaskFunction = done => {
 
   main({
     name: name!,
-    version: _version,
+    version: ver,
     entry: `${path.resolve(
       lpRoot,
       'docs/en-US/component',
     )}/!(datetime-picker|message-box|message).md`,
-    outDir: epOutput,
+    outDir: lpOutput,
     reComponentName,
     reDocUrl,
     reWebTypesSource,

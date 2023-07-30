@@ -13,6 +13,78 @@ import type { CompilerOptions, SourceFile } from 'ts-morph';
 const TSCONFIG_PATH = path.resolve(lpRoot, 'tsconfig.web.json');
 const outDir = path.resolve(buildOutput, 'types');
 
+
+async function addSourceFiles(project: Project) {
+  project.addSourceFileAtPath(path.resolve(lpRoot, 'types/env.d.ts'));
+
+  const globSourceFile = '**/*.{js?(x),ts?(x),vue}';
+  const filePaths = excludeFiles(
+    await glob([globSourceFile, '!lemon-peel/**/*'], {
+      cwd: pkgRoot,
+      absolute: true,
+      onlyFiles: true,
+    }),
+  );
+  const lpPaths = excludeFiles(
+    await glob(globSourceFile, {
+      cwd: lpRoot,
+      onlyFiles: true,
+    }),
+  );
+
+  const sourceFiles: SourceFile[] = [];
+  await Promise.all([
+    ...filePaths.map(async file => {
+      if (file.endsWith('.vue')) {
+        const content = await readFile(file, 'utf8');
+        const hasTsNoCheck = content.includes('@ts-nocheck');
+
+        const sfc = vueCompiler.parse(content);
+        const { script, scriptSetup } = sfc.descriptor;
+        if (script || scriptSetup) {
+          let content =
+            (hasTsNoCheck ? '// @ts-nocheck\n' : '') + (script?.content ?? '');
+
+          if (scriptSetup) {
+            const compiled = vueCompiler.compileScript(sfc.descriptor, {
+              id: 'xxx',
+            });
+            content += compiled.content;
+          }
+
+          const lang = scriptSetup?.lang || script?.lang || 'js';
+          const sourceFile = project.createSourceFile(
+            `${path.relative(process.cwd(), file)}.${lang}`,
+            content,
+          );
+          sourceFiles.push(sourceFile);
+        }
+      } else {
+        const sourceFile = project.addSourceFileAtPath(file);
+        sourceFiles.push(sourceFile);
+      }
+    }),
+    ...lpPaths.map(async file => {
+      const content = await readFile(path.resolve(lpRoot, file), 'utf8');
+      sourceFiles.push(
+        project.createSourceFile(path.resolve(pkgRoot, file), content),
+      );
+    }),
+  ]);
+
+  return sourceFiles;
+}
+
+function typeCheck(project: Project) {
+  const diagnostics = project.getPreEmitDiagnostics();
+  if (diagnostics.length > 0) {
+    consola.error(project.formatDiagnosticsWithColorAndContext(diagnostics));
+    const err = new Error('Failed to generate dts.');
+    consola.error(err);
+    throw err;
+  }
+}
+
 /**
  * fork = require( https://github.com/egoist/vue-dts-gen/blob/main/src/index.ts
  */
@@ -25,6 +97,7 @@ export const generateTypesDefinitions = async () => {
     skipLibCheck: true,
     noImplicitAny: false,
   };
+
   const project = new Project({
     compilerOptions,
     tsConfigFilePath: TSCONFIG_PATH,
@@ -79,74 +152,3 @@ export const generateTypesDefinitions = async () => {
 
   await Promise.all(tasks);
 };
-
-async function addSourceFiles(project: Project) {
-  project.addSourceFileAtPath(path.resolve(lpRoot, 'typings/env.d.ts'));
-
-  const globSourceFile = '**/*.{js?(x),ts?(x),vue}';
-  const filePaths = excludeFiles(
-    await glob([globSourceFile, '!lemon-peel/**/*'], {
-      cwd: pkgRoot,
-      absolute: true,
-      onlyFiles: true,
-    }),
-  );
-  const epPaths = excludeFiles(
-    await glob(globSourceFile, {
-      cwd: epRoot,
-      onlyFiles: true,
-    }),
-  );
-
-  const sourceFiles: SourceFile[] = [];
-  await Promise.all([
-    ...filePaths.map(async file => {
-      if (file.endsWith('.vue')) {
-        const content = await readFile(file, 'utf-8');
-        const hasTsNoCheck = content.includes('@ts-nocheck');
-
-        const sfc = vueCompiler.parse(content);
-        const { script, scriptSetup } = sfc.descriptor;
-        if (script || scriptSetup) {
-          let content =
-            (hasTsNoCheck ? '// @ts-nocheck\n' : '') + (script?.content ?? '');
-
-          if (scriptSetup) {
-            const compiled = vueCompiler.compileScript(sfc.descriptor, {
-              id: 'xxx',
-            });
-            content += compiled.content;
-          }
-
-          const lang = scriptSetup?.lang || script?.lang || 'js';
-          const sourceFile = project.createSourceFile(
-            `${path.relative(process.cwd(), file)}.${lang}`,
-            content,
-          );
-          sourceFiles.push(sourceFile);
-        }
-      } else {
-        const sourceFile = project.addSourceFileAtPath(file);
-        sourceFiles.push(sourceFile);
-      }
-    }),
-    ...epPaths.map(async file => {
-      const content = await readFile(path.resolve(epRoot, file), 'utf-8');
-      sourceFiles.push(
-        project.createSourceFile(path.resolve(pkgRoot, file), content),
-      );
-    }),
-  ]);
-
-  return sourceFiles;
-}
-
-function typeCheck(project: Project) {
-  const diagnostics = project.getPreEmitDiagnostics();
-  if (diagnostics.length > 0) {
-    consola.error(project.formatDiagnosticsWithColorAndContext(diagnostics));
-    const err = new Error('Failed to generate dts.');
-    consola.error(err);
-    throw err;
-  }
-}

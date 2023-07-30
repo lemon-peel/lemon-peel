@@ -6,9 +6,9 @@ import { nodeResolve } from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import esbuild from 'rollup-plugin-esbuild';
 import glob from 'fast-glob';
-import { epRoot, excludeFiles, pkgRoot } from '@lemon-peel/build-utils';
+import { lpRoot, excludeFiles, pkgRoot } from '@lemon-peel/build-utils';
 import { generateExternal, writeBundles } from '../utils';
-import { ElementPlusAlias } from '../plugins/lemonPeelAlias';
+import { LemonPeelAlias } from '../plugins/lemonPeelAlias';
 import { buildConfigEntries, target } from '../buildInfo';
 
 import type { OutputOptions } from 'rollup';
@@ -21,16 +21,17 @@ export const buildModules = async () => {
       onlyFiles: true,
     }),
   );
+
   const bundle = await rollup({
     input,
     plugins: [
-      ElementPlusAlias(),
+      LemonPeelAlias(),
       VueMacros({
         setupComponent: false,
         setupSFC: false,
         plugins: {
           vue: vue({
-            isProduction: false,
+            // isProduction: false,
           }),
           vueJsx: vueJsx(),
         },
@@ -50,6 +51,7 @@ export const buildModules = async () => {
     external: await generateExternal({ full: false }),
     treeshake: false,
   });
+
   await writeBundles(
     bundle,
     buildConfigEntries.map(([module, config]): OutputOptions => {
@@ -58,7 +60,7 @@ export const buildModules = async () => {
         dir: config.output.path,
         exports: module === 'cjs' ? 'named' : undefined,
         preserveModules: true,
-        preserveModulesRoot: epRoot,
+        preserveModulesRoot: lpRoot,
         sourcemap: true,
         entryFileNames: `[name].${config.ext}`,
       };

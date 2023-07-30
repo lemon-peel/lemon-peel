@@ -7,6 +7,8 @@ import { buildConfig, run, runTask, withTaskName } from './src';
 import type { TaskFunction } from 'gulp';
 import type { Module } from './src';
 
+import 'undertaker';
+
 export const copyFiles = () =>
   Promise.all([
     copyFile(mainPackage, path.join(lpOutput, 'package.json')),
@@ -44,15 +46,15 @@ export default series(
 
   parallel(
     runTask('buildModules'),
-    runTask('buildFullBundle'),
-    runTask('generateTypesDefinitions'),
-    runTask('buildHelper'),
-    series(
-      withTaskName('buildThemeChalk', () =>
-        run('pnpm run -C packages/theme-chalk build'),
-      ),
-      copyFullStyle,
-    ),
+    // runTask('buildFullBundle'),
+    // runTask('generateTypesDefinitions'),
+    // runTask('buildHelper'),
+    // series(
+    //   withTaskName('buildThemeChalk', () =>
+    //     run('pnpm run -C packages/theme-chalk build'),
+    //   ),
+    //   copyFullStyle,
+    // ),
   ),
 
   parallel(copyTypesDefinitions, copyFiles),

@@ -20,5 +20,7 @@ cypress/screenshots/*
 cypress/videos/*
 tmp
 
+# Test playground
+**/*.play.*
 
 **/playgroud/*.test.*

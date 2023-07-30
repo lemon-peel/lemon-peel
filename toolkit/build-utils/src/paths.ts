@@ -9,7 +9,7 @@ export const localeRoot = resolve(pkgRoot, 'locale');
 export const directiveRoot = resolve(pkgRoot, 'directives');
 export const mainPkg = resolve(pkgRoot, 'main');
 export const utilRoot = resolve(pkgRoot, 'utils');
-export const buildRoot = resolve(lpRoot, 'internal', 'build');
+export const buildRoot = resolve(lpRoot, 'toolkit', 'build');
 
 // Docs
 export const docsDirName = 'docs';
