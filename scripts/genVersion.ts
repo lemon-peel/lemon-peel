@@ -1,7 +1,7 @@
-import { writeFile } from 'fs/promises';
-import path from 'path';
+import { writeFile } from 'node:fs/promises';
+import path from 'node:path';
 import consola from 'consola';
-import { mainPkg } from '@lemon-peel/build-utils';
+import { mainDir, buildDir } from '@lemon-peel/build-utils';
 import pkg from '../packages/main/package.json'; // need to be checked
 
 function getVersion() {
@@ -18,7 +18,11 @@ const version = getVersion();
 async function main() {
   consola.info(`Version: ${version}`);
   await writeFile(
-    path.resolve(mainPkg, 'version.ts'),
+    path.resolve(mainDir, 'version.ts'),
+    `export const version = '${version}'\n;`,
+  );
+  await writeFile(
+    path.resolve(buildDir, 'version.ts'),
     `export const version = '${version}'\n;`,
   );
 }

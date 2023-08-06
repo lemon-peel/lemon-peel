@@ -1,23 +1,25 @@
+/* eslint-disable @typescript-eslint/consistent-type-imports */
 import path from 'node:path';
 import { copyFile, mkdir } from 'node:fs/promises';
 import { copy } from 'fs-extra';
 import { parallel, series } from 'gulp';
-import { buildOutput, lpOutput, mainPackage, lpRoot } from '@lemon-peel/build-utils';
+import { buildOutput, lpOutput, mainPkg, projDir } from '@lemon-peel/build-utils';
 import { buildConfig, run, runTask, withTaskName } from './src';
-import type { TaskFunction } from 'gulp';
 import type { Module } from './src';
+import type { TaskFunction } from 'gulp';
 
 import 'undertaker';
+export * from './src';
 
 export const copyFiles = () =>
   Promise.all([
-    copyFile(mainPackage, path.join(lpOutput, 'package.json')),
+    copyFile(mainPkg, path.join(lpOutput, 'package.json')),
     copyFile(
-      path.resolve(lpRoot, 'README.md'),
+      path.resolve(projDir, 'README.md'),
       path.resolve(lpOutput, 'README.md'),
     ),
     copyFile(
-      path.resolve(lpRoot, 'global.d.ts'),
+      path.resolve(projDir, 'global.d.ts'),
       path.resolve(lpOutput, 'global.d.ts'),
     ),
   ]);
@@ -45,9 +47,9 @@ export default series(
   withTaskName('createOutput', () => mkdir(lpOutput, { recursive: true })),
 
   parallel(
-    runTask('buildModules'),
+    // runTask('buildModules'),
     // runTask('buildFullBundle'),
-    // runTask('generateTypesDefinitions'),
+    runTask('generateTypesDefinitions'),
     // runTask('buildHelper'),
     // series(
     //   withTaskName('buildThemeChalk', () =>
@@ -57,7 +59,5 @@ export default series(
     // ),
   ),
 
-  parallel(copyTypesDefinitions, copyFiles),
+  // parallel(copyTypesDefinitions, copyFiles),
 );
-
-export * from './src';

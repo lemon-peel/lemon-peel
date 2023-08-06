@@ -7,8 +7,7 @@
   "unpkg": "index.js",
   "jsdelivr": "index.js",
   "peerDependencies": {
-    "vue": "^3.2.47"
+    "vue": "^3.3.4"
   },
-  "types": "index.d.js",
-  "gitHead": "c69724230befa8fede0e6b9c37fb0b7e39fd7cdd"
+  "types": "index.d.js"
 }

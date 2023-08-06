@@ -1,3 +1,3 @@
 import '@lemon-peel/components/base/style/css';
-import '@lemon-peel/theme-chalk/lp-skeleton.css';
-import '@lemon-peel/components/skeleton-item/style/css';
+import '@lemon-peel/theme-chalk/src/skeleton.scss';
+import '@lemon-peel/components/skeletonItem/style/css';

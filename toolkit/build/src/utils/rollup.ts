@@ -1,9 +1,9 @@
-import { mainPackage, getPackageDependencies } from '@lemon-peel/build-utils';
+import { mainPkg, getPackageDependencies } from '@lemon-peel/build-utils';
 
 import type { OutputOptions, RollupBuild } from 'rollup';
 
 export const generateExternal = async (options: { full: boolean }) => {
-  const { dependencies, peerDependencies } = getPackageDependencies(mainPackage);
+  const { dependencies, peerDependencies } = getPackageDependencies(mainPkg);
 
   return (id: string) => {
     const packages: string[] = peerDependencies;

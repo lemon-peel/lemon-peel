@@ -6,7 +6,7 @@ import { nodeResolve } from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import esbuild from 'rollup-plugin-esbuild';
 import glob from 'fast-glob';
-import { lpRoot, excludeFiles, pkgRoot } from '@lemon-peel/build-utils';
+import { projDir, withDefaultExclude, pkgDir } from '@lemon-peel/build-utils';
 import { generateExternal, writeBundles } from '../utils';
 import { LemonPeelAlias } from '../plugins/lemonPeelAlias';
 import { buildConfigEntries, target } from '../buildInfo';
@@ -14,9 +14,9 @@ import { buildConfigEntries, target } from '../buildInfo';
 import type { OutputOptions } from 'rollup';
 
 export const buildModules = async () => {
-  const input = excludeFiles(
+  const input = withDefaultExclude(
     await glob('**/*.{js,ts,vue}', {
-      cwd: pkgRoot,
+      cwd: pkgDir,
       absolute: true,
       onlyFiles: true,
     }),
@@ -41,7 +41,7 @@ export const buildModules = async () => {
       }),
       commonjs(),
       esbuild({
-        sourceMap: true,
+        sourceMap: false,
         target,
         loaders: {
           '.vue': 'ts',
@@ -60,7 +60,7 @@ export const buildModules = async () => {
         dir: config.output.path,
         exports: module === 'cjs' ? 'named' : undefined,
         preserveModules: true,
-        preserveModulesRoot: lpRoot,
+        preserveModulesRoot: projDir,
         sourcemap: true,
         entryFileNames: `[name].${config.ext}`,
       };

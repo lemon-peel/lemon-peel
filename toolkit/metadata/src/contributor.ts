@@ -1,21 +1,14 @@
 import path from 'node:path';
+
 import { existsSync } from 'node:fs';
-import glob from 'fast-glob';
 import { Octokit } from 'octokit';
+import { chunk, mapValues, uniqBy } from 'lodash';
+import glob from 'fast-glob';
 import consola from 'consola';
 import chalk from 'chalk';
-import { chunk, mapValues, uniqBy } from 'lodash-es';
-import {
-  ensureDir,
-  errorAndExit,
-  lpRoot,
-  writeJson,
-} from '@lemon-peel/build-utils';
-import {
-  REPO_BRANCH,
-  REPO_NAME,
-  REPO_OWNER,
-} from '@lemon-peel/build-constants';
+
+import { ensureDir, errorAndExit, projDir, writeJson } from '@lemon-peel/build-utils';
+import { REPO_BRANCH, REPO_NAME, REPO_OWNER } from '@lemon-peel/build-constants';
 
 interface FetchOption {
   key: string;
@@ -156,7 +149,7 @@ async function getContributors() {
   if (!process.env.GITHUB_TOKEN) throw new Error('GITHUB_TOKEN is empty');
 
   const components = await glob('*', {
-    cwd: path.resolve(lpRoot, 'packages/components'),
+    cwd: path.resolve(projDir, 'packages/components'),
     onlyDirectories: true,
   });
   let contributors: Record<string, ContributorInfo[]> = {};

@@ -1,12 +1,12 @@
 import findWorkspacePackages from '@pnpm/find-workspace-packages';
-import { lpRoot } from './paths';
+import { projDir } from './paths';
 
 import type { ProjectManifest } from '@pnpm/types';
 
-export const getWorkspacePackages = () => findWorkspacePackages(lpRoot);
+export const getWorkspacePackages = () => findWorkspacePackages(projDir);
 
-export async function getWorkspaceNames(dir = lpRoot) {
-  const pkgs = await findWorkspacePackages(lpRoot);
+export async function getWorkspaceNames(dir = projDir) {
+  const pkgs = await findWorkspacePackages(projDir);
   return pkgs
     .filter(pkg => pkg.dir.startsWith(dir))
     .map(pkg => pkg.manifest.name)
@@ -30,7 +30,7 @@ export function getPackageDependencies(
   };
 }
 
-export function excludeFiles(files: string[]) {
+export function withDefaultExclude(files: string[]) {
   const excludes = ['node_modules', 'test', 'mock', 'gulpfile', 'dist'];
   return files.filter(
     path => !excludes.some(exclude => path.includes(exclude)),

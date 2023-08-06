@@ -4,7 +4,7 @@
     "composite": true,
     "lib": ["ESNext"],
     "types": ["node"],
-    "esModuleInterop": false,
+    "esModuleInterop": true,
     "skipLibCheck": true,
     "resolveJsonModule": true
   },
@@ -13,6 +13,7 @@
     "toolkit/**/*.json",
     "scripts/**/*",
     "packages/main/*.ts",
+    "packages/main/package.json",
     "packages/theme-chalk/*",
     "packages/lemon-peel/version.ts",
     "packages/lemon-peel/package.json"

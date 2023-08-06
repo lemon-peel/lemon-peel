@@ -1,4 +1,4 @@
-import { buildRoot } from '@lemon-peel/build-utils';
+import { buildDir } from '@lemon-peel/build-utils';
 import { run } from './process';
 
 import type { TaskFunction } from 'gulp';
@@ -8,5 +8,5 @@ export const withTaskName = <T extends TaskFunction>(name: string, fn: T) =>
 
 export const runTask = (name: string) =>
   withTaskName(`shellTask:${name}`, () =>
-    run(`pnpm run start ${name}`, buildRoot),
+    run(`pnpm run start ${name}`, buildDir),
   );

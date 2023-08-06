@@ -1,5 +1,6 @@
 import { provideGlobalConfig } from '@lemon-peel/hooks';
 import { INSTALLED_KEY } from '@lemon-peel/constants';
+
 import { version } from './version';
 
 import type { App, Plugin } from 'vue';

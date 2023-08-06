@@ -1,32 +1,36 @@
-import { resolve } from 'node:path';
+/* eslint-disable @typescript-eslint/naming-convention */
+import { resolve, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-export const lpRoot = resolve(__dirname, '..', '..', '..');
-export const pkgRoot = resolve(lpRoot, 'packages');
-export const compRoot = resolve(pkgRoot, 'components');
-export const themeRoot = resolve(pkgRoot, 'theme-chalk');
-export const hookRoot = resolve(pkgRoot, 'hooks');
-export const localeRoot = resolve(pkgRoot, 'locale');
-export const directiveRoot = resolve(pkgRoot, 'directives');
-export const mainPkg = resolve(pkgRoot, 'main');
-export const utilRoot = resolve(pkgRoot, 'utils');
-export const buildRoot = resolve(lpRoot, 'toolkit', 'build');
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+export const projDir = resolve(__dirname, '..', '..', '..');
+export const pkgDir = resolve(projDir, 'packages');
+export const compDir = resolve(pkgDir, 'components');
+export const themeDir = resolve(pkgDir, 'theme-chalk');
+export const hookDir = resolve(pkgDir, 'hooks');
+export const localeDir = resolve(pkgDir, 'locale');
+export const directiveDir = resolve(pkgDir, 'directives');
+export const mainDir = resolve(pkgDir, 'main');
+export const utilDir = resolve(pkgDir, 'utils');
+export const buildDir = resolve(projDir, 'toolkit', 'build');
 
 // Docs
-export const docsDirName = 'docs';
-export const docRoot = resolve(lpRoot, docsDirName);
-export const vpRoot = resolve(docRoot, '.vitepress');
+export const docDir = resolve(projDir, 'docs');
+export const vpDir = resolve(docDir, '.vitepress');
 
 /** `/dist` */
-export const buildOutput = resolve(lpRoot, 'dist');
+export const buildOutput = resolve(projDir, 'dist');
 /** `/dist/lemon-peel` */
 export const lpOutput = resolve(buildOutput, 'lemon-peel');
 
-export const projPackage = resolve(lpRoot, 'package.json');
-export const compPackage = resolve(compRoot, 'package.json');
-export const themePackage = resolve(themeRoot, 'package.json');
-export const hookPackage = resolve(hookRoot, 'package.json');
-export const localePackage = resolve(localeRoot, 'package.json');
-export const directivePackage = resolve(directiveRoot, 'package.json');
-export const mainPackage = resolve(mainPkg, 'package.json');
-export const utilPackage = resolve(utilRoot, 'package.json');
-export const docPackage = resolve(docRoot, 'package.json');
+export const projPkg = resolve(projDir, 'package.json');
+export const compPkg = resolve(compDir, 'package.json');
+export const themePkg = resolve(themeDir, 'package.json');
+export const hookPkg = resolve(hookDir, 'package.json');
+export const localePkg = resolve(localeDir, 'package.json');
+export const directivePkg = resolve(directiveDir, 'package.json');
+export const mainPkg = resolve(mainDir, 'package.json');
+export const utilPkg = resolve(utilDir, 'package.json');
+export const docPkg = resolve(docDir, 'package.json');

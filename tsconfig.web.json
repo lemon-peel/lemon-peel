@@ -5,11 +5,14 @@
     "jsx": "preserve",
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "types": ["unplugin-vue-macros/macros-global", "webpack-env"],
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
   },
   "include": [
-    "packages",
-    "types"
+    "packages/**/*",
+    "packages/**/*.json",
+    "types/env.d.ts",
+    "types/global.d.ts",
   ],
   "exclude": [
     "node_modules",

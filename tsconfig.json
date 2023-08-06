@@ -5,5 +5,36 @@
     { "path": "./tsconfig.node.json" },
     { "path": "./tsconfig.serve.json" },
     { "path": "./tsconfig.web.json" },
-  ]
+  ],
+  "ts-node": {
+    // It is faster to skip typechecking.
+    // Remove if you want ts-node to do typechecking.
+    "transpileOnly": true,
+    "files": true,
+    "esm": true,
+    "experimentalSpecifierResolution": "node",
+    "compilerOptions": {
+      // compilerOptions specified here will override those declared below,
+      // but *only* in ts-node.  Useful if you want ts-node and tsc to use
+      // different options with a single tsconfig.json.
+      "target": "ESNext",
+      "module": "ESNext",
+      "lib": ["ESNext"],
+      "types": ["node"],
+      "skipLibCheck": true,
+      "moduleResolution": "node",
+      "resolveJsonModule": true,
+      "esModuleInterop": true
+    },
+    "include": [
+      "toolkit/**/*",
+      "toolkit/**/*.json",
+      "scripts/**/*",
+      "packages/main/*.ts",
+      "packages/theme-chalk/*",
+      "packages/lemon-peel/version.ts",
+      "packages/lemon-peel/package.json"
+    ],
+    "exclude": ["node_modules"]
+  },
 }

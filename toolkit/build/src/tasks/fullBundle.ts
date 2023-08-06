@@ -8,11 +8,11 @@ import vueJsx from '@vitejs/plugin-vue-jsx';
 import esbuild, { minify as minifyPlugin } from 'rollup-plugin-esbuild';
 import { parallel } from 'gulp';
 import glob from 'fast-glob';
-import { camelCase, upperFirst } from 'lodash-es';
+import { camelCase, upperFirst } from 'lodash';
 import { PKG_BRAND_NAME, PKG_CAMELCASE_LOCAL_NAME, PKG_CAMELCASE_NAME } from '@lemon-peel/build-constants';
-import { lpOutput, lpRoot, localeRoot } from '@lemon-peel/build-utils';
-import { version } from '../../../../packages/main/version';
+import { lpOutput, mainDir, localeDir } from '@lemon-peel/build-utils';
 import { LemonPeelAlias } from '../plugins/lemonPeelAlias';
+import { version } from '../../version';
 import { formatBundleFilename, generateExternal, withTaskName, writeBundles } from '../utils';
 import { target } from '../buildInfo';
 import type { Plugin } from 'rollup';
@@ -31,7 +31,7 @@ async function buildFullEntry(minify: boolean) {
         }),
         vueJsx: vueJsx(),
       },
-    }),
+    }) as unknown as Plugin,
     nodeResolve({
       extensions: ['.mjs', '.js', '.json', '.ts'],
     }),
@@ -60,7 +60,7 @@ async function buildFullEntry(minify: boolean) {
   }
 
   const bundle = await rollup({
-    input: path.resolve(lpRoot, 'index.ts'),
+    input: path.resolve(mainDir, 'index.ts'),
     plugins,
     external: await generateExternal({ full: true }),
     treeshake: true,
@@ -96,7 +96,7 @@ async function buildFullEntry(minify: boolean) {
 
 async function buildFullLocale(minify: boolean) {
   const files = await glob(`**/*.ts`, {
-    cwd: path.resolve(localeRoot, 'lang'),
+    cwd: path.resolve(localeDir, 'lang'),
     absolute: true,
   });
   return Promise.all(

@@ -12,7 +12,7 @@ import esbuild from 'rollup-plugin-esbuild';
 import eslint from 'vite-plugin-eslint';
 import checker from 'vite-plugin-checker';
 
-import { mainPackage, mainPkg, getPackageDependencies, pkgRoot, lpRoot } from '@lemon-peel/build-utils';
+import { mainPkg, mainDir, getPackageDependencies, pkgDir, projDir } from '@lemon-peel/build-utils';
 
 import type { Plugin } from 'vite';
 import './vite.init';
@@ -126,18 +126,18 @@ const lpComponentList = [
 
 export default defineConfig(async ({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
-  let { dependencies } = getPackageDependencies(mainPackage);
+  let { dependencies } = getPackageDependencies(mainPkg);
   dependencies = dependencies.filter(dep => !dep.startsWith('@types/')); // exclude dts deps
   const dayjsPlugins = await glob(['dayjs/(locale|plugin)/*.js'], {
-    cwd: path.resolve(lpRoot, 'node_modules'),
+    cwd: path.resolve(projDir, 'node_modules'),
   });
   const optimizeDeps = dayjsPlugins.map(dep => dep.replace(/\.js$/, ''));
 
   return {
     resolve: {
       alias: [
-        { find: /^lemon-peel(\/(es|lib))?$/, replacement: path.resolve(mainPkg, 'index.ts') },
-        { find: /^lemon-peel\/(es|lib)\/(.*)$/, replacement: `${pkgRoot}/$2` },
+        { find: /^lemon-peel(\/(es|lib))?$/, replacement: path.resolve(mainDir, 'index.ts') },
+        { find: /^lemon-peel\/(es|lib)\/(.*)$/, replacement: `${pkgDir}/$2` },
       ],
     },
     server: {

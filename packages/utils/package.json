@@ -4,6 +4,11 @@
   "license": "MIT",
   "main": "index.ts",
   "peerDependencies": {
-    "vue": "^3.2.47"
+    "vue": "^3.3.4",
+    "@vueuse/core": "^10.3.0"
+  },
+  "devDependencies": {
+    "vue": "^3.3.4",
+    "@vueuse/core": "^10.3.0"
   }
 }

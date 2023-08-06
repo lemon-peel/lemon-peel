@@ -3,7 +3,7 @@ import { mount } from '@vue/test-utils';
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 import { CaretLeft, CaretRight } from '@element-plus/icons-vue';
 import Pagination from '../src/Pagination';
-import selectDropdownVue from '../../select/src/SelectDropdown.vue';
+import selectDropdownVue from '@lemon-peel/components/select/src/SelectDropdown.vue';
 import type { VueWrapper } from '@vue/test-utils';
 
 const assertElementsExistence = (

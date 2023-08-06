@@ -1,0 +1,29 @@
+{
+  "name": "@lemon-peel/register",
+  "version": "0.0.1",
+  "description": "Register for Lemon Peel",
+  "keywords": [
+    "lemon-peel"
+  ],
+  "license": "MIT",
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "src/register.js",
+  "exports": {
+    ".": "./src/register.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@babel/register": "^7.22.5",
+    "@babel/preset-env": "^7.22.9",
+    "@babel/preset-typescript": "^7.22.5",
+    "@babel/plugin-transform-modules-commonjs": "^7.22.5"
+  },
+  "devDependencies": {}
+}

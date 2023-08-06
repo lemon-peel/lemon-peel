@@ -9,9 +9,9 @@ import {
 } from 'components-helper';
 import {
   lpOutput,
-  mainPackage,
+  mainPkg,
   getPackageManifest,
-  lpRoot,
+  projDir,
 } from '@lemon-peel/build-utils';
 
 import type { TaskFunction } from 'gulp';
@@ -132,7 +132,7 @@ const reWebTypesType: ReWebTypesType = type => {
 };
 
 export const buildHelper: TaskFunction = done => {
-  const { name, version } = getPackageManifest(mainPackage);
+  const { name, version } = getPackageManifest(mainPkg);
 
   const tagVer = process.env.TAG_VERSION;
   const ver = tagVer
@@ -145,7 +145,7 @@ export const buildHelper: TaskFunction = done => {
     name: name!,
     version: ver,
     entry: `${path.resolve(
-      lpRoot,
+      projDir,
       'docs/en-US/component',
     )}/!(datetime-picker|message-box|message).md`,
     outDir: lpOutput,

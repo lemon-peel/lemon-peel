@@ -5,7 +5,7 @@ import { mount } from '@vue/test-utils';
 import { afterEach, describe, expect, test, vi } from 'vitest';
 import { Loading } from '../src/service';
 import { vLoading } from '../src/directive';
-import LpInput from '../../input';
+import LpInput from '@lemon-peel/components/input';
 
 import type { VNode } from 'vue';
 import type { LoadingInstance } from '../src/loading';
