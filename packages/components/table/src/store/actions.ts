@@ -1,4 +1,4 @@
-import { memoize } from 'lodash-es';
+import { memoize } from 'lodash';
 import { unref } from 'vue';
 import { lazyProxy } from '@lemon-peel/utils';
 
@@ -39,8 +39,7 @@ function sortColumn(array: TableColumnCtx[]) {
   });
   array.sort((cur, pre) => cur.no - pre.no);
 }
-
-export const useActions = memoize((table: TableVM) => {
+function createAction(table: TableVM) {
   const current = lazyProxy(() => useCurrent(table));
   const expand = lazyProxy(() => useExpand(table));
   const tree = lazyProxy(() => useTree(table));
@@ -197,7 +196,9 @@ export const useActions = memoize((table: TableVM) => {
       current.updateCurrentRow(row);
     },
   };
-});
+}
+
+export const useActions = memoize(createAction);
 
 export default useActions;
 

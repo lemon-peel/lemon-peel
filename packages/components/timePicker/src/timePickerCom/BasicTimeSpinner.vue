@@ -80,7 +80,7 @@
 
 <script lang="ts" setup>
 import { computed, nextTick, onMounted, ref, unref, watch } from 'vue';
-import { debounce } from 'lodash-es';
+import { debounce } from 'lodash';
 import { vRepeatClick } from '@lemon-peel/directives';
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue';
 import { useNamespace } from '@lemon-peel/hooks';

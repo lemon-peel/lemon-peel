@@ -1,11 +1,11 @@
 <template>
-  <el-radio-group v-model="size">
-    <el-radio label="large">Large</el-radio>
-    <el-radio>Default</el-radio>
-    <el-radio label="small">Small</el-radio>
-  </el-radio-group>
+  <lp-radio-group v-model="size">
+    <lp-radio label="large">Large</lp-radio>
+    <lp-radio>Default</lp-radio>
+    <lp-radio label="small">Small</lp-radio>
+  </lp-radio-group>
 
-  <el-descriptions
+  <lp-descriptions
     class="margin-top"
     title="With border"
     :column="3"
@@ -13,66 +13,66 @@
     border
   >
     <template #extra>
-      <el-button type="primary">Operation</el-button>
+      <lp-button type="primary">Operation</lp-button>
     </template>
-    <el-descriptions-item>
+    <lp-descriptions-item>
       <template #label>
         <div class="cell-item">
-          <el-icon :style="iconStyle">
+          <lp-icon :style="iconStyle">
             <user />
-          </el-icon>
+          </lp-icon>
           Username
         </div>
       </template>
       kooriookami
-    </el-descriptions-item>
-    <el-descriptions-item>
+    </lp-descriptions-item>
+    <lp-descriptions-item>
       <template #label>
         <div class="cell-item">
-          <el-icon :style="iconStyle">
+          <lp-icon :style="iconStyle">
             <iphone />
-          </el-icon>
+          </lp-icon>
           Telephone
         </div>
       </template>
       18100000000
-    </el-descriptions-item>
-    <el-descriptions-item>
+    </lp-descriptions-item>
+    <lp-descriptions-item>
       <template #label>
         <div class="cell-item">
-          <el-icon :style="iconStyle">
+          <lp-icon :style="iconStyle">
             <location />
-          </el-icon>
+          </lp-icon>
           Place
         </div>
       </template>
       Suzhou
-    </el-descriptions-item>
-    <el-descriptions-item>
+    </lp-descriptions-item>
+    <lp-descriptions-item>
       <template #label>
         <div class="cell-item">
-          <el-icon :style="iconStyle">
+          <lp-icon :style="iconStyle">
             <tickets />
-          </el-icon>
+          </lp-icon>
           Remarks
         </div>
       </template>
-      <el-tag size="small">School</el-tag>
-    </el-descriptions-item>
-    <el-descriptions-item>
+      <lp-tag size="small">School</lp-tag>
+    </lp-descriptions-item>
+    <lp-descriptions-item>
       <template #label>
         <div class="cell-item">
-          <el-icon :style="iconStyle">
+          <lp-icon :style="iconStyle">
             <office-building />
-          </el-icon>
+          </lp-icon>
           Address
         </div>
       </template>
       No.1188, Wuzhong Avenue, Wuzhong District, Suzhou, Jiangsu Province
-    </el-descriptions-item>
-  </el-descriptions>
+    </lp-descriptions-item>
+  </lp-descriptions>
 
-  <el-descriptions
+  <lp-descriptions
     class="margin-top"
     title="Without border"
     :column="3"
@@ -80,55 +80,54 @@
     :style="blockMargin"
   >
     <template #extra>
-      <el-button type="primary">Operation</el-button>
+      <lp-button type="primary">Operation</lp-button>
     </template>
-    <el-descriptions-item label="Username">kooriookami</el-descriptions-item>
-    <el-descriptions-item label="Telephone">18100000000</el-descriptions-item>
-    <el-descriptions-item label="Place">Suzhou</el-descriptions-item>
-    <el-descriptions-item label="Remarks">
-      <el-tag size="small">School</el-tag>
-    </el-descriptions-item>
-    <el-descriptions-item label="Address"
-      >No.1188, Wuzhong Avenue, Wuzhong District, Suzhou, Jiangsu Province
-    </el-descriptions-item>
-  </el-descriptions>
+    <lp-descriptions-item label="Username">kooriookami</lp-descriptions-item>
+    <lp-descriptions-item label="Telephone">18100000000</lp-descriptions-item>
+    <lp-descriptions-item label="Place">Suzhou</lp-descriptions-item>
+    <lp-descriptions-item label="Remarks">
+      <lp-tag size="small">School</lp-tag>
+    </lp-descriptions-item>
+    <lp-descriptions-item label="Address">No.1188, Wuzhong Avenue, Wuzhong District, Suzhou, Jiangsu Province
+    </lp-descriptions-item>
+  </lp-descriptions>
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref } from 'vue';
 import {
   Iphone,
   Location,
   OfficeBuilding,
   Tickets,
   User,
-} from '@element-plus/icons-vue'
+} from '@element-plus/icons-vue';
 
-const size = ref('')
+const size = ref('');
 const iconStyle = computed(() => {
   const marginMap = {
     large: '8px',
     default: '6px',
     small: '4px',
-  }
+  };
   return {
     marginRight: marginMap[size.value] || marginMap.default,
-  }
-})
+  };
+});
 const blockMargin = computed(() => {
   const marginMap = {
     large: '32px',
     default: '28px',
     small: '24px',
-  }
+  };
   return {
     marginTop: marginMap[size.value] || marginMap.default,
-  }
-})
+  };
+});
 </script>
 
 <style scoped>
-.el-descriptions {
+.lp-descriptions {
   margin-top: 20px;
 }
 .cell-item {

@@ -1,4 +1,4 @@
-import { get } from 'lodash-es';
+import { get } from 'lodash';
 import { isFunction, isObject } from '@lemon-peel/utils';
 import { ExpandIcon, TableCell } from '../components';
 import { Alignment } from '../constants';

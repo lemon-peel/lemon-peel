@@ -1,27 +1,27 @@
 <template>
-  <el-row>
-    <el-button size="large">Large</el-button>
-    <el-button>Default</el-button>
-    <el-button size="small">Small</el-button>
-    <el-button size="large" :icon="Search">Search</el-button>
-    <el-button :icon="Search">Search</el-button>
-    <el-button size="small" :icon="Search">Search</el-button>
-  </el-row>
-  <el-row class="my-4">
-    <el-button size="large" round>Large</el-button>
-    <el-button round>Default</el-button>
-    <el-button size="small" round>Small</el-button>
-    <el-button size="large" :icon="Search" round>Search</el-button>
-    <el-button :icon="Search" round>Search</el-button>
-    <el-button size="small" :icon="Search" round>Search</el-button>
-  </el-row>
-  <el-row>
-    <el-button :icon="Search" size="large" circle />
-    <el-button :icon="Search" circle />
-    <el-button :icon="Search" size="small" circle />
-  </el-row>
+  <lp-row>
+    <lp-button size="large">Large</lp-button>
+    <lp-button>Default</lp-button>
+    <lp-button size="small">Small</lp-button>
+    <lp-button size="large" :icon="Search">Search</lp-button>
+    <lp-button :icon="Search">Search</lp-button>
+    <lp-button size="small" :icon="Search">Search</lp-button>
+  </lp-row>
+  <lp-row class="my-4">
+    <lp-button size="large" round>Large</lp-button>
+    <lp-button round>Default</lp-button>
+    <lp-button size="small" round>Small</lp-button>
+    <lp-button size="large" :icon="Search" round>Search</lp-button>
+    <lp-button :icon="Search" round>Search</lp-button>
+    <lp-button size="small" :icon="Search" round>Search</lp-button>
+  </lp-row>
+  <lp-row>
+    <lp-button :icon="Search" size="large" circle />
+    <lp-button :icon="Search" circle />
+    <lp-button :icon="Search" size="small" circle />
+  </lp-row>
 </template>
 
 <script setup lang="ts">
-import { Search } from '@element-plus/icons-vue'
+import { Search } from '@element-plus/icons-vue';
 </script>

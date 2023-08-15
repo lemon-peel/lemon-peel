@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils';
-import { merge } from 'lodash-es';
+import { merge } from 'lodash';
 
 import type { MountingOptions } from '@vue/test-utils';
 import type { AllowedComponentProps, ComponentCustomProps, DefineComponent, ExtractDefaultPropTypes, ExtractPropTypes, VNodeProps } from 'vue';

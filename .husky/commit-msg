@@ -1,0 +1,4 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+node --require @lemon-peel/register node_modules/@commitlint/cli/cli.js --config commitlint.config.ts --edit "${1}"

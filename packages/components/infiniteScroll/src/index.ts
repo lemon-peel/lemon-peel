@@ -1,7 +1,7 @@
 
 import { nextTick } from 'vue';
 import { isFunction } from '@vue/shared';
-import { throttle } from 'lodash-es';
+import { throttle } from 'lodash';
 import { getOffsetTopDistance, getScrollContainer, throwError } from '@lemon-peel/utils';
 
 import type { ComponentPublicInstance, ObjectDirective } from 'vue';

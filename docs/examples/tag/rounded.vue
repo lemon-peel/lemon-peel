@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-wrap gap-2 my-2">
-    <el-tag
+    <lp-tag
       v-for="item in items"
       :key="item.label"
       :type="item.type"
@@ -9,10 +9,10 @@
       round
     >
       {{ item.label }}
-    </el-tag>
+    </lp-tag>
   </div>
   <div class="flex flex-wrap gap-2">
-    <el-tag
+    <lp-tag
       v-for="item in items"
       :key="item.label"
       :type="item.type"
@@ -21,10 +21,10 @@
       round
     >
       {{ item.label }}
-    </el-tag>
+    </lp-tag>
   </div>
   <div class="flex flex-wrap gap-2 my-2">
-    <el-tag
+    <lp-tag
       v-for="item in items"
       :key="item.label"
       :type="item.type"
@@ -33,16 +33,16 @@
       round
     >
       {{ item.label }}
-    </el-tag>
+    </lp-tag>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-import type { TagProps } from 'element-plus'
+import type { TagProps } from 'element-plus';
 
-type Item = { type: TagProps['type']; label: string }
+type Item = { type: TagProps['type'], label: string };
 
 const items = ref<Array<Item>>([
   { type: '', label: 'Tag 1' },
@@ -50,5 +50,5 @@ const items = ref<Array<Item>>([
   { type: 'info', label: 'Tag 3' },
   { type: 'danger', label: 'Tag 4' },
   { type: 'warning', label: 'Tag 5' },
-])
+]);
 </script>

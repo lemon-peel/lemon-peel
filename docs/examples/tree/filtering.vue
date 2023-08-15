@@ -1,7 +1,7 @@
 <template>
-  <el-input v-model="filterText" placeholder="Filter keyword" />
+  <lp-input v-model="filterText" placeholder="Filter keyword" />
 
-  <el-tree
+  <lp-tree
     ref="treeRef"
     class="filter-tree"
     :data="data"
@@ -12,31 +12,31 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch } from 'vue'
-import { ElTree } from 'element-plus'
+import { ref, watch } from 'vue';
+import type { ElTree } from 'element-plus';
 
 interface Tree {
-  id: number
-  label: string
-  children?: Tree[]
+  id: number;
+  label: string;
+  children?: Tree[];
 }
 
-const filterText = ref('')
-const treeRef = ref<InstanceType<typeof ElTree>>()
+const filterText = ref('');
+const treeRef = ref<InstanceType<typeof ElTree>>();
 
 const defaultProps = {
   children: 'children',
   label: 'label',
-}
+};
 
-watch(filterText, (val) => {
-  treeRef.value!.filter(val)
-})
+watch(filterText, val => {
+  treeRef.value!.filter(val);
+});
 
 const filterNode = (value: string, data: Tree) => {
-  if (!value) return true
-  return data.label.includes(value)
-}
+  if (!value) return true;
+  return data.label.includes(value);
+};
 
 const data: Tree[] = [
   {
@@ -87,5 +87,5 @@ const data: Tree[] = [
       },
     ],
   },
-]
+];
 </script>

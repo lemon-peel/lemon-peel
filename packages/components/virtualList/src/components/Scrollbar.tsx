@@ -261,7 +261,7 @@ const ScrollBar = defineComponent({
         ]}
         style={trackStyle.value}
         onMousedown={withModifiers(clickTrackHandler, ['stop', 'prevent'])}
-        onTouchstartPrevent={onThumbMouseDown}>
+        onTouchstart={withModifiers(onThumbMouseDown, ['prevent'])}>
         <div ref={thumbRef} class={nsScrollbar.e('thumb')} style={thumbStyle.value} onMousedown={onThumbMouseDown}></div>
       </div>;
     };

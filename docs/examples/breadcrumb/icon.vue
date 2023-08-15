@@ -1,12 +1,12 @@
 <template>
-  <el-breadcrumb :separator-icon="ArrowRight">
-    <el-breadcrumb-item :to="{ path: '/' }">homepage</el-breadcrumb-item>
-    <el-breadcrumb-item>promotion management</el-breadcrumb-item>
-    <el-breadcrumb-item>promotion list</el-breadcrumb-item>
-    <el-breadcrumb-item>promotion detail</el-breadcrumb-item>
-  </el-breadcrumb>
+  <lp-breadcrumb :separator-icon="ArrowRight">
+    <lp-breadcrumb-item :to="{ path: '/' }">homepage</lp-breadcrumb-item>
+    <lp-breadcrumb-item>promotion management</lp-breadcrumb-item>
+    <lp-breadcrumb-item>promotion list</lp-breadcrumb-item>
+    <lp-breadcrumb-item>promotion detail</lp-breadcrumb-item>
+  </lp-breadcrumb>
 </template>
 
 <script lang="ts" setup>
-import { ArrowRight } from '@element-plus/icons-vue'
+import { ArrowRight } from '@element-plus/icons-vue';
 </script>

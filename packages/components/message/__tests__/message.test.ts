@@ -6,7 +6,7 @@ import { rAF } from '@lemon-peel/test-utils/tick';
 import { TypeComponentsMap } from '@lemon-peel/utils';
 import { EVENT_CODE } from '@lemon-peel/constants';
 import { mount } from '@vue/test-utils';
-import { merge } from 'lodash-es';
+import { merge } from 'lodash';
 import Message from '../src/Message.vue';
 
 import type { MountingOptions } from '@vue/test-utils';

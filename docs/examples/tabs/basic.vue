@@ -1,23 +1,25 @@
 <template>
-  <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
-    <el-tab-pane label="User" name="first">User</el-tab-pane>
-    <el-tab-pane label="Config" name="second">Config</el-tab-pane>
-    <el-tab-pane label="Role" name="third">Role</el-tab-pane>
-    <el-tab-pane label="Task" name="fourth">Task</el-tab-pane>
-  </el-tabs>
+  <lp-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
+    <lp-tab-pane label="User" name="first">User</lp-tab-pane>
+    <lp-tab-pane label="Config" name="second">Config</lp-tab-pane>
+    <lp-tab-pane label="Role" name="third">Role</lp-tab-pane>
+    <lp-tab-pane label="Task" name="fourth">Task</lp-tab-pane>
+  </lp-tabs>
 </template>
-<script lang="ts" setup>
-import { ref } from 'vue'
-import type { TabsPaneContext } from 'element-plus'
 
-const activeName = ref('first')
+<script lang="ts" setup>
+import { ref } from 'vue';
+import type { TabsPaneContext } from 'element-plus';
+
+const activeName = ref('first');
 
 const handleClick = (tab: TabsPaneContext, event: Event) => {
-  console.log(tab, event)
-}
+  console.log(tab, event);
+};
 </script>
+
 <style>
-.demo-tabs > .el-tabs__content {
+.demo-tabs > .lp-tabs__content {
   padding: 32px;
   color: #6b778c;
   font-size: 32px;

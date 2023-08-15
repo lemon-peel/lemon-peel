@@ -1,5 +1,5 @@
 import { computed, ref, unref, watch, watchEffect } from 'vue';
-import { memoize, debounce } from 'lodash-es';
+import { memoize, debounce } from 'lodash';
 import { lazyProxy } from '@lemon-peel/utils';
 import { hasOwn } from '@lemon-peel/utils';
 

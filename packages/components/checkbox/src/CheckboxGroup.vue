@@ -13,7 +13,7 @@
 
 <script lang="ts" setup>
 import { nextTick, provide, reactive, watch } from 'vue';
-import { pick } from 'lodash-es';
+import { pick } from 'lodash';
 
 import { UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
 import { debugWarn } from '@lemon-peel/utils';

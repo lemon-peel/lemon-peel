@@ -1,21 +1,21 @@
 <template>
   <div class="demo-type">
     <div>
-      <el-avatar :icon="UserFilled" />
+      <lp-avatar :icon="UserFilled" />
     </div>
     <div>
-      <el-avatar
+      <lp-avatar
         src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
       />
     </div>
     <div>
-      <el-avatar> user </el-avatar>
+      <lp-avatar> user </lp-avatar>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { UserFilled } from '@element-plus/icons-vue'
+import { UserFilled } from '@element-plus/icons-vue';
 </script>
 
 <style scoped>

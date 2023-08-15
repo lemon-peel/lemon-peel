@@ -1,6 +1,6 @@
 import { isRef, onMounted, ref, unref, watchEffect } from 'vue';
 import { isClient, unrefElement } from '@vueuse/core';
-import { isNil } from 'lodash-es';
+import { isNil } from 'lodash';
 import { arrow as arrowCore, computePosition } from '@floating-ui/dom';
 import { buildProps, keysOf } from '@lemon-peel/utils';
 

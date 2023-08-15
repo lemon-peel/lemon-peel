@@ -1,7 +1,7 @@
 import { nextTick, ref } from 'vue';
 import { mount } from '@vue/test-utils';
 import { afterEach, describe, expect, test, vi } from 'vitest';
-import { cloneDeep } from 'lodash-es';
+import { cloneDeep } from 'lodash';
 import { rAF } from '@lemon-peel/test-utils/tick';
 
 import Tree from '../src/Tree.vue';
@@ -10,7 +10,7 @@ import type { ComponentPublicInstance } from 'vue';
 import type { VueWrapper } from '@vue/test-utils';
 import type { ComponentMountingOptions } from '@lemon-peel/test-utils/makeMount';
 import type { FilterNodeFunc } from '../src/tree';
-import type { TreeDataLoader, TreeNodeContentRender, TreeKey, TreeNodeData } from '../src/tree';
+import type { TreeDataLoader, TreeNodeContentRender, TreeNodeData } from '../src/tree';
 import type Node from '../src/model/node';
 
 const delay = (duration: number) => new Promise(resolve => setTimeout(resolve, duration));
@@ -46,9 +46,6 @@ const defaultData: TreeNodeData[] = [
     ],
   },
 ];
-
-const defaultExpandedKeys = [] as TreeKey[];
-const defaultCheckedKeys = [] as TreeKey[];
 
 type MountingOptionsTree = ComponentMountingOptions<typeof Tree>;
 

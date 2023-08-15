@@ -1,13 +1,13 @@
 <template>
-  <el-row :gutter="12">
-    <el-col :span="8">
-      <el-card shadow="always"> Always </el-card>
-    </el-col>
-    <el-col :span="8">
-      <el-card shadow="hover"> Hover </el-card>
-    </el-col>
-    <el-col :span="8">
-      <el-card shadow="never"> Never </el-card>
-    </el-col>
-  </el-row>
+  <lp-row :gutter="12">
+    <lp-col :span="8">
+      <lp-card shadow="always"> Always </lp-card>
+    </lp-col>
+    <lp-col :span="8">
+      <lp-card shadow="hover"> Hover </lp-card>
+    </lp-col>
+    <lp-col :span="8">
+      <lp-card shadow="never"> Never </lp-card>
+    </lp-col>
+  </lp-row>
 </template>

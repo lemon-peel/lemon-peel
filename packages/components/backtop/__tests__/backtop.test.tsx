@@ -5,12 +5,12 @@ import { CaretTop } from '@element-plus/icons-vue';
 import Backtop from '../src/Backtop.vue';
 import type { VNode } from 'vue';
 
-const _mount = (render: () => VNode) =>
+const doMount = (render: () => VNode) =>
   mount(render, { attachTo: document.body });
 
 describe('Backtop.vue', () => {
   test('render', async () => {
-    const wrapper = _mount(() => (
+    const wrapper = doMount(() => (
       <div class="target" style="height: 100px; overflow: auto">
         <div style="height: 10000px; width: 100%">
           <Backtop

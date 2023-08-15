@@ -1,5 +1,5 @@
 <template>
-  <el-input
+  <lp-input
     v-model="input"
     type="password"
     placeholder="Please input password"
@@ -8,6 +8,6 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
-const input = ref('')
+import { ref } from 'vue';
+const input = ref('');
 </script>

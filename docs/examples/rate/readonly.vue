@@ -1,5 +1,5 @@
 <template>
-  <el-rate
+  <lp-rate
     v-model="value"
     disabled
     show-score
@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-const value = ref(3.7)
+const value = ref(3.7);
 </script>

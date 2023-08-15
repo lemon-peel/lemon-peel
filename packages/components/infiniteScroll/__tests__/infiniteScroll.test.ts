@@ -8,10 +8,10 @@ import tick from '@lemon-peel/test-utils/tick';
 import InfiniteScroll, { DEFAULT_DELAY, SCOPE } from '../src';
 import type { InfiniteScrollElement } from '../src';
 
-vi.mock('lodash-es', async () => {
-  const actual: any = await vi.importActual('lodash-es');
+vi.mock('lodash', async load => {
+  const mod: any = await load();
   return {
-    ...actual,
+    ...mod.default,
     throttle: vi.fn(fn => {
       fn.cancel = vi.fn();
       fn.flush = vi.fn();

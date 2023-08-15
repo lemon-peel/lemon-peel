@@ -1,13 +1,13 @@
-import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import {
   focusFirstDescendant,
   getEdges,
   obtainAllFocusableElements,
-} from '../src/utils'
+} from '../src/utils';
 
 describe('focus-trap utils', () => {
   const buildDOM = () => {
-    const parser = new DOMParser()
+    const parser = new DOMParser();
     return parser.parseFromString(
       `
     <div class="root">
@@ -19,38 +19,38 @@ describe('focus-trap utils', () => {
       <input hidden />
     </div>
     `,
-      'text/html'
-    )
-  }
+      'text/html',
+    );
+  };
 
   beforeEach(() => {
-    const dom = buildDOM()
+    const dom = buildDOM();
 
-    Array.from(dom.children).forEach((child) => {
-      document.body.appendChild(child)
-    })
-  })
+    Array.from(dom.children).forEach(child => {
+      document.body.append(child);
+    });
+  });
 
   afterEach(() => {
-    document.body.innerHTML = ''
-  })
+    document.body.innerHTML = '';
+  });
 
   it('should be able to focus', () => {
-    const focusable = obtainAllFocusableElements(document.body)
-    expect(focusable).toHaveLength(2)
-    expect(focusable[0].classList.contains('focusable-input')).toBeTruthy()
-  })
+    const focusable = obtainAllFocusableElements(document.body);
+    expect(focusable).toHaveLength(2);
+    expect(focusable[0].classList.contains('focusable-input')).toBeTruthy();
+  });
 
   it('should be able to get focusable edge', () => {
-    const [first, last] = getEdges(document.body)
-    expect(first?.classList.contains('focusable-input')).toBeTruthy()
-    expect(last?.classList.contains('focusable-span')).toBeTruthy()
-  })
+    const [first, last] = getEdges(document.body);
+    expect(first?.classList.contains('focusable-input')).toBeTruthy();
+    expect(last?.classList.contains('focusable-span')).toBeTruthy();
+  });
 
   it('should be able to focus on the first descendant', () => {
-    expect(document.activeElement).toBe(document.body)
-    const focusable = obtainAllFocusableElements(document.body)
-    focusFirstDescendant(focusable)
-    expect(document.activeElement).toBe(focusable[0])
-  })
-})
+    expect(document.activeElement).toBe(document.body);
+    const focusable = obtainAllFocusableElements(document.body);
+    focusFirstDescendant(focusable);
+    expect(document.activeElement).toBe(focusable[0]);
+  });
+});

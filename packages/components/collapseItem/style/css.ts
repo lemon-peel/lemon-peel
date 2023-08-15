@@ -1,2 +1,2 @@
 import '@lemon-peel/components/base/style/css';
-import '@lemon-peel/theme-chalk/lp-collapse-item.css';
+import '@lemon-peel/theme-chalk/src/collapse-item.scss';

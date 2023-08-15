@@ -1,15 +1,14 @@
 <template>
   <div>
-    <el-button
+    <lp-button
       v-for="i in 3"
       :key="i"
       @mouseover="(e) => (buttonRef = e.currentTarget)"
       @click="visible = !visible"
-      >Click to open tooltip</el-button
-    >
+    >Click to open tooltip</lp-button>
   </div>
 
-  <el-tooltip
+  <lp-tooltip
     ref="tooltipRef"
     v-model:visible="visible"
     :popper-options="{
@@ -31,15 +30,15 @@
     <template #content>
       <span> Some content </span>
     </template>
-  </el-tooltip>
+  </lp-tooltip>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-const buttonRef = ref()
-const tooltipRef = ref()
+import { ref } from 'vue';
+const buttonRef = ref();
+const tooltipRef = ref();
 
-const visible = ref(false)
+const visible = ref(false);
 </script>
 
 <style>

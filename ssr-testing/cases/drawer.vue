@@ -22,12 +22,8 @@
     </template>
     <template #default>
       <div>
-        <lp-radio v-model="radio1" label="Option 1" size="large"
-          >Option 1</lp-radio
-        >
-        <lp-radio v-model="radio1" label="Option 2" size="large"
-          >Option 2</lp-radio
-        >
+        <lp-radio v-model="radio1" label="Option 1" size="large">Option 1</lp-radio>
+        <lp-radio v-model="radio1" label="Option 2" size="large">Option 2</lp-radio>
       </div>
     </template>
     <template #footer>
@@ -40,14 +36,14 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-const drawer = ref(false)
-const drawer2 = ref(false)
-const direction = ref<'rtl'>('rtl')
-const radio1 = ref('Option 1')
+const drawer = ref(false);
+const drawer2 = ref(false);
+const direction = ref<'rtl'>('rtl');
+const radio1 = ref('Option 1');
 
 function cancelClick() {
-  drawer2.value = false
+  drawer2.value = false;
 }
 </script>

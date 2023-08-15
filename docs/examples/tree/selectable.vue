@@ -1,5 +1,5 @@
 <template>
-  <el-tree
+  <lp-tree
     :props="props"
     :load="loadNode"
     lazy
@@ -9,57 +9,53 @@
 </template>
 
 <script lang="ts" setup>
-import type Node from 'element-plus/es/components/tree/src/model/node'
-let count = 1
+import type Node from 'element-plus/es/components/tree/src/model/node';
+let count = 1;
 
 interface Tree {
-  name: string
+  name: string;
 }
 
 const props = {
   label: 'name',
   children: 'zones',
-}
+};
 
 const handleCheckChange = (
   data: Tree,
   checked: boolean,
-  indeterminate: boolean
+  indeterminate: boolean,
 ) => {
-  console.log(data, checked, indeterminate)
-}
+  console.log(data, checked, indeterminate);
+};
 
 const loadNode = (node: Node, resolve: (data: Tree[]) => void) => {
   if (node.level === 0) {
-    return resolve([{ name: 'Root1' }, { name: 'Root2' }])
+    return resolve([{ name: 'Root1' }, { name: 'Root2' }]);
   }
-  if (node.level > 3) return resolve([])
+  if (node.level > 3) return resolve([]);
 
-  let hasChild = false
+  let hasChild = false;
   if (node.data.name === 'region1') {
-    hasChild = true
+    hasChild = true;
   } else if (node.data.name === 'region2') {
-    hasChild = false
+    hasChild = false;
   } else {
-    hasChild = Math.random() > 0.5
+    hasChild = Math.random() > 0.5;
   }
 
   setTimeout(() => {
-    let data: Tree[] = []
-    if (hasChild) {
-      data = [
-        {
-          name: `zone${count++}`,
-        },
-        {
-          name: `zone${count++}`,
-        },
-      ]
-    } else {
-      data = []
-    }
+    let data: Tree[] = [];
+    data = hasChild ? [
+      {
+        name: `zone${count++}`,
+      },
+      {
+        name: `zone${count++}`,
+      },
+    ] : [];
 
-    resolve(data)
-  }, 500)
-}
+    resolve(data);
+  }, 500);
+};
 </script>

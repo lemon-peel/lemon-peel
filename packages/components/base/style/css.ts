@@ -1,1 +1,1 @@
-import '@lemon-peel/theme-chalk/base.css';
+import '@lemon-peel/theme-chalk/src/base.scss';

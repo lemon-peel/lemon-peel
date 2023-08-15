@@ -1,5 +1,5 @@
 import { computed, inject, ref, watch, nextTick } from 'vue';
-import { debounce } from 'lodash-es';
+import { debounce } from 'lodash';
 import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
 import { sliderContextKey } from '@lemon-peel/tokens';
 import type { CSSProperties, ComputedRef, Ref, SetupContext } from 'vue';

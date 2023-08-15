@@ -1,17 +1,18 @@
-import { rollup } from 'rollup';
-import vue from '@vitejs/plugin-vue';
-import vueJsx from '@vitejs/plugin-vue-jsx';
-import VueMacros from 'unplugin-vue-macros/rollup';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
+import { rollup } from 'rollup';
 import commonjs from '@rollup/plugin-commonjs';
 import esbuild from 'rollup-plugin-esbuild';
 import glob from 'fast-glob';
-import { projDir, withDefaultExclude, pkgDir } from '@lemon-peel/build-utils';
-import { generateExternal, writeBundles } from '../utils';
-import { LemonPeelAlias } from '../plugins/lemonPeelAlias';
-import { buildConfigEntries, target } from '../buildInfo';
+import vue from '@vitejs/plugin-vue';
+import vueJsx from '@vitejs/plugin-vue-jsx';
+import VueMacros from 'unplugin-vue-macros/rollup';
 
+import { withDefaultExclude, pkgDir } from '@lemon-peel/build-utils';
 import type { OutputOptions } from 'rollup';
+
+import { buildConfigEntries, target } from '../buildInfo';
+import { LemonPeelAlias } from '../plugins/lemonPeelAlias';
+import { generateExternal, writeBundles } from '../utils';
 
 export const buildModules = async () => {
   const input = withDefaultExclude(
@@ -60,7 +61,7 @@ export const buildModules = async () => {
         dir: config.output.path,
         exports: module === 'cjs' ? 'named' : undefined,
         preserveModules: true,
-        preserveModulesRoot: projDir,
+        preserveModulesRoot: pkgDir,
         sourcemap: true,
         entryFileNames: `[name].${config.ext}`,
       };

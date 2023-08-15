@@ -1,22 +1,22 @@
 <template>
   <div>
-    <el-button @click="show = !show">Click Me</el-button>
+    <lp-button @click="show = !show">Click Me</lp-button>
 
     <div style="display: flex; margin-top: 20px; height: 100px">
       <transition name="el-fade-in-linear">
-        <div v-show="show" class="transition-box">.el-fade-in-linear</div>
+        <div v-show="show" class="transition-box">.lp-fade-in-linear</div>
       </transition>
       <transition name="el-fade-in">
-        <div v-show="show" class="transition-box">.el-fade-in</div>
+        <div v-show="show" class="transition-box">.lp-fade-in</div>
       </transition>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-const show = ref(true)
+const show = ref(true);
 </script>
 
 <style>

@@ -1,15 +1,15 @@
-import { nextTick, ref } from 'vue'
-import { mount } from '@vue/test-utils'
-import { describe, expect, test } from 'vitest'
-import Badge from '../src/Badge.vue'
+import { nextTick, ref } from 'vue';
+import { mount } from '@vue/test-utils';
+import { describe, expect, test } from 'vitest';
+import Badge from '../src/Badge.vue';
 
-const AXIOM = 'Rem is the best girl'
+const AXIOM = 'Rem is the best girl';
 
 describe('Badge', () => {
   test('has value', () => {
-    const wrapper = mount(() => <Badge value={80} />)
-    expect(wrapper.find('.lp-badge__content').text()).toEqual('80')
-  })
+    const wrapper = mount(() => <Badge value={80} />);
+    expect(wrapper.find('.lp-badge__content').text()).toEqual('80');
+  });
 
   test('is fixed', () => {
     const wrapper = mount(() => (
@@ -18,10 +18,10 @@ describe('Badge', () => {
           default: () => AXIOM,
         }}
       />
-    ))
-    expect(wrapper.find('.lp-badge__content.is-fixed').exists()).toBe(true)
-    expect(wrapper.find('.lp-badge').text()).toBe(AXIOM)
-  })
+    ));
+    expect(wrapper.find('.lp-badge__content.is-fixed').exists()).toBe(true);
+    expect(wrapper.find('.lp-badge').text()).toBe(AXIOM);
+  });
 
   test('is dot', () => {
     const wrapper = mount(() => (
@@ -31,12 +31,12 @@ describe('Badge', () => {
           default: () => AXIOM,
         }}
       />
-    ))
-    expect(wrapper.find('.lp-badge__content.is-dot').exists()).toBe(true)
+    ));
+    expect(wrapper.find('.lp-badge__content.is-dot').exists()).toBe(true);
     expect(
-      wrapper.find('.lp-badge__content.lp-badge__content--danger').exists()
-    ).toBe(true)
-  })
+      wrapper.find('.lp-badge__content.lp-badge__content--danger').exists(),
+    ).toBe(true);
+  });
 
   test('is dot with type', () => {
     const wrapper = mount(() => (
@@ -47,19 +47,19 @@ describe('Badge', () => {
           default: () => AXIOM,
         }}
       />
-    ))
-    expect(wrapper.find('.lp-badge__content.is-dot').exists()).toBe(true)
+    ));
+    expect(wrapper.find('.lp-badge__content.is-dot').exists()).toBe(true);
     expect(
-      wrapper.find('.lp-badge__content.lp-badge__content--success').exists()
-    ).toBe(true)
-  })
+      wrapper.find('.lp-badge__content.lp-badge__content--success').exists(),
+    ).toBe(true);
+  });
 
   test('max', async () => {
-    const badgeValue = ref(200)
-    const wrapper = mount(() => <Badge max={100} value={badgeValue.value} />)
-    expect(wrapper.find('.lp-badge__content').text()).toEqual('100+')
-    badgeValue.value = 80
-    await nextTick()
-    expect(wrapper.find('.lp-badge__content').text()).toEqual('80')
-  })
-})
+    const badgeValue = ref(200);
+    const wrapper = mount(() => <Badge max={100} value={badgeValue.value} />);
+    expect(wrapper.find('.lp-badge__content').text()).toEqual('100+');
+    badgeValue.value = 80;
+    await nextTick();
+    expect(wrapper.find('.lp-badge__content').text()).toEqual('80');
+  });
+});

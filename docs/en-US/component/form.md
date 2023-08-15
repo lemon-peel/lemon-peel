@@ -29,7 +29,7 @@ form/basic-form
 
 > <i>When there is only one single-line text input field in a form, the user agent should accept Enter in that field as a request to submit the form.</i>
 
-To prevent this behavior, you can add `@submit.prevent` on `<el-form>`.
+To prevent this behavior, you can add `@submit.prevent` on `<lp-form>`.
 
 :::
 

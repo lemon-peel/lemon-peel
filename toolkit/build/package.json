@@ -7,7 +7,7 @@
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "start": "node --require @lemon-peel/register ./node_modules/gulp/bin/gulp.js -f ./gulpfile.ts",
+    "start": "gulp --require @lemon-peel/register -f ./gulpfile.ts",
     "dev": "pnpm run stub",
     "stub": "unbuild --stub"
   },
@@ -43,7 +43,7 @@
   "devDependencies": {
     "@pnpm/types": "^8.4.0",
     "@types/fs-extra": "^11.0",
-    "@types/lodash": "^4.14.175",
+    "@types/lodash": "^4.14.197",
     "@types/undertaker": "^1.2.8",
     "gulp": "^4.0.2",
     "ts-node": "^10.2.1",

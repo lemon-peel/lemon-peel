@@ -1,24 +1,24 @@
 <template>
-  <el-select v-model="value" placeholder="Select">
-    <el-option-group
+  <lp-select v-model="value" placeholder="Select">
+    <lp-option-group
       v-for="group in options"
       :key="group.label"
       :label="group.label"
     >
-      <el-option
+      <lp-option
         v-for="item in group.options"
         :key="item.value"
         :label="item.label"
         :value="item.value"
       />
-    </el-option-group>
-  </el-select>
+    </lp-option-group>
+  </lp-select>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-const value = ref('')
+const value = ref('');
 const options = [
   {
     label: 'Popular cities',
@@ -54,5 +54,5 @@ const options = [
       },
     ],
   },
-]
+];
 </script>

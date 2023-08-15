@@ -1,22 +1,22 @@
 <template>
   <div>
-    <el-button @click="show = !show">Click Me</el-button>
+    <lp-button @click="show = !show">Click Me</lp-button>
 
     <div style="margin-top: 20px; height: 200px">
-      <el-collapse-transition>
+      <lp-collapse-transition>
         <div v-show="show">
           <div class="transition-box">el-collapse-transition</div>
           <div class="transition-box">el-collapse-transition</div>
         </div>
-      </el-collapse-transition>
+      </lp-collapse-transition>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-const show = ref(true)
+const show = ref(true);
 </script>
 
 <style>

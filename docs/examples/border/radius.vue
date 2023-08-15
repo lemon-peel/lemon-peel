@@ -1,6 +1,6 @@
 <template>
-  <el-row :gutter="12" class="demo-radius">
-    <el-col
+  <lp-row :gutter="12" class="demo-radius">
+    <lp-col
       v-for="(radius, i) in radiusGroup"
       :key="i"
       :span="6"
@@ -18,39 +18,26 @@
             : '',
         }"
       />
-    </el-col>
-  </el-row>
+    </lp-col>
+  </lp-row>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref } from 'vue';
 
 const radiusGroup = ref([
-  {
-    name: 'No Radius',
-    type: '',
-  },
-  {
-    name: 'Small Radius',
-    type: 'small',
-  },
-  {
-    name: 'Large Radius',
-    type: 'base',
-  },
-  {
-    name: 'Round Radius',
-    type: 'round',
-  },
-])
+  { name: 'No Radius', type: '' },
+  { name: 'Small Radius', type: 'small' },
+  { name: 'Large Radius', type: 'base' },
+  { name: 'Round Radius', type: 'round' },
+]);
 
 const getValue = (type: string) => {
   const getCssVarValue = (prefix, type) =>
-    getComputedStyle(document.documentElement).getPropertyValue(
-      `--el-${prefix}-${type}`
-    )
-  return getCssVarValue('border-radius', type)
-}
+    getComputedStyle(document.documentElement)
+      .getPropertyValue(`--el-${prefix}-${type}`);
+  return getCssVarValue('border-radius', type);
+};
 </script>
 <style scoped>
 .demo-radius .title {

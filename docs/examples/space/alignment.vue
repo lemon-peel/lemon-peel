@@ -1,33 +1,33 @@
 <template>
   <div class="alignment-container">
-    <el-space>
+    <lp-space>
       string
-      <el-button> button </el-button>
-      <el-card>
+      <lp-button> button </lp-button>
+      <lp-card>
         <template #header> header </template>
         body
-      </el-card>
-    </el-space>
+      </lp-card>
+    </lp-space>
   </div>
   <div class="alignment-container">
-    <el-space alignment="flex-start">
+    <lp-space alignment="flex-start">
       string
-      <el-button> button </el-button>
-      <el-card>
+      <lp-button> button </lp-button>
+      <lp-card>
         <template #header> header </template>
         body
-      </el-card>
-    </el-space>
+      </lp-card>
+    </lp-space>
   </div>
   <div class="alignment-container">
-    <el-space alignment="flex-end">
+    <lp-space alignment="flex-end">
       string
-      <el-button> button </el-button>
-      <el-card>
+      <lp-button> button </lp-button>
+      <lp-card>
         <template #header> header </template>
         body
-      </el-card>
-    </el-space>
+      </lp-card>
+    </lp-space>
   </div>
 </template>
 

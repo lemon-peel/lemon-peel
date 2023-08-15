@@ -1,5 +1,5 @@
 <template>
-  <el-popconfirm
+  <lp-popconfirm
     confirm-button-text="OK"
     cancel-button-text="No, Thanks"
     :icon="InfoFilled"
@@ -7,11 +7,11 @@
     title="Are you sure to delete this?"
   >
     <template #reference>
-      <el-button>Delete</el-button>
+      <lp-button>Delete</lp-button>
     </template>
-  </el-popconfirm>
+  </lp-popconfirm>
 </template>
 
 <script setup lang="ts">
-import { InfoFilled } from '@element-plus/icons-vue'
+import { InfoFilled } from '@element-plus/icons-vue';
 </script>

@@ -1,7 +1,7 @@
 import type { DefaultRow } from './../table/defaults';
 
 import { inject } from 'vue';
-import { debounce } from 'lodash-es';
+import { debounce } from 'lodash';
 import { getStyle, hasClass } from '@lemon-peel/utils';
 import { createTablePopper, getCell, getColumnByCell } from '../util';
 import { STORE_INJECTION_KEY, TABLE_INJECTION_KEY } from '../tokens';

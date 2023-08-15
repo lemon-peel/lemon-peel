@@ -1,5 +1,5 @@
 import { computed, getCurrentInstance, onBeforeUnmount, onMounted, provide, ref, shallowRef, unref, watch } from 'vue';
-import { throttle } from 'lodash-es';
+import { throttle } from 'lodash';
 import { useResizeObserver } from '@vueuse/core';
 import { debugWarn, isString } from '@lemon-peel/utils';
 import { carouselContextKey } from '@lemon-peel/tokens';

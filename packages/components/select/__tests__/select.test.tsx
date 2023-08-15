@@ -12,11 +12,10 @@ import LpSelectOption from '../src/Option.vue';
 import LpSelectDropdown from '../src/SelectDropdown.vue';
 import { LpOption } from '..';
 
-
-vi.mock('lodash-es', async () => {
-  const actual: any = await vi.importActual('lodash-es');
+vi.mock('lodash', async load => {
+  const mod: any = await load();
   return {
-    ...actual,
+    ...mod.default,
     debounce: vi.fn(fn => {
       fn.cancel = vi.fn();
       fn.flush = vi.fn();

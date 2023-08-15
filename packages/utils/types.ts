@@ -1,14 +1,21 @@
 import { isArray, isObject, isString } from '@vue/shared';
 
-import { isNil } from 'lodash-es';
+import { isNil } from 'lodash';
 
 export { isArray, isFunction, isObject, isString, isDate, isPromise, isSymbol } from '@vue/shared';
-export { isBoolean, isNumber } from '@vueuse/core';
 export { isVNode } from 'vue';
 
-export const isUndefined = (value: any): value is undefined => value === undefined;
+export const isUndefined = (value?: any): value is undefined => value === undefined;
 
-export const isEmpty = (value: unknown) =>
+export function isNumber(value: any): value is number {
+  return typeof value === 'number' && Number.isFinite(value);
+}
+
+export function isBoolean(value: any): value is boolean {
+  return value === true || value === false;
+}
+
+export const isEmpty = (value?: unknown) =>
   (!value && value !== 0) ||
   (isArray(value) && value.length === 0) ||
   (isObject(value) && Object.keys(value).length === 0);
@@ -18,7 +25,7 @@ export const isElement = (e: unknown): e is Element => {
   return e instanceof Element;
 };
 
-export const isPropAbsent = (property: unknown): property is null | undefined => {
+export const isPropAbsent = (property?: unknown): property is null | undefined => {
   return isNil(property);
 };
 

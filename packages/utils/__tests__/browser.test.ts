@@ -1,5 +1,5 @@
-import { describe, expect, it, vi } from 'vitest'
-import { isFirefox } from '../index'
+import { describe, expect, it, vi } from 'vitest';
+import { isFirefox } from '../index';
 
 describe('browser', () => {
   it('isFirefox should work', () => {
@@ -17,12 +17,12 @@ describe('browser', () => {
         'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.75 Safari/537.36',
         false,
       ],
-    ] as const
+    ] as const;
     for (const [userAgent, value] of userAgents) {
       vi.spyOn(navigator, 'userAgent', 'get').mockImplementation(
-        () => userAgent
-      )
-      expect(isFirefox()).toBe(value)
+        () => userAgent,
+      );
+      expect(isFirefox()).toBe(value);
     }
-  })
-})
+  });
+});

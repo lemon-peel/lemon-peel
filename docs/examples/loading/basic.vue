@@ -1,15 +1,15 @@
 <template>
-  <el-table v-loading="loading" :data="tableData" style="width: 100%">
-    <el-table-column prop="date" label="Date" width="180" />
-    <el-table-column prop="name" label="Name" width="180" />
-    <el-table-column prop="address" label="Address" />
-  </el-table>
+  <lp-table v-loading="loading" :data="tableData" style="width: 100%">
+    <lp-table-column prop="date" label="Date" width="180" />
+    <lp-table-column prop="name" label="Name" width="180" />
+    <lp-table-column prop="address" label="Address" />
+  </lp-table>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-const loading = ref(true)
+const loading = ref(true);
 
 const tableData = [
   {
@@ -27,14 +27,14 @@ const tableData = [
     name: 'John Smith',
     address: 'No.1518,  Jinshajiang Road, Putuo District',
   },
-]
+];
 </script>
 
 <style>
 body {
   margin: 0;
 }
-.example-showcase .el-loading-mask {
+.example-showcase .lp-loading-mask {
   z-index: 9;
 }
 </style>

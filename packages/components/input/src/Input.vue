@@ -156,7 +156,7 @@
 <script lang="ts" setup>
 import { computed, nextTick, onMounted, ref, shallowRef, toRef, useAttrs as useRawAttrs, useSlots, watch } from 'vue';
 import { isClient, useResizeObserver } from '@vueuse/core';
-import { isNil } from 'lodash-es';
+import { isNil } from 'lodash';
 import { LpIcon } from '@lemon-peel/components/icon';
 import { CircleClose, Hide as IconHide, View as IconView } from '@element-plus/icons-vue';
 import { NOOP, ValidateComponentsMap, debugWarn, isKorean, isObject } from '@lemon-peel/utils';

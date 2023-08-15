@@ -195,7 +195,7 @@
 <script lang="ts" setup>
 import { computed, defineComponent, nextTick, onMounted, ref, VNode, watch } from 'vue';
 import { isPromise } from '@vue/shared';
-import { cloneDeep, debounce } from 'lodash-es';
+import { cloneDeep, debounce } from 'lodash';
 
 import { isClient, useCssVar, useResizeObserver } from '@vueuse/core';
 /* eslint-disable @typescript-eslint/consistent-type-imports */
@@ -261,7 +261,7 @@ const { t } = useLocale();
 const { form, formItem } = useFormItem();
 
 const tooltipRef: Ref<TooltipType | null> = ref(null);
-const input: Ref<InputType | null> = ref(null);
+const input: Ref<InputType> = ref(null as any);
 const tagWrapper = ref(null);
 const panel: Ref<CascaderPanelType | null> = ref(null);
 const suggestionPanel: Ref<SuggestionPanelType | null> = ref(null);
@@ -638,7 +638,7 @@ watch(presentTags, () => {
 watch(presentText, syncPresentTextValue, { immediate: true });
 
 onMounted(() => {
-  const inputInner = input.value!.input!;
+  const inputInner = input.value.input!;
 
   const inputInnerHeight =
         Number.parseFloat(

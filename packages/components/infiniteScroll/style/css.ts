@@ -1,2 +1,2 @@
 import '@lemon-peel/components/base/style/css';
-import '@lemon-peel/theme-chalk/lp-infinite-scroll.css';
+import '@lemon-peel/theme-chalk/src/infinite-scroll.scss';

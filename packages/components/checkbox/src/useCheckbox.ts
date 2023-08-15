@@ -2,7 +2,7 @@ import { computed, inject, nextTick, ref, unref, watch } from 'vue';
 import { useDisabled, useFormItem, useFormItemInputId, useSize } from '@lemon-peel/hooks';
 import { debugWarn, isObject } from '@lemon-peel/utils';
 import { checkboxGroupContextKey } from '@lemon-peel/tokens';
-import { isEqual } from 'lodash-es';
+import { isEqual } from 'lodash';
 
 import type { ComponentInternalInstance, SetupContext } from 'vue';
 import type { checkboxEmits, CheckboxProps } from './checkbox';

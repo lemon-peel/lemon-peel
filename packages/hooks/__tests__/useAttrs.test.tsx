@@ -32,7 +32,7 @@ const genComp = (
   });
 };
 
-const _mount = (Comp: ReturnType<typeof genComp>) => {
+const doMount = (Comp: ReturnType<typeof genComp>) => {
   return mount({
     setup() {
       return () => (
@@ -53,7 +53,7 @@ describe('useAttrs', () => {
   });
 
   it('class and style should not bind to child node', async () => {
-    const wrapper = _mount(genComp());
+    const wrapper = doMount(genComp());
     const container = wrapper.element as HTMLDivElement;
     const span = wrapper.find('span');
 
@@ -69,7 +69,7 @@ describe('useAttrs', () => {
   });
 
   it("child node's attributes should update when prop change", async () => {
-    const wrapper = _mount(genComp());
+    const wrapper = doMount(genComp());
     const span = wrapper.find('span');
 
     await wrapper.setProps({ [TEST_KEY]: ANOTHER_TEST_VALUE });
@@ -77,7 +77,7 @@ describe('useAttrs', () => {
   });
 
   it('excluded listeners should not bind to child node', async () => {
-    const wrapper = _mount(genComp(true, true));
+    const wrapper = doMount(genComp(true, true));
     const span = wrapper.find('span');
 
     await span.trigger('click');
@@ -86,7 +86,7 @@ describe('useAttrs', () => {
   });
 
   it('excluded attributes should not bind to child node', async () => {
-    const wrapper = _mount(
+    const wrapper = doMount(
       genComp(
         true,
         false,

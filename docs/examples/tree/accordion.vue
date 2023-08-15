@@ -1,5 +1,5 @@
 <template>
-  <el-tree
+  <lp-tree
     :data="data"
     :props="defaultProps"
     accordion
@@ -9,13 +9,13 @@
 
 <script lang="ts" setup>
 interface Tree {
-  label: string
-  children?: Tree[]
+  label: string;
+  children?: Tree[];
 }
 
 const handleNodeClick = (data: Tree) => {
-  console.log(data)
-}
+  console.log(data);
+};
 
 const data: Tree[] = [
   {
@@ -73,9 +73,9 @@ const data: Tree[] = [
       },
     ],
   },
-]
+];
 const defaultProps = {
   children: 'children',
   label: 'label',
-}
+};
 </script>

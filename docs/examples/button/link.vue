@@ -1,25 +1,23 @@
 <template>
   <p>Basic link button</p>
   <div class="flex justify-space-between mb-4 flex-wrap gap-4">
-    <el-button
+    <lp-button
       v-for="button in buttons"
       :key="button.text"
       :type="button.type"
       link
-      >{{ button.text }}</el-button
-    >
+    >{{ button.text }}</lp-button>
   </div>
 
   <p>Disabled link button</p>
   <div class="flex justify-space-between flex-wrap gap-4">
-    <el-button
+    <lp-button
       v-for="button in buttons"
       :key="button.text"
       :type="button.type"
       link
       disabled
-      >{{ button.text }}</el-button
-    >
+    >{{ button.text }}</lp-button>
   </div>
 </template>
 
@@ -31,5 +29,5 @@ const buttons = [
   { type: 'info', text: 'info' },
   { type: 'warning', text: 'warning' },
   { type: 'danger', text: 'danger' },
-] as const
+] as const;
 </script>

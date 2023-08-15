@@ -10,50 +10,38 @@ import Components from 'unplugin-vue-components/vite';
 import Icons from 'unplugin-icons/vite';
 import IconsResolver from 'unplugin-icons/resolver';
 
-import {
-  docPackage,
-  epPackage,
-  getPackageDependencies,
-  projRoot,
-} from '@element-plus/build-utils';
-import { MarkdownTransform } from './.vitepress/plugins/markdown-transform';
+import { docPkg, mainPkg, getPackageDependencies, projDir } from '@lemon-peel/build-utils';
+
+import { MarkdownTransform } from './.vitepress/plugins/markdownTransform';
 
 import type { Alias } from 'vite';
 
 const alias: Alias[] = [
-  {
-    find: '~/',
-    replacement: `${path.resolve(__dirname, './.vitepress/vitepress')}/`,
-  },
+  { find: '~/', replacement: `${path.resolve(__dirname, './.vitepress/vitepress')}/` },
 ];
+
 if (process.env.DOC_ENV !== 'production') {
   alias.push(
-    {
-      find: /^element-plus(\/(es|lib))?$/,
-      replacement: path.resolve(projRoot, 'packages/element-plus/index.ts'),
-    },
-    {
-      find: /^element-plus\/(es|lib)\/(.*)$/,
-      replacement: `${path.resolve(projRoot, 'packages')}/$2`,
-    },
+    { find: /^lemon-peel(\/(es|lib))?$/, replacement: path.resolve(projDir, 'packages/lemon-peel/index.ts') },
+    { find: /^lemon-pell\/(es|lib)\/(.*)$/, replacement: `${path.resolve(projDir, 'packages')}/$2` },
   );
 }
 
 export default defineConfig(async ({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
 
-  const { dependencies: epDeps } = getPackageDependencies(epPackage);
-  const { dependencies: docsDeps } = getPackageDependencies(docPackage);
+  const { dependencies: epDeps } = getPackageDependencies(mainPkg);
+  const { dependencies: docsDeps } = getPackageDependencies(docPkg);
 
   const optimizeDeps = [...new Set([...epDeps, ...docsDeps])].filter(
     dep =>
       !dep.startsWith('@types/') &&
-      !['@element-plus/metadata', 'element-plus'].includes(dep),
+      !['@lemon-peel/metadata', 'lemon-peel'].includes(dep),
   );
 
   optimizeDeps.push(
     ...(await glob(['dayjs/plugin/*.js'], {
-      cwd: path.resolve(projRoot, 'node_modules'),
+      cwd: path.resolve(projDir, 'node_modules'),
       onlyFiles: true,
     })),
   );
@@ -63,7 +51,7 @@ export default defineConfig(async ({ mode }) => {
       host: true,
       https: !!env.HTTPS,
       fs: {
-        allow: [projRoot],
+        allow: [projDir],
       },
     },
     resolve: {

@@ -23,7 +23,7 @@
     "@lemon-peel/build-constants": "workspace:*",
     "@lemon-peel/build-utils": "workspace:*",
     "@lemon-peel/register": "workspace:*",
-    "@types/lodash": "^4.14.196",
+    "@types/lodash": "^4.14.197",
     "chalk": "^4.1.2",
     "consola": "^2.15.3",
     "fast-glob": "^3.2.11",

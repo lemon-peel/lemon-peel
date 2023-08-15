@@ -62,6 +62,7 @@ const onMousedown = vi.fn();
 
 describe('<LpRovingFocusGroup />', () => {
   const createComponent = (
+    // eslint-disable-next-line unicorn/no-object-as-default-parameter
     props = {
       onFocus,
       onBlur,

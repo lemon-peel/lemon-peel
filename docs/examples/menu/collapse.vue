@@ -1,68 +1,68 @@
 <template>
-  <el-radio-group v-model="isCollapse" style="margin-bottom: 20px">
-    <el-radio-button :label="false">expand</el-radio-button>
-    <el-radio-button :label="true">collapse</el-radio-button>
-  </el-radio-group>
-  <el-menu
+  <lp-radio-group v-model="isCollapse" style="margin-bottom: 20px">
+    <lp-radio-button :label="false">expand</lp-radio-button>
+    <lp-radio-button :label="true">collapse</lp-radio-button>
+  </lp-radio-group>
+  <lp-menu
     default-active="2"
     class="el-menu-vertical-demo"
     :collapse="isCollapse"
     @open="handleOpen"
     @close="handleClose"
   >
-    <el-sub-menu index="1">
+    <lp-sub-menu index="1">
       <template #title>
-        <el-icon><location /></el-icon>
+        <lp-icon><location /></lp-icon>
         <span>Navigator One</span>
       </template>
-      <el-menu-item-group>
+      <lp-menu-item-group>
         <template #title><span>Group One</span></template>
-        <el-menu-item index="1-1">item one</el-menu-item>
-        <el-menu-item index="1-2">item two</el-menu-item>
-      </el-menu-item-group>
-      <el-menu-item-group title="Group Two">
-        <el-menu-item index="1-3">item three</el-menu-item>
-      </el-menu-item-group>
-      <el-sub-menu index="1-4">
+        <lp-menu-item index="1-1">item one</lp-menu-item>
+        <lp-menu-item index="1-2">item two</lp-menu-item>
+      </lp-menu-item-group>
+      <lp-menu-item-group title="Group Two">
+        <lp-menu-item index="1-3">item three</lp-menu-item>
+      </lp-menu-item-group>
+      <lp-sub-menu index="1-4">
         <template #title><span>item four</span></template>
-        <el-menu-item index="1-4-1">item one</el-menu-item>
-      </el-sub-menu>
-    </el-sub-menu>
-    <el-menu-item index="2">
-      <el-icon><icon-menu /></el-icon>
+        <lp-menu-item index="1-4-1">item one</lp-menu-item>
+      </lp-sub-menu>
+    </lp-sub-menu>
+    <lp-menu-item index="2">
+      <lp-icon><icon-menu /></lp-icon>
       <template #title>Navigator Two</template>
-    </el-menu-item>
-    <el-menu-item index="3" disabled>
-      <el-icon><document /></el-icon>
+    </lp-menu-item>
+    <lp-menu-item index="3" disabled>
+      <lp-icon><document /></lp-icon>
       <template #title>Navigator Three</template>
-    </el-menu-item>
-    <el-menu-item index="4">
-      <el-icon><setting /></el-icon>
+    </lp-menu-item>
+    <lp-menu-item index="4">
+      <lp-icon><setting /></lp-icon>
       <template #title>Navigator Four</template>
-    </el-menu-item>
-  </el-menu>
+    </lp-menu-item>
+  </lp-menu>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref } from 'vue';
 import {
   Document,
   Menu as IconMenu,
   Location,
   Setting,
-} from '@element-plus/icons-vue'
+} from '@element-plus/icons-vue';
 
-const isCollapse = ref(true)
+const isCollapse = ref(true);
 const handleOpen = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath)
-}
+  console.log(key, keyPath);
+};
 const handleClose = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath)
-}
+  console.log(key, keyPath);
+};
 </script>
 
 <style>
-.el-menu-vertical-demo:not(.el-menu--collapse) {
+.lp-menu-vertical-demo:not(.lp-menu--collapse) {
   width: 200px;
   min-height: 400px;
 }

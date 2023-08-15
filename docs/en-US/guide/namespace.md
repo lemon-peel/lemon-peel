@@ -27,9 +27,9 @@ Use `ElConfigProvider` wrap your root component.
 ```vue
 <!-- App.vue -->
 <template>
-  <el-config-provider namespace="ep">
+  <lp-config-provider namespace="ep">
     <!-- ... -->
-  </el-config-provider>
+  </lp-config-provider>
 </template>
 ```
 
@@ -51,7 +51,7 @@ Import `styles/element/index.scss` in `vite.config.ts`:
 > The same is true for webpack, which needs to be set in `preprocessorOptions`.
 
 ```ts
-import { defineConfig } from 'vite'
+import { defineConfig } from 'vite';
 // https://vitejs.dev/config/
 export default defineConfig({
   // ...
@@ -63,7 +63,7 @@ export default defineConfig({
     },
   },
   // ...
-})
+});
 ```
 
 That's all.

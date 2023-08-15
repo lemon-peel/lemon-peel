@@ -1,5 +1,5 @@
 <template>
-  <el-transfer
+  <lp-transfer
     v-model="value"
     filterable
     :filter-method="filterMethod"
@@ -9,16 +9,16 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref } from 'vue';
 
 interface Option {
-  key: number
-  label: string
-  initial: string
+  key: number;
+  label: string;
+  initial: string;
 }
 
 const generateData = () => {
-  const data: Option[] = []
+  const data: Option[] = [];
   const states = [
     'California',
     'Illinois',
@@ -27,22 +27,22 @@ const generateData = () => {
     'Florida',
     'Colorado',
     'Connecticut ',
-  ]
-  const initials = ['CA', 'IL', 'MD', 'TX', 'FL', 'CO', 'CT']
+  ];
+  const initials = ['CA', 'IL', 'MD', 'TX', 'FL', 'CO', 'CT'];
   states.forEach((city, index) => {
     data.push({
       label: city,
       key: index,
       initial: initials[index],
-    })
-  })
-  return data
-}
+    });
+  });
+  return data;
+};
 
-const data = ref<Option[]>(generateData())
-const value = ref([])
+const data = ref<Option[]>(generateData());
+const value = ref([]);
 
 const filterMethod = (query, item) => {
-  return item.initial.toLowerCase().includes(query.toLowerCase())
-}
+  return item.initial.toLowerCase().includes(query.toLowerCase());
+};
 </script>

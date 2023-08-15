@@ -1,9 +1,9 @@
 <template>
-  <el-table :data="tableData" style="width: 100%">
-    <el-table-column prop="date" label="Date" width="180" />
-    <el-table-column prop="name" label="Name" width="180" />
-    <el-table-column prop="address" label="Address" />
-  </el-table>
+  <lp-table :data="tableData" style="width: 100%">
+    <lp-table-column prop="date" label="Date" width="180" />
+    <lp-table-column prop="name" label="Name" width="180" />
+    <lp-table-column prop="address" label="Address" />
+  </lp-table>
 </template>
 
 <script lang="ts" setup>
@@ -28,5 +28,5 @@ const tableData = [
     name: 'Tom',
     address: 'No. 189, Grove St, Los Angeles',
   },
-]
+];
 </script>

@@ -1,3 +1,3 @@
 export const getCssVariable = (el: HTMLElement, property: string) => {
-  return getComputedStyle(el).getPropertyValue(property)
-}
+  return getComputedStyle(el).getPropertyValue(property);
+};

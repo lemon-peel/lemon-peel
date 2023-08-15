@@ -7,7 +7,7 @@ import glob from 'fast-glob';
 import consola from 'consola';
 import chalk from 'chalk';
 
-import { ensureDir, errorAndExit, projDir, writeJson } from '@lemon-peel/build-utils';
+import { ensureDir, projDir, writeJson } from '@lemon-peel/build-utils';
 import { REPO_BRANCH, REPO_NAME, REPO_OWNER } from '@lemon-peel/build-constants';
 
 interface FetchOption {
@@ -49,6 +49,10 @@ interface ContributorInfo {
   count: number;
 }
 
+const octokit = new Octokit({
+  auth: process.env.GITHUB_TOKEN,
+});
+
 const fetchCommits = async (
   options: FetchOption[],
 ): Promise<Record<string, ApiResult>> => {
@@ -85,7 +89,8 @@ const fetchCommits = async (
       }
     }
   }`;
-  const response = (await octokit.graphql<ApiResponse>(query)).repository.object;
+  const gres = await octokit.graphql<ApiResponse>(query);
+  const response = gres.repository.object;
   return Object.fromEntries(
     Object.entries(response).map(([key, result]) => {
       const index = +key.replace('path', '');
@@ -170,21 +175,15 @@ async function getContributors() {
 const pathOutput = path.resolve(__dirname, '..', 'dist');
 const pathDest = path.resolve(pathOutput, 'contributors.json');
 
-const octokit = new Octokit({
-  auth: process.env.GITHUB_TOKEN,
-});
-
 async function main() {
   await ensureDir(pathOutput);
 
-  let contributors: Record<string, ContributorInfo[]>;
+  let contributors: Record<string, ContributorInfo[]> = {};
   if (process.env.DEV) {
     if (existsSync(pathDest)) return;
     contributors = {};
   } else {
-    contributors = await getContributors().catch(error => {
-      errorAndExit(error);
-    });
+    contributors = await getContributors();
   }
 
   await writeJson(pathDest, contributors);

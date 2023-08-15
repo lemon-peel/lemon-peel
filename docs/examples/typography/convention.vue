@@ -15,8 +15,8 @@
         <td>
           {{
             useCssVar(`--el-font-size-${fontSize.type}`).value +
-            ' ' +
-            formatType(fontSize.type)
+              ' ' +
+              formatType(fontSize.type)
           }}
         </td>
         <td>Build with Element</td>
@@ -26,7 +26,7 @@
 </template>
 
 <script lang="ts" setup>
-import { useCssVar } from '@vueuse/core'
+import { useCssVar } from '@vueuse/core';
 
 const fontSizes = [
   {
@@ -53,12 +53,12 @@ const fontSizes = [
     level: 'Main Title',
     type: 'extra-large',
   },
-]
+];
 
 function formatType(type: string) {
   return type
     .split('-')
-    .map((item) => item.charAt(0).toUpperCase() + item.slice(1))
-    .join(' ')
+    .map(item => item.charAt(0).toUpperCase() + item.slice(1))
+    .join(' ');
 }
 </script>

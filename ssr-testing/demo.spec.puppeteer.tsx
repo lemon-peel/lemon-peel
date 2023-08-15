@@ -1,57 +1,59 @@
-import path from 'path'
-import { createApp } from 'vue'
-import { renderToString } from '@vue/server-renderer'
-import { afterAll, beforeAll, describe, expect, it } from 'vitest'
-import puppeteer from 'puppeteer'
-import glob from 'fast-glob'
-import ElementPlus, { ID_INJECTION_KEY } from '../dist/element-plus'
+import path from 'node:path';
+import { createApp } from 'vue';
+import { renderToString } from '@vue/server-renderer';
+import { afterAll, beforeAll, describe, expect, it } from 'vitest';
+import puppeteer from 'puppeteer';
+import glob from 'fast-glob';
 
-import type { Browser } from 'puppeteer'
+// eslint-disable-next-line import/no-unresolved
+import LemonPeel, { ID_INJECTION_KEY } from 'lemon-peel';
 
-const projectRoot = process.cwd()
-const testRoot = path.resolve(projectRoot, 'ssr-testing')
-const demoRoot = path.resolve(testRoot, 'cases')
+import type { Browser } from 'puppeteer';
+
+const projectRoot = process.cwd();
+const testRoot = path.resolve(projectRoot, 'ssr-testing');
+const demoRoot = path.resolve(testRoot, 'cases');
 describe('Cypress Button', () => {
-  let browser: Browser
+  let browser: Browser;
   beforeAll(async () => {
-    browser = await puppeteer.launch()
-  })
+    browser = await puppeteer.launch();
+  });
 
   afterAll(() => {
-    browser.close()
-  })
+    browser.close();
+  });
 
   describe('when initialized', () => {
     const demoPaths = glob
       .sync(`${demoRoot}/*.vue`)
-      .map((demo) => demo.slice(demoRoot.length + 1))
+      .map(demo => demo.slice(demoRoot.length + 1));
 
-    it.each(demoPaths)(`render %s correctly`, async (demoPath) => {
-      const page = await browser.newPage()
-      await page.goto(`file://${projectRoot}/ssr-testing/index.html`)
+    it.each(demoPaths)(`render %s correctly`, async demoPath => {
+      const page = await browser.newPage();
+      await page.goto(`file://${projectRoot}/ssr-testing/index.html`);
       await page.addStyleTag({
         path: path.join(
           projectRoot,
           'dist',
           'element-plus',
           'dist',
-          'index.css'
+          'index.css',
         ),
-      })
+      });
 
-      const { default: Demo } = await import(path.join(demoRoot, demoPath))
+      const { default: Demo } = await import(path.join(demoRoot, demoPath));
       const app = createApp(<Demo />)
-        .use(ElementPlus)
+        .use(LemonPeel)
         .provide(ID_INJECTION_KEY, {
           prefix: 100,
           current: 0,
-        })
+        });
 
-      const html = await renderToString(app)
+      const html = await renderToString(app);
 
-      await page.evaluate((innerHTML) => {
-        document.querySelector('#root')!.innerHTML = innerHTML
-      }, html)
+      await page.evaluate(innerHTML => {
+        document.querySelector('#root')!.innerHTML = innerHTML;
+      }, html);
 
       // SSR testing don't need screenshots.
       // const screenshotPath = demoPath
@@ -63,8 +65,8 @@ describe('Cypress Button', () => {
       //   fullPage: true,
       // })
 
-      await page.close()
-      expect(true).toBe(true)
-    })
-  })
-})
+      await page.close();
+      expect(true).toBe(true);
+    });
+  });
+});

@@ -1,5 +1,5 @@
 import { computed, isRef, ref, unref } from 'vue';
-import { get } from 'lodash-es';
+import { get } from 'lodash';
 import English from '@lemon-peel/locale/lang/en';
 import { useGlobalConfig } from './useGlobalConfig';
 import type { MaybeRef } from '@vueuse/core';

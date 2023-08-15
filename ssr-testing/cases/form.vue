@@ -22,33 +22,32 @@
       ]"
     >
       <lp-input v-model="dynamicValidateForm.email" />
-      </lp-form-item>
-      <lp-form-item
-        v-for="(domain, index) in dynamicValidateForm.domains"
-        :key="domain.key"
-        :label="'Domain' + index"
-        :prop="'domains.' + index + '.value'"
-        :rules="{
-          required: true,
-          message: 'domain can not be null',
-          trigger: 'blur',
-        }"
-      >
-        <lp-input v-model="domain.value" />
-        <lp-button style="margin-top: 8px" @click.prevent="removeDomain(domain)">Delete</lp-button
-          >
-          </lp-form-item>
-          <lp-form-item>
-            <lp-button type="primary" @click="submitForm(formRef)">Submit</lp-button>
-              <lp-button @click="addDomain">New domain</lp-button>
-                <lp-button @click="resetForm(formRef)">Reset</lp-button>
-                  </lp-form-item>
-                  </lp-form>
-                </lp-button></lp-button></lp-button></lp-form-item></lp-button></lp-form-item></lp-form-item></lp-form></template>
+    </lp-form-item>
+    <lp-form-item
+      v-for="(domain, index) in dynamicValidateForm.domains"
+      :key="domain.key"
+      :label="'Domain' + index"
+      :prop="'domains.' + index + '.value'"
+      :rules="{
+        required: true,
+        message: 'domain can not be null',
+        trigger: 'blur',
+      }"
+    >
+      <lp-input v-model="domain.value" />
+      <lp-button style="margin-top: 8px" @click.prevent="removeDomain(domain)">Delete</lp-button>
+    </lp-form-item>
+    <lp-form-item>
+      <lp-button type="primary" @click="submitForm(formRef)">Submit</lp-button>
+      <lp-button @click="addDomain">New domain</lp-button>
+      <lp-button @click="resetForm(formRef)">Reset</lp-button>
+    </lp-form-item>
+  </lp-form>
+</template>
 
 <script lang="ts" setup>
 import { reactive, ref } from 'vue';
-import type { FormInstance } from 'element-plus';
+import type { FormInstance } from 'lemon-peel';
 
 const formRef = ref<FormInstance>();
 const dynamicValidateForm = reactive<{

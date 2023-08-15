@@ -1,15 +1,15 @@
 <template>
-  <el-button plain @click="open"> Notification with offset </el-button>
+  <lp-button plain @click="open"> Notification with offset </lp-button>
 </template>
 
 <script lang="ts" setup>
-import { ElNotification } from 'element-plus'
+import { ElNotification } from 'element-plus';
 
 const open = () => {
   ElNotification.success({
     title: 'Success',
     message: 'This is a success message',
     offset: 100,
-  })
-}
+  });
+};
 </script>

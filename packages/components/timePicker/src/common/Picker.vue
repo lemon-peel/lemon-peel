@@ -170,7 +170,7 @@
 
 <script lang="ts" setup>
 import { computed, inject, nextTick, provide, ref, unref, useAttrs, watch } from 'vue';
-import { isEqual } from 'lodash-es';
+import { isEqual } from 'lodash';
 import { onClickOutside } from '@vueuse/core';
 import { useFormItem, useLocale, useNamespace, useSize } from '@lemon-peel/hooks';
 import LpInput from '@lemon-peel/components/input';

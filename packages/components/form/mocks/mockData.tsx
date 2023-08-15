@@ -1,3 +1,4 @@
+/* eslint-disable vue/require-default-prop */
 import { defineComponent, ref, toRef } from 'vue';
 import Input from '@lemon-peel/components/input';
 import Button from '@lemon-peel/components/button';

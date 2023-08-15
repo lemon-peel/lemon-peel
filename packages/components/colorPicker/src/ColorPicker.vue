@@ -103,7 +103,7 @@
 
 <script lang="ts" setup>
 import { computed, nextTick, onMounted, provide, reactive, ref, watch } from 'vue';
-import { debounce } from 'lodash-es';
+import { debounce } from 'lodash';
 import { ClickOutside as vClickOutside } from '@lemon-peel/directives';
 import { useDisabled, useFormItem, useFormItemInputId, useLocale, useNamespace, useSize } from '@lemon-peel/hooks';
 import { UPDATE_MODEL_EVENT } from '@lemon-peel/constants';

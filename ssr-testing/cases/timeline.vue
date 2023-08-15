@@ -24,5 +24,5 @@ const activities = [
     content: 'Success',
     timestamp: '2018-04-11',
   },
-]
+];
 </script>

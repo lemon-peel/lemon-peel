@@ -1,6 +1,6 @@
 
 import { createPopper } from '@popperjs/core';
-import { flatMap, get } from 'lodash-es';
+import { flatMap, get } from 'lodash';
 import { hasOwn, isArray, isBoolean, throwError } from '@lemon-peel/utils';
 import { useZIndex } from '@lemon-peel/hooks';
 import escapeHtml from 'escape-html';

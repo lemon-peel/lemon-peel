@@ -26,6 +26,7 @@ const esbuildPlugin = () => ({
   enforce: 'post',
 } as Plugin);
 
+// eslint-disable-next-line
 const lpComponentList = [
   'LpAffix',
   'LpAlert',

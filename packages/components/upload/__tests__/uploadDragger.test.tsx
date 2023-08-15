@@ -6,7 +6,7 @@ import UploadDragger from '../src/UploadDragger.vue';
 
 const AXIOM = 'Rem is the best girl';
 
-const _mount = (props = {}) =>
+const doMount = (props = {}) =>
   mount({
     setup() {
       provide(uploadContextKey, { accept: computed(() => 'video/*') });
@@ -17,7 +17,7 @@ const _mount = (props = {}) =>
 describe('<upload-dragger />', () => {
   describe('render test', () => {
     test('should render correct', () => {
-      const wrapper = _mount();
+      const wrapper = doMount();
 
       expect(wrapper.text()).toBe(AXIOM);
     });
@@ -25,14 +25,14 @@ describe('<upload-dragger />', () => {
 
   describe('functionality', () => {
     test('onDrag works', async () => {
-      const wrapper = _mount();
+      const wrapper = doMount();
       await wrapper.find('.lp-upload-dragger').trigger('dragover');
       expect(wrapper.classes('is-dragover')).toBe(true);
     });
 
     test('ondrop works for any given video type', async () => {
       const onDrop = vi.fn();
-      const wrapper = _mount({ onDrop });
+      const wrapper = doMount({ onDrop });
       const dragger = wrapper.findComponent(UploadDragger);
 
       await dragger.trigger('drop', {

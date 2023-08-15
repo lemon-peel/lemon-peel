@@ -1,8 +1,8 @@
 <template>
-  <el-button @click="resetDateFilter">reset date filter</el-button>
-  <el-button @click="clearFilter">reset all filters</el-button>
-  <el-table ref="tableRef" row-key="date" :data="tableData" style="width: 100%">
-    <el-table-column
+  <lp-button @click="resetDateFilter">reset date filter</lp-button>
+  <lp-button @click="clearFilter">reset all filters</lp-button>
+  <lp-table ref="tableRef" row-key="date" :data="tableData" style="width: 100%">
+    <lp-table-column
       prop="date"
       label="Date"
       sortable
@@ -16,10 +16,10 @@
       ]"
       :filter-method="filterHandler"
     />
-    <el-table-column prop="name" label="Name" width="180" />
-    <el-table-column prop="address" label="Address" :formatter="formatter" />
+    <lp-table-column prop="name" label="Name" width="180" />
+    <lp-table-column prop="address" label="Address" :formatter="formatter" />
 
-    <el-table-column
+    <lp-table-column
       prop="tag"
       label="Tag"
       width="100"
@@ -31,53 +31,52 @@
       filter-placement="bottom-end"
     >
       <template #default="scope">
-        <el-tag
+        <lp-tag
           :type="scope.row.tag === 'Home' ? '' : 'success'"
           disable-transitions
-          >{{ scope.row.tag }}</el-tag
-        >
+        >{{ scope.row.tag }}</lp-tag>
       </template>
-    </el-table-column>
-  </el-table>
+    </lp-table-column>
+  </lp-table>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
-import { ElTable } from 'element-plus'
-import type { TableColumnCtx } from 'element-plus/es/components/table/src/table-column/defaults'
+import { ref } from 'vue';
+import type { ElTable } from 'element-plus';
+import type { TableColumnCtx } from 'element-plus/es/components/table/src/table-column/defaults';
 
 interface User {
-  date: string
-  name: string
-  address: string
-  tag: string
+  date: string;
+  name: string;
+  address: string;
+  tag: string;
 }
 
-const tableRef = ref<InstanceType<typeof ElTable>>()
+const tableRef = ref<InstanceType<typeof ElTable>>();
 
 const resetDateFilter = () => {
-  tableRef.value!.clearFilter(['date'])
-}
+  tableRef.value!.clearFilter(['date']);
+};
 // TODO: improvement typing when refactor table
 const clearFilter = () => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-expect-error
-  tableRef.value!.clearFilter()
-}
+  tableRef.value!.clearFilter();
+};
 const formatter = (row: User, column: TableColumnCtx<User>) => {
-  return row.address
-}
+  return row.address;
+};
 const filterTag = (value: string, row: User) => {
-  return row.tag === value
-}
+  return row.tag === value;
+};
 const filterHandler = (
   value: string,
   row: User,
-  column: TableColumnCtx<User>
+  column: TableColumnCtx<User>,
 ) => {
-  const property = column['property']
-  return row[property] === value
-}
+  const property = column.property;
+  return row[property] === value;
+};
 
 const tableData: User[] = [
   {
@@ -104,5 +103,5 @@ const tableData: User[] = [
     address: 'No. 189, Grove St, Los Angeles',
     tag: 'Office',
   },
-]
+];
 </script>

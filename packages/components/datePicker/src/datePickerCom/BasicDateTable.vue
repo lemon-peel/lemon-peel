@@ -47,7 +47,7 @@
 <script lang="ts" setup>
 import { computed, nextTick, ref, unref, watch } from 'vue';
 import dayjs from 'dayjs';
-import { flatten } from 'lodash-es';
+import { flatten } from 'lodash';
 import { useLocale, useNamespace } from '@lemon-peel/hooks';
 import { castArray } from '@lemon-peel/utils';
 import { basicDateTableProps } from '../props/basicDateTable';

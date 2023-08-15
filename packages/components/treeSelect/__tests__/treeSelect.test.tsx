@@ -8,7 +8,7 @@ import LpTree from '@lemon-peel/components/tree';
 import type { RenderFunction } from 'vue';
 
 import TreeSelect from '../src/TreeSelect.vue';
-import { cloneDeep } from 'lodash-es';
+import { cloneDeep } from 'lodash';
 
 const defaultData = [{
   value: 1,

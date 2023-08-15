@@ -1,12 +1,12 @@
-import { describe, expect, it } from 'vitest'
-import { generateId, getRandomInt } from '../index'
+import { describe, expect, it } from 'vitest';
+import { generateId, getRandomInt } from '../index';
 
 describe('rand', () => {
   it('generateId should work', () => {
-    expect(generateId()).to.be.a('number')
-  })
+    expect(generateId()).to.be.a('number');
+  });
 
   it('getRandomInt should work', () => {
-    expect(getRandomInt(1000)).lessThan(1000)
-  })
-})
+    expect(getRandomInt(1000)).lessThan(1000);
+  });
+});

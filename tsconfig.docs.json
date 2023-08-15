@@ -1,0 +1,30 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "composite": true,
+    "jsx": "preserve",
+    "lib": ["ES2020", "DOM", "DOM.Iterable", "WebWorker"],
+    "types": ["unplugin-vue-macros/macros-global", "webpack-env"],
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "baseUrl": ".",
+    "paths": {
+      "@composables/*": ["docs/.vitepress/vitepress/composables/*"]
+    },
+  },
+  "include": [
+    "docs/**/*",
+    "docs/types.d.ts",
+    "types/env.d.ts",
+    "types/global.d.ts",
+  ],
+  "exclude": [
+    "node_modules",
+    "**/dist",
+    "**/__tests__/**/*",
+    "**/gulpfile.ts",
+    "**/test-helper",
+    "packages/test-utils",
+    "**/*.md"
+  ]
+}

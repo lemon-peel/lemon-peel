@@ -17,7 +17,8 @@ export const utilDir = resolve(pkgDir, 'utils');
 export const buildDir = resolve(projDir, 'toolkit', 'build');
 
 // Docs
-export const docDir = resolve(projDir, 'docs');
+export const docsDirName = 'docs';
+export const docDir = resolve(projDir, docsDirName);
 export const vpDir = resolve(docDir, '.vitepress');
 
 /** `/dist` */

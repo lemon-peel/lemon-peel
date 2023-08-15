@@ -13,7 +13,7 @@
 
 <script lang="ts" setup>
 import { computed, inject, onBeforeUnmount, onMounted, watch } from 'vue';
-import { isNil } from 'lodash-es';
+import { isNil } from 'lodash';
 import { unrefElement } from '@vueuse/core';
 import { LpOnlyChild } from '@lemon-peel/components/slot';
 import { useForwardRef } from '@lemon-peel/hooks';

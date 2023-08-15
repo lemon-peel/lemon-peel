@@ -1,10 +1,10 @@
 <template>
-  <el-row class="demo-autocomplete text-center">
-    <el-col :span="12">
+  <lp-row class="demo-autocomplete text-center">
+    <lp-col :span="12">
       <div class="sub-title my-2 text-sm text-gray-600">
         list suggestions when activated
       </div>
-      <el-autocomplete
+      <lp-autocomplete
         v-model="state1"
         :fetch-suggestions="querySearch"
         clearable
@@ -12,12 +12,12 @@
         placeholder="Please Input"
         @select="handleSelect"
       />
-    </el-col>
-    <el-col :span="12">
+    </lp-col>
+    <lp-col :span="12">
       <div class="sub-title my-2 text-sm text-gray-600">
         list suggestions on input
       </div>
-      <el-autocomplete
+      <lp-autocomplete
         v-model="state2"
         :fetch-suggestions="querySearch"
         :trigger-on-focus="false"
@@ -26,36 +26,36 @@
         placeholder="Please Input"
         @select="handleSelect"
       />
-    </el-col>
-  </el-row>
+    </lp-col>
+  </lp-row>
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue'
+import { onMounted, ref } from 'vue';
 
 interface RestaurantItem {
-  value: string
-  link: string
+  value: string;
+  link: string;
 }
 
-const state1 = ref('')
-const state2 = ref('')
+const state1 = ref('');
+const state2 = ref('');
 
-const restaurants = ref<RestaurantItem[]>([])
-const querySearch = (queryString: string, cb: any) => {
-  const results = queryString
-    ? restaurants.value.filter(createFilter(queryString))
-    : restaurants.value
-  // call callback function to return suggestions
-  cb(results)
-}
+const restaurants = ref<RestaurantItem[]>([]);
 const createFilter = (queryString: string) => {
   return (restaurant: RestaurantItem) => {
     return (
       restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0
-    )
-  }
-}
+    );
+  };
+};
+const querySearch = (queryString: string, cb: any) => {
+  const results = queryString
+    ? restaurants.value.filter(createFilter(queryString))
+    : restaurants.value;
+  // call callback function to return suggestions
+  cb(results);
+};
 const loadAll = () => {
   return [
     { value: 'vue', link: 'https://github.com/vuejs/vue' },
@@ -65,14 +65,14 @@ const loadAll = () => {
     { value: 'vuex', link: 'https://github.com/vuejs/vuex' },
     { value: 'vue-router', link: 'https://github.com/vuejs/vue-router' },
     { value: 'babel', link: 'https://github.com/babel/babel' },
-  ]
-}
+  ];
+};
 
 const handleSelect = (item: RestaurantItem) => {
-  console.log(item)
-}
+  console.log(item);
+};
 
 onMounted(() => {
-  restaurants.value = loadAll()
-})
+  restaurants.value = loadAll();
+});
 </script>

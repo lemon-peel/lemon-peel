@@ -28,7 +28,7 @@
         >
           {{ item }}
         </h3>
-        </lp-carousel-item>
-        </lp-carousel>
-      </lp-carousel-item></lp-carousel></div>
+      </lp-carousel-item>
+    </lp-carousel>
+  </div>
 </template>

@@ -1,17 +1,13 @@
 import consola from 'consola';
 import chalk from 'chalk';
-import { errorAndExit, getWorkspacePackages } from '@lemon-peel/build-utils';
+import { getWorkspacePackages } from '@lemon-peel/build-utils';
 import type { Project } from '@pnpm/find-workspace-packages';
 
 async function main() {
   const tagVersion = process.env.TAG_VERSION;
   const gitHead = process.env.GIT_HEAD;
   if (!tagVersion || !gitHead) {
-    errorAndExit(
-      new Error(
-        'No tag version or git head were found, make sure that you set the environment variable $TAG_VERSION \n',
-      ),
-    );
+    throw new Error('No tag version or git head were found, make sure that you set the environment variable $TAG_VERSION \n');
   }
 
   consola.log(chalk.cyan('Start updating version'));
@@ -20,8 +16,9 @@ async function main() {
 
   consola.debug(chalk.yellow(`Updating package.json for lemon-peel`));
 
+  const pkgList = await getWorkspacePackages();
   const pkgs = Object.fromEntries(
-    (await getWorkspacePackages()).map(pkg => [pkg.manifest.name!, pkg]),
+    pkgList.map(pkg => [pkg.manifest.name!, pkg]),
   );
   const elementPlus = pkgs['lemon-peel'] || pkgs['@lemon-peel/nightly'];
   const eslintConfig = pkgs['@lemon-peel/eslint-config'];
@@ -35,13 +32,9 @@ async function main() {
     } as any);
   };
 
-  try {
-    await writeVersion(elementPlus);
-    await writeVersion(eslintConfig);
-    await writeVersion(metadata);
-  } catch (err: any) {
-    errorAndExit(err);
-  }
+  await writeVersion(elementPlus);
+  await writeVersion(eslintConfig);
+  await writeVersion(metadata);
 
   consola.debug(chalk.green(`$GIT_HEAD: ${gitHead}`));
   consola.success(chalk.green(`Git head updated to ${gitHead}`));

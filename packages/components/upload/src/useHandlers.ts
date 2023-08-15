@@ -1,5 +1,5 @@
 import { watch } from 'vue';
-import { isNil } from 'lodash-es';
+import { isNil } from 'lodash';
 import { useVModel } from '@vueuse/core';
 import { debugWarn, throwError } from '@lemon-peel/utils';
 import { genFileId } from './upload';

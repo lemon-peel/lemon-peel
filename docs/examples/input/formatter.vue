@@ -1,5 +1,5 @@
 <template>
-  <el-input
+  <lp-input
     v-model="input"
     placeholder="Please input"
     :formatter="(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')"
@@ -8,6 +8,6 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
-const input = ref('')
+import { ref } from 'vue';
+const input = ref('');
 </script>

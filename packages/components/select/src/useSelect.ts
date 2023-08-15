@@ -2,7 +2,7 @@ import type { Nullable } from '@lemon-peel/utils/typescript';
 
 import { computed, nextTick, reactive, ref, shallowRef, toRaw, triggerRef, watch } from 'vue';
 import { isObject, toRawType } from '@vue/shared';
-import { get, isEqual, debounce as lodashDebounce } from 'lodash-es';
+import { get, isEqual, debounce as lodashDebounce } from 'lodash';
 import { isClient } from '@vueuse/core';
 import { CHANGE_EVENT, EVENT_CODE, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
 import { debugWarn, getComponentSize, isFunction, isKorean, isNumber, isString, scrollIntoView } from '@lemon-peel/utils';

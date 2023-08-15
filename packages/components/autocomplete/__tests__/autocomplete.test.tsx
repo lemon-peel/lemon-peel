@@ -1,4 +1,4 @@
-import { nextTick, ref, reactive } from 'vue';
+import { nextTick, reactive } from 'vue';
 import { mount } from '@vue/test-utils';
 import { NOOP } from '@vue/shared';
 import { beforeEach, afterEach, describe, expect, it, test, vi } from 'vitest';
@@ -94,7 +94,6 @@ describe('Autocomplete.vue', () => {
   });
 
   test('placeholder', async () => {
-    const placeholder = ref('placeholder1');
     wrapper = doMount({
       placeholder: 'placeholder',
     });

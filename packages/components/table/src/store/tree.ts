@@ -1,7 +1,7 @@
 import { lazyProxy } from '@lemon-peel/utils';
 
 import { computed, ref, unref, watch } from 'vue';
-import { memoize } from 'lodash-es';
+import { memoize } from 'lodash';
 
 import { getRowIdentity, walkTreeNode } from '../util';
 import { useExpand } from './expand';

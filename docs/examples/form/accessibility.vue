@@ -1,49 +1,49 @@
 <template>
-  <el-form label-position="left" label-width="150px" style="max-width: 460px">
-    <el-space fill>
-      <el-alert type="info" show-icon :closable="false">
+  <lp-form label-position="left" label-width="150px" style="max-width: 460px">
+    <lp-space fill>
+      <lp-alert type="info" show-icon :closable="false">
         <p>"Full Name" label is automatically attached to the input:</p>
-      </el-alert>
-      <el-form-item label="Full Name">
-        <el-input v-model="formAccessibility.fullName" />
-      </el-form-item>
-    </el-space>
-    <el-space fill>
-      <el-alert type="info" show-icon :closable="false">
+      </lp-alert>
+      <lp-form-item label="Full Name">
+        <lp-input v-model="formAccessibility.fullName" />
+      </lp-form-item>
+    </lp-space>
+    <lp-space fill>
+      <lp-alert type="info" show-icon :closable="false">
         <p>
-          "Your Information" serves as a label for the group of inputs. <br />
+          "Your Information" serves as a label for the group of inputs. <br>
           You must specify labels on the individal inputs. Placeholders are not
           replacements for using the "label" attribute.
         </p>
-      </el-alert>
-      <el-form-item label="Your Information">
-        <el-row :gutter="20">
-          <el-col :span="12">
-            <el-input
+      </lp-alert>
+      <lp-form-item label="Your Information">
+        <lp-row :gutter="20">
+          <lp-col :span="12">
+            <lp-input
               v-model="formAccessibility.firstName"
               label="First Name"
               placeholder="First Name"
             />
-          </el-col>
-          <el-col :span="12">
-            <el-input
+          </lp-col>
+          <lp-col :span="12">
+            <lp-input
               v-model="formAccessibility.lastName"
               label="Last Name"
               placeholder="Last Name"
             />
-          </el-col>
-        </el-row>
-      </el-form-item>
-    </el-space>
-  </el-form>
+          </lp-col>
+        </lp-row>
+      </lp-form-item>
+    </lp-space>
+  </lp-form>
 </template>
 
 <script lang="ts" setup>
-import { reactive } from 'vue'
+import { reactive } from 'vue';
 
 const formAccessibility = reactive({
   fullName: '',
   firstName: '',
   lastName: '',
-})
+});
 </script>

@@ -82,13 +82,15 @@
 
 <script lang="ts" setup>
 import { computed, effectScope, markRaw, nextTick, onMounted, ref, shallowRef, watch } from 'vue';
-import { isNumber, useEventListener } from '@vueuse/core';
-import { throttle } from 'lodash-es';
-import { useLocale, useNamespace, useZIndex } from '@lemon-peel/hooks';
+import { useEventListener } from '@vueuse/core';
+import { throttle } from 'lodash';
+
 import { EVENT_CODE } from '@lemon-peel/constants';
-import { isFirefox, keysOf } from '@lemon-peel/utils';
-import LpIcon from '@lemon-peel/components/icon';
+import { isFirefox, keysOf, isNumber } from '@lemon-peel/utils';
+import { useLocale, useNamespace, useZIndex } from '@lemon-peel/hooks';
 import { ArrowLeft, ArrowRight, Close, FullScreen, RefreshLeft, RefreshRight, ScaleToOriginal, ZoomIn, ZoomOut } from '@element-plus/icons-vue';
+import LpIcon from '@lemon-peel/components/icon';
+
 import { imageViewerEmits, imageViewerProps } from './imageViewer';
 
 import type { CSSProperties } from 'vue';

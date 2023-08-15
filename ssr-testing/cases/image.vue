@@ -22,15 +22,14 @@
           font-size: 14px;
           margin-bottom: 20px;
         "
-        >{{ fit }}</span
-      >
+      >{{ fit }}</span>
       <lp-image style="width: 100px; height: 100px" :url="url" :fit="fit" />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-const fits = ['fill', 'contain', 'cover', 'none', 'scale-down'] as const
+const fits = ['fill', 'contain', 'cover', 'none', 'scale-down'] as const;
 const url =
-  'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
+  'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg';
 </script>

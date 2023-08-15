@@ -1,6 +1,6 @@
 <template>
   Scroll down to see the bottom-right button.
-  <el-backtop :bottom="100">
+  <lp-backtop :bottom="100">
     <div
       style="
         height: 100%;
@@ -14,5 +14,5 @@
     >
       UP
     </div>
-  </el-backtop>
+  </lp-backtop>
 </template>

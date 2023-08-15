@@ -3,7 +3,7 @@ import { mount } from '@vue/test-utils';
 import { describe, expect, test } from 'vitest';
 import LpTag from '@lemon-peel/components/tag';
 import LpDescriptions from '../src/Description.vue';
-import LpDescriptionsItem from '../src/DescriptionItem';
+import LpDescriptionsItem from '../src/descriptionItem';
 
 describe('Descriptions.vue', () => {
   test('render test', () => {

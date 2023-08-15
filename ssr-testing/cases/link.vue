@@ -9,10 +9,10 @@
   </div>
 </template>
 <style scoped>
-.el-link {
+.lp-link {
   margin-right: 8px;
 }
-.el-link .el-icon--right.el-icon {
+.lp-link .lp-icon--right.lp-icon {
   vertical-align: text-bottom;
 }
 </style>

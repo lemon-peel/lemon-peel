@@ -1,14 +1,14 @@
 <template>
   <div>
-    <el-link :underline="false">Without Underline</el-link>
-    <el-link>With Underline</el-link>
+    <lp-link :underline="false">Without Underline</lp-link>
+    <lp-link>With Underline</lp-link>
   </div>
 </template>
 <style scoped>
-.el-link {
+.lp-link {
   margin-right: 8px;
 }
-.el-link .el-icon--right.el-icon {
+.lp-link .lp-icon--right.lp-icon {
   vertical-align: text-bottom;
 }
 </style>

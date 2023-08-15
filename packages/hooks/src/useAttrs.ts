@@ -1,5 +1,5 @@
 import { computed, getCurrentInstance } from 'vue';
-import { fromPairs } from 'lodash-es';
+import { fromPairs } from 'lodash';
 import { debugWarn } from '@lemon-peel/utils';
 
 import type { ComputedRef } from 'vue';

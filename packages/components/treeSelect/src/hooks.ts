@@ -1,6 +1,6 @@
 
 import { computed, nextTick, toRefs, watch } from 'vue';
-import { isEqual, pick } from 'lodash-es';
+import { isEqual, pick } from 'lodash';
 import { UPDATE_MODEL_EVENT } from '@lemon-peel/constants';
 import { buildProps, isFunction } from '@lemon-peel/utils';
 import { selectProps } from '@lemon-peel/components/select';

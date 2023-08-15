@@ -1,7 +1,7 @@
 import { getPackageInfo, isPackageExists } from 'local-pkg';
 import { camelCase, kebabCase } from 'unplugin-vue-components';
 import { compare } from 'compare-versions';
-import { lowerFirst } from 'lodash-es';
+import { lowerFirst } from 'lodash';
 
 import type { ComponentInfo, ComponentResolver, SideEffectsInfo } from 'unplugin-vue-components';
 
@@ -68,6 +68,7 @@ Pick<LemonPeelResolverOptions, 'exclude'>;
  *
  * @returns
  */
+// eslint-disable-next-line unused-imports/no-unused-vars
 function getSideEffectsLegacy(
   partialName: string,
   options: LemonPeelResolverOptionsResolved,

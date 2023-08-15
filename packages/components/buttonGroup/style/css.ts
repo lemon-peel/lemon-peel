@@ -1,2 +1,2 @@
 import '@lemon-peel/components/base/style/css';
-import '@lemon-peel/theme-chalk/lp-button-group.css';
+import '@lemon-peel/theme-chalk/src/button-group.scss';

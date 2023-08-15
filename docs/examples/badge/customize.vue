@@ -1,10 +1,10 @@
 <template>
-  <el-badge value="new" class="item">
-    <el-button>comments</el-button>
-  </el-badge>
-  <el-badge value="hot" class="item">
-    <el-button>replies</el-button>
-  </el-badge>
+  <lp-badge value="new" class="item">
+    <lp-button>comments</lp-button>
+  </lp-badge>
+  <lp-badge value="hot" class="item">
+    <lp-button>replies</lp-button>
+  </lp-badge>
 </template>
 
 <style scoped>

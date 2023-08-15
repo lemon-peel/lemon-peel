@@ -1,15 +1,15 @@
 <template>
-  <el-alert title="success alert" type="success" />
-  <el-alert title="info alert" type="info" />
-  <el-alert title="warning alert" type="warning" />
-  <el-alert title="error alert" type="error" />
+  <lp-alert title="success alert" type="success" />
+  <lp-alert title="info alert" type="info" />
+  <lp-alert title="warning alert" type="warning" />
+  <lp-alert title="error alert" type="error" />
 </template>
 
 <style scoped>
-.el-alert {
+.lp-alert {
   margin: 20px 0 0;
 }
-.el-alert:first-child {
+.lp-alert:first-child {
   margin: 0;
 }
 </style>

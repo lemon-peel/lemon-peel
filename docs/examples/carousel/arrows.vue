@@ -1,13 +1,13 @@
 <template>
-  <el-carousel :interval="5000" arrow="always">
-    <el-carousel-item v-for="item in 4" :key="item">
+  <lp-carousel :interval="5000" arrow="always">
+    <lp-carousel-item v-for="item in 4" :key="item">
       <h3 text="2xl" justify="center">{{ item }}</h3>
-    </el-carousel-item>
-  </el-carousel>
+    </lp-carousel-item>
+  </lp-carousel>
 </template>
 
 <style scoped>
-.el-carousel__item h3 {
+.lp-carousel__item h3 {
   color: #475669;
   opacity: 0.75;
   line-height: 300px;
@@ -15,11 +15,11 @@
   text-align: center;
 }
 
-.el-carousel__item:nth-child(2n) {
+.lp-carousel__item:nth-child(2n) {
   background-color: #99a9bf;
 }
 
-.el-carousel__item:nth-child(2n + 1) {
+.lp-carousel__item:nth-child(2n + 1) {
   background-color: #d3dce6;
 }
 </style>

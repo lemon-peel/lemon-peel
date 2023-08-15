@@ -15,7 +15,7 @@
         >
           <div :class="['cell', column.filteredValue && column.filteredValue.length > 0 ? 'highlight' : '']">
             <template v-if="column.renderHeader">
-              <component :is="column.renderHeader({ store, column, cellIndex })" />
+              <component :is="column.renderHeader({ store, column, cellIndex }) as any" />
             </template>
             <template v-else>{{ column.label }}</template>
 

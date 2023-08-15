@@ -13,9 +13,6 @@
     "sourceMap": true,
     "types": [ "webpack-env" ],
     "baseUrl": ".",
-    "paths": {
-      "@/*": ["src/*"]
-    },
     "lib": [
       "esnext",
       "dom",

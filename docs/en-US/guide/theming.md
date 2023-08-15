@@ -114,13 +114,13 @@ If they are mixed together, each hot update of `element-plus` needs to compile a
 :::
 
 ```ts
-import { createApp } from 'vue'
-import './styles/element/index.scss'
-import ElementPlus from 'element-plus'
-import App from './App.vue'
+import { createApp } from 'vue';
+import './styles/element/index.scss';
+import ElementPlus from 'element-plus';
+import App from './App.vue';
 
-const app = createApp(App)
-app.use(ElementPlus)
+const app = createApp(App);
+app.use(ElementPlus);
 ```
 
 If you are using vite, and you want to custom theme when importing on demand.
@@ -128,15 +128,15 @@ If you are using vite, and you want to custom theme when importing on demand.
 Use `scss.additionalData` to compile variables with scss of every component.
 
 ```ts
-import path from 'path'
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
+import path from 'node:path';
+import { defineConfig } from 'vite';
+import vue from '@vitejs/plugin-vue';
 // You can also use unplugin-vue-components
 // import Components from 'unplugin-vue-components/vite'
 // import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 
 // or use unplugin-element-plus
-import ElementPlus from 'unplugin-element-plus/vite'
+import ElementPlus from 'unplugin-element-plus/vite';
 
 // vite.config.ts
 export default defineConfig({
@@ -169,7 +169,7 @@ export default defineConfig({
       useSource: true,
     }),
   ],
-})
+});
 ```
 
 If you are using webpack, and you want to custom theme when importing on demand.
@@ -178,7 +178,7 @@ If you are using webpack, and you want to custom theme when importing on demand.
 // webpack.config.ts
 // use unplugin-element-plus
 
-import ElementPlus from 'unplugin-element-plus/webpack'
+import ElementPlus from 'unplugin-element-plus/webpack';
 
 export default defineConfig({
   css: {
@@ -193,7 +193,7 @@ export default defineConfig({
       useSource: true,
     }),
   ],
-})
+});
 ```
 
 ### By CSS Variable
@@ -225,7 +225,7 @@ Like this:
 If you just want to customize a particular component, just add inline styles for certain components individually.
 
 ```html
-<el-tag style="--el-tag-bg-color: red">Tag</el-tag>
+<lp-tag style="--el-tag-bg-color: red">Tag</lp-tag>
 ```
 
 For performance reasons, it is more recommended to custom css variables under a class rather than the global `:root`.
@@ -240,14 +240,14 @@ If you want to control css var by script, try this:
 
 ```ts
 // document.documentElement is global
-const el = document.documentElement
+const el = document.documentElement;
 // const el = document.getElementById('xxx')
 
 // get css var
-getComputedStyle(el).getPropertyValue(`--el-color-primary`)
+getComputedStyle(el).getPropertyValue(`--el-color-primary`);
 
 // set css var
-el.style['--el-color-primary'] = 'red'
+el.style['--el-color-primary'] = 'red';
 ```
 
 If you want a more elegant way, check this out.

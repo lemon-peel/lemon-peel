@@ -1,6 +1,7 @@
-import { defineComponent, inject } from 'vue';
+import { defineComponent, inject, h } from 'vue';
 import { addUnit, buildProps, getNormalizedProps } from '@lemon-peel/utils';
 import { useNamespace } from '@lemon-peel/hooks';
+
 import { descriptionsKey } from './token';
 
 import type { VNode } from 'vue';
@@ -34,37 +35,35 @@ export default defineComponent({
       };
 
       return props.type === 'label'
-        ? <props.tag
-          class={[
+        ? h(props.tag, {
+          class: [
             ns.e('cell'),
             ns.e('label'),
             ns.is('bordered-label', border),
             ns.is('vertical-label', isVertical),
             labelAlign,
             labelClassName,
-          ]}
-          style={style}
-          colSpan={isVertical ? span : 1}>
-            {label}
-          </props.tag>
+          ],
+          style,
+          colSpan: isVertical ? span : 1,
+        }, [label])
         : props.type === 'content'
-          ? <props.tag
-              class={[
-                ns.e('cell'),
-                ns.e('content'),
-                ns.is('bordered-content', border),
-                ns.is('vertical-content', isVertical),
-                align,
-                className,
-              ]}
-              style={style}
-              colSpan={isVertical ? span : span * 2 - 1}>
-                {content}
-            </props.tag>
+          ? h(props.tag, {
+            class: [
+              ns.e('cell'),
+              ns.e('content'),
+              ns.is('bordered-content', border),
+              ns.is('vertical-content', isVertical),
+              align,
+              className,
+            ],
+            style,
+            colspan: isVertical ? span : span * 2 - 1,
+          }, [content])
           : <td
             style={style}
             class={[ns.e('cell'), align]}
-            colSpan={span}>
+            colspan={span}>
               <span class={[ns.e('label'), labelClassName]}>{label}</span>
               <span class={[ns.e('content'), className]}>{content}</span>
             </td>;

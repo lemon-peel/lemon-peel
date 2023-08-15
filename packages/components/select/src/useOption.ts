@@ -1,5 +1,5 @@
 import { computed, getCurrentInstance, inject, toRaw, watch } from 'vue';
-import { get } from 'lodash-es';
+import { get } from 'lodash';
 import { escapeStringRegexp } from '@lemon-peel/utils';
 
 import { selectGroupKey, selectKey } from './token';

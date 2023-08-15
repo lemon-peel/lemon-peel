@@ -1,18 +1,18 @@
 <template>
-  <el-select v-model="value" clearable placeholder="Select">
-    <el-option
+  <lp-select v-model="value" clearable placeholder="Select">
+    <lp-option
       v-for="item in options"
       :key="item.value"
       :label="item.label"
       :value="item.value"
     />
-  </el-select>
+  </lp-select>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-const value = ref('')
+const value = ref('');
 const options = [
   {
     value: 'Option1',
@@ -34,5 +34,5 @@ const options = [
     value: 'Option5',
     label: 'Option5',
   },
-]
+];
 </script>

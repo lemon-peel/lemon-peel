@@ -1,4 +1,4 @@
-import { get, set } from 'lodash-es';
+import { get, set } from 'lodash';
 import { isPromise } from '@vue/shared';
 
 import type { Entries } from 'type-fest';

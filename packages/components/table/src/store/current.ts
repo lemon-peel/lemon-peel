@@ -1,6 +1,6 @@
 import { computed, ref } from 'vue';
 import { lazyProxy } from '@lemon-peel/utils';
-import { memoize } from 'lodash-es';
+import { memoize } from 'lodash';
 
 import { getRowIdentity } from '../util';
 import { useWatcher } from './watcher';
@@ -8,7 +8,7 @@ import { useWatcher } from './watcher';
 import type { Ref } from 'vue';
 import type { DefaultRow, TableProps, TableVM } from '../table/defaults';
 
-export const useCurrent = memoize((table: TableVM) => {
+function createCurrent(table: TableVM) {
   const watcher = lazyProxy(() => useWatcher(table));
 
   const tableProps = table.props as TableProps;
@@ -84,6 +84,8 @@ export const useCurrent = memoize((table: TableVM) => {
       currentRow,
     },
   };
-});
+}
+
+export const useCurrent = memoize(createCurrent);
 
 export default useCurrent;

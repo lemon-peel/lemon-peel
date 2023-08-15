@@ -1,4 +1,4 @@
-import { isNil } from 'lodash-es';
+import { isNil } from 'lodash';
 import { throwError } from '@lemon-peel/utils';
 import type { UploadProgressEvent, UploadRequestHandler, UploadRequestOptions } from './upload';
 

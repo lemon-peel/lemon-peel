@@ -1,4 +1,4 @@
-import { isEqual } from 'lodash-es';
+import { isEqual } from 'lodash';
 import Node from './node';
 
 import type { Nullable } from '@lemon-peel/utils';

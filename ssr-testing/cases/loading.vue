@@ -7,9 +7,9 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-const loading = ref(true)
+const loading = ref(true);
 
 const tableData = [
   {
@@ -27,7 +27,7 @@ const tableData = [
     name: 'John Smith',
     address: 'No.1518,  Jinshajiang Road, Putuo District',
   },
-]
+];
 </script>
 
 <style>

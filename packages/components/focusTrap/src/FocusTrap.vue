@@ -4,7 +4,7 @@
 
 <script lang="ts">
 import { defineComponent, nextTick, onBeforeUnmount, onMounted, provide, ref, unref, watch } from 'vue';
-import { isNil } from 'lodash-es';
+import { isNil } from 'lodash';
 import { EVENT_CODE } from '@lemon-peel/constants';
 import { useEscapeKeydown } from '@lemon-peel/hooks';
 import { isString } from '@lemon-peel/utils';

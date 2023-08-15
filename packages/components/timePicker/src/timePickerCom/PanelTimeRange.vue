@@ -84,7 +84,7 @@
 <script lang="ts" setup>
 import { computed, inject, ref, unref } from 'vue';
 import dayjs from 'dayjs';
-import { union } from 'lodash-es';
+import { union } from 'lodash';
 import { useLocale, useNamespace } from '@lemon-peel/hooks';
 import { isArray } from '@lemon-peel/utils';
 import { EVENT_CODE } from '@lemon-peel/constants';

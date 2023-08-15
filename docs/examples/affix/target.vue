@@ -1,8 +1,8 @@
 <template>
   <div class="affix-container">
-    <el-affix target=".affix-container" :offset="80">
-      <el-button type="primary">Target container</el-button>
-    </el-affix>
+    <lp-affix target=".affix-container" :offset="80">
+      <lp-button type="primary">Target container</lp-button>
+    </lp-affix>
   </div>
 </template>
 <style scoped>

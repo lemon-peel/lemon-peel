@@ -61,7 +61,7 @@
 </template>
 <script lang="ts" setup>
 import { computed, onMounted, onUpdated, reactive, ref, watch } from 'vue';
-import { isNil } from 'lodash-es';
+import { isNil } from 'lodash';
 import { LpInput } from '@lemon-peel/components/input';
 import { LpIcon } from '@lemon-peel/components/icon';
 import { vRepeatClick } from '@lemon-peel/directives';

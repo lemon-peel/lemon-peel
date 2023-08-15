@@ -1,12 +1,12 @@
 <template>
-  <el-badge is-dot class="item">query</el-badge>
-  <el-badge is-dot class="item">
-    <el-button class="share-button" :icon="Share" type="primary" />
-  </el-badge>
+  <lp-badge is-dot class="item">query</lp-badge>
+  <lp-badge is-dot class="item">
+    <lp-button class="share-button" :icon="Share" type="primary" />
+  </lp-badge>
 </template>
 
 <script lang="ts" setup>
-import { Share } from '@element-plus/icons-vue'
+import { Share } from '@element-plus/icons-vue';
 </script>
 
 <style scoped>

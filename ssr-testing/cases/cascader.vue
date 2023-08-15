@@ -1,8 +1,6 @@
 <template>
   <div class="example-block" style="margin: 1rem">
-    <span class="example-demonstration" style="margin: 1rem"
-      >Child options expand when clicked (default)</span
-    >
+    <span class="example-demonstration" style="margin: 1rem">Child options expand when clicked (default)</span>
     <lp-cascader v-model="value" :options="options" @change="handleChange" />
   </div>
   <div class="example-block">
@@ -17,17 +15,17 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-const value = ref([])
+const value = ref([]);
 
 const props = {
   expandTrigger: 'hover',
-}
+};
 
 const handleChange = () => {
   // do nothing
-}
+};
 
 const options = [
   {
@@ -296,5 +294,5 @@ const options = [
       },
     ],
   },
-]
+];
 </script>

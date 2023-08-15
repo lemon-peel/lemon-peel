@@ -18,7 +18,7 @@ const defaultIdInjection = {
 };
 
 export const ID_INJECTION_KEY: InjectionKey<ElIdInjectionContext> =
-  Symbol('elIdInjection');
+  Symbol('lpIdInjection');
 
 export const useId = (deterministicId?: MaybeRef<string>): Ref<string> => {
   const idInjection = inject(ID_INJECTION_KEY, defaultIdInjection);

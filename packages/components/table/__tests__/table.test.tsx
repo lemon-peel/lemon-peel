@@ -4,7 +4,7 @@ import LpCheckbox from '@lemon-peel/components/checkbox';
 import triggerEvent from '@lemon-peel/test-utils/triggerEvent';
 import { rAF } from '@lemon-peel/test-utils/tick';
 import { mount } from '@vue/test-utils';
-import { upperFirst } from 'lodash-es';
+import { upperFirst } from 'lodash';
 
 import { doubleWait, getTestData } from './lib';
 import LpTable from '../src/table/Table.vue';
@@ -16,9 +16,10 @@ import type { RowStyleGenerator, SummaryMethod, TableProps, TableLoadChildren } 
 
 const { CheckboxGroup: LpCheckboxGroup } = LpCheckbox;
 
-vi.mock('lodash-es', async () => {
+vi.mock('lodash', async load => {
+  const mod: any = await load();
   return {
-    ...((await vi.importActual('lodash-es')) as Record<string, any>),
+    ...mod.default,
     debounce: vi.fn(fn => {
       fn.cancel = vi.fn();
       fn.flush = vi.fn();

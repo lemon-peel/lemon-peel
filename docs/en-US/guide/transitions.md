@@ -38,11 +38,12 @@ transitions/collapse
 
 ```ts
 // collapse
-import { ElCollapseTransition } from 'element-plus'
-// fade/zoom
-import 'element-plus/lib/theme-chalk/base.css'
-import App from './App.vue'
+import { LpCollapseTransition } from 'lemon-peel';
 
-const app = createApp(App)
-app.component(ElCollapseTransition.name, ElCollapseTransition)
+// fade/zoom
+import 'lemon-peel/lib/theme-chalk/base.css';
+import App from './App.vue';
+
+const app = createApp(App);
+app.component(LpCollapseTransition.name, LpCollapseTransition);
 ```

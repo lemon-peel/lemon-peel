@@ -36,11 +36,11 @@ You need import all icons from `@element-plus/icons-vue` and register them globa
 // main.ts
 
 // if you're using CDN, please remove this line.
-import * as ElementPlusIconsVue from '@element-plus/icons-vue'
+import * as ElementPlusIconsVue from '@element-plus/icons-vue';
 
-const app = createApp(App)
+const app = createApp(App);
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
-  app.component(key, component)
+  app.component(key, component);
 }
 ```
 
@@ -94,9 +94,9 @@ so you need to use an alias in order to render the icon, if you register `Menu` 
 <!-- Use el-icon to provide attributes to SVG icon -->
 <template>
   <div>
-    <el-icon :size="size" :color="color">
+    <lp-icon :size="size" :color="color">
       <Edit />
-    </el-icon>
+    </lp-icon>
     <!-- Or use it independently without derive attributes from parent -->
     <Edit />
   </div>
@@ -126,24 +126,24 @@ import { Edit, Share, Delete, Search, Loading } from '@element-plus/icons-vue'
     with extra class <b>is-loading</b>, your icon is able to rotate 360 deg in 2
     seconds, you can also override this
   </p>
-  <el-icon :size="20">
+  <lp-icon :size="20">
     <Edit />
-  </el-icon>
-  <el-icon color="#409EFC" class="no-inherit">
+  </lp-icon>
+  <lp-icon color="#409EFC" class="no-inherit">
     <Share />
-  </el-icon>
-  <el-icon>
+  </lp-icon>
+  <lp-icon>
     <Delete />
-  </el-icon>
-  <el-icon class="is-loading">
+  </lp-icon>
+  <lp-icon class="is-loading">
     <Loading />
-  </el-icon>
-  <el-button type="primary">
-    <el-icon style="vertical-align: middle">
+  </lp-icon>
+  <lp-button type="primary">
+    <lp-icon style="vertical-align: middle">
       <Search />
-    </el-icon>
+    </lp-icon>
     <span style="vertical-align: middle"> Search </span>
-  </el-button>
+  </lp-button>
 </template>
 ```
 

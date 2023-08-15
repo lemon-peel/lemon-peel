@@ -35,7 +35,8 @@ export const getScrollContainer = (
 };
 
 let scrollBarWidth: number;
-export const getScrollBarWidth = (namespace: string): number => {
+
+export const getScrollBarWidth = (namespace?: string): number => {
   if (!isClient) return 0;
   if (scrollBarWidth !== undefined) return scrollBarWidth;
 

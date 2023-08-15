@@ -9,7 +9,7 @@
 
 <script lang="ts" setup>
 import { computed, getCurrentInstance, onMounted, reactive, ref, useAttrs, useSlots } from 'vue';
-import { omit, pick } from 'lodash-es';
+import { omit, pick } from 'lodash';
 import { forceType, unrefs } from '@lemon-peel/utils';
 /* eslint-disable @typescript-eslint/consistent-type-imports */
 import LpSelect from '@lemon-peel/components/select';

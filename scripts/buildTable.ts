@@ -1,17 +1,17 @@
-import fs from 'fs/promises';
-import path from 'path';
+import fs from 'node:fs/promises';
+import path from 'node:path';
 
 async function main() {
   const threshold = process.env.THRESHOLD || 40;
   let output: string;
   const diffOutput = await fs.readFile(
     path.resolve(__dirname, '..', 'tmp/diff.txt'),
-    'utf-8',
+    'utf8',
   );
   const fileDiffs = diffOutput
     .split('\n')
     .map(s => s.trim())
-    .filter(s => s)
+    .filter(Boolean)
     .map(s => s.split(':'));
 
   if (fileDiffs.length === 0) {
@@ -20,12 +20,7 @@ async function main() {
     const table = fileDiffs.reduce(
       (prev, [source, filename]) => {
         const row = `|${filename}`;
-        let status: 'Added 🟢' | 'Removed ⛔️';
-        if (!source.startsWith('./dist')) {
-          status = 'Removed ⛔️';
-        } else {
-          status = 'Added 🟢';
-        }
+        const status: 'Added 🟢' | 'Removed ⛔️' = source.startsWith('./dist') ? 'Added 🟢' : 'Removed ⛔️';
         return `${prev}
   ${row}|${status}|`;
       },
@@ -36,7 +31,7 @@ async function main() {
     output = `**Total changed files:** ${fileDiffs.length}
 
 ${
-  fileDiffs.length >= threshold
+  fileDiffs.length >= +threshold
     ? `#### 🚔 Attention: the changed file has exceeded the threshold`
     : ''
 }

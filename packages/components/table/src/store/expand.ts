@@ -1,5 +1,5 @@
 import { lazyProxy } from '@lemon-peel/utils';
-import { memoize } from 'lodash-es';
+import { memoize } from 'lodash';
 import { computed, ref } from 'vue';
 import { getKeysMap, getRowIdentity, toggleRowStatus } from '../util';
 import { useWatcher } from './watcher';
@@ -8,7 +8,7 @@ import type { Ref } from 'vue';
 import type { DefaultRow } from './../table/defaults';
 import type { TableProps, TableVM } from '../table/defaults';
 
-export const useExpand = memoize((table: TableVM) => {
+function createExpand(table: TableVM) {
   const watcher = lazyProxy(() => useWatcher(table));
 
   const tableProps = table.props as TableProps;
@@ -78,7 +78,9 @@ export const useExpand = memoize((table: TableVM) => {
       defaultExpandAll,
     },
   };
-});
+}
+
+export const useExpand = memoize(createExpand);
 
 export type Expand = ReturnType<typeof useExpand>;
 

@@ -1,16 +1,16 @@
 <template>
-  <el-tree :data="data" :props="defaultProps" @node-click="handleNodeClick" />
+  <lp-tree :data="data" :props="defaultProps" @node-click="handleNodeClick" />
 </template>
 
 <script lang="ts" setup>
 interface Tree {
-  label: string
-  children?: Tree[]
+  label: string;
+  children?: Tree[];
 }
 
 const handleNodeClick = (data: Tree) => {
-  console.log(data)
-}
+  console.log(data);
+};
 
 const data: Tree[] = [
   {
@@ -68,10 +68,10 @@ const data: Tree[] = [
       },
     ],
   },
-]
+];
 
 const defaultProps = {
   children: 'children',
   label: 'label',
-}
+};
 </script>

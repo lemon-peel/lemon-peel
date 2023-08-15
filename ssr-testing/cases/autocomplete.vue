@@ -11,22 +11,22 @@
         placeholder="Please Input"
         @select="handleSelect"
       />
-      </lp-col>
-      <lp-col :span="12">
-        <div class="sub-title my-2 text-sm text-gray-600">
-          list suggestions on input
-        </div>
-        <lp-autocomplete
-          v-model="state2"
-          :fetch-suggestions="querySearch"
-          :trigger-on-focus="false"
-          class="inline-input"
-          placeholder="Please Input"
-          @select="handleSelect"
-        />
-        </lp-col>
-        </lp-row>
-      </lp-col></lp-col></lp-row></template>
+    </lp-col>
+    <lp-col :span="12">
+      <div class="sub-title my-2 text-sm text-gray-600">
+        list suggestions on input
+      </div>
+      <lp-autocomplete
+        v-model="state2"
+        :fetch-suggestions="querySearch"
+        :trigger-on-focus="false"
+        class="inline-input"
+        placeholder="Please Input"
+        @select="handleSelect"
+      />
+    </lp-col>
+  </lp-row>
+</template>
 
 <script setup lang="ts">
 import { ref } from 'vue';

@@ -6,7 +6,7 @@ import Steps from '../src/Steps.vue';
 import Step from '../src/Item.vue';
 import type { VNode } from 'vue';
 
-const _mount = (render: () => VNode) =>
+const doMount = (render: () => VNode) =>
   mount({
     setup() {
       return render;
@@ -21,7 +21,7 @@ const _mount = (render: () => VNode) =>
 
 describe('Steps.vue', () => {
   test('render', () => {
-    const wrapper = _mount(() => (
+    const wrapper = doMount(() => (
       <Steps>
         <Step />
         <Step />
@@ -34,7 +34,7 @@ describe('Steps.vue', () => {
   });
 
   test('space', () => {
-    const wrapper = _mount(() => (
+    const wrapper = doMount(() => (
       <Steps space={100}>
         <Step />
       </Steps>
@@ -45,7 +45,7 @@ describe('Steps.vue', () => {
   });
 
   test('alignCenter', () => {
-    const wrapper = _mount(() => (
+    const wrapper = doMount(() => (
       <Steps alignCenter>
         <Step />
       </Steps>
@@ -54,7 +54,7 @@ describe('Steps.vue', () => {
   });
 
   test('direction', () => {
-    const wrapper = _mount(() => (
+    const wrapper = doMount(() => (
       <Steps direction="vertical">
         <Step />
       </Steps>
@@ -64,7 +64,7 @@ describe('Steps.vue', () => {
   });
 
   test('simple', () => {
-    const wrapper = _mount(() => (
+    const wrapper = doMount(() => (
       <Steps simple direction="vertical" space={100} alignCenter>
         <Step />
       </Steps>
@@ -75,7 +75,7 @@ describe('Steps.vue', () => {
   });
 
   test('active', async () => {
-    const wrapper = _mount(() => (
+    const wrapper = doMount(() => (
       <Steps active={0}>
         <Step />
         <Step />
@@ -119,7 +119,7 @@ describe('Steps.vue', () => {
   });
 
   test('process-status', async () => {
-    const wrapper = _mount(() => (
+    const wrapper = doMount(() => (
       <Steps active={2} process-status="success">
         <Step />
         <Step />
@@ -137,7 +137,7 @@ describe('Steps.vue', () => {
   });
 
   test('finish-status', async () => {
-    const wrapper = _mount(() => (
+    const wrapper = doMount(() => (
       <Steps active={2} finish-status="error">
         <Step />
         <Step />
@@ -177,7 +177,7 @@ describe('Steps.vue', () => {
   });
 
   test('step slot', () => {
-    const wrapper = _mount(() => (
+    const wrapper = doMount(() => (
       <Steps active={0}>
         <Step
           v-slots={{

@@ -1,5 +1,5 @@
 <template>
-  <el-cascader-panel :options="options" />
+  <lp-cascader-panel :options="options" />
 </template>
 
 <script lang="ts" setup>
@@ -270,5 +270,5 @@ const options = [
       },
     ],
   },
-]
+];
 </script>

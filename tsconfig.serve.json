@@ -1,6 +1,7 @@
 {
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
+    "composite": true,
     "allowJs": true,
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "types": [
@@ -16,6 +17,7 @@
     // serve
     "serve/env.d.ts",
     "serve/src/**/*",
+    "serve/router.ts",
     "serve/main.ts",
     "serve/App.vue",
   ]

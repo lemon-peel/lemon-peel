@@ -11,9 +11,10 @@ import Cascader from '../src/Cascader.vue';
 
 import type { VNode } from 'vue';
 
-vi.mock('lodash-es', async () => {
+vi.mock('lodash', async load => {
+  const mod: any = await load();
   return {
-    ...((await vi.importActual('lodash-es')) as Record<string, any>),
+    ...mod.default,
     debounce: vi.fn(fn => {
       fn.cancel = vi.fn();
       fn.flush = vi.fn();
@@ -262,6 +263,7 @@ describe('Cascader.vue', () => {
   });
 
   test('filterable', async () => {
+    vi.useFakeTimers();
     const value = ref([]);
     const wrapper = doMount(() => (
       <Cascader v-model:value={value.value} filterable options={OPTIONS} />
@@ -275,6 +277,9 @@ describe('Cascader.vue', () => {
     await input.trigger('compositionupdate');
     await input.trigger('input');
     await input.trigger('compositionend');
+
+    await vi.runAllTimersAsync();
+
     const suggestions = document.querySelectorAll(
       SUGGESTION_ITEM,
     ) as NodeListOf<HTMLElement>;
@@ -288,6 +293,8 @@ describe('Cascader.vue', () => {
     hzSuggestion.click();
     await nextTick();
     expect(value.value).toEqual(['zhejiang', 'hangzhou']);
+
+    vi.useRealTimers();
   });
 
   test('filterable in multiple mode', async () => {
@@ -333,6 +340,8 @@ describe('Cascader.vue', () => {
   });
 
   test('filterable keyboard selection', async () => {
+    vi.useFakeTimers();
+
     const value = ref([]);
     const wrapper = doMount(() => (
       <Cascader v-model:value={value.value} filterable options={OPTIONS} />
@@ -349,13 +358,18 @@ describe('Cascader.vue', () => {
       SUGGESTION_ITEM,
     ) as NodeListOf<HTMLElement>;
     const hzSuggestion = suggestions[0];
+
     triggerEvent(suggestionsPanel, 'keydown', EVENT_CODE.down);
+    await vi.runAllTimersAsync();
+
     expect(document.activeElement!.textContent).toBe('Zhejiang / Hangzhou');
     triggerEvent(hzSuggestion, 'keydown', EVENT_CODE.down);
     expect(document.activeElement!.textContent).toBe('Zhejiang / Ningbo');
     triggerEvent(hzSuggestion, 'keydown', EVENT_CODE.enter);
     await nextTick();
     expect(value.value).toEqual(['zhejiang', 'hangzhou']);
+
+    vi.useRealTimers();
   });
 
   describe('teleported API', () => {

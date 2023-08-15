@@ -1,5 +1,5 @@
 <template>
-  <el-tag
+  <lp-tag
     v-for="tag in tags"
     :key="tag.name"
     class="mx-1"
@@ -7,11 +7,11 @@
     :type="tag.type"
   >
     {{ tag.name }}
-  </el-tag>
+  </lp-tag>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref } from 'vue';
 
 const tags = ref([
   { name: 'Tag 1', type: '' },
@@ -19,5 +19,5 @@ const tags = ref([
   { name: 'Tag 3', type: 'info' },
   { name: 'Tag 4', type: 'warning' },
   { name: 'Tag 5', type: 'danger' },
-])
+]);
 </script>

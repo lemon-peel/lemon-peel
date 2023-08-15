@@ -1,6 +1,6 @@
 import { computed, nextTick, onMounted, reactive, ref, watch } from 'vue';
 import { isArray, isFunction, isObject } from '@vue/shared';
-import { get, isEqual, isNil, debounce as lodashDebounce } from 'lodash-es';
+import { get, isEqual, isNil, debounce as lodashDebounce } from 'lodash';
 import { useResizeObserver } from '@vueuse/core';
 import { useFormItem, useLocale, useNamespace, useSize } from '@lemon-peel/hooks';
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';

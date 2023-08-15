@@ -1,48 +1,41 @@
 <template>
-  <el-row class="mb-4">
-    <el-button>Default</el-button>
-    <el-button type="primary">Primary</el-button>
-    <el-button type="success">Success</el-button>
-    <el-button type="info">Info</el-button>
-    <el-button type="warning">Warning</el-button>
-    <el-button type="danger">Danger</el-button>
-  </el-row>
+  <lp-row class="mb-4">
+    <lp-button>Default</lp-button>
+    <lp-button type="primary">Primary</lp-button>
+    <lp-button type="success">Success</lp-button>
+    <lp-button type="info">Info</lp-button>
+    <lp-button type="warning">Warning</lp-button>
+    <lp-button type="danger">Danger</lp-button>
+  </lp-row>
 
-  <el-row class="mb-4">
-    <el-button plain>Plain</el-button>
-    <el-button type="primary" plain>Primary</el-button>
-    <el-button type="success" plain>Success</el-button>
-    <el-button type="info" plain>Info</el-button>
-    <el-button type="warning" plain>Warning</el-button>
-    <el-button type="danger" plain>Danger</el-button>
-  </el-row>
+  <lp-row class="mb-4">
+    <lp-button plain>Plain</lp-button>
+    <lp-button type="primary" plain>Primary</lp-button>
+    <lp-button type="success" plain>Success</lp-button>
+    <lp-button type="info" plain>Info</lp-button>
+    <lp-button type="warning" plain>Warning</lp-button>
+    <lp-button type="danger" plain>Danger</lp-button>
+  </lp-row>
 
-  <el-row class="mb-4">
-    <el-button round>Round</el-button>
-    <el-button type="primary" round>Primary</el-button>
-    <el-button type="success" round>Success</el-button>
-    <el-button type="info" round>Info</el-button>
-    <el-button type="warning" round>Warning</el-button>
-    <el-button type="danger" round>Danger</el-button>
-  </el-row>
+  <lp-row class="mb-4">
+    <lp-button round>Round</lp-button>
+    <lp-button type="primary" round>Primary</lp-button>
+    <lp-button type="success" round>Success</lp-button>
+    <lp-button type="info" round>Info</lp-button>
+    <lp-button type="warning" round>Warning</lp-button>
+    <lp-button type="danger" round>Danger</lp-button>
+  </lp-row>
 
-  <el-row>
-    <el-button :icon="Search" circle />
-    <el-button type="primary" :icon="Edit" circle />
-    <el-button type="success" :icon="Check" circle />
-    <el-button type="info" :icon="Message" circle />
-    <el-button type="warning" :icon="Star" circle />
-    <el-button type="danger" :icon="Delete" circle />
-  </el-row>
+  <lp-row>
+    <lp-button :icon="Search" circle />
+    <lp-button type="primary" :icon="Edit" circle />
+    <lp-button type="success" :icon="Check" circle />
+    <lp-button type="info" :icon="Message" circle />
+    <lp-button type="warning" :icon="Star" circle />
+    <lp-button type="danger" :icon="Delete" circle />
+  </lp-row>
 </template>
 
 <script lang="ts" setup>
-import {
-  Check,
-  Delete,
-  Edit,
-  Message,
-  Search,
-  Star,
-} from '@element-plus/icons-vue'
+import { Check, Delete, Edit, Message, Search, Star } from '@element-plus/icons-vue';
 </script>

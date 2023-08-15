@@ -2,15 +2,15 @@
   <div>
     <lp-button @click="show = !show">Click Me</lp-button>
 
-      <div style="margin-top: 20px; height: 200px">
-        <lp-collapse-transition>
-          <div v-show="show">
-            <div class="transition-box">el-collapse-transition</div>
-            <div class="transition-box">el-collapse-transition</div>
-          </div>
-          </lp-collapse-transition>
-        </lp-collapse-transition></div>
-    </lp-button></div>
+    <div style="margin-top: 20px; height: 200px">
+      <lp-collapse-transition>
+        <div v-show="show">
+          <div class="transition-box">lp-collapse-transition</div>
+          <div class="transition-box">lp-collapse-transition</div>
+        </div>
+      </lp-collapse-transition>
+    </div>
+  </div>
 </template>
 
 <script lang="ts" setup>

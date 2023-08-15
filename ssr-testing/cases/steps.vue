@@ -9,11 +9,11 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-const active = ref(0)
+const active = ref(0);
 
 const next = () => {
-  if (active.value++ > 2) active.value = 0
-}
+  if (active.value++ > 2) active.value = 0;
+};
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <el-tree :data="data" :props="defaultProps" show-checkbox />
+  <lp-tree :data="data" :props="defaultProps" show-checkbox />
 </template>
 
 <script lang="ts" setup>
@@ -7,7 +7,7 @@ const defaultProps = {
   children: 'children',
   label: 'label',
   disabled: 'disabled',
-}
+};
 
 const data = [
   {
@@ -47,5 +47,5 @@ const data = [
       },
     ],
   },
-]
+];
 </script>

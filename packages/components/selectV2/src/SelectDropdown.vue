@@ -26,7 +26,7 @@
 <script lang="tsx" setup>
 import type { FunctionalComponent } from 'vue';
 import { computed, inject, ref, unref, useSlots, watch } from 'vue';
-import { get } from 'lodash-es';
+import { get } from 'lodash';
 import { isObject, isUndefined } from '@lemon-peel/utils';
 import { DynamicSizeList, FixedSizeList } from '@lemon-peel/components/virtualList';
 import { useNamespace } from '@lemon-peel/hooks';

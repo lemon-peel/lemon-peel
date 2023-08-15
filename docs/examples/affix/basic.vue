@@ -1,5 +1,5 @@
 <template>
-  <el-affix :offset="120">
-    <el-button type="primary">Offset top 120px</el-button>
-  </el-affix>
+  <lp-affix :offset="120">
+    <lp-button type="primary">Offset top 120px</lp-button>
+  </lp-affix>
 </template>

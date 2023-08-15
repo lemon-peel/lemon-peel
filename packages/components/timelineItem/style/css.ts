@@ -1,2 +1,2 @@
 import '@lemon-peel/components/base/style/css';
-import '@lemon-peel/theme-chalk/lp-timeline-item.css';
+import '@lemon-peel/theme-chalk/src/timeline-item.scss';

@@ -83,7 +83,7 @@ import { ElNotification } from 'element-plus'
 
 In this case you should call `ElNotification(options)`. We have also registered methods for different types, e.g. `ElNotification.success(options)`. You can call `ElNotification.closeAll()` to manually close all the instances.
 
-## App context inheritance <el-tag>> 2.0.4</el-tag>
+## App context inheritance <lp-tag>> 2.0.4</lp-tag>
 
 Now notification accepts a `context` as second parameter of the message constructor which allows you to inject current app's context to notification which allows you to inherit all the properties of the app.
 
@@ -96,12 +96,12 @@ If you globally registered ElNotification component, it will automatically inher
 :::
 
 ```ts
-import { getCurrentInstance } from 'vue'
-import { ElNotification } from 'element-plus'
+import { getCurrentInstance } from 'vue';
+import { ElNotification } from 'element-plus';
 
 // in your setup method
-const { appContext } = getCurrentInstance()!
-ElNotification({}, appContext)
+const { appContext } = getCurrentInstance()!;
+ElNotification({}, appContext);
 ```
 
 ## Options

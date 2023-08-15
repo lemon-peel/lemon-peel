@@ -141,7 +141,7 @@
 import { computed, getCurrentInstance, nextTick, onBeforeUnmount, provide } from 'vue';
 import { Mousewheel as vMousewheel } from '@lemon-peel/directives';
 import { useLocale, useNamespace } from '@lemon-peel/hooks';
-import { debounce } from 'lodash-es';
+import { debounce } from 'lodash';
 import LpScrollBar from '@lemon-peel/components/scrollbar';
 
 import { tableProps, tableEmits } from './defaults';

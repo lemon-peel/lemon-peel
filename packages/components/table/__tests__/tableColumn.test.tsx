@@ -14,9 +14,11 @@ import type { TableProps, RenderRowData } from '../src/table/defaults';
 import type { TableColumnProps  } from '../src/tableColumn/defaults';
 
 vi.useFakeTimers();
-vi.mock('lodash-es', async () => {
+
+vi.mock('lodash', async load => {
+  const mod: any = await load();
   return {
-    ...((await vi.importActual('lodash-es')) as Record<string, any>),
+    ...mod.default,
     debounce: vi.fn(fn => {
       fn.cancel = vi.fn();
       fn.flush = vi.fn();

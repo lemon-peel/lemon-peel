@@ -1,7 +1,7 @@
 <template>
   <div class="tag-group my-2 flex flex-wrap gap-1 items-center">
     <span class="tag-group__title m-1 line-height-2">Dark</span>
-    <el-tag
+    <lp-tag
       v-for="item in items"
       :key="item.label"
       :type="item.type"
@@ -9,8 +9,8 @@
       effect="dark"
     >
       {{ item.label }}
-    </el-tag>
-    <el-tag
+    </lp-tag>
+    <lp-tag
       v-for="item in items"
       :key="item.label"
       :type="item.type"
@@ -19,11 +19,11 @@
       closable
     >
       {{ item.label }}
-    </el-tag>
+    </lp-tag>
   </div>
   <div class="tag-group my-2 flex flex-wrap gap-1 items-center">
     <span class="tag-group__title m-1">Light</span>
-    <el-tag
+    <lp-tag
       v-for="item in items"
       :key="item.label"
       class="mx-1"
@@ -31,8 +31,8 @@
       effect="light"
     >
       {{ item.label }}
-    </el-tag>
-    <el-tag
+    </lp-tag>
+    <lp-tag
       v-for="item in items"
       :key="item.label"
       class="mx-1"
@@ -41,11 +41,11 @@
       closable
     >
       {{ item.label }}
-    </el-tag>
+    </lp-tag>
   </div>
   <div class="tag-group my-2 flex flex-wrap gap-1 items-center">
     <span class="tag-group__title m-1">Plain</span>
-    <el-tag
+    <lp-tag
       v-for="item in items"
       :key="item.label"
       class="mx-1"
@@ -53,8 +53,8 @@
       effect="plain"
     >
       {{ item.label }}
-    </el-tag>
-    <el-tag
+    </lp-tag>
+    <lp-tag
       v-for="item in items"
       :key="item.label"
       class="mx-1"
@@ -63,16 +63,16 @@
       closable
     >
       {{ item.label }}
-    </el-tag>
+    </lp-tag>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-import type { TagProps } from 'element-plus'
+import type { TagProps } from 'element-plus';
 
-type Item = { type: TagProps['type']; label: string }
+type Item = { type: TagProps['type'], label: string };
 
 const items = ref<Array<Item>>([
   { type: '', label: 'Tag 1' },
@@ -80,5 +80,5 @@ const items = ref<Array<Item>>([
   { type: 'info', label: 'Tag 3' },
   { type: 'danger', label: 'Tag 4' },
   { type: 'warning', label: 'Tag 5' },
-])
+]);
 </script>

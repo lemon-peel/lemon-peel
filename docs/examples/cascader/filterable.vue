@@ -1,7 +1,7 @@
 <template>
   <div class="example-block">
     <span class="example-demonstration">Filterable (Single selection)</span>
-    <el-cascader
+    <lp-cascader
       placeholder="Try searchingL Guide"
       :options="options"
       filterable
@@ -9,7 +9,7 @@
   </div>
   <div class="example-block">
     <span class="example-demonstration">Filterable (Multiple selection)</span>
-    <el-cascader
+    <lp-cascader
       placeholder="Try searchingL Guide"
       :options="options"
       :props="props"
@@ -21,7 +21,7 @@
 <script lang="ts" setup>
 const props = {
   multiple: true,
-}
+};
 
 const options = [
   {
@@ -290,7 +290,7 @@ const options = [
       },
     ],
   },
-]
+];
 </script>
 
 <style scoped>

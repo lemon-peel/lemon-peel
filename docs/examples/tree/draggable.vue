@@ -1,5 +1,5 @@
 <template>
-  <el-tree
+  <lp-tree
     :allow-drop="allowDrop"
     :allow-drag="allowDrag"
     :data="data"
@@ -16,56 +16,52 @@
 </template>
 
 <script lang="ts" setup>
-import type Node from 'element-plus/es/components/tree/src/model/node'
-import type { DragEvents } from 'element-plus/es/components/tree/src/model/useDragNode'
-import type { DropType } from 'element-plus/es/components/tree/src/tree.type'
+import type Node from 'element-plus/es/components/tree/src/model/node';
+import type { DragEvents } from 'element-plus/es/components/tree/src/model/useDragNode';
+import type { DropType } from 'element-plus/es/components/tree/src/tree.type';
 
 const handleDragStart = (node: Node, ev: DragEvents) => {
-  console.log('drag start', node)
-}
+  console.log('drag start', node);
+};
 const handleDragEnter = (
   draggingNode: Node,
   dropNode: Node,
-  ev: DragEvents
+  ev: DragEvents,
 ) => {
-  console.log('tree drag enter:', dropNode.label)
-}
+  console.log('tree drag enter:', dropNode.label);
+};
 const handleDragLeave = (
   draggingNode: Node,
   dropNode: Node,
-  ev: DragEvents
+  ev: DragEvents,
 ) => {
-  console.log('tree drag leave:', dropNode.label)
-}
+  console.log('tree drag leave:', dropNode.label);
+};
 const handleDragOver = (draggingNode: Node, dropNode: Node, ev: DragEvents) => {
-  console.log('tree drag over:', dropNode.label)
-}
+  console.log('tree drag over:', dropNode.label);
+};
 const handleDragEnd = (
   draggingNode: Node,
   dropNode: Node,
   dropType: DropType,
-  ev: DragEvents
+  ev: DragEvents,
 ) => {
-  console.log('tree drag end:', dropNode && dropNode.label, dropType)
-}
+  console.log('tree drag end:', dropNode && dropNode.label, dropType);
+};
 const handleDrop = (
   draggingNode: Node,
   dropNode: Node,
   dropType: DropType,
-  ev: DragEvents
+  ev: DragEvents,
 ) => {
-  console.log('tree drop:', dropNode.label, dropType)
-}
+  console.log('tree drop:', dropNode.label, dropType);
+};
 const allowDrop = (draggingNode: Node, dropNode: Node, type: DropType) => {
-  if (dropNode.data.label === 'Level two 3-1') {
-    return type !== 'inner'
-  } else {
-    return true
-  }
-}
+  return dropNode.data.label === 'Level two 3-1' ? type !== 'inner' : true;
+};
 const allowDrag = (draggingNode: Node) => {
-  return !draggingNode.data.label.includes('Level three 3-1-1')
-}
+  return !draggingNode.data.label.includes('Level three 3-1-1');
+};
 
 const data = [
   {
@@ -123,5 +119,5 @@ const data = [
       },
     ],
   },
-]
+];
 </script>

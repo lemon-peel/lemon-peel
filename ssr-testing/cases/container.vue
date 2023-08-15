@@ -9,8 +9,7 @@
           align-items: center;
           background-color: #d3dce6;
         "
-        >Aside</lp-aside
-      >
+      >Aside</lp-aside>
       <lp-container>
         <lp-header
           style="
@@ -19,8 +18,7 @@
             align-items: center;
             background-color: #b3c0d1;
           "
-          >Header</lp-header
-        >
+        >Header</lp-header>
         <lp-main
           style="
             display: flex;
@@ -28,8 +26,7 @@
             align-items: center;
             background-color: #e9eef3;
           "
-          >Main</lp-main
-        >
+        >Main</lp-main>
         <lp-footer
           style="
             display: flex;
@@ -37,8 +34,7 @@
             align-items: center;
             background-color: #b3c0d1;
           "
-          >Footer</lp-footer
-        >
+        >Footer</lp-footer>
       </lp-container>
     </lp-container>
   </div>

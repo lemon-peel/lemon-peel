@@ -44,7 +44,7 @@ If you use volar, please add the global component type definition to `compilerOp
 
 You need to use an additional plugin to import components you used.
 
-#### Auto import <el-tag type="primary" style="vertical-align: middle;" effect="dark" size="small">Recommend</el-tag>
+#### Auto import <lp-tag type="primary" style="vertical-align: middle;" effect="dark" size="small">Recommend</lp-tag>
 
 First you need to install `unplugin-vue-components` and `unplugin-auto-import`.
 
@@ -58,10 +58,10 @@ Then add the code below into your `Vite` or `Webpack` config file.
 
 ```ts
 // vite.config.ts
-import { defineConfig } from 'vite'
-import AutoImport from 'unplugin-auto-import/vite'
-import Components from 'unplugin-vue-components/vite'
-import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+import { defineConfig } from 'vite';
+import AutoImport from 'unplugin-auto-import/vite';
+import Components from 'unplugin-vue-components/vite';
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
 
 export default defineConfig({
   // ...
@@ -74,16 +74,16 @@ export default defineConfig({
       resolvers: [ElementPlusResolver()],
     }),
   ],
-})
+});
 ```
 
 ##### Webpack
 
 ```js
 // webpack.config.js
-const AutoImport = require('unplugin-auto-import/webpack')
-const Components = require('unplugin-vue-components/webpack')
-const { ElementPlusResolver } = require('unplugin-vue-components/resolvers')
+const AutoImport = require('unplugin-auto-import/webpack');
+const Components = require('unplugin-vue-components/webpack');
+const { ElementPlusResolver } = require('unplugin-vue-components/resolvers');
 
 module.exports = {
   // ...
@@ -95,7 +95,7 @@ module.exports = {
       resolvers: [ElementPlusResolver()],
     }),
   ],
-}
+};
 ```
 
 For more bundlers ([Rollup](https://rollupjs.org/), [Vue CLI](https://cli.vuejs.org/)) and configs please reference [unplugin-vue-components](https://github.com/antfu/unplugin-vue-components#installation) and [unplugin-auto-import](https://github.com/antfu/unplugin-auto-import#install).
@@ -112,7 +112,7 @@ And refer to the [docs](https://github.com/element-plus/unplugin-element-plus#re
 
 ```html
 <template>
-  <el-button>I am ElButton</el-button>
+  <lp-button>I am ElButton</lp-button>
 </template>
 <script>
   import { ElButton } from 'element-plus'
@@ -124,13 +124,13 @@ And refer to the [docs](https://github.com/element-plus/unplugin-element-plus#re
 
 ```ts
 // vite.config.ts
-import { defineConfig } from 'vite'
-import ElementPlus from 'unplugin-element-plus/vite'
+import { defineConfig } from 'vite';
+import ElementPlus from 'unplugin-element-plus/vite';
 
 export default defineConfig({
   // ...
   plugins: [ElementPlus()],
-})
+});
 ```
 
 :::warning
@@ -140,8 +140,8 @@ You need to manually import the styles if you're using `unplugin-element-plus` a
 Example:
 
 ```ts
-import 'element-plus/es/components/message/style/css'
-import { ElMessage } from 'element-plus'
+import 'element-plus/es/components/message/style/css';
+
 ```
 
 :::
@@ -160,26 +160,26 @@ popup components, the default value for `zIndex` is `2000`.
 Full import:
 
 ```ts
-import { createApp } from 'vue'
-import ElementPlus from 'element-plus'
-import App from './App.vue'
+import { createApp } from 'vue';
+import ElementPlus from 'element-plus';
+import App from './App.vue';
 
-const app = createApp(App)
-app.use(ElementPlus, { size: 'small', zIndex: 3000 })
+const app = createApp(App);
+app.use(ElementPlus, { size: 'small', zIndex: 3000 });
 ```
 
 On-demand:
 
 ```vue
 <template>
-  <el-config-provider :size="size" :z-index="zIndex">
+  <lp-config-provider :size="size" :z-index="zIndex">
     <app />
-  </el-config-provider>
+  </lp-config-provider>
 </template>
 
 <script>
-import { defineComponent } from 'vue'
-import { ElConfigProvider } from 'element-plus'
+import { defineComponent } from 'vue';
+import { ElConfigProvider } from 'element-plus';
 
 export default defineComponent({
   components: {
@@ -189,9 +189,9 @@ export default defineComponent({
     return {
       zIndex: 3000,
       size: 'small',
-    }
+    };
   },
-})
+});
 </script>
 ```
 
