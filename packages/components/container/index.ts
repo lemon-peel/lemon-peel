@@ -1,10 +1,10 @@
 import { withInstall, withNoopInstall } from '@lemon-peel/utils';
 
-import Container from './src/container.vue';
-import Aside from './src/aside.vue';
-import Footer from './src/footer.vue';
-import Header from './src/header.vue';
-import Main from './src/main.vue';
+import Container from './src/Container.vue';
+import Aside from './src/Aside.vue';
+import Footer from './src/Footer.vue';
+import Header from './src/Header.vue';
+import Main from './src/Main.vue';
 
 export const LpContainer = withInstall(Container, {
   Aside,

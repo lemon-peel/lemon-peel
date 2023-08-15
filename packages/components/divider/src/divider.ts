@@ -1,6 +1,6 @@
 import { buildProps } from '@lemon-peel/utils';
 import type { ExtractPropTypes, PropType } from 'vue';
-import type Divider from './divider.vue';
+import type Divider from './Divider.vue';
 
 export type BorderStyle = CSSStyleDeclaration['borderStyle'];
 

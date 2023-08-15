@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils';
 import { describe, expect, test } from 'vitest';
-import Divider from '../src/divider.vue';
+import Divider from '../src/Divider.vue';
 
 const AXIOM = 'Rem is the best girl';
 

@@ -3,11 +3,11 @@ import { mount } from '@vue/test-utils';
 import { describe, expect, test } from 'vitest';
 import { getCssVariable } from '@lemon-peel/test-utils/dom';
 
-import Container from '../src/container.vue';
-import Header from '../src/header.vue';
-import Main from '../src/main.vue';
-import Aside from '../src/aside.vue';
-import Footer from '../src/footer.vue';
+import Container from '../src/Container.vue';
+import Header from '../src/Header.vue';
+import Main from '../src/Main.vue';
+import Aside from '../src/Aside.vue';
+import Footer from '../src/Footer.vue';
 import { ref } from 'vue';
 
 const AXIOM = 'Rem is the best girl';

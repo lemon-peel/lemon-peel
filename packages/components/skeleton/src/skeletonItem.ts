@@ -1,5 +1,5 @@
 import { buildProps } from '@lemon-peel/utils';
-import type SkeletonItem from './skeletonItem.vue';
+import type SkeletonItem from './SkeletonItem.vue';
 import type { ExtractPropTypes } from 'vue';
 
 export const skeletonItemProps = buildProps({

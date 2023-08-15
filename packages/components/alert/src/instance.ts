@@ -1,3 +1,3 @@
-import type Alert from './alert.vue';
+import type Alert from './Alert.vue';
 
 export type AlertInstance = InstanceType<typeof Alert>;
