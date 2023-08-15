@@ -20,8 +20,8 @@ async function main() {
   const pkgs = Object.fromEntries(
     pkgList.map(pkg => [pkg.manifest.name!, pkg]),
   );
-  const elementPlus = pkgs['lemon-peel'] || pkgs['@lemon-peel/nightly'];
-  const eslintConfig = pkgs['@lemon-peel/eslint-config'];
+
+  const lemonPeel = pkgs['lemon-peel'] || pkgs['@lemon-peel/nightly'];
   const metadata = pkgs['@lemon-peel/metadata'];
 
   const writeVersion = async (project: Project) => {
@@ -32,8 +32,7 @@ async function main() {
     } as any);
   };
 
-  await writeVersion(elementPlus);
-  await writeVersion(eslintConfig);
+  await writeVersion(lemonPeel);
   await writeVersion(metadata);
 
   consola.debug(chalk.green(`$GIT_HEAD: ${gitHead}`));

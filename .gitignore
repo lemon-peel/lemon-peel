@@ -11,7 +11,7 @@ node_modules
 # Bundle
 dist
 coverage
-packages/lemon-peel/version.ts
+packages/main/version.ts
 
 # local env files
 *.local
