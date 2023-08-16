@@ -24,7 +24,7 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
 
-      - name: Print pnpm store directory
+      - name: Get pnpm store directory
         id: pnpm-cache
         run: |
           echo "pnpm_cache_dir=$(pnpm store path)" >> $GITHUB_OUTPUT
