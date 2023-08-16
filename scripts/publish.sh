@@ -11,11 +11,7 @@ cd dist/lemon-peel
 npm publish
 cd -
 
-cd internal/eslint-config
-npm publish
-cd -
-
-cd internal/metadata
+cd toolkit/metadata
 pnpm build
 npm publish
 cd -

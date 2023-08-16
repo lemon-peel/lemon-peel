@@ -12,6 +12,7 @@ node_modules
 dist
 coverage
 packages/main/version.ts
+toolkit/build/version.ts
 
 # local env files
 *.local
