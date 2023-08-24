@@ -12,7 +12,10 @@
     "frontend"
   ],
   "author": "jason-chang <chaoyue.chang@gmail.com>",
-  "homepage": "https://lemon-peel.lemonbot.fun/",
+  "homepage": "https://lp.lemonbot.fun/",
+  "repository": {
+    "url": "https://github.com/lemonbot-fun/lemon-peel.git"
+  },
   "main": "index.js",
   "scripts": {
     "cz": "czg",
