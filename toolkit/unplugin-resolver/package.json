@@ -3,17 +3,15 @@
   "version": "0.0.1",
   "private": true,
   "description": "Resolver for Lemon-Peel basic on unplugin-vue-components",
-  "keywords": [
-    "lemon-peel"
-  ],
+  "keywords": ["lemon-peel", "unplugin resolver"],
   "license": "MIT",
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
+  "main": "./dist/cjs/index.cjs",
+  "module": "./dist/esm/index.mjs",
+  "types": "./dist/esm/index.d.ts",
   "scripts": {
-    "build": "unbuild",
+    "build": "rm -rf dist && tsc --module commonjs --outDir dist/cjs && tsc --module esnext --outDir dist/esm && tsc --module esnext  --outDir dist/esm --declaration",
     "dev": "pnpm run stub",
-    "stub": "unbuild --stub"
+    "stub": "pnpm run build"
   },
   "dependencies": {
     "@pnpm/logger": "^4.0.0",
@@ -22,7 +20,7 @@
     "local-pkg": "^0.4.2"
   },
   "devDependencies": {
-    "unbuild": "^0.7.4",
-    "unplugin-vue-components": "^0.22.11"
+    "unplugin-vue-components": "^0.22.11",
+    "typescript": "^5.1.6"
   }
 }

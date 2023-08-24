@@ -12,7 +12,7 @@ export default defineConfig({
         vue: Vue(),
         vueJsx: VueJsx(),
       },
-    }),
+    }) as any,
   ],
   optimizeDeps: {
     disabled: true,

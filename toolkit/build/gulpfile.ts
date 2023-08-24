@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/consistent-type-imports */
 import path from 'node:path';
-import { copyFile, mkdir } from 'node:fs/promises';
-import { copy } from 'fs-extra';
+import { copyFile, mkdir, readFile, readdir, writeFile, stat } from 'node:fs/promises';
 import { parallel, series } from 'gulp';
 import { buildOutput, lpOutput, mainPkg, projDir } from '@lemon-peel/build-utils';
-import { buildConfig, run, runTask, withTaskName } from './src';
+import { buildConfig, pathRewriter, run, runTask, withTaskName } from './src';
 import type { Module } from './src';
 import type { TaskFunction } from 'gulp';
 
@@ -24,11 +23,35 @@ export const copyFiles = () =>
     ),
   ]);
 
+// Copy src to dest with replace chars of content
+export const copyAndRelace = async (
+  src: string,
+  dest: string,
+  replace: (content: string) => string,
+) => {
+  await mkdir(dest, { recursive: true });
+  const files = await readdir(src);
+  await Promise.all(
+    files.map(async file => {
+      const srcFile = path.resolve(src, file);
+      const destFile = path.resolve(dest, file);
+      const st = await stat(srcFile);
+      if (st.isDirectory()) {
+        await copyAndRelace(srcFile, destFile, replace);
+      } else {
+        //copy file with replace chars of content by replace callback
+        const content = await readFile(srcFile, 'utf8');
+        await writeFile(destFile, replace(content), 'utf8');
+      }
+    }),
+  );
+};
+
 export const copyTypesDefinitions: TaskFunction = done => {
   const src = path.resolve(buildOutput, 'types', 'packages');
   const copyTypes = (module: Module) =>
     withTaskName(`copyTypes:${module}`, () =>
-      copy(src, buildConfig[module].output.path),
+      copyAndRelace(src, buildConfig[module].output.path, pathRewriter(module)),
     );
 
   return parallel(copyTypes('esm'), copyTypes('cjs'))(done);

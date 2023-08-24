@@ -5,5 +5,6 @@
     { "path": "./tsconfig.node.json" },
     { "path": "./tsconfig.serve.json" },
     { "path": "./tsconfig.pkgs.json" },
+    { "path": "./tsconfig.docs.json" },
   ],
 }

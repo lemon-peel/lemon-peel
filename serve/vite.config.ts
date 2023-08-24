@@ -12,9 +12,9 @@ import esbuild from 'rollup-plugin-esbuild';
 import eslint from 'vite-plugin-eslint';
 import checker from 'vite-plugin-checker';
 
+import type { Plugin, UserConfigExport } from 'vite';
 import { mainPkg, mainDir, getPackageDependencies, pkgDir, projDir } from '@lemon-peel/build-utils';
 
-import type { Plugin } from 'vite';
 import './vite.init';
 
 const esbuildPlugin = () => ({
@@ -132,6 +132,7 @@ export default defineConfig(async ({ mode }) => {
   const dayjsPlugins = await glob(['dayjs/(locale|plugin)/*.js'], {
     cwd: path.resolve(projDir, 'node_modules'),
   });
+
   const optimizeDeps = dayjsPlugins.map(dep => dep.replace(/\.js$/, ''));
 
   return {
@@ -185,4 +186,4 @@ export default defineConfig(async ({ mode }) => {
       target: 'chrome85',
     },
   };
-});
+}) as UserConfigExport;

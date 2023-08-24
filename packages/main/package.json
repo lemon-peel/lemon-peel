@@ -14,17 +14,17 @@
     "url": "https://github.com/element-plus/element-plus/issues"
   },
   "license": "MIT",
-  "main": "lib/index.js",
-  "module": "es/index.mjs",
-  "types": "es/index.d.ts",
+  "main": "lib/main/index.js",
+  "module": "es/main/index.mjs",
+  "types": "es/main/index.d.ts",
   "exports": {
     ".": {
-      "require": "./lib/index.js",
-      "import": "./es/index.mjs",
-      "types": "./es/index.d.ts"
+      "require": "./lib/main/index.js",
+      "import": "./es/main/index.mjs",
+      "types": "./es/main/index.d.ts"
     },
-    "./es": "./es/index.mjs",
-    "./lib": "./lib/index.js",
+    "./es": "./es/main/index.mjs",
+    "./lib": "./lib/main/index.js",
     "./es/*.mjs": "./es/*.mjs",
     "./es/*": "./es/*.mjs",
     "./lib/*.js": "./lib/*.js",

@@ -11,6 +11,11 @@ cd dist/lemon-peel
 npm publish
 cd -
 
+cd toolkit/unplugin-resolver
+pnpm build
+npm publish
+cd -
+
 cd toolkit/metadata
 pnpm build
 npm publish
