@@ -11,6 +11,8 @@
     "skipLibCheck": true,
     "sourceMap": true,
     "baseUrl": ".",
+    "outDir": "dist",
+    "types": ["node"],
     "lib": [ "esnext" ]
   },
   "include": [

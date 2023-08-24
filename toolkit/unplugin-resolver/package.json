@@ -9,7 +9,7 @@
   "module": "./dist/esm/index.mjs",
   "types": "./dist/esm/index.d.ts",
   "scripts": {
-    "build": "rm -rf dist && tsc --module commonjs --outDir dist/cjs && tsc --module esnext --outDir dist/esm && tsc --module esnext  --outDir dist/esm --declaration",
+    "build": "rm -rf dist && tsc --module commonjs --outDir dist/cjs && tsc --module es2020 --outDir dist/esm && tsc --module es2020  --outDir dist/esm --declaration",
     "dev": "pnpm run stub",
     "stub": "pnpm run build"
   },
@@ -17,10 +17,12 @@
     "@pnpm/logger": "^4.0.0",
     "compare-versions": "^5.0.1",
     "consola": "^2.15.3",
-    "local-pkg": "^0.4.2"
+    "local-pkg": "^0.4.2",
+    "unplugin-vue-components": "^0.25.1"
   },
   "devDependencies": {
     "unplugin-vue-components": "^0.22.11",
+    "@types/node": "^18.0.0",
     "typescript": "^5.1.6"
   }
 }
