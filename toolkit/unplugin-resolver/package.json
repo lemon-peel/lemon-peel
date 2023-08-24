@@ -1,7 +1,6 @@
 {
   "name": "@lemon-peel/unplugin-resolver",
   "version": "0.0.1",
-  "private": true,
   "description": "Resolver for Lemon-Peel basic on unplugin-vue-components",
   "keywords": ["lemon-peel", "unplugin resolver"],
   "license": "MIT",

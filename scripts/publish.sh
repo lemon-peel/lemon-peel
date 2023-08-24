@@ -12,6 +12,7 @@ npm publish --access=public
 cd -
 
 cd toolkit/unplugin-resolver
+pnpm version $TAG_VERSION
 pnpm build
 npm publish --access=public
 cd -
