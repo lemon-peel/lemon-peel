@@ -8,12 +8,12 @@ pnpm update:version
 pnpm build
 
 cd dist/lemon-peel
-npm publish
+npm publish --access=public
 cd -
 
 cd toolkit/unplugin-resolver
 pnpm build
-npm publish
+npm publish --access=public
 cd -
 
 cd toolkit/metadata
