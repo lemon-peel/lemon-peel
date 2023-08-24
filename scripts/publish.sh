@@ -19,7 +19,7 @@ cd -
 cd toolkit/metadata
 pnpm version $TAG_VERSION
 pnpm build
-npm publish
+npm publish --access=public
 cd -
 
 echo "✅ Publish completed"
