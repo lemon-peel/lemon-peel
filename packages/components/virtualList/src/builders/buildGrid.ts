@@ -406,7 +406,7 @@ const createGrid = ({
             alignment,
             unrefStates.scrollLeft,
             unrefCache,
-            estimatedWidth > props.width! ? scrollBarWidth : 0,
+            estimatedWidth > +props.width! ? scrollBarWidth : 0,
           ),
           scrollTop: getRowOffset(
             props,
@@ -414,7 +414,7 @@ const createGrid = ({
             alignment,
             unrefStates.scrollTop,
             unrefCache,
-            estimatedHeight > props.height! ? scrollBarWidth : 0,
+            estimatedHeight > +props.height! ? scrollBarWidth : 0,
           ),
         });
       };

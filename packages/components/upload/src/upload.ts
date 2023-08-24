@@ -20,7 +20,7 @@ export interface UploadProgressEvent extends ProgressEvent {
 export interface UploadRequestOptions {
   action: string;
   method: string;
-  data: Record<string, string | Blob | [string | Blob, string]>;
+  data: Record<string, string | Blob>;
   filename: string;
   file: File;
   headers: Headers | Record<string, string | number | null | undefined>;
@@ -29,6 +29,7 @@ export interface UploadRequestOptions {
   onSuccess: (response: any) => void;
   withCredentials: boolean;
 }
+
 export interface UploadFile {
   name: string;
   percentage?: number;
