@@ -50,9 +50,15 @@ export const copyAndRelace = async (
 export const copyTypesDefinitions: TaskFunction = done => {
   const src = path.resolve(buildOutput, 'types', 'packages');
   const copyTypes = (module: Module) =>
-    withTaskName(`copyTypes:${module}`, () =>
-      copyAndRelace(src, buildConfig[module].output.path, pathRewriter(module)),
-    );
+    withTaskName(`copyTypes:${module}`, async () => {
+      const output = buildConfig[module].output.path;
+      await copyAndRelace(src, output, pathRewriter(module));
+
+      const indexDts = path.resolve(output, 'main/index.d.ts');
+      let dtsContent = await readFile(indexDts, 'utf8');
+      dtsContent = `${dtsContent}\nimport "../../global";`;
+      await writeFile(indexDts, dtsContent, 'utf8');
+    });
 
   return parallel(copyTypes('esm'), copyTypes('cjs'))(done);
 };
