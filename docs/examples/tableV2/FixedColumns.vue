@@ -12,9 +12,9 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import { TableV2FixedDir, TableV2SortOrder } from 'element-plus';
+import { TableV2FixedDir, TableV2SortOrder } from 'lemon-peel';
 
-import type { SortBy } from 'element-plus';
+import type { SortBy } from 'lemon-peel';
 
 const generateColumns = (length = 10, prefix = 'column-', props?: any) =>
   Array.from({ length }).map((_, columnIndex) => ({

@@ -1,6 +1,6 @@
 <template>
   <lp-input
-    v-model="query"
+    v-model:value="query"
     placeholder="Please enter keyword"
     @input="onQueryChanged"
   />
@@ -14,7 +14,7 @@
 </template>
 <script lang="ts" setup>
 import { ref } from 'vue';
-import type { ElTreeV2 } from 'element-plus';
+import type { LpTreeV2 } from 'lemon-peel';
 import type { TreeNode } from 'element-plus/es/components/tree-v2/src/types';
 
 interface Tree {
@@ -52,7 +52,7 @@ const createData = (
 };
 
 const query = ref('');
-const treeRef = ref<InstanceType<typeof ElTreeV2>>();
+const treeRef = ref<InstanceType<typeof LpTreeV2>>();
 const data = createData(4, 30, 5);
 const props = {
   value: 'id',

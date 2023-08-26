@@ -1,13 +1,13 @@
 <template>
   <lp-switch
-    v-model="value1"
+    v-model:value="value1"
     class="mb-2"
     active-text="Pay by month"
     inactive-text="Pay by year"
   />
   <br>
   <lp-switch
-    v-model="value2"
+    v-model:value="value2"
     class="mb-2"
     style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
     active-text="Pay by month"
@@ -15,13 +15,13 @@
   />
   <br>
   <lp-switch
-    v-model="value3"
+    v-model:value="value3"
     inline-prompt
     active-text="是"
     inactive-text="否"
   />
   <lp-switch
-    v-model="value4"
+    v-model:value="value4"
     class="ml-2"
     inline-prompt
     style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"

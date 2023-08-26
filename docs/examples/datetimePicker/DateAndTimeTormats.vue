@@ -4,7 +4,7 @@
       <span class="demonstration">Emits Date object</span>
       <div class="demonstration">Value: {{ value1 }}</div>
       <lp-date-picker
-        v-model="value1"
+        v-model:value="value1"
         type="datetime"
         placeholder="Pick a Date"
         format="YYYY/MM/DD HH:mm:ss"
@@ -14,7 +14,7 @@
       <span class="demonstration">Use value-format</span>
       <div class="demonstration">Value：{{ value2 }}</div>
       <lp-date-picker
-        v-model="value2"
+        v-model:value="value2"
         type="datetime"
         placeholder="Pick a Date"
         format="YYYY/MM/DD hh:mm:ss"
@@ -25,7 +25,7 @@
       <span class="demonstration">Timestamp</span>
       <div class="demonstration">Value：{{ value3 }}</div>
       <lp-date-picker
-        v-model="value3"
+        v-model:value="value3"
         type="datetime"
         placeholder="Pick a Date"
         format="YYYY/MM/DD hh:mm:ss"

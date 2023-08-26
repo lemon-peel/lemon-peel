@@ -25,11 +25,11 @@
     <div class="demo-drawer__content">
       <lp-form :model="form">
         <lp-form-item label="Name" :label-width="formLabelWidth">
-          <lp-input v-model="form.name" autocomplete="off" />
+          <lp-input v-model:value="form.name" autocomplete="off" />
         </lp-form-item>
         <lp-form-item label="Area" :label-width="formLabelWidth">
           <lp-select
-            v-model="form.region"
+            v-model:value="form.region"
             placeholder="Please select activity area"
           >
             <lp-option label="Area1" value="shanghai" />
@@ -49,11 +49,12 @@
 
 <script lang="ts" setup>
 import { reactive, ref } from 'vue';
-import type { ElDrawer } from 'element-plus';
-import { ElMessageBox } from 'element-plus';
+// eslint-disable-next-line @typescript-eslint/consistent-type-imports
+import { LpDrawer } from 'lemon-peel';
+import { LpMessageBox } from 'lemon-peel';
 
 const formLabelWidth = '80px';
-let timer;
+let timer: number;
 
 const table = ref(false);
 const dialog = ref(false);
@@ -93,7 +94,7 @@ const gridData = [
   },
 ];
 
-const drawerRef = ref<InstanceType<typeof ElDrawer>>();
+const drawerRef = ref<InstanceType<typeof LpDrawer>>();
 const onClick = () => {
   drawerRef.value!.close();
 };
@@ -102,7 +103,7 @@ const handleClose = done => {
   if (loading.value) {
     return;
   }
-  ElMessageBox.confirm('Do you want to submit?')
+  LpMessageBox.confirm('Do you want to submit?')
     .then(() => {
       loading.value = true;
       timer = setTimeout(() => {

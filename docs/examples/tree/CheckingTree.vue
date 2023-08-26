@@ -20,7 +20,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import type { ElTree } from 'element-plus';
+import type { LpTree } from 'lemon-peel';
 import type Node from 'element-plus/es/components/tree/src/model/node';
 
 interface Tree {
@@ -29,7 +29,7 @@ interface Tree {
   children?: Tree[];
 }
 
-const treeRef = ref<InstanceType<typeof ElTree>>();
+const treeRef = ref<InstanceType<typeof LpTree>>();
 
 const getCheckedNodes = () => {
   console.log(treeRef.value!.getCheckedNodes(false, false));

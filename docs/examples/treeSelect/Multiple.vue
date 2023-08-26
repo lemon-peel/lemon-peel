@@ -1,6 +1,6 @@
 <template>
   <lp-tree-select
-    v-model="value"
+    v-model:value="value"
     :data="data"
     multiple
     :render-after-expand="false"
@@ -8,7 +8,7 @@
   <lp-divider />
   show checkbox:
   <lp-tree-select
-    v-model="value"
+    v-model:value="value"
     :data="data"
     multiple
     :render-after-expand="false"
@@ -17,7 +17,7 @@
   <lp-divider />
   show checkbox with `check-strictly`:
   <lp-tree-select
-    v-model="valueStrictly"
+    v-model:value="valueStrictly"
     :data="data"
     multiple
     :render-after-expand="false"

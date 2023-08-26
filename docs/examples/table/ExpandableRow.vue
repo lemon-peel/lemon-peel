@@ -1,6 +1,6 @@
 <template>
-  switch parent border: <lp-switch v-model="parentBorder" /> switch child
-  border: <lp-switch v-model="childBorder" />
+  switch parent border: <lp-switch v-model:value="parentBorder" /> switch child
+  border: <lp-switch v-model:value="childBorder" />
   <lp-table :data="tableData" :border="parentBorder" style="width: 100%">
     <lp-table-column type="expand">
       <template #default="props">

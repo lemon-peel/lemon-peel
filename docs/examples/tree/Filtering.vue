@@ -1,5 +1,5 @@
 <template>
-  <lp-input v-model="filterText" placeholder="Filter keyword" />
+  <lp-input v-model:value="filterText" placeholder="Filter keyword" />
 
   <lp-tree
     ref="treeRef"
@@ -13,7 +13,7 @@
 
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
-import type { ElTree } from 'element-plus';
+import type { LpTree } from 'lemon-peel';
 
 interface Tree {
   id: number;
@@ -22,7 +22,7 @@ interface Tree {
 }
 
 const filterText = ref('');
-const treeRef = ref<InstanceType<typeof ElTree>>();
+const treeRef = ref<InstanceType<typeof LpTree>>();
 
 const defaultProps = {
   children: 'children',

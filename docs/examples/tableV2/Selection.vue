@@ -16,10 +16,10 @@
 
 <script lang="tsx" setup>
 import { ref, unref } from 'vue';
-import { ElCheckbox } from 'element-plus';
+import { LpCheckbox } from 'lemon-peel';
 
 import type { FunctionalComponent } from 'vue';
-import type { CheckboxValueType, Column } from 'element-plus';
+import type { CheckboxValueType, Column } from 'lemon-peel';
 
 type SelectionCellProps = {
   value: boolean;
@@ -33,9 +33,9 @@ const SelectionCell: FunctionalComponent<SelectionCellProps> = ({
   onChange,
 }) => {
   return (
-    <ElCheckbox
+    <LpCheckbox
       onChange={onChange}
-      modelValue={value}
+      checked={value}
       indeterminate={intermediate}
     />
   );

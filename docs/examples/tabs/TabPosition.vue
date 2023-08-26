@@ -1,5 +1,5 @@
 <template>
-  <lp-radio-group v-model="tabPosition" style="margin-bottom: 30px">
+  <lp-radio-group v-model:value="tabPosition" style="margin-bottom: 30px">
     <lp-radio-button label="top">top</lp-radio-button>
     <lp-radio-button label="right">right</lp-radio-button>
     <lp-radio-button label="bottom">bottom</lp-radio-button>

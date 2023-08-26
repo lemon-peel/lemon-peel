@@ -1,8 +1,8 @@
 <template>
   <div class="example-basic">
-    <lp-time-picker v-model="value1" placeholder="Arbitrary time" />
+    <lp-time-picker v-model:value="value1" placeholder="Arbitrary time" />
     <lp-time-picker
-      v-model="value2"
+      v-model:value="value2"
       arrow-control
       placeholder="Arbitrary time"
     />

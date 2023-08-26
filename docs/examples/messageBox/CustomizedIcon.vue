@@ -4,11 +4,11 @@
 
 <script lang="ts" setup>
 import { markRaw } from 'vue';
-import { ElMessageBox } from 'element-plus';
+import { LpMessageBox } from 'lemon-peel';
 import { Delete } from '@element-plus/icons-vue';
 
 const open = () => {
-  ElMessageBox.confirm(
+  LpMessageBox.confirm(
     'It will permanently delete the file. Continue?',
     'Warning',
     {

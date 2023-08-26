@@ -1,8 +1,8 @@
 <template>
   <div class="demo-color-sizes">
-    <lp-color-picker v-model="color" size="large" />
-    <lp-color-picker v-model="color" />
-    <lp-color-picker v-model="color" size="small" />
+    <lp-color-picker v-model:value="color" size="large" />
+    <lp-color-picker v-model:value="color" />
+    <lp-color-picker v-model:value="color" size="small" />
   </div>
 </template>
 

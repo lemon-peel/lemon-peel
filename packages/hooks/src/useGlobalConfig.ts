@@ -6,7 +6,7 @@ import type { MaybeRef } from '@vueuse/core';
 import type { App, Ref } from 'vue';
 import type { ConfigProviderContext } from '@lemon-peel/tokens';
 
-// this is meant to fix global methods like `ElMessage(opts)`, this way we can inject current locale
+// this is meant to fix global methods like `LpMessage(opts)`, this way we can inject current locale
 // into the component as default injection value.
 // refer to: https://github.com/element-plus/element-plus/issues/2610#issuecomment-887965266
 const globalConfig = ref<ConfigProviderContext>();

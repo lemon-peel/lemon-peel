@@ -1,5 +1,5 @@
 <template>
-  <lp-rate v-model="value" clearable />
+  <lp-rate v-model:value="value" clearable />
 </template>
 
 <script lang="ts" setup>

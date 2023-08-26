@@ -1,6 +1,6 @@
 <template>
   <lp-input
-    v-model="textarea"
+    v-model:value="textarea"
     :rows="2"
     type="textarea"
     placeholder="Please input"

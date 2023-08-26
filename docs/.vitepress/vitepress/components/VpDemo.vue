@@ -83,16 +83,16 @@ const copyCode = async () => {
     <div class="example">
       <Example :file="path" :demo="formatPathDemos[path]" />
 
-      <ElDivider class="m-0" />
+      <LpDivider class="m-0" />
 
       <div class="op-btns">
-        <ElTooltip
+        <LpTooltip
           :content="locale['edit-in-editor']"
           :show-arrow="false"
           :trigger="['hover', 'focus']"
           :trigger-keys="[]"
         >
-          <ElIcon
+          <LpIcon
             :size="16"
             :aria-label="locale['edit-in-editor']"
             tabindex="0"
@@ -103,15 +103,15 @@ const copyCode = async () => {
             @keydown.prevent.space="onPlaygroundClick"
           >
             <i-ri-flask-line />
-          </ElIcon>
-        </ElTooltip>
-        <ElTooltip
+          </LpIcon>
+        </LpTooltip>
+        <LpTooltip
           :content="locale['edit-on-github']"
           :show-arrow="false"
           :trigger="['hover', 'focus']"
           :trigger-keys="[]"
         >
-          <ElIcon
+          <LpIcon
             :size="16"
             class="op-btn github"
             style="color: var(--text-color-light)"
@@ -124,15 +124,15 @@ const copyCode = async () => {
             >
               <i-ri-github-line />
             </a>
-          </ElIcon>
-        </ElTooltip>
-        <ElTooltip
+          </LpIcon>
+        </LpTooltip>
+        <LpTooltip
           :content="locale['copy-code']"
           :show-arrow="false"
           :trigger="['hover', 'focus']"
           :trigger-keys="[]"
         >
-          <ElIcon
+          <LpIcon
             :size="16"
             :aria-label="locale['copy-code']"
             class="op-btn"
@@ -143,9 +143,9 @@ const copyCode = async () => {
             @keydown.prevent.space="copyCode"
           >
             <i-ri-file-copy-line />
-          </ElIcon>
-        </ElTooltip>
-        <ElTooltip
+          </LpIcon>
+        </LpTooltip>
+        <LpTooltip
           :content="locale['view-source']"
           :show-arrow="false"
           :trigger="['hover', 'focus']"
@@ -159,11 +159,11 @@ const copyCode = async () => {
             class="reset-btn el-icon op-btn"
             @click="toggleSourceVisible()"
           >
-            <ElIcon :size="16">
+            <LpIcon :size="16">
               <i-ri-code-line />
-            </ElIcon>
+            </LpIcon>
           </button>
-        </ElTooltip>
+        </LpTooltip>
       </div>
 
       <ElCollapseTransition>
@@ -179,9 +179,9 @@ const copyCode = async () => {
           @click="toggleSourceVisible(false)"
           @keydown="onSourceVisibleKeydown"
         >
-          <ElIcon :size="16">
+          <LpIcon :size="16">
             <CaretTop />
-          </ElIcon>
+          </LpIcon>
           <span>{{ locale['hide-source'] }}</span>
         </div>
       </Transition>

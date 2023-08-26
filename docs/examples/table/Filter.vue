@@ -42,7 +42,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import type { ElTable } from 'element-plus';
+import type { LpTable } from 'lemon-peel';
 import type { TableColumnCtx } from 'element-plus/es/components/table/src/table-column/defaults';
 
 interface User {
@@ -52,7 +52,7 @@ interface User {
   tag: string;
 }
 
-const tableRef = ref<InstanceType<typeof ElTable>>();
+const tableRef = ref<InstanceType<typeof LpTable>>();
 
 const resetDateFilter = () => {
   tableRef.value!.clearFilter(['date']);

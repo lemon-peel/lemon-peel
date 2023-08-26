@@ -14,7 +14,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import type { TabsPaneContext } from 'element-plus';
+import type { TabsPaneContext } from 'lemon-peel';
 
 const activeName = ref('first');
 

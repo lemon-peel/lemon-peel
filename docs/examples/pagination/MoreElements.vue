@@ -1,15 +1,15 @@
 <template>
   <div class="flex items-center mb-4">
-    <lp-radio-group v-model="small" class="mr-4">
+    <lp-radio-group v-model:value="small" class="mr-4">
       <lp-radio-button :label="false">default</lp-radio-button>
       <lp-radio-button :label="true">small</lp-radio-button>
     </lp-radio-group>
     <div>
       background:
-      <lp-switch v-model="background" class="ml-2" />
+      <lp-switch v-model:value="background" class="ml-2" />
     </div>
     <div class="ml-4">
-      disabled: <lp-switch v-model="disabled" class="ml-2" />
+      disabled: <lp-switch v-model:value="disabled" class="ml-2" />
     </div>
   </div>
 

@@ -1,12 +1,12 @@
 <template>
   <div class="example-block">
     <span class="example-demonstration">Child options expand when clicked (default)</span>
-    <lp-cascader v-model="value" :options="options" @change="handleChange" />
+    <lp-cascader v-model:value="value" :options="options" @change="handleChange" />
   </div>
   <div class="example-block">
     <span class="example-demonstration">Child options expand when hovered</span>
     <lp-cascader
-      v-model="value"
+      v-model:value="value"
       :options="options"
       :props="props"
       @change="handleChange"

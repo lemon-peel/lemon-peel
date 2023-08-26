@@ -1,5 +1,5 @@
 <template>
-  <lp-transfer v-model="value" :data="data" />
+  <lp-transfer v-model:value="value" :data="data" />
 </template>
 
 <script lang="ts" setup>

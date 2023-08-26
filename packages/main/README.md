@@ -1,11 +1,11 @@
-# `element-plus`
+# `lemon-peel`
 
 > TODO: description
 
 ## Usage
 
 ```
-const elementPlus = require('element-plus');
+const lemonPeel = require('lemon-peel');
 
 // TODO: DEMONSTRATE API
 ```

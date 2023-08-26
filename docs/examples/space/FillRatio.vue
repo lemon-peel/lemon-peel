@@ -2,11 +2,11 @@
   <div>
     <div style="margin-bottom: 15px">
       direction:
-      <lp-radio v-model="direction" label="horizontal">horizontal</lp-radio>
-      <lp-radio v-model="direction" label="vertical">vertical</lp-radio>
+      <lp-radio v-model:checked="direction" label="horizontal">horizontal</lp-radio>
+      <lp-radio v-model:checked="direction" label="vertical">vertical</lp-radio>
     </div>
     <div style="margin-bottom: 15px">
-      fillRatio:<lp-slider v-model="fillRatio" />
+      fillRatio:<lp-slider v-model:value="fillRatio" />
     </div>
     <lp-space
       fill

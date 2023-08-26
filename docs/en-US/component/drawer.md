@@ -9,7 +9,7 @@ Sometimes, `Dialog` does not always satisfy our requirements, let's say you have
 
 :::tip
 
-Since v-model is natively supported for all components, `visible.sync` has been deprecated, use `v-model="visibilityBinding"` to control the visibility of the current drawer.
+Since v-model is natively supported for all components, `visible.sync` has been deprecated, use `v-model:visible="visibilityBinding"` to control the visibility of the current drawer.
 
 :::
 

@@ -1,5 +1,5 @@
 <template>
-  <lp-color-picker v-model="color" show-alpha :predefine="predefineColors" />
+  <lp-color-picker v-model:value="color" show-alpha :predefine="predefineColors" />
 </template>
 
 <script lang="ts" setup>

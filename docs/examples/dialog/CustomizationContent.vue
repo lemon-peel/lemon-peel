@@ -19,10 +19,10 @@
   <lp-dialog v-model="dialogFormVisible" title="Shipping address">
     <lp-form :model="form">
       <lp-form-item label="Promotion name" :label-width="formLabelWidth">
-        <lp-input v-model="form.name" autocomplete="off" />
+        <lp-input v-model:value="form.name" autocomplete="off" />
       </lp-form-item>
       <lp-form-item label="Zones" :label-width="formLabelWidth">
-        <lp-select v-model="form.region" placeholder="Please select a zone">
+        <lp-select v-model:value="form.region" placeholder="Please select a zone">
           <lp-option label="Zone No.1" value="shanghai" />
           <lp-option label="Zone No.2" value="beijing" />
         </lp-select>

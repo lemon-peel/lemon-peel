@@ -16,13 +16,13 @@ If you don’t care about the bundle size so much, it’s more convenient to use
 ```typescript
 // main.ts
 import { createApp } from 'vue'
-import ElementPlus from 'element-plus'
-import 'element-plus/dist/index.css'
+import LemonPeel from 'lemon-peel'
+import 'lemon-peel/dist/index.css'
 import App from './App.vue'
 
 const app = createApp(App)
 
-app.use(ElementPlus)
+app.use(LemonPeel)
 app.mount('#app')
 ```
 
@@ -35,7 +35,7 @@ If you use volar, please add the global component type definition to `compilerOp
 {
   "compilerOptions": {
     // ...
-    "types": ["element-plus/global"]
+    "types": ["lemon-peel/global"]
   }
 }
 ```
@@ -61,17 +61,17 @@ Then add the code below into your `Vite` or `Webpack` config file.
 import { defineConfig } from 'vite';
 import AutoImport from 'unplugin-auto-import/vite';
 import Components from 'unplugin-vue-components/vite';
-import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
+import { LemonPeelResolver } from '@lemon-peel/unplugin-resolver';
 
 export default defineConfig({
   // ...
   plugins: [
     // ...
     AutoImport({
-      resolvers: [ElementPlusResolver()],
+      resolvers: [LemonPeelResolver()],
     }),
     Components({
-      resolvers: [ElementPlusResolver()],
+      resolvers: [LemonPeelResolver()],
     }),
   ],
 });
@@ -83,16 +83,16 @@ export default defineConfig({
 // webpack.config.js
 const AutoImport = require('unplugin-auto-import/webpack');
 const Components = require('unplugin-vue-components/webpack');
-const { ElementPlusResolver } = require('unplugin-vue-components/resolvers');
+const { LemonPeelResolver } = require('@lemon-peel/unplugin-resolver');
 
 module.exports = {
   // ...
   plugins: [
     AutoImport({
-      resolvers: [ElementPlusResolver()],
+      resolvers: [LemonPeelResolver()],
     }),
     Components({
-      resolvers: [ElementPlusResolver()],
+      resolvers: [LemonPeelResolver()],
     }),
   ],
 };
@@ -112,12 +112,12 @@ And refer to the [docs](https://github.com/element-plus/unplugin-element-plus#re
 
 ```html
 <template>
-  <lp-button>I am ElButton</lp-button>
+  <lp-button>I am LpButton</lp-button>
 </template>
 <script>
-  import { ElButton } from 'element-plus'
+  import { LpButton } from 'lemon-peel'
   export default {
-    components: { ElButton },
+    components: { LpButton },
   }
 </script>
 ```
@@ -140,7 +140,7 @@ You need to manually import the styles if you're using `unplugin-element-plus` a
 Example:
 
 ```ts
-import 'element-plus/es/components/message/style/css';
+import 'lemon-peel/es/components/message/style/css';
 
 ```
 
@@ -161,11 +161,11 @@ Full import:
 
 ```ts
 import { createApp } from 'vue';
-import ElementPlus from 'element-plus';
+import LemonPeel from 'lemon-peel';
 import App from './App.vue';
 
 const app = createApp(App);
-app.use(ElementPlus, { size: 'small', zIndex: 3000 });
+app.use(LemonPeel, { size: 'small', zIndex: 3000 });
 ```
 
 On-demand:
@@ -179,11 +179,11 @@ On-demand:
 
 <script>
 import { defineComponent } from 'vue';
-import { ElConfigProvider } from 'element-plus';
+import { LpConfigProvider } from 'lemon-peel';
 
 export default defineComponent({
   components: {
-    ElConfigProvider,
+    LpConfigProvider,
   },
   setup() {
     return {

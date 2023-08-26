@@ -1,10 +1,10 @@
 <template>
   <div class="mb-4 flex items-center">
     <lp-form-item label="Scroll pixels" class="mr-4">
-      <lp-input v-model="scrollDelta" />
+      <lp-input v-model:value="scrollDelta" />
     </lp-form-item>
     <lp-form-item label="Scroll rows">
-      <lp-input v-model="scrollRows" />
+      <lp-input v-model:value="scrollRows" />
     </lp-form-item>
   </div>
   <div class="mb-4 flex items-center">
@@ -30,7 +30,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 
-import type { TableV2Instance } from 'element-plus';
+import type { TableV2Instance } from 'lemon-peel';
 
 const generateColumns = (length = 10, prefix = 'column-', props?: any) =>
   Array.from({ length }).map((_, columnIndex) => ({

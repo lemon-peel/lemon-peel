@@ -31,7 +31,7 @@
     </template>
   </lp-upload>
 
-  <lp-dialog v-model="dialogVisible">
+  <lp-dialog v-model:value="dialogVisible">
     <img w-full :src="dialogImageUrl" alt="Preview Image">
   </lp-dialog>
 </template>
@@ -40,7 +40,7 @@
 import { ref } from 'vue';
 import { Delete, Download, Plus, ZoomIn } from '@element-plus/icons-vue';
 
-import type { UploadFile } from 'element-plus';
+import type { UploadFile } from 'lemon-peel';
 
 const dialogImageUrl = ref('');
 const dialogVisible = ref(false);

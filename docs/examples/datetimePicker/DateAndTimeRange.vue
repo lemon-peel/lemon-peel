@@ -2,7 +2,7 @@
   <div class="block">
     <span class="demonstration">Default</span>
     <lp-date-picker
-      v-model="value1"
+      v-model:value="value1"
       type="datetimerange"
       range-separator="To"
       start-placeholder="Start date"
@@ -12,7 +12,7 @@
   <div class="block">
     <span class="demonstration">With shortcuts</span>
     <lp-date-picker
-      v-model="value2"
+      v-model:value="value2"
       type="datetimerange"
       :shortcuts="shortcuts"
       range-separator="To"

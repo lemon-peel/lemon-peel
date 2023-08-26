@@ -14,9 +14,9 @@ const toTranslation = () => {
   <div class="translation-container">
     <ClientOnly>
       <ElDropdown popper-class="translation-popup" role="navigation">
-        <ElIcon :size="24" :aria-label="locale.language">
+        <LpIcon :size="24" :aria-label="locale.language">
           <i-ri-translate-2 />
-        </ElIcon>
+        </LpIcon>
         <template #dropdown>
           <ElDropdownMenu>
             <ElDropdownItem

@@ -1,6 +1,6 @@
 <template>
-  <lp-checkbox v-model="checked1" disabled>Disabled</lp-checkbox>
-  <lp-checkbox v-model="checked2">Not disabled</lp-checkbox>
+  <lp-checkbox v-model:checked="checked1" disabled>Disabled</lp-checkbox>
+  <lp-checkbox v-model:checked="checked2">Not disabled</lp-checkbox>
 </template>
 
 <script lang="ts" setup>

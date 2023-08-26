@@ -33,7 +33,7 @@
         Value: {{ value1 }}
       </div>
       <lp-date-picker
-        v-model="value1"
+        v-model:value="value1"
         type="date"
         placeholder="Pick a Date"
         format="YYYY/MM/DD"
@@ -69,7 +69,7 @@
         Value：{{ value2 }}
       </div>
       <lp-date-picker
-        v-model="value2"
+        v-model:value="value2"
         type="date"
         placeholder="Pick a Date"
         format="YYYY/MM/DD"
@@ -101,7 +101,7 @@
         Value：{{ value3 }}
       </div>
       <lp-date-picker
-        v-model="value3"
+        v-model:value="value3"
         type="date"
         placeholder="Pick a Date"
         format="YYYY/MM/DD"

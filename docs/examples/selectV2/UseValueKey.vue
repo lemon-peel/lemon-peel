@@ -1,6 +1,6 @@
 <template>
   <lp-select-v2
-    v-model="value"
+    v-model:value="value"
     :options="options"
     placeholder="Please select"
     value-key="value.name"

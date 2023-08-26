@@ -1,5 +1,5 @@
 <template>
-  <lp-input-number v-model="num" :min="1" :max="10" />
+  <lp-input-number v-model:value="num" :min="1" :max="10" />
 </template>
 
 <script lang="ts" setup>

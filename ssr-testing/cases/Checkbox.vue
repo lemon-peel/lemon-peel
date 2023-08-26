@@ -1,19 +1,19 @@
 <template>
   <div>
-    <lp-checkbox v-model="checked1" label="Option 1" size="large" />
-    <lp-checkbox v-model="checked2" label="Option 2" size="large" />
+    <lp-checkbox v-model:checked="checked1" label="Option 1" size="large" />
+    <lp-checkbox v-model:checked="checked2" label="Option 2" size="large" />
   </div>
   <div>
-    <lp-checkbox v-model="checked3" label="Option 1" />
-    <lp-checkbox v-model="checked4" label="Option 2" />
+    <lp-checkbox v-model:checked="checked3" label="Option 1" />
+    <lp-checkbox v-model:checked="checked4" label="Option 2" />
   </div>
   <div>
-    <lp-checkbox v-model="checked5" label="Option 1" size="small" />
-    <lp-checkbox v-model="checked6" label="Option 2" size="small" />
+    <lp-checkbox v-model:checked="checked5" label="Option 1" size="small" />
+    <lp-checkbox v-model:checked="checked6" label="Option 2" size="small" />
   </div>
   <div>
-    <lp-checkbox v-model="checked5" label="Option 1" size="small" disabled />
-    <lp-checkbox v-model="checked6" label="Option 2" size="small" disabled />
+    <lp-checkbox v-model:checked="checked5" label="Option 1" size="small" disabled />
+    <lp-checkbox v-model:checked="checked6" label="Option 2" size="small" disabled />
   </div>
 </template>
 

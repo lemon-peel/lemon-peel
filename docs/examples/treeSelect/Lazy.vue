@@ -1,5 +1,5 @@
 <template>
-  <lp-tree-select v-model="value" lazy :load="load" :props="props" />
+  <lp-tree-select v-model:value="value" lazy :load="load" :props="props" />
 </template>
 
 <script lang="ts" setup>

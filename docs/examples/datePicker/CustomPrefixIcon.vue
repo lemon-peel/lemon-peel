@@ -3,7 +3,7 @@
     <div class="block">
       <span class="demonstration">set prefix-icon</span>
       <lp-date-picker
-        v-model="value1"
+        v-model:value="value1"
         type="date"
         placeholder="Pick a day"
         :prefix-icon="customPrefix"

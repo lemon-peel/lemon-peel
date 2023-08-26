@@ -20,7 +20,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import type { ElTable } from 'element-plus';
+import type { LpTable } from 'lemon-peel';
 
 interface User {
   date: string;
@@ -28,7 +28,7 @@ interface User {
   address: string;
 }
 
-const multipleTableRef = ref<InstanceType<typeof ElTable>>();
+const multipleTableRef = ref<InstanceType<typeof LpTable>>();
 const multipleSelection = ref<User[]>([]);
 const toggleSelection = (rows?: User[]) => {
   if (rows) {

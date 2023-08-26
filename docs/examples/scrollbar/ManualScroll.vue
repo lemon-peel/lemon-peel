@@ -8,7 +8,7 @@
   </lp-scrollbar>
 
   <lp-slider
-    v-model="value"
+    v-model:value="value"
     :max="max"
     :format-tooltip="formatTooltip"
     @input="inputSlider"
@@ -17,12 +17,12 @@
 
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue';
-import type { ElScrollbar } from 'element-plus';
+import type { LpScrollbar } from 'lemon-peel';
 
 const max = ref(0);
 const value = ref(0);
 const innerRef = ref<HTMLDivElement>();
-const scrollbarRef = ref<InstanceType<typeof ElScrollbar>>();
+const scrollbarRef = ref<InstanceType<typeof LpScrollbar>>();
 
 onMounted(() => {
   max.value = innerRef.value!.clientHeight - 380;

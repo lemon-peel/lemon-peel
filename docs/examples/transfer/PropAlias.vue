@@ -1,6 +1,6 @@
 <template>
   <lp-transfer
-    v-model="value"
+    v-model:value="value"
     :props="{
       key: 'value',
       label: 'desc',

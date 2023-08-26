@@ -10,7 +10,7 @@
     <div class="block">
       <span class="demonstration">Default</span>
       <lp-date-picker
-        v-model="value1"
+        v-model:value="value1"
         type="daterange"
         range-separator="To"
         start-placeholder="Start date"
@@ -21,7 +21,7 @@
     <div class="block">
       <span class="demonstration">With quick options</span>
       <lp-date-picker
-        v-model="value2"
+        v-model:value="value2"
         type="daterange"
         unlink-panels
         range-separator="To"

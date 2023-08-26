@@ -4,7 +4,7 @@
   </p>
   <div style="text-align: center">
     <lp-transfer
-      v-model="leftValue"
+      v-model:value="leftValue"
       style="text-align: left; display: inline-block"
       filterable
       :left-default-checked="[2, 3]"
@@ -31,7 +31,7 @@
     </p>
     <div style="text-align: center">
       <lp-transfer
-        v-model="rightValue"
+        v-model:value="rightValue"
         style="text-align: left; display: inline-block"
         filterable
         :left-default-checked="[2, 3]"

@@ -6,17 +6,17 @@
 </template>
 
 <script lang="ts" setup>
-import { ElNotification } from 'element-plus';
+import { LpNotification } from 'lemon-peel';
 
 const open1 = () => {
-  ElNotification({
+  LpNotification({
     title: 'Custom Position',
     message: "I'm at the top right corner",
   });
 };
 
 const open2 = () => {
-  ElNotification({
+  LpNotification({
     title: 'Custom Position',
     message: "I'm at the bottom right corner",
     position: 'bottom-right',
@@ -24,7 +24,7 @@ const open2 = () => {
 };
 
 const open3 = () => {
-  ElNotification({
+  LpNotification({
     title: 'Custom Position',
     message: "I'm at the bottom left corner",
     position: 'bottom-left',
@@ -32,7 +32,7 @@ const open3 = () => {
 };
 
 const open4 = () => {
-  ElNotification({
+  LpNotification({
     title: 'Custom Position',
     message: "I'm at the top left corner",
     position: 'top-left',

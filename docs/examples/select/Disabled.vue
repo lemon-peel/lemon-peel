@@ -1,5 +1,5 @@
 <template>
-  <lp-select v-model="value" disabled placeholder="Select">
+  <lp-select v-model:value="value" disabled placeholder="Select">
     <lp-option
       v-for="item in options"
       :key="item.value"

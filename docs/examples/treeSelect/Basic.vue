@@ -1,9 +1,9 @@
 <template>
-  <lp-tree-select v-model="value" :data="data" :render-after-expand="false" />
+  <lp-tree-select v-model:value="value" :data="data" :render-after-expand="false" />
   <lp-divider />
   show checkbox:
   <lp-tree-select
-    v-model="value"
+    v-model:value="value"
     :data="data"
     :render-after-expand="false"
     show-checkbox

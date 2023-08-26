@@ -3,10 +3,10 @@
 </template>
 
 <script lang="ts" setup>
-import { ElMessageBox } from 'element-plus';
+import { LpMessageBox } from 'lemon-peel';
 
 const open = () => {
-  ElMessageBox.alert(
+  LpMessageBox.alert(
     '<strong>proxy is <i>HTML</i> string</strong>',
     'HTML String',
     {

@@ -18,7 +18,7 @@ const onSwitchLang = (lang: string) => {
 
 <template>
   <div class="full-screen-translation">
-    <ElButton
+    <LpButton
       :aria-label="locale.language"
       :aria-expanded="show"
       aria-controls="translation-items"
@@ -28,11 +28,11 @@ const onSwitchLang = (lang: string) => {
     >
       <div class="translation-toggler">
         <span> Translations </span>
-        <ElIcon :size="14">
+        <LpIcon :size="14">
           <ExpandIcon class="toggle-icon" :class="{ expanded: show }" />
-        </ElIcon>
+        </LpIcon>
       </div>
-    </ElButton>
+    </LpButton>
     <div v-show="show" class="translation-items">
       <p
         v-for="l in langs"

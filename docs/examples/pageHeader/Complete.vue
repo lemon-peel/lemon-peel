@@ -54,7 +54,7 @@
 </template>
 
 <script setup lang="ts">
-import { ElNotification as notify } from 'element-plus';
+import { LpNotification as notify } from 'lemon-peel';
 
 const onBack = () => {
   notify('Back');

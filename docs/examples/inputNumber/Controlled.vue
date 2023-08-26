@@ -1,6 +1,6 @@
 <template>
   <lp-input-number
-    v-model="num"
+    v-model:value="num"
     :min="1"
     :max="10"
     controls-position="right"
@@ -8,7 +8,7 @@
     @change="handleChange"
   />
   <lp-input-number
-    v-model="num"
+    v-model:value="num"
     class="mx-4"
     :min="1"
     :max="10"
@@ -16,7 +16,7 @@
     @change="handleChange"
   />
   <lp-input-number
-    v-model="num"
+    v-model:value="num"
     :min="1"
     :max="10"
     size="small"

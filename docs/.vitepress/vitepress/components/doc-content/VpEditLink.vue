@@ -14,9 +14,9 @@ const { url, text } = useEditLink();
       rel="noopener noreferrer"
     >
       {{ text }}
-      <ElIcon :size="16" style="vertical-align: text-top; line-height: 24px">
+      <LpIcon :size="16" style="vertical-align: text-top; line-height: 24px">
         <i-ri-external-link-line />
-      </ElIcon>
+      </LpIcon>
     </a>
   </div>
 </template>

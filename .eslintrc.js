@@ -19,6 +19,14 @@ module.exports = {
   },
   overrides: [
     {
+      files: ['**/docs/**/*.vue', '**/docs/**/*.js', '**/docs/**/*.ts'],
+      rules: {
+        'import/no-unresolved': 0,
+        'unused-imports/no-unused-imports': 0,
+        'unused-imports/no-unused-vars': 0,
+      },
+    },
+    {
       files: ['*.vue'],
       rules: {
         'unused-imports/no-unused-imports': 0,

@@ -3,7 +3,7 @@
     <div class="block">
       <p>Component value：{{ value }}</p>
       <lp-date-picker
-        v-model="value"
+        v-model:value="value"
         type="daterange"
         start-placeholder="Start date"
         end-placeholder="End date"

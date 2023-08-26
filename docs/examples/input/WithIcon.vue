@@ -3,13 +3,13 @@
     <lp-row :gutter="20">
       <span class="ml-3 w-35 text-gray-600 inline-flex items-center">Using attributes</span>
       <lp-input
-        v-model="input1"
+        v-model:value="value=&quot;input1&quot;"
         class="w-50 m-2"
         placeholder="Pick a date"
         :suffix-icon="Calendar"
       />
       <lp-input
-        v-model="input2"
+        v-model:value="input2"
         class="w-50 m-2"
         placeholder="Type something"
         :prefix-icon="Search"
@@ -19,12 +19,12 @@
   <div class="demo-input-suffix">
     <lp-row :gutter="20">
       <span class="ml-3 w-35 text-gray-600 inline-flex items-center">Using slots</span>
-      <lp-input v-model="input3" class="w-50 m-2" placeholder="Pick a date">
+      <lp-input v-model:value="input3" class="w-50 m-2" placeholder="Pick a date">
         <template #suffix>
           <lp-icon class="el-input__icon"><calendar /></lp-icon>
         </template>
       </lp-input>
-      <lp-input v-model="input4" class="w-50 m-2" placeholder="Type something">
+      <lp-input v-model:value="input4" class="w-50 m-2" placeholder="Type something">
         <template #prefix>
           <lp-icon class="el-input__icon"><search /></lp-icon>
         </template>

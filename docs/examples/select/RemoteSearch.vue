@@ -2,7 +2,7 @@
   <div style="display: inline-block; margin-left: 20px">
     <p style="margin-left: 10px">default</p>
     <lp-select
-      v-model="value"
+      v-model:value="value"
       multiple
       filterable
       remote
@@ -22,7 +22,7 @@
   <div style="display: inline-block; margin-left: 20px">
     <p style="margin-left: 10px">use remote-show-suffix</p>
     <lp-select
-      v-model="value"
+      v-model:value="value"
       multiple
       filterable
       remote

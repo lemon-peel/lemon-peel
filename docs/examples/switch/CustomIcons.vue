@@ -1,8 +1,8 @@
 <template>
-  <lp-switch v-model="value1" :active-icon="Check" :inactive-icon="Close" />
+  <lp-switch v-model:value="value1" :active-icon="Check" :inactive-icon="Close" />
   <br>
   <lp-switch
-    v-model="value2"
+    v-model:value="value2"
     class="mt-2"
     style="margin-left: 24px"
     inline-prompt

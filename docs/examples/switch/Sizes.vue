@@ -1,15 +1,15 @@
 <template>
   <lp-switch
-    v-model="value"
+    v-model:value="value"
     size="large"
     active-text="Open"
     inactive-text="Close"
   />
   <br>
-  <lp-switch v-model="value" active-text="Open" inactive-text="Close" />
+  <lp-switch v-model:value="value" active-text="Open" inactive-text="Close" />
   <br>
   <lp-switch
-    v-model="value"
+    v-model:value="value"
     size="small"
     active-text="Open"
     inactive-text="Close"

@@ -1,6 +1,6 @@
 <template>
-  <lp-switch v-model="value1" disabled />
-  <lp-switch v-model="value2" class="ml-2" />
+  <lp-switch v-model:value="value1" disabled />
+  <lp-switch v-model:value="value2" class="ml-2" />
 </template>
 
 <script lang="ts" setup>

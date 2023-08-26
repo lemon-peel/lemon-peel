@@ -20,13 +20,13 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import { ElMessageBox } from 'element-plus';
+import { LpMessageBox } from 'lemon-peel';
 
 const drawer = ref(false);
 const innerDrawer = ref(false);
 
 const handleClose = (done: () => void) => {
-  ElMessageBox.confirm('You still have unsaved data, proceed?')
+  LpMessageBox.confirm('You still have unsaved data, proceed?')
     .then(() => {
       done();
     })

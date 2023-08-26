@@ -16,11 +16,11 @@
 </template>
 
 <script lang="ts" setup>
-import { ElMessage } from 'element-plus';
+import { LpMessage } from 'lemon-peel';
 import { ArrowDown } from '@element-plus/icons-vue';
 
 const handleCommand = (command: string | number | object) => {
-  ElMessage(`click on item ${command}`);
+  LpMessage(`click on item ${command}`);
 };
 </script>
 <style scoped>

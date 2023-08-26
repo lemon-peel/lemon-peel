@@ -1,5 +1,5 @@
 <template>
-  <lp-calendar v-model="value" />
+  <lp-calendar v-model:value="value" />
 </template>
 
 <script lang="ts" setup>

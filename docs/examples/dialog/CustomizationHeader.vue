@@ -18,7 +18,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import { ElButton, ElDialog } from 'element-plus';
+import { LpButton, LpDialog } from 'lemon-peel';
 import { CircleCloseFilled } from '@element-plus/icons-vue';
 
 const visible = ref(false);

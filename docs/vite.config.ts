@@ -23,7 +23,7 @@ const alias: Alias[] = [
 if (process.env.DOC_ENV !== 'production') {
   alias.push(
     { find: /^lemon-peel(\/(es|lib))?$/, replacement: path.resolve(projDir, 'packages/lemon-peel/index.ts') },
-    { find: /^lemon-pell\/(es|lib)\/(.*)$/, replacement: `${path.resolve(projDir, 'packages')}/$2` },
+    { find: /^lemon-peel\/(es|lib)\/(.*)$/, replacement: `${path.resolve(projDir, 'packages')}/$2` },
   );
 }
 

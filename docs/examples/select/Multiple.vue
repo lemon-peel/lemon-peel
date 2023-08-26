@@ -2,7 +2,7 @@
   <div style="display: inline-block">
     <p style="margin-left: 10px">default</p>
     <lp-select
-      v-model="value1"
+      v-model:value="value1"
       multiple
       placeholder="Select"
       style="width: 240px"
@@ -18,7 +18,7 @@
   <div style="display: inline-block; margin-left: 20px">
     <p style="margin-left: 10px">use collapse-tags</p>
     <lp-select
-      v-model="value2"
+      v-model:value="value2"
       multiple
       collapse-tags
       placeholder="Select"
@@ -35,7 +35,7 @@
   <div style="display: inline-block; margin-left: 20px">
     <p style="margin-left: 10px">use collapse-tags-tooltip</p>
     <lp-select
-      v-model="value3"
+      v-model:value="value3"
       multiple
       collapse-tags
       collapse-tags-tooltip

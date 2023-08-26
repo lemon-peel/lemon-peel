@@ -6,10 +6,10 @@
 </template>
 
 <script lang="ts" setup>
-import { ElNotification } from 'element-plus';
+import { LpNotification } from 'lemon-peel';
 
 const open1 = () => {
-  ElNotification({
+  LpNotification({
     title: 'Success',
     message: 'This is a success message',
     type: 'success',
@@ -17,7 +17,7 @@ const open1 = () => {
 };
 
 const open2 = () => {
-  ElNotification({
+  LpNotification({
     title: 'Warning',
     message: 'This is a warning message',
     type: 'warning',
@@ -25,7 +25,7 @@ const open2 = () => {
 };
 
 const open3 = () => {
-  ElNotification({
+  LpNotification({
     title: 'Info',
     message: 'This is an info message',
     type: 'info',
@@ -33,7 +33,7 @@ const open3 = () => {
 };
 
 const open4 = () => {
-  ElNotification({
+  LpNotification({
     title: 'Error',
     message: 'This is an error message',
     type: 'error',

@@ -18,8 +18,8 @@ const detail = computed(() => 'English');
       {{ type }}
     </code>
     <ClientOnly>
-      <ElTooltip v-if="details" effect="light" trigger="click">
-        <ElButton
+      <LpTooltip v-if="details" effect="light" trigger="click">
+        <LpButton
           text
           :icon="Warning"
           :aria-label="detail"
@@ -39,7 +39,7 @@ const detail = computed(() => 'English');
             </div>
           </slot>
         </template>
-      </ElTooltip>
+      </LpTooltip>
     </ClientOnly>
   </span>
 </template>

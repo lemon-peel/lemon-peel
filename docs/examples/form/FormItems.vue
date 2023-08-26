@@ -21,7 +21,7 @@
         },
       ]"
     >
-      <lp-input v-model="dynamicValidateForm.email" />
+      <lp-input v-model:value="dynamicValidateForm.email" />
     </lp-form-item>
     <lp-form-item
       v-for="(domain, index) in dynamicValidateForm.domains"
@@ -34,7 +34,7 @@
         trigger: 'blur',
       }"
     >
-      <lp-input v-model="domain.value" />
+      <lp-input v-model:value="domain.value" />
       <lp-button class="mt-2" @click.prevent="removeDomain(domain)">Delete</lp-button>
     </lp-form-item>
     <lp-form-item>
@@ -47,7 +47,7 @@
 
 <script lang="ts" setup>
 import { reactive, ref } from 'vue';
-import type { FormInstance } from 'element-plus';
+import type { FormInstance } from 'lemon-peel';
 
 const formRef = ref<FormInstance>();
 const dynamicValidateForm = reactive<{
@@ -55,10 +55,7 @@ const dynamicValidateForm = reactive<{
   email: string;
 }>({
   domains: [
-    {
-      key: 1,
-      value: '',
-    },
+    { key: 1, value: '' },
   ],
   email: '',
 });

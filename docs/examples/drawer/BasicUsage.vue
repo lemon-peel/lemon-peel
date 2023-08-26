@@ -1,5 +1,5 @@
 <template>
-  <lp-radio-group v-model="direction">
+  <lp-radio-group v-model:value="direction">
     <lp-radio label="ltr">left to right</lp-radio>
     <lp-radio label="rtl">right to left</lp-radio>
     <lp-radio label="ttb">top to bottom</lp-radio>
@@ -27,8 +27,8 @@
     </template>
     <template #default>
       <div>
-        <lp-radio v-model="radio1" label="Option 1" size="large">Option 1</lp-radio>
-        <lp-radio v-model="radio1" label="Option 2" size="large">Option 2</lp-radio>
+        <lp-radio v-model:value="radio1" label="Option 1" size="large">Option 1</lp-radio>
+        <lp-radio v-model:value="radio1" label="Option 2" size="large">Option 2</lp-radio>
       </div>
     </template>
     <template #footer>
@@ -42,14 +42,14 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import { ElMessageBox } from 'element-plus';
+import { LpMessageBox } from 'lemon-peel';
 
 const drawer = ref(false);
 const drawer2 = ref(false);
 const direction = ref('rtl');
 const radio1 = ref('Option 1');
 const handleClose = (done: () => void) => {
-  ElMessageBox.confirm('Are you sure you want to close this?')
+  LpMessageBox.confirm('Are you sure you want to close this?')
     .then(() => {
       done();
     })
@@ -61,7 +61,7 @@ function cancelClick() {
   drawer2.value = false;
 }
 function confirmClick() {
-  ElMessageBox.confirm(`Are you confirm to chose ${radio1.value} ?`)
+  LpMessageBox.confirm(`Are you confirm to chose ${radio1.value} ?`)
     .then(() => {
       drawer2.value = false;
     })

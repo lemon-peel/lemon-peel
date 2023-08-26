@@ -1,10 +1,10 @@
 <template>
   <lp-form :model="form" label-width="120px">
     <lp-form-item label="Activity name">
-      <lp-input v-model="form.name" />
+      <lp-input v-model:value="form.name" />
     </lp-form-item>
     <lp-form-item label="Activity zone">
-      <lp-select v-model="form.region" placeholder="please select your zone">
+      <lp-select v-model:value="form.region" placeholder="please select your zone">
         <lp-option label="Zone one" value="shanghai" />
         <lp-option label="Zone two" value="beijing" />
       </lp-select>
@@ -12,7 +12,7 @@
     <lp-form-item label="Activity time">
       <lp-col :span="11">
         <lp-date-picker
-          v-model="form.date1"
+          v-model:value="form.date1"
           type="date"
           placeholder="Pick a date"
           style="width: 100%"
@@ -23,17 +23,17 @@
       </lp-col>
       <lp-col :span="11">
         <lp-time-picker
-          v-model="form.date2"
+          v-model:value="form.date2"
           placeholder="Pick a time"
           style="width: 100%"
         />
       </lp-col>
     </lp-form-item>
     <lp-form-item label="Instant delivery">
-      <lp-switch v-model="form.delivery" />
+      <lp-switch v-model:value="form.delivery" />
     </lp-form-item>
     <lp-form-item label="Activity type">
-      <lp-checkbox-group v-model="form.type">
+      <lp-checkbox-group v-model:value="form.type">
         <lp-checkbox label="Online activities" name="type" />
         <lp-checkbox label="Promotion activities" name="type" />
         <lp-checkbox label="Offline activities" name="type" />
@@ -41,13 +41,13 @@
       </lp-checkbox-group>
     </lp-form-item>
     <lp-form-item label="Resources">
-      <lp-radio-group v-model="form.resource">
+      <lp-radio-group v-model:value="form.resource">
         <lp-radio label="Sponsor" />
         <lp-radio label="Venue" />
       </lp-radio-group>
     </lp-form-item>
     <lp-form-item label="Activity form">
-      <lp-input v-model="form.desc" type="textarea" />
+      <lp-input v-model:value="form.desc" type="textarea" />
     </lp-form-item>
     <lp-form-item>
       <lp-button type="primary" @click="onSubmit">Create</lp-button>

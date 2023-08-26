@@ -1,5 +1,5 @@
 <template>
-  <lp-input-number v-model="num" :step="2" step-strictly />
+  <lp-input-number v-model:value="num" :step="2" step-strictly />
 </template>
 
 <script lang="ts" setup>

@@ -1,6 +1,6 @@
 <template>
   <div class="slider-demo-block">
-    <lp-slider v-model="value" show-input />
+    <lp-slider v-model:value="value" show-input />
   </div>
 </template>
 

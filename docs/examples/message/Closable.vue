@@ -6,30 +6,30 @@
 </template>
 
 <script lang="ts" setup>
-import { ElMessage } from 'element-plus';
+import { LpMessage } from 'lemon-peel';
 
 const open1 = () => {
-  ElMessage({
+  LpMessage({
     showClose: true,
     message: 'This is a message.',
   });
 };
 const open2 = () => {
-  ElMessage({
+  LpMessage({
     showClose: true,
     message: 'Congrats, this is a success message.',
     type: 'success',
   });
 };
 const open3 = () => {
-  ElMessage({
+  LpMessage({
     showClose: true,
     message: 'Warning, this is a warning message.',
     type: 'warning',
   });
 };
 const open4 = () => {
-  ElMessage({
+  LpMessage({
     showClose: true,
     message: 'Oops, this is a error message.',
     type: 'error',

@@ -3,10 +3,10 @@
 </template>
 
 <script lang="ts" setup>
-import { ElMessage, ElMessageBox } from 'element-plus';
+import { LpMessage, LpMessageBox } from 'lemon-peel';
 
 const open = () => {
-  ElMessageBox.prompt('Please input your e-mail', 'Tip', {
+  LpMessageBox.prompt('Please input your e-mail', 'Tip', {
     confirmButtonText: 'OK',
     cancelButtonText: 'Cancel',
     inputPattern:
@@ -14,13 +14,13 @@ const open = () => {
     inputErrorMessage: 'Invalid Email',
   })
     .then(({ value }) => {
-      ElMessage({
+      LpMessage({
         type: 'success',
         message: `Your email is:${value}`,
       });
     })
     .catch(() => {
-      ElMessage({
+      LpMessage({
         type: 'info',
         message: 'Input canceled',
       });

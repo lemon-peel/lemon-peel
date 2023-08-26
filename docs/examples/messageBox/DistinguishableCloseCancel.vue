@@ -3,10 +3,10 @@
 </template>
 
 <script lang="ts" setup>
-import { ElMessage, ElMessageBox } from 'element-plus';
-import type { Action } from 'element-plus';
+import { LpMessage, LpMessageBox } from 'lemon-peel';
+import type { Action } from 'lemon-peel';
 const open = () => {
-  ElMessageBox.confirm(
+  LpMessageBox.confirm(
     'You have unsaved changes, save and proceed?',
     'Confirm',
     {
@@ -16,13 +16,13 @@ const open = () => {
     },
   )
     .then(() => {
-      ElMessage({
+      LpMessage({
         type: 'info',
         message: 'Changes saved. Proceeding to a new route.',
       });
     })
     .catch((action: Action) => {
-      ElMessage({
+      LpMessage({
         type: 'info',
         message:
           action === 'cancel'

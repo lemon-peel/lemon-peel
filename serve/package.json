@@ -14,6 +14,7 @@
   },
   "devDependencies": {
     "@lemon-peel/theme-chalk": "workspace:*",
+    "@lemon-peel/unplugin-resolver": "workspace:*",
     "@vitejs/plugin-vue": "^4.2.3",
     "@vitejs/plugin-vue-jsx": "^3.0.1",
     "esbuild": "^0.16.7",

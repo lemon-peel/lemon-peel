@@ -3,7 +3,7 @@
     <div class="block">
       <span class="demonstration">Default</span>
       <lp-date-picker
-        v-model="value1"
+        v-model:value="value1"
         type="datetime"
         placeholder="Select date and time"
       />
@@ -11,7 +11,7 @@
     <div class="block">
       <span class="demonstration">With shortcuts</span>
       <lp-date-picker
-        v-model="value2"
+        v-model:value="value2"
         type="datetime"
         placeholder="Select date and time"
         :shortcuts="shortcuts"
@@ -20,7 +20,7 @@
     <div class="block">
       <span class="demonstration">With default time</span>
       <lp-date-picker
-        v-model="value3"
+        v-model:value="value3"
         type="datetime"
         placeholder="Select date and time"
         :default-time="defaultTime"

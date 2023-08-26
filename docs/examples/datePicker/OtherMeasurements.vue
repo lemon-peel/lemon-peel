@@ -4,7 +4,7 @@
       <div class="block">
         <span class="demonstration">Week</span>
         <lp-date-picker
-          v-model="value1"
+          v-model:value="value1"
           type="week"
           format="[Week] ww"
           placeholder="Pick a week"
@@ -13,7 +13,7 @@
       <div class="block">
         <span class="demonstration">Month</span>
         <lp-date-picker
-          v-model="value2"
+          v-model:value="value2"
           type="month"
           placeholder="Pick a month"
         />
@@ -23,7 +23,7 @@
       <div class="block">
         <span class="demonstration">Year</span>
         <lp-date-picker
-          v-model="value3"
+          v-model:value="value3"
           type="year"
           placeholder="Pick a year"
         />
@@ -31,7 +31,7 @@
       <div class="block">
         <span class="demonstration">Dates</span>
         <lp-date-picker
-          v-model="value4"
+          v-model:value="value4"
           type="dates"
           placeholder="Pick one or more dates"
         />

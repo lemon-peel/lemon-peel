@@ -1,6 +1,6 @@
 import { getCurrentInstance, ref, watch } from 'vue';
 import { useClipboard } from '@vueuse/core';
-import { isDark } from '~/composables/dark';
+import { isDark } from '@composables/dark';
 export const getCssVarName = (namespace: string, type: string) => {
   return type ? `--el-${namespace}-${type}` : `--el-${namespace}`;
 };

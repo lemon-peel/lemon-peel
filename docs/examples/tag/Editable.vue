@@ -12,7 +12,7 @@
   <lp-input
     v-if="inputVisible"
     ref="InputRef"
-    v-model="inputValue"
+    v-model:value="inputValue"
     class="ml-1 w-20"
     size="small"
     @keyup.enter="handleInputConfirm"
@@ -25,12 +25,12 @@
 
 <script lang="ts" setup>
 import { nextTick, ref } from 'vue';
-import type { ElInput } from 'element-plus';
+import type { LpInput } from 'lemon-peel';
 
 const inputValue = ref('');
 const dynamicTags = ref(['Tag 1', 'Tag 2', 'Tag 3']);
 const inputVisible = ref(false);
-const InputRef = ref<InstanceType<typeof ElInput>>();
+const InputRef = ref<InstanceType<typeof LpInput>>();
 
 const handleClose = (tag: string) => {
   dynamicTags.value.splice(dynamicTags.value.indexOf(tag), 1);

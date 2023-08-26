@@ -1,9 +1,9 @@
 <template>
-  <lp-tree-select v-model="value" :data="data" filterable />
+  <lp-tree-select v-model:value="value" :data="data" filterable />
   <lp-divider />
   filter method:
   <lp-tree-select
-    v-model="value"
+    v-model:value="value"
     :data="data"
     :filter-method="filterMethod"
     filterable
@@ -11,7 +11,7 @@
   <lp-divider />
   filter node method:
   <lp-tree-select
-    v-model="value"
+    v-model:value="value"
     :data="data"
     :filter-node-method="filterNodeMethod"
     filterable

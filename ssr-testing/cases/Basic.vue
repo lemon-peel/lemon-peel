@@ -1,7 +1,7 @@
 <template>
-  <lp-switch v-model="value1" />
+  <lp-switch v-model:value="value1" />
   <lp-switch
-    v-model="value2"
+    v-model:value="value2"
     class="ml-2"
     active-color="#13ce66"
     inactive-color="#ff4949"

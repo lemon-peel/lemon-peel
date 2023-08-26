@@ -4,8 +4,8 @@
   "description": "Resolver for Lemon-Peel basic on unplugin-vue-components",
   "keywords": ["lemon-peel", "unplugin resolver"],
   "license": "MIT",
-  "main": "./dist/cjs/index.cjs",
-  "module": "./dist/esm/index.mjs",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
   "types": "./dist/esm/index.d.ts",
   "scripts": {
     "build": "rm -rf dist && tsc --module commonjs --outDir dist/cjs && tsc --module es2020 --outDir dist/esm && tsc --module es2020  --outDir dist/esm --declaration",

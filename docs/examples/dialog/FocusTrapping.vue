@@ -31,10 +31,10 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import type { ElInput } from 'element-plus';
+import type { LpInput } from 'lemon-peel';
 
 const dialogVisible = ref(false);
-const inputRef = ref<InstanceType<typeof ElInput>>();
+const inputRef = ref<InstanceType<typeof LpInput>>();
 
 const handleCloseAutoFocus = () => {
   inputRef.value?.focus();

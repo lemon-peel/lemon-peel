@@ -65,9 +65,6 @@ importers:
       escape-html:
         specifier: ^1.0.3
         version: 1.0.3
-      lemon-peel:
-        specifier: workspace:*
-        version: link:packages/main
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
@@ -244,7 +241,7 @@ importers:
         specifier: ^4.0.1
         version: 4.0.1
       lemon-peel:
-        specifier: workspace:*
+        specifier: npm:lemon-peel@^0.0.0-alpha.3
         version: link:../packages/main
       markdown-it:
         specifier: ^13.0.1
@@ -496,6 +493,9 @@ importers:
       '@lemon-peel/theme-chalk':
         specifier: workspace:*
         version: link:../packages/theme-chalk
+      '@lemon-peel/unplugin-resolver':
+        specifier: workspace:*
+        version: link:../toolkit/unplugin-resolver
       '@vitejs/plugin-vue':
         specifier: ^4.2.3
         version: 4.2.3(vite@4.4.7)(vue@3.3.4)

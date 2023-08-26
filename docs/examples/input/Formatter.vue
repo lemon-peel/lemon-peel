@@ -1,6 +1,6 @@
 <template>
   <lp-input
-    v-model="input"
+    v-model:value="input"
     placeholder="Please input"
     :formatter="(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')"
     :parser="(value) => value.replace(/\$\s?|(,*)/g, '')"

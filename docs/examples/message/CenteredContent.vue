@@ -3,10 +3,10 @@
 </template>
 
 <script lang="ts" setup>
-import { ElMessage } from 'element-plus';
+import { LpMessage } from 'lemon-peel';
 
 const openCenter = () => {
-  ElMessage({
+  LpMessage({
     showClose: true,
     message: 'Centered text',
     center: true,

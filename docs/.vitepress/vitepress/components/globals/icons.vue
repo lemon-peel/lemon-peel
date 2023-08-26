@@ -67,8 +67,8 @@ categories.value.push({ name: 'Other', icons: Array.from(iconMap.values()) });
 
 <template>
   <div style="text-align: right">
-    <el-switch
-      v-model="copyIcon"
+    <lp-switch
+      v-model:value="copyIcon"
       active-text="Copy icon code"
       inactive-text="Copy SVG content"
     />
@@ -84,9 +84,9 @@ categories.value.push({ name: 'Other', icons: Array.from(iconMap.values()) });
         @click="copySvgIcon(component.name, $refs)"
       >
         <span class="demo-svg-icon">
-          <ElIcon :size="20">
+          <LpIcon :size="20">
             <component :is="component" />
-          </ElIcon>
+          </LpIcon>
           <span class="icon-name">{{ component.name }}</span>
         </span>
       </li>

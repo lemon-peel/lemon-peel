@@ -1,6 +1,6 @@
 <template>
   <lp-rate
-    v-model="value"
+    v-model:value="value"
     :texts="['oops', 'disappointed', 'normal', 'good', 'great']"
     show-text
   />

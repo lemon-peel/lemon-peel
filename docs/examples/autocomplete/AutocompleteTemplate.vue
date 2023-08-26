@@ -1,6 +1,6 @@
 <template>
   <lp-autocomplete
-    v-model="state"
+    v-model:value="state"
     :fetch-suggestions="querySearch"
     popper-class="my-autocomplete"
     placeholder="Please input"

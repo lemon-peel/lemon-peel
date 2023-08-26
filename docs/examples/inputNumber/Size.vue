@@ -1,7 +1,7 @@
 <template>
-  <lp-input-number v-model="num1" size="large" />
-  <lp-input-number v-model="num2" class="mx-4" />
-  <lp-input-number v-model="num3" size="small" />
+  <lp-input-number v-model:value="num1" size="large" />
+  <lp-input-number v-model:value="num2" class="mx-4" />
+  <lp-input-number v-model:value="num3" size="small" />
 </template>
 
 <script lang="ts" setup>

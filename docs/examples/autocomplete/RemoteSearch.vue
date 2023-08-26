@@ -1,6 +1,6 @@
 <template>
   <lp-autocomplete
-    v-model="state"
+    v-model:value="state"
     :fetch-suggestions="querySearchAsync"
     placeholder="Please input"
     @select="handleSelect"

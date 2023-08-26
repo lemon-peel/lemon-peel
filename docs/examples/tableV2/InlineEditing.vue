@@ -16,10 +16,10 @@
 
 <script lang="tsx" setup>
 import { ref } from 'vue';
-import { ElInput } from 'element-plus';
+import { LpInput } from 'lemon-peel';
 
 import type { FunctionalComponent } from 'vue';
-import type { Column, InputInstance } from 'element-plus';
+import type { Column, InputInstance } from 'lemon-peel';
 
 type SelectionCellProps = {
   value: string;
@@ -34,7 +34,7 @@ const InputCell: FunctionalComponent<SelectionCellProps> = ({
   forwardRef,
 }) => {
   return (
-    <ElInput ref={forwardRef as any} onInput={onChange} modelValue={value} />
+    <LpInput ref={forwardRef as any} onInput={onChange} modelValue={value} />
   );
 };
 

@@ -1,6 +1,6 @@
 <template>
   <lp-select
-    v-model="value"
+    v-model:value="value"
     multiple
     filterable
     allow-create

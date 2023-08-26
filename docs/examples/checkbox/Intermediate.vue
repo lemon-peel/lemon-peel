@@ -1,11 +1,11 @@
 <template>
   <lp-checkbox
-    v-model="checkAll"
+    v-model:checked="checkAll"
     :indeterminate="isIndeterminate"
     @change="handleCheckAllChange"
   >Check all</lp-checkbox>
   <lp-checkbox-group
-    v-model="checkedCities"
+    v-model:value="checkedCities"
     @change="handleCheckedCitiesChange"
   >
     <lp-checkbox v-for="city in cities" :key="city" :label="city">{{

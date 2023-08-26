@@ -3,10 +3,10 @@
 </template>
 
 <script lang="ts" setup>
-import { ElNotification } from 'element-plus';
+import { LpNotification } from 'lemon-peel';
 
 const open = () => {
-  ElNotification.success({
+  LpNotification.success({
     title: 'Info',
     message: 'This is a message without close button',
     showClose: false,

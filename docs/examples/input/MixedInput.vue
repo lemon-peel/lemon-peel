@@ -1,22 +1,22 @@
 <template>
   <div>
-    <lp-input v-model="input1" placeholder="Please input">
+    <lp-input v-model:value="input1" placeholder="Please input">
       <template #prepend>Http://</template>
     </lp-input>
   </div>
   <div class="mt-4">
-    <lp-input v-model="input2" placeholder="Please input">
+    <lp-input v-model:value="input2" placeholder="Please input">
       <template #append>.com</template>
     </lp-input>
   </div>
   <div class="mt-4">
     <lp-input
-      v-model="input3"
+      v-model:value="input3"
       placeholder="Please input"
       class="input-with-select"
     >
       <template #prepend>
-        <lp-select v-model="select" placeholder="Select" style="width: 115px">
+        <lp-select v-model:value="select" placeholder="Select" style="width: 115px">
           <lp-option label="Restaurant" value="1" />
           <lp-option label="Order No." value="2" />
           <lp-option label="Tel" value="3" />
@@ -29,7 +29,7 @@
   </div>
   <div class="mt-4">
     <lp-input
-      v-model="input3"
+      v-model:value="input3"
       placeholder="Please input"
       class="input-with-select"
     >
@@ -37,7 +37,7 @@
         <lp-button :icon="Search" />
       </template>
       <template #append>
-        <lp-select v-model="select" placeholder="Select" style="width: 115px">
+        <lp-select v-model:value="select" placeholder="Select" style="width: 115px">
           <lp-option label="Restaurant" value="1" />
           <lp-option label="Order No." value="2" />
           <lp-option label="Tel" value="3" />

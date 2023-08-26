@@ -3,10 +3,10 @@
 </template>
 
 <script lang="ts" setup>
-import { ElMessage, ElMessageBox } from 'element-plus';
+import { LpMessage, LpMessageBox } from 'lemon-peel';
 
 const open = () => {
-  ElMessageBox.confirm(
+  LpMessageBox.confirm(
     'proxy will permanently delete the file. Continue?',
     'Warning',
     {
@@ -16,13 +16,13 @@ const open = () => {
     },
   )
     .then(() => {
-      ElMessage({
+      LpMessage({
         type: 'success',
         message: 'Delete completed',
       });
     })
     .catch(() => {
-      ElMessage({
+      LpMessage({
         type: 'info',
         message: 'Delete canceled',
       });

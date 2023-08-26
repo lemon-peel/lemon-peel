@@ -4,9 +4,9 @@ import ToggleButton from '../icons/ToggleButton.vue';
 
 <template>
   <button class="reset-btn sidebar-button flex items-center">
-    <ElIcon :size="20" class="mr-2">
+    <LpIcon :size="20" class="mr-2">
       <ToggleButton />
-    </ElIcon>
+    </LpIcon>
     <span class="leading-6">Menu</span>
   </button>
 </template>

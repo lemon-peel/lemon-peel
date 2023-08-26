@@ -1,20 +1,20 @@
 <template>
   <div>
-    <lp-checkbox-group v-model="checkboxGroup1" size="large">
+    <lp-checkbox-group v-model:value="checkboxGroup1" size="large">
       <lp-checkbox-button v-for="city in cities" :key="city" :label="city">
         {{ city }}
       </lp-checkbox-button>
     </lp-checkbox-group>
   </div>
   <div class="demo-button-style">
-    <lp-checkbox-group v-model="checkboxGroup2">
+    <lp-checkbox-group v-model:value="checkboxGroup2">
       <lp-checkbox-button v-for="city in cities" :key="city" :label="city">{{
         city
       }}</lp-checkbox-button>
     </lp-checkbox-group>
   </div>
   <div class="demo-button-style">
-    <lp-checkbox-group v-model="checkboxGroup3" size="small">
+    <lp-checkbox-group v-model:value="checkboxGroup3" size="small">
       <lp-checkbox-button
         v-for="city in cities"
         :key="city"
@@ -24,7 +24,7 @@
     </lp-checkbox-group>
   </div>
   <div class="demo-button-style">
-    <lp-checkbox-group v-model="checkboxGroup4" size="small" disabled>
+    <lp-checkbox-group v-model:value="checkboxGroup4" size="small" disabled>
       <lp-checkbox-button v-for="city in cities" :key="city" :label="city">{{
         city
       }}</lp-checkbox-button>

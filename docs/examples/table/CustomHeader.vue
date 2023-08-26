@@ -4,7 +4,7 @@
     <lp-table-column label="Name" prop="name" />
     <lp-table-column align="right">
       <template #header>
-        <lp-input v-model="search" size="small" placeholder="Type to search" />
+        <lp-input v-model:value="search" size="small" placeholder="Type to search" />
       </template>
       <template #default="scope">
         <lp-button size="small" @click="handleEdit(scope.$index, scope.row)">Edit</lp-button>

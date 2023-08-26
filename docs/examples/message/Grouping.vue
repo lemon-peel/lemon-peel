@@ -3,10 +3,10 @@
 </template>
 
 <script lang="ts" setup>
-import { ElMessage } from 'element-plus';
+import { LpMessage } from 'lemon-peel';
 
 const open = () => {
-  ElMessage({
+  LpMessage({
     message: 'this is a message.',
     grouping: true,
     type: 'success',

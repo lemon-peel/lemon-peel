@@ -6,24 +6,24 @@
 </template>
 
 <script lang="ts" setup>
-import { ElMessage } from 'element-plus';
+import { LpMessage } from 'lemon-peel';
 
 const open1 = () => {
-  ElMessage('this is a message.');
+  LpMessage('this is a message.');
 };
 const open2 = () => {
-  ElMessage({
+  LpMessage({
     message: 'Congrats, this is a success message.',
     type: 'success',
   });
 };
 const open3 = () => {
-  ElMessage({
+  LpMessage({
     message: 'Warning, this is a warning message.',
     type: 'warning',
   });
 };
 const open4 = () => {
-  ElMessage.error('Oops, this is a error message.');
+  LpMessage.error('Oops, this is a error message.');
 };
 </script>

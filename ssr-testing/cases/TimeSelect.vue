@@ -1,6 +1,6 @@
 <template>
   <lp-time-select
-    v-model="value"
+    v-model:value="value"
     start="08:30"
     step="00:15"
     end="18:30"

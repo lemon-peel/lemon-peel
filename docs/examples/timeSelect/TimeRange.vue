@@ -1,7 +1,7 @@
 <template>
   <div class="demo-time-range">
     <lp-time-select
-      v-model="startTime"
+      v-model:value="startTime"
       :max-time="endTime"
       class="mr-4"
       placeholder="Start time"
@@ -10,7 +10,7 @@
       end="18:30"
     />
     <lp-time-select
-      v-model="endTime"
+      v-model:value="endTime"
       :min-time="startTime"
       placeholder="End time"
       start="08:30"

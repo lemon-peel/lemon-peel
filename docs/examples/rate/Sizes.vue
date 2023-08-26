@@ -1,9 +1,9 @@
 <template>
-  <lp-rate v-model="value" size="large" />
+  <lp-rate v-model:value="value" size="large" />
   <br>
-  <lp-rate v-model="value" />
+  <lp-rate v-model:value="value" />
   <br>
-  <lp-rate v-model="value" size="small" />
+  <lp-rate v-model:value="value" size="small" />
 </template>
 
 <script lang="ts" setup>

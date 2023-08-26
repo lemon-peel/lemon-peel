@@ -1,5 +1,5 @@
 <template>
-  <lp-radio-group v-model="tableLayout">
+  <lp-radio-group v-model:value="tableLayout">
     <lp-radio-button label="fixed" />
     <lp-radio-button label="auto" />
   </lp-radio-group>

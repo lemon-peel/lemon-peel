@@ -19,7 +19,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import type { ElTable } from 'element-plus';
+import type { LpTable } from 'lemon-peel';
 
 interface User {
   date: string;
@@ -28,7 +28,7 @@ interface User {
 }
 
 const currentRow = ref();
-const singleTableRef = ref<InstanceType<typeof ElTable>>();
+const singleTableRef = ref<InstanceType<typeof LpTable>>();
 
 const setCurrent = (row?: User) => {
   singleTableRef.value!.setCurrentRow(row);

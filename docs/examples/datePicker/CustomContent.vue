@@ -1,7 +1,7 @@
 <template>
   <div class="demo-date-picker">
     <lp-date-picker
-      v-model="value"
+      v-model:value="value"
       type="date"
       placeholder="Pick a day"
       format="YYYY/MM/DD"

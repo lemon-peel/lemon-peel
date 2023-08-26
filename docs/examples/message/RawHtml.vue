@@ -3,10 +3,10 @@
 </template>
 
 <script lang="ts" setup>
-import { ElMessage } from 'element-plus';
+import { LpMessage } from 'lemon-peel';
 
 const openHTML = () => {
-  ElMessage({
+  LpMessage({
     dangerouslyUseHTMLString: true,
     message: '<strong>This is <i>HTML</i> string</strong>',
   });

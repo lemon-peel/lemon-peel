@@ -5,7 +5,7 @@
         list suggestions when activated
       </div>
       <lp-autocomplete
-        v-model="state1"
+        v-model:value="state1"
         :fetch-suggestions="querySearch"
         clearable
         class="inline-input w-50"
@@ -18,7 +18,7 @@
         list suggestions on input
       </div>
       <lp-autocomplete
-        v-model="state2"
+        v-model:value="state2"
         :fetch-suggestions="querySearch"
         :trigger-on-focus="false"
         clearable

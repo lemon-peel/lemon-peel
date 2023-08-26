@@ -1,6 +1,6 @@
 <template>
   <div>
-    <lp-switch v-model="value" />
+    <lp-switch v-model:value="value" />
     <hr class="my-4">
     <lp-pagination
       :hide-on-single-page="value"

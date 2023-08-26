@@ -35,7 +35,7 @@ describe('Cypress Button', () => {
         path: path.join(
           projectRoot,
           'dist',
-          'element-plus',
+          'lemon-peel',
           'dist',
           'index.css',
         ),

@@ -1,11 +1,11 @@
 <template>
   <div class="demo-color-block">
     <span class="demonstration">With default value</span>
-    <lp-color-picker v-model="color1" />
+    <lp-color-picker v-model:value="color1" />
   </div>
   <div class="demo-color-block">
     <span class="demonstration">With no default value</span>
-    <lp-color-picker v-model="color2" />
+    <lp-color-picker v-model:value="color2" />
   </div>
 </template>
 

@@ -1,5 +1,5 @@
 <template>
-  <lp-radio-group v-model="size">
+  <lp-radio-group v-model:value="size">
     <lp-radio label="large">Large</lp-radio>
     <lp-radio>Default</lp-radio>
     <lp-radio label="small">Small</lp-radio>

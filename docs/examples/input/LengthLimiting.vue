@@ -1,6 +1,6 @@
 <template>
   <lp-input
-    v-model="text"
+    v-model:value="value=&quot;text&quot;"
     maxlength="10"
     placeholder="Please input"
     show-word-limit
@@ -8,7 +8,7 @@
   />
   <div style="margin: 20px 0" />
   <lp-input
-    v-model="textarea"
+    v-model:value="textarea"
     maxlength="30"
     placeholder="Please input"
     show-word-limit

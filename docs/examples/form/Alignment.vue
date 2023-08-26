@@ -1,5 +1,5 @@
 <template>
-  <lp-radio-group v-model="labelPosition" label="label position">
+  <lp-radio-group v-model:value="labelPosition" label="label position">
     <lp-radio-button label="left">Left</lp-radio-button>
     <lp-radio-button label="right">Right</lp-radio-button>
     <lp-radio-button label="top">Top</lp-radio-button>
@@ -12,13 +12,13 @@
     style="max-width: 460px"
   >
     <lp-form-item label="Name">
-      <lp-input v-model="formLabelAlign.name" />
+      <lp-input v-model:value="formLabelAlign.name" />
     </lp-form-item>
     <lp-form-item label="Activity zone">
-      <lp-input v-model="formLabelAlign.region" />
+      <lp-input v-model:value="formLabelAlign.region" />
     </lp-form-item>
     <lp-form-item label="Activity form">
-      <lp-input v-model="formLabelAlign.type" />
+      <lp-input v-model:value="formLabelAlign.type" />
     </lp-form-item>
   </lp-form>
 </template>

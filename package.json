@@ -79,7 +79,6 @@
     "async-validator": "^4.2.5",
     "dayjs": "^1.11.5",
     "escape-html": "^1.0.3",
-    "lemon-peel": "workspace:*",
     "lodash": "^4.17.21",
     "memoize-one": "^6.0.0",
     "normalize-wheel-es": "^1.2.0",

@@ -1,5 +1,5 @@
 <template>
-  <lp-rate v-model="value" allow-half />
+  <lp-rate v-model:value="value" allow-half />
 </template>
 
 <script lang="ts" setup>

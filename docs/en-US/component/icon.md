@@ -109,9 +109,9 @@ import { Edit, Share, Delete, Search, Loading } from '@element-plus/icons-vue'
 
 <ElRow>
   <div>
-    <ElIcon :size="30">
+    <LpIcon :size="30">
       <Edit />
-    </ElIcon>
+    </LpIcon>
     <Edit />
   </div>
 </ElRow>
@@ -153,24 +153,24 @@ import { Edit, Share, Delete, Search, Loading } from '@element-plus/icons-vue'
     seconds, you can also override this
   </p>
   <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
-    <ElIcon :size="20">
+    <LpIcon :size="20">
       <Edit />
-    </ElIcon>
-    <ElIcon color="#409EFC" class="no-inherit">
+    </LpIcon>
+    <LpIcon color="#409EFC" class="no-inherit">
       <Share />
-    </ElIcon>
-    <ElIcon>
+    </LpIcon>
+    <LpIcon>
       <Delete />
-    </ElIcon>
-    <ElIcon class="is-loading">
+    </LpIcon>
+    <LpIcon class="is-loading">
       <Loading />
-    </ElIcon>
-    <ElButton type="primary">
-      <ElIcon style="vertical-align: middle; color: #fff;">
+    </LpIcon>
+    <LpButton type="primary">
+      <LpIcon style="vertical-align: middle; color: #fff;">
         <Search />
-      </ElIcon>
+      </LpIcon>
       <span style="vertical-align: middle;"> Search </span>
-    </ElButton>
+    </LpButton>
   </div>
 </ElRow>
 

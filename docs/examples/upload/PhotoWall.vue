@@ -9,7 +9,7 @@
     <lp-icon><Plus /></lp-icon>
   </lp-upload>
 
-  <lp-dialog v-model="dialogVisible">
+  <lp-dialog v-model:value="dialogVisible">
     <img w-full :src="dialogImageUrl" alt="Preview Image">
   </lp-dialog>
 </template>
@@ -18,7 +18,7 @@
 import { ref } from 'vue';
 import { Plus } from '@element-plus/icons-vue';
 
-import type { UploadProps, UploadUserFile } from 'element-plus';
+import type { UploadProps, UploadUserFile } from 'lemon-peel';
 
 const fileList = ref<UploadUserFile[]>([
   {

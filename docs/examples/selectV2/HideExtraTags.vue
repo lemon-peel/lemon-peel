@@ -2,7 +2,7 @@
   <div style="display: inline-block">
     <p style="margin: 10px">use collapse-tags</p>
     <lp-select-v2
-      v-model="value"
+      v-model:value="value"
       :options="options"
       placeholder="Please select"
       style="width: 240px"
@@ -13,7 +13,7 @@
   <div style="display: inline-block; margin-left: 20px">
     <p style="margin: 10px">use collapse-tags-tooltip</p>
     <lp-select-v2
-      v-model="value2"
+      v-model:value="value2"
       :options="options"
       placeholder="Please select"
       style="width: 240px"

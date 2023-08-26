@@ -1,6 +1,6 @@
 <template>
   <lp-space direction="vertical" alignment="start" :size="30">
-    <lp-radio-group v-model="size">
+    <lp-radio-group v-model:value="size">
       <lp-radio :label="'large'">large</lp-radio>
       <lp-radio :label="'default'">default</lp-radio>
       <lp-radio :label="'small'">small</lp-radio>

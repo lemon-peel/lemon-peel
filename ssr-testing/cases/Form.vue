@@ -21,7 +21,7 @@
         },
       ]"
     >
-      <lp-input v-model="dynamicValidateForm.email" />
+      <lp-input v-model:value="dynamicValidateForm.email" />
     </lp-form-item>
     <lp-form-item
       v-for="(domain, index) in dynamicValidateForm.domains"
@@ -34,7 +34,7 @@
         trigger: 'blur',
       }"
     >
-      <lp-input v-model="domain.value" />
+      <lp-input v-model:value="domain.value" />
       <lp-button style="margin-top: 8px" @click.prevent="removeDomain(domain)">Delete</lp-button>
     </lp-form-item>
     <lp-form-item>

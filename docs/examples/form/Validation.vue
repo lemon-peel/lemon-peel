@@ -9,17 +9,17 @@
     status-icon
   >
     <lp-form-item label="Activity name" prop="name">
-      <lp-input v-model="ruleForm.name" />
+      <lp-input v-model:value="ruleForm.name" />
     </lp-form-item>
     <lp-form-item label="Activity zone" prop="region">
-      <lp-select v-model="ruleForm.region" placeholder="Activity zone">
+      <lp-select v-model:value="ruleForm.region" placeholder="Activity zone">
         <lp-option label="Zone one" value="shanghai" />
         <lp-option label="Zone two" value="beijing" />
       </lp-select>
     </lp-form-item>
     <lp-form-item label="Activity count" prop="count">
       <lp-select-v2
-        v-model="ruleForm.count"
+        v-model:value="ruleForm.count"
         placeholder="Activity count"
         :options="options"
       />
@@ -28,7 +28,7 @@
       <lp-col :span="11">
         <lp-form-item prop="date1">
           <lp-date-picker
-            v-model="ruleForm.date1"
+            v-model:value="ruleForm.date1"
             type="date"
             label="Pick a date"
             placeholder="Pick a date"
@@ -42,7 +42,7 @@
       <lp-col :span="11">
         <lp-form-item prop="date2">
           <lp-time-picker
-            v-model="ruleForm.date2"
+            v-model:value="ruleForm.date2"
             label="Pick a time"
             placeholder="Pick a time"
             style="width: 100%"
@@ -51,10 +51,10 @@
       </lp-col>
     </lp-form-item>
     <lp-form-item label="Instant delivery" prop="delivery">
-      <lp-switch v-model="ruleForm.delivery" />
+      <lp-switch v-model:value="ruleForm.delivery" />
     </lp-form-item>
     <lp-form-item label="Activity type" prop="type">
-      <lp-checkbox-group v-model="ruleForm.type">
+      <lp-checkbox-group v-model:value="ruleForm.type">
         <lp-checkbox label="Online activities" name="type" />
         <lp-checkbox label="Promotion activities" name="type" />
         <lp-checkbox label="Offline activities" name="type" />
@@ -62,13 +62,13 @@
       </lp-checkbox-group>
     </lp-form-item>
     <lp-form-item label="Resources" prop="resource">
-      <lp-radio-group v-model="ruleForm.resource">
+      <lp-radio-group v-model:value="ruleForm.resource">
         <lp-radio label="Sponsorship" />
         <lp-radio label="Venue" />
       </lp-radio-group>
     </lp-form-item>
     <lp-form-item label="Activity form" prop="desc">
-      <lp-input v-model="ruleForm.desc" type="textarea" />
+      <lp-input v-model:value="ruleForm.desc" type="textarea" />
     </lp-form-item>
     <lp-form-item>
       <lp-button type="primary" @click="submitForm(ruleFormRef)">Create</lp-button>
@@ -79,7 +79,7 @@
 
 <script lang="ts" setup>
 import { reactive, ref } from 'vue';
-import type { FormInstance, FormRules } from 'element-plus';
+import type { FormInstance, FormRules } from 'lemon-peel';
 
 const formSize = ref('default');
 const ruleFormRef = ref<FormInstance>();

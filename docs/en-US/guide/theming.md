@@ -83,7 +83,7 @@ Because the sass team said they will remove `@import` eventually.
 ```scss
 // styles/element/index.scss
 /* just override what you need */
-@forward 'element-plus/theme-chalk/src/common/var.scss' with (
+@forward 'lemon-peel/theme-chalk/src/common/var.scss' with (
   $colors: (
     'primary': (
       'base': green,
@@ -93,7 +93,7 @@ Because the sass team said they will remove `@import` eventually.
 
 // If you just import on demand, you can ignore the following content.
 // if you want to import all styles:
-// @use "element-plus/theme-chalk/src/index.scss" as *;
+// @use "lemon-peel/theme-chalk/src/index.scss" as *;
 ```
 
 Then in the entry file of your project, import this style file instead of Element's built CSS:
@@ -116,11 +116,11 @@ If they are mixed together, each hot update of `element-plus` needs to compile a
 ```ts
 import { createApp } from 'vue';
 import './styles/element/index.scss';
-import ElementPlus from 'element-plus';
+import LemonPeel from 'lemon-peel';
 import App from './App.vue';
 
 const app = createApp(App);
-app.use(ElementPlus);
+app.use(LemonPeel);
 ```
 
 If you are using vite, and you want to custom theme when importing on demand.

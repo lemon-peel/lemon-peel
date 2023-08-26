@@ -16,7 +16,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 
-import type { UploadProps, UploadUserFile } from 'element-plus';
+import type { UploadProps, UploadUserFile } from 'lemon-peel';
 
 const fileList = ref<UploadUserFile[]>([
   {

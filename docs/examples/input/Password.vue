@@ -1,6 +1,6 @@
 <template>
   <lp-input
-    v-model="input"
+    v-model:value="input"
     type="password"
     placeholder="Please input password"
     show-password

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <lp-radio-group v-model="size" label="size control">
+    <lp-radio-group v-model:value="size" label="size control">
       <lp-radio-button value="large">large</lp-radio-button>
       <lp-radio-button value="default">default</lp-radio-button>
       <lp-radio-button value="small">small</lp-radio-button>
@@ -10,7 +10,7 @@
     <div class="block">
       <span class="demonstration">Default</span>
       <lp-date-picker
-        v-model="value1"
+        v-model:value="value1"
         type="date"
         placeholder="Pick a day"
         :size="size"
@@ -19,7 +19,7 @@
     <div class="block">
       <span class="demonstration">Picker with quick options</span>
       <lp-date-picker
-        v-model="value2"
+        v-model:value="value2"
         type="date"
         placeholder="Pick a day"
         :disabled-date="disabledDate"

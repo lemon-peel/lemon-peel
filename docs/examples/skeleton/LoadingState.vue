@@ -2,7 +2,7 @@
   <lp-space direction="vertical" alignment="flex-start">
     <div>
       <label style="margin-right: 16px">Switch Loading</label>
-      <lp-switch v-model="loading" />
+      <lp-switch v-model:value="loading" />
     </div>
     <lp-skeleton style="width: 240px" :loading="loading" animated>
       <template #template>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
-// import { ElMessageBox } from 'element-plus'
+// import { LpMessageBox } from 'lemon-peel'
 import nprogress from 'nprogress';
 // import dayjs from 'dayjs'
 import { isClient, useEventListener, useToggle } from '@vueuse/core';
@@ -89,7 +89,7 @@ onMounted(async () => {
   //       return
   //   }
   //   try {
-  //     await ElMessageBox.confirm(
+  //     await LpMessageBox.confirm(
   //       '建议大陆用户访问部署在国内的站点，是否跳转？',
   //       '提示',
   //       {

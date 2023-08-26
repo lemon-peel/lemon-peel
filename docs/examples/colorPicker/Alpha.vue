@@ -1,5 +1,5 @@
 <template>
-  <lp-color-picker v-model="color" show-alpha />
+  <lp-color-picker v-model:value="color" show-alpha />
 </template>
 
 <script lang="ts" setup>

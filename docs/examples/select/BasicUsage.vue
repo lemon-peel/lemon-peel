@@ -1,5 +1,5 @@
 <template>
-  <lp-select v-model="value" class="m-2" placeholder="Select" size="large">
+  <lp-select v-model:value="value" class="m-2" placeholder="Select" size="large">
     <lp-option
       v-for="item in options"
       :key="item.value"
@@ -7,7 +7,7 @@
       :value="item.value"
     />
   </lp-select>
-  <lp-select v-model="value" class="m-2" placeholder="Select">
+  <lp-select v-model:value="value" class="m-2" placeholder="Select">
     <lp-option
       v-for="item in options"
       :key="item.value"
@@ -15,7 +15,7 @@
       :value="item.value"
     />
   </lp-select>
-  <lp-select v-model="value" class="m-2" placeholder="Select" size="small">
+  <lp-select v-model:value="value" class="m-2" placeholder="Select" size="small">
     <lp-option
       v-for="item in options"
       :key="item.value"

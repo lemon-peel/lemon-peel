@@ -1,6 +1,6 @@
 <template>
   <lp-rate
-    v-model="value"
+    v-model:value="value"
     disabled
     show-score
     text-color="#ff9900"

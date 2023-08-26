@@ -1,5 +1,5 @@
 <template>
-  <lp-radio-group v-model="isCollapse" style="margin-bottom: 20px">
+  <lp-radio-group v-model:value="isCollapse" style="margin-bottom: 20px">
     <lp-radio-button :label="false">expand</lp-radio-button>
     <lp-radio-button :label="true">collapse</lp-radio-button>
   </lp-radio-group>

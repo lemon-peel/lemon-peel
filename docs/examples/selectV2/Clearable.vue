@@ -1,6 +1,6 @@
 <template>
   <lp-select-v2
-    v-model="value1"
+    v-model:value="value1"
     :options="options"
     placeholder="Please select"
     style="width: 240px; margin-right: 16px; vertical-align: middle"
@@ -8,7 +8,7 @@
     clearable
   />
   <lp-select-v2
-    v-model="value2"
+    v-model:value="value2"
     :options="options"
     placeholder="Please select"
     style="width: 240px; vertical-align: middle"

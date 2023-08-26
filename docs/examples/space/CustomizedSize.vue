@@ -1,5 +1,5 @@
 <template>
-  <lp-slider v-model="size" />
+  <lp-slider v-model:value="size" />
   <lp-space wrap :size="size">
     <lp-card v-for="i in 2" :key="i" class="box-card" style="width: 250px">
       <template #header>

@@ -1,11 +1,11 @@
 <template>
   <div class="demo-rate-block">
     <span class="demonstration">Default</span>
-    <lp-rate v-model="value1" />
+    <lp-rate v-model:value="value1" />
   </div>
   <div class="demo-rate-block">
     <span class="demonstration">Color for different levels</span>
-    <lp-rate v-model="value2" :colors="colors" />
+    <lp-rate v-model:value="value2" :colors="colors" />
   </div>
 </template>
 

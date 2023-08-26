@@ -14,11 +14,11 @@
 <script lang="tsx" setup>
 import { ref } from 'vue';
 import {
-  ElButton,
-  ElTag,
+  LpButton,
+  LpTag,
   TableV2FixedDir,
   TableV2SortOrder,
-} from 'element-plus';
+} from 'lemon-peel';
 
 import type { Column, SortBy } from '@element-plus/components/table-v2';
 
@@ -55,7 +55,7 @@ const columns: Column<any>[] = [
     dataKey: 'name',
     width: 150,
     align: 'center',
-    cellRenderer: ({ cellData: name }) => <ElTag>{name}</ElTag>,
+    cellRenderer: ({ cellData: name }) => <LpTag>{name}</LpTag>,
   },
   {
     key: 'description',
@@ -71,10 +71,10 @@ const columns: Column<any>[] = [
     title: 'Operations',
     cellRenderer: () => (
       <>
-        <ElButton size="small">Edit</ElButton>
-        <ElButton size="small" type="danger">
+        <LpButton size="small">Edit</LpButton>
+        <LpButton size="small" type="danger">
           Delete
-        </ElButton>
+        </LpButton>
       </>
     ),
     width: 150,

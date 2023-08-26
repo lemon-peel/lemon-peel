@@ -5,7 +5,7 @@
         <p>"Full Name" label is automatically attached to the input:</p>
       </lp-alert>
       <lp-form-item label="Full Name">
-        <lp-input v-model="formAccessibility.fullName" />
+        <lp-input v-model:value="formAccessibility.fullName" />
       </lp-form-item>
     </lp-space>
     <lp-space fill>
@@ -20,14 +20,14 @@
         <lp-row :gutter="20">
           <lp-col :span="12">
             <lp-input
-              v-model="formAccessibility.firstName"
+              v-model:value="formAccessibility.firstName"
               label="First Name"
               placeholder="First Name"
             />
           </lp-col>
           <lp-col :span="12">
             <lp-input
-              v-model="formAccessibility.lastName"
+              v-model:value="formAccessibility.lastName"
               label="Last Name"
               placeholder="Last Name"
             />

@@ -1,13 +1,13 @@
 <template>
   <lp-input
-    v-model="textarea1"
+    v-model:value="textarea1"
     autosize
     type="textarea"
     placeholder="Please input"
   />
   <div style="margin: 20px 0" />
   <lp-input
-    v-model="textarea2"
+    v-model:value="textarea2"
     :autosize="{ minRows: 2, maxRows: 4 }"
     type="textarea"
     placeholder="Please input"

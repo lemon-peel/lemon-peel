@@ -1,7 +1,7 @@
 <template>
   <div class="example-basic">
     <lp-time-picker
-      v-model="value1"
+      v-model:value="value1"
       :disabled-hours="disabledHours"
       :disabled-minutes="disabledMinutes"
       :disabled-seconds="disabledSeconds"

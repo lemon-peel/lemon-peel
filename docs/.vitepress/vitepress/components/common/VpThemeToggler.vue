@@ -6,10 +6,10 @@ import VPSwitch from './VpSwitch.vue';
 
 <template>
   <VPSwitch>
-    <ElIcon :size="13">
+    <LpIcon :size="13">
       <DarkIcon class="dark-icon" />
       <LightIcon class="light-icon" />
-    </ElIcon>
+    </LpIcon>
   </VPSwitch>
 </template>
 

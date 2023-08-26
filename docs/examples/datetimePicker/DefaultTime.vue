@@ -2,7 +2,7 @@
   <div class="block">
     <span class="demonstration">Start and end date time 12:00:00</span>
     <lp-date-picker
-      v-model="value1"
+      v-model:value="value1"
       type="datetimerange"
       start-placeholder="Start Date"
       end-placeholder="End Date"
@@ -12,7 +12,7 @@
   <div class="block">
     <span class="demonstration">Start date time 12:00:00, end date time 08:00:00</span>
     <lp-date-picker
-      v-model="value2"
+      v-model:value="value2"
       type="datetimerange"
       start-placeholder="Start Date"
       end-placeholder="End Date"

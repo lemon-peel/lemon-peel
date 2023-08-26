@@ -1,5 +1,5 @@
 <template>
-  <lp-input v-model="input" disabled placeholder="Please input" />
+  <lp-input v-model:value="input" disabled placeholder="Please input" />
 </template>
 
 <script lang="ts" setup>

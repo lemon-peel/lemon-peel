@@ -12,15 +12,15 @@
 import { ref } from 'vue';
 import dayjs from 'dayjs';
 import {
-  ElButton,
-  ElIcon,
-  ElTag,
-  ElTooltip,
+  LpButton,
+  LpIcon,
+  LpTag,
+  LpTooltip,
   TableV2FixedDir,
-} from 'element-plus';
+} from 'lemon-peel';
 import { Timer } from '@element-plus/icons-vue';
 
-import type { Column, RowClassNameGetter } from 'element-plus';
+import type { Column, RowClassNameGetter } from 'lemon-peel';
 
 let id = 0;
 
@@ -38,16 +38,16 @@ const columns: Column<any>[] = [
     width: 150,
     fixed: TableV2FixedDir.LEFT,
     cellRenderer: ({ cellData: date }) => (
-      <ElTooltip content={dayjs(date).format('YYYY/MM/DD')}>
+      <LpTooltip content={dayjs(date).format('YYYY/MM/DD')}>
         {
           <span class="flex items-center">
-            <ElIcon class="mr-3">
+            <LpIcon class="mr-3">
               <Timer />
-            </ElIcon>
+            </LpIcon>
             {dayjs(date).format('YYYY/MM/DD')}
           </span>
         }
-      </ElTooltip>
+      </LpTooltip>
     ),
   },
   {
@@ -56,17 +56,17 @@ const columns: Column<any>[] = [
     dataKey: 'name',
     width: 150,
     align: 'center',
-    cellRenderer: ({ cellData: name }) => <ElTag>{name}</ElTag>,
+    cellRenderer: ({ cellData: name }) => <LpTag>{name}</LpTag>,
   },
   {
     key: 'operations',
     title: 'Operations',
     cellRenderer: () => (
       <>
-        <ElButton size="small">Edit</ElButton>
-        <ElButton size="small" type="danger">
+        <LpButton size="small">Edit</LpButton>
+        <LpButton size="small" type="danger">
           Delete
-        </ElButton>
+        </LpButton>
       </>
     ),
     width: 150,

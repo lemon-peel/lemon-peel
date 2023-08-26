@@ -1,7 +1,7 @@
 <template>
-  <lp-slider v-model="value" show-input size="large" />
-  <lp-slider v-model="value" show-input />
-  <lp-slider v-model="value" show-input size="small" />
+  <lp-slider v-model:value="value" show-input size="large" />
+  <lp-slider v-model:value="value" show-input />
+  <lp-slider v-model:value="value" show-input size="small" />
 </template>
 
 <script lang="ts" setup>

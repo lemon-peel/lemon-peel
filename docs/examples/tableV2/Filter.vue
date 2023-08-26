@@ -10,15 +10,15 @@
 <script lang="tsx" setup>
 import { ref } from 'vue';
 import {
-  ElButton,
-  ElCheckbox,
-  ElIcon,
-  ElPopover,
+  LpButton,
+  LpCheckbox,
+  LpIcon,
+  LpPopover,
   TableV2FixedDir,
-} from 'element-plus';
+} from 'lemon-peel';
 import { Filter } from '@element-plus/icons-vue';
 
-import type { HeaderCellSlotProps } from 'element-plus';
+import type { HeaderCellSlotProps } from 'lemon-peel';
 
 const generateColumns = (length = 10, prefix = 'column-', props?: any) =>
   Array.from({ length }).map((_, columnIndex) => ({
@@ -66,32 +66,32 @@ columns[0].headerCellRenderer = (props: HeaderCellSlotProps) => {
   return (
     <div class="flex items-center justify-center">
       <span class="mr-2 text-xs">{props.column.title}</span>
-      <ElPopover ref={popoverRef} trigger="click" {...{ width: 200 }}>
+      <LpPopover ref={popoverRef} trigger="click" {...{ width: 200 }}>
         {{
           default: () => (
             <div class="filter-wrapper">
               <div class="filter-group">
-                <ElCheckbox v-model={shouldFilter.value}>
+                <LpCheckbox v-model={shouldFilter.value}>
                   Filter Text
-                </ElCheckbox>
+                </LpCheckbox>
               </div>
               <div class="el-table-v2__demo-filter">
-                <ElButton text onClick={onFilter}>
+                <LpButton text onClick={onFilter}>
                   Confirm
-                </ElButton>
-                <ElButton text onClick={onReset}>
+                </LpButton>
+                <LpButton text onClick={onReset}>
                   Reset
-                </ElButton>
+                </LpButton>
               </div>
             </div>
           ),
           reference: () => (
-            <ElIcon class="cursor-pointer">
+            <LpIcon class="cursor-pointer">
               <Filter />
-            </ElIcon>
+            </LpIcon>
           ),
         }}
-      </ElPopover>
+      </LpPopover>
     </div>
   );
 };

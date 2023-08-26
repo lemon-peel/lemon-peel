@@ -1,5 +1,5 @@
 <template>
-  <lp-checkbox-group v-model="checkedCities" :min="1" :max="2">
+  <lp-checkbox-group v-model:value="checkedCities" :min="1" :max="2">
     <lp-checkbox v-for="city in cities" :key="city" :label="city">{{
       city
     }}</lp-checkbox>

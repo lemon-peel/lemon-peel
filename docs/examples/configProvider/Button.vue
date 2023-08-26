@@ -1,7 +1,7 @@
 <template>
   <div>
     <div m="b-2">
-      <lp-checkbox v-model="config.autoInsertSpace">autoInsertSpace</lp-checkbox>
+      <lp-checkbox v-model:checked="config.autoInsertSpace">autoInsertSpace</lp-checkbox>
     </div>
 
     <lp-config-provider :button="config">

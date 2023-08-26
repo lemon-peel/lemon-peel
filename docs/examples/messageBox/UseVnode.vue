@@ -5,10 +5,10 @@
 
 <script lang="ts" setup>
 import { h, ref } from 'vue';
-import { ElMessageBox, ElSwitch } from 'element-plus';
+import { LpMessageBox, LpSwitch } from 'lemon-peel';
 
 const open = () => {
-  ElMessageBox({
+  LpMessageBox({
     title: 'Message',
     message: h('p', null, [
       h('span', null, 'Message can be '),
@@ -19,11 +19,11 @@ const open = () => {
 
 const open1 = () => {
   const checked = ref<boolean | string | number>(false);
-  ElMessageBox({
+  LpMessageBox({
     title: 'Message',
     // Should pass a function if VNode contains dynamic props
     message: () =>
-      h(ElSwitch, {
+      h(LpSwitch, {
         modelValue: checked.value,
         'onUpdate:modelValue': (val: boolean | string | number) => {
           checked.value = val;

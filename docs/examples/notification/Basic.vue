@@ -5,17 +5,17 @@
 
 <script lang="ts" setup>
 import { h } from 'vue';
-import { ElNotification } from 'element-plus';
+import { LpNotification } from 'lemon-peel';
 
 const open1 = () => {
-  ElNotification({
+  LpNotification({
     title: 'Title',
     message: h('i', { style: 'color: teal' }, 'This is a reminder'),
   });
 };
 
 const open2 = () => {
-  ElNotification({
+  LpNotification({
     title: 'Prompt',
     message: 'This is a message that does not automatically close',
     duration: 0,

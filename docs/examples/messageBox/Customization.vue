@@ -4,9 +4,9 @@
 
 <script lang="ts" setup>
 import { h } from 'vue';
-import { ElMessage, ElMessageBox } from 'element-plus';
+import { LpMessage, LpMessageBox } from 'lemon-peel';
 const open = () => {
-  ElMessageBox({
+  LpMessageBox({
     title: 'Message',
     message: h('p', null, [
       h('span', null, 'Message can be '),
@@ -30,7 +30,7 @@ const open = () => {
       }
     },
   }).then(action => {
-    ElMessage({
+    LpMessage({
       type: 'info',
       message: `action: ${action}`,
     });

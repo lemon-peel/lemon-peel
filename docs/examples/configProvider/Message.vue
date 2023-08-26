@@ -8,11 +8,11 @@
 
 <script lang="ts" setup>
 import { reactive } from 'vue';
-import { ElMessage } from 'element-plus';
+import { LpMessage } from 'lemon-peel';
 const config = reactive({
   max: 3,
 });
 const open = () => {
-  ElMessage('This is a message.');
+  LpMessage('This is a message.');
 };
 </script>

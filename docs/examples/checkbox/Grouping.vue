@@ -1,5 +1,5 @@
 <template>
-  <lp-checkbox-group v-model="checkList">
+  <lp-checkbox-group v-model:value="checkList">
     <lp-checkbox label="Option A" />
     <lp-checkbox label="Option B" />
     <lp-checkbox label="Option C" />

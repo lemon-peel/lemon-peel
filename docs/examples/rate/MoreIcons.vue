@@ -1,6 +1,6 @@
 <template>
   <lp-rate
-    v-model="value"
+    v-model:value="value"
     :icons="icons"
     :void-icon="ChatRound"
     :colors="['#409eff', '#67c23a', '#FF9900']"

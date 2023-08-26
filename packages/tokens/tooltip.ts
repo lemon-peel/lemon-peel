@@ -2,7 +2,7 @@ import type { Arrayable } from '../utils/typescript';
 import type { InjectionKey, Ref } from 'vue';
 import type { TooltipTriggerType } from '@lemon-peel/components/tooltip';
 
-export type ElTooltipInjectionContext = {
+export type LpTooltipInjectionContext = {
   controlled: Ref<boolean>;
   id: Ref<string>;
   open: Ref<boolean>;
@@ -17,5 +17,5 @@ export type ElTooltipInjectionContext = {
   updatePopper: () => void;
 };
 
-export const TOOLTIP_INJECTION_KEY: InjectionKey<ElTooltipInjectionContext> =
+export const TOOLTIP_INJECTION_KEY: InjectionKey<LpTooltipInjectionContext> =
   Symbol('elTooltip');

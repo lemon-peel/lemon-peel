@@ -3,7 +3,7 @@
     <div class="block">
       <span class="demonstration">date</span>
       <lp-date-picker
-        v-model="value1"
+        v-model:value="value1"
         type="date"
         placeholder="Pick a date"
         :default-value="new Date(2010, 9, 1)"
@@ -12,7 +12,7 @@
     <div class="block">
       <span class="demonstration">daterange</span>
       <lp-date-picker
-        v-model="value2"
+        v-model:value="value2"
         type="daterange"
         start-placeholder="Start Date"
         end-placeholder="End Date"

@@ -1,5 +1,5 @@
 <template>
-  <lp-radio-group v-model="direction">
+  <lp-radio-group v-model:value="direction">
     <lp-radio label="ltr">left to right</lp-radio>
     <lp-radio label="rtl">right to left</lp-radio>
     <lp-radio label="ttb">top to bottom</lp-radio>
@@ -22,8 +22,8 @@
     </template>
     <template #default>
       <div>
-        <lp-radio v-model="radio1" label="Option 1" size="large">Option 1</lp-radio>
-        <lp-radio v-model="radio1" label="Option 2" size="large">Option 2</lp-radio>
+        <lp-radio v-model:checked="radio1" label="Option 1" size="large">Option 1</lp-radio>
+        <lp-radio v-model:checked="radio1" label="Option 2" size="large">Option 2</lp-radio>
       </div>
     </template>
     <template #footer>

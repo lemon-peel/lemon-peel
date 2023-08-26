@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div style="margin-bottom: 15px">fill: <lp-switch v-model="fill" /></div>
+    <div style="margin-bottom: 15px">fill: <lp-switch v-model:value="fill" /></div>
     <lp-space :fill="fill" wrap>
       <lp-card v-for="i in 3" :key="i" class="box-card">
         <template #header>

@@ -1,12 +1,12 @@
 <template>
-  <lp-tree-select v-model="value" :data="data">
+  <lp-tree-select v-model:value="value" :data="data">
     <template #default="{ data: { label } }">
       {{ label }}<span style="color: gray">(suffix)</span></template>
   </lp-tree-select>
   <lp-divider />
   use render content:
   <lp-tree-select
-    v-model="value"
+    v-model:value="value"
     :data="data"
     :render-content="renderContent"
   />

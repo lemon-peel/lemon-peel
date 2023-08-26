@@ -8,11 +8,11 @@
     class="demo-ruleForm"
   >
     <lp-form-item label="Password" prop="pass">
-      <lp-input v-model="ruleForm.pass" type="password" autocomplete="off" />
+      <lp-input v-model:value="value=&quot;ruleForm.pass&quot;" type="password" autocomplete="off" />
     </lp-form-item>
     <lp-form-item label="Confirm" prop="checkPass">
       <lp-input
-        v-model="ruleForm.checkPass"
+        v-model:value="ruleForm.checkPass"
         type="password"
         autocomplete="off"
       />
@@ -29,7 +29,7 @@
 
 <script lang="ts" setup>
 import { reactive, ref } from 'vue';
-import type { FormInstance } from 'element-plus';
+import type { FormInstance } from 'lemon-peel';
 
 const ruleFormRef = ref<FormInstance>();
 

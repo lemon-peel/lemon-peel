@@ -83,7 +83,7 @@ Element Plus has added a global method `$message` for `app.config.globalProperti
 
 ```
 
-In this case you should call `ElMessage(options)`. We have also registered methods for different types, e.g. `ElMessage.success(options)`. You can call `ElMessage.closeAll()` to manually close all the instances.
+In this case you should call `LpMessage(options)`. We have also registered methods for different types, e.g. `LpMessage.success(options)`. You can call `LpMessage.closeAll()` to manually close all the instances.
 
 ## App context inheritance <lp-tag> >= 2.0.3</lp-tag>
 
@@ -93,17 +93,17 @@ You can use it like this:
 
 :::tip
 
-If you globally registered ElMessage component, it will automatically inherit your app context.
+If you globally registered LpMessage component, it will automatically inherit your app context.
 
 :::
 
 ```ts
 import { getCurrentInstance } from 'vue';
-import { ElMessage } from 'element-plus';
+import { LpMessage } from 'lemon-peel';
 
 // in your setup method
 const { appContext } = getCurrentInstance()!;
-ElMessage({}, appContext);
+LpMessage({}, appContext);
 ```
 
 ## Message API

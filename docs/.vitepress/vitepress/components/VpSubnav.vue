@@ -20,14 +20,14 @@ const { shouldShow, scrollToTop } = useBackTop();
       @click="$emit('open-menu')"
     />
     <Transition name="shifting">
-      <ElButton
+      <LpButton
         :class="{ 'go-back-top': true, show: shouldShow }"
         link
         class="height-5"
         @click.prevent.stop="scrollToTop"
       >
         Back to top
-      </ElButton>
+      </LpButton>
     </Transition>
   </div>
 </template>

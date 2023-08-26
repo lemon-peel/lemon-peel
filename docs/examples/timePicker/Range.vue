@@ -1,14 +1,14 @@
 <template>
   <div class="demo-range">
     <lp-time-picker
-      v-model="value1"
+      v-model:value="value1"
       is-range
       range-separator="To"
       start-placeholder="Start time"
       end-placeholder="End time"
     />
     <lp-time-picker
-      v-model="value2"
+      v-model:value="value2"
       is-range
       arrow-control
       range-separator="To"
