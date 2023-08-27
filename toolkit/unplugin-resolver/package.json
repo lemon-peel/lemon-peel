@@ -7,6 +7,9 @@
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/esm/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "rm -rf dist && tsc --module commonjs --outDir dist/cjs && tsc --module es2020 --outDir dist/esm && tsc --module es2020  --outDir dist/esm --declaration",
     "dev": "pnpm run stub",
