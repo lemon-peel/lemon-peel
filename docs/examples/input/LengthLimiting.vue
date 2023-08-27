@@ -1,6 +1,6 @@
 <template>
   <lp-input
-    v-model:value="value=&quot;text&quot;"
+    v-model:value="text"
     maxlength="10"
     placeholder="Please input"
     show-word-limit

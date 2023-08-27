@@ -6,7 +6,7 @@
       size="large"
       placeholder="Please Input"
     />
-    <lp-input v-model:value="value=&quot;input2&quot;" class="w-50 m-2" placeholder="Please Input" />
+    <lp-input v-model:value="input2" class="w-50 m-2" placeholder="Please Input" />
     <lp-input
       v-model:value="input3"
       class="w-50 m-2"

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <lp-radio-group v-model:value="value=&quot;size&quot;" label="size control">
+    <lp-radio-group v-model:value="size" label="size control">
       <lp-radio-button label="large">large</lp-radio-button>
       <lp-radio-button label="default">default</lp-radio-button>
       <lp-radio-button label="small">small</lp-radio-button>

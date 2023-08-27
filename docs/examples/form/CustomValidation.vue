@@ -8,7 +8,7 @@
     class="demo-ruleForm"
   >
     <lp-form-item label="Password" prop="pass">
-      <lp-input v-model:value="value=&quot;ruleForm.pass&quot;" type="password" autocomplete="off" />
+      <lp-input v-model:value="ruleForm.pass" type="password" autocomplete="off" />
     </lp-form-item>
     <lp-form-item label="Confirm" prop="checkPass">
       <lp-input

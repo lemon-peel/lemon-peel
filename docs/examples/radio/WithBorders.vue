@@ -1,6 +1,6 @@
 <template>
   <div>
-    <lp-radio-group v-model:value="value=&quot;radio1&quot;">
+    <lp-radio-group v-model:value="radio1">
       <lp-radio label="1" size="large" border>Option A</lp-radio>
       <lp-radio label="2" size="large" border>Option B</lp-radio>
     </lp-radio-group>
