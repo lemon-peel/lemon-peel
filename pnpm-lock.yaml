@@ -429,12 +429,12 @@ importers:
 
   packages/theme-chalk:
     devDependencies:
-      '@esbuild-kit/cjs-loader':
-        specifier: ^2.2.1
-        version: 2.2.1
       '@lemon-peel/build':
         specifier: workspace:*
         version: link:../../toolkit/build
+      '@lemon-peel/register':
+        specifier: workspace:*
+        version: link:../../toolkit/register
       '@types/gulp-autoprefixer':
         specifier: ^0.0.33
         version: 0.0.33
@@ -2339,20 +2339,6 @@ packages:
     dependencies:
       vue: 3.3.4
     dev: false
-
-  /@esbuild-kit/cjs-loader@2.2.1:
-    resolution: {integrity: sha512-pq2Z4DcqTBF7y1wQuIzFVqmHJVnmP6hgHEWN2ubPjeG7OzXMZ9NvozW+YA/MIeMdZWp1jcJ/EvXk2+mfEKoCDQ==}
-    dependencies:
-      '@esbuild-kit/core-utils': 2.3.2
-      get-tsconfig: 4.6.2
-    dev: true
-
-  /@esbuild-kit/core-utils@2.3.2:
-    resolution: {integrity: sha512-aQwy1Hdd02ymjyMyyrhtyuZGv5W+mVZmj3DTKFV0TnB1AUgMBV40tXySpsGySe8vLvSe0c0TaqTc2FUo8/YlNQ==}
-    dependencies:
-      esbuild: 0.15.18
-      source-map-support: 0.5.21
-    dev: true
 
   /@esbuild/android-arm64@0.16.7:
     resolution: {integrity: sha512-tYFw0lBJSEvLoGzzYh1kXuzoX1iPkbOk3O29VqzQb0HbOy7t/yw1hGkvwoJhXHwzQUPsShyYcTgRf6bDBcfnTw==}
