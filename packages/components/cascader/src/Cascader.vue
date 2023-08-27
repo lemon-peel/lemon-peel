@@ -129,7 +129,7 @@
           </lp-tag>
           <input
             v-if="filterable && !isDisabled"
-            v-model:value="searchInputValue"
+            v-model="searchInputValue"
             type="text"
             :class="nsCascader.e('search-input')"
             :placeholder="presentText ? '' : inputPlaceholder"

@@ -1,6 +1,6 @@
 <template>
   <label for="" :class="[ns.b('demo')]">
-    <input v-model:value="checked" type="checkbox"> {{ c.i }}
+    <input v-model="checked" type="checkbox"> {{ c.i }}
   </label>
 </template>
 
