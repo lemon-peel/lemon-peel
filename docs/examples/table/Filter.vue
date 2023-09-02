@@ -42,8 +42,8 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import type { LpTable } from 'lemon-peel';
-import type { TableColumnCtx } from 'element-plus/es/components/table/src/table-column/defaults';
+import { LpTable } from 'lemon-peel';
+import type { TableColumnCtx } from 'lemon-peel';
 
 interface User {
   date: string;
@@ -60,12 +60,13 @@ const resetDateFilter = () => {
 // TODO: improvement typing when refactor table
 const clearFilter = () => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-expect-error
   tableRef.value!.clearFilter();
 };
+
 const formatter = (row: User, column: TableColumnCtx<User>) => {
   return row.address;
 };
+
 const filterTag = (value: string, row: User) => {
   return row.tag === value;
 };

@@ -10,4 +10,5 @@ withInstaller.install = (app: App) => {
 };
 
 export default withInstaller;
+
 export const LpInfiniteScroll = withInstaller;

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 /* eslint-disable import/no-unresolved */
-import { isDark } from '~/composables/dark';
+import { isDark } from '@/composables/dark';
 </script>
 
 <template>

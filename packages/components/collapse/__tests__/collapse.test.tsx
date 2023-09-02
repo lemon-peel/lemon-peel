@@ -3,8 +3,6 @@ import { mount } from '@vue/test-utils';
 import { describe, expect, test, vi } from 'vitest';
 import Collapse from '../src/Collapse.vue';
 import CollapseItem from '../src/CollapseItem.vue';
-import type { VueWrapper } from '@vue/test-utils';
-import type { CollapseItemInstance } from '../src/instance';
 
 describe('Collapse.vue', () => {
   test('create', async () => {
@@ -28,9 +26,7 @@ describe('Collapse.vue', () => {
     );
 
     const collapseWrapper = wrapper.findComponent(Collapse);
-    const collapseItemWrappers = collapseWrapper.findAllComponents(
-      CollapseItem,
-    ) as VueWrapper<CollapseItemInstance>[];
+    const collapseItemWrappers = collapseWrapper.findAllComponents(CollapseItem);
     const collapseItemHeaderEls = wrapper.findAll('.lp-collapse-item__header');
     expect(collapseItemWrappers[0].vm.isActive).toBe(true);
 
@@ -104,9 +100,7 @@ describe('Collapse.vue', () => {
     );
 
     const collapseWrapper = wrapper.findComponent(Collapse);
-    const collapseItemWrappers = collapseWrapper.findAllComponents(
-      CollapseItem,
-    ) as VueWrapper<CollapseItemInstance>[];
+    const collapseItemWrappers = collapseWrapper.findAllComponents(CollapseItem);
     const collapseItemHeaderEls = wrapper.findAll('.lp-collapse-item__header');
 
     expect(collapseItemWrappers[0].vm.isActive).toBe(true);

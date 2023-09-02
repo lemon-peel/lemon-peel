@@ -462,7 +462,7 @@ describe('Table', () => {
       const footer = wrapper.find('.lp-table__footer');
       expect(footer).not.toBeUndefined();
       const cells = footer.findAll('.cell');
-      expect(cells[cells.length - 1].text()).toEqual('459');
+      expect(cells.at(-1)?.text()).toEqual('459');
       wrapper.unmount();
     });
 
@@ -955,7 +955,7 @@ describe('Table', () => {
 
     test('load substree row data', async () => {
       const testData = getTestData() as any;
-      const lastItem = testData[testData.length - 1];
+      const lastItem = testData.at(-1);
       lastItem.children = [{
         id: lastItem.id * 10 + 1,
         name: "A Bug's Life copy 1",
@@ -998,7 +998,7 @@ describe('Table', () => {
       const onExpandChange = vi.fn();
 
       const testData = getTestData() as any;
-      testData[testData.length - 1].childrenTest = [
+      testData.at(-1).childrenTest = [
         {
           name: "A Bug's Life copy 1",
           release: '2008-1-25-1',
@@ -1053,7 +1053,7 @@ describe('Table', () => {
 
     test('expand-row-keys & toggleRowExpansion', async () => {
       const testData = getTestData() as any;
-      const lastItem = testData[testData.length - 1];
+      const lastItem = testData.at(-1);
       lastItem.children = [{
         id: lastItem.id * 10 + 1,
         name: "A Bug's Life copy 1",
@@ -1094,7 +1094,7 @@ describe('Table', () => {
       expect(expandIcon.classes()).toContain('lp-table__expand-icon--expanded');
 
       const table = wrapper.findComponent(LpTable);
-      const row = testData[testData.length - 1].children[0];
+      const row = testData.at(-1).children[0];
       table.vm.toggleRowExpansion(row);
 
       await doubleWait();

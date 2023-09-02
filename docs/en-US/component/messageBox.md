@@ -19,7 +19,7 @@ Alert interrupts user operation until the user confirms.
 
 :::demo Open an alert by calling the `LpMessageBox.alert` method. It simulates the system's `alert`, and cannot be closed by pressing ESC or clicking outside the box. In this example, two parameters `message` and `title` are received. It is worth mentioning that when the box is closed, it returns a `Promise` object for further processing. If you are not sure if your target browsers support `Promise`, you should import a third party polyfill or use callbacks instead like this example.
 
-message-box/alert
+messageBox/Alert
 
 :::
 
@@ -29,7 +29,7 @@ Confirm is used to ask users' confirmation.
 
 :::demo Call `LpMessageBox.confirm` method to open a confirm, and it simulates the system's `confirm`. We can also highly customize Message Box by passing a third attribute `options` which is a literal object. The attribute `type` indicates the message type, and it's value can be `success`, `error`, `info` and `warning`. Note that the second attribute `title` must be a `string`, and if it is an `object`, it will be handled as the attribute `options`. Here we use `Promise` to handle further processing.
 
-message-box/confirm
+messageBox/Confirm
 
 :::
 
@@ -39,7 +39,7 @@ Prompt is used when user input is required.
 
 :::demo Call `LpMessageBox.prompt` method to open a prompt, and it simulates the system's `prompt`. You can use `inputPattern` parameter to specify your own RegExp pattern. Use `inputValidator` to specify validation method, and it should return `Boolean` or `String`. Returning `false` or `String` means the validation has failed, and the string returned will be used as the `inputErrorMessage`. In addition, you can customize the placeholder of the input box with `inputPlaceholder` parameter.
 
-message-box/prompt
+messageBox/Prompt
 
 :::
 
@@ -49,7 +49,7 @@ message-box/prompt
 
 :::demo
 
-message-box/use-vnode
+messageBox/UseVnode
 
 :::
 
@@ -59,7 +59,7 @@ Can be customized to show various content.
 
 :::demo The three methods mentioned above are repackagings of the `LpMessageBox` method. This example calls `LpMessageBox` method directly using the `showCancelButton` attribute, which is used to indicate if a cancel button is displayed. Besides we can use `cancelButtonClass` to add a custom style and `cancelButtonText` to customize the button text (the confirm button also has these fields, and a complete list of fields can be found at the end of this documentation). This example also uses the `beforeClose` attribute. It is a method and will be triggered when the MessageBox instance will be closed, and its execution will stop the instance from closing. It has three parameters: `action`, `instance` and `done`. Using it enables you to manipulate the instance before it closes, e.g. activating `loading` for confirm button; you can invoke the `done` method to close the MessageBox instance (if `done` is not called inside `beforeClose`, the instance will not be closed).
 
-message-box/customization
+messageBox/Customization
 
 :::
 
@@ -69,7 +69,7 @@ message-box/customization
 
 :::demo Set `dangerouslyUseHTMLString` to true and `message` will be treated as an HTML string.
 
-message-box/use-html
+messageBox/UseHtml
 
 :::
 
@@ -85,7 +85,7 @@ In some cases, clicking the cancel button and close button may have different me
 
 :::demo By default, the parameters of Promise's reject callback and `callback` are 'cancel' when the user cancels (clicking the cancel button) and closes (clicking the close button or mask layer, pressing the ESC key) the MessageBox. If `distinguishCancelAndClose` is set to true, the parameters of the above two operations are 'cancel' and 'close' respectively.
 
-message-box/distinguishable-close-cancel
+messageBox/DistinguishableCloseCancel
 
 :::
 
@@ -95,7 +95,7 @@ Content of MessageBox can be centered.
 
 :::demo Setting `center` to `true` will center the content.
 
-message-box/centered-content
+messageBox/CenteredContent
 
 :::
 
@@ -105,7 +105,7 @@ The icon can be customized to any Vue component or [render function (JSX)](https
 
 :::demo
 
-message-box/customized-icon
+messageBox/CustomizedIcon
 
 :::
 
@@ -115,7 +115,7 @@ MessageBox can be draggable.
 
 :::demo Setting `draggable` to `true` allows user to drag MessageBox.
 
-message-box/draggable
+messageBox/Draggable
 
 :::
 

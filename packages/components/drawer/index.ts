@@ -5,3 +5,5 @@ export const LpDrawer = withInstall(Drawer);
 export default LpDrawer;
 
 export * from './src/drawer';
+
+export type DrawerInst = InstanceType<typeof Drawer>;

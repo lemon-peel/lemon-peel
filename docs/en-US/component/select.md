@@ -11,7 +11,7 @@ When there are plenty of options, use a drop-down menu to display and select des
 
 :::demo `v-model` is the value of `el-option` that is currently selected.
 
-select/basic-usage
+select/BasicUsage
 
 :::
 
@@ -19,7 +19,7 @@ select/basic-usage
 
 :::demo Set the value of `disabled` in `el-option` to `true` to disable this option.
 
-select/disabled-option
+select/DisabledOption
 
 :::
 
@@ -29,7 +29,7 @@ Disable the whole component.
 
 :::demo Set `disabled` of `el-select` to make it disabled.
 
-select/disabled
+select/Disabled
 
 :::
 
@@ -39,7 +39,7 @@ You can clear Select using a clear icon.
 
 :::demo Set `clearable` attribute for `el-select` and a clear icon will appear. Note that `clearable` is only for single select.
 
-select/clearable
+select/Clearable
 
 :::
 
@@ -49,7 +49,7 @@ Multiple select uses tags to display selected options.
 
 :::demo Set `multiple` attribute for `el-select` to enable multiple mode. In this case, the value of `v-model` will be an array of selected options. By default the selected options will be displayed as Tags. You can collapse them to a text by using `collapse-tags` attribute. You can check them when mouse hover collapse text by using `collapse-tags-tooltip` attribute.
 
-select/multiple
+select/Multiple
 
 :::
 
@@ -59,7 +59,7 @@ You can customize HTML templates for options.
 
 :::demo Insert customized HTML templates into the slot of `el-option`.
 
-select/custom-template
+select/CustomTemplate
 
 :::
 
@@ -69,7 +69,7 @@ Display options in groups.
 
 :::demo Use `el-option-group` to group the options, and its `label` attribute stands for the name of the group.
 
-select/grouping
+select/Grouping
 
 :::
 
@@ -79,7 +79,7 @@ You can filter options for your desired ones.
 
 :::demo Adding `filterable` to `el-select` enables filtering. By default, Select will find all the options whose `label` attribute contains the input value. If you prefer other filtering strategies, you can pass the `filter-method`. `filter-method` is a `Function` that gets called when the input value changes, and its parameter is the current input value.
 
-select/filterable
+select/Filterable
 
 :::
 
@@ -89,7 +89,7 @@ Enter keywords and search data from server.
 
 :::demo Set the value of `filterable` and `remote` with `true` to enable remote search, and you should pass the `remote-method`. `remote-method` is a `Function` that gets called when the input value changes, and its parameter is the current input value. Note that if `el-option` is rendered with the `v-for` directive, you should add the `key` attribute for `el-option`. Its value needs to be unique, such as `item.value` in the following example.
 
-select/remote-search
+select/RemoteSearch
 
 :::
 
@@ -99,7 +99,7 @@ Create and select new items that are not included in select options
 
 :::demo By using the `allow-create` attribute, users can create new items by typing in the input box. Note that for `allow-create` to work, `filterable` must be `true`. This example also demonstrates `default-first-option`. When this attribute is set to `true`, you can select the first option in the current option list by hitting enter without having to navigate with mouse or arrow keys.
 
-select/allow-create
+select/AllowCreate
 
 :::
 

@@ -8,5 +8,8 @@
     "**/vite.config.*",
     "**/vitest.config.*",
     "**/vite.init.*"
+  ],
+  "exclude": [
+    "node_modules"
   ]
 }

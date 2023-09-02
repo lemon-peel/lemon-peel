@@ -2,9 +2,10 @@
   "files": [],
   "references": [
     { "path": "./tsconfig.config.json" },
+    { "path": "./tsconfig.docs.json" },
     { "path": "./tsconfig.node.json" },
     { "path": "./tsconfig.serve.json" },
     { "path": "./tsconfig.pkgs.json" },
-    { "path": "./tsconfig.docs.json" },
+    { "path": "./tsconfig.vitest.json" },
   ],
 }

@@ -13,7 +13,7 @@ The basic use case is using this component to provide unified space between each
 
 :::demo Using Space to provide space
 
-space/basic
+space/Basic
 
 :::
 
@@ -23,7 +23,7 @@ Using `direction` attribute to control the layout, we use `flex-direction` to im
 
 :::demo We also provide vertical layout.
 
-space/vertical-layout
+space/VerticalLayout
 
 :::
 
@@ -37,7 +37,7 @@ You can also using customized size to override it. Refer to the next part.
 
 :::demo
 
-space/control-size
+space/ControlSize
 
 :::
 
@@ -47,7 +47,7 @@ Sometimes built-in sizes could not meet the business needs, we can use custom si
 
 :::demo
 
-space/customized-size
+space/CustomizedSize
 
 :::
 
@@ -63,7 +63,7 @@ When in **horizontal** mode, using `wrap` (**bool type**) to control auto wrappi
 
 :::demo Using `wrap` to control line wrap
 
-space/auto-wrapping
+space/AutoWrapping
 
 :::
 
@@ -75,7 +75,7 @@ Sometimes we want something more than blank space, so we have (spacer) to help u
 
 :::demo
 
-space/literal-type-spacer
+space/LiteralTypeSpacer
 
 :::
 
@@ -83,7 +83,7 @@ space/literal-type-spacer
 
 :::demo
 
-space/vnode-type-spacer
+space/VnodeTypeSpacer
 
 :::
 
@@ -93,7 +93,7 @@ Setting this attribute can adjust the alignment of child nodes, the desirable va
 
 :::demo Using `alignment`
 
-space/alignment
+space/Alignment
 
 :::
 
@@ -105,7 +105,7 @@ In the following example, when set to `fill`, the width of the child node will a
 
 :::demo Use fill to automatically fill the container with child nodes
 
-space/fill
+space/Fill
 
 :::
 
@@ -115,7 +115,7 @@ It should be noted that the expression of horizontal layout and vertical layout 
 
 :::demo Use fillRatio to customize the fill ratio
 
-space/fill-ratio
+space/FillRatio
 
 :::
 

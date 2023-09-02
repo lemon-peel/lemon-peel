@@ -11,7 +11,7 @@ Used to give feedback on the result of user's operation or access exception.
 
 :::demo
 
-result/basic-usage
+result/BasicUsage
 
 :::
 
@@ -19,7 +19,7 @@ result/basic-usage
 
 :::demo
 
-result/customized-content
+result/CustomizedContent
 
 :::
 

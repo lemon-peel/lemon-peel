@@ -11,7 +11,7 @@ We create a font convention to ensure the best presentation across different pla
 
 :::demo
 
-typography/font
+typography/Font
 
 :::
 
@@ -19,7 +19,7 @@ typography/font
 
 :::demo
 
-typography/convention
+typography/Convention
 
 :::
 
@@ -27,7 +27,7 @@ typography/convention
 
 :::demo
 
-typography/line-height
+typography/LineHeight
 
 :::
 

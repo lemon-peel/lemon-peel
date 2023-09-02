@@ -25,6 +25,7 @@ export const useCheck = (
         );
         return label.toLowerCase().includes(panelState.query.toLowerCase());
       }
+
     });
   });
 
@@ -40,9 +41,9 @@ export const useCheck = (
     if (noChecked && hasChecked) {
       return checkedLength > 0
         ? hasChecked
-          .replace(/\${checked}/g, checkedLength.toString())
-          .replace(/\${total}/g, dataLength.toString())
-        : noChecked.replace(/\${total}/g, dataLength.toString());
+          .replaceAll('${checked}', checkedLength.toString())
+          .replaceAll('${total}', dataLength.toString())
+        : noChecked.replaceAll('${total}', dataLength.toString());
     } else {
       return `${checkedLength}/${dataLength}`;
     }

@@ -56,7 +56,7 @@ export const getScrollBarWidth = (namespace?: string): number => {
   outer.append(inner);
 
   const widthWithScroll = inner.offsetWidth;
-  outer.parentNode?.removeChild(outer);
+  outer.remove();
   scrollBarWidth = widthNoScroll - widthWithScroll;
 
   return scrollBarWidth;

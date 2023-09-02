@@ -28,7 +28,7 @@ const typeMap = {
 };
 
 const reComponentName: ReComponentName = title =>
-  `lp-${hyphenate(title).replace(/ +/g, '-')}`;
+  `lp-${hyphenate(title).replaceAll(/ +/, '-')}`;
 
 const reDocUrl: ReDocUrl = (fileName, header) => {
   const docs = 'https://lemon-peel.org/en-US/component/';
@@ -39,7 +39,7 @@ const reDocUrl: ReDocUrl = (fileName, header) => {
 
 const reWebTypesSource: ReWebTypesSource = title => {
   const symbol = `El${title
-    .replaceAll(/-/g, ' ')
+    .replaceAll('-', ' ')
     .replaceAll(/^\w|\s+\w/g, item => {
       return item.trim().toUpperCase();
     })}`;
@@ -82,12 +82,12 @@ const reAttribute: ReAttribute = (value, key) => {
         })
         .replaceAll(/(\b\w+)\s*\|/g, '$1 /')
         .replaceAll(/\|\s*(\b\w+)/g, '/ $1')
-        .replaceAll(/=_0!/g, '|');
+        .replaceAll('=_0!', '|');
     }
     case 'Accepted Values': {
       return /\[.+]\(.+\)/.test(str) || /^\*$/.test(str)
         ? undefined
-        : str.replaceAll(/`/g, '').replaceAll(/\([^)]*\)(?!\s*=>)/g, '');
+        : str.replaceAll('`', '').replaceAll(/\([^)]*\)(?!\s*=>)/g, '');
     }
     case 'Subtags': {
       return str

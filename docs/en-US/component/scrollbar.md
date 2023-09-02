@@ -11,7 +11,7 @@ Used to replace the browser's native scrollbar.
 
 :::demo Use `height` property to set the height of the scrollbar, or if not set, it adapts according to the parent container height.
 
-scrollbar/basic-usage
+scrollbar/BasicUsage
 
 :::
 
@@ -19,7 +19,7 @@ scrollbar/basic-usage
 
 :::demo When the element width is greater than the scrollbar width, the horizontal scrollbar is displayed.
 
-scrollbar/horizontal-scroll
+scrollbar/HorizontalScroll
 
 :::
 
@@ -27,7 +27,7 @@ scrollbar/horizontal-scroll
 
 :::demo The scrollbar is displayed only when the element height exceeds the max height.
 
-scrollbar/max-height
+scrollbar/MaxHeight
 
 :::
 
@@ -35,7 +35,7 @@ scrollbar/max-height
 
 :::demo Use `setScrollTop` and `setScrollLeft` methods can control scrollbar manually.
 
-scrollbar/manual-scroll
+scrollbar/ManualScroll
 
 :::
 

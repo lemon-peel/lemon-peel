@@ -15,3 +15,7 @@ export const LpCheckboxGroup = withNoopInstall(CheckboxGroup);
 
 export * from './src/checkboxGroup';
 export * from './src/checkbox';
+
+export type CheckboxInst = InstanceType<typeof Checkbox>;
+export type CheckboxButtonInst = InstanceType<typeof CheckboxButton>;
+export type CheckboxGroupInst = InstanceType<typeof CheckboxGroup>;

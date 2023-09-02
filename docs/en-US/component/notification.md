@@ -11,7 +11,7 @@ Displays a global notification message at a corner of the page.
 
 :::demo Element Plus has registered the `$notify` method and it receives an object as its parameter. In the simplest case, you can set the `title` field and the` message` field for the title and body of the notification. By default, the notification automatically closes after 4500ms, but by setting `duration` you can control its duration. Specifically, if set to `0`, it will not close automatically. Note that `duration` receives a `Number` in milliseconds.
 
-notification/basic
+notification/Basic
 
 :::
 
@@ -21,7 +21,7 @@ We provide four types: success, warning, info and error.
 
 :::demo Element Plus provides four notification types: `success`, `warning`, `info` and `error`. They are set by the `type` field, and other values will be ignored. We also registered methods for these types that can be invoked directly like `open3` and `open4` without passing a `type` field.
 
-notification/different-types
+notification/DifferentTypes
 
 :::
 
@@ -31,7 +31,7 @@ Notification can emerge from any corner you like.
 
 :::demo The `position` attribute defines which corner Notification slides in. It can be `top-right`, `top-left`, `bottom-right` or `bottom-left`. Defaults to `top-right`.
 
-notification/positioning
+notification/Positioning
 
 :::
 
@@ -41,7 +41,7 @@ Customize Notification's offset from the edge of the screen.
 
 :::demo Set the `offset` attribute to customize Notification's offset from the edge of the screen. Note that every Notification instance of the same moment should have the same offset.
 
-notification/offsetting
+notification/Offsetting
 
 :::
 
@@ -51,7 +51,7 @@ notification/offsetting
 
 :::demo Set `dangerouslyUseHTMLString` to true and `message` will be treated as an HTML string.
 
-notification/raw-html
+notification/RawHtml
 
 :::
 
@@ -67,7 +67,7 @@ It is possible to hide the close button
 
 :::demo Set the `showClose` attribute to `false` so the notification cannot be closed by the user.
 
-notification/no-close
+notification/NoClose
 
 :::
 

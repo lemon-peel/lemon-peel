@@ -6,4 +6,5 @@ export const LpAlert = withInstall(Alert);
 export default LpAlert;
 
 export * from './src/alert';
-export type { AlertInstance } from './src/instance';
+
+export type AlertInst = InstanceType<typeof Alert>;

@@ -13,7 +13,7 @@ Popconfirm is similar to Popover. So for some duplicated attributes, please refe
 
 :::demo Only `title` attribute is avaliable in Popconfirm, `content` will be ignored.
 
-popconfirm/basic-usage
+popconfirm/BasicUsage
 
 :::
 
@@ -23,7 +23,7 @@ You can customize Popconfirm like:
 
 :::demo
 
-popconfirm/customize
+popconfirm/Customize
 
 :::
 
@@ -33,7 +33,7 @@ Click the button to trigger the event
 
 :::demo
 
-popconfirm/trigger-event
+popconfirm/TriggerEvent
 
 :::
 

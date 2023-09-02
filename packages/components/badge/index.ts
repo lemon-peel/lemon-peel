@@ -6,3 +6,5 @@ export const LpBadge = withInstall(Badge);
 export default LpBadge;
 
 export * from './src/badge';
+
+export type BadgeInst = InstanceType<typeof Badge>;

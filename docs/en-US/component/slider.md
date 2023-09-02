@@ -13,7 +13,7 @@ The current value is displayed when the slider is being dragged.
 
 :::demo Customize the initial value of the slider by setting the binding value.
 
-slider/basic-usage
+slider/BasicUsage
 
 :::
 
@@ -23,7 +23,7 @@ The options can be discrete.
 
 :::demo Set step size with the `step` attribute. You can display breakpoints by setting the `show-stops` attribute.
 
-slider/discrete-values
+slider/DiscreteValues
 
 :::
 
@@ -33,7 +33,7 @@ Set value via a input box.
 
 :::demo Set the `show-input` attribute to display an input box on the right.
 
-slider/slider-with-input-box
+slider/SliderWithInputBox
 
 :::
 
@@ -41,7 +41,7 @@ slider/slider-with-input-box
 
 :::demo
 
-slider/sizes
+slider/Sizes
 
 :::
 
@@ -51,7 +51,7 @@ You can custom tooltip placement.
 
 :::demo
 
-slider/placement
+slider/Placement
 
 :::
 
@@ -61,7 +61,7 @@ Selecting a range of values is supported.
 
 :::demo Setting the `range` attribute activates range mode, where the binding value is an array made up of two boundary values.
 
-slider/range-selection
+slider/RangeSelection
 
 :::
 
@@ -69,7 +69,7 @@ slider/range-selection
 
 :::demo Setting the `vertical` attribute to `true` enables vertical mode. In vertical mode, the `height` attribute is required.
 
-slider/vertical-mode
+slider/VerticalMode
 
 :::
 
@@ -77,7 +77,7 @@ slider/vertical-mode
 
 :::demo Setting this `marks` attribute can show mark on slider.
 
-slider/show-marks
+slider/ShowMarks
 
 :::
 

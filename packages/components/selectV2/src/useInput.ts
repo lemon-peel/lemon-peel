@@ -12,7 +12,7 @@ export function useInput(handleInput: (event: Event) => void) {
 
   const handleCompositionUpdate = (event: Event) => {
     const text = (event.target as HTMLInputElement).value;
-    const lastCharacter = text[text.length - 1] || '';
+    const lastCharacter = text.at(-1) || '';
     isComposing.value = !isKorean(lastCharacter);
   };
 

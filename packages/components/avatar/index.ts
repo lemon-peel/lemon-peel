@@ -5,3 +5,5 @@ export const LpAvatar = withInstall(Avatar);
 export default LpAvatar;
 
 export * from './src/avatar';
+
+export type AvatarInst = InstanceType<typeof Avatar>;

@@ -37,7 +37,7 @@ import isSameOrBefore from 'dayjs/plugin/isSameOrBefore.js';
 import { useNamespace } from '@lemon-peel/hooks';
 import { ROOT_PICKER_INJECTION_KEY } from '@lemon-peel/tokens';
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
-import { CommonPicker, DEFAULT_FORMATS_DATE, DEFAULT_FORMATS_DATEPICKER, timePickerDefaultProps } from '@lemon-peel/components/timePicker';
+import { CommonPicker, DEFAULT_FORMATS_DATE, DEFAULT_FORMATS_DATEPICKER } from '@lemon-peel/components/timePicker';
 
 import { datePickerProps } from './props/datePicker';
 import { getPanel } from './panelUtils';
@@ -57,10 +57,7 @@ defineOptions({
   install: null,
 });
 
-const props = defineProps({
-  ...timePickerDefaultProps,
-  ...datePickerProps,
-});
+const props = defineProps(datePickerProps);
 
 const emit = defineEmits([
   UPDATE_MODEL_EVENT,

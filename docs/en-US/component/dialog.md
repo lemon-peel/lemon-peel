@@ -13,7 +13,7 @@ Dialog pops up a dialog box, and it's quite customizable.
 
 :::demo Set `model-value / v-model` attribute with a `Boolean`, and Dialog shows when it is `true`. The Dialog has two parts: `body` and `footer`, and the latter requires a `slot` named `footer`. The optional `title` attribute (empty by default) is for defining a title. Finally, this example demonstrates how `before-close` is used.
 
-dialog/basic-usage
+dialog/BasicUsage
 
 :::
 
@@ -29,7 +29,7 @@ The content of Dialog can be anything, even a table or a form. This example show
 
 :::demo
 
-dialog/customization-content
+dialog/CustomizationContent
 
 :::
 
@@ -39,7 +39,7 @@ The `header` slot can be used to customize the area where the title is displayed
 
 :::demo
 
-dialog/customization-header
+dialog/CustomizationHeader
 
 :::
 
@@ -49,7 +49,7 @@ If a Dialog is nested in another Dialog, `append-to-body` is required.
 
 :::demo Normally we do not recommend using nested Dialog. If you need multiple Dialogs rendered on the page, you can simply flat them so that they're siblings to each other. If you must nest a Dialog inside another Dialog, set `append-to-body` of the nested Dialog to true, and it will append to body instead of its parent node, so both Dialogs can be correctly rendered.
 
-dialog/nested-dialog
+dialog/NestedDialog
 
 :::
 
@@ -59,7 +59,7 @@ Dialog's content can be centered.
 
 :::demo Setting `center` to `true` will center dialog's header and footer horizontally. `center` only affects Dialog's header and footer. The body of Dialog can be anything, so sometimes it may not look good when centered. You need to write some CSS if you wish to center the body as well.
 
-dialog/centered-content
+dialog/CenteredContent
 
 :::
 
@@ -75,7 +75,7 @@ Open dialog from the center of the screen.
 
 :::demo Setting `align-center` to `true` will center the dialog both horizontally and vertically. The prop `top` will not work at the same time because the dialog is vertically centered in a flexbox.
 
-dialog/align-center
+dialog/AlignCenter
 
 :::
 
@@ -85,7 +85,7 @@ When this is feature is enabled, the content under default slot will be destroye
 
 :::demo Note that by enabling this feature, the content will not be rendered before `transition.beforeEnter` dispatched, there will only be `overlay` `header(if any)` `footer(if any)`.
 
-dialog/destroy-on-close
+dialog/DestroyOnClose
 
 :::
 
@@ -95,7 +95,7 @@ Try to drag the `header` part.
 
 :::demo Set `draggable` to `true` to drag.
 
-dialog/draggable-dialog
+dialog/DraggableDialog
 
 :::
 

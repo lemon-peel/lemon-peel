@@ -19,7 +19,7 @@ Callout a temporary drawer, from multiple direction
 
 :::demo You must set `model-value` for `Drawer` like `Dialog` does to control the visibility of `Drawer` itself, it's `boolean` type. `Drawer` has three parts: `title` & `body` & `footer`, the `title` is a named slot, you can also set the title through attribute named `title`, default to an empty string, the `body` part is the main area of `Drawer`, which contains user defined content. When opening, `Drawer` expand itself from the **right corner to left** which size is **30%** of the browser window by default. You can change that default behavior by setting `direction` and `size` attribute. This show case also demonstrated how to use the `before-close` API, check the Attribute section for more detail
 
-drawer/basic-usage
+drawer/BasicUsage
 
 :::
 
@@ -29,7 +29,7 @@ When you no longer need a title, you can remove it from the drawer.
 
 :::demo Set the `withHeader` attribute to **false**, you can remove the title from drawer, thus your drawer can have more space on screen. If you want to be accessible, make sure to set the `title` attribute.
 
-drawer/no-title
+drawer/NoTitle
 
 :::
 
@@ -39,7 +39,7 @@ Like `Dialog`, `Drawer` can be used to display a multitude of diverse interactio
 
 :::demo
 
-drawer/customization-content
+drawer/CustomizationContent
 
 :::
 
@@ -49,7 +49,7 @@ The `header` slot can be used to customize the area where the title is displayed
 
 :::demo
 
-drawer/customization-header
+drawer/CustomizationHeader
 
 :::
 
@@ -59,7 +59,7 @@ You can also have multiple layer of `Drawer` just like `Dialog`.
 
 :::demo If you need multiple Drawer in different layer, you must set the `append-to-body` attribute to **true**
 
-drawer/nested-drawer
+drawer/NestedDrawer
 
 :::
 

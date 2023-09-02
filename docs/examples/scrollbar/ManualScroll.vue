@@ -17,7 +17,7 @@
 
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue';
-import type { LpScrollbar } from 'lemon-peel';
+import { LpScrollbar } from 'lemon-peel';
 
 const max = ref(0);
 const value = ref(0);
@@ -31,7 +31,7 @@ onMounted(() => {
 const inputSlider = (value: number) => {
   scrollbarRef.value!.setScrollTop(value);
 };
-const scroll = ({ scrollTop }) => {
+const scroll = ({ scrollTop }: { scrollTop: number }) => {
   value.value = scrollTop;
 };
 const formatTooltip = (value: number) => {

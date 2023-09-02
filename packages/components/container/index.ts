@@ -14,13 +14,14 @@ export const LpContainer = withInstall(Container, {
 });
 
 export default LpContainer;
+
 export const LpAside = withNoopInstall(Aside);
 export const LpFooter = withNoopInstall(Footer);
 export const LpHeader = withNoopInstall(Header);
 export const LpMain = withNoopInstall(Main);
 
-export type ContainerInstance = InstanceType<typeof Container>;
-export type AsideInstance = InstanceType<typeof Aside>;
-export type FooterInstance = InstanceType<typeof Footer>;
-export type HeaderInstance = InstanceType<typeof Header>;
-export type MainInstance = InstanceType<typeof Main>;
+export type ContainerInst = InstanceType<typeof Container>;
+export type AsideInst = InstanceType<typeof Aside>;
+export type FooterInst = InstanceType<typeof Footer>;
+export type HeaderInst = InstanceType<typeof Header>;
+export type MainInst = InstanceType<typeof Main>;

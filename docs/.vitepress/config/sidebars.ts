@@ -9,6 +9,7 @@ function mapPrefix(item: Item, lang: string, prefix = '') {
       children: item.children.map(child => mapPrefix(child, lang, prefix)),
     };
   }
+
   return {
     ...item,
     link: `${ensureLang(lang)}${prefix}${item.link}`,

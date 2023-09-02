@@ -11,7 +11,7 @@ Display multiple fields in list form.
 
 :::demo
 
-descriptions/basic-usage
+descriptions/BasicUsage
 
 :::
 
@@ -19,7 +19,7 @@ descriptions/basic-usage
 
 :::demo
 
-descriptions/sizes
+descriptions/Sizes
 
 :::
 
@@ -27,7 +27,7 @@ descriptions/sizes
 
 :::demo
 
-descriptions/vertical-list
+descriptions/VerticalList
 
 :::
 
@@ -35,7 +35,7 @@ descriptions/vertical-list
 
 :::demo
 
-descriptions/customized-style
+descriptions/CustomizedStyle
 
 :::
 

@@ -1,17 +1,6 @@
-<script lang="ts" setup>
-import { useSidebar } from '../composables/sidebar';
-
-import VPSidebarLink from './sidebar/VpSidebarLink.vue';
-
-defineProps<{ open: boolean }>();
-defineEmits(['close']);
-
-// const isHome = useIsHome()
-const { sidebars, hasSidebar } = useSidebar();
-</script>
 
 <template>
-  <el-scrollbar v-if="hasSidebar" :class="{ sidebar: true, open }">
+  <lp-scrollbar v-if="hasSidebar" :class="{ sidebar: true, open }">
     <aside>
       <slot name="top" />
       <div class="sidebar-groups">
@@ -33,5 +22,18 @@ const { sidebars, hasSidebar } = useSidebar();
       </div>
       <slot name="bottom" />
     </aside>
-  </el-scrollbar>
+  </lp-scrollbar>
 </template>
+
+
+<script lang="ts" setup>
+import { useSidebar } from '@/vitepress/composables/sidebar';
+
+import VPSidebarLink from './sidebar/VpSidebarLink.vue';
+
+defineProps<{ open: boolean }>();
+defineEmits(['close']);
+
+// const isHome = useIsHome()
+const { sidebars, hasSidebar } = useSidebar();
+</script>

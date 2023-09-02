@@ -11,7 +11,7 @@ Switch is used for switching between two opposing states.
 
 :::demo Bind `v-model` to a `Boolean` typed variable. The `--el-switch-on-color` and `--el-switch-off-color` CSS variables decides the background color in two states.
 
-switch/basic
+switch/Basic
 
 :::
 
@@ -19,7 +19,7 @@ switch/basic
 
 :::demo
 
-switch/sizes
+switch/Sizes
 
 :::
 
@@ -29,7 +29,7 @@ You can add `active-text` and `inactive-text` attribute to show texts. use `inli
 
 :::demo You can add `active-text` and `inactive-text` attribute to show texts.
 
-switch/text-description
+switch/TextDescription
 
 :::
 
@@ -43,7 +43,7 @@ Use the `active-icon` and `inactive-icon` attribute to add icon. You can pass ei
 
 :::demo You can add `active-icon` and `inactive-icon` attribute to show icons. use `inline-prompt` attribute to control icon is displayed inside dot.
 
-switch/custom-icons
+switch/CustomIcons
 
 :::
 
@@ -51,7 +51,7 @@ switch/custom-icons
 
 :::demo You can set `active-value` and `inactive-value` attributes. They both receive a `Boolean`, `String` or `Number` typed value.
 
-switch/extended-value-types
+switch/ExtendedValueTypes
 
 :::
 
@@ -59,7 +59,7 @@ switch/extended-value-types
 
 :::demo Adding the `disabled` attribute disables Switch.
 
-switch/disabled
+switch/Disabled
 
 :::
 
@@ -67,7 +67,7 @@ switch/disabled
 
 :::demo Setting the `loading` attribute to `true` indicates a loading state on the Switch.
 
-switch/loading
+switch/Loading
 
 :::
 
@@ -75,7 +75,7 @@ switch/loading
 
 :::demo set the `before-change` property, If `false` is returned or a `Promise` is returned and then is rejected, will stop switching.
 
-switch/prevent-switching
+switch/PreventSwitching
 
 :::
 

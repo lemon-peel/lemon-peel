@@ -24,7 +24,7 @@ Let's render a basic case of Virtualized Table with 10 columns by 1000 rows, to 
 
 :::demo
 
-table-v2/basic
+tableV2/Basic
 
 :::
 
@@ -44,7 +44,7 @@ You may also set it via passing through `style` attribute to `AutoResizer`.
 
 :::demo
 
-table-v2/auto-resizer
+tableV2/AutoResizer
 
 :::
 
@@ -54,7 +54,7 @@ Of course, you can render the table cell per your needs, here is a simple exampl
 
 :::demo
 
-table-v2/cell-templating
+tableV2/CellTemplating
 
 :::
 
@@ -64,7 +64,7 @@ Using customized cell renderer to allow selection for your table.
 
 :::demo
 
-table-v2/selection
+tableV2/Selection
 
 :::
 
@@ -74,7 +74,7 @@ Just like selections we demonstrated above, you can use the same method to enabl
 
 :::demo
 
-table-v2/inline-editing
+tableV2/InlineEditing
 
 :::
 
@@ -86,7 +86,7 @@ Use `row-class-name` to customize how the row looks. In this case, every 10th ro
 
 :::demo
 
-table-v2/row-class
+tableV2/RowClass
 
 :::
 
@@ -98,7 +98,7 @@ You can add dynamically set the sticky row with scroll events like this example 
 
 :::demo
 
-table-v2/sticky-rows
+tableV2/StickyRows
 
 :::
 
@@ -110,7 +110,7 @@ You can set the column's attribute `fixed` to `true` (representing `FixedDir.LEF
 
 :::demo
 
-table-v2/fixed-columns
+tableV2/FixedColumns
 
 :::
 
@@ -128,7 +128,7 @@ It is recommended that you write your table component in JSX, since it contains 
 
 :::demo
 
-table-v2/grouping-header
+tableV2/GroupingHeader
 
 :::
 
@@ -138,7 +138,7 @@ Virtualized Table providers customizing header renderers for rendering customize
 
 :::demo
 
-table-v2/filter
+tableV2/Filter
 
 :::
 
@@ -148,7 +148,7 @@ You can sort the table with sort state.
 
 :::demo
 
-table-v2/sort
+tableV2/Sort
 
 :::
 
@@ -159,7 +159,7 @@ might seem strange to your users since the it is unclear which column is being s
 
 :::demo
 
-table-v2/controlled-sort
+tableV2/ControlledSort
 
 :::
 
@@ -170,7 +170,7 @@ helpful.
 
 :::demo
 
-table-v2/cross-hovering
+tableV2/CrossHovering
 
 :::
 
@@ -180,7 +180,7 @@ Virtualized table did not use built-in `table` element, so that `colspan` and `r
 
 :::demo
 
-table-v2/colspan
+tableV2/Colspan
 
 :::
 
@@ -191,7 +191,7 @@ is basically the same.
 
 :::demo
 
-table-v2/rowspan
+tableV2/Rowspan
 
 :::
 
@@ -201,7 +201,7 @@ We can combine rowspan and colspan together to meet your business goal!
 
 :::demo
 
-table-v2/spans
+tableV2/Spans
 
 :::
 
@@ -211,7 +211,7 @@ Virtual Table can also render data like tree, you can expand/collapse the tree n
 
 :::demo
 
-table-v2/tree-data
+tableV2/TreeData
 
 :::
 
@@ -230,7 +230,7 @@ to render a large amount of data.
 
 :::demo
 
-table-v2/dynamic-height
+tableV2/DynamicHeight
 
 :::
 
@@ -240,7 +240,7 @@ With dynamic height rendering, we can use that to render detail view in the tabl
 
 :::demo
 
-table-v2/detailed-view
+tableV2/DetailedView
 
 :::
 
@@ -250,7 +250,7 @@ Rendering a customized footer when you want to show a concluding message or info
 
 :::demo
 
-table-v2/footer
+tableV2/Footer
 
 :::
 
@@ -260,7 +260,7 @@ Render customized empty element
 
 :::demo
 
-table-v2/empty
+tableV2/Empty
 
 :::
 
@@ -270,7 +270,7 @@ Render an overlay above the table when you want to show a loading indicator or s
 
 :::demo
 
-table-v2/overlay
+tableV2/Overlay
 
 :::
 
@@ -290,7 +290,7 @@ The difference between `smart` and `auto` is that `auto` is a subset of `smart` 
 
 :::demo
 
-table-v2/manual-scroll
+tableV2/ManualScroll
 
 :::
 
@@ -371,9 +371,9 @@ Note that these are `JavaScript` Objects, so that you **CANNOT USE** kebab-case 
 
 | Name           | Description                                                               | Type                                                                                                                                                             | Default |
 | -------------- | ------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
-| align          | Alignment of the table cell content                                       | [Alignment](https://github.com/element-plus/element-plus/blob/b92b22932758f0ddea98810ae248f6ca62f77e25/packages/components/table-v2/src/constants.ts#L6)         | left    |
+| align          | Alignment of the table cell content                                       | [Alignment](https://github.com/element-plus/element-plus/blob/b92b22932758f0ddea98810ae248f6ca62f77e25/packages/components/tableV2/src/constants.ts#L6)         | left    |
 | class          | Class name for the column                                                 | String                                                                                                                                                           | -       |
-| fixed          | Fixed direction of the column                                             | Boolean/[FixedDir](https://github.com/element-plus/element-plus/blob/b92b22932758f0ddea98810ae248f6ca62f77e25/packages/components/table-v2/src/constants.ts#L11) | false   |
+| fixed          | Fixed direction of the column                                             | Boolean/[FixedDir](https://github.com/element-plus/element-plus/blob/b92b22932758f0ddea98810ae248f6ca62f77e25/packages/components/tableV2/src/constants.ts#L11) | false   |
 | flexGrow       | CSSProperties flex grow, Only useful when not this is not a fixed table   | Number                                                                                                                                                           | 0       |
 | flexShrink     | CSSProperties flex shrink, Only useful when not this is not a fixed table | Number                                                                                                                                                           | 1       |
 | headerClass    | Used for customizing header column class                                  | String                                                                                                                                                           | -       |

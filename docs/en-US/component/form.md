@@ -19,7 +19,7 @@ It includes all kinds of input items, such as `input`, `select`, `radio` and `ch
 
 :::demo In each `form` component, you need a `form-item` field to be the container of your input item.
 
-form/basic-form
+form/BasicForm
 
 :::
 
@@ -39,7 +39,7 @@ When the vertical space is limited and the form is relatively simple, you can pu
 
 :::demo Set the `inline` attribute to `true` and the form will be inline.
 
-form/inline-form
+form/InlineForm
 
 :::
 
@@ -49,7 +49,7 @@ Depending on your design, there are several different ways to align your label e
 
 :::demo The `label-position` attribute decides how labels align, it can be `top` or `left`. When set to `top`, labels will be placed at the top of the form field.
 
-form/alignment
+form/Alignment
 
 :::
 
@@ -59,7 +59,7 @@ Form component allows you to verify your data, helping you find and correct erro
 
 :::demo Just add the `rules` attribute for `Form` component, pass validation rules, and set `prop` attribute for `FormItem` as a specific key that needs to be validated. See more information at [async-validator](https://github.com/yiminghe/async-validator).
 
-form/validation
+form/Validation
 
 :::
 
@@ -69,7 +69,7 @@ This example shows how to customize your own validation rules to finish a two-fa
 
 :::demo Here we use `status-icon` to reflect validation result as an icon.
 
-form/custom-validation
+form/CustomValidation
 
 :::
 
@@ -83,7 +83,7 @@ Custom validate callback function must be called. See more advanced usage at [as
 
 :::demo In addition to passing all validation rules at once on the form component, you can also pass the validation rules or delete rules on a single form field dynamically.
 
-form/form-items
+form/FormItems
 
 :::
 
@@ -91,7 +91,7 @@ form/form-items
 
 :::demo Number Validate need a `.number` modifier added on the input `v-model` binding，it's used to transform the string value to the number which is provided by Vue.
 
-form/number-validate
+form/NumberValidate
 
 :::
 
@@ -107,7 +107,7 @@ All components in a Form inherit their `size` attribute from that Form. Similarl
 
 :::demo Still you can fine tune each component's `size` if you don't want that component to inherit its size from From or FormItem.
 
-form/size-control
+form/SizeControl
 
 :::
 
@@ -117,7 +117,7 @@ When only a single input (or related control such as select or checkbox) is insi
 
 :::demo
 
-form/accessibility
+form/Accessibility
 
 :::
 

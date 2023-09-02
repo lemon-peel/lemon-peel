@@ -531,7 +531,7 @@ const handleComposition = (event: CompositionEvent) => {
     isOnComposition.value = false;
     nextTick(() => handleInput(text));
   } else {
-    const lastCharacter = text[text.length - 1] || '';
+    const lastCharacter = text.at(-1) || '';
     isOnComposition.value = !isKorean(lastCharacter);
   }
 };
@@ -610,7 +610,7 @@ const handleSuggestionKeyDown = (e: KeyboardEvent) => {
 
 const handleDelete = () => {
   const tags = presentTags.value;
-  const lastTag = tags[tags.length - 1];
+  const lastTag = tags.at(-1);
   pressDeleteCount = searchInputValue.value ? 0 : pressDeleteCount + 1;
 
   if (

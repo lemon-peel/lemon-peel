@@ -13,7 +13,7 @@ Displays at the top, and disappears after 3 seconds.
 
 :::demo The setup of Message is very similar to notification, so parts of the options won't be explained in detail here. You can check the options table below combined with notification doc to understand it. Element Plus has registered a `$message` method for invoking. Message can take a string or a VNode as parameter, and it will be shown as the main body.
 
-message/basic
+message/Basic
 
 :::
 
@@ -23,7 +23,7 @@ Used to show the feedback of Success, Warning, Message and Error activities.
 
 :::demo When you need more customizations, Message component can also take an object as parameter. For example, setting value of `type` can define different types, and its default is `info`. In such cases the main body is passed in as the value of `message`. Also, we have registered methods for different types, so you can directly call it without passing a type like `open4`.
 
-message/different-types
+message/DifferentTypes
 
 :::
 
@@ -33,7 +33,7 @@ A close button can be added.
 
 :::demo A default Message cannot be closed manually. If you need a closable message, you can set `showClose` field. Besides, same as notification, message has a controllable `duration`. Default duration is 3000 ms, and it won't disappear when set to `0`.
 
-message/closable
+message/Closable
 
 :::
 
@@ -43,7 +43,7 @@ Use the `center` attribute to center the text.
 
 :::demo
 
-message/centered-content
+message/CenteredContent
 
 :::
 
@@ -53,7 +53,7 @@ message/centered-content
 
 :::demo Set `dangerouslyUseHTMLString` to true and `message` will be treated as an HTML string.
 
-message/raw-html
+message/RawHtml
 
 :::
 
@@ -69,7 +69,7 @@ merge messages with the same content.
 
 :::demo Set `grouping` to true and the same content of `message` will be merged.
 
-message/grouping
+message/Grouping
 
 :::
 

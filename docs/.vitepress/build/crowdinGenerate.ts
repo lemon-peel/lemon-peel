@@ -25,21 +25,13 @@ async function traverseDir(
 
         return traverseDir(
           path.resolve(dir, c.name),
-          paths.map(p => {
-            return {
-              ...p,
-              pathname: path.resolve(p.pathname, c.name),
-            };
-          }),
+          paths.map(p => ({ ...p, pathname: path.resolve(p.pathname, c.name) })),
           path.resolve(targetPath, c.name),
         );
       } else if (c.isFile()) {
         // eslint-disable-next-line @typescript-eslint/no-var-requires
         const content = require(path.resolve(dir, c.name));
-
-        const contentToWrite = {
-          'en-US': content,
-        };
+        const contentToWrite = { 'en-US': content };
 
         await Promise.all(
           paths.map(async p => {
@@ -53,9 +45,7 @@ async function traverseDir(
         return fs.promises.writeFile(
           path.resolve(targetPath, c.name),
           JSON.stringify(contentToWrite, null, 2),
-          {
-            encoding: 'utf8',
-          },
+          { encoding: 'utf8' },
         );
       }
     }),

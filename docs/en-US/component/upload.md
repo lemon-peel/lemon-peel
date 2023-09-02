@@ -11,7 +11,7 @@ Upload files by clicking or drag-and-drop.
 
 :::demo Customize upload button type and text using `slot`. Set `limit` and `on-exceed` to limit the maximum number of uploads allowed and specify method when the limit is exceeded. Plus, you can abort removing a file in the `before-remove` hook.
 
-upload/basic
+upload/Basic
 
 :::
 
@@ -19,7 +19,7 @@ upload/basic
 
 :::demo Set `limit` and `on-exceed` to automatically replace the previous file when select a new file.
 
-upload/limit-cover
+upload/LimitCover
 
 :::
 
@@ -29,7 +29,7 @@ Use `before-upload` hook to limit the upload file format and size.
 
 :::demo
 
-upload/avatar
+upload/Avatar
 
 :::
 
@@ -39,7 +39,7 @@ Use `list-type` to change the fileList style.
 
 :::demo
 
-upload/photo-wall
+upload/PhotoWall
 
 :::
 
@@ -49,7 +49,7 @@ Use `scoped-slot` to change default thumbnail template.
 
 :::demo
 
-upload/custom-thumbnail
+upload/CustomThumbnail
 
 :::
 
@@ -57,7 +57,7 @@ upload/custom-thumbnail
 
 :::demo
 
-upload/file-list-with-thumbnail
+upload/FileListWithThumbnail
 
 :::
 
@@ -67,7 +67,7 @@ Use `on-change` hook function to control upload file list.
 
 :::demo
 
-upload/file-list
+upload/FileList
 
 :::
 
@@ -77,7 +77,7 @@ You can drag your file to a certain area to upload it.
 
 :::demo
 
-upload/drag-and-drop
+upload/DragAndDrop
 
 :::
 
@@ -85,7 +85,7 @@ upload/drag-and-drop
 
 :::demo
 
-upload/manual
+upload/Manual
 
 :::
 

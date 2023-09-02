@@ -11,7 +11,7 @@ Similar to Tooltip, Popover is also built with `ElPopper`. So for some duplicate
 
 :::demo The `trigger` attribute is used to define how popover is triggered: `hover`, `click`, `focus` or `contextmenu` . If you want to manually control it, you can set `:visible`.
 
-popover/basic-usage
+popover/BasicUsage
 
 :::
 
@@ -27,7 +27,7 @@ Like Tooltip, Popover can be triggered by virtual elements, if your use case inc
 
 :::demo
 
-popover/virtual-triggering
+popover/VirtualTriggering
 
 :::
 
@@ -37,7 +37,7 @@ Other components/elements can be nested in popover. Following is an example of n
 
 :::demo replace the `content` attribute with a default `slot`.
 
-popover/nested-information
+popover/NestedInformation
 
 :::
 
@@ -47,7 +47,7 @@ Of course, you can nest other operations. It's more light-weight than using a di
 
 :::demo
 
-popover/nested-operation
+popover/NestedOperation
 
 :::
 
@@ -58,7 +58,7 @@ complicated, you may refer to the virtual triggering for more information.
 
 :::demo
 
-popover/directive-usage
+popover/DirectiveUsage
 
 :::
 

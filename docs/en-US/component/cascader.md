@@ -13,7 +13,7 @@ There are two ways to expand child option items.
 
 :::demo Assigning the `options` attribute to an array of options renders a Cascader. The `props.expandTrigger` attribute defines how child options are expanded.
 
-cascader/basic
+cascader/Basic
 
 :::
 
@@ -23,7 +23,7 @@ Disable an option by setting a `disabled` field in the option object.
 
 :::demo In this example, the first item in `options` array has a `disabled: true` field, so it is disabled. By default, Cascader checks the `disabled` field in each option object; if you are using another field name to indicate whether an option is disabled, you can assign it in the `props.disabled` attribute (see the API table below for details). And of course, field name `value`, `label` and `children` can also be customized in the same way.
 
-cascader/option-disabling
+cascader/OptionDisabling
 
 :::
 
@@ -33,7 +33,7 @@ Set `clearable` attribute for `el-cascader` and a clear icon will appear when se
 
 :::demo
 
-cascader/clearable
+cascader/Clearable
 
 :::
 
@@ -43,7 +43,7 @@ The input can display only the last level instead of all levels.
 
 :::demo The `show-all-levels` attribute defines if all levels are displayed. If it is `false`, only the last level is displayed.
 
-cascader/last-level
+cascader/LastLevel
 
 :::
 
@@ -82,7 +82,7 @@ Don't do:
 
 :::demo When using multiple selection, all selected tags will display by default. You can set `collapse-tags = true` to fold selected tags. You can check them when mouse hover collapse text by using `collapse-tags-tooltip` attribute.
 
-cascader/multiple-selection
+cascader/MultipleSelection
 
 :::
 
@@ -92,7 +92,7 @@ In single selection, only the leaf nodes can be checked, and in multiple selecti
 
 :::demo Set `props.checkStrictly = true` to make checked state of a node not affects its parent nodes and child nodes, and then you can select any level of options.
 
-cascader/any-level
+cascader/AnyLevel
 
 :::
 
@@ -102,7 +102,7 @@ Dynamic load its child nodes when checked a node.
 
 :::demo Set `lazy = true` to use dynamic loading, and you have to specify how to load the data source by `lazyload`. There are two parameters of `lazyload`,the first parameter `node` is the node currently clicked, and the `resolve` is a callback that indicate loading is finished which must invoke. To display the status of node more accurately, you can add a `leaf` field (can be modified by `props.leaf`) to indicate whether it is a leaf node. Otherwise, it will be inferred by if has any child nodes.
 
-cascader/dynamic-loading
+cascader/DynamicLoading
 
 :::
 
@@ -112,7 +112,7 @@ Search and select options with a keyword.
 
 :::demo Adding `filterable` to `el-cascader` enables filtering. Cascader will match nodes whose label or parent's label (according to `show-all-levels`) includes input keyword. Of course, you can customize search logic by `filter-method` which accepts a function, the first parameter is `node`, the second is `keyword`, and need return a boolean value indicating whether it hits.
 
-cascader/filterable
+cascader/Filterable
 
 :::
 
@@ -122,7 +122,7 @@ You can customize the content of cascader node.
 
 :::demo You can customize the content of cascader node by `scoped slot`. You'll have access to `node` and `data` in the scope, standing for the Node object and node data of the current node respectively.
 
-cascader/custom-content
+cascader/CustomContent
 
 :::
 
@@ -132,7 +132,7 @@ cascader/custom-content
 
 :::demo Just like `el-cascader`, you can set alternative options by `options`, and enable other features by `props`, see the API form below for details.
 
-cascader/panel
+cascader/Panel
 
 :::
 

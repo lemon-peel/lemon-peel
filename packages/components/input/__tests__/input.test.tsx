@@ -254,10 +254,10 @@ describe('Input.vue', () => {
   test('use formatter and parser', () => {
     const val = ref('10000');
     const formatter = (val: string) => {
-      return val.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      return val.replaceAll(/\B(?=(\d{3})+(?!\d))/, ',');
     };
     const parser = (val: string) => {
-      return val.replace(/\$\s?|(,*)/g, '');
+      return val.replaceAll(/\$\s?|(,*)/, '');
     };
 
     const wrapper = mount(() => (

@@ -6,3 +6,5 @@ export default LpDialog;
 
 export * from './src/useDialog';
 export * from './src/dialog';
+
+export type DialogInst = InstanceType<typeof Dialog>;

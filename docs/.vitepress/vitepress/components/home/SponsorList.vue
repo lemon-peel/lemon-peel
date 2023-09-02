@@ -28,10 +28,10 @@
 <script lang="ts" setup>
 import type { PropType } from 'vue';
 import { computed } from 'vue';
-import { isDark } from '../../composables/dark';
-import { useLang } from '../../composables/lang';
-import sponsorLocale from '../../../i18n/component/sponsor.json';
-import { sendEvent } from '../../../config/analytics';
+import { isDark } from '@/vitepress/composables/dark';
+import { useLang } from '@/vitepress/composables/lang';
+import sponsorLocale from '@/i18n/component/sponsor.json';
+import { sendEvent } from '@/config/analytics';
 
 type Sponsor = {
   className: string;

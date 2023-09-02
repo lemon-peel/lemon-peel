@@ -1,10 +1,3 @@
-<script setup lang="ts">
-import { isDark, toggleDark } from '../../composables/dark';
-import { useNavbarLocale } from '../../composables/navbarLocale';
-import CommonThemeToggler from '../common/VpThemeToggler.vue';
-
-const locale = useNavbarLocale();
-</script>
 
 <template>
   <div class="theme-toggler-content">
@@ -16,8 +9,17 @@ const locale = useNavbarLocale();
   </div>
 </template>
 
+<script setup lang="ts">
+import { isDark, toggleDark } from '@/vitepress/composables/dark';
+import { useNavbarLocale } from '@/vitepress/composables/navbarLocale';
+
+import CommonThemeToggler from '../common/VpThemeToggler.vue';
+
+const locale = useNavbarLocale();
+</script>
+
 <style scoped lang="scss">
-@use '../../styles/mixins' as *;
+@use '@/vitepress/styles/mixins' as *;
 .theme-toggler-content {
   @include with-bg;
   background-color: transparent;
@@ -32,4 +34,3 @@ const locale = useNavbarLocale();
   }
 }
 </style>
-../../composables/navbarLocale

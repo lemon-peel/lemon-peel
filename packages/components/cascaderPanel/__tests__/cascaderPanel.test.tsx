@@ -4,7 +4,7 @@ import { beforeEach, describe, expect, test, vi } from 'vitest';
 import { Check, Loading } from '@element-plus/icons-vue';
 import CascaderPanel from '../src/Panel.vue';
 
-import type { CascaderOption, CascaderProps, CascaderValue, LazyLoad } from '../src/node';
+import type { CascaderOption, CascaderConfig, CascaderValue, LazyLoad } from '../src/node';
 
 const NORMAL_OPTIONS = [
   {
@@ -236,7 +236,7 @@ describe('CascaderPanel.vue', () => {
   });
 
   test('expand by hover', async () => {
-    const props: CascaderProps = { expandTrigger: 'hover' };
+    const props: CascaderConfig = { expandTrigger: 'hover' };
     const wrapper = mount(() => (
       <CascaderPanel options={DISABLED_OPTIONS} config={props} />
     ));
@@ -502,7 +502,7 @@ describe('CascaderPanel.vue', () => {
   test('lazy load with default object value', async () => {
     vi.useFakeTimers();
     const value = [{ id: 1 }, { id: 2 }] as any;
-    const props: CascaderProps = {
+    const props: CascaderConfig = {
       checkStrictly: true,
       lazy: true,
       lazyLoad(node, resolve) {
@@ -531,7 +531,7 @@ describe('CascaderPanel.vue', () => {
 
   test.skip('no loaded nodes should not be checked', async () => {
     vi.useFakeTimers();
-    const props: CascaderProps = {
+    const props: CascaderConfig = {
       multiple: true,
       lazy: true,
       lazyLoad(node, resolve) {
@@ -576,7 +576,7 @@ describe('CascaderPanel.vue', () => {
 
   test('no loaded nodes with checkStrictly should be selectable', async () => {
     vi.useFakeTimers();
-    const props: CascaderProps = {
+    const props: CascaderConfig = {
       checkStrictly: true,
       lazy: true,
       lazyLoad(node, resolve) {

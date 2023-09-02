@@ -23,7 +23,7 @@ The simplest selector
 
 :::demo
 
-select-v2/basic-usage
+selectV2/BasicUsage
 
 :::
 
@@ -33,7 +33,7 @@ The basic multi-select selector with tags
 
 :::demo
 
-select-v2/multiple
+selectV2/Multiple
 
 :::
 
@@ -43,7 +43,7 @@ You can collapse tags to a text by using `collapse-tags` attribute. You can chec
 
 :::demo
 
-select-v2/hide-extra-tags
+selectV2/HideExtraTags
 
 :::
 
@@ -53,7 +53,7 @@ When the options are overwhelmingly too many, you can use `filterable` option to
 
 :::demo
 
-select-v2/filterable
+selectV2/Filterable
 
 :::
 
@@ -63,7 +63,7 @@ You can choose to disable selector itself or the option.
 
 :::demo
 
-select-v2/disabled
+selectV2/Disabled
 
 :::
 
@@ -73,7 +73,7 @@ We can group option as we wanted, as long as the data satisfies the pattern.
 
 :::demo
 
-select-v2/grouping
+selectV2/Grouping
 
 :::
 
@@ -83,7 +83,7 @@ We can define our own template for rendering the option in the popup.
 
 :::demo
 
-select-v2/customized-option
+selectV2/CustomizedOption
 
 :::
 
@@ -93,7 +93,7 @@ We can clear all the selected options at once, also applicable for single select
 
 :::demo
 
-select-v2/clearable
+selectV2/Clearable
 
 :::
 
@@ -111,7 +111,7 @@ It will be better to set `:reserve-keyword="false"` when use `allow-create`
 
 :::demo
 
-select-v2/allow-create
+selectV2/AllowCreate
 
 :::
 
@@ -121,7 +121,7 @@ Enter keywords and search data from server.
 
 :::demo Set the value of `filterable` and `remote` with `true` to enable remote search, and you should pass the `remote-method`. `remote-method` is a `Function` that gets called when the input value changes, and its parameter is the current input value.
 
-select-v2/remote-search
+selectV2/RemoteSearch
 
 :::
 
@@ -129,7 +129,7 @@ select-v2/remote-search
 
 :::demo when `options.value` is an object, you should set a unique identity key name for value
 
-select-v2/use-valueKey
+selectV2/UseValueKey
 
 :::
 

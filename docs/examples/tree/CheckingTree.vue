@@ -20,8 +20,8 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import type { LpTree } from 'lemon-peel';
-import type Node from 'element-plus/es/components/tree/src/model/node';
+import { LpTree } from 'lemon-peel';
+import type Node from 'lemon-peel/es/components/tree/src/model/node';
 
 interface Tree {
   id: number;

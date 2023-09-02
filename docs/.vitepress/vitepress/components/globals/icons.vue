@@ -1,70 +1,3 @@
-<script setup lang="ts">
-import { computed, ref, shallowRef } from 'vue';
-import clipboardCopy from 'clipboard-copy';
-import { LpMessage } from '@lemon-peel/components';
-import * as Icons from '@element-plus/icons-vue';
-import { useLang } from '~/composables/lang';
-import localeData from '../../../i18n/component/icons.json';
-import IconCategories from './icons-categories.json';
-import type { DefineComponent } from 'vue';
-
-type CategoriesItem = {
-  name: string;
-  icons: DefineComponent[];
-};
-
-const lang = useLang();
-const locale = computed(() => localeData[lang.value]);
-const copyIcon = ref(true);
-
-const copyContent = async content => {
-  try {
-    await clipboardCopy(content);
-
-    LpMessage({
-      showClose: true,
-      message: locale.value['copy-success'],
-      type: 'success',
-    });
-  } catch {
-    LpMessage({
-      showClose: true,
-      message: locale.value['copy-error'],
-      type: 'error',
-    });
-  }
-};
-
-const copySvgIcon = async (name, refs) => {
-  if (copyIcon.value) {
-    await copyContent(`<el-icon><${name} /></el-icon>`);
-  } else {
-    const content = refs[name]?.[0].querySelector('svg')?.outerHTML ?? '';
-    await copyContent(content);
-  }
-};
-
-const categories = shallowRef<CategoriesItem[]>([]);
-const iconMap = new Map(Object.entries(Icons));
-
-IconCategories.categories.forEach(o => {
-  const result: CategoriesItem = {
-    name: o.name,
-    icons: [],
-  };
-  o.items.forEach(i => {
-    const icon = iconMap.get(i);
-    if (icon) {
-      result.icons.push(icon);
-      iconMap.delete(i);
-    }
-  });
-  categories.value.push(result);
-});
-
-categories.value.push({ name: 'Other', icons: Array.from(iconMap.values()) });
-</script>
-
 <template>
   <div style="text-align: right">
     <lp-switch
@@ -93,6 +26,73 @@ categories.value.push({ name: 'Other', icons: Array.from(iconMap.values()) });
     </ul>
   </div>
 </template>
+
+<script setup lang="ts">
+import { computed, ref, shallowRef, ComponentPublicInstance } from 'vue';
+import clipboardCopy from 'clipboard-copy';
+import { LpMessage } from '@lemon-peel/components';
+import * as Icons from '@element-plus/icons-vue';
+import { useLang } from '@/vitepress/composables/lang';
+import localeData from '../../../i18n/component/icons';
+import IconCategories from './icons-categories.json';
+import type { DefineComponent } from 'vue';
+
+type CategoriesItem = {
+  name: string;
+  icons: DefineComponent[];
+};
+
+const lang = useLang();
+const locale = computed(() => localeData[lang.value]);
+const copyIcon = ref(true);
+
+const copyContent = async (content: string) => {
+  try {
+    await clipboardCopy(content);
+
+    LpMessage({
+      showClose: true,
+      message: locale.value['copy-success'],
+      type: 'success',
+    });
+  } catch {
+    LpMessage({
+      showClose: true,
+      message: locale.value['copy-error'],
+      type: 'error',
+    });
+  }
+};
+
+const copySvgIcon = async (name: string, refs: Record<string, unknown>) => {
+  if (copyIcon.value) {
+    await copyContent(`<lp-icon><${name} /></lp-icon>`);
+  } else {
+    const content = (refs[name] as HTMLElement[])?.[0].querySelector('svg')?.outerHTML ?? '';
+    await copyContent(content);
+  }
+};
+
+const categories = shallowRef<CategoriesItem[]>([]);
+const iconMap = new Map(Object.entries(Icons));
+
+IconCategories.categories.forEach(o => {
+  const result: CategoriesItem = {
+    name: o.name,
+    icons: [],
+  };
+  o.items.forEach(i => {
+    const icon = iconMap.get(i);
+    if (icon) {
+      result.icons.push(icon);
+      iconMap.delete(i);
+    }
+  });
+  categories.value.push(result);
+});
+
+categories.value.push({ name: 'Other', icons: Array.from(iconMap.values()) });
+</script>
 
 <style scoped lang="scss">
 .demo-icon {
@@ -149,3 +149,4 @@ categories.value.push({ name: 'Other', icons: Array.from(iconMap.values()) });
   }
 }
 </style>
+../../../i18n/component/icons

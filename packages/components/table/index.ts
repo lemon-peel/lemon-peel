@@ -13,6 +13,10 @@ export type TableInstance = InstanceType<typeof Table>;
 
 export type TableColumnInstance = InstanceType<typeof TableColumn>;
 
+export { tableProps } from './src/table/defaults';
+
+export { tableColumnProps } from './src/tableColumn/defaults';
+
 export type {
   SummaryMethod,
   TableProps,
@@ -24,3 +28,5 @@ export type {
   Sort,
   Filter,
 } from './src/table/defaults';
+
+export type { TableColumnCtx } from './src/tableColumn/defaults';

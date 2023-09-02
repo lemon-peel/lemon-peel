@@ -19,7 +19,7 @@ export default (md: MarkdownIt): void => {
     if (!result) return false;
 
     const token = state.push('tooltip', 'tooltip', 0);
-    token.content = result[1].replace(/\\\|/g, '|');
+    token.content = result[1].replaceAll('\\|', '|');
     token.info = (result[2] || '').replace(/^`(.*)`$/, '$1');
     token.level = state.level;
     state.pos += result[0].length;

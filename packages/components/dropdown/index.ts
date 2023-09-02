@@ -9,8 +9,13 @@ export const LpDropdown = withInstall(Dropdown, {
   DropdownMenu,
 });
 export default LpDropdown;
+
 export const LpDropdownItem = withNoopInstall(DropdownItem);
 export const LpDropdownMenu = withNoopInstall(DropdownMenu);
 
 export * from './src/dropdown';
 export * from './src/tokens';
+
+export type DropdownInst = InstanceType<typeof Dropdown>;
+export type DropdownItemInst = InstanceType<typeof DropdownItem>;
+export type DropdownMenuInst = InstanceType<typeof DropdownMenu>;

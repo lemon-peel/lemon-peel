@@ -343,7 +343,7 @@ export function createTablePopper(
     content.innerHTML = popperContent;
     content.style.zIndex = String(nextZIndex());
     // Avoid side effects caused by append to body
-    parentNode?.appendChild(content);
+    parentNode?.append(content);
     return content;
   };
 
@@ -364,7 +364,7 @@ export function createTablePopper(
   removePopper = () => {
     try {
       pop && pop.destroy();
-      content && parentNode?.removeChild(content);
+      content && content.remove();
       trigger.removeEventListener('mouseenter', showPopper);
       trigger.removeEventListener('mouseleave', removePopper!);
       scrollContainer?.removeEventListener('scroll', removePopper!);

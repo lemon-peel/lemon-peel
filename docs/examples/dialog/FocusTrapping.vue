@@ -31,7 +31,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import type { LpInput } from 'lemon-peel';
+import { LpInput } from 'lemon-peel';
 
 const dialogVisible = ref(false);
 const inputRef = ref<InstanceType<typeof LpInput>>();
@@ -40,6 +40,7 @@ const handleCloseAutoFocus = () => {
   inputRef.value?.focus();
 };
 </script>
+
 <style scoped>
 .dialog-footer button:first-child {
   margin-right: 10px;

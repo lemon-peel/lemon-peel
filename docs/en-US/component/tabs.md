@@ -13,7 +13,7 @@ Basic and concise tabs.
 
 :::demo Tabs provide a selective card functionality. By default the first tab is selected as active, and you can activate any tab by setting the `value` attribute.
 
-tabs/basic
+tabs/Basic
 
 :::
 
@@ -23,7 +23,7 @@ Tabs styled as cards.
 
 :::demo Set `type` to `card` can get a card-styled tab.
 
-tabs/card-style
+tabs/CardStyle
 
 :::
 
@@ -33,7 +33,7 @@ Border card tabs.
 
 :::demo Set `type` to `border-card`.
 
-tabs/border-card
+tabs/BorderCard
 
 :::
 
@@ -43,7 +43,7 @@ You can use `tab-position` attribute to set the tab's position.
 
 :::demo You can choose from four directions: `tabPosition="left|right|top|bottom"`
 
-tabs/tab-position
+tabs/TabPosition
 
 :::
 
@@ -53,7 +53,7 @@ You can use named slot to customize the tab label content.
 
 :::demo
 
-tabs/custom-tab
+tabs/CustomTab
 
 :::
 
@@ -63,7 +63,7 @@ Only card type Tabs support addable & closeable.
 
 :::demo
 
-tabs/dynamic-tabs
+tabs/DynamicTabs
 
 :::
 
@@ -71,7 +71,7 @@ tabs/dynamic-tabs
 
 :::demo
 
-tabs/customized-trigger
+tabs/CustomizedTrigger
 
 :::
 

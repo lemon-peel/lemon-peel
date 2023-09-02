@@ -13,7 +13,7 @@ Hover on the dropdown menu to unfold it for more actions.
 
 :::demo The triggering element is rendered by the default `slot`, and the dropdown part is rendered by the `slot` named `dropdown`. By default, dropdown list shows when you hover on the triggering element without having to click it.
 
-dropdown/basic-usage
+dropdown/BasicUsage
 
 :::
 
@@ -23,7 +23,7 @@ Use the button to trigger the dropdown list.
 
 :::demo Use `split-button` to split the triggering element into a button group with the left button being a normal button and right one the actual triggering target. If you wanna insert a separator line between item three and item four, just add a class `divider` to item four.
 
-dropdown/triggering-element
+dropdown/TriggeringElement
 
 :::
 
@@ -33,7 +33,7 @@ Click the triggering element or hover on it.
 
 :::demo Use the attribute `trigger`. By default, it is `hover`.
 
-dropdown/how-to-trigger
+dropdown/HowToTrigger
 
 :::
 
@@ -43,7 +43,7 @@ Use `hide-on-click` to define if menu closes on clicking.
 
 :::demo By default menu will close when you click on menu items, and it can be turned off by setting hide-on-click to false.
 
-dropdown/menu-hiding-behavior
+dropdown/MenuHidingBehavior
 
 :::
 
@@ -53,7 +53,7 @@ Clicking each dropdown item fires an event whose parameter is assigned by each i
 
 :::demo
 
-dropdown/command-event
+dropdown/CommandEvent
 
 :::
 
@@ -63,7 +63,7 @@ You can open or close the dropdown menu by manually use `handleOpen` or `handleC
 
 :::demo
 
-dropdown/dropdown-methods
+dropdown/DropdownMethods
 
 :::
 
@@ -73,7 +73,7 @@ Besides default size, Dropdown component provides three additional sizes for you
 
 :::demo Use attribute `size` to set additional sizes with `large`, `default` or `small`.
 
-dropdown/sizes
+dropdown/Sizes
 
 :::
 

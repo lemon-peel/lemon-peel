@@ -6,8 +6,10 @@ import { useRegisterSW } from 'virtual:pwa-register/vue';
 import { useLang } from '../composables/lang';
 import pwaLocale from '../../i18n/component/pwa.json';
 
+type PwaLocale = typeof pwaLocale['en-US'];
+
 const lang = useLang();
-const locale = computed(() => pwaLocale[lang.value]);
+const locale = computed(() => (pwaLocale as Record<string, PwaLocale>)[lang.value]);
 const { needRefresh, updateServiceWorker } = useRegisterSW();
 const alwaysRefresh = useStorage('PWA_Always_Refresh', false);
 
@@ -18,18 +20,18 @@ watch(needRefresh, value => {
 
 <template>
   <transition name="pwa-popup">
-    <el-card v-if="!alwaysRefresh && needRefresh" class="pwa-card" role="alert">
+    <lp-card v-if="!alwaysRefresh && needRefresh" class="pwa-card" role="alert">
       <p class="pwa-card-text">{{ locale.message }}</p>
-      <el-button type="primary" plain @click="updateServiceWorker()">
+      <lp-button type="primary" plain @click="updateServiceWorker()">
         {{ locale.refresh }}
-      </el-button>
-      <el-button plain @click="alwaysRefresh = true">
+      </lp-button>
+      <lp-button plain @click="alwaysRefresh = true">
         {{ locale['always-refresh'] }}
-      </el-button>
-      <el-button plain @click="needRefresh = false">
+      </lp-button>
+      <lp-button plain @click="needRefresh = false">
         {{ locale.close }}
-      </el-button>
-    </el-card>
+      </lp-button>
+    </lp-card>
   </transition>
 </template>
 

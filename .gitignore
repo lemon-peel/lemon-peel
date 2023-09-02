@@ -11,6 +11,7 @@ node_modules
 # Bundle
 dist
 coverage
+docs/.vitepress/cache
 packages/main/version.ts
 toolkit/build/version.ts
 

@@ -17,12 +17,12 @@ import { MarkdownTransform } from './.vitepress/plugins/markdownTransform';
 import type { Alias } from 'vite';
 
 const alias: Alias[] = [
-  { find: '~/', replacement: `${path.resolve(__dirname, './.vitepress/vitepress')}/` },
+  { find: '@/', replacement: `${path.resolve(__dirname, './.vitepress')}/` },
 ];
 
 if (process.env.DOC_ENV !== 'production') {
   alias.push(
-    { find: /^lemon-peel(\/(es|lib))?$/, replacement: path.resolve(projDir, 'packages/lemon-peel/index.ts') },
+    { find: /^lemon-peel(\/(es|lib))?$/, replacement: path.resolve(projDir, 'packages/main/index.ts') },
     { find: /^lemon-peel\/(es|lib)\/(.*)$/, replacement: `${path.resolve(projDir, 'packages')}/$2` },
   );
 }
@@ -84,9 +84,7 @@ export default defineConfig(async ({ mode }) => {
       }),
 
       // https://github.com/antfu/unplugin-icons
-      Icons({
-        autoInstall: true,
-      }),
+      Icons({ autoInstall: true }),
       UnoCSS(),
       MarkdownTransform(),
       Inspect(),
@@ -94,6 +92,7 @@ export default defineConfig(async ({ mode }) => {
     ],
     optimizeDeps: {
       include: optimizeDeps,
+      exclude: ['path', 'fs'],
     },
   };
 });

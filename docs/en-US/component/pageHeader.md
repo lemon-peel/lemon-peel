@@ -11,7 +11,7 @@ If path of the page is simple, it is recommended to use PageHeader instead of th
 
 :::demo
 
-page-header/complete
+pageHeader/Complete
 
 :::
 
@@ -21,7 +21,7 @@ Standard page header, for simply scenarios.
 
 :::demo
 
-page-header/basic
+pageHeader/Basic
 
 :::
 
@@ -32,7 +32,7 @@ like the example.
 
 :::demo
 
-page-header/custom-icon
+pageHeader/CustomIcon
 
 :::
 
@@ -43,7 +43,7 @@ you can set the `icon` attribute to `null` to get rid of it.
 
 :::demo
 
-page-header/no-icon
+pageHeader/NoIcon
 
 :::
 
@@ -53,7 +53,7 @@ Page header allows you to add breadcrumbs for giving route information to the us
 
 :::demo
 
-page-header/breadcrumb
+pageHeader/Breadcrumb
 
 :::
 
@@ -64,7 +64,7 @@ interactions.
 
 :::demo
 
-page-header/additional-sections
+pageHeader/AdditionalSections
 
 :::
 
@@ -74,7 +74,7 @@ Sometimes we want the head to show with some co-responding content, we can utili
 
 :::demo
 
-page-header/main-content
+pageHeader/MainContent
 
 :::
 

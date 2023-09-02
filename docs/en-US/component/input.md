@@ -21,7 +21,7 @@ Do not support `v-model` modifiers.
 
 :::demo
 
-input/basic
+input/Basic
 
 :::
 
@@ -29,7 +29,7 @@ input/basic
 
 :::demo Disable the Input with the `disabled` attribute.
 
-input/disabled
+input/Disabled
 
 :::
 
@@ -37,7 +37,7 @@ input/disabled
 
 :::demo Make the Input clearable with the `clearable` attribute.
 
-input/clearable
+input/Clearable
 
 :::
 
@@ -47,7 +47,7 @@ Display value within it's situation with `formatter`, and we usually use `parser
 
 :::demo
 
-input/formatter
+input/Formatter
 
 :::
 
@@ -55,7 +55,7 @@ input/formatter
 
 :::demo Make a toggle-able password Input with the `show-password` attribute.
 
-input/password
+input/Password
 
 :::
 
@@ -65,7 +65,7 @@ Add an icon to indicate input type.
 
 :::demo To add icons in Input, you can simply use `prefix-icon` and `suffix-icon` attributes. Also, the `prefix` and `suffix` named slots works as well.
 
-input/with-icon
+input/WithIcon
 
 :::
 
@@ -75,7 +75,7 @@ Resizable for entering multiple lines of text information. Add attribute `type="
 
 :::demo Control the height by setting the `rows` prop.
 
-input/textarea
+input/Textarea
 
 :::
 
@@ -85,7 +85,7 @@ Setting the `autosize` prop for a textarea type of Input makes the height to aut
 
 :::demo
 
-input/auto-sizing-textarea
+input/AutoSizingTextarea
 
 :::
 
@@ -95,7 +95,7 @@ Prepend or append an element, generally a label or a button.
 
 :::demo Use `slot` to distribute elements that prepend or append to Input.
 
-input/mixed-input
+input/MixedInput
 
 :::
 
@@ -103,7 +103,7 @@ input/mixed-input
 
 :::demo Add `size` attribute to change the size of Input. In addition to the default size, there are two other options: `large`, `small`.
 
-input/various-size
+input/VariousSize
 
 :::
 
@@ -111,7 +111,7 @@ input/various-size
 
 :::demo `maxlength` and `minlength` attributes of input, they declare a limit on the number of characters a user can input. The "number of characters" is measured using JavaScript string length.Setting the `maxlength` prop for a text or textarea type of Input can limit the length of input value, allows you to show word count by setting `show-word-limit` to `true` at the same time.
 
-input/length-limiting
+input/LengthLimiting
 
 :::
 

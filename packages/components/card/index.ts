@@ -6,3 +6,5 @@ export const LpCard = withInstall(Card);
 export default LpCard;
 
 export * from './src/card';
+
+export type CardInst = InstanceType<typeof Card>;

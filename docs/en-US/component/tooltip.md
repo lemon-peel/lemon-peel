@@ -13,7 +13,7 @@ Tooltip has 9 placements.
 
 :::demo Use attribute `content` to set the display content when hover. The attribute `placement` determines the position of the tooltip. Its value is `[orientation]-[alignment]` with four orientations `top`, `left`, `right`, `bottom` and three alignments `start`, `end`, `null`, and the default alignment is null. Take `placement="left-end"` for example, Tooltip will display on the left of the element which you are hovering and the bottom of the tooltip aligns with the bottom of the element.
 
-tooltip/basic
+tooltip/Basic
 
 :::
 
@@ -32,7 +32,7 @@ the popup arrow's style needs to be set individually, and when it comes to the g
 
 :::demo Set `effect` to modify theme, and the default value is `dark`.
 
-tooltip/theme
+tooltip/Theme
 
 :::
 
@@ -42,7 +42,7 @@ Display multiple lines of text and set their format.
 
 :::demo Override attribute `content` of `el-tooltip` by adding a slot named `content`.
 
-tooltip/rich-content
+tooltip/RichContent
 
 :::
 
@@ -58,7 +58,7 @@ In fact, Tooltip is an extension based on [ElPopper](https://github.com/element-
 
 :::demo
 
-tooltip/advanced-usage
+tooltip/AdvancedUsage
 
 :::
 
@@ -82,7 +82,7 @@ Although `content` property supports HTML strings, dynamically rendering arbitra
 
 :::demo
 
-tooltip/html-content
+tooltip/HtmlContent
 
 :::
 
@@ -100,7 +100,7 @@ when this happens, **YOU WILL NOT** be able to close the tooltip by clicking som
 
 :::demo
 
-tooltip/virtual-trigger
+tooltip/VirtualTrigger
 
 :::
 
@@ -116,7 +116,7 @@ Known issue: when using singleton, the popup will be bouncing out from unexpecte
 
 :::demo
 
-tooltip/singleton
+tooltip/Singleton
 
 :::
 
@@ -126,7 +126,7 @@ Tooltip can be controlled by the parent component, by using `:visible` you can i
 
 :::demo
 
-tooltip/controlled
+tooltip/Controlled
 
 :::
 
@@ -136,7 +136,7 @@ Tooltip can be customized animated, you can set the the desired animation functi
 
 :::demo
 
-tooltip/animations
+tooltip/Animations
 
 :::
 

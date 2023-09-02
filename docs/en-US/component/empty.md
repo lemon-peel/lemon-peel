@@ -11,7 +11,7 @@ Placeholder hints for empty states.
 
 :::demo
 
-empty/basic-usage
+empty/BasicUsage
 
 :::
 
@@ -21,7 +21,7 @@ Use `image` prop to set image URL.
 
 :::demo
 
-empty/custom-image
+empty/CustomImage
 
 :::
 
@@ -31,7 +31,7 @@ Use `image-size` prop to control image size.
 
 :::demo
 
-empty/image-size
+empty/ImageSize
 
 :::
 
@@ -41,7 +41,7 @@ Use the default slot to insert content at the bottom.
 
 :::demo
 
-empty/bottom-content
+empty/BottomContent
 
 :::
 

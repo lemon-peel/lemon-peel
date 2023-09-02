@@ -8,6 +8,7 @@ current_tag=$TAG_VERSION
 pnpm i --frozen-lockfile
 
 function publish_lemon_peel() {
+  sed -i 's/"name": "@lemon-peel\/main",/"name": "lemon-peel",/' packages/main/package.json
   pnpm update:version
   pnpm build
   cd dist/lemon-peel

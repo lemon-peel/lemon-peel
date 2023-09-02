@@ -79,7 +79,7 @@ export function createLoadingComponent(options: LoadingOptionsResolved) {
   const vm: ComponentPublicInstance = loadingInstance.mount(document.createElement('div'));
 
   function removeLpLoadingChild(): void {
-    vm.$el?.parentNode?.removeChild(vm.$el);
+    vm.$el.remove();
   }
 
   function close() {

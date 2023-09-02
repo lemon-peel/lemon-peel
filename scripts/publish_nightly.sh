@@ -2,7 +2,7 @@
 
 set -e
 
-sed -i 's/"name": "lemon-peel",/"name": "@lemon-peel\/nightly",/' packages/main/package.json
+sed -i 's/"name": "@lemon-peel\/main",/"name": "@lemon-peel\/nightly",/' packages/main/package.json
 
 pnpm i --frozen-lockfile
 pnpm update:version

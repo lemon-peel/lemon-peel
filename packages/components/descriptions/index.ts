@@ -12,3 +12,6 @@ export const LpDescriptionsItem = withNoopInstall(DescriptionsItem);
 export default LpDescriptions;
 
 export * from './src/description';
+export * from './src/descriptionItem';
+
+export type DescriptionsInst = InstanceType<typeof Descriptions>;

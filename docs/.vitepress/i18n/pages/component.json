@@ -32,6 +32,11 @@
           "text": "Link"
         },
         {
+          "link": "/text",
+          "text": "Text",
+          "promotion": "2.3.0"
+        },
+        {
           "link": "/scrollbar",
           "text": "Scrollbar"
         },
@@ -49,7 +54,7 @@
       "text": "Configuration",
       "children": [
         {
-          "link": "/config-provider",
+          "link": "/configProvider",
           "text": "Config Provider"
         }
       ]
@@ -70,15 +75,15 @@
           "text": "Checkbox"
         },
         {
-          "link": "/color-picker",
+          "link": "/colorPicker",
           "text": "Color Picker"
         },
         {
-          "link": "/date-picker",
+          "link": "/datePicker",
           "text": "Date Picker"
         },
         {
-          "link": "/datetime-picker",
+          "link": "/datetimePicker",
           "text": "DateTime Picker"
         },
         {
@@ -90,7 +95,7 @@
           "text": "Input"
         },
         {
-          "link": "/input-number",
+          "link": "/inputNumber",
           "text": "Input Number"
         },
         {
@@ -106,7 +111,7 @@
           "text": "Select"
         },
         {
-          "link": "/select-v2",
+          "link": "/selectV2",
           "text": "Virtualized Select"
         },
         {
@@ -118,11 +123,11 @@
           "text": "Switch"
         },
         {
-          "link": "/time-picker",
+          "link": "/timePicker",
           "text": "Time Picker"
         },
         {
-          "link": "/time-select",
+          "link": "/timeSelect",
           "text": "Time Select"
         },
         {
@@ -199,7 +204,7 @@
           "text": "Table"
         },
         {
-          "link": "/table-v2",
+          "link": "/tableV2",
           "text": "Virtualized Table",
           "promotion": "2.2.0"
         },
@@ -216,13 +221,18 @@
           "text": "Tree"
         },
         {
-          "link": "/tree-select",
+          "link": "/treeSelect",
           "text": "TreeSelect",
           "promotion": "2.1.8"
         },
         {
-          "link": "/tree-v2",
+          "link": "/treeV2",
           "text": "Virtualized Tree"
+        },
+        {
+          "link": "/statistic",
+          "text": "Statistic",
+          "promotion": "2.2.30"
         }
       ]
     },
@@ -250,7 +260,7 @@
           "text": "Menu"
         },
         {
-          "link": "/page-header",
+          "link": "/pageHeader",
           "text": "Page Header"
         },
         {
@@ -287,7 +297,7 @@
           "text": "Message"
         },
         {
-          "link": "/message-box",
+          "link": "/messageBox",
           "text": "Message Box"
         },
         {

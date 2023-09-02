@@ -3,7 +3,7 @@
   "compilerOptions": {
     "composite": true,
     "jsx": "preserve",
-    "lib": ["ES2020", "DOM", "DOM.Iterable", "WebWorker"],
+    "lib": ["ESNext", "DOM", "DOM.Iterable", "WebWorker"],
     "types": ["unplugin-vue-macros/macros-global", "webpack-env"],
     "skipLibCheck": true,
     "resolveJsonModule": true,

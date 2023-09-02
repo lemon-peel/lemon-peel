@@ -1,17 +1,17 @@
 <template>
-  <el-tag size="small" effect="plain" hit round class="ml-2">a11y</el-tag>
+  <lp-tag size="small" effect="plain" hit round class="ml-2">a11y</lp-tag>
 </template>
 <style scoped>
-.el-tag {
+.lp-tag {
   color: #6222c2;
 }
-.el-tag.is-hit {
+.lp-tag.is-hit {
   border-color: #9065db;
 }
-.dark .el-tag {
+.dark .lp-tag {
   color: #9065db;
 }
-.dark .el-tag.is-hit {
+.dark .lp-tag.is-hit {
   border-color: #6222c2;
 }
 </style>

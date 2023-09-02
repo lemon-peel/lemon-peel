@@ -4,7 +4,7 @@ import { useLang } from './lang';
 import { useLocale } from './locale';
 import { defaultLang } from '../constant';
 import { createCrowdinUrl, createGitHubUrl } from '../utils';
-import editLinkLocale from '../../i18n/component/editLink.json';
+import editLinkLocale from '../../i18n/component/edit-link.json';
 
 export function useEditLink() {
   const { page, theme, frontmatter } = useData();

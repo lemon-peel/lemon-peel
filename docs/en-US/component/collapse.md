@@ -13,7 +13,7 @@ You can expand multiple panels
 
 :::demo
 
-collapse/basic
+collapse/Basic
 
 :::
 
@@ -23,7 +23,7 @@ In accordion mode, only one panel can be expanded at once
 
 :::demo Activate accordion mode using the `accordion` attribute.
 
-collapse/accordion
+collapse/Accordion
 
 :::
 
@@ -33,7 +33,7 @@ Besides using the `title` attribute, you can customize panel title with named sl
 
 :::demo
 
-collapse/customization
+collapse/Customization
 
 :::
 

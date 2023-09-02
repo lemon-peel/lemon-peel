@@ -10,5 +10,5 @@
 </template>
 
 <script lang="ts" setup>
-import { isDark } from '@composables/dark';
+import { isDark } from '@/vitepress/composables/dark';
 </script>

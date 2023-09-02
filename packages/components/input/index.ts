@@ -7,4 +7,4 @@ export default LpInput;
 
 export * from './src/input';
 
-export type InputInstance = InstanceType<typeof Input>;
+export type InputInst = InstanceType<typeof Input>;

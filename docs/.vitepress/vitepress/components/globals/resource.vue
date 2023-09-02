@@ -1,14 +1,76 @@
+
+<template>
+  <div class="page-resource">
+    <h1>{{ resourceLang.title }}</h1>
+    <p>{{ resourceLang.lineOne }}</p>
+    <p v-html="resourceLang.lineTwo" />
+    <div class="flex flex-wrap justify-center mt-32px">
+      <div class="inline-flex w-full md:w-1/3" p="2" pl-0>
+        <lp-card class="card" shadow="hover">
+          <axure-components-svg w="30" alt="axure" />
+          <h3>{{ resourceLang.axure }}</h3>
+          <p>
+            {{ resourceLang.axureIntro }}
+          </p>
+          <a
+            target="_blank"
+            :href="resourceUrl.axure"
+            @click="onClick('axure')"
+          >
+            <lp-button type="primary">{{ resourceLang.download }}</lp-button>
+          </a>
+        </lp-card>
+      </div>
+      <div class="inline-flex w-full md:w-1/3" p="2">
+        <lp-card class="card" shadow="hover">
+          <sketch-template-svg w="30" alt="Sketch" />
+          <h3>{{ resourceLang.sketch }}</h3>
+          <p>
+            {{ resourceLang.sketchIntro }}
+          </p>
+          <a
+            target="_blank"
+            :href="resourceUrl.sketch"
+            @click="onClick('sketch')"
+          >
+            <lp-button type="primary">{{ resourceLang.download }}</lp-button>
+          </a>
+        </lp-card>
+      </div>
+      <div class="inline-flex w-full md:w-1/3" p="2">
+        <lp-card class="card" shadow="hover">
+          <figma-template-svg w="30" alt="Figma" />
+          <h3>{{ resourceLang.figma }}</h3>
+          <p>
+            {{ resourceLang.figmaIntro }}
+          </p>
+          <a
+            href="https://www.figma.com/community/file/1021254029764378306"
+            target="_blank"
+            @click="onClick('figma')"
+          >
+            <lp-button type="primary">{{ resourceLang.download }}</lp-button>
+          </a>
+        </lp-card>
+      </div>
+    </div>
+  </div>
+</template>
+
 <script lang="ts" setup>
 import { computed } from 'vue';
 import { isClient } from '@vueuse/core';
-import { useLang } from '../../composables/lang';
-import resourceLocale from '../../../i18n/pages/resource.json';
-import { sendEvent } from '../../../config/analytics';
+import { useLang } from '@/vitepress/composables/lang';
+import { sendEvent } from '@/config/analytics';
+
+import resourceLocale from '@/i18n/pages/resource.json';
+
 const mirrorUrl = 'element-plus.gitee.io';
 const isMirrorUrl = () => {
   if (!isClient) return;
   return window.location.hostname === mirrorUrl;
 };
+
 const resourceUrl = {
   github: {
     sketch:
@@ -24,70 +86,14 @@ const resourceUrl = {
   },
 }[isMirrorUrl() ? 'gitee' : 'github'];
 
+type ResourceLocale = typeof resourceLocale['en-US'];
+
 const lang = useLang();
-const resourceLang = computed(() => resourceLocale[lang.value]);
+const resourceLang = computed(() => (resourceLocale as Record<string, ResourceLocale>)[lang.value]);
 const onClick = (item: string) => {
   sendEvent('resource_download', item);
 };
 </script>
-
-<template>
-  <div class="page-resource">
-    <h1>{{ resourceLang.title }}</h1>
-    <p>{{ resourceLang.lineOne }}</p>
-    <p v-html="resourceLang.lineTwo" />
-    <div class="flex flex-wrap justify-center mt-32px">
-      <div class="inline-flex w-full md:w-1/3" p="2" pl-0>
-        <el-card class="card" shadow="hover">
-          <axure-components-svg w="30" alt="axure" />
-          <h3>{{ resourceLang.axure }}</h3>
-          <p>
-            {{ resourceLang.axureIntro }}
-          </p>
-          <a
-            target="_blank"
-            :href="resourceUrl.axure"
-            @click="onClick('axure')"
-          >
-            <el-button type="primary">{{ resourceLang.download }}</el-button>
-          </a>
-        </el-card>
-      </div>
-      <div class="inline-flex w-full md:w-1/3" p="2">
-        <el-card class="card" shadow="hover">
-          <sketch-template-svg w="30" alt="Sketch" />
-          <h3>{{ resourceLang.sketch }}</h3>
-          <p>
-            {{ resourceLang.sketchIntro }}
-          </p>
-          <a
-            target="_blank"
-            :href="resourceUrl.sketch"
-            @click="onClick('sketch')"
-          >
-            <el-button type="primary">{{ resourceLang.download }}</el-button>
-          </a>
-        </el-card>
-      </div>
-      <div class="inline-flex w-full md:w-1/3" p="2">
-        <el-card class="card" shadow="hover">
-          <figma-template-svg w="30" alt="Figma" />
-          <h3>{{ resourceLang.figma }}</h3>
-          <p>
-            {{ resourceLang.figmaIntro }}
-          </p>
-          <a
-            href="https://www.figma.com/community/file/1021254029764378306"
-            target="_blank"
-            @click="onClick('figma')"
-          >
-            <el-button type="primary">{{ resourceLang.download }}</el-button>
-          </a>
-        </el-card>
-      </div>
-    </div>
-  </div>
-</template>
 
 <style lang="scss" scoped>
 .page-resource {

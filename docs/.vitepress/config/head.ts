@@ -83,9 +83,7 @@ export const head: HeadConfig[] = [
   ],
   [
     'script',
-    {
-      async: 'true',
-    },
+    { async: 'true' },
     `window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
@@ -123,22 +121,18 @@ gtag('config', 'UA-175337989-1');`,
   ],
   [
     'script',
-    {
-      async: 'true',
-    },
-    `
-  var resource = document.createElement('link');
+    { async: 'true' },
+    `var resource = document.createElement('link');
   resource.setAttribute("rel", "stylesheet");
   resource.setAttribute("href","//fonts.loli.net/css?family=Inter:300,400,500,600|Open+Sans:400,600;display=swap");
   resource.setAttribute("type","text/css");
   var head = document.querySelector('head');
-  head.appendChild(resource);
-    `,
+  head.appendChild(resource);`,
   ],
 ];
 
 head.push([
   'script',
   {},
-  fs.readFileSync(path.resolve(vpDir, 'dark-mode.js'), 'utf8'),
+  fs.readFileSync(path.resolve(vpDir, 'darkMode.js'), 'utf8'),
 ]);

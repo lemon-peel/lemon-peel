@@ -1,14 +1,17 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import glob from 'fast-glob';
+
 import { docDir, docsDirName, projDir } from '@lemon-peel/build-utils';
 import { REPO_BRANCH, REPO_PATH } from '@lemon-peel/build-constants';
+
 import { getLang, languages } from '../utils/lang';
 import footerLocale from '../i18n/component/footer.json';
 
 import type { Plugin } from 'vite';
 
 type Append = Record<'headers' | 'footers' | 'scriptSetups', string[]>;
+type FooterInfo = Record<'docs' | 'component' | 'source' | 'contributors', string>;
 
 let compPaths: string[];
 
@@ -31,28 +34,27 @@ function transformComponentMarkdown(
   append: Append,
 ) {
   const lang = getLang(id);
+  const footer = (footerLocale as Record<string, FooterInfo>)[lang];
   const docUrl = `${GITHUB_BLOB_URL}/${docsDirName}/en-US/component/${componentId}.md`;
   const componentUrl = `${GITHUB_TREE_URL}/packages/components/${componentId}`;
-  const componentPath = path.resolve(
-    projDir,
-    `packages/components/${componentId}`,
-  );
+  const componentPath = path.resolve(projDir, `packages/components/${componentId}`);
   const isComponent = fs.existsSync(componentPath);
 
-  const links = [[footerLocale[lang].docs, docUrl]];
-  if (isComponent) links.unshift([footerLocale[lang].component, componentUrl]);
+  const links = [[footer.docs, docUrl]];
+  isComponent && links.unshift([footer.component, componentUrl]);
+
   const linksText = links
     .filter(Boolean)
     .map(([text, link]) => `[${text}](${link})`)
     .join(' • ');
 
   const sourceSection = `
-## ${footerLocale[lang].source}
+## ${footer.source}
 
 ${linksText}`;
 
   const contributorsSection = `
-## ${footerLocale[lang].contributors}
+## ${footer.contributors}
 
 <Contributors id="${componentId}" />`;
 

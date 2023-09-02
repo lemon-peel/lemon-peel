@@ -5,7 +5,7 @@ import type Node from './node';
 export const getMenuIndex = (el: HTMLElement) => {
   if (!el) return 0;
   const pieces = el.id.split('-');
-  return Number(pieces[pieces.length - 2]);
+  return Number(pieces.at(-2));
 };
 
 export const checkNode = (el: HTMLElement) => {

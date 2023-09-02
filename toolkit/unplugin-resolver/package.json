@@ -2,7 +2,10 @@
   "name": "@lemon-peel/unplugin-resolver",
   "version": "0.0.1",
   "description": "Resolver for Lemon-Peel basic on unplugin-vue-components",
-  "keywords": ["lemon-peel", "unplugin resolver"],
+  "keywords": [
+    "lemon-peel",
+    "unplugin resolver"
+  ],
   "license": "MIT",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",

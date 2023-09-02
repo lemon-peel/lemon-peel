@@ -11,7 +11,7 @@ Used for rating
 
 :::demo Rate divides rating scores into several levels and these levels can be distinguished by using different background colors. By default background colors are the same, but you can assign them an array with three element to reflect three levels using the `colors` attribute, and their two thresholds can be defined by `low-threshold` and `high-threshold`, or you can assign them with a object which key is the threshold between two levels and value is the corresponding color.
 
-rate/basic-usage
+rate/BasicUsage
 
 :::
 
@@ -19,7 +19,7 @@ rate/basic-usage
 
 :::demo
 
-rate/sizes
+rate/Sizes
 
 :::
 
@@ -27,7 +27,7 @@ rate/sizes
 
 :::demo Add attribute `allow-half` Half star allowed
 
-rate/allow-half
+rate/AllowHalf
 
 :::
 
@@ -37,7 +37,7 @@ Using text to indicate rating score
 
 :::demo Add attribute `show-text` to display text at the right of Rate. You can assign texts for different scores using `texts`. `texts` is an array whose length should be equal to the max score `max`.
 
-rate/text
+rate/Text
 
 :::
 
@@ -45,7 +45,7 @@ rate/text
 
 :::demo You can reset the value to `0` when you click at the same value again.
 
-rate/clearable
+rate/Clearable
 
 :::
 
@@ -55,7 +55,7 @@ You can use different icons to distinguish different rate components.
 
 :::demo You can customize icons by passing `icons` an array with three elements or a object which key is the threshold between two levels and value is the corresponding icon. In this example, we also use `void-icon` to set the icon if it is unselected.
 
-rate/more-icons
+rate/MoreIcons
 
 :::
 
@@ -65,7 +65,7 @@ Read-only Rate is for displaying rating score. Half star is supported.
 
 :::demo Use attribute `disabled` to make the component read-only. Add `show-score` to display the rating score at the right side. Additionally, you can use attribute `score-template` to provide a score template. It must contain `{value}`, and `{value}` will be replaced with the rating score.
 
-rate/readonly
+rate/Readonly
 
 :::
 

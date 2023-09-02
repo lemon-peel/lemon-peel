@@ -5,3 +5,5 @@ export const LpCheckTag = withInstall(CheckTag);
 export default LpCheckTag;
 
 export * from './src/checkTag';
+
+export type CheckTagInst = InstanceType<typeof CheckTag>;

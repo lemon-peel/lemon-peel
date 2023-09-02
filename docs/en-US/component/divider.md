@@ -13,7 +13,7 @@ Divide the text of different paragraphs.
 
 :::demo
 
-divider/basic-usage
+divider/BasicUsage
 
 :::
 
@@ -23,7 +23,7 @@ You can customize the content on the divider line.
 
 :::demo
 
-divider/custom-content
+divider/CustomContent
 
 :::
 
@@ -33,7 +33,7 @@ You can set the style of divider.
 
 :::demo
 
-divider/line-dashed
+divider/LineDashed
 
 :::
 
@@ -41,7 +41,7 @@ divider/line-dashed
 
 :::demo
 
-divider/vertical-divider
+divider/VerticalDivider
 
 :::
 

@@ -13,7 +13,7 @@ There are few border styles to choose.
 
 :::demo
 
-border/border
+border/Border
 
 :::
 
@@ -23,7 +23,7 @@ There are few radius styles to choose.
 
 :::demo
 
-border/radius
+border/Radius
 
 :::
 
@@ -33,6 +33,6 @@ There are few shadow styles to choose.
 
 :::demo
 
-border/shadow
+border/Shadow
 
 :::

@@ -1,3 +1,22 @@
+<template>
+  <VPLink
+    :class="{
+      'is-menu-link': true,
+      active: isActiveLink(
+        route,
+        item.activeMatch || item.link,
+        !!item.activeMatch
+      ),
+    }"
+    :href="item.link"
+    :no-icon="true"
+    @click="onNavClick(item)"
+  >
+    <lp-badge v-if="isNewPage(item) && !isVisited" is-dot class="badge">{{ item.text }}</lp-badge>
+    <template v-else> {{ item.text }}</template>
+  </VPLink>
+</template>
+
 <script lang="ts" setup>
 import { useRoute } from 'vitepress';
 import { useStorage } from '@vueuse/core';
@@ -23,26 +42,6 @@ const onNavClick = (item: Link) => {
   }
 };
 </script>
-
-<template>
-  <VPLink
-    :class="{
-      'is-menu-link': true,
-      active: isActiveLink(
-        route,
-        item.activeMatch || item.link,
-        !!item.activeMatch
-      ),
-    }"
-    :href="item.link"
-    :no-icon="true"
-    @click="onNavClick(item)"
-  >
-    <el-badge v-if="isNewPage(item) && !isVisited" is-dot class="badge">
-      {{ item.text }}</el-badge>
-    <template v-else> {{ item.text }}</template>
-  </VPLink>
-</template>
 
 <style scoped lang="scss">
 .is-menu-link {

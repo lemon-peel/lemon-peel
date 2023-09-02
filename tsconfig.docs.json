@@ -3,17 +3,20 @@
   "compilerOptions": {
     "composite": true,
     "jsx": "preserve",
-    "lib": ["ES2020", "DOM", "DOM.Iterable", "WebWorker"],
+    "lib": ["ESNext", "DOM", "DOM.Iterable", "WebWorker"],
     "types": ["unplugin-vue-macros/macros-global", "webpack-env"],
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "baseUrl": ".",
     "paths": {
-      "@composables/*": ["docs/.vitepress/vitepress/composables/*"]
+      "@/*": ["docs/.vitepress/*"]
     },
   },
   "include": [
     "docs/**/*",
+    "docs/**/*.json",
+    "docs/.vitepress/**/*",
+    "docs/.vitepress/**/*.json",
     "docs/types.d.ts",
     "types/env.d.ts",
     "types/global.d.ts",

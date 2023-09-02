@@ -22,8 +22,8 @@ const slots = useSlots();
 const noDefaultSlots = omit(slots, 'default');
 
 defineOptions({
-  inheritAttrs: false,
   name: 'LpTreeSelect',
+  inheritAttrs: false,
 });
 
 const instance = getCurrentInstance();

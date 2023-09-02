@@ -19,7 +19,11 @@ module.exports = {
   },
   overrides: [
     {
-      files: ['**/docs/**/*.vue', '**/docs/**/*.js', '**/docs/**/*.ts'],
+      files: [
+        '**/docs/**/*.vue',
+        '**/docs/**/*.js',
+        '**/docs/**/*.ts',
+      ],
       rules: {
         'import/no-unresolved': 0,
         'unused-imports/no-unused-imports': 0,
@@ -56,9 +60,17 @@ module.exports = {
   ],
   settings: {
     'import/resolver': {
-      alias: [
-        ['@composables', 'docs/.vitepress/vitepress/composables'],
-      ],
+      node: true,
+      typescript: {
+        project: [
+          './tsconfig.config.json',
+          './tsconfig.docs.json',
+          './tsconfig.node.json',
+          './tsconfig.pkgs.json',
+          './tsconfig.serve.json',
+          './tsconfig.vitest.json',
+        ],
+      },
     },
   },
 };

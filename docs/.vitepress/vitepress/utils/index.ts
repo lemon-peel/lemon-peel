@@ -1,25 +1,11 @@
-import {
-  endingSlashRE,
-  isActive,
-  isExternal,
-  normalize,
-} from 'vitepress/dist/client/theme-default/utils';
 
 import type { Route } from 'vitepress';
 
-export * from './colors';
+import { endingSlashRE, isArray, isNullish, isExternal, isActive, normalize, joinUrl,
+  ensureEndingSlash, ensureStartingSlash, removeExtention } from './object';
 
-export {
-  isArray,
-  isNullish,
-  isExternal,
-  isActive,
-  normalize,
-  joinUrl,
-  ensureEndingSlash,
-  ensureStartingSlash,
-  removeExtention,
-} from 'vitepress/dist/client/theme-default/utils';
+export * from './object';
+export * from './colors';
 
 export function utoa(data: string): string {
   return btoa(unescape(encodeURIComponent(data)));

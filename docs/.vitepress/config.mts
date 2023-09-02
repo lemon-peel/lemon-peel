@@ -1,19 +1,19 @@
-import consola from 'consola'
-import { REPO_BRANCH, REPO_PATH } from '@element-plus/build-constants'
-import { docsDirName } from '@element-plus/build-utils'
-import { languages } from './utils/lang'
-import { features, head, mdPlugin, nav, sidebars } from './config'
-import type { UserConfig } from 'vitepress'
+import consola from 'consola';
+import { REPO_BRANCH, REPO_PATH } from '@lemon-peel/build-constants';
+import { docsDirName } from '@lemon-peel/build-utils';
+import { languages } from './utils/lang';
+import { features, head, mdPlugin, nav, sidebars } from './config';
+import type { UserConfig } from 'vitepress';
 
 const buildTransformers = () => {
   const transformer = () => {
     return {
       props: [],
       needRuntime: true,
-    }
-  }
+    };
+  };
 
-  const transformers = {}
+  const transformers = {};
   const directives = [
     'infinite-scroll',
     'loading',
@@ -23,23 +23,23 @@ const buildTransformers = () => {
     'trap-focus',
     'mousewheel',
     'resize',
-  ]
-  directives.forEach((k) => {
-    transformers[k] = transformer
-  })
+  ];
+  directives.forEach(k => {
+    transformers[k] = transformer;
+  });
 
-  return transformers
-}
+  return transformers;
+};
 
-consola.debug(`DOC_ENV: ${process.env.DOC_ENV}`)
+consola.debug(`DOC_ENV: ${process.env.DOC_ENV}`);
 
-const locales = {}
-languages.forEach((lang) => {
+const locales = {};
+languages.forEach(lang => {
   locales[`/${lang}`] = {
     label: lang,
     lang,
-  }
-})
+  };
+});
 
 export const config: UserConfig = {
   title: 'Element Plus',
@@ -70,7 +70,7 @@ export const config: UserConfig = {
   locales,
 
   markdown: {
-    config: (md) => mdPlugin(md),
+    config: md => mdPlugin(md),
   },
 
   vue: {
@@ -81,6 +81,6 @@ export const config: UserConfig = {
       },
     },
   },
-}
+};
 
-export default config
+export default config;

@@ -13,7 +13,7 @@ Affix is fixed at the top of the page by default.
 
 :::demo You can set `offset` attribute to change the offset top，the default value is 0.
 
-affix/basic
+affix/Basic
 
 :::
 
@@ -23,7 +23,7 @@ You can set `target` attribute to keep the affix in the container at all times. 
 
 :::demo Please notice that the container avoid having scrollbar.
 
-affix/target
+affix/Target
 
 :::
 
@@ -33,7 +33,7 @@ The affix component provides two fixed positions: `top` and `bottom`.
 
 :::demo You can set `position` attribute to change the fixed position, the default value is `top`.
 
-affix/fixed
+affix/Fixed
 
 :::
 

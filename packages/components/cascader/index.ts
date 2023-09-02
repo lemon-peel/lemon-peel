@@ -1,13 +1,9 @@
+import { withInstall } from '@lemon-peel/utils';
 import Cascader from './src/Cascader.vue';
-import type { App } from 'vue';
-import type { SFCWithInstall } from '@lemon-peel/utils';
 
-const withInstaller = Cascader as SFCWithInstall<typeof Cascader>;
+export const LpCascader = withInstall(Cascader);
 
-withInstaller.install = (app: App): void => {
-  app.component(Cascader.name, Cascader);
-};
+export default LpCascader;
+export * from './src/cascader';
 
-
-export default withInstaller;
-export const LpCascader = withInstaller;
+export type CascaderInst = InstanceType<typeof Cascader>;

@@ -14,12 +14,12 @@ const parsed = computed(() => {
   // Note this is relatively arbitrary so that this could be buggy.
   return md
     .render(props.content)
-    .replace(
-      /#(\d+) by/g,
+    .replaceAll(
+      /#(\d+) by/,
       `<a href="https://github.com/element-plus/element-plus/pull/$1" ${attr}>#$1</a> by`,
     )
-    .replace(
-      /@([\w-]+)/g,
+    .replaceAll(
+      /@([\w-]+)/,
       `<a href="https://github.com/$1" ${attr}>@$1</a>`,
     );
 });

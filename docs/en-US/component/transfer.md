@@ -9,7 +9,7 @@ lang: en-US
 
 :::demo Data is passed to Transfer via the `data` attribute. The data needs to be an object array, and each object should have these attributes: `key` being the identification of the data item, `label` being the displayed text, and `disabled` indicating if the data item is disabled. Items inside the target list are in sync with the variable binding to `v-model`, and the value of that variable is an array of target item keys. So, if you don't want the target list be initially empty, you can initialize the `v-model` with an array.
 
-transfer/basic
+transfer/Basic
 
 :::
 
@@ -19,7 +19,7 @@ You can search and filter data items.
 
 :::demo Set the `filterable` attribute to `true` to enable filter mode. By default, if the data item `label` contains the search keyword, it will be included in the search result. Also, you can implement you own filter method with the `filter-method` attribute. It takes a method and passes search keyword and each data item to it whenever the keyword changes. For a certain data item, if the method returns true, it will be included in the result list.
 
-transfer/filterable
+transfer/Filterable
 
 :::
 
@@ -29,7 +29,7 @@ You can customize list titles, button texts, render function for data items, che
 
 :::demo Use `titles`, `button-texts`, `render-content` and `format` to respectively customize list titles, button texts, render function for data items, checking status texts in list header. Plus, you can also use scoped slot to customize data items. For list footer contents, two named slots are provided: `left-footer` and `right-footer`. Plus, if you want some items initially checked, you can use `left-default-checked` and `right-default-checked`. Finally, this example demonstrate the `change` event. Note that this demo can't run in jsfiddle because it doesn't support JSX syntax. In a real project, `render-content` will work if relevant dependencies are correctly configured.
 
-transfer/customizable
+transfer/Customizable
 
 :::
 
@@ -39,7 +39,7 @@ By default, Transfer looks for `key`, `label` and `disabled` in a data item. If 
 
 :::demo The data items in this example do not have `key`s or `label`s, instead they have `value`s and `desc`s. So you need to set aliases for `key` and `label`.
 
-transfer/prop-alias
+transfer/PropAlias
 
 :::
 

@@ -101,8 +101,8 @@ describe('TreeSelect.vue', () => {
 
     await tree
       .findAll('.lp-select-dropdown__item')
-      .slice(-1)[0]
-      .trigger('click');
+      .at(-1)?.trigger('click');
+
     await nextTick();
     expect(select.vm.value).toBe(111);
     expect(treeSelect.vm.getCheckedKeys()).toEqual([111]);
@@ -174,8 +174,8 @@ describe('TreeSelect.vue', () => {
 
     await tree
       .findAll('.lp-select-dropdown__item')
-      .slice(-1)[0]
-      .trigger('click');
+      .at(-1)?.trigger('click');
+
     await nextTick();
     expect(select.vm.value).toEqual([11, 111]);
     expect(treeSelect.vm.getCheckedKeys()).toEqual([11, 111]);
@@ -371,12 +371,12 @@ describe('TreeSelect.vue', () => {
 
     // check child node when folder node checked,
     // value.value will be 111
-    await tree.findAll('.lp-tree-node__content').slice(-1)[0].trigger('click');
+    await tree.findAll('.lp-tree-node__content').at(-1)?.trigger('click');
     await nextTick();
     expect(select.vm.value).equal(111);
 
     // unselect when has child checked
-    await tree.findAll('.lp-tree-node__content').slice(-1)[0].trigger('click');
+    await tree.findAll('.lp-tree-node__content').at(-1)?.trigger('click');
     await nextTick();
     expect(select.vm.value).toBe(undefined);
   });

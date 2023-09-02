@@ -11,7 +11,7 @@ Commonly used button.
 
 :::demo Use `type`, `plain`, `round` and `circle` to define Button's style.
 
-button/basic
+button/Basic
 
 :::
 
@@ -21,7 +21,7 @@ The `disabled` attribute determines if the button is disabled.
 
 :::demo Use `disabled` attribute to determine whether a button is disabled. It accepts a `Boolean` value.
 
-button/disabled
+button/Disabled
 
 :::
 
@@ -37,7 +37,7 @@ New API `link` has been added in <VersionTag version="2.2.1" />, you can use `ty
 
 :::demo
 
-button/link
+button/Link
 
 :::
 
@@ -57,7 +57,7 @@ Buttons without border and background.
 
 :::demo
 
-button/text
+button/Text
 
 :::
 
@@ -67,7 +67,7 @@ Use icons to add more meaning to Button. You can use icon alone to save some spa
 
 :::demo Use the `icon` attribute to add icon. You can find the icon list in Element Plus icon component. Adding icons to the right side of the text is achievable with an `<i>` tag. Custom icons can be used as well.
 
-button/icon
+button/Icon
 
 :::
 
@@ -77,7 +77,7 @@ Displayed as a button group, can be used to group a series of similar operations
 
 :::demo Use tag `<lp-button-group>` to group your buttons.
 
-button/group
+button/Group
 
 :::
 
@@ -97,7 +97,7 @@ ps: `loading` slot has higher priority than loadingIcon
 
 :::demo
 
-button/loading
+button/Loading
 
 :::
 
@@ -107,7 +107,7 @@ Besides default size, Button component provides three additional sizes for you t
 
 :::demo Use attribute `size` to set additional sizes with `large`, `small`.
 
-button/size
+button/Size
 
 :::
 
@@ -119,7 +119,7 @@ We will calculate hover color & active color automatically.
 
 :::demo
 
-button/custom
+button/Custom
 
 :::
 

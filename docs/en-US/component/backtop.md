@@ -13,7 +13,7 @@ Scroll down to see the bottom-right button.
 
 :::demo
 
-backtop/basic
+backtop/Basic
 
 :::
 
@@ -23,7 +23,7 @@ Display area is 40px \* 40px.
 
 :::demo
 
-backtop/custom
+backtop/Custom
 
 :::
 

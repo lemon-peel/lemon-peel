@@ -17,7 +17,7 @@ const FOCUS_HANDLER = (e: KeyboardEvent) => {
   // Getting the top layer.
   if (FOCUS_STACK.length === 0) return;
   const focusableElement =
-    FOCUS_STACK[FOCUS_STACK.length - 1][FOCUSABLE_CHILDREN];
+    FOCUS_STACK.at(-1)![FOCUSABLE_CHILDREN];
   if (focusableElement.length > 0 && e.code === EVENT_CODE.tab) {
     if (focusableElement.length === 1) {
       e.preventDefault();
@@ -26,13 +26,15 @@ const FOCUS_HANDLER = (e: KeyboardEvent) => {
       }
       return;
     }
+
     const goingBackward = e.shiftKey;
     const isFirst = e.target === focusableElement[0];
-    const isLast = e.target === focusableElement[focusableElement.length - 1];
+    const isLast = e.target === focusableElement.at(-1);
     if (isFirst && goingBackward) {
       e.preventDefault();
-      focusableElement[focusableElement.length - 1].focus();
+      focusableElement.at(-1)?.focus();
     }
+
     if (isLast && !goingBackward) {
       e.preventDefault();
       focusableElement[0].focus();

@@ -16,7 +16,13 @@
     "packages/main/package.json",
     "packages/theme-chalk/*",
     "packages/lemon-peel/version.ts",
-    "packages/lemon-peel/package.json"
+    "packages/lemon-peel/package.json",
+    "commitlint.config.js"
   ],
-  "exclude": ["**/__tests__/**", "**/tests/**", "**/dist"]
+  "exclude": [
+    "node_modules",
+    "**/__tests__/**",
+    "**/tests/**",
+    "**/dist"
+  ]
 }

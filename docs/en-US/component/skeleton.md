@@ -13,7 +13,7 @@ The basic skeleton.
 
 :::demo
 
-skeleton/basic-usage
+skeleton/BasicUsage
 
 :::
 
@@ -23,7 +23,7 @@ You can configure the row numbers yourself, for more precise rendering effect, t
 
 :::demo
 
-skeleton/configurable-rows
+skeleton/ConfigurableRows
 
 :::
 
@@ -33,7 +33,7 @@ We have provided a switch flag indicating whether showing the loading animation,
 
 :::demo
 
-skeleton/animation
+skeleton/Animation
 
 :::
 
@@ -45,7 +45,7 @@ Also we have provided different types skeleton unit that you can choose, for mor
 
 :::demo
 
-skeleton/customized-template
+skeleton/CustomizedTemplate
 
 :::
 
@@ -55,7 +55,7 @@ When `Loading` ends, we always need to show the real UI with data to our end use
 
 :::demo
 
-skeleton/loading-state
+skeleton/LoadingState
 
 :::
 
@@ -71,7 +71,7 @@ We do not recommend rendering lots of fake UI to the browser, it will still caus
 
 :::demo
 
-skeleton/rendering-with-data
+skeleton/RenderingWithData
 
 :::
 
@@ -81,7 +81,7 @@ Sometimes API responds very quickly, when that happens, the skeleton just gets r
 
 :::demo
 
-skeleton/avoiding-rendering-bouncing
+skeleton/AvoidingRenderingBouncing
 
 :::
 

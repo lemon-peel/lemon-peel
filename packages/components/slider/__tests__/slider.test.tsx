@@ -611,9 +611,7 @@ describe('Slider', () => {
       const marks = wrapper.findAll('.lp-slider__marks .lp-slider__marks-text');
       expect(marks.length).toBe(2);
       expect(stops.length).toBe(2);
-      expect(getComputedStyle(marks[marks.length - 1].element).color).toBe(
-        'rgb(255, 85, 0)',
-      );
+      expect(getComputedStyle(marks.at(-1)!.element).color).toBe('rgb(255, 85, 0)');
     });
   });
 

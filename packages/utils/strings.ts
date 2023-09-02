@@ -9,7 +9,7 @@ export {
  * fork from {@link https://github.com/sindresorhus/escape-string-regexp}
  */
 export function escapeStringRegexp(str = '') {
-  return str.replace(/[$()*+.?[\\\]^{|}]/g, '\\$&').replace(/-/g, '\\x2d');
+  return str.replaceAll(/[$()*+.?[\\\]^{|}]/g, '\\$&').replaceAll('-', '\\x2d');
 }
 
 // NOTE: improve capitalize types. Restore previous code after the [PR](https://github.com/vuejs/core/pull/6212) merge

@@ -5,7 +5,6 @@ import Carousel from '../src/Carousel.vue';
 import CarouselItem from '../src/CarouselItem.vue';
 
 import type { VueWrapper } from '@vue/test-utils';
-import type { CarouselInstance } from '../src/instance';
 
 const wait = (ms = 100) =>
   new Promise(resolve => setTimeout(() => resolve(0), ms));
@@ -47,8 +46,7 @@ describe('Carousel', () => {
       ref: 'carousel',
     });
 
-    const carousel = wrapper.findComponent({ ref: 'carousel' })
-      .vm as CarouselInstance;
+    const carousel = wrapper.findComponent(Carousel).vm;
     expect(carousel.direction).toBe('horizontal');
     expect(wrapper.findAll('.lp-carousel__item').length).toEqual(3);
   });
@@ -170,14 +168,12 @@ describe('Carousel', () => {
 
   test('vertical direction', () => {
     wrapper = createComponent({
-      ref: 'carousel',
       autoplay: false,
       direction: 'vertical',
       height: '100px',
     });
     const items = wrapper.vm.$el.querySelectorAll('.lp-carousel__item');
-    const carousel = wrapper.findComponent({ ref: 'carousel' })
-      .vm as CarouselInstance;
+    const carousel = wrapper.findComponent(Carousel).vm;
     expect(carousel.direction).toBe('vertical');
     expect(items[0].style.transform.includes('translateY')).toBeTruthy();
   });

@@ -13,7 +13,7 @@ Checkbox can be used alone to switch between two states.
 
 :::demo Define `v-model`(bind variable) in `el-checkbox`. The default value is a `Boolean` for single `checkbox`, and it becomes `true` when selected. Content inside the `el-checkbox` tag will become the description following the button of the checkbox.
 
-checkbox/basic
+checkbox/Basic
 
 :::
 
@@ -23,7 +23,7 @@ Disabled state for checkbox.
 
 :::demo Set the `disabled` attribute.
 
-checkbox/disabled
+checkbox/Disabled
 
 :::
 
@@ -33,7 +33,7 @@ It is used for multiple checkboxes which are bound in one group, and indicates w
 
 :::demo `checkbox-group` element can manage multiple checkboxes in one group by using `v-model` which is bound as an `Array`. Inside the `el-checkbox` element, `label` is the value of the checkbox. If no content is nested in that tag, `label` will be rendered as the description following the button of the checkbox. `label` also corresponds with the element values in the array. It is selected if the specified value exists in the array, and vice versa.
 
-checkbox/grouping
+checkbox/Grouping
 
 :::
 
@@ -43,7 +43,7 @@ The `indeterminate` property can help you to achieve a 'check all' effect.
 
 :::demo
 
-checkbox/intermediate
+checkbox/Intermediate
 
 :::
 
@@ -53,7 +53,7 @@ The `min` and `max` properties can help you to limit the number of checked items
 
 :::demo
 
-checkbox/limitation
+checkbox/Limitation
 
 :::
 
@@ -63,7 +63,7 @@ Checkbox with button styles.
 
 :::demo You just need to change `el-checkbox` element into `el-checkbox-button` element. We also provide `size` attribute.
 
-checkbox/button-style
+checkbox/ButtonStyle
 
 :::
 
@@ -71,7 +71,7 @@ checkbox/button-style
 
 :::demo The `border` attribute adds a border to Checkboxes.
 
-checkbox/with-border
+checkbox/WithBorder
 
 :::
 

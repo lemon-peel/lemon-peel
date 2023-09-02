@@ -11,3 +11,6 @@ export default LpBreadcrumb;
 
 export * from './src/breadcrumb';
 export * from './src/breadcrumbItem';
+
+export type BreadcrumbInst = InstanceType<typeof Breadcrumb>;
+export type BreadcrumbItemInst = InstanceType<typeof BreadcrumbItem>;

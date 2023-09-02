@@ -9,8 +9,8 @@ export const LpCollapse = withInstall(Collapse, {
 export default LpCollapse;
 export const LpCollapseItem = withNoopInstall(CollapseItem);
 
-export type { CollapseInstance, CollapseItemInstance } from './src/instance';
-
 export * from './src/collapse';
 export * from './src/collapseItem';
 
+export type CollapseInst = InstanceType<typeof Collapse>;
+export type CollapseItemInst = InstanceType<typeof CollapseItem>;

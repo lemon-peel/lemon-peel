@@ -1,11 +1,3 @@
-<script setup lang="ts">
-import { isDark } from '../composables/dark';
-import { leftLogoSponsors } from '../../config/sponsors';
-import { sendEvent } from '../../config/analytics';
-const onItemClick = (item: any) => {
-  sendEvent('sp_click', item.name, 'left_small_img');
-};
-</script>
 
 <template>
   <div>
@@ -25,6 +17,16 @@ const onItemClick = (item: any) => {
     </a>
   </div>
 </template>
+
+<script setup lang="ts">
+import { isDark } from '@/vitepress/composables/dark';
+import { sendEvent } from '@/config/analytics';
+import { leftLogoSponsors } from '@/config/sponsors';
+
+const onItemClick = (item: any) => {
+  sendEvent('sp_click', item.name, 'left_small_img');
+};
+</script>
 
 <style scoped lang="scss">
 @use '../styles/mixins' as *;

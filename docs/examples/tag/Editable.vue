@@ -25,7 +25,7 @@
 
 <script lang="ts" setup>
 import { nextTick, ref } from 'vue';
-import type { LpInput } from 'lemon-peel';
+import { LpInput } from 'lemon-peel';
 
 const inputValue = ref('');
 const dynamicTags = ref(['Tag 1', 'Tag 2', 'Tag 3']);

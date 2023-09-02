@@ -132,7 +132,7 @@ const getCurrentColor = (percentage: number) => {
     for (const item of colors) {
       if (item.percentage > percentage) return item.color;
     }
-    return colors[colors.length - 1]?.color;
+    return colors.at(-1)?.color;
   }
 };
 

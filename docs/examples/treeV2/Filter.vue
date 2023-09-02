@@ -14,8 +14,8 @@
 </template>
 <script lang="ts" setup>
 import { ref } from 'vue';
-import type { LpTreeV2 } from 'lemon-peel';
-import type { TreeNode } from 'element-plus/es/components/tree-v2/src/types';
+import { LpTreeV2 } from 'lemon-peel';
+import type { TreeNode } from 'lemon-peel/es/components/tree-v2/src/types';
 
 interface Tree {
   id: string;

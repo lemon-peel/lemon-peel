@@ -11,7 +11,7 @@ Loop a series of images or texts in a limited space
 
 :::demo Combine `el-carousel` with `el-carousel-item`, and you'll get a carousel. Content of each slide is completely customizable, and you just need to place it inside `el-carousel-item` tag. By default the carousel switches when mouse hovers over an indicator. Set `trigger` to `click`, and the carousel switches only when an indicator is clicked.
 
-carousel/basic
+carousel/Basic
 
 :::
 
@@ -21,7 +21,7 @@ Indicators can be displayed outside the carousel
 
 :::demo The `indicator-position` attribute determines where the indicators are located. By default they are inside the carousel, and setting `indicator-position` to `outside` moves them outside; setting `indicator-position` to `none` hides the indicators.
 
-carousel/indicator
+carousel/Indicator
 
 :::
 
@@ -31,7 +31,7 @@ You can define when arrows are displayed
 
 :::demo The `arrow` attribute determines when arrows are displayed. By default they appear when mouse hovers over the carousel. Setting `arrow` to `always` or `never` shows/hides the arrows permanently.
 
-carousel/arrows
+carousel/Arrows
 
 :::
 
@@ -41,7 +41,7 @@ When a page is wide enough but has limited height, you can activate card mode fo
 
 :::demo Setting `type` to `card` activates the card mode. Apart from the appearance, the biggest difference between card mode and common mode is that clicking the slides at both sides directly switches the carousel in card mode.
 
-carousel/card
+carousel/Card
 
 :::
 
@@ -51,7 +51,7 @@ By default, `direction` is `horizontal`. Let carousel be displayed in the vertic
 
 :::demo
 
-carousel/vertical
+carousel/Vertical
 
 :::
 

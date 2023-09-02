@@ -1,5 +1,5 @@
-import { execSync } from 'node:child_process';
-import fg from 'fast-glob';
+const { execSync } = require('node:child_process');
+const fg = require('fast-glob');
 
 const getPackages = packagePath =>
   fg.sync('*', { cwd: packagePath, onlyDirectories: true });

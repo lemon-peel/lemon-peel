@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import { isDark, toggleDark } from '@/vitepress/composables/dark';
 import CommonThemeToggler from '../common/VpThemeToggler.vue';
-import { isDark, toggleDark } from '../../composables/dark';
 import { useNavbarLocale } from '../../composables/navbarLocale';
 
 const locale = useNavbarLocale();

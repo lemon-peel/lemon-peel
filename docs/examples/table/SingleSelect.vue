@@ -19,7 +19,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import type { LpTable } from 'lemon-peel';
+import { LpTable } from 'lemon-peel';
 
 interface User {
   date: string;

@@ -18,7 +18,7 @@ const styleCommentRE = /\/\*.*?\*\//gs;
 export function parseStringStyle(cssText: string): CSSProperties {
   const ret: Record<string, any> = {};
   cssText
-    .replace(styleCommentRE, '')
+    .replaceAll(styleCommentRE, '')
     .split(listDelimiterRE)
     .forEach(item => {
       if (item) {

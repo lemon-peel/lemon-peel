@@ -13,7 +13,7 @@ Top bar Menu can be used in a variety of scenarios.
 
 :::demo By default Menu is vertical, but you can change it to horizontal by setting the mode prop to 'horizontal'. In addition, you can use the sub-menu component to create a second level menu. Menu provides `background-color`, `text-color` and `active-text-color` to customize the colors.
 
-menu/basic
+menu/Basic
 
 :::
 
@@ -21,7 +21,7 @@ menu/basic
 
 :::demo You can make the menu items to the left or right.
 
-menu/left-and-right
+menu/LeftAndRight
 
 :::
 
@@ -31,7 +31,7 @@ Vertical Menu with sub-menus.
 
 :::demo You can use the el-menu-item-group component to create a menu group, and the name of the group is determined by the title prop or a named slot.
 
-menu/vertical
+menu/Vertical
 
 :::
 
@@ -41,7 +41,7 @@ Vertical Menu could be collapsed.
 
 :::demo
 
-menu/collapse
+menu/Collapse
 
 :::
 

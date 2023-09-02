@@ -13,7 +13,7 @@ Displays animation in a container (such as a table) while loading data.
 
 :::demo Element Plus provides two ways to invoke Loading: directive and service. For the custom directive `v-loading`, you just need to bind a `boolean` value to it. By default, the loading mask will append to the element where the directive is used. Adding the `body` modifier makes the mask append to the body element.
 
-loading/basic
+loading/Basic
 
 :::
 
@@ -23,7 +23,7 @@ You can customize loading text, loading spinner and background color.
 
 :::demo Add attribute `element-loading-text` to the element on which `v-loading` is bound, and its value will be displayed under the spinner. Similarly, the `element-loading-spinner / element-loading-svg` and `element-loading-background` attributes are used to set the svg icon, background color value, and loading icon, respectively.
 
-loading/customization
+loading/Customization
 
 :::
 
@@ -39,7 +39,7 @@ Show a full screen animation while loading data.
 
 :::demo When used as a directive, a full screen Loading requires the `fullscreen` modifier, and it will be appended to body. In this case, if you wish to disable scrolling on body, you can add another modifier `lock`. When used as a service, Loading will be full screen by default.
 
-loading/fullscreen
+loading/Fullscreen
 
 :::
 

@@ -13,7 +13,7 @@ Can pick an arbitrary time.
 
 :::demo By default, you can scroll the mouse wheel to pick time, alternatively you can use the control arrows when the `arrow-control` attribute is set.
 
-time-picker/basic
+timePicker/Basic
 
 :::
 
@@ -23,7 +23,7 @@ You can also limit the time range.
 
 :::demo Limit the time range by specifying `disabledHours` `disabledMinutes` and `disabledSeconds`.
 
-time-picker/basic-range
+timePicker/BasicRange
 
 :::
 
@@ -33,7 +33,7 @@ Can pick an arbitrary time range.
 
 :::demo We can pick a time range by adding an `is-range` attribute. Also, `arrow-control` is supported in range mode.
 
-time-picker/range
+timePicker/Range
 
 :::
 
@@ -54,7 +54,7 @@ time-picker/range
 | arrow-control         | whether to pick time using arrow buttons                 | boolean                                | —                                                             | false       |
 | popper-class          | custom class name for TimePicker's dropdown              | string                                 | —                                                             | —           |
 | range-separator       | range separator                                          | string                                 | —                                                             | '-'         |
-| format                | format of the displayed value in the input box           | string                                 | see [date formats](/en-US/component/date-picker#date-formats) | HH:mm:ss    |
+| format                | format of the displayed value in the input box           | string                                 | see [date formats](/en-US/component/datePicker#date-formats) | HH:mm:ss    |
 | default-value         | optional, default date of the calendar                   | Date / [Date, Date]                    | —                                                             | —           |
 | id                    | same as `id` in native input                             | string / [string, string]              | —                                                             | -           |
 | name                  | same as `name` in native input                           | string                                 | —                                                             | —           |

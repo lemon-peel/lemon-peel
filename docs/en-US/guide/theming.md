@@ -142,13 +142,13 @@ import ElementPlus from 'unplugin-element-plus/vite';
 export default defineConfig({
   resolve: {
     alias: {
-      '~/': `${path.resolve(__dirname, 'src')}/`,
+      '@/': `${path.resolve(__dirname, 'src')}/`,
     },
   },
   css: {
     preprocessorOptions: {
       scss: {
-        additionalData: `@use "~/styles/element/index.scss" as *;`,
+        additionalData: `@use "@/styles/element/index.scss" as *;`,
       },
     },
   },
@@ -184,7 +184,7 @@ export default defineConfig({
   css: {
     loaderOptions: {
       scss: {
-        additionalData: `@use "~/styles/element/index.scss" as *;`,
+        additionalData: `@use "@/styles/element/index.scss" as *;`,
       },
     },
   },

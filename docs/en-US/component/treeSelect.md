@@ -14,7 +14,7 @@ Selector for tree structures.
 
 :::demo
 
-tree-select/basic
+treeSelect/Basic
 
 :::
 
@@ -33,7 +33,7 @@ otherwise only leaf nodes are supported.
 
 :::demo
 
-tree-select/check-strictly
+treeSelect/CheckStrictly
 
 :::
 
@@ -51,7 +51,7 @@ Multiple selection using clicks or checkbox.
 
 :::demo
 
-tree-select/multiple
+treeSelect/Multiple
 
 :::
 
@@ -61,7 +61,7 @@ Disable options using the disabled field.
 
 :::demo
 
-tree-select/disabled
+treeSelect/Disabled
 
 :::
 
@@ -73,7 +73,7 @@ Use keyword filtering or custom filtering methods.
 
 :::demo
 
-tree-select/filterable
+treeSelect/Filterable
 
 :::
 
@@ -83,7 +83,7 @@ Contents of custom tree nodes.
 
 :::demo
 
-tree-select/slots
+treeSelect/Slots
 
 :::
 
@@ -93,7 +93,7 @@ Lazy loading of tree nodes, suitable for large data lists.
 
 :::demo
 
-tree-select/lazy
+treeSelect/Lazy
 
 :::
 

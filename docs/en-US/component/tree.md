@@ -13,7 +13,7 @@ Basic tree structure.
 
 :::demo
 
-tree/basic
+tree/Basic
 
 :::
 
@@ -23,7 +23,7 @@ Used for node selection.
 
 :::demo This example also shows how to load node data asynchronously.
 
-tree/selectable
+tree/Selectable
 
 :::
 
@@ -31,7 +31,7 @@ tree/selectable
 
 :::demo A node's data is not fetched until it is clicked, so the Tree cannot predict whether a node is a leaf node. That's why a drop-down button is added to each node, and if it is a leaf node, the drop-down button will disappear when clicked. That being said, you can also tell the Tree in advance whether the node is a leaf node, avoiding the render of the drop-down button before a leaf node.
 
-tree/custom-leaf
+tree/CustomLeaf
 
 :::
 
@@ -41,7 +41,7 @@ The checkbox of a node can be set as disabled.
 
 :::demo In the example, 'disabled' property is declared in defaultProps, and some nodes are set as 'disabled:true'. The corresponding checkboxes are disabled and can't be clicked.
 
-tree/disabled
+tree/Disabled
 
 :::
 
@@ -51,7 +51,7 @@ Tree nodes can be initially expanded or checked
 
 :::demo Use `default-expanded-keys` and `default-checked-keys` to set initially expanded and initially checked nodes respectively. Note that for them to work, `node-key` is required. Its value is the name of a key in the data object, and the value of that key should be unique across the whole tree.
 
-tree/default-state
+tree/DefaultState
 
 :::
 
@@ -59,7 +59,7 @@ tree/default-state
 
 :::demo This example shows how to get and set checked nodes. They both can be done in two approaches: node and key. If you are taking the key approach, `node-key` is required.
 
-tree/checking-tree
+tree/CheckingTree
 
 :::
 
@@ -69,7 +69,7 @@ The content of tree nodes can be customized, so you can add icons or buttons as 
 
 :::demo There are two ways to customize template for tree nodes: `render-content` and scoped slot. Use `render-content` to assign a render function that returns the content of tree nodes. See Vue's documentation for a detailed introduction of render functions. If you prefer scoped slot, you'll have access to `node` and `data` in the scope, standing for the TreeNode object and node data of the current node respectively. Note that the `render-content` demo can't run in jsfiddle because it doesn't support JSX syntax. In a real project, `render-content` will work if relevant dependencies are correctly configured.
 
-tree/customized-node
+tree/CustomizedNode
 
 :::
 
@@ -79,7 +79,7 @@ The class of tree nodes can be customized
 
 :::demo. Use `props.class` to build class name of nodes.
 
-tree/custom-node-class
+tree/CustomNodeClass
 
 :::
 
@@ -89,7 +89,7 @@ Tree nodes can be filtered
 
 :::demo Invoke the `filter` method of the Tree instance to filter tree nodes. Its parameter is the filtering keyword. Note that for it to work, `filter-node-method` is required, and its value is the filtering method.
 
-tree/filtering
+tree/Filtering
 
 :::
 
@@ -99,7 +99,7 @@ Only one node among the same level can be expanded at one time.
 
 :::demo
 
-tree/accordion
+tree/Accordion
 
 :::
 
@@ -109,7 +109,7 @@ You can drag and drop Tree nodes by adding a `draggable` attribute.
 
 :::demo
 
-tree/draggable
+tree/Draggable
 
 :::
 

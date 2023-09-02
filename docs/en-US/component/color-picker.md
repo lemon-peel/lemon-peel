@@ -11,7 +11,7 @@ ColorPicker is a color selector supporting multiple color formats.
 
 :::demo ColorPicker requires a string typed variable to be bound to v-model.
 
-color-picker/basic
+colorPicker/basic
 
 :::
 
@@ -19,7 +19,7 @@ color-picker/basic
 
 :::demo ColorPicker supports alpha channel selecting. To activate alpha selecting, just add the `show-alpha` attribute.
 
-color-picker/alpha
+colorPicker/alpha
 
 :::
 
@@ -27,7 +27,7 @@ color-picker/alpha
 
 :::demo ColorPicker supports predefined color options
 
-color-picker/predefined-color
+colorPicker/PredefinedColor
 
 :::
 
@@ -35,7 +35,7 @@ color-picker/predefined-color
 
 :::demo
 
-color-picker/sizes
+colorPicker/sizes
 
 :::
 

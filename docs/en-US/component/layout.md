@@ -22,7 +22,7 @@ Create basic grid layout using columns.
 
 :::demo With `row` and `col`, we can easily manipulate the layout using the `span` attribute.
 
-layout/basic-layout
+layout/BasicLayout
 
 :::
 
@@ -32,7 +32,7 @@ Column spacing is supported.
 
 :::demo Row provides `gutter` attribute to specify spacings between columns, and its default value is 0.
 
-layout/column-spacing
+layout/ColumnSpacing
 
 :::
 
@@ -42,7 +42,7 @@ Form a more complex hybrid layout by combining the basic 1/24 columns.
 
 :::demo
 
-layout/hybrid-layout
+layout/HybridLayout
 
 :::
 
@@ -52,7 +52,7 @@ You can specify column offsets.
 
 :::demo You can specify the number of column offset by setting the value of `offset` attribute of Col.
 
-layout/column-offset
+layout/ColumnOffset
 
 :::
 
@@ -62,7 +62,7 @@ Default use the flex layout to make flexible alignment of columns.
 
 :::demo You can define the layout of child elements by setting `justify` attribute with start, center, end, space-between, space-around or space-evenly.
 
-layout/alignment
+layout/Alignment
 
 :::
 
@@ -73,7 +73,7 @@ xs, sm, md, lg and xl.
 
 :::demo
 
-layout/responsive-layout
+layout/ResponsiveLayout
 
 :::
 

@@ -1,8 +1,3 @@
-<script lang="ts" setup>
-// eslint-disable-next-line import/no-unresolved
-import { isDark } from '@composables/dark';
-</script>
-
 <template>
   <div v-if="!isDark" class="demo-term-box">
     <img src="/images/typography/term-pingfang.png" alt="">
@@ -19,6 +14,10 @@ import { isDark } from '@composables/dark';
     <img src="/images/typography/term-arial-dark.png" alt="">
   </div>
 </template>
+
+<script lang="ts" setup>
+import { isDark } from '@/vitepress/composables/dark';
+</script>
 
 <style scoped>
 img {

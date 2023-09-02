@@ -360,7 +360,7 @@ const handleCompositionStart = (event: CompositionEvent) => {
 const handleCompositionUpdate = (event: CompositionEvent) => {
   emit('compositionupdate', event);
   const text = (event.target as HTMLInputElement)?.value;
-  const lastCharacter = text[text.length - 1] || '';
+  const lastCharacter = text.at(-1) || '';
   isComposing.value = !isKorean(lastCharacter);
 };
 

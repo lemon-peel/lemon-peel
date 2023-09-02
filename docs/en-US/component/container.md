@@ -31,43 +31,43 @@ These components use flex for layout, so please make sure your browser supports 
 
 :::demo
 
-container/layout-hm
+container/LayoutHm
 
 :::
 
 :::demo
 
-container/layout-hmf
+container/LayoutHmf
 
 :::
 
 :::demo
 
-container/layout-am
+container/LayoutAm
 
 :::
 
 :::demo
 
-container/layout-ham
+container/LayoutHam
 
 :::
 
 :::demo
 
-container/layout-hamf
+container/LayoutHamf
 
 :::
 
 :::demo
 
-container/layout-ahm
+container/LayoutAhm
 
 :::
 
 :::demo
 
-container/layout-ahmf
+container/LayoutAhmf
 
 :::
 
@@ -75,7 +75,7 @@ container/layout-ahmf
 
 :::demo
 
-container/example
+container/Example
 
 :::
 

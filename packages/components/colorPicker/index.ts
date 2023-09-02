@@ -6,3 +6,5 @@ export const LpColorPicker = withInstall(ColorPicker);
 export default LpColorPicker;
 
 export * from './src/colorPicker';
+
+export type ColorPickerInst = InstanceType<typeof ColorPicker>;

@@ -13,7 +13,7 @@ Basic tree structure.
 
 :::demo
 
-tree-v2/basic
+treeV2/Basic
 
 :::
 
@@ -23,7 +23,7 @@ Used for node selection.
 
 :::demo
 
-tree-v2/selectable
+treeV2/Selectable
 
 :::
 
@@ -33,7 +33,7 @@ The checkbox of a node can be set as disabled.
 
 :::demo In the example, `disabled` property is declared in defaultProps, and some nodes are set as `disabled: true`. The corresponding checkboxes are disabled and can't be clicked.
 
-tree-v2/disabled
+treeV2/Disabled
 
 :::
 
@@ -43,7 +43,7 @@ Tree nodes can be initially expanded or checked
 
 :::demo Use `default-expanded-keys` and `default-checked-keys` to set initially expanded and initially checked nodes respectively.
 
-tree-v2/default-state
+treeV2/DefaultState
 
 :::
 
@@ -53,7 +53,7 @@ The content of tree nodes can be customized, so you can add icons or buttons as 
 
 :::demo
 
-tree-v2/custom-node
+treeV2/CustomNode
 
 :::
 
@@ -63,7 +63,7 @@ Tree nodes can be filtered
 
 :::demo Invoke the `filter` method of the Tree instance to filter tree nodes. Its parameter is the filtering keyword. Note that for it to work, `filter-node-method` is required, and its value is the filtering method.
 
-tree-v2/filter
+treeV2/Filter
 
 :::
 

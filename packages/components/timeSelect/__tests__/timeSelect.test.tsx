@@ -45,7 +45,7 @@ describe('TimeSelect', () => {
     input.trigger('focus');
     await nextTick();
     const elms = document.querySelectorAll('.is-disabled');
-    const elm = elms[elms.length - 1];
+    const elm = Array.from(elms).at(-1)!;
     expect(elm.textContent).toBe('14:30');
   });
 

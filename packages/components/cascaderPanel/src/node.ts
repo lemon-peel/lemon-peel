@@ -11,7 +11,6 @@ export type CascaderValue =
   | CascaderNodePathValue
   | (CascaderNodeValue | CascaderNodePathValue)[];
 
-export type CascaderConfig = Required<CascaderProps>;
 export type ExpandTrigger = 'click' | 'hover';
 export type IsDisabled = (data: CascaderOption, node: Node) => boolean;
 export type IsLeaf = (data: CascaderOption, node: Node) => boolean;
@@ -31,7 +30,7 @@ export type RenderLabel = (arg: {
   data: CascaderOption;
 }) => VNode | VNode[];
 
-export interface CascaderProps {
+export interface CascaderConfig {
   expandTrigger?: ExpandTrigger;
   multiple?: boolean;
   checkStrictly?: boolean;
@@ -93,7 +92,7 @@ export class Node {
 
   constructor(
     readonly data: CascaderOption,
-    readonly config: CascaderConfig,
+    readonly config: Required<CascaderConfig>,
     readonly parent?: Node,
     readonly root = false,
   ) {

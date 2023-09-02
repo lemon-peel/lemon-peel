@@ -11,7 +11,7 @@ If you have too much data to display in one page, use pagination.
 
 :::demo Set `layout` with different pagination elements you wish to display separated with a comma. Pagination elements are: `prev` (a button navigating to the previous page), `next` (a button navigating to the next page), `pager` (page list), `jumper` (a jump-to input), `total` (total item count), `size` (a select to determine page size) and `->`(every element after this symbol will be pulled to the right).
 
-pagination/basic-usage
+pagination/BasicUsage
 
 :::
 
@@ -19,7 +19,7 @@ pagination/basic-usage
 
 :::demo By default, Pagination collapses extra pager buttons when it has more than 7 pages. This can be configured with the `pager-count` attribute.
 
-pagination/number-of-pagers
+pagination/NumberOfPagers
 
 :::
 
@@ -27,7 +27,7 @@ pagination/number-of-pagers
 
 :::demo Set the `background` attribute and the buttons will have a background color.
 
-pagination/background-color
+pagination/BackgroundColor
 
 :::
 
@@ -37,7 +37,7 @@ Use small pagination in the case of limited space.
 
 :::demo Just set the `small` attribute to `true` and the Pagination becomes smaller.
 
-pagination/small-pagination
+pagination/SmallPagination
 
 :::
 
@@ -47,7 +47,7 @@ When there is only one page, hide the pagination by setting the `hide-on-single-
 
 :::demo
 
-pagination/auto-hide-pagination
+pagination/AutoHidePagination
 
 :::
 
@@ -57,7 +57,7 @@ Add more modules based on your scenario.
 
 :::demo This example is a complete use case. It uses `size-change` and `current-change` event to handle page size changes and current page changes. `page-sizes` accepts an array of integers, each of which represents a different page size in the `sizes` select options, e.g. `[100, 200, 300, 400]` indicates that the select will have four options: 100, 200, 300 or 400 items per page.
 
-pagination/more-elements
+pagination/MoreElements
 
 :::
 

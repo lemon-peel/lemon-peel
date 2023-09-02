@@ -13,7 +13,7 @@ For the existing tooltip, it has too many APIs which is not very intuitive and a
 
 :::demo
 
-tooltip-v2/basic-usage
+tooltipV2/BasicUsage
 
 :::
 
@@ -21,7 +21,7 @@ tooltip-v2/basic-usage
 
 :::demo
 
-tooltip-v2/a11y
+tooltipV2/A11y
 
 :::
 
@@ -37,7 +37,7 @@ By default, tooltip v2 ONLY allows a half-way transition/animation which only oc
 
 :::demo
 
-tooltip-v2/transition
+tooltipV2/Transition
 
 :::
 
@@ -47,7 +47,7 @@ Of course, you can have full transition for your tooltip content. But this requi
 
 :::demo
 
-tooltip-v2/full-transition
+tooltipV2/FullTransition
 
 :::
 
@@ -57,7 +57,7 @@ By default, unlike [tooltip v1](./tooltip.md), the tooltip will be rendered to t
 
 :::demo
 
-tooltip-v2/render-to-root
+tooltipV2/RenderToRoot
 
 :::
 
@@ -65,7 +65,7 @@ tooltip-v2/render-to-root
 
 :::demo
 
-tooltip-v2/arrow
+tooltipV2/Arrow
 
 :::
 

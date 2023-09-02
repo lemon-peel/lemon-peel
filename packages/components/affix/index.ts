@@ -6,3 +6,5 @@ export const LpAffix = withInstall(Affix);
 export default LpAffix;
 
 export * from './src/affix';
+
+export type AffixInst = InstanceType<typeof Affix>;

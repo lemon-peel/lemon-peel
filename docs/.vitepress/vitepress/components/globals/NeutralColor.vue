@@ -1,6 +1,6 @@
 <template>
-  <el-row :gutter="12">
-    <el-col :span="6" :xs="{ span: 12 }">
+  <lp-row :gutter="12">
+    <lp-col :span="6" :xs="{ span: 12 }">
       <div class="demo-color-box-group">
         <div
           v-for="(text, i) in textColors"
@@ -17,9 +17,9 @@
           </div>
         </div>
       </div>
-    </el-col>
+    </lp-col>
 
-    <el-col :span="6" :xs="{ span: 12 }">
+    <lp-col :span="6" :xs="{ span: 12 }">
       <div class="demo-color-box-group">
         <div
           v-for="(border, i) in borderColors"
@@ -33,9 +33,9 @@
           </div>
         </div>
       </div>
-    </el-col>
+    </lp-col>
 
-    <el-col :span="6" :xs="{ span: 12 }">
+    <lp-col :span="6" :xs="{ span: 12 }">
       <div class="demo-color-box-group">
         <div
           v-for="(fill, i) in fillColors"
@@ -56,9 +56,9 @@
           </div>
         </div>
       </div>
-    </el-col>
+    </lp-col>
 
-    <el-col :span="6" :xs="{ span: 12 }">
+    <lp-col :span="6" :xs="{ span: 12 }">
       <div class="demo-color-box-group">
         <div
           class="demo-color-box demo-color-box-other"
@@ -104,13 +104,13 @@
           </div>
         </div>
       </div>
-    </el-col>
-  </el-row>
+    </lp-col>
+  </lp-row>
 </template>
 
 <script lang="ts" setup>
-import { isDark } from '~/composables/dark';
-import { getCssVarName, getCssVarValue } from '~/utils/colors';
+import { isDark } from '@/vitepress/composables/dark';
+import { getCssVarName, getCssVarValue } from '@/vitepress/utils/colors';
 
 const backgroundTypes = ['page', '', 'overlay'];
 const backgroundColors = backgroundTypes.map(type => {

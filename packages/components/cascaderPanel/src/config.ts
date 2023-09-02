@@ -2,7 +2,7 @@ import { computed } from 'vue';
 import { NOOP } from '@vue/shared';
 
 import type { PropType } from 'vue';
-import type { CascaderConfig, CascaderOption, CascaderProps, CascaderValue } from './node';
+import type { CascaderOption, CascaderConfig, CascaderValue } from './node';
 import { buildProps } from '@lemon-peel/utils';
 
 export const commonProps = buildProps({
@@ -12,8 +12,8 @@ export const commonProps = buildProps({
     default: () => [] as CascaderOption[],
   },
   config: {
-    type: Object as PropType<CascaderProps>,
-    default: () => ({} as CascaderProps),
+    type: Object as PropType<CascaderConfig>,
+    default: () => ({} as CascaderConfig),
   },
 });
 
@@ -32,7 +32,7 @@ export const DefaultProps: CascaderConfig = {
   hoverThreshold: 500,
 };
 
-export const useCascaderConfig = (props: { config: CascaderProps }) => {
+export const useCascaderConfig = (props: { config: CascaderConfig }) => {
   return computed(() => ({
     ...DefaultProps,
     ...props.config,

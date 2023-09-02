@@ -9,7 +9,5 @@ export * from './makeInstaller';
 export const install = installer.install;
 export const version = installer.version;
 
-
 export { default as dayjs } from 'dayjs';
-
 export { default } from './defaults';

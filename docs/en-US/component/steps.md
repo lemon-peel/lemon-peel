@@ -13,7 +13,7 @@ Simple step bar.
 
 :::demo Set `active` attribute with `Number` type, which indicates the index of steps and starts from 0. You can set `space` attribute when the width of the step needs to be fixed which accepts `Number` type. The unit of the `space` attribute is `px`. If not set, it is responsive. Setting the `finish-status` attribute can change the state of the steps that have been completed.
 
-steps/basic
+steps/Basic
 
 :::
 
@@ -23,7 +23,7 @@ Shows the status of the step for each step.
 
 :::demo Use `title` attribute to set the name of the step, or override the attribute by using a named `slot`. We have listed all the slot names for you at the end of this page.
 
-steps/with-status
+steps/WithStatus
 
 :::
 
@@ -33,7 +33,7 @@ Title and description can be centered.
 
 :::demo
 
-steps/centered
+steps/Centered
 
 :::
 
@@ -43,7 +43,7 @@ There is description for each step.
 
 :::demo
 
-steps/with-description
+steps/WithDescription
 
 :::
 
@@ -53,7 +53,7 @@ A variety of custom icons can be used in the step bar.
 
 :::demo The icon is set by the `icon` property. The types of icons can be found in the document for the Icon component. In addition, you can customize the icon through a named `slot`.
 
-steps/with-icon
+steps/WithIcon
 
 :::
 
@@ -63,7 +63,7 @@ Vertical step bars.
 
 :::demo You only need to set the `direction` attribute to `vertical` in the `el-steps` element.
 
-steps/vertical
+steps/Vertical
 
 :::
 
@@ -73,7 +73,7 @@ Simple step bars, where `align-center`, `description`, `direction` and `space` w
 
 :::demo
 
-steps/simple
+steps/Simple
 
 :::
 

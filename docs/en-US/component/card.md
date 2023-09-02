@@ -13,7 +13,7 @@ Card includes title, content and operations.
 
 :::demo Card is made up of `header` and `body`. `header` is optional, and its content distribution depends on a named slot.
 
-card/basic
+card/Basic
 
 :::
 
@@ -23,7 +23,7 @@ The header part can be omitted.
 
 :::demo
 
-card/simple
+card/Simple
 
 :::
 
@@ -33,7 +33,7 @@ Display richer content by adding some configs.
 
 :::demo The `body-style` attribute defines CSS style of custom `body`. This example also uses `el-col` for layout.
 
-card/with-images
+card/WithImages
 
 :::
 
@@ -43,7 +43,7 @@ You can define when to show the card shadows
 
 :::demo The `shadow` attribute determines when the card shadows are displayed. It can be `always`, `hover` or `never`.
 
-card/shadow
+card/Shadow
 
 :::
 

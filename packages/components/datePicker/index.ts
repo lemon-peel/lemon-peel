@@ -1,15 +1,12 @@
 import DatePicker from './src/DatePicker.vue';
 
-import type { App } from 'vue';
-import type { SFCWithInstall } from '@lemon-peel/utils';
+import { withInstall } from '@lemon-peel/utils';
 
-export type { Shortcut } from './src/datePicker.type';
+export const LpDatePicker = withInstall(DatePicker);
 
-const withInstaller = DatePicker as SFCWithInstall<typeof DatePicker>;
+export default LpDatePicker;
 
-withInstaller.install = (app: App) => {
-  app.component(withInstaller.name, withInstaller);
-};
+export * from './src/datePicker.type';
+export * from './src/props/datePicker';
 
-export default withInstaller;
-export const LpDatePicker = withInstaller;
+export type DatePickerInst = InstanceType<typeof DatePicker>;

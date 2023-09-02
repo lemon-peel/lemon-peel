@@ -12,5 +12,5 @@ export * from './src/form';
 export * from './src/formItem';
 export * from './src/types';
 
-export type FormInstance = InstanceType<typeof Form>;
-export type FormItemInstance = InstanceType<typeof FormItem>;
+export type FormInst = InstanceType<typeof Form>;
+export type FormItemInst = InstanceType<typeof FormItem>;

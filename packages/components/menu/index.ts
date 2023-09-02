@@ -6,9 +6,9 @@ import MenuItemGroup from './src/MenuItemGroup.vue';
 import SubMenu from './src/SubMenu';
 
 export const LpMenu = withInstall(Menu, {
-  // MenuItem,
-  // MenuItemGroup,
-  // SubMenu,
+  MenuItem,
+  MenuItemGroup,
+  SubMenu,
 });
 
 export default LpMenu;
@@ -21,3 +21,8 @@ export * from './src/menuItem';
 export * from './src/menuItemGroup';
 export * from './src/SubMenu';
 export * from './src/types';
+
+export type MenuInst = InstanceType<typeof Menu>;
+export type MenuItemInst = InstanceType<typeof MenuItem>;
+export type MenuItemGroupInst = InstanceType<typeof MenuItemGroup>;
+export type SubMenuInst = InstanceType<typeof SubMenu>;

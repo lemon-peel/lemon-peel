@@ -13,7 +13,7 @@ Configure i18n related properties via Config Provider, to get language switching
 
 :::demo Use two attributes to provide i18n related config
 
-config-provider/usage
+configProvider/Usage
 
 :::
 
@@ -21,7 +21,7 @@ config-provider/usage
 
 :::demo
 
-config-provider/button
+configProvider/Button
 
 :::
 
@@ -29,7 +29,7 @@ config-provider/button
 
 :::demo
 
-config-provider/message
+configProvider/Message
 
 :::
 

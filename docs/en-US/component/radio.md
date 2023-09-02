@@ -13,7 +13,7 @@ Radio should not have too many options. Otherwise, use the Select component inst
 
 :::demo Creating a radio component is easy, you just need to bind a variable to Radio's `v-model`. It equals to the value of `label` of the chosen radio. The type of `label` is `String`, `Number` or `Boolean`.
 
-radio/basic-usage
+radio/BasicUsage
 
 :::
 
@@ -23,7 +23,7 @@ radio/basic-usage
 
 :::demo You just need to add the `disabled` attribute.
 
-radio/disabled
+radio/Disabled
 
 :::
 
@@ -33,7 +33,7 @@ Suitable for choosing from some mutually exclusive options.
 
 :::demo Combine `el-radio-group` with `el-radio` to display a radio group. Bind a variable with `v-model` of `el-radio-group` element and set label value in `el-radio`. It also provides `change` event with the current value as its parameter.
 
-radio/radio-button-group
+radio/RadioButtonGroup
 
 :::
 
@@ -43,7 +43,7 @@ Radio with button styles.
 
 :::demo You just need to change `el-radio` element into `el-radio-button` element. We also provide `size` attribute.
 
-radio/button-style
+radio/ButtonStyle
 
 :::
 
@@ -51,7 +51,7 @@ radio/button-style
 
 :::demo The `border` attribute adds a border to Radios.
 
-radio/with-borders
+radio/WithBorders
 
 :::
 

@@ -9,4 +9,7 @@ export const LpButtonGroup = withNoopInstall(ButtonGroup);
 export default LpButton;
 
 export * from './src/button';
-export type { ButtonInstance, ButtonGroupInstance } from './src/instance';
+export * from './src/buttonGroup';
+
+export type ButtonInst = InstanceType<typeof Button>;
+export type ButtonGroupInst = InstanceType<typeof ButtonGroup>;

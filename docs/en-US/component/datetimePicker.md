@@ -17,7 +17,7 @@ DateTimePicker is derived from DatePicker and TimePicker. For a more detailed ex
 
 :::demo You can select date and time in one picker at the same time by setting `type` to `datetime`. The way to use shortcuts is the same as Date Picker.
 
-datetime-picker/date-and-time
+datetimePicker/DateAndTime
 
 :::
 
@@ -37,7 +37,7 @@ Pay attention to capitalization
 
 :::demo
 
-datetime-picker/date-and-time-formats
+datetimePicker/DateAndTimeFormats
 
 :::
 
@@ -45,7 +45,7 @@ datetime-picker/date-and-time-formats
 
 :::demo You can select date and time range by setting `type` to `datetimerange`.
 
-datetime-picker/date-and-time-range
+datetimePicker/DateAndTimeRange
 
 :::
 
@@ -53,7 +53,7 @@ datetime-picker/date-and-time-range
 
 :::demo When picking date range on the date panel with type `datetimerange`, `00:00:00` will be used as the default time value for start and end date. We can control it with the `default-time` attribute. `default-time` accepts an array of up to two Date objects. The first item controls time value of the start date and the second item controls time value of the end date.
 
-datetime-picker/default-time
+datetimePicker/DefaultTime
 
 :::
 
@@ -72,7 +72,7 @@ datetime-picker/default-time
 | end-placeholder       | placeholder for the end date in range mode                                                            | string                                           | —                                                             | —                   |
 | time-arrow-control    | whether to pick time using arrow buttons                                                              | boolean                                          | —                                                             | false               |
 | type                  | type of the picker                                                                                    | string                                           | year/month/date/datetime/ week/datetimerange/daterange        | date                |
-| format                | format of the displayed value in the input box                                                        | string                                           | see [date formats](/en-US/component/date-picker#date-formats) | YYYY-MM-DD HH:mm:ss |
+| format                | format of the displayed value in the input box                                                        | string                                           | see [date formats](/en-US/component/datePicker#date-formats) | YYYY-MM-DD HH:mm:ss |
 | popper-class          | custom class name for DateTimePicker's dropdown                                                       | string                                           | —                                                             | —                   |
 | range-separator       | range separator                                                                                       | string                                           | —                                                             | '-'                 |
 | default-value         | optional, default date of the calendar                                                                | Date / [Date, Date]                              |                                                               | —                   |

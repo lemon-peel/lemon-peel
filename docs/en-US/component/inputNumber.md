@@ -11,7 +11,7 @@ Input numerical values with a customizable range.
 
 :::demo Bind a variable to `v-model` in `<lp-input-number>` element and you are set.
 
-input-number/basic
+inputNumber/Basic
 
 :::
 
@@ -25,7 +25,7 @@ When inputting invalid string to the input box, input value will emit `NaN` to t
 
 :::demo The `disabled` attribute accepts a `boolean`, and if the value is `true`, the component is disabled. If you just need to control the value within a range, you can add `min` attribute to set the minimum value and `max` to set the maximum value. By default, the minimum value is `0`.
 
-input-number/disabled
+inputNumber/Disabled
 
 :::
 
@@ -35,7 +35,7 @@ Allows you to define incremental steps.
 
 :::demo Add `step` attribute to set the step.
 
-input-number/steps
+inputNumber/Steps
 
 :::
 
@@ -43,7 +43,7 @@ input-number/steps
 
 :::demo The `step-strictly` attribute accepts a `boolean`. if this attribute is `true`, input value can only be multiple of step.
 
-input-number/step-strictly
+inputNumber/StepStrictly
 
 :::
 
@@ -51,7 +51,7 @@ input-number/step-strictly
 
 :::demo Add `precision` attribute to set the precision of input value.
 
-input-number/precision
+inputNumber/Precision
 
 :::
 
@@ -67,7 +67,7 @@ Use attribute `size` to set additional sizes with `large` or `small`.
 
 :::demo
 
-input-number/size
+inputNumber/Size
 
 :::
 
@@ -75,7 +75,7 @@ input-number/size
 
 :::demo Set `controls-position` to decide the position of control buttons.
 
-input-number/controlled
+inputNumber/Controlled
 
 :::
 

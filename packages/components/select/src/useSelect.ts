@@ -522,7 +522,7 @@ export function useSelect(props: Readonly<ExtractPropTypes<typeof selectProps>>,
 
   const toggleLastOptionHitState = (hit?: boolean) => {
     if (!Array.isArray(states.selected)) return;
-    const option = states.selected[states.selected.length - 1];
+    const option = states.selected.at(-1);
     if (!option) return;
 
     if (hit === true || hit === false) {
@@ -665,7 +665,7 @@ export function useSelect(props: Readonly<ExtractPropTypes<typeof selectProps>>,
       states.isOnComposition = false;
       nextTick(() => handleQueryChange(text));
     } else {
-      const lastCharacter = text[text.length - 1] || '';
+      const lastCharacter = text.at(-1) || '';
       states.isOnComposition = !isKorean(lastCharacter);
     }
   };

@@ -13,7 +13,7 @@ Basic table is just for data display.
 
 :::demo After setting attribute `data` of `el-table` with an object array, you can use `prop` (corresponding to a key of the object in `data` array) in `el-table-column` to insert data to table columns, and set the attribute `label` to define the column name. You can also use the attribute `width` to define the width of columns.
 
-table/basic
+table/Basic
 
 :::
 
@@ -23,7 +23,7 @@ Striped table makes it easier to distinguish different rows.
 
 :::demo Attribute `stripe` accepts a `Boolean`. If `true`, table will be striped.
 
-table/striped
+table/Striped
 
 :::
 
@@ -31,7 +31,7 @@ table/striped
 
 :::demo By default, Table has no vertical border. If you need it, you can set attribute `border` to `true`.
 
-table/with-border
+table/WithBorder
 
 :::
 
@@ -41,7 +41,7 @@ You can highlight your table content to distinguish between "success, informatio
 
 :::demo Use `row-class-name` in `el-table` to add custom classes to a certain row. Then you can style it with custom classes.
 
-table/with-status
+table/WithStatus
 
 :::
 
@@ -51,7 +51,7 @@ When there are too many rows, you can use a fixed header.
 
 :::demo By setting the attribute `height` of `el-table`, you can fix the table header without any other codes.
 
-table/fixed-header
+table/FixedHeader
 
 :::
 
@@ -61,7 +61,7 @@ When there are too many columns, you can fix some of them.
 
 :::demo Attribute `fixed` is used in `el-table-column`, it accepts a `Boolean`. If `true`, the column will be fixed at left. It also accepts two string literals: 'left' and 'right', both indicating that the column will be fixed at corresponding direction.
 
-table/fixed-column
+table/FixedColumn
 
 :::
 
@@ -71,7 +71,7 @@ When you have huge chunks of data to put in a table, you can fix the header and 
 
 :::demo Fix columns and header at the same time by combining the above two examples.
 
-table/fixed-column-and-header
+table/FixedColumnAndHeader
 
 :::
 
@@ -81,7 +81,7 @@ When the the data is dynamically changed, you might want the table to have a max
 
 :::demo By setting the attribute `max-height` of `el-table`, you can fix the table header. The table body scrolls only if the height of the rows exceeds the max height value.
 
-table/fixed-header-with-fluid-header
+table/FixedHeaderWithFluidHeader
 
 :::
 
@@ -91,7 +91,7 @@ When the data structure is complex, you can use group header to show the data hi
 
 :::demo Only need to place el-table-column inside a el-table-column, you can achieve group header.
 
-table/grouping-header
+table/GroupingHeader
 
 :::
 
@@ -101,7 +101,7 @@ fixed group head is supported
 
 :::demo The attribute `fixed` of the group header is determined by the outermost `el-table-column`
 
-table/fixed-column-and-group-header
+table/FixedColumnAndGroupHeader
 
 :::
 
@@ -111,7 +111,7 @@ Single row selection is supported.
 
 :::demo Table supports single row selection. You can activate it by adding the `highlight-current-row` attribute. An event called `current-change` will be triggered when row selection changes, and its parameters are the rows after and before this change: `currentRow` and `oldCurrentRow`. If you need to display row index, you can add a new `el-table-column` with its `type` attribute assigned to `index`, and you will see the index starting from 1.
 
-table/single-select
+table/SingleSelect
 
 :::
 
@@ -121,7 +121,7 @@ You can also select multiple rows.
 
 :::demo Activating multiple selection is easy: simply add an `el-table-column` with its `type` set to `selection`. Apart from multiple selection, this example also uses `show-overflow-tooltip`. By default, if the content is too long, it will break into multiple lines. If you want to keep it in one line, use attribute `show-overflow-tooltip`, which accepts a `Boolean` value. When set `true`, the extra content will show in tooltip when hover on the cell.
 
-table/multi-select
+table/MultiSelect
 
 :::
 
@@ -131,7 +131,7 @@ Sort the data to find or compare data quickly.
 
 :::demo Set attribute `sortable` in a certain column to sort the data based on this column. It accepts `Boolean` with a default value `false`. Set table attribute `default-sort` to determine default sort column and order. To apply your own sorting rules, use `sort-method` or `sort-by`. If you need remote sorting from backend, set `sortable` to `custom`, and listen to the `sort-change` event on Table. In the event handler, you have access to the sorting column and sorting order so that you can fetch sorted table data from API. In this example we use another attribute named `formatter` to format the value of certain columns. It accepts a function which has two parameters: `row` and `column`. You can handle it according to your own needs.
 
-table/sort
+table/Sort
 
 :::
 
@@ -141,7 +141,7 @@ Filter the table to find desired data.
 
 :::demo Set attribute `filters` and `filter-method` in `el-table-column` makes this column filterable. `filters` is an array, and `filter-method` is a function deciding which rows are displayed. It has three parameters: `value`, `row` and `column`.
 
-table/filter
+table/Filter
 
 :::
 
@@ -151,7 +151,7 @@ Customize table column so it can be integrated with other components.
 
 :::demo You have access to the following data: row, column, $index and store (state management of Table) by [slot](https://v3.vuejs.org/guide/component-slots.html).
 
-table/custom-column
+table/CustomColumn
 
 :::
 
@@ -161,7 +161,7 @@ Customize table header so it can be even more customized.
 
 :::demo You can customize how the header looks by header [slots](https://v3.vuejs.org/guide/component-slots.html).
 
-table/custom-header
+table/CustomHeader
 
 :::
 
@@ -171,7 +171,7 @@ When the row content is too long and you do not want to display the horizontal s
 
 :::demo Activate expandable row by adding type="expand" and slot. The template for el-table-column will be rendered as the contents of the expanded row, and you can access the same attributes as when you are using `slot` in custom column templates.
 
-table/expandable-row
+table/ExpandableRow
 
 :::
 
@@ -179,7 +179,7 @@ table/expandable-row
 
 :::demo You can display tree structure data. When row contains the `children` field, it is treated as nested data. For rendering nested data, the prop `row-key` is required. Also, child row data can be loaded asynchronously. Set `lazy` property of Table to true and the function `load`. Specify `hasChildren` attribute in row to determine which row contains children. Both `children` and `hasChildren` can be configured via `tree-props`.
 
-table/tree-and-lazy
+table/TreeAndLazy
 
 :::
 
@@ -189,7 +189,7 @@ For table of numbers, you can add an extra row at the table footer displaying ea
 
 :::demo You can add the summary row by setting `show-summary` to `true`. By default, for the summary row, the first column does not sum anything up but always displays 'Sum' (you can configure the displayed text using `sum-text`), while other columns sum every number in that column up and display them. You can of course define your own sum behaviour. To do so, pass a method to `summary-method`, which returns an array, and each element of the returned array will be displayed in the columns of the summary row. The second table of this example is a detailed demo.
 
-table/summary
+table/Summary
 
 :::
 
@@ -199,7 +199,7 @@ Configuring rowspan and colspan allows you to merge cells
 
 :::demo Use the `span-method` attribute to configure rowspan and colspan. It accepts a method, and passes an object to that method including current row `row`, current column `column`, current row index `rowIndex` and current column index `columnIndex`. The method should return an array of two numbers, the first number being `rowspan` and second `colspan`. It can also return an object with `rowspan` and `colspan` props.
 
-table/rowspan-and-colspan
+table/RowspanAndColspan
 
 :::
 
@@ -209,7 +209,7 @@ You can customize row index in `type=index` columns.
 
 :::demo To customize row indices, use `index` attribute on `el-table-column` with `type=index`. If it is assigned to a number, all indices will have an offset of that number. It also accepts a method with each index (starting from `0`) as parameter, and the returned value will be displayed as index.
 
-table/custom-index
+table/CustomIndex
 
 :::
 
@@ -219,7 +219,7 @@ The [table-layout](https://developer.mozilla.org/en-US/docs/Web/CSS/table-layout
 
 :::demo
 
-table/table-layout
+table/TableLayout
 
 :::
 

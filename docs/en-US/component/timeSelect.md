@@ -15,7 +15,7 @@ Provide a list of fixed time for users to choose.
 
 :::demo Use `el-time-select` label, then assign start time, end time and time step with `start`, `end` and `step`.
 
-time-select/basic
+timeSelect/Basic
 
 :::
 
@@ -33,7 +33,7 @@ Pay attention to capitalization
 
 :::demo
 
-time-select/time-formats
+timeSelect/TimeFormats
 
 :::
 
@@ -43,7 +43,7 @@ If start( end ) time is picked at first, then the status of end( start ) time's 
 
 :::demo
 
-time-select/time-range
+timeSelect/TimeRange
 
 :::
 

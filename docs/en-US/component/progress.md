@@ -11,7 +11,7 @@ Progress is used to show the progress of current operation, and inform the user 
 
 :::demo Use `percentage` attribute to set the percentage. It's **required** and must be between `0-100`. You can custom text format by setting `format`.
 
-progress/linear-progress-bar
+progress/LinearProgressBar
 
 :::
 
@@ -21,7 +21,7 @@ In this case the percentage takes no additional space.
 
 :::demo `stroke-width` attribute decides the `width` of progress bar, and use `text-inside` attribute to put description inside the progress bar.
 
-progress/internal-percentage
+progress/InternalPercentage
 
 :::
 
@@ -31,7 +31,7 @@ You can use `color` attr to set the progress bar color. it accepts color string,
 
 :::demo
 
-progress/custom-color
+progress/CustomColor
 
 :::
 
@@ -39,7 +39,7 @@ progress/custom-color
 
 :::demo You can specify `type` attribute to `circle` to use circular progress bar, and use `width` attribute to change the size of circle.
 
-progress/circular-progress-bar
+progress/CircularProgressBar
 
 :::
 
@@ -49,7 +49,7 @@ You also can specify `type` attribute to `dashboard` to use dashboard progress b
 
 :::demo
 
-progress/dashboard-progress-bar
+progress/DashboardProgressBar
 
 :::
 
@@ -57,7 +57,7 @@ progress/dashboard-progress-bar
 
 :::demo Use default slot to add customized content.
 
-progress/customized-content
+progress/CustomizedContent
 
 :::
 
@@ -65,7 +65,7 @@ progress/customized-content
 
 :::demo Use `indeterminate` attribute to set indeterminate progress, with `duration` to control the animation duration.
 
-progress/indeterminate-progress
+progress/IndeterminateProgress
 
 :::
 

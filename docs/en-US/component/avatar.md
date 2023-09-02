@@ -13,7 +13,7 @@ Use `shape` and `size` prop to set avatar's shape and size.
 
 :::demo
 
-avatar/basic
+avatar/Basic
 
 :::
 
@@ -23,7 +23,7 @@ It supports images, Icons, or characters.
 
 :::demo
 
-avatar/types
+avatar/Types
 
 :::
 
@@ -33,7 +33,7 @@ fallback when image load error.
 
 :::demo
 
-avatar/fallback
+avatar/Fallback
 
 :::
 
@@ -43,7 +43,7 @@ Set how the image fit its container for an image avatar, same as [object-fit](ht
 
 :::demo
 
-avatar/fit
+avatar/Fit
 
 :::
 

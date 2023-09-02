@@ -19,10 +19,11 @@ export const translate = (
   option: undefined | TranslatorOption,
   locale: Language,
 ): string =>
-  (get(locale, path, path) as string).replace(
-    /{(\w+)}/g,
-    (_, key) => `${option?.[key] ?? `{${key}}`}`,
-  );
+  (get(locale, path, path) as string)
+    .replaceAll(
+      /{(\w+)}/g,
+      (_, key) => `${option?.[key] ?? `{${key}}`}`,
+    );
 
 export const buildTranslator =
   (locale: MaybeRef<Language>): Translator =>

@@ -23,7 +23,7 @@ export default class Store {
 
   readonly leafNodes: Node[];
 
-  constructor(data: CascaderOption[], readonly config: CascaderConfig) {
+  constructor(data: CascaderOption[], readonly config: Required<CascaderConfig>) {
     const nodes = (data || []).map(
       nodeData => new Node(nodeData, this.config),
     );

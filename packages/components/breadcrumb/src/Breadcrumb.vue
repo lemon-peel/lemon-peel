@@ -30,7 +30,7 @@ provide(breadcrumbKey, props);
 onMounted(() => {
   const items = breadcrumb.value!.querySelectorAll(`.${ns.e('item')}`);
   if (items.length > 0) {
-    items[items.length - 1].setAttribute('aria-current', 'page');
+    Array.from(items).at(-1)?.setAttribute('aria-current', 'page');
   }
 });
 </script>

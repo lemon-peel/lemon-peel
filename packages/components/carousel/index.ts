@@ -13,4 +13,5 @@ export const LpCarouselItem = withNoopInstall(CarouselItem);
 export * from './src/carousel';
 export * from './src/carouselItem';
 
-export type { CarouselInstance, CarouselItemInstance } from './src/instance';
+export type CarouselInst = InstanceType<typeof Carousel>;
+export type CarouselItemInst = InstanceType<typeof CarouselItem>;

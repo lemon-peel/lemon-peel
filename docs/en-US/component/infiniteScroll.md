@@ -13,7 +13,7 @@ Add `v-infinite-scroll` to the list to automatically execute loading method when
 
 :::demo
 
-infinite-scroll/basic
+infiniteScroll/Basic
 
 :::
 
@@ -21,7 +21,7 @@ infinite-scroll/basic
 
 :::demo
 
-infinite-scroll/disable-loading
+infiniteScroll/DisableLoading
 
 :::
 

@@ -1,7 +1,6 @@
 import type { InjectionKey } from 'vue';
 import type { Nullable } from '@lemon-peel/utils';
-import type { default as CascaderNode, CascaderOption, CascaderProps, RenderLabel } from './node';
-
+import type { default as CascaderNode, CascaderOption, CascaderConfig, RenderLabel } from './node';
 
 export type CascaderNodeValue = string | number;
 export type CascaderNodePathValue = CascaderNodeValue[];
@@ -9,7 +8,7 @@ export type CascaderValue =
   | CascaderNodeValue
   | CascaderNodePathValue
   | (CascaderNodeValue | CascaderNodePathValue)[];
-export type CascaderConfig = Required<CascaderProps>;
+
 export type IsDisabled = (data: CascaderOption, node: CascaderNode) => boolean;
 export type IsLeaf = (data: CascaderOption, node: CascaderNode) => boolean;
 export type Resolve = (dataList?: CascaderOption[]) => void;
@@ -43,4 +42,9 @@ export interface LpCascaderPanelContext {
 export const CASCADER_PANEL_INJECTION_KEY: InjectionKey<LpCascaderPanelContext> =
   Symbol('cascader-panel');
 
-export { type ExpandTrigger, type default as CascaderNode, type CascaderOption, type CascaderProps } from './node';
+export type {
+  default as CascaderNode,
+  ExpandTrigger,
+  CascaderOption,
+  CascaderConfig,
+} from './node';

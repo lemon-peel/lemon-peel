@@ -7,13 +7,13 @@
     :data="data"
     :props="defaultProps"
     default-expand-all
-    :filter-node-method="filterNode"
+    :filter-node-method="(filterNode as any)"
   />
 </template>
 
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
-import type { LpTree } from 'lemon-peel';
+import { LpTree } from 'lemon-peel';
 
 interface Tree {
   id: number;

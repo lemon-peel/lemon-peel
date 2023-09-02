@@ -13,7 +13,7 @@ Basic text link
 
 :::demo
 
-link/basic
+link/Basic
 
 :::
 
@@ -23,7 +23,7 @@ Disabled state of link
 
 :::demo
 
-link/disabled
+link/Disabled
 
 :::
 
@@ -33,7 +33,7 @@ Underline of link
 
 :::demo
 
-link/underline
+link/Underline
 
 :::
 
@@ -49,7 +49,7 @@ Use the `icon` attribute to add icon. You can pass either string for the compone
 
 :::demo
 
-link/with-icon
+link/WithIcon
 
 :::
 

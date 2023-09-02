@@ -51,6 +51,7 @@ export const alertProps = buildProps({
     default: 'light',
   },
 } as const);
+
 export type AlertProps = ExtractPropTypes<typeof alertProps>;
 
 export const alertEmits = {

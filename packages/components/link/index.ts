@@ -6,3 +6,5 @@ export const LpLink = withInstall(Link);
 export default LpLink;
 
 export * from './src/link';
+
+export type LinkInst = InstanceType<typeof Link>;

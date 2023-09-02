@@ -311,12 +311,12 @@ export default defineComponent({
       }
 
       addClass(rootChildren[0], ns.is('first'));
-      addClass(rootChildren[rootChildren.length - 1], ns.is('last'));
+      addClass(rootChildren.at(-1), ns.is('last'));
 
       if (haveRightWrapper && rightWrapperChildren.length > 0) {
         addClass(rightWrapperChildren[0], ns.is('first'));
         addClass(
-          rightWrapperChildren[rightWrapperChildren.length - 1],
+          rightWrapperChildren.at(-1),
           ns.is('last'),
         );
         rootChildren.push(rightWrapperRoot);

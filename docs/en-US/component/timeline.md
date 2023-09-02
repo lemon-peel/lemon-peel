@@ -13,7 +13,7 @@ Timeline can be split into multiple activities. Timestamps are important feature
 
 :::demo
 
-timeline/basic
+timeline/Basic
 
 :::
 
@@ -23,7 +23,7 @@ Size, color, and icons can be customized in node.
 
 :::demo
 
-timeline/custom-node
+timeline/CustomNode
 
 :::
 
@@ -33,7 +33,7 @@ Timestamp can be placed on top of content when content is too high.
 
 :::demo
 
-timeline/custom-timestamp
+timeline/CustomTimestamp
 
 :::
 
@@ -43,7 +43,7 @@ Timeline-Item is centered vertically.
 
 :::demo
 
-timeline/center
+timeline/Center
 
 :::
 

@@ -1,12 +1,3 @@
-<script setup lang="ts">
-import { rightLogoSmallSponsors } from '../../../config/sponsors';
-import { sendEvent } from '../../../config/analytics';
-import { isDark } from '../../composables/dark';
-const onItemClick = (item: any) => {
-  sendEvent('sp_click', item.name, 'right_logo_small');
-};
-</script>
-
 <template>
   <div class="m-t-16px flex flex-wrap justify-between">
     <template
@@ -43,3 +34,13 @@ const onItemClick = (item: any) => {
     </template>
   </div>
 </template>
+
+<script setup lang="ts">
+import { isDark } from '@/vitepress/composables/dark';
+import { rightLogoSmallSponsors } from '@/config/sponsors';
+import { sendEvent } from '@/config/analytics';
+
+const onItemClick = (item: any) => {
+  sendEvent('sp_click', item.name, 'right_logo_small');
+};
+</script>

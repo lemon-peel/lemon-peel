@@ -11,7 +11,7 @@ Displays the location of the current page, making it easier to browser back.
 
 :::demo In `el-breadcrumb`, each `el-breadcrumb-item` is a tag that stands for every level starting from homepage. This component has a `String` attribute `separator`, and it determines the separator. Its default value is '/'.
 
-breadcrumb/basic
+breadcrumb/Basic
 
 :::
 
@@ -19,7 +19,7 @@ breadcrumb/basic
 
 :::demo Set `separator-icon` to use `svg icon` as the separator，it will cover `separator`
 
-breadcrumb/icon
+breadcrumb/Icon
 
 :::
 
