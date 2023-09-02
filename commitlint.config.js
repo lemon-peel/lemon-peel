@@ -38,7 +38,7 @@ const subjectComplete = gitStatus
   ?.replace(/\//g, '%%')
   ?.match(/packages%%components%%((\w|-)*)/)?.[1];
 
-export default {
+module.exports = {
   rules: {
     /**
      * type[scope]: [function] description
