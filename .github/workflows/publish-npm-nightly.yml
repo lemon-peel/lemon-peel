@@ -71,7 +71,7 @@ jobs:
         run: echo "//registry.npmjs.com/:_authToken=${{ secrets.NPM_PUBLISH_TOKEN }}" >> ./.npmrc
 
       - name: Build & publish
-        run: sh ./scripts/publish_nightly.sh
+        run: bash ./scripts/publish_nightly.sh
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_PUBLISH_TOKEN}}
           TAG_VERSION: 0.0.${{ steps.date.outputs.date }}
