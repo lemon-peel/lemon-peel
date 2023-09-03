@@ -50,7 +50,7 @@
     "docs:crowdin-credentials": "pnpm run -C docs crowdin-credentials",
     "stub": "pnpm run -r --parallel stub",
     "tsc": "vue-tsc --noEmit --incremental false --composite false --project tsconfig.pkgs.json",
-    "tsc:defination": "vue-tsc --declaration --emitDeclarationOnly --composite false --incremental false --project tsconfig.pkgs.json --outDir dist/types",
+    "tsc:defination": "vue-tsc --declaration --emitDeclarationOnly --project tsconfig.pkgs.json --outDir dist/types",
     "prepare": "husky install",
     "postinstall": "pnpm stub && concurrently \"pnpm gen:version\" \"pnpm run -C toolkit/metadata dev\""
   },
