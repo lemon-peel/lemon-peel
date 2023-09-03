@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 set -e
 
@@ -12,7 +12,7 @@ function publish_lemon_peel() {
   pnpm update:version
   pnpm build
   cd dist/lemon-peel
-  npm publish --access=public
+  # npm publish --access=public
   cd -
 }
 
@@ -20,7 +20,7 @@ function public_unplugin_resolver() {
   cd toolkit/unplugin-resolver
   pnpm version $TAG_VERSION
   pnpm build
-  npm publish --access=public
+  # npm publish --access=public
   cd -
 }
 
@@ -28,17 +28,19 @@ function public_metadata() {
   cd toolkit/metadata
   pnpm version $TAG_VERSION
   pnpm build
-  npm publish --access=public
+  # npm publish --access=public
   cd -
 }
 
-function change_then_do() {
-  git diff --exit-code --quiet -- $recent_tag..$current_tag -- $1
-  if [ $? -eq 0 ]; then
+change_then_do() {
+  echo "check $1 changes: $recent_tag..$current_tag"
+  {
+    git diff --exit-code --quiet $recent_tag..$current_tag $1 &&
     echo "📦 No changes in $1, skip publish"
-  else
+  } || {
+    echo "📦 Changes in $1, start publish"
     eval $2
-  fi
+  }
 }
 
 change_then_do "packages" publish_lemon_peel
