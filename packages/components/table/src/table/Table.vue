@@ -57,7 +57,7 @@
         </table>
       </div>
       <div ref="bodyWrapper" :class="ns.e('body-wrapper')">
-        <lp-scroll-bar
+        <lp-scrollbar
           ref="scrollBarRef"
           :view-style="scrollbarViewStyle"
           :wrap-style="scrollbarStyle"
@@ -110,7 +110,7 @@
           >
             <slot name="append" />
           </div>
-        </lp-scroll-bar>
+        </lp-scrollbar>
       </div>
       <div
         v-if="showSummary"
@@ -142,7 +142,7 @@ import { computed, getCurrentInstance, nextTick, onBeforeUnmount, provide } from
 import { Mousewheel as vMousewheel } from '@lemon-peel/directives';
 import { useLocale, useNamespace } from '@lemon-peel/hooks';
 import { debounce } from 'lodash';
-import LpScrollBar from '@lemon-peel/components/scrollbar';
+import LpScrollbar from '@lemon-peel/components/scrollbar';
 
 import { tableProps, tableEmits } from './defaults';
 import TableLayout from '../layout/TableLayout';

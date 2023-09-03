@@ -36,5 +36,5 @@ export const useCascaderConfig = (props: { config: CascaderConfig }) => {
   return computed(() => ({
     ...DefaultProps,
     ...props.config,
-  }));
+  } as Required<CascaderConfig>));
 };

@@ -15,13 +15,13 @@
     <template #content>
       <div v-if="multiple">
         <div :class="ns.e('content')">
-          <lp-scroll-bar :wrap-class="ns.e('wrap')">
+          <lp-scrollbar :wrap-class="ns.e('wrap')">
             <lp-checkbox-group v-model:value="filteredValue" :class="ns.e('checkbox-group')">
               <lp-checkbox v-for="filter in filters" :key="filter.value" :value="filter.value">
                 {{ filter.text }}
               </lp-checkbox>
             </lp-checkbox-group>
-          </lp-scroll-bar>
+          </lp-scrollbar>
         </div>
         <div :class="ns.e('bottom')">
           <button :class="{ [ns.is('disabled')]: filteredValue.length === 0 }" :disabled="filteredValue.length === 0"
@@ -80,7 +80,7 @@ import { ClickOutside as vClickOutside } from '@lemon-peel/directives';
 import { useLocale, useNamespace } from '@lemon-peel/hooks';
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import LpTooltip from '@lemon-peel/components/tooltip';
-import LpScrollBar from '@lemon-peel/components/scrollbar';
+import LpScrollbar from '@lemon-peel/components/scrollbar';
 
 import type { Placement } from '@lemon-peel/components/popper';
 import type { PropType, WritableComputedRef } from 'vue';

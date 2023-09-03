@@ -196,7 +196,7 @@ describe('Calendar.vue', () => {
     expect(dateTables.length).toBe(3);
     const rows = wrapper.element.querySelectorAll('.lp-calendar-table__row');
     expect(rows.length).toBe(6);
-    const cell = rows.at(-1).firstElementChild as HTMLElement;
+    const cell = Array.from(rows).at(-1)!.firstElementChild as HTMLElement;
     cell.click();
 
     await nextTick();
@@ -217,7 +217,7 @@ describe('Calendar.vue', () => {
     expect(dateTables.length).toBe(2);
     const rows = wrapper.element.querySelectorAll('.lp-calendar-table__row');
     expect(rows.length).toBe(4);
-    const cell = rows.at(-1).firstElementChild as HTMLElement;
+    const cell = Array.from(rows).at(-1)!.firstElementChild as HTMLElement;
     cell.click();
 
     await nextTick();

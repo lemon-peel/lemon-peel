@@ -214,7 +214,7 @@
 
       <template #content>
         <lp-select-dropdown>
-          <lp-scroll-bar
+          <lp-scrollbar
             v-show="options.size > 0 && !loading"
             ref="scrollbar"
             tag="ul"
@@ -223,7 +223,7 @@
             :class="[nsSelect.is('empty', Boolean(query) && filteredOptionsCount === 0)]"
           >
             <slot />
-          </lp-scroll-bar>
+          </lp-scrollbar>
           <template v-if="emptyText && (loading || options.size === 0)">
             <slot v-if="$slots.empty" name="empty" />
             <p v-else :class="nsSelect.be('dropdown', 'empty')">
@@ -243,7 +243,7 @@ import { ClickOutside } from '@lemon-peel/directives';
 import { useFocus, useLocale, useNamespace } from '@lemon-peel/hooks';
 import LpInput from '@lemon-peel/components/input';
 import LpTooltip from '@lemon-peel/components/tooltip';
-import LpScrollBar from '@lemon-peel/components/scrollbar';
+import LpScrollbar from '@lemon-peel/components/scrollbar';
 import LpTag, { tagProps } from '@lemon-peel/components/tag';
 import LpIcon from '@lemon-peel/components/icon';
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@lemon-peel/constants';

@@ -252,7 +252,7 @@ export default class Color {
 
     if (value.includes('hsl')) {
       const parts = value
-        .replaceAll(/hsla|hsl|\(|\)/m, '')
+        .replaceAll(/hsla|hsl|\(|\)/gm, '')
         .split(/\s|,/)
         .filter(value_ => value_ !== '')
         .map((value_, index) =>
@@ -272,7 +272,7 @@ export default class Color {
       }
     } else if (value.includes('hsv')) {
       const parts = value
-        .replaceAll(/hsva|hsv|\(|\)/m, '')
+        .replaceAll(/hsva|hsv|\(|\)/gm, '')
         .split(/\s|,/)
         .filter(value_ => value_ !== '')
         .map((value_, index) =>
@@ -291,7 +291,7 @@ export default class Color {
       }
     } else if (value.includes('rgb')) {
       const parts = value
-        .replaceAll(/rgba|rgb|\(|\)/m, '')
+        .replaceAll(/rgba|rgb|\(|\)/gm, '')
         .split(/\s|,/)
         .filter(value_ => value_ !== '')
         .map((value_, index) =>

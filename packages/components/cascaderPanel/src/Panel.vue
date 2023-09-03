@@ -115,9 +115,7 @@ const scrollToExpandingNode = () => {
   for (const menu of menuList.value) {
     const menuElement = menu?.$el;
     if (menuElement) {
-      const container = menuElement.querySelector(
-        `.${ns.namespace.value}-scrollbar__wrap`,
-      );
+      const container = menuElement.querySelector(`.${ns.namespace.value}-scrollbar__wrap`);
       const activeNode =
             menuElement.querySelector(`.${ns.b('node')}.${ns.is('active')}`) ||
             menuElement.querySelector(`.${ns.b('node')}.in-active-path`);

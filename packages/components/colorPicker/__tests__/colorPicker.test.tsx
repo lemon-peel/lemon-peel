@@ -1,6 +1,6 @@
 import { nextTick, ref } from 'vue';
 import { mount } from '@vue/test-utils';
-import { describe, expect, it, vi } from 'vitest';
+import { describe, expect, test, vi } from 'vitest';
 import { LpFormItem } from '@lemon-peel/components/form';
 import ColorPicker from '../src/ColorPicker.vue';
 import type { ComponentPublicInstance } from 'vue';
@@ -29,12 +29,13 @@ type ColorPickerVM = ComponentPublicInstance<{
 }>;
 
 describe('Color-picker', () => {
-  it('Mount Color-picker', () => {
+  test('Mount Color-picker', () => {
     const wrapper = mount(ColorPicker);
     expect(wrapper.html()).toContain('lp-color-picker');
     wrapper.unmount();
   });
-  it('should show alpha slider when show-alpha=true', async () => {
+
+  test('should show alpha slider when show-alpha=true', async () => {
     const color = ref('#20A0FF');
     const wrapper = mount(() => (
       <ColorPicker v-model:value={color.value} show-alpha={true} />
@@ -45,7 +46,8 @@ describe('Color-picker', () => {
     expect(alphaSlider).toBeTruthy();
     wrapper.unmount();
   });
-  it('should show correct rgb value', async () => {
+
+  test('should show correct rgb value', async () => {
     const color = ref('#20A0FF');
     const wrapper = mount(() => <ColorPicker v-model:value={color.value} />);
 
@@ -57,7 +59,7 @@ describe('Color-picker', () => {
     expect(input!.value.trim().toUpperCase()).toEqual('#20A0FF');
     wrapper.unmount();
   });
-  it('should show correct hex value contains alpha', async () => {
+  test('should show correct hex value contains alpha', async () => {
     const color = ref('#20A0FFEE');
     const wrapper = mount(() => (
       <ColorPicker v-model:value={color.value} color-format="hex" show-alpha />
@@ -71,7 +73,8 @@ describe('Color-picker', () => {
     expect(input!.value.trim().toUpperCase()).toEqual('#20A0FFEE');
     wrapper.unmount();
   });
-  it('should pick a color when confirm button click', async () => {
+
+  test('should pick a color when confirm button click', async () => {
     const color = ref(null);
     const wrapper = mount(() => <ColorPicker v-model:value={color.value} />);
 
@@ -81,7 +84,8 @@ describe('Color-picker', () => {
     expect(color.value).toEqual('#FF0000');
     wrapper.unmount();
   });
-  it('should pick a color contains alpha when confirm button click', async () => {
+
+  test('should pick a color contains alpha when confirm button click', async () => {
     const color = ref(null);
     const wrapper = mount(() => (
       <ColorPicker v-model:value={color.value} color-format="hex" show-alpha />
@@ -93,7 +97,8 @@ describe('Color-picker', () => {
     expect(color.value).toEqual('#FF0000FF');
     wrapper.unmount();
   });
-  it('should init the right color when open', async () => {
+
+  test('should init the right color when open', async () => {
     const color = ref('#0F0');
     const wrapper = mount(() => <ColorPicker v-model:value={color.value} />);
 
@@ -119,7 +124,8 @@ describe('Color-picker', () => {
     mockThumbDom.mockRestore();
     wrapper.unmount();
   });
-  it('should show color picker when click trigger', async () => {
+
+  test('should show color picker when click trigger', async () => {
     const color = ref('#0F0');
     const wrapper = mount(() => <ColorPicker v-model:value={color.value} />);
 
@@ -128,7 +134,8 @@ describe('Color-picker', () => {
     expect(dropdown).toBeTruthy();
     wrapper.unmount();
   });
-  it('should clear a color when clear button click', async () => {
+
+  test('should clear a color when clear button click', async () => {
     const color = ref('#0F0');
     const wrapper = mount(() => <ColorPicker v-model:value={color.value} />);
 
@@ -140,7 +147,8 @@ describe('Color-picker', () => {
     expect(color.value).toEqual(null);
     wrapper.unmount();
   });
-  it('should change hue when clicking the hue bar', async () => {
+
+  test('should change hue when clicking the hue bar', async () => {
     const color = ref('#F00');
     const wrapper = mount(() => <ColorPicker v-model:value={color.value} />);
 
@@ -175,7 +183,8 @@ describe('Color-picker', () => {
     mockThumbDom.mockRestore();
     wrapper.unmount();
   });
-  it('should change hue when saturation is zero', async () => {
+
+  test('should change hue when saturation is zero', async () => {
     const color = ref('20A0FF');
     const wrapper = mount(() => <ColorPicker v-model:value={color.value} />);
 
@@ -215,7 +224,8 @@ describe('Color-picker', () => {
     mockHueSlideOffsetHeight.mockRestore();
     wrapper.unmount();
   });
-  it('should change alpha when clicking the alpha bar', async () => {
+
+  test('should change alpha when clicking the alpha bar', async () => {
     const color = ref('#F00');
     const wrapper = mount(() => (
       <ColorPicker v-model:value={color.value} show-alpha />
@@ -253,7 +263,7 @@ describe('Color-picker', () => {
     wrapper.unmount();
   });
 
-  it('should change saturation and value when clicking the sv-panel', async () => {
+  test('should change saturation and value when clicking the sv-panel', async () => {
     const color = ref('hsv(0, 50%, 50%)');
     const wrapper = mount(() => (
       <ColorPicker v-model:value={color.value} show-alpha color-format="hsv" />
@@ -273,7 +283,7 @@ describe('Color-picker', () => {
     });
   });
 
-  it('should change color to the selected color', async () => {
+  test('should change color to the selected color', async () => {
     const color = ref('hsva(180, 65, 20, 0.5)');
     const colors = ref([
       'rgba(19, 206, 102, 0.18)',
@@ -323,7 +333,7 @@ describe('Color-picker', () => {
     expect(colorPickerWrapper.vm.color.get('alpha')).toEqual(100);
   });
 
-  it('should change selected state of predefined color', async () => {
+  test('should change selected state of predefined color', async () => {
     const color = ref('hsva(180, 65, 20, 0.5)');
     const colors = ref([
       'rgba(19, 206, 102, 0.18)',
@@ -393,7 +403,7 @@ describe('Color-picker', () => {
     mockThumbDom.mockRestore();
     mockHueSlideOffsetHeight.mockRestore();
   });
-  it('should not execute activeChange event', async () => {
+  test('should not execute activeChange event', async () => {
     const onActiveChange = vi.fn();
     const color = ref('#20A0FF');
     const wrapper = mount(() => (
@@ -406,7 +416,7 @@ describe('Color-picker', () => {
   });
 
   describe('form item accessibility integration', () => {
-    it('automatic id attachment', async () => {
+    test('automatic id attachment', async () => {
       const wrapper = mount(() => (
         <LpFormItem label="Foobar" data-test-ref="item">
           <ColorPicker />
@@ -423,7 +433,7 @@ describe('Color-picker', () => {
       );
     });
 
-    it('specified id attachment', async () => {
+    test('specified id attachment', async () => {
       const wrapper = mount(() => (
         <LpFormItem label="Foobar" data-test-ref="item">
           <ColorPicker id="foobar" />
@@ -441,7 +451,7 @@ describe('Color-picker', () => {
       );
     });
 
-    it('form item role is group when multiple inputs', async () => {
+    test('form item role is group when multiple inputs', async () => {
       const wrapper = mount(() => (
         <LpFormItem label="Foobar" data-test-ref="item">
           <ColorPicker />

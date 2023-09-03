@@ -29,7 +29,7 @@
       @before-hide="handleBeforeHideTooltip"
     >
       <template #content>
-        <lp-scroll-bar
+        <lp-scrollbar
           ref="scrollbar"
           :wrap-style="wrapStyle"
           tag="div"
@@ -46,7 +46,7 @@
               <slot name="dropdown" />
             </lp-dropdown-collection>
           </lp-roving-focus-group>
-        </lp-scroll-bar>
+        </lp-scrollbar>
       </template>
       <template v-if="!splitButton" #default>
         <lp-only-child :id="triggerId" role="button" :tabindex="tabindex">
@@ -91,7 +91,7 @@ import { computed, getCurrentInstance, provide, ref, toRef, unref } from 'vue';
 import LpButton from '@lemon-peel/components/button';
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import LpTooltip from '@lemon-peel/components/tooltip';
-import LpScrollBar from '@lemon-peel/components/scrollbar';
+import LpScrollbar from '@lemon-peel/components/scrollbar';
 import LpIcon from '@lemon-peel/components/icon';
 import LpRovingFocusGroup from '@lemon-peel/components/rovingFocusGroup';
 import { LpOnlyChild } from '@lemon-peel/components/slot';

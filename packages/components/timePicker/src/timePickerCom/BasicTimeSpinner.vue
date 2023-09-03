@@ -1,7 +1,7 @@
 <template>
   <div :class="[ns.b('spinner'), { 'has-seconds': showSeconds }]">
     <template v-if="!arrowControl">
-      <lp-scroll-bar
+      <lp-scrollbar
         v-for="item in spinnerItems"
         :key="item"
         :ref="(scrollbar: unknown) => setRef(scrollbar as any, item)"
@@ -31,7 +31,7 @@
             {{ ('0' + key).slice(-2) }}
           </template>
         </li>
-      </lp-scroll-bar>
+      </lp-scrollbar>
     </template>
     <template v-if="arrowControl">
       <div
@@ -84,7 +84,7 @@ import { debounce } from 'lodash';
 import { vRepeatClick } from '@lemon-peel/directives';
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue';
 import { useNamespace } from '@lemon-peel/hooks';
-import LpScrollBar from '@lemon-peel/components/scrollbar';
+import LpScrollbar from '@lemon-peel/components/scrollbar';
 import LpIcon from '@lemon-peel/components/icon';
 
 import { basicTimeSpinnerProps } from '../props/basicTimeSpinner';

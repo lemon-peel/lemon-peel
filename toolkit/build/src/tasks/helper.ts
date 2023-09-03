@@ -28,7 +28,7 @@ const typeMap = {
 };
 
 const reComponentName: ReComponentName = title =>
-  `lp-${hyphenate(title).replaceAll(/ +/, '-')}`;
+  `lp-${hyphenate(title).replaceAll(/ +/g, '-')}`;
 
 const reDocUrl: ReDocUrl = (fileName, header) => {
   const docs = 'https://lemon-peel.org/en-US/component/';

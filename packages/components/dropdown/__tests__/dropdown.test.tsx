@@ -9,7 +9,7 @@ import { rAF } from '@lemon-peel/test-utils/tick';
 import { POPPER_CONTAINER_SELECTOR } from '@lemon-peel/hooks';
 
 import LpButton from '@lemon-peel/components/button';
-import LpScrollBar from '@lemon-peel/components/scrollbar';
+import LpScrollbar from '@lemon-peel/components/scrollbar';
 import { LpTooltip } from '@lemon-peel/components/tooltip';
 import { LpPopperContent } from '@lemon-peel/components/popper';
 
@@ -354,7 +354,7 @@ describe('Dropdown', () => {
     );
 
     await nextTick();
-    const scrollbar = wrapper.findComponent(LpScrollBar);
+    const scrollbar = wrapper.findComponent(LpScrollbar);
 
     expect(scrollbar.find('.lp-scrollbar__wrap').attributes('style'))
       .toContain('max-height: 60px;');

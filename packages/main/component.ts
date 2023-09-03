@@ -46,7 +46,7 @@ import { LpRadio, LpRadioButton, LpRadioGroup } from '@lemon-peel/components/rad
 import { LpRate } from '@lemon-peel/components/rate';
 import { LpResult } from '@lemon-peel/components/result';
 import { LpRow } from '@lemon-peel/components/row';
-import { LpScrollBar } from '@lemon-peel/components/scrollbar';
+import { LpScrollbar } from '@lemon-peel/components/scrollbar';
 import { LpOption, LpOptionGroup, LpSelect } from '@lemon-peel/components/select';
 import { LpSelectV2 } from '@lemon-peel/components/selectV2';
 import { LpSkeleton, LpSkeletonItem } from '@lemon-peel/components/skeleton';
@@ -135,7 +135,7 @@ export default [
   LpRate,
   LpResult,
   LpRow,
-  LpScrollBar,
+  LpScrollbar,
   LpSelect,
   LpOption,
   LpOptionGroup,
