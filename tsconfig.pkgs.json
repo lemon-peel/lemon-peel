@@ -7,9 +7,6 @@
     "types": ["unplugin-vue-macros/macros-global", "webpack-env"],
     "skipLibCheck": true,
     "resolveJsonModule": true,
-    "paths": {
-      "@composables/*": ["docs/.vitepress/vitepress/composables/*"]
-    },
   },
   "include": [
     "packages/**/*",

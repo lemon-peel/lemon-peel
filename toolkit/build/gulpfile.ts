@@ -78,7 +78,7 @@ export default series(
   parallel(
     runTask('buildModules'),
     runTask('buildFullBundle'),
-    withTaskName('generateTypes', () => run('pnpm run tsc')),
+    withTaskName('generateTypes', () => run('pnpm run tsc:defination')),
     runTask('buildHelper'),
     series(
       withTaskName('buildThemeChalk', () =>

@@ -40,11 +40,14 @@ jobs:
       - name: Install dependencies
         run: pnpm i --frozen-lockfile
 
-      # - name: Lint
-      #   run: pnpm lint
+      - name: Lint
+        run: pnpm run lint
+
+      - name: Tsc
+        run: pnpm run tsc
 
       - name: Test
-        run: pnpm test
+        run: pnpm run test
 
   publish:
     needs: test

@@ -36,7 +36,7 @@
     "lint": "eslint . --ext .vue,.js,.ts,.jsx,.tsx,.md --max-warnings 0 --cache",
     "lint:watch": "esw -w . --ext .vue,.js,.ts,.jsx,.tsx,.md --max-warnings 0 --cache --watch-delay 5000",
     "lint:fix": "pnpm run lint --fix",
-    "lint:commit": "commitlint --from $(git merge-base origin/dev HEAD) --to HEAD > ./commit-lint.txt",
+    "lint:commit": "commitlint --from $(git merge-base origin/main HEAD) --to HEAD > ./commit-lint.txt",
     "typecheck": "run-p typecheck:web typecheck:play typecheck:node typecheck:vite-config typecheck:vitest",
     "typecheck:web": "vue-tsc -p tsconfig.web.json --composite false --noEmit",
     "typecheck:node": "tsc -p tsconfig.node.json --noEmit",
@@ -49,7 +49,8 @@
     "docs:gen-locale": "pnpm run -C docs gen-locale",
     "docs:crowdin-credentials": "pnpm run -C docs crowdin-credentials",
     "stub": "pnpm run -r --parallel stub",
-    "tsc": "vue-tsc --declaration --emitDeclarationOnly --project tsconfig.pkgs.json --outDir dist/types",
+    "tsc": "vue-tsc --noEmit --incremental false --composite false --project tsconfig.pkgs.json",
+    "tsc:defination": "vue-tsc --declaration --emitDeclarationOnly --composite false --incremental false --project tsconfig.pkgs.json --outDir dist/types",
     "prepare": "husky install",
     "postinstall": "pnpm stub && concurrently \"pnpm gen:version\" \"pnpm run -C toolkit/metadata dev\""
   },
