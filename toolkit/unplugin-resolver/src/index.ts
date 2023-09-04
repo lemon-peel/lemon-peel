@@ -61,44 +61,19 @@ export interface LemonPeelResolverOptions {
 type LemonPeelResolverOptionsResolved = Required<Omit<LemonPeelResolverOptions, 'exclude'>> &
 Pick<LemonPeelResolverOptions, 'exclude'>;
 
-/**
- * @deprecated
- * @param partialName
- * @param options
- *
- * @returns
- */
-// eslint-disable-next-line unused-imports/no-unused-vars
-function getSideEffectsLegacy(
-  partialName: string,
-  options: LemonPeelResolverOptionsResolved,
-): SideEffectsInfo | undefined {
-  const { importStyle } = options;
-  if (!importStyle)
-    return;
-
-  if (importStyle === 'sass') {
-    return [
-      'lemon-peel/packages/theme-chalk/src/base.scss',
-      `lemon-peel/packages/theme-chalk/src/${partialName}.scss`,
-    ];
-  } else if (importStyle === true || importStyle === 'css') {
-    return [
-      'lemon-peel/lib/theme-chalk/base.css',
-      `lemon-peel/lib/theme-chalk/lp-${partialName}.css`,
-    ];
-  }
-}
-
 function getSideEffects(dirName: string, options: LemonPeelResolverOptionsResolved): SideEffectsInfo | undefined {
   const { importStyle, ssr } = options;
   const themeFolder = 'lemon-peel/theme-chalk';
   const esComponentsFolder = 'lemon-peel/es/components';
 
   if (importStyle === 'sass')
-    return ssr ? `${themeFolder}/src/${dirName}.scss` : `${esComponentsFolder}/${lowerFirst(camelCase(dirName))}/style/index`;
+    return ssr
+      ? `${themeFolder}/src/${dirName}.scss`
+      : `${esComponentsFolder}/${lowerFirst(camelCase(dirName))}/style/index`;
   else if (importStyle === true || importStyle === 'css')
-    return ssr ? `${themeFolder}/lp-${dirName}.css` : `${esComponentsFolder}/${lowerFirst(camelCase(dirName))}/style/css`;
+    return ssr
+      ? `${themeFolder}/lp-${dirName}.css`
+      : `${esComponentsFolder}/${lowerFirst(camelCase(dirName))}/style/css`;
 }
 
 function resolveComponent(name: string, options: LemonPeelResolverOptionsResolved): ComponentInfo | undefined {
@@ -185,7 +160,9 @@ export function index(userOpt: LemonPeelResolverOptions = {}): ComponentResolver
       resolve: async (name: string) => {
         const options = await resolveOptions();
 
-        return [...options.noStylesComponents, ...noStylesComponents].includes(name) ? resolveComponent(name, { ...options, importStyle: false }) : resolveComponent(name, options);
+        return [...options.noStylesComponents, ...noStylesComponents].includes(name)
+          ? resolveComponent(name, { ...options, importStyle: false })
+          : resolveComponent(name, options);
       },
     },
     {

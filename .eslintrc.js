@@ -52,6 +52,7 @@ module.exports = {
       rules: {
         'no-console': 0,
         'import/no-unresolved': 0,
+        'unicorn/filename-case': 0,
         'unused-imports/no-unused-imports': 0,
         'unused-imports/no-unused-vars': 0,
         'vue/no-unused-components': 0,
