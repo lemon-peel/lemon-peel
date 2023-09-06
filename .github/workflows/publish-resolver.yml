@@ -1,0 +1,48 @@
+name: Publish to NPM registry
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    if: ${{ startsWith(github.event.release.tag_name, 'resolver') }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          registry-url: https://registry.npmjs.com/
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+
+      - name: Get version
+        run: echo "TAG_VERSION=${GITHUB_REF#refs/resolver-*/}" >> $GITHUB_ENV
+
+      - name: Get git head
+        run: echo "GIT_HEAD=${GITHUB_SHA}" >> $GITHUB_ENV
+
+      - name: Gen npmrc
+        run: echo "//registry.npmjs.com/:_authToken=${{secrets.NPM_PUBLISH_TOKEN}}" >> ./.npmrc
+
+      - name: Build&publish
+        run: |
+          echo $TAG_VERSION
+          # pnpm i --frozen-lockfile
+          # cd toolkit/unplugin-resolver
+          # pnpm version $TAG_VERSION
+          # pnpm build
+          # npm publish --access=public
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_PUBLISH_TOKEN}}
+          TAG_VERSION: ${{env.TAG_VERSION}}
+          GIT_HEAD: ${{env.GIT_HEAD}}
+          REGISTRY: https://registry.npmjs.com/
+          FORCE_COLOR: 2
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_OPTIONS: --max-old-space-size=4096

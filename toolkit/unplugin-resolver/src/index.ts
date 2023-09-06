@@ -1,9 +1,12 @@
 import { getPackageInfo, isPackageExists } from 'local-pkg';
 import { camelCase, kebabCase } from 'unplugin-vue-components';
 import { compare } from 'compare-versions';
-import { lowerFirst } from 'lodash';
 
 import type { ComponentInfo, ComponentResolver, SideEffectsInfo } from 'unplugin-vue-components';
+
+function lowerFirst(str: string) {
+  return str.charAt(0).toLowerCase() + str.slice(1);
+}
 
 export async function getPkgVersion(pkgName: string, defaultVersion: string): Promise<string> {
   try {
