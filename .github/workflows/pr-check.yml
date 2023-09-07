@@ -40,7 +40,7 @@ jobs:
       - name: Install dependencies
         run: pnpm i --frozen-lockfile
 
-      - name: Test pull request
+      - name: Check pull request
         run: |
           pnpm run lint
           pnpm run tsc

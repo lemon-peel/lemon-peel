@@ -74,7 +74,14 @@ jobs:
         run: echo "//registry.npmjs.com/:_authToken=${{ secrets.NPM_PUBLISH_TOKEN }}" >> ./.npmrc
 
       - name: Build & publish
-        run: bash ./scripts/publish_nightly.sh
+        run: |
+          sed -i 's/"name": "@lemon-peel\/main",/"name": "@lemon-peel\/nightly",/' packages/main/package.json
+          pnpm i --frozen-lockfile
+          pnpm run update:version
+          pnpm run build
+          cd dist/lemon-peel
+          npm publish
+          echo "✅ Publish completed"
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_PUBLISH_TOKEN}}
           TAG_VERSION: 0.0.${{ steps.date.outputs.date }}
